@@ -1,0 +1,180 @@
+<%= stylesheet_link_tag "login/login" %>
+<%= javascript_include_tag "login/login" %>
+<%= javascript_include_tag "login/validate" %>
+<div id="login_outerContainer">
+  <div class="innerContainer">
+    <div class="header" align="center">
+      <a href="/landing" title=""><%= image_tag("/assets/login/logo.png",width: '305',height: '100') %></a>
+    </div>
+    <div class="centerContentDiv1">
+      <%if flash[:notice]%>
+        <li class="setStyleEmail" id="notice"><%= flash[:notice] %></li>
+		<script>_gaq.push(['_trackEvent', 'Registration', 'User Registration', 'Account Activation Success']);</script>
+      <%end%>
+      <div id="forgotpass" style="display: none;color: #FC8989;font-size: 12px;">Your password has been sent to your Email</div>
+      <div id="forgotpassfail" style="display: none;color: #FC8989;font-size: 12px; .margin:10px 0 10px 16px;">This ID is not available</div>
+      <form name="login" id="login" action="/login/submit" method="post" onsubmit="return validateLoginForm()">
+        <p class="head" style="color:#186171;">Login</p>
+        <div class="marginTop14">
+          <div class="lt leftSideField">User Name</div>
+          <% email_usr = "" %>
+          <% if @loggedin %>
+            <% email_usr = @loggedin[0] %>
+          <% end %>
+          <%if @login_error %>
+            <% email_usr = @login_error[0] %>
+          <% end %>
+
+          <input type="text" name="email_usr" id="email_usr" class="lt textbox" onkeydown="deletevalue(event)" value="<%=email_usr%>" onfocus="if ( this.value == 'Eg:john@gmail.com') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Eg:john@gmail.com'}" tabindex="1" style="outline: none;"/>
+          <div class="clear"></div>
+        </div>
+
+        <div class="errorDiv" style="display:none">
+          <div class="lt leftSideField">&nbsp;</div>
+          <div class="lt" id="email_usr_error"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="marginTop15">
+          <div class="lt leftSideField">Password</div>
+
+          <% password_usr = "" %>
+          <%if @loggedin %>
+            <% password_usr = @loggedin[1] %>
+          <% end %>
+          <%if @login_error %>
+            <% password_usr = @login_error[1] %>
+          <% end %>
+
+          <input type="password" name="password_usr" id="password_usr" class="lt textbox" onkeydown="deletevaluepass(event)" value="<%if @loggedin %><%=password_usr%><%end%>" onfocus="if (this.value == 'password') {this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #9fd8eb';this.value='password'}" maxlength="20" tabindex="2" style="outline: none;"/>
+          <div class="clear"></div>
+        </div>
+        <div class="errorDiv" style="display:none">
+          <div class="errorDivPwd" id="password_usr_error"></div>
+        </div>
+
+
+        <%if @login_error%>
+          <% email_password_usr_error = @login_error[3]%>
+          <div class="errorDiv">
+            <div class="errorDivPwd" id="email_password_usr_error" ><%=email_password_usr_error%></div>
+          </div>
+        <%end%>
+        <div class="clear"></div>
+
+        <div id="email_password_usr_error" class="errorText" style="display:none"></div>
+        <div class="marginTop12">
+          <div class="lt leftSideField">&nbsp;</div>
+          <div class="lt">
+            <%automatic_login = ""%>
+            <%if @loggedin%>
+              <% if @loggedin[2] == "al"%>
+                <% automatic_login = "al"%>
+              <%else%>
+                <% automatic_login = ""%>
+              <% end%>
+            <%end%>
+
+            <% if @login_error%>
+              <% if @login_error[2] == "al"%>
+                <% automatic_login = "al"%>
+              <% else%>
+                <% automatic_login = ""%>
+              <% end%>
+            <% end%>
+
+            <input type="hidden" name="automatic_login" id="automatic_login" value="<%=automatic_login%>" />
+            <input type="hidden" name="prov_invite" id="prov_invite" value="" />
+            <span class="checkbox" style="display: inline-block">
+              <%if automatic_login == "al"%>
+                <a href="javascript:void(0)" title=""  onclick="dispCheckboxImg('checkbox_selected')" onkeydown="cbKeyDown(event,'checkbox_selected')" tabindex="6" id="checkbox_selected"><img src="/assets/login/checkbox_selected.png" alt="" /></a>
+                <a href="javascript:void(0)" title="" style="display: none; " onclick="dispCheckboxImg('checkbox_normal')" onkeydown="cbKeyDown(event,'checkbox_normal')" tabindex="6" id="checkbox_normal" ><img src="/assets/login/checkbox_normal.png" alt=""/></a>
+              <%else%>
+                <a href="javascript:void(0)" title="" style="display: none;" onclick="dispCheckboxImg('checkbox_selected')" onkeydown="cbKeyDown(event,'checkbox_selected')" tabindex="6" id="checkbox_selected"><img src="/assets/login/checkbox_selected.png" alt="" /></a>
+                <a href="javascript:void(0)" title="" onclick="dispCheckboxImg('checkbox_normal')" onkeydown="cbKeyDown(event,'checkbox_normal')" tabindex="6" id="checkbox_normal" ><img src="/assets/login/checkbox_normal.png" alt=""/></a>
+              <%end%>
+            </span>
+            <span class="checkboxCont">Remember me</span>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="paddingTop19">
+          <div class="lt leftSideField">&nbsp;</div>
+          <div>
+            <input type="image" src="/assets/login/login.png" width="95" height="33" alt="" class="lt loginButton"  tabindex="7"/>
+            <a href="javascript:void(0)" title="" style="display:inline-block;" tabindex="8" onclick="clearData()" onkeydown="cancelKeyDown(event)"><img src="/assets/login/cancel.png" width="95" height="33" alt="" class="lt"/></a>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="marginTop14">
+          <div class="lt leftSideField">&nbsp;</div>
+          <div style="width:324px;.margin:-20px 0 0 95px;">
+            <span style="color:#5E5E5E; font-weight:bold;">Register as<img src="/assets/landing/arrow.png" width="6" height="10" class="setArrow" style="vertical-align:top; top:5px; left: 4px; position: relative;"/></span><a href="/user" onclick="_gaq.push(['_trackEvent', 'Registration', 'clickParentRegistration']);" onkeydown="registerKeyDown(event)" class="regBlueText" tabindex="9" style="margin:0px 3px 0px 6px; font-weight:bold;"> Parent </a>
+            <span class="regBlueText setDivider" > | </span>
+            <a href="provider_register" onclick="_gaq.push(['_trackEvent', 'Registration', 'clickProviderRegistration']);" onkeydown="registerKeyDown(event)" class="regBlueText" tabindex="10" style="padding:0px 3px 0px 3px; font-weight:bold;"> Provider </a></span>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="marginTop11">
+          <div class="lt leftSideField">&nbsp;</div>
+          <a href="javascript:void(0)" class="lt regBlueText" onclick="forgotPasswordDivDisp()" onkeydown="fpKeyDown(event)" tabindex="11" style="font-weight: bold;">Forgot Password?</a>
+          <div class="clear"></div>
+        </div>
+      </form>
+      <div class="clear"></div>
+    </div>
+    <%if @forgot_password_error%>
+      <div class="centerContentDiv2" id="forgotPasswordDiv" style="display: block;">
+      <%else%>
+        <div class="centerContentDiv2" id="forgotPasswordDiv" style="display: none;">
+        <%end%>
+        <form name="forgot_password" id="forgot_password" action="/forgot_password/submit" method="post" onsubmit="javascript: validateEmail(); return false;">
+          <div class="forgetpwdText">Forgot Password</div>
+
+          <div class="resetText">Enter your Email to reset your password</div>
+
+          <div class="emailtext">Email</div>
+
+          <input type="text" name="reg_email_usr" id="reg_email_usr" class="lt emailbox" maxlength="50" value="Eg:john@gmail.com" onfocus="if ( this.value == 'Eg:john@gmail.com') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Eg:john@gmail.com'}" style="outline: none;" tabindex="12"/>
+          <div class="clear"></div>
+          <%if @forgot_password_error%>
+            <% reg_email_usr_error = @forgot_password_error[1]%>
+            <div id="reg_email_usr_error" class="errorDivemail"><%=reg_email_usr_error%></div>
+          <% else%>
+            <div id="reg_email_usr_error" class="errorDivemail" style="display: none;"></div>
+          <%end%>
+          <div class="clear"></div>
+
+          <div class="buttonsDiv">
+            <input type="image" onclick="_gaq.push(['_trackEvent', 'Login', 'clickLogin']);" src="/assets/login/send_login.png" width="98" height="36" alt="" class="lt submitButton" tabindex="13" />
+            <a href="javascript:void(0)" title="" style="display: inline-block;" onclick="forgotPasswordDivClose()" onkeydown="closeKeyDown(event)" tabindex="14"><img src="/assets/login/cance_login.png" width="98" height="36" alt="" class="lt"/></a>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+        </form>
+      </div>
+
+      <%if @forgot_password_success%>
+        <% reg_email_usr_success = @forgot_password_success[0] %>
+
+        <div class="centerContentDiv2" id="sendPasswordDiv" align="center">
+        <%else%>
+          <div class="centerContentDiv2" id="sendPasswordDiv" align="center" style="display: none;">
+          <%end%>
+          <p class="sentCont">Password has been sent to your mail</p>
+          <a href="javascript:void(0)" title="" class="okButton" onclick="sendPasswordDivClose()" onkeydown="sendpwdKeyDown(event)" tabindex="15"><img src="/assets/login/ok.png" width="85" height="33" alt="" /></a>
+          <div class="clear"></div>
+        </div>
+
+<!--        <div class="footer" align="center">
+          <p class="signinOtherText"><b>...Or sign in using your account with</b></p>
+          <div>
+            <a href="javascript:void(0)" title="" tabindex="16" style="display: inline-block;"><img width="56" height="56" src="/assets/landing/g+_button.png"></a>
+            <a href="javascript:void(0)" title="" tabindex="17"><img width="56" height="56" src="/assets/landing/f_bule_button.png"></a>
+          </div>
+        </div>
+-->      </div>
+    </div>
+  </div>
+</div>

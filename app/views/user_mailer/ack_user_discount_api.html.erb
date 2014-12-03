@@ -1,0 +1,22 @@
+<table cellpadding="0" cellpadding="0">
+            <tr>
+              <td style="padding:12px;">
+                <strong>Hello <%=@to_user.user_name if !@to_user.nil?%>,</strong>
+	      <% if @credits.provider_plan=='Sell'%>
+	      <p>Great news! The provider you had invited to join Famtivity has signed up for a Sell Through plan! Because of that, you receive $<%=$dollar%> worth of discount credits to use on any activity in Famtivity! You can view these credits in your Famtivity profile page, under the Discount Dollar sections.</p>
+
+                <p>Remember, the more providers you invite to Famtivity, the more discount credits you receive! Also, more providers means more activities for you to choose from!</p>
+	       <% elsif @credits.provider_plan=='Free'%>
+	       
+	       <!--<p>Great news! The parent you had invited to join Famtivity has signed up for an account! Because of that, you receive $1 worth of discount credits to use on any activity in Famtivity! You can view these credits in your Famtivity profile page, under the Discount Dollar sections.</p>
+
+                 <p>Remember, the more parents you invite to Famtivity, the more discount credits you receive! Every little credit adds up!</p>-->
+		 <p>Great news! The friend you invited to join Famtivity just signed up, so we've credited your account with $1.00 Discount Dollar to use on qualifying activities!</p>
+		 <p>Login to check your Discount Dollar balance or to invite more friends. The more friends you invite the more credits you get - it adds up fast!</p>
+	        <% else %>
+		<p>This Email is to let you know that <%=@invited_user.user_name if(!@invited_user.nil? && !@invited_user.user_name.nil?)%> has  joined Famtivity as a <%=(!@invited_user.nil? && @invited_user.user_type=='U') ? 'Parent' : 'Provider'%>.
+	        <%end%>
+              </td>
+            </tr>
+</table>
+     <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;padding-top:20px;">Your Famtivity Team</p>    

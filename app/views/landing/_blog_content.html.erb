@@ -1,0 +1,15 @@
+<% @blog_value && @blog_value.each do |blval|%>
+  <div class="blogInnDesign blog" style="display: block;">
+    <p class="fts14 ftcGreen3c blogFeTxt lt" style="padding: 15px;background: #D6EDF3;width:350px;"><b><span class="ftcRedff">Blog</span> - <%=blval["title"]%></b></p>
+    <div class="clear"></div>
+    <div class="blogimgParabg" style="width:380px;">
+      <% if blval["img"].present? && !blval["img"].nil?%>
+        <div class="blogImg" style="width:380px;"><center><a href="<%=blval["link"]%>" target="_blank" style="text-decoration:none;"><%= image_tag("#{blval["img"]}",height: '270') %></a></center></div>
+      <%else%>
+        <div class="blogImg" style="width:380px;"><%=blval["description"]%><a href="<%=blval["link"]%>" target="_blank" style="text-decoration:none;"><%= image_tag("/assets/landing/event_image.jpg") %></a></div>
+      <%end%>
+      <div class="clear"></div>
+      <p class="fts13 ftcGray56 blogFeTxt lt " style="width:380px;"><%=blval["description"]%><span><a href="<%=blval["link"]%>" target="_blank" style="color:#ff0000;">Read More</a></span></p>
+    </div>
+  </div>
+<%end%>

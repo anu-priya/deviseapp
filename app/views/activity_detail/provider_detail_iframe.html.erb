@@ -1,0 +1,37 @@
+<%=stylesheet_link_tag "global/pop_up","activity_view_detail/activity_details", :media => "all"%>
+<%=javascript_include_tag "acitivity_view_details/schedule_price"%>
+<div id="new_act_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <h1 class="headCont">Provider Details</h1>
+          </div>
+          <div class="closeButton"><a href="javascript:void(0)" onClick="closepopup_det()" title=""> <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%> </a></div>
+        </div>
+        <div  class="centerCont">
+         <%=render 'landing/follow_city_detail_pc'%>
+        </div>
+        <div class="clear"></div>
+      </div>
+
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="popupContainerBottom"></div>
+  <div class="clear"></div>
+</div>
+<script>
+  function closepopup_det()
+  {
+    var stateObj = {
+      foo: "bar"
+    };
+    //var action_test = "<%= @mode_act if !@mode_act.nil?%>"
+    parent.history.replaceState(stateObj, "Provider Details", "/");
+    //parent.history.pushState(stateObj, "Provider Details", "/home");
+    parent.providerDetailPage.hide();
+  }
+</script>

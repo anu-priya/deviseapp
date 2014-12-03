@@ -1,0 +1,19 @@
+<%i = 1%>
+<% if !@activity.blank? %>
+  <%@activity.each do |act|%>
+    <!-- dn't modify id and class name -->
+    <input id="activity_<%=i%>" name="activity_<%=i%>"type="hidden" value="0" class='<%=act.activity_id%>'/>
+    <span class="lt checkboxRow">
+      <a href="javascript:void(0)" title="" class="checkbox_selected_activity checkboxImg" id="checkbox_selected_activity_<%=i%>" onclick="dispCheckSingleLocAct('checkbox_selected_activity','activity',<%=i%>)" style="display: none" >
+        <%= image_tag("/assets/register/checkbox_selected.png") %>
+      </a>
+      <a href="javascript:void(0)" title="" class="checkbox_normal_activity checkboxImg" id="checkbox_normal_activity_<%=i%>" onclick="dispCheckSingleLocAct('checkbox_normal_activity','activity',<%=i%>)" >
+        <%= image_tag("/assets/register/checkbox_normal.png") %>
+      </a>
+      <span class="checkboxText" id="checkboxText_<%=i%>"><%=act.activity_name%></span>
+    </span>
+    <%i+=1%>
+  <% end %>
+<% else %>
+  <span class="checkboxText" style="top:55px;" ><center id="no_activity">There are no activities.</center></span>
+<% end %>

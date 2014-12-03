@@ -1,0 +1,50 @@
+<%if !@contacts.nil? && @contacts.length>0 %>
+  <%#=@contacts.count if !@contacts.nil?%>
+          <%i=1%>
+       <% @contacts.each do |con|%>
+       <div style="width:245px;height:100px;float:left;">
+               <table border="0" cellspacing="0" cellpadding="0">
+                        <tbody>
+                        <tr>
+                               <td width="60" align="left">
+                                       <a title="" href="#">
+                                       <%#if current_user && current_user.user_profile.profile.url(:small)%>
+                                       <%if !con.contact_file_name.nil? && con.contact.present?%>
+                                       <%#= image_tag con.contact.url(:original), :width => "31", :height => "40", :alt=>"Loading..." if !con.contact.url(:original).nil?style="border:1px solid #666;"%>
+                                       <img alt="" height="40" width="31"  src="<%= con.contact.url(:small) %> " style="border:1px solid #ebebeb; padding: 3px;"/>
+                                       <%else%>
+                                       <img src="/assets/profile/user_icon.png" height="40" width="31"  align="middle" style="border:1px solid #ebebeb; padding: 3px;"/>
+                                       <%end%>
+
+
+                                       </a>
+                               </td>
+                               <td width="200" align="left" style="padding:1px;">
+                               <%#=i%>
+                                <span id="585" class="nameText" style="color: #000;font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#444444;"><%=con.contact_name if !con.nil?%></span><br>
+                                <span id="585" class="nameText" style="color: #000;font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#7F7F7F;"><%=con.contact_user_type if !con.nil?%></span><br>
+                                <span id="585" class="nameText" style="color: #000;font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#4495AE;">
+                                <%if !con.nil? && !con.contact_user_type.nil? && con.contact_user_type.present? && con.contact_user_type == "member"%>
+                                    <% if con.invite_status == true  %>
+                                      <span style="color: #13849B;font-size: 12px;cursor: default;">Invited |
+                                      <a href="javascript:void(0)"  onclick="postonwall('<%=con.profile_id%>','<%=con.contact_name%>','<%=current_user.user_name%>','<%=con.contact_id%>','<%=con.contact_user_type%>')"; class="nameText" style="color: #13849B;font-size: 12px;">Send Again</a></span>
+                                    <%else%>
+                                      <a href="javascript:void(0)"  onclick="postonwall('<%=con.profile_id%>','<%=con.contact_name%>','<%=current_user.user_name%>','<%=con.contact_id%>','<%=con.contact_user_type%>')"; class="nameText" style="color: #13849B;font-size: 12px;">Send Friend Request</a>
+                                    <% end %>
+                                <%elsif !con.nil?%>
+                                    <% if con.invite_status == true  %>
+                                        <span style="color: #13849B;font-size: 12px;cursor: default;">Invited |
+                                        <a href="javascript:void(0)"  onclick="postonwall('<%=con.profile_id%>','<%=con.contact_name%>','<%=current_user.user_name%>','<%=con.contact_id%>','<%=con.contact_user_type%>')"; class="nameText" style="color: #13849B;font-size: 12px;">Send Again</a></span>
+                                    <%else%>
+                                        <a href="javascript:void(0)"  onclick="postonwall('<%=con.profile_id%>','<%=con.contact_name%>','<%=current_user.user_name%>','<%=con.contact_id%>','<%=con.contact_user_type%>')"; class="nameText" style="color: #13849B;font-size: 12px;">Send Invite</a>
+                                    <% end %>
+                                <% end %>
+                                </span><br>
+                                </td>
+                        </tr>
+                       </tbody>
+               </table>
+       </div>
+       <%i=i+1%>
+       <%end%>
+    <%end%>

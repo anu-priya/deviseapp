@@ -1,0 +1,8 @@
+<%if @del_mode=='provider' && @del_mode_act=='provider'%>
+ parent.location.href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? %>";
+ <%elsif @del_mode=='provider' && @del_mode_act=='provider_activites'%>
+  parent.location.href='/provider_activites';
+<%else%>
+parent.activityDeletePage.hide();
+parent.location.reload(true);
+<%end%>

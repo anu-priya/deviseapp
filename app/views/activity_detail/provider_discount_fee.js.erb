@@ -1,0 +1,26 @@
+$("#discount_options").html("<%=escape_javascript(render 'create_discount_provider_code')%>");
+//$("#create_discountfee_success").css("display","block").fadeOut(3000);
+$('#create_discountfee_success').fadeIn().delay(3000).fadeOut();
+$('#loading_img1').css("display","none"); 
+setTimeout(function() {
+$('#discount_code_name').val("Enter Discount Code Name");
+$('#discount_code').val("Enter Discount Code");
+$('#discount_code_price').val("Enter Price");
+$('#create_discount_notes').val("Enter Notes here");
+$('#discount_code_name').css('color','#999999');
+$('#discount_code').css('color','#999999');
+$('#discount_code_price').css('color','#999999');
+$('#create_discount_notes').css('color','#999999');
+set_time_for_discount();
+}, 1000);
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,12 @@
+<%cookies.delete :category%>
+<%cookies.delete :subcategory%>
+<%@events.each do |a|%>
+  <%if a[:id] == "user"%>
+    <%= render :partial=>"/cards/provider_card", locals: { a: a }  %>
+  <%else%>
+    <%= render :partial=>"/cards/activity_card", locals: { a: a } %>
+  <%end%>
+<%end%>
+<div style="display: none;">
+  <%= will_paginate @search.results if !@search.results.nil? &&  @search.results!="" &&  @search.results.present?%>
+</div>

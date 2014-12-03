@@ -1,0 +1,237 @@
+<%=stylesheet_link_tag "global/pop_up","activity_view_detail/paymentDetail", :media => "all"%>
+<%=javascript_include_tag "acitivity_view_details/schedule_price"%>
+
+<div id="new_act_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">
+		Schedule and Price Details
+            </div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%> </a>
+          </div>
+        </div>        
+        <div  class="centerCont">
+          <form id="schedule_price" name="schedule_price" action="#" method="post">
+            <div class="sched_price_div">
+              <div class="topDivision">
+                <div align="center">Choose the schedule for this activity and proceed further to add participant</div>
+              </div>
+              <div id="pricingDetail" style="border:none;background:none;margin-left:62px;">
+                <div class="pricingText">Start on Mon Dec/22, 2p.m to 3p.m. Weekly on Mon, Wed, until Jan 06, 2014.</div>
+                <div class="paymentType">
+                  <div class="paymentHead">
+                    <div class="paymentPeriodTop">Payment Period</div>
+                    <div class="paymentPrice">Price</div>
+                    <div class="paymentDuration">Duration</div>
+                    <div class="discountType">Discount Type</div>
+                    <div class="paymentDiscount">Discount</div>
+                    <div class="paymentTotal">Total</div>
+                  </div>
+                  <div class="paymentList setPadLeft">
+                    <div class="lt checkboxColumn">
+                      <input id="pay_period" name="pay_period" value="Class Card" type="hidden" />
+                      <input id="pay_period_1" name="" value="Class Card" type="hidden" />
+                      <a href="javascript:void(0)" title="" class="lt checkbox radio_selected_pay_period" id="radio_selected_pay_period_1" onclick="dispCheckPayment('radio_normal_pay_period',1)" tabindex="27">
+		<%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22")%>
+                      </a>
+                      <a href="javascript:void(0)" title="" class="lt checkbox radio_normal_pay_period"  id="radio_normal_pay_period_1" onclick="dispCheckPayment('radio_normal_pay_period',1)" tabindex="27"  style="display: none" >
+                        <%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22")%>
+                      </a>
+                    </div>
+                    <div class="paymentPeriod">Class Card</div>
+                    <div class="paymentPrice">$27</div>
+                    <div class="paymentDuration">7 Classes</div>
+                    <div class="discountType">Early Bird Discount</div>
+                    <div class="paymentDiscount">$2<span class="paymentDiscountImg"><a href="javascript:void(0)" title=""><%=image_tag("/assets/provider_register/help.png", :width=>"17", :height=>"17")%></a></span></div>
+                    <div class="paymentTotal">$25</div>
+                  </div>
+                  <div class="paymentList setPadLeft">
+                    <div class="lt checkboxColumn">
+                      <input id="pay_period_2" name="" value="Class" type="hidden" />
+                      <a href="javascript:void(0)" title="" class="lt checkbox radio_selected_pay_period" id="radio_selected_pay_period_2" onclick="dispCheckPayment('radio_normal_pay_period',2)" tabindex="27" style="display: none">
+                        <%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22")%>
+                      </a>
+                      <a href="javascript:void(0)" title="" class="lt checkbox radio_normal_pay_period"  id="radio_normal_pay_period_2" onclick="dispCheckPayment('radio_normal_pay_period',2)" tabindex="27">
+                        <%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22")%>
+                      </a>
+                    </div>
+                    <div class="paymentPeriod">Class</div>
+                    <div class="paymentPrice">$17</div>
+                    <div class="paymentDuration">One Day</div>
+                    <div class="discountType">Early Bird Discount</div>
+                    <div class="paymentDiscount">$2<span class="paymentDiscountImg"><a href="javascript:void(0)" title=""><%=image_tag("/assets/provider_register/help.png", :width=>"17", :height=>"17")%></a></span></div>
+                    <div class="paymentTotal">$15</div>
+                  </div>
+                  <div class="paymentList setPadLeft">
+                    <div class="lt checkboxColumn">
+                      <input id="pay_period_3" name="" value="Session" type="hidden" />
+                      <a href="javascript:void(0)" title="" class="lt checkbox radio_selected_pay_period" id="radio_selected_pay_period_3" onclick="dispCheckPayment('radio_normal_pay_period',3)" tabindex="27" style="display: none">
+                        <%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22")%>
+                      </a>
+                      <a href="javascript:void(0)" title="" class="lt checkbox radio_normal_pay_period"  id="radio_normal_pay_period_3" onclick="dispCheckPayment('radio_normal_pay_period',3)" tabindex="27">
+                        <%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22")%>
+                      </a>
+                    </div>
+                    <div class="paymentPeriod">Session</div>
+                    <div class="paymentPrice">$18</div>
+                    <div class="paymentDuration">Mon to Sat</div>
+                    <div class="discountType" id="provider_event_list">
+                      <input type="hidden" id="multiple_session_1" name="multiple_session" value="" />
+                      <div class="lt ActiveDivMenu" id="menu_active">
+                        <ul>
+                          <li><a class="active_Div ActiveDiv" href="#" style="width:155px;margin:-5px 0 0 -6px;.margin:-11px 0 0 -11px;"><span id="multiple_session_setVal_1">Multiple Session Discount</span><span><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4", :style=>"position: relative; top: -1px; left:5px;")%></span></a>
+                            <ul class="sub-menu dispSessionDiv" style="width:160px;height:101px;margin-left:-6px;">
+                              <li><a onclick="setSessionVal('1st Week $26',1)" href="#" style="width:155px;height:20px;"><span class="lt">1st WeeK</span><span class="rt">$26</span></a ></li>
+                              <li><a onclick="setSessionVal('2nd Week $36',1)" href="#" style="width:155px;height:20px;"><span class="lt">2nd WeeK</span><span class="rt">$36</span></a></li>
+                              <li><a onclick="setSessionVal('3d Week $46',1)" href="#" style="width:155px;height:20px;"><span class="lt">3d WeeK</span><span class="rt">$46</span></a></li>
+                              <li><a onclick="setSessionVal('4th Week $56',1)" href="#" style="width:155px;height:20px;"><span class="lt">4th WeeK</span><span class="rt">$56</span></a></li>
+                            </ul>
+
+                          </li>
+                        </ul>
+                        <div class="clear"></div>
+                      </div>
+
+                    </div>
+                    <div class="paymentDiscount">$5<span class="paymentDiscountImg"><a href="javascript:void(0)" title=""><%=image_tag("/assets/provider_register/help.png", :width=>"17", :height=>"17")%></a></span></div>
+                    <div class="paymentTotal">$13</div>
+                  </div>
+                  <div class="paymentList setPadLeft">
+                    <div class="lt checkboxColumn">
+                      <input id="pay_period_4" name="" value="Hourly" type="hidden" />
+                      <a href="javascript:void(0)" title="" class="lt checkbox radio_selected_pay_period" id="radio_selected_pay_period_4" onclick="dispCheckPayment('radio_normal_pay_period',4)" tabindex="27" style="display: none">
+                        <%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22")%>
+                      </a>
+                      <a href="javascript:void(0)" title="" class="lt checkbox radio_normal_pay_period"  id="radio_normal_pay_period_4" onclick="dispCheckPayment('radio_normal_pay_period',4)" tabindex="27">
+                        <%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22")%>
+                      </a>
+                    </div>
+                    <div class="paymentPeriod">Hourly</div>
+                    <div class="paymentPrice">$30</div>
+                    <div class="paymentDuration">One Hour</div>
+                    <div class="discountType">Early Bird Discount</div>
+                    <div class="paymentDiscount">$10<span class="paymentDiscountImg"><a href="javascript:void(0)" title=""><%=image_tag("/assets/provider_register/help.png", :width=>"17", :height=>"17")%></a></span></div>
+                    <div class="paymentTotal">$20</div>
+                  </div>
+                  <div class="paymentList setPadLeft">
+                    <div class="lt checkboxColumn">
+                      <input id="pay_period_5" name="" value="Weekly" type="hidden" />
+                      <a href="javascript:void(0)" title="" class="lt checkbox radio_selected_pay_period" id="radio_selected_pay_period_5" onclick="dispCheckPayment('radio_normal_pay_period',5)" tabindex="27" style="display: none">
+                        <%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22")%>
+                      </a>
+                      <a href="javascript:void(0)" title="" class="lt checkbox radio_normal_pay_period"  id="radio_normal_pay_period_5" onclick="dispCheckPayment('radio_normal_pay_period',5)" tabindex="27">
+                        <%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22")%>
+                      </a>
+                    </div>
+                    <div class="paymentPeriod">Weekly</div>
+                    <div class="paymentPrice">$70</div>
+                    <div class="paymentDuration">One Week</div>
+                    <div class="discountType">Early Bird Discount</div>
+                    <div class="paymentDiscount">$10<span class="paymentDiscountImg"><a href="javascript:void(0)" title=""><%=image_tag("/assets/provider_register/help.png", :width=>"17", :height=>"17")%></a></span></div>
+                    <div class="paymentTotal">$60</div>
+                  </div>
+                  <div class="paymentList setPadLeft">
+                    <div class="lt checkboxColumn">
+                      <input id="pay_period_6" name="" value="Monthly" type="hidden" />
+                      <a href="javascript:void(0)" title="" class="lt checkbox radio_selected_pay_period" id="radio_selected_pay_period_6" onclick="dispCheckPayment('radio_normal_pay_period',6)" tabindex="27" style="display: none">
+                       <%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22")%>
+                      </a>
+                      <a href="javascript:void(0)" title="" class="lt checkbox radio_normal_pay_period"  id="radio_normal_pay_period_6" onclick="dispCheckPayment('radio_normal_pay_period',6)" tabindex="27">
+                        <%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22")%>
+                      </a>
+                    </div>
+                    <div class="paymentPeriod">Monthly</div>
+                    <div class="paymentPrice">$165</div>
+                    <div class="paymentDuration">One Month</div>
+                    <div class="discountType">Early Bird Discount</div>
+                    <div class="paymentDiscount">$15<span class="paymentDiscountImg"><a href="javascript:void(0)" title=""><%=image_tag("/assets/provider_register/help.png", :width=>"17", :height=>"17")%></a></span></div>
+                    <div class="paymentTotal">$150</div>
+                  </div>
+                  <div class="paymentList setPadLeft">
+                    <div class="lt checkboxColumn">
+                      <input id="pay_period_7" name="" value="Yearly" type="hidden" />
+                      <a href="javascript:void(0)" title="" class="lt checkbox radio_selected_pay_period" id="radio_selected_pay_period_7" onclick="dispCheckPayment('radio_normal_pay_period',7)" tabindex="27" style="display: none">
+                        <%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22")%>
+                      </a>
+                      <a href="javascript:void(0)" title="" class="lt checkbox radio_normal_pay_period"  id="radio_normal_pay_period_7" onclick="dispCheckPayment('radio_normal_pay_period',7)" tabindex="27">
+                        <%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22")%>
+                      </a>
+                    </div>
+                    <div class="paymentPeriod">Yearly</div>
+                    <div class="paymentPrice">$165</div>
+                    <div class="paymentDuration">One Year</div>
+                    <div class="discountType">Early Bird Discount</div>
+                    <div class="paymentDiscount">$5<span class="paymentDiscountImg"><a href="javascript:void(0)" title=""><%=image_tag("/assets/provider_register/help.png", :width=>"17", :height=>"17")%></a></span></div>
+                    <div class="paymentTotal">$150</div>
+                  </div>
+
+                </div>
+
+                <div class="clear"></div>
+                <div class="notes">
+                  <div class="lt paymentNotes">Notes</div>
+                  <div class="lt paymentContent">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam nibh. Nunc varius facilisis eros. Sed erat. In in velit quis arcu ornare laoreet. Curabitur adipiscing luctus massa.</div>
+                </div>
+                <div class="clear"></div>
+
+              </div>
+              <div class="clear"></div>
+              <div class="auto_payment">
+                <div class="auto_payment_text">Automatic Activity Payment</div>
+                <div class="clear"></div>
+                <div class="auto_checkbox">
+                  <div class="lt checkboxColumn">
+                    <input id="activity_payment" name="activity_payment" value="Weekly" type="hidden" />
+                    <input id="activity_payment_1" name="" value="Weekly" type="hidden" />
+                    <a href="javascript:void(0)" title="" class="lt checkbox radio_selected_activity_payment" id="radio_selected_activity_payment_1" onclick="dispCheckActivityPayment('radio_normal_activity_payment',1)" tabindex="27">
+                      <%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22")%>
+                    </a>
+                    <a href="javascript:void(0)" title="" class="lt checkbox radio_normal_activity_payment"  id="radio_normal_activity_payment_1" onclick="dispCheckActivityPayment('radio_normal_activity_payment',1)" tabindex="27" style="display: none">
+                      <%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22")%>
+                    </a>
+                  </div>
+                  <div class="lt"><span class="paymentDiscount">Weekly Bases</span><span class="paymentDiscountImg"><a href="javascript:void(0)" title=""><%=image_tag("/assets/provider_register/help.png", :width=>"17", :height=>"17")%></a></span></div>
+                  <div class="lt checkboxColumn setPadLeft45">
+                    <input id="activity_payment_2" name="" value="Monthly" type="hidden" />
+                    <a href="javascript:void(0)" title="" class="lt checkbox radio_selected_activity_payment" id="radio_selected_activity_payment_2" onclick="dispCheckActivityPayment('radio_normal_activity_payment',2)" tabindex="27" style="display: none">
+                      <%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22")%>
+                    </a>
+                    <a href="javascript:void(0)" title="" class="lt checkbox radio_normal_activity_payment"  id="radio_normal_activity_payment_2" onclick="dispCheckActivityPayment('radio_normal_activity_payment',2)" tabindex="27">
+                      <%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22")%>
+                    </a>
+                  </div>
+                  <div class="lt"><span class="paymentDiscount">Monthly Bases</span><span class="paymentDiscountImg"><a href="javascript:void(0)" title=""><%=image_tag("/assets/provider_register/help.png", :width=>"17", :height=>"17")%></a></span></div>
+
+                </div>
+                <div class="clear"></div>
+                <div class="buttonDiv">
+                  <a href="#" tabindex="29"><%=image_tag("/assets/event/add_participant/continue.png", :width=>"113", :height=>"41")%></a>
+                  <a href="#" tabindex="30"><%=image_tag("/assets/event/add_participant/cancel.png", :width=>"113", :height=>"41")%></a>
+                </div>
+              </div>
+              <div class="clear"></div>
+
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="popupContainerBottom"></div>
+  </div>
+  <div class="clear"></div>
+</div>
+<Script>
+  $('.dispSessionDiv li a').mouseover(function (){
+    $(this).parent().parent().parent("li").children('a:first').addClass('selectedSessionDiv');
+  });
+  $('.dispSessionDiv li a').mouseout(function (){
+    $(this).parent().parent().parent("li").children('a:first').removeClass('selectedSessionDiv');
+  });
+</script>

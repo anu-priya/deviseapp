@@ -1,0 +1,116 @@
+<%=javascript_include_tag "global/checkbox"%>
+<script type="text/javascript">
+  $(document).ready(function () {
+    initARC('provider_event_list','altCheckboxOn','altCheckboxOff');
+    selectAny();
+  });
+
+
+  function before_delete(a){ 
+    var a;
+    pop_delete_activity('/activities/delete_activity?id='+a)
+  }
+  
+  //get mutiple check box id and store to hidden field
+  function getchk_actid(curr_actid,span_)
+  {  	
+    span_index=$(".checkboxImg").index(span_);
+    chk_staus=$(".checkboxImg:eq("+span_index+") label").attr('class');
+    if(chk_staus=="altCheckboxOn")
+    {
+      //add selected checkbox id
+      txt_id=$("#actid_chk").val();
+      if(txt_id=="")
+      { selected_ids=curr_actid; 	}
+      else{ selected_ids=txt_id+","+curr_actid; 	}
+      $("#actid_chk").val(selected_ids);
+    }
+    else
+    {
+      //remove the id
+      txt_id=$("#actid_chk").val();
+      selected_ids=txt_id.replace(curr_actid,'');
+      $("#actid_chk").val(selected_ids);
+      $('#select').css('display','none');
+      $('#not_select').css('display','inline-block');
+      $('#pe').val(0);
+
+    }
+  }
+</script>
+<form name="provider_event_list" id="provider_event_list">
+<div id="providerEventList">
+<input type="hidden" id="actid_chk" name="actid_chk" value="" />
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+  <tr>
+    <td align="left" width="19%" class="headText setPadLt">Activity Name</td>
+    <td align="left" width="15%" class="headText">Status</td>
+    <td align="left" width="15%" class="headText">Capacity</td>
+    <td align="left" width="15%" class="headText">Description</td>
+    <!--td align="left" width="9%" class="headText">Room</td-->
+    <td align="left" width="19%" class="headText">Schedule</td>
+    <td align="left" width="14%"class="headText">Action</td>
+  </tr>
+  <%if !@activities.nil? && @activities!=""%>
+    <%i = 0%>
+    <%if @activities.length > 0 %>
+      <%@activities && @activities.each do |act|%>
+        <%i = i + 1%>
+        <%if i.even? %>
+          <tr class="setBg2">
+          <%else%>
+          <tr class="setBg1">
+          <%end%>
+
+          <td align="left" width="19%" class="contentText setPadLt activityName">
+            <input id="pe<%=act[:activity_id]%>" name="pe<%= act[:activity_id] %>" type="checkbox" value="violin"/>
+
+            <span id="chk_span" class="checkboxImg" onclick="getchk_actid('<%=act[:activity_id]%>',this)"><label id="lbl1" class="altCheckboxoff" for="pe<%= act[:activity_id] %>">&nbsp;</label></span>
+            <span class="blueText checkboxText" onclick="pop_Activity_Detail('/activitydetail_new?list_details=provider&det=<%= act[:activity_id]%>');_gaq.push(['_trackEvent', 'Provider Module', 'clickViewActivity','View Activity Details',<%= act[:activity_id] %>]);"><%= act[:activity_name] %></span></td>
+          <td align="left" width="13.5%" class="contentText">
+            <input type="hidden" id="gender_<%=act[:activity_id]%>" name="gender" value="" />
+            <div id="menu_active" class="lt ActiveDivMenu">
+              <ul>
+                <li><a  href="#" class="active_Div ActiveDiv"><span id="gender_setVal_<%=act[:activity_id]%>"><%=act[:active_status] if !act[:active_status].nil?%></span><span><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4", :style=>"position: relative; top: -1px; left:5px;")%></span></a><ul class="sub-menu dispActiveDiv">
+                    <li><a href="#" onclick="setActiveVal('Active',<%=act[:activity_id]%>);_gaq.push(['_trackEvent', 'Provider Module', 'clickViewActivity','Set Active', <%=act[:activity_id]%>])">Active</a></li>
+                    <li><a href="#" onclick="setActiveVal('Inactive',<%=act[:activity_id]%>);_gaq.push(['_trackEvent', 'Provider Module', 'clickViewActivity','Set Inactive', <%=act[:activity_id]%>])">Inactive</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <div class="clear"></div>
+            </div>
+          </td>
+          <td align="left" width="15%" class="contentText"><span class="blueText">25 of 45</span> </td>
+
+          <td align="left" width="15%" class="contentText"><% if (act[:description]!="Description should not exceed 1000 characters" && !act[:description].nil? && act[:description]!="Select" && act[:description]!="" && act[:description]!=" ")%><span><%=truncate(act[:description],:length =>48, :omission => '... ')%>
+              </span><%else%>&mdash;<%end%></td>
+	<% schedule = ActivitySchedule.where("activity_id = ?",act[:activity_id]).last %>
+          <td align="left" width="19%" class="contentText"><%= schedule.start_date.strftime('%a %x') if !schedule.nil? && !schedule.start_date.nil?  %><%="," if !schedule.nil? && !schedule.start_date.nil?  %><%= schedule.start_time.strftime('  %I:%M %p to') if !schedule.nil? && !schedule.start_time.nil? %>&nbsp;<%= schedule.end_time.strftime('%I:%M %p') if !schedule.nil? && !schedule.end_time.nil? %></td>
+          <td align="left" width="14%" class="contentText">
+            <a href="javascript:void(0)" title="Share activity" onclick="pop_share_activity('/share_activity?activity_id=<%=act[:activity_id]%>');_gaq.push(['_trackEvent', 'Provider Module', 'clickShareActivity',<%=act[:activity_id]%>])" class="lt setRt"><%=image_tag("/assets/provider_event_list/msg_icon.png", :width=>"29", :height=>"26")%></a>
+            <a href="javascript:void(0)" title="Edit activity" onclick="pop_edit_activity('/edit_activity?activity_id=<%=act[:activity_id]%>');_gaq.push(['_trackEvent', 'Provider Module', 'clickEditActivity',<%=act[:activity_id]%>])" class="lt setRt"><%=image_tag("/assets/provider_event_list/edit_icon.png", :width=>"29", :height=>"26")%></a>
+            <a href="javascript:void(0)" title="Delete activity" onclick="before_delete('<%=act[:activity_id] if !act[:activity_id].nil?%>');_gaq.push(['_trackEvent', 'Provider Module', 'clickDeleteActivity',<%=act[:activity_id]%>])" class="lt"><%=image_tag("/assets/provider_event_list/delete_icon.png", :width=>"29", :height=>"26")%></a>
+          </td>
+        </tr>
+      <%end%>
+
+    <%else%>
+      <tr class="setBg1">
+        <td width="40%" colspan="7" class="no_activities" style="text-align:center;height: 500px;">Sorry we found no results for your search.</td>
+      </tr>
+    <%end%>
+
+
+  <%else%>
+    <tr class="setBg1">
+      <td width="40%" colspan="7" class="no_activities" style="text-align:center;height: 500px;">Sorry we found no results for your search.</td>
+    </tr>
+  <%end%>
+</table>
+<div class="pro_pagination">
+
+  <%= will_paginate @activities%>
+
+</div>
+</div>
+</form>

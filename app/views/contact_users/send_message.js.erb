@@ -1,0 +1,9 @@
+<%if @message_vaule == "ct_msg" %>
+//parent.popCreateMessagePage.hide();
+parent.$('#providerEventList').html("<%=escape_javascript(render '/contact_users/index')%>");
+<%else%>
+parent.popSendMessagePage.hide();
+parent.$('#providerEventList').html("<%=escape_javascript(render '/contact_users/index')%>");
+<%end%>
+
+

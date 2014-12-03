@@ -1,0 +1,17 @@
+<%= form_for(@age_range_color) do |f| %>
+  <% if @age_range_color.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@age_range_color.errors.count, "error") %> prohibited this age_range_color from being saved:</h2>
+
+      <ul>
+      <% @age_range_color.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

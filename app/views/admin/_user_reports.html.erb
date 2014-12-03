@@ -1,0 +1,489 @@
+<style type="text/css">
+.numbercount{
+	text-align: center;
+}
+</style>
+<%=javascript_include_tag "global/checkbox"%>
+<table cellspacing="0" cellpadding="0" border="0" width="100%" style="border:1px solid #E9EDEE;">	
+          <!--tr class="setBg2"-->
+	  <!--display for admin users-->
+	  <%if (@user_type && @user_type.present? && @user_type!="" && @user_type == "all") || (@user_type.nil?) %>
+		<!--admin lists-->
+		<tr>
+			<td align="left" width="180" class="headText setPadLt">Admin</td>
+			<td align="left" width="80" class="headText numbercount" >Count</td>
+		</tr>
+		  <tr class="setBg1">
+			<td align="left" width="180" <%if admin_user_lst !=0%> onclick="Userlist('<%=admin_user_lst%>','normal_admin');" style="cursor:pointer;" <%end%> class="contentText setPadLt activityName clr_normal_admin" >Admin users</td>
+			<td align="left" width="80" <%if admin_user_lst !=0%> onclick="Userlist('<%=admin_user_lst%>','normal_admin');" style="cursor:pointer;" <%end%> class="contentText numbercount clr_normal_admin">
+				<%if admin_user_lst !=0%>
+					 <%=@sel=admin_user_lst.count%>
+				<%else%>
+				  	  0
+				 <%end%>
+			</td>
+		  </tr>
+		   <!--tr class="setBg2">
+			<td align="left" width="180" class="contentText setPadLt activityName"></td>
+			<td align="left" width="80" class="contentText"></td>
+		  </tr-->
+		  <!--provider lists-->
+		  <tr>
+			<td align="left" width="180" class="headText setPadLt" style="height: 57px;">Providers</td>
+			<td align="left" width="80" class="headText numbercount" style="height: 57px;">Count</td>
+		</tr>
+		   <tr class="setBg1">
+		   	<%@total_user=[]%>
+		   	<%@pfre=prouser_free%>
+		   	<%@total_user.concat(@pfre) if @pfre !=0%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_normal_free" <%if prouser_free !=0%> onclick="Userlist('<%=prouser_free%>','normal_free');" style="cursor:pointer;"<%end%>>Free</td>
+			<td align="left" width="80" class="contentText numbercount clr_normal_free" <%if prouser_free !=0%> onclick="Userlist('<%=prouser_free%>','normal_free');" style="cursor:pointer;"<%end%> >
+				<%if prouser_free !=0%>
+					 <%=prouser_free.count %>
+				<%else%>
+				  	  0
+				 <%end%>
+			</td>
+		  </tr>
+		   <tr class="setBg1">
+		   	<%@prspon=spon_pro_list%>
+		   	<%@total_user.concat(@prspon) if @prspon !=0%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_normal_sponsor" <%if spon_pro_list !=0%> onclick="Userlist('<%=spon_pro_list%>','normal_sponsor');" style="cursor:pointer;"<%end%>>Sponsor</td>
+			<td align="left" width="80" class="contentText numbercount clr_normal_sponsor" <%if spon_pro_list !=0%> onclick="Userlist('<%=spon_pro_list%>','normal_sponsor');" style="cursor:pointer;"<%end%>>
+				<%if spon_pro_list !=0%>
+				 <%=spon_pro_list.count %>
+				 <%else%>
+				  0
+				 <%end%>
+			</td>
+		  </tr>
+		   <tr class="setBg1">
+		   	<%@prsel=selluser_list%>
+		   	<%@total_user.concat(@prsel) if @prsel !=0%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_normal_sell" <%if selluser_list !=0%> onclick="Userlist('<%=selluser_list%>','normal_sell');" style="cursor:pointer;"<%end%>>Sell-Through</td>
+			<td align="left" width="80" class="contentText numbercount clr_normal_sell" <%if selluser_list !=0%> onclick="Userlist('<%=selluser_list%>','normal_sell');" style="cursor:pointer;"<%end%>><%#=selluser_list%>
+				<%if selluser_list !=0%>
+				 <%=selluser_list.count %>
+				 <%else%>
+				  0
+				 <%end%>
+			</td>
+		  </tr>
+		   <tr class="setBg1">
+		   	<%@mkt_sell_user=market_and_sell_users%>
+		   	<%@total_user.concat(@mkt_sell_user) if @mkt_sell_user !=0%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_normal_msell" <%if market_and_sell_users !=0%> onclick="Userlist('<%=market_and_sell_users%>','normal_msell');" style="cursor:pointer;"<%end%>>Market &amp; Sell ($29.95/mo)</td>
+			<td align="left" width="80" class="contentText numbercount clr_normal_msell" <%if market_and_sell_users !=0%> onclick="Userlist('<%=market_and_sell_users%>','normal_msell');" style="cursor:pointer;"<%end%>>
+				<%if market_and_sell_users !=0%>
+				 <%=market_and_sell_users.count %>
+				 <%else%>
+				  0
+				 <%end%>
+			</td>
+		  </tr>
+
+		   <tr class="setBg1">
+		   	<%@mktsell_mge_user=marketsell_and_manage_users%>
+		   	<%@total_user.concat(@mktsell_mge_user) if @mktsell_mge_user !=0%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_normal_msellm" <%if marketsell_and_manage_users !=0%> onclick="Userlist('<%=marketsell_and_manage_users%>','normal_msellm');" style="cursor:pointer;"<%end%>>Market, Sell &amp; Manage ($49.95/mo)</td>
+			<td align="left" width="80" class="contentText numbercount clr_normal_msellm" <%if marketsell_and_manage_users !=0%> onclick="Userlist('<%=marketsell_and_manage_users%>','normal_msellm');" style="cursor:pointer;"<%end%>>
+				<%if marketsell_and_manage_users !=0%>
+				 <%=marketsell_and_manage_users.count %>
+				 <%else%>
+				  0
+				 <%end%>
+			</td>
+		  </tr>
+		   <tr class="setBg1">
+		   	<%@mktsell_mgeplus_user=marketsell_manageplus_users%>
+		   	<%@total_user.concat(@mktsell_mgeplus_user) if @mktsell_mgeplus_user !=0%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_normal_sellmp" <%if marketsell_manageplus_users !=0%> onclick="Userlist('<%=marketsell_manageplus_users%>','normal_sellmp');" style="cursor:pointer;"<%end%>>Market, Sell, Manage Plus+ ($99.95/mo)</td>
+			<td align="left" width="80" class="contentText numbercount clr_normal_sellmp" <%if marketsell_manageplus_users !=0%> onclick="Userlist('<%=marketsell_manageplus_users%>','normal_sellmp');" style="cursor:pointer;"<%end%>>
+				<%if marketsell_manageplus_users !=0%>
+				 <%=marketsell_manageplus_users.count %>
+				 <%else%>
+				  0
+				 <%end%>
+			</td>
+		  </tr>
+		   <tr class="setBg1">
+		   	<%@crt_act=curator_added%>
+		   	<%@total_user.concat(@crt_act) if @crt_act !=0%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_normal_curator" <%if curator_added !=0%> onclick="Userlist('<%=curator_added%>','normal_curator');" style="cursor:pointer;"<%end%>>Curators added</td>
+			<td align="left" width="80" class="contentText numbercount clr_normal_curator" <%if curator_added !=0%> onclick="Userlist('<%=curator_added%>','normal_curator');" style="cursor:pointer;"<%end%>>
+				<%if curator_added !=0%>
+				 <%=curator_added.count %>
+				 <%else%>
+				  0
+				 <%end%>
+			</td>
+		  </tr>
+		  <tr class="setBg1">
+		  	<%@partner_act=partner_added%>
+		  	<%@total_user.concat(@partner_act) if @partner_act !=0%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_normal_parent_add" <%if partner_added !=0%> onclick="Userlist('<%=partner_added%>','normal_parent_add');" style="cursor:pointer;"<%end%>>Partner added</td>
+			<td align="left" width="80" class="contentText numbercount clr_normal_parent_add" <%if partner_added !=0%> onclick="Userlist('<%=partner_added%>','normal_parent_add');" style="cursor:pointer;"<%end%>>
+				<%if partner_added !=0%>
+				 <%=partner_added.count %>
+				 <%else%>
+				  0
+				 <%end%>
+		</td>
+		  </tr>
+		   <tr class="setBg1">
+			<td align="left" width="180" class="contentText setPadLt activityName clr_normal_pro_total" <%if @total_user.count !=0%> onclick="Userlist('<%=@total_user%>','normal_pro_total');" style="cursor:pointer;"<%end%>><b>Total</b></td>
+			<td align="left" width="80" class="contentText numbercount clr_normal_pro_total"<%if @total_user.count !=0%> onclick="Userlist('<%=@total_user%>','normal_pro_total');" style="cursor:pointer;"<%end%><b>
+				<%=@total_user.count%>
+				<%#=@pfre+@prspon+@prsel+@mkt_sell_user+@mktsell_mge_user+@mktsell_mgeplus_user+@crt_act+@partner_act%></b></td>
+		  </tr>
+		   <tr class="setBg1">
+			<td align="left" width="180" class="contentText setPadLt activityName"><b>Other Providers<b></td>
+			<td align="left" width="80" class="contentText numbercount">&nbsp;</td>
+		  </tr>
+		  <tr class="setBg1">
+			<td align="left" width="180" <%if pro_inactive !=0%>onclick="Userlist('<%=pro_inactive%>','normal_inprovider');" style="cursor:pointer;" class="contentText setPadLt activityName clr_normal_inprovider" <%end%>>In-active accounts</td>
+			<td align="left" width="80" <%if pro_inactive !=0%>onclick="Userlist('<%=pro_inactive%>','normal_inprovider');" style="cursor:pointer;"  <%end%> class="contentText numbercount clr_normal_inprovider">
+				<%if pro_inactive !=0%>
+				 <%=@prina=pro_inactive.count%>
+				 <%else%>
+				  0
+				 <%end%>
+			</td>
+		  </tr>
+		   <!--tr class="setBg2">
+			<td align="left" width="180" class="contentText setPadLt activityName"></td>
+			<td align="left" width="80" class="contentText"></td>
+		  </tr-->
+		  <!--parent lists-->
+		  <tr>
+			<td align="left" width="180" class="headText setPadLt" style="height: 57px;">Parents</td>
+			<td align="left" width="80" class="headText numbercount" style="height: 57px;">Count</td>
+		</tr>
+		   <tr class="setBg1">
+			<td align="left" width="180" class="contentText setPadLt activityName clr_normal_parent_active" <%if parent_active_usr !=0%> onclick="Userlist('<%=parent_active_usr%>','normal_parent_active');" style="cursor:pointer;" <%end%>>Active Users</td>
+			<td align="left" width="80" class="contentText numbercount clr_normal_parent_active" <%if parent_active_usr !=0%> onclick="Userlist('<%=parent_active_usr%>','normal_parent_active');" style="cursor:pointer;" <%end%> ><%#=@b_act=parent_active_usr.count%>
+				<%if parent_active_usr !=0%>
+					 <%=@b_act=parent_active_usr.count%>
+				<%else%>
+					  0
+				<%end%>
+			</td>
+		  </tr>
+		   <tr class="setBg1">
+			<td align="left" width="180" class="contentText setPadLt activityName clr_normal_parent_total"  class="contentText" <%if @b_act !=0%>onclick="Userlist('<%=parent_active_usr%>','normal_parent_total');" style="cursor:pointer;"<%end%>><b>Total</b></td>
+			<td align="left" width="80" class="contentText numbercount clr_normal_parent_total" <%if @b_act !=0%>onclick="Userlist('<%=parent_active_usr%>','normal_parent_total');" style="cursor:pointer;"<%end%>>
+				<b><%=@b_act%></b></td>
+		  </tr>
+		   <tr class="setBg1">
+			<td align="left" width="180" class="contentText setPadLt activityName"><b>Other Parents</b></td>
+			<td align="left" width="80" class="contentText numbercount">&nbsp;</td>
+		  </tr>
+		   <tr class="setBg1">
+			<td align="left" width="180" <%if facebook_parent !=0%> onclick="Userlist('<%=facebook_parent%>','normal_parent_fb');" style="cursor:pointer;" <%end%> class="contentText setPadLt activityName clr_normal_parent_fb">Facebook users</td>
+			<td align="left" width="80" <%if facebook_parent !=0%> onclick="Userlist('<%=facebook_parent%>','normal_parent_fb');" style="cursor:pointer;" <%end%> class="contentText numbercount clr_normal_parent_fb">
+				<%#=@fb_parent=facebook_parent.count%>
+				<%if facebook_parent !=0%>
+					 <%=@fb_parent=facebook_parent.count%>
+				<%else%>
+					  0
+				<%end%>
+			</td>
+		  </tr>
+		   <tr class="setBg1">
+			<td align="left" width="180"  <%if parent_inactive !=0%>onclick="Userlist('<%=parent_inactive%>','normal_parent_inactive');" style="cursor:pointer;" <%end%> class="contentText setPadLt activityName clr_normal_parent_inactive">In-active accounts</td>
+			<td align="left" width="80"  <%if parent_inactive !=0%>onclick="Userlist('<%=parent_inactive%>','normal_parent_inactive');" style="cursor:pointer;" <%end%> class="contentText numbercount clr_normal_parent_inactive">
+				<%#=@b_ina=parent_inactive.count%>
+				<%if parent_inactive !=0%>
+					 <%=@b_ina=parent_inactive.count%>
+				<%else%>
+					  0
+				<%end%>
+			</td>
+		  </tr>
+		  
+	<%elsif (@user_type && @user_type.present? && @user_type!="" && @user_type == "a")%>
+		<tr>
+			<td align="left" width="180" class="headText setPadLt">Admin</td>
+			<td align="left" width="80" class="headText numbercount">Count</td>
+		</tr>
+		  <tr class="setBg1">
+			<td align="left" width="180" class="contentText setPadLt activityName clr_filter_admin" <%if admin_user_lst !=0%>onclick="Userlist('<%=admin_user_lst%>','filter_admin');" style="cursor:pointer;" <%end%>>Admin users</td>
+			<td align="left" width="80" class="contentText numbercount clr_filter_admin" <%if admin_user_lst !=0%>onclick="Userlist('<%=admin_user_lst%>','filter_admin');" style="cursor:pointer;" <%end%>>
+				<%#=@sel=admin_user_lst%>
+				<%if admin_user_lst !=0%>
+					 <%=@sel=admin_user_lst.count%>
+				<%else%>
+					  0
+				<%end%>
+			</td>
+		  </tr>
+		 <!--display for provider users-->
+	<%elsif(@user_type && @user_type.present? && @user_type!="" && @user_type == "p")%>
+		<tr>
+			<td align="left" width="180" class="headText setPadLt">Providers</td>
+			<td align="left" width="80" class="headText numbercount">Count</td>
+		</tr>
+		   <tr class="setBg1">
+		   	<%@total_provider_user=[]%>
+		   	<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			     <%@pfre=prouser_free_withdate(@week_s,@week_e)%>
+			<%else%>
+			     <%@pfre=prouser_free%>
+			<%end%>
+			<%@total_provider_user.concat(@pfre) if @pfre !=0%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_filter_free" <%if @pfre !=0%>onclick="Userlist('<%=@pfre%>','filter_free');" style="cursor:pointer;" <%end%> >Free</td>
+			<td align="left" width="80" class="contentText numbercount clr_filter_free" <%if @pfre !=0%>onclick="Userlist('<%=@pfre%>','filter_free');" style="cursor:pointer;" <%end%> >
+				<%if @pfre !=0%>
+					 <%=@pfre.count%>
+				<%else%>
+					  0
+				<%end%>
+			</td>
+		  </tr>
+		   <tr class="setBg1">
+		   	<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			     <%@prspon=spon_pro_list_withdate(@week_s,@week_e)%>
+			<%else%>
+			    <%@prspon=spon_pro_list%>
+			<%end%>
+			<%@total_provider_user.concat(@prspon) if @prspon !=0%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_filter_sponsor" <%if @prspon !=0%>onclick="Userlist('<%=@prspon%>','filter_sponsor');" style="cursor:pointer;" <%end%> >Sponsor</td>
+			<td align="left" width="80" class="contentText numbercount clr_filter_sponsor" <%if @prspon !=0%>onclick="Userlist('<%=@prspon%>','filter_sponsor');" style="cursor:pointer;" <%end%> >
+				<%if @prspon !=0%>
+					 <%=@prspon.count%>
+				<%else%>
+					  0
+				<%end%>
+			</td>
+		  </tr>
+		   <tr class="setBg1">
+		   	<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			     <%@prsel=selluser_list_withdate(@week_s,@week_e)%>
+			<%else%>
+			     <%@prsel=selluser_list%>
+			<%end%>
+			<%@total_provider_user.concat(@prsel) if @prsel !=0%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_fiter_sell" <%if @prsel !=0%>onclick="Userlist('<%=@prsel%>','fiter_sell');" style="cursor:pointer;" <%end%> >Sell-Through</td>
+			<td align="left" width="80" class="contentText numbercount clr_fiter_sell" <%if @prsel !=0%>onclick="Userlist('<%=@prsel%>','fiter_sell');" style="cursor:pointer;" <%end%> >
+				<%if @prsel !=0%>
+					 <%=@prsel.count%>
+				<%else%>
+					  0
+				<%end%>
+			</td>
+		  </tr>
+		   <tr class="setBg1">
+		   	<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			     <%@mkt_sell_user=market_and_sell_users_withdate(@week_s,@week_e)%>
+			<%else%>
+			    <%@mkt_sell_user=market_and_sell_users%>
+			<%end%>
+			<%@total_provider_user.concat(@mkt_sell_user) if @mkt_sell_user !=0%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_filter_msell" <%if @mkt_sell_user !=0%>onclick="Userlist('<%=@mkt_sell_user%>','filter_msell');" style="cursor:pointer;" <%end%> >Market &amp; Sell ($29.95/mo)</td>
+			
+			<td align="left" width="80" class="contentText numbercount clr_filter_msell" <%if @mkt_sell_user !=0%>onclick="Userlist('<%=@mkt_sell_user%>','filter_msell');" style="cursor:pointer;" <%end%> >
+				<%if @mkt_sell_user !=0%>
+					 <%=@mkt_sell_user.count%>
+				<%else%>
+					  0
+				<%end%>			
+			</td>
+		  </tr>
+		   <tr class="setBg1">
+		   	<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			     <%@mktsell_mge_user=marketsell_and_manage_users_withdate(@week_s,@week_e)%>
+			<%else%>
+			    <%@mktsell_mge_user=marketsell_and_manage_users%>
+			<%end%>
+			<%@total_provider_user.concat(@mktsell_mge_user) if @mktsell_mge_user !=0%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_filter_msellm" <%if @mktsell_mge_user !=0%>onclick="Userlist('<%=@mktsell_mge_user%>','filter_msellm');" style="cursor:pointer;" <%end%>>Market, Sell &amp; Manage ($49.95/mo)</td>
+			<td align="left" width="80" class="contentText numbercount clr_filter_msellm" <%if @mktsell_mge_user !=0%>onclick="Userlist('<%=@mktsell_mge_user%>','filter_msellm');" style="cursor:pointer;" <%end%>>
+				<%if @mktsell_mge_user !=0%>
+					 <%=@mktsell_mge_user.count%>
+				<%else%>
+					  0
+				<%end%>
+			</td>
+		  </tr>
+		   <tr class="setBg1">
+		   	<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			     <%@mktsell_mgeplus_user=marketsell_manageplus_users_withdate(@week_s,@week_e)%>
+			<%else%>
+			   <%@mktsell_mgeplus_user=marketsell_manageplus_users%>
+			<%end%>
+			<%@total_provider_user.concat(@mktsell_mgeplus_user) if @mktsell_mgeplus_user !=0%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_filter_sellmp" <%if @mktsell_mgeplus_user !=0%>onclick="Userlist('<%=@mktsell_mgeplus_user%>','filter_sellmp');" style="cursor:pointer;" <%end%>>Market, Sell, Manage Plus+ ($99.95/mo)</td>
+			<td align="left" width="80" class="contentText numbercount clr_filter_sellmp" <%if @mktsell_mgeplus_user !=0%>onclick="Userlist('<%=@mktsell_mgeplus_user%>','filter_sellmp');" style="cursor:pointer;" <%end%>>
+				<%if @mktsell_mgeplus_user !=0%>
+					 <%=@mktsell_mgeplus_user.count%>
+				<%else%>
+					  0
+				<%end%>
+			</td>
+		  </tr>
+		   <tr class="setBg1">
+		   	<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			     <%@crt_act=curator_added_withdate(@week_s,@week_e)%>
+			<%else%>
+			   <%@crt_act=curator_added%>
+			<%end%>
+			<%@total_provider_user.concat(@crt_act) if @crt_act !=0%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_filter_curator" <%if @crt_act !=0%>onclick="Userlist('<%=@crt_act%>','filter_curator');" style="cursor:pointer;" <%end%>>Curators added</td>
+			<td align="left" width="80" class="contentText numbercount clr_filter_curator" <%if @crt_act !=0%>onclick="Userlist('<%=@crt_act%>','filter_curator');" style="cursor:pointer;" <%end%>>
+				<%if @crt_act !=0%>
+					 <%=@crt_act.count%>
+				<%else%>
+					  0
+				<%end%>
+			</td>
+		  </tr>
+		  <tr class="setBg1">
+		  	<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			     <%@partner_act=partner_added_withdate(@week_s,@week_e)%>
+			<%else%>
+			   <%@partner_act=partner_added%>
+			<%end%>
+			<%@total_provider_user.concat(@partner_act) if @partner_act !=0%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_filter_parent_add" <%if @partner_act !=0%>onclick="Userlist('<%=@partner_act%>','filter_parent_add');" style="cursor:pointer;" <%end%>>Partner added</td>
+			<td align="left" width="80" class="contentText numbercount clr_filter_parent_add" <%if @partner_act !=0%>onclick="Userlist('<%=@partner_act%>','filter_parent_add');" style="cursor:pointer;" <%end%>>
+				<%if @partner_act !=0%>
+					 <%=@partner_act.count%>
+				<%else%>
+					  0
+				<%end%>
+			</td>
+		  </tr>
+		   <tr class="setBg1">
+			<td align="left" width="180" class="contentText setPadLt activityName clr_filter_pro_total" <%if @total_provider_user !=0%>onclick="Userlist('<%=@total_provider_user%>','filter_pro_total');" style="cursor:pointer;" <%end%>><b>Total</b></td>
+			<td align="left" width="80" class="contentText numbercount clr_filter_pro_total" <%if @total_provider_user !=0%>onclick="Userlist('<%=@total_provider_user%>','filter_pro_total');" style="cursor:pointer;" <%end%>><b><%=@total_provider_user.count%><%#=@pfre+@prspon+@prsel+@mkt_sell_user+@mktsell_mge_user+@mktsell_mgeplus_user+@crt_act+@partner_act%></b></td>
+		  </tr>
+		   <tr class="setBg1">
+			<td align="left" width="180" class="contentText setPadLt activityName"><b>Other Providers</b></td>
+			<td align="left" width="80" class="contentText numbercount">&nbsp;</td>
+		  </tr>
+		  <tr class="setBg1">
+		  	<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			     <%@prina=pro_inactive_withdate(@week_s,@week_e)%>
+			<%else%>
+			   <%@prina=pro_inactive%>
+			<%end%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_filter_inprovider" <%if @prina !=0%>onclick="Userlist('<%=@prina%>','filter_inprovider');" style="cursor:pointer;" <%end%>>In-active accounts</td>
+			<td align="left" width="80" class="contentText numbercount clr_filter_inprovider" <%if @prina !=0%>onclick="Userlist('<%=@prina%>','filter_inprovider');" style="cursor:pointer;" <%end%>>
+				 <%if @prina !=0%>
+				  <%=@prina.count%>
+				 <%else%>
+				  0
+				 <%end%>
+			</td>
+		  </tr>
+		 <!--display for parent users-->
+	<%elsif (@user_type && @user_type.present? && @user_type!="" && @user_type == "u")%>
+		<tr>
+			<td align="left" width="180" class="headText setPadLt">Parents</td>
+			<td align="left" width="80" class="headText numbercount">Count</td>
+		</tr>
+		   <tr class="setBg1">
+
+		   	<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			     <%@b_act=parent_active_usr_withdate(@week_s,@week_e)%>
+			<%else%>
+			     <%@b_act=parent_active_usr%>
+			<%end%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_filter_parent_active"<%if @b_act !=0%> onclick="Userlist('<%=@b_act%>','filter_parent_active');" style="cursor:pointer;"<%end%> >Active Users</td>
+			<td align="left" width="80" class="contentText numbercount clr_filter_parent_active"<%if @b_act !=0%> onclick="Userlist('<%=@b_act%>','filter_parent_active');" style="cursor:pointer;"<%end%> >
+				 <%if @b_act !=0%>
+				  <%=@b_act.count%>
+				 <%else%>
+				  0
+				 <%end%>
+
+			</td>
+		  </tr>
+		   <tr class="setBg1">
+			<td align="left" width="180" class="contentText setPadLt activityName clr_filter_parent_total" <%if @b_act !=0%> onclick="Userlist('<%=@b_act%>','filter_parent_total');" style="cursor:pointer;"<%end%>><b>Total</b></td>
+			<td align="left" width="80" class="contentText numbercount clr_filter_parent_total" <%if @b_act !=0%> onclick="Userlist('<%=@b_act%>','filter_parent_total');" style="cursor:pointer;"<%end%>><b>
+				<%if @b_act !=0%>
+				  <%=@b_act.count%>
+				 <%else%>
+				  0
+				 <%end%>
+			</b></td>
+		  </tr>
+		   <tr class="setBg1">
+			<td align="left" width="180" class="contentText setPadLt activityName"><b>Other Parents</b></td>
+			<td align="left" width="80" class="contentText numbercount">&nbsp;</td>
+		  </tr>
+		   <tr class="setBg1">
+		   	<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			     <%@fb_parent=facebook_parent_withdate(@week_s,@week_e)%>
+			<%else%>
+			    <%@fb_parent=facebook_parent%>
+			<%end%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_filter_parent_fb" <%if @b_act !=0%> onclick="Userlist('<%=@fb_parent%>','filter_parent_fb');" style="cursor:pointer;"<%end%> >Facebook users</td>
+			<td align="left" width="80" class="contentText numbercount clr_filter_parent_fb" <%if @b_act !=0%> onclick="Userlist('<%=@fb_parent%>','filter_parent_fb');" style="cursor:pointer;"<%end%> >
+			 	 <%if @fb_parent !=0%>
+				  <%=@fb_parent.count%>
+				 <%else%>
+				  0
+				 <%end%>
+			</td>
+		  </tr>
+		   <tr class="setBg1">
+		   	<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			     <%@b_ina=parent_inactive_withdate(@week_s,@week_e)%>
+			<%else%>
+			    <%@b_ina=parent_inactive%>
+			<%end%>
+			<td align="left" width="180" class="contentText setPadLt activityName clr_filter_parent_inactive" <%if @b_ina !=0%> onclick="Userlist('<%=@b_ina%>','filter_parent_inactive');" style="cursor:pointer;"<%end%> >In-active accounts</td>
+			<td align="left" width="80" class="contentText numbercount clr_filter_parent_inactive" <%if @b_ina !=0%> onclick="Userlist('<%=@b_ina%>','filter_parent_inactive');" style="cursor:pointer;"<%end%> >
+				 <%if @b_ina !=0%>
+				   <%=@b_ina.count%>
+				 <%else%>
+				   0
+				 <%end%>
+			</td>
+		  </tr>
+	<%end%>
+</table>
+<script type="text/javascript">
+function Userlist(val,clr){
+	//alert(val);
+//clr_normal_admin
+
+$("#load_more").show();
+$(".contentText").css('background','none');
+$(".clr_"+clr).css('background-color','#d3ecf4');
+$.ajax({
+        type: "POST",
+        url: "admin_user_list",
+        data: {"list": val},
+        dataType : 'script'
+        
+      });
+
+}
+</script>

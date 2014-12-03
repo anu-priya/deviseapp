@@ -1,0 +1,58 @@
+<div class="create_head">
+  <b> Edit discount code</b><a  id="close_fee_pop" title="" onclick="cancel_edit_discount()" href="javascript:void(0)"> <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15")%></a>
+</div>
+
+<div class="inner_body_popup" style="width:88%;">
+
+    <input type="hidden" value="<%= @edit_disc_fees.provider_discount_code_type_id %>" id="disc_fee_id"/>
+  <div class="inner_body_contents">
+    <table cellpadding="5" cellspacing="0" border="0">
+      <tr>
+        <td><b> Discount Code Name</b></td>
+        <td ><b> Discount Code </b></td>
+        <td><b>Discount Price </b></td>
+        <td><b>Start Date</b></td>
+        <td ><b>End Date</b></td>
+
+      </tr>
+      <tr>
+        <td valign="top" width="190"><input type="text" onfocus="if (this.value=='Enter Discount Code Name') { this.value = '';$(this).css('color','#444444');}" onblur="if (this.value==''){ this.value = 'Enter Discount Code Name';$(this).css('color','#999999');}" id="edit_discount_code_name" name="edit_discount_code_name" value="<%= @edit_disc_fees.code_name %>" class="lt textbox" style="width:190px"></td>
+        <td valign="top"><input type="text" maxlength="" onfocus="if (this.value=='Enter Discount Code') { this.value = '';$(this).css('color','#444444');}" onblur="if (this.value==''){ this.value = 'Enter Discount Code';$(this).css('color','#999999');}" id="edit_discount_code" name="edit_discount_code" value="<%= @edit_disc_fees.discount_code %>" class="lt textbox" style="width:100px"></td>
+        <td valign="top"><input type="text" onfocus="if (this.value=='Enter Discount Price') { this.value = '';$(this).css('color','#444444');}" onblur="if (this.value==''){ this.value = 'Enter Discount Price';$(this).css('color','#999999');}" id="edit_discount_code_price" name="edit_discount_code_price" value="<%= @edit_disc_fees.coupon_price %>" class="lt textbox" style="width:92px"></td>
+        <td valign="top"><div class="" style="width:140px;height:28px;background:#ffffff;border:1px solid #CDE0E6;padding: 1px 3px 0;"><input type="text" id="edit_discount_code_start" class="dateTextbox" name="edit_discount_code_start" value="<%= @edit_disc_fees.start_date.strftime("%a, %b %d, %Y") %>"  style="width:110px"> <input type="hidden" id="edit_alt_discount_code_start" name="edit_alt_discount_code_start" value="<%= @edit_disc_fees.start_date %>" class="lt textbox" style="width:103px"></div> </td>
+        <td valign="top"><div class="" style="width:140px;height:28px;background:#ffffff;border:1px solid #CDE0E6;padding: 1px 3px 0;"><input type="text" id="edit_discount_code_end" class="dateTextbox" name="edit_discount_code_end" value="<%= @edit_disc_fees.end_date.strftime("%a, %b %d, %Y") %>"  style="width:110px"> <input type="hidden" id="edit_alt_discount_code_end" name="edit_alt_discount_code_end" value="<%= @edit_disc_fees.end_date %>" class="lt textbox" style="width:103px"></div></td>
+      </tr>
+      <tr>
+        <td valign="top" colspan="5"><textarea id="edit_discount_notes" name="edit_discount_notes" style="width:745px;"class="lt textbox descTextbox" onfocus="if (this.value=='Enter Notes here') { this.value = '';$(this).css('color','#444444');}" onblur="if (this.value==''){ this.value = 'Enter Notes here';$(this).css('color','#999999');}"><%if !@edit_disc_fees.note.nil? && @edit_disc_fees.note!=""%><%=  @edit_disc_fees.note%><%else%>Enter Notes here<%end%></textarea> </td>
+
+      </tr>
+    </table>
+    <table cellpadding="5" cellspacing="0" border="0" style="padding:0px 10px 10px 10px;">
+      <tr id="edit_err_trr" style="display: none;">
+        <td width="400" colspan="4">
+          <div id="edit_error_disc" style="display:none;color: #ff0000"></div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4">
+           <table style="padding:0px;"><tr><td>
+          <a onclick="save_edit_discount()"><%=image_tag("/assets/create_new_activity/save.png", :width=>"113", :height=>"41")%></a>
+
+          <a onclick="cancel_edit_discount()"><%=image_tag("/assets/create_new_activity/cancel.png", :width=>"113", :height=>"41")%></a>
+          
+        </td>
+ <!--td valign="middle"><span style="display: none; float: left; position: relative;  left: 5px;" id="loading_img4"><img src="/assets/loading_small.gif"></span>
+
+ </td-->
+ <td>
+  <div id="edit_discountfee_success" style="display:none;width:350px;margin: 0 auto;background:#65B3CA;color: #ffffff; padding: 10px 5px; text-align: center;margin-left: 100px;">Discount Type has been Updated Successfully</div>
+ </td>
+             </tr></table></td>   </tr>
+    </table>
+
+  </div>
+</div>
+
+<script>
+  set_time_edit_for_discount();
+</script>

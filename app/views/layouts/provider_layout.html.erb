@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+  <head>    
+    <%= metamagic %>
+    <meta http-equiv="Content-Language" content="en" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta http-equiv="pragma" content="cache" />
+    <meta http-equiv="cache-control" content="cache" />
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <meta name="bitly-verification" content="e85040e783dc"/>
+    <meta name="google-site-verification" content="ZoU0MNkf02c532RyvEjt2YoAYN8IOm8XPWy0yfwUEKc" />
+    <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon"/>
+    <link rel="icon" type="image/png" href="/assets/favicon/favicon.png"/>
+    <link rel="dns-prefetch" href="https://www.facebook.com/"/>
+    <link rel="dns-prefetch" href="https://www.twitter.com/"/>
+    <link rel="dns-prefetch" href="https://www.pinterest.com/"/>
+    <script type="text/javascript" src="https://apis.google.com/js/client.js"></script>
+<%if !@meta_alt.nil? && @meta_alt.present? %>
+   <link rel="alternate" media="only screen and (max-width: 640px)" href="<%= "#{$meta_mobile}#{request.fullpath}" %>">
+  <%end%>
+    <!-- Dont remove added for analytics- start -->
+    <%if ((request.env['HTTP_HOST'] != 'famtivity.com') &&  (request.env['HTTP_HOST'] != 'www.famtivity.com'))  %>
+    <!-- Added meta tag to restrict calling of analytics in dev and uat-->
+    <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    <% end %>
+    <% if current_user && get_provider_path%>
+    <!-- Added meta tag for provider side-->
+    <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+
+    <%end%>  
+    
+<script type="text/javascript">
+    var fb_id = '<%=FB_APP_ID%>'
+</script>
+    
+    <%= stylesheet_link_tag "checkbox/checkbox","global/fonts","header/new_header","global/overlay/windowfiles/dhtmlwindow","global/overlay/modalfiles/modal","global/jquery.ui.datepicker","global/jquery.ui.theme","bpopup/bpopup","footer/footer","card/card","search/new_frm_search", :media => "all" %>
+    <%= javascript_include_tag "global/jquery-1.8.3.min","event/index_of_fix", "header/header","autocomplete/jquery.autocomplete","global/jquery.ui.datepicker"%>
+
+        <script language="JavaScript" src="https://js.maxmind.com/app/geoip.js"></script>
+    <script type="text/javascript">
+    m_name=$("meta[name='keywords']").attr("content");
+    m_cont=$("meta[name='description']").attr("content");
+    $("meta[name='keywords']").removeAttr("content").attr("content",m_name);
+    $("meta[name='description']").removeAttr("content").attr("content",m_cont);
+    </script> 
+  </head>
+  <body>
+  
+    <%= render :partial => '/common/preload_images'%>
+    <div class="wrapper">
+      <div class="page_header">
+        <div class="headerOuter dp" style="width:100%; background-color:#E5F4F9;">
+          <% if (params[:controller]=="provider_settings" || params[:controller]=="activity_schedules") && (params[:action]=="index" || params[:action]=="provider_activites" || params[:action]=='transaction' || params[:action]=='plan_report' || params[:action]=="activity_provider_schedule")%>
+          <div class="headerWrapper" style="width:100%;">
+          <% else %>
+          <div class="headerWrapper" style="width:1260px; margin:0 auto;">
+          <% end %>
+            <div class="lt header_inner">
+              <div class="lt logo">
+                <div class="logo_inner">
+                 <a href="/" title="Famtivity"><%=image_tag("/assets/header/new_logo.png", size: "155x52",alt: "Famtivity")%></a>
+                </div>
+              </div>
+              <% if  params[:controller]=='provider_settings' && (params[:action] == 'index' || params[:action]=='provider_activites')%>
+              <!-- Search for Activity list and activity card start -->
+              <div class="lt header_container">
+                <%= render :partial => "provider_settings/provider_search"%>
+              </div>
+              <% end %>
+              <!-- Search for Activity list and activity card end -->
+                <div class="<%if current_user.nil? || !current_user.present?%>header_right<%else%>msg_contact_aflogin_provider<%end%>" style="<%if params[:action]=='transaction' || params[:action]=='plan_report' || params[:action]=='provider_profile' || params[:action]=='provider_activity_discount' || params[:action]=='provider_policies' || params[:action]=='provider_plan' || params[:action]=='change_password' || params[:action]=='provider_settings' || params[:action]=='activity_provider_schedule' || params[:action]=='payment_setup' || params[:action]=='get_credit_card_info' || params[:action]=='bank_info'%>width:240px;<%end%>">
+                <%if !current_user.nil? || current_user.present?%>
+			  <%if !current_user.user_type.nil? && current_user.user_type.downcase!='a'%>
+			      <%if params[:action] == 'how_it_works' || params[:action] == 'build_activity_network_popup' || params[:action] == 'message_preview_attachment' || params[:action] == 'privacy_policy' || params[:action] == 'terms_of_service' || params[:action] == 'about_us' || params[:action] == 'contact_us' || params[:action] == 'faq' ||  params[:action] == 'parent_profile' || params[:action] == 'parent_settings' || params[:action] == 'activity_parent_schedule'  ||  params[:action] == 'parent_privacy_policy' ||  params[:action] == 'parent_terms_of_service' || params[:action] == 'search_by_keyword' || params[:action] == 'search'  || params[:action] == 'advanced_search' || request.fullpath == '/contact_users?mode=parent' || request.fullpath == '/change_password?mode=parent' ||  params[:action] == 'landing_new' ||  params[:action] == 'search' || request.fullpath == '/discount_dollars?mode=parent' || params[:action] == 'follow_cities' || (params[:search_type]) || (params[:action]=="search_new_search")%>
+			      <%= render :partial =>"common/parent_menu" %>
+			      <%else%>
+				  <%if !current_user.user_type.nil? && current_user.user_type.downcase=='u'%>
+				    <%= render :partial =>"common/parent_menu" %>
+				  <%elsif !current_user.user_type.nil? && current_user.user_type.downcase=='p'%>
+				    <%if (params["mode"] && params["mode"].downcase == 'parent') || (@mode && @mode=="parent") || (params[:search_type]) || (params[:action]=="search_new_search")%>
+				     <%= render :partial =>"common/parent_menu" %>
+				    <%else%>
+				     <%= render :partial =>"common/provider_menu" %>
+				    <%end%>
+				  <%end%>
+			      <%end%>
+					  <%else%>
+					    <%if (params["mode"] && params["mode"].downcase == 'parent') || (@mode && @mode=="parent")%>
+					     <%= render :partial =>"common/parent_menu" %>
+					    <%elsif params["mode"] && params["mode"].downcase == 'admin'%>
+					      <%= render :partial =>"common/admin_menu" %>
+					    <%else%>
+					     <%= render :partial =>"common/provider_menu" %>
+					    <%end%>
+			  <%end%>
+                <%end%>
+              </div>
+            </div>
+          </div>
+        </div>
+
+     </div>
+      <div class="wrap_banner">
+        <div class="wrapper_contianer">
+          <span class="flash_content"style="position: absolute;display: none; background:#ff6363;padding: 8px 10px 8px 20px;color:white;width:auto;z-index: 100000;">
+          <span class="flash-message flash-text" style="float:left;"></span>
+          <span class="flash-close" onClick='$(".flash_content").hide();'  style="cursor: pointer;font-size: 15px;margin-left: 20px;">X</span>
+          </span>
+          <div class="clear"></div>
+          <!--div data-pjax-container-->
+            <%= yield%>
+          <!--/div-->
+        </div>
+      </div>
+      <div id="popup_friend" style="top: 20px !important;"></div>
+      <div class="footerContainer">
+        <%=render :partial => "common/comman_footer" if (!(params[:controller]=="home" && params[:action]=="index"))%>
+      </div>
+    </div>
+    <div class="loadDiv" id="loadDivjax" style="display:none;margin:0 auto; position:fixed;width:98%;top:250px; z-index:1; " align="center">
+     <div class="loadDiv_img" style="display:block; margin:200px;"><%=image_tag("/assets/loading.gif",class: "spinner_gif")%></div>
+    </div>
+
+      <script src="https://connect.facebook.net/en_US/all.js" async=""></script>
+      <%= javascript_include_tag "message/message.js","message/add_message.js", "global/overlay/windowfiles/dhtmlwindow.js", "global/overlay/modalfiles/modal.js", "bpopup/jquery.bpopup-0.9.3.min.js", "bpopup/jquery.easing.1.3.js", "ga_social_tracking.js"%> 
+    </body>
+</html>

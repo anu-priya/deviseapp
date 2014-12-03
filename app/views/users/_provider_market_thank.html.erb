@@ -1,0 +1,34 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up_success.css" />
+<script language="javascript">
+  $(document).ready(function(){
+    $("html, body", window.parent.document).animate({ scrollTop: 0 }, 100);
+    if(navigator.appName=="Microsoft Internet Explorer")
+    {
+      window.location.hash='/provider_market_success';
+    }
+    else
+    {
+      var stateObj = { foo: "bar" };
+      parent.history.replaceState(stateObj,'test','/provider_market_success')
+    }
+    _gaq.push(['_trackPageview', '/provider_market_success']);
+  });
+  function closepopup() {
+    if(navigator.appName=="Microsoft Internet Explorer")
+    {
+      window.location.hash='';
+    }
+    else
+    {
+      var stateObj = { foo: "bar" };
+      parent.history.replaceState(stateObj,'test','/')
+    }
+    parent.parentLoginPage.hide();
+  }
+</script>
+
+<div align="center" style="height:230px;background-color:#fff;">
+  <p class="successText" style="padding:60px 0; text-align:center; width:662px; font-size:18px;"><span style="color:#5099AC;"><b>Success!</b></span> <span>We just sent an email with an activation link to your inbox. Click the link to confirm your registration and begin enjoying the benefits of Famtivity!</span></p>
+  <div class="clear"></div>
+  <a href="javascript:void(0)" onClick="closepopup(); _gaq.push(['_trackEvent', 'Registration', 'clickProviderMarketRegister', 'Market Registration Success']);" title=""><img src="/assets/register/ok_btn.png" /></a>
+</div>

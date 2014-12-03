@@ -1,0 +1,267 @@
+<meta http-equiv="cache-control" content="public" />
+<meta http-equiv="cache-control" content="max-age=86400" />
+<meta http-equiv="cache-control" content="must-revalidate" />
+<%=stylesheet_link_tag "event_index/event_index","event_index/menu","event_index/event_scroll","provider_settings/provider","discount_dollar/discount_dollar","custom_scrollbar/mCustomScrollbar.min", :media => "all"%>
+<%=javascript_include_tag "event_more/checkbox","pagination","global/checkbox","event_index/event_scroll","event/provider_event_list","custom_scrollbar/mCustomScrollbar.min"%>
+<div class="clear"></div>
+<!-- form name="provider_event_list" id="provider_event_list" style="height:730px;" -->
+<!--provider submenu -->
+  <%= render :partial => '/provider_settings/provider_submenu'%>
+<!--provider submenu -->
+<div id="providerEventList" >
+  <%if (!current_user.nil? && current_user.user_type.downcase=='p') && (params[:controller]=="provider_settings" && params[:action]=="index")%>
+  <% if @activities.present?
+   %>
+   <div class="topContainer" style="padding-top:7px;">
+    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+      <tr>
+          <td align="left" height="40" width="12%">
+            <div class="leftMenus" style="width:250px;">
+              <!-- <span><a href="#" onclick="pop_new_activity('/create_new_activity');_gaq.push(['_trackEvent', 'Provider Module', 'clickAddActivity','Add New Activity']);" title="" class="menuText addText" ><b></b></span></a><span class="plusImg"></span> -->
+              <input type="hidden" name="pe" id="pe" value="0" />
+              <span  class="checkboxImg lt" style="margin-left: 11px;margin-right: 10px;">
+                <a href="javascript:void(0)" title="" id="select" onclick="selectAny('select',0)" style="display: none"><%=image_tag("/assets/contact/selected_checkbox.png", :width=>"21", :height=>"21")%></a>
+                <a href="javascript:void(0)" title="" id="not_select" onclick="selectAny('not_select',1)" ><%=image_tag("/assets/contact/normal_checkbox.png", :width=>"21", :height=>"21")%></a>
+              </span>
+              <span class="menuText setLt lt" style="display: inline-block;text-decoration: none;cursor: pointer;">Select All</span>
+              <span class="pipeSymbol lt" style="margin: -1px -6px 0 7px ">|</span>
+              <span class="pipeSymbol lt">
+                <div id="menu" class="actionDivMenu" style="top:-4px;.top:-6px;">
+                  <span style="margin-left:5px;">
+                    <a href="#" title="" onclick="before_delete_all()" class="delimg imageall">
+                    <%#=image_tag("/assets/event/delete_image.png", :width=>"13", :height=>"13", :style=>"border:0px;margin-top:2px; .margin-top:-5px;  vertical-align:top;")%></a>
+                    <a href="#" class="menuText" style=" height: 20px; margin: 1px 0 0 -9px;  padding: 4px 5px 3px 15px; .padding: 6px 5px 3px 15px; width: 55px;" onclick="before_delete_all('multiple')">Delete</a>
+                  </span>
+                  <div class="clear"></div>
+                </div>
+              </span>
+            </div>
+          </td>
+        </tr>
+      <!--basic search for activity details-->
+      <input type="hidden" id="auto_details" value="<%=@auto_act%>"/>
+      <input type="hidden" id="uid" value="<%=cookies[:uid_usr]%>"/>
+      <td align="right" height="40" width="12%">
+      </td>
+    </table>
+  </div>
+    <% end %>
+    <% end %>
+</div>
+  <div class="centerContainer" id="provider_partial_event_list">
+  <%= render "/provider_settings/provider_event_list"%>
+  </div>
+</div>
+<!--/form-- >
+
+<!-- ajax loader -->
+<div id='loadingmessage' style='display:none;margin-top:-424px' align="center"><%=image_tag("/assets/ajax-loader.gif", :width=>"32", :height=>"32")%></div>
+<div id="popup_container"></div>
+<%if (!current_user.nil? && current_user.sign_in_count==1 && cookies[:first_import].nil?)%>
+  <%if !current_user.fb_id.nil? %>
+    <%=render :partial => 'fb_discount_offer'%>
+  <%end%>
+<%end%>
+<!-- save a copy success popup -->
+<div id="thankyou_newsletter">
+  <div class="content_popup" style="display:block;"><br>You successfully saved.<br><br>
+    <span class="b-close" id="loginFeature"><a href="javascript:void(0)" title=""><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38", :style=>"border:0px;")%></a></span>
+  </div>
+</div>
+<!-- save a copy success popup  end-->
+<script type="text/javascript">
+  $(document).ready(function () {
+    selectAny();
+  });
+</script>
+
+
+<!--thils style for search box width fixed-->
+<style>
+  #ui-id-1 {
+    width:270px;
+    overflow: hidden;
+  }
+</style>
+<script>
+  var availableTags=new Array();
+<%if @auto_comp.present? && !@auto_comp.nil?%>
+  <%@auto_comp.each do |auto_complete|%>
+      availableTags.push('<%= auto_complete.activity_name %>');
+  <%end%>
+<%end%>
+
+  $(document).ready(function () {
+
+<% if !current_user.nil? && !cookies[:f_invited_user].nil? && cookies[:f_invited_user]=="friend" %>
+  pop_invite_friend_check('/invite_friend_famtivity?check_invite=invite&mode=parent&fam_last=/contact_users');
+<% elsif !current_user.nil? && !params[:invite_friend].nil? && params[:invite_friend]=="friend" %>
+  pop_invite_friend_check('/invite_friend_famtivity?check_invite=contact_import&fam_last=provider?<%=current_user.user_profile.business_name.parameterize if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.city.nil? %>');
+<%elsif (!current_user.nil? && current_user.sign_in_count==1 && cookies[:first_import].nil?)%>
+      pop_invite_friend_check('/invite_friend_famtivity?check_invite=contact_import&fam_last=provider?<%=current_user.user_profile.business_name.parameterize if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.city.nil? %>');
+  <%if ((!params[:dect].nil? && params[:dect] !="")||(!cookies[:fam_invited_user].nil? && cookies[:fam_invited_user] !=""))%>
+        setTimeout(function(){
+    <%if !params[:dect].nil? && params[:dect] !=""%>
+            $(".flash-message").html("Success!  You’re now part of the Family Activity Network!");
+    <%elsif !cookies[:fam_invited_user].nil? && cookies[:fam_invited_user] !=""%>
+            $(".flash-message").html("You are now friends with <%=cookies[:fam_invited_user]%>");
+    <%end%>
+          var win=$(window).width();
+          var con=$(".flash_content").width();
+          var leftvalue=((win/2)-(con/2))
+          $(".flash_content").css("left",leftvalue+"px");
+          $(".flash_content").css("top","9%");
+          $('.flash_content').fadeIn().delay(20000).fadeOut();
+        },5000);
+  <%end%>
+  <%cookies[:first_import]='1'%>
+<%end%>
+    //displayed the popup for deactivate users dont remove this code
+<%if (!current_user.nil? && !current_user.user_status.nil? && current_user.user_status=="deactivate" && cookies[:activate_popup].nil?)%>
+      activate_account(); //displayed the activate popup for deactivated user by rajkumar
+  <%cookies[:activate_popup]='1'%>
+<%end%>
+  });
+  
+  function filter_parent_update_state(state,id){
+    $.ajax({
+      url:'update_ses_date',
+      type:"get",
+      data: {
+        "state": state
+      },
+      success:function(data){
+
+      }
+    });
+  }
+
+
+  function filter_land_zip_code(){
+    var zip_code = document.getElementById("zp").value;
+    $.ajax({
+      url:'update_ses_date',
+      type:"get",
+      data: {
+        "zip_code": zip_code
+      },
+      success:function(data){
+  
+      }
+    });
+
+  }
+  function activity_save_copy(actid,pageid){
+    $('#save_copy_load_'+actid).show();
+    $.ajax({
+      url:'activity_save_copy',
+      dataType:"script",
+      data: {
+        "activity_id": actid,
+        "page": pageid
+      },
+      success:function(data){
+        $(".flash-message").html("You successfully saved.");
+        var win=$(window).width();
+        var con=$(".flash_content").width();
+        var leftvalue=((win/2)-(con/2))
+        //alert((win/2) +"ss"+ (con/2));
+        $(".flash_content").css("left",leftvalue+"px");
+        $(".flash_content").css("top","67px");
+        $('.flash_content').fadeIn().delay(10000).fadeOut();   
+        }
+    });
+    
+    //return false;
+  }
+  
+  var newbidActivityPage; 
+  function pop_bid_new_activity(url){
+    newbidActivityPage = dhtmlmodal.open("bid Setup","iframe",url," ", "width=950px,height=750px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    return false;
+  }  
+  function before_delete_all(mul){
+    //alert(mul);
+    var li= mul
+    var a = $("#actid_chk").val();
+    page = $("#page").val();
+    if(li&&a&&page){
+    pop_delete_activity('/activities/delete_activity?mul='+li+'&id='+a+'&page='+page+'')
+    }
+    //~ if (a=='')
+    //~ {
+    //~ pop_delete_activity_empty('/activities/delete_activity_empty')
+    //~ }
+    //~ else
+    //~ {
+    //~ pop_delete_activity('/activities/delete_activity?id='+a+'&page='+page+'')
+    //~ }
+    else{
+    $(".flash-message").html("Please select atleast one Activity");
+      var win=$(window).width();
+      var con=$(".flash_content").width();
+      var leftvalue=((win/2)-(con/2))
+      //alert((win/2) +"ss"+ (con/2));
+      $(".flash_content").css("left",leftvalue+"px");
+      $(".flash_content").css("top","67px");
+      $('.flash_content').fadeIn().delay(10000).fadeOut();
+    }
+  }
+  var t=$('#search_hidden').val();
+  if(t=="parent")
+  {
+    document.onkeypress =  enter_key_press_for_search; //calling the function while press the enter key...
+  }
+  else
+  {
+    document.onkeypress =  enter_key_press_for_search_provider; //calling the function while press the enter key...
+  }
+  
+ 
+  //clear autocomplete input..
+  function clearAutoCompleteInput() {
+    $("#advace_search").val('');
+  }
+  
+  function close_div()
+  {
+    $('.search_submenu').hide();
+  }
+      
+
+  
+  //ajax advance search submit form
+  $(document).ready(function() {
+    $('#advanced_search_form').submit(function (){
+      $('#loadingmessage').show();
+      $.get($(this).attr('action'), $(this).serialize(), function(){$('#loadingmessage').hide();$('.search_submenu').hide();}, "script");
+      return false;
+    });
+  });
+  
+  function show_location(){
+    $('ul.dropdown li a:first').addClass("hoverDiv");
+    $('ul.dropdown li a:first').addClass("hover");
+    $('.dropdown li a:first').css("border","1px solid #b1d7e3");
+  }
+  function hide_location(){
+    $('ul.dropdown li a:first').removeClass("hoverDiv");
+    $('ul.dropdown li a:first').removeClass("hover");
+  }
+  
+  $(function() {
+    $('.off').hover(function(){
+      $(this).css('color', '#f58112');
+    },
+    function(){
+      $(this).css('color', '#313332');
+    });
+  });
+
+  function visible_color(id){
+    $(this).css('color', '#f58112');
+  }
+   
+
+</script>

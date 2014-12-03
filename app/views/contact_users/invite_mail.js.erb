@@ -1,0 +1,10 @@
+<%if !@msg.nil? && @msg.present? %>
+$(".flash-message").html("Your invite has been sent successfully!");
+var win=$(window).width();
+var con=$(".flash_content").width();
+var leftvalue=((win/2)-(con/2))
+$(".flash_content").css("top","9%");
+$(".flash_content").css("left",leftvalue+"px");
+$('.flash_content').fadeIn().delay(10000).fadeOut();
+<%end%>
+

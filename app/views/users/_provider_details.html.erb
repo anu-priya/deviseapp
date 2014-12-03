@@ -1,0 +1,596 @@
+<link rel="stylesheet" type="text/css" href="/assets/register/register.css" />
+<link rel="stylesheet" type="text/css" href="/assets/register/provider_register.css" />
+<link rel="stylesheet" type="text/css" href="/assets/create_new_activity_new/create_new_activity.css" />
+<link rel="stylesheet" type="text/css"  href="/assets/register/popup.css" />
+<script type="text/javascript" src="/assets/register/register_payment.js"></script>
+<script type="text/javascript" src="/assets/register/common.js"></script>
+<script type="text/javascript" src="/assets/register/register.js"></script>
+<script type="text/javascript" src="/assets/register/validate.js"></script>
+<script type="text/javascript" src="/assets/register/provider_register_update.js"></script>
+
+  
+
+<div id="register_outerContainer">
+  <div class="Provider_innerContainer">
+    <div class="header" align="center">
+      <%= link_to image_tag("/assets/register/logo.png", :border=>0,:width=>305,:height=>100,:align=>"center"), :controller => 'landing' %>
+<%#*<img align="center" src="/assets/register/logo.png" alt="" width="305" height="100"/>%>
+      <!--p class="blueText">Discover, Schedule and Coordinate</p>
+			<p class="redText">Great activities with friends</p-->
+    </div>
+
+    #to remove top
+    <div class="ProviderCenterContent">
+      <%= form_for(@user_usr, :url => { :action => "provider_submit" }, :html=>{:multipart=>true}) do |f| %>
+
+
+        <div>
+          <div class="lt" style="width: 461px; padding-left: 12px; ">
+            <p class="head" style="color:#186171;">Register as Provider</p>
+            <div class="marginTop14_provider">
+              <div class="lt leftSideField">Name</div>
+              <%= f.text_field :username_usr,:id=>"p_name",:name=>"p_name",:value=>"#{@p_name}",:class=>"lt textbox_provider",:style=>"outline: none;",:onfocus =>"focusChangeBorderColor('p_name');",:onblur=>"blurChangeBorderColor('p_name')",:onchange=>"removeunwantedSpace(this.value)", :tabindex => '1', :maxlength => 25 %>
+              <div class="clear"></div>
+            </div>           
+            <div class="errorDiv" style="display:none">
+              <div class="lt leftSideField">&nbsp;</div>
+              <div class="lt" id="p_name_error"></div>
+            </div>
+            <div class="clear"></div>
+            <div class="marginTop15">
+              <div class="lt leftSideField">Password</div>
+              <%= f.password_field :password,:id=>"p_password",:name=>"p_password", :class=>"lt textbox_provider",:style=>"outline: none;",:onfocus=>"focusChangeBorderColor('p_password')",:onclick =>"focusChangeBorderColor('p_password');",:onblur=>"blurChangeBorderColor('p_password')", :tabindex => '3'%>
+              <div class="clear"></div>
+            </div>
+            <div class="errorDiv" style="display:none">
+              <div class="lt leftSideField">&nbsp;</div>
+              <div class="lt" id="p_password_error"></div>
+            </div>
+            <div class="clear"></div>
+            <div class="marginTop15">
+              <div class="lt leftSideField">Confirm Password</div>
+              <%= f.password_field :password,:id=>"p_confirm_password",:name=>"p_confirm_password", :class=>"lt textbox_provider",:style=>"outline: none;",:onfocus=>"focusChangeBorderColor('p_confirm_password')",:onclick =>"focusChangeBorderColor('p_confirm_password');",:onblur=>"blurChangeBorderColor('p_confirm_password')", :tabindex => '4'%>
+              <div class="clear"></div>
+            </div>
+            <div class="errorDiv" style="display:none">
+              <div class="lt leftSideField">&nbsp;</div>
+              <div class="lt" id="p_confirm_password_error"></div>
+            </div>
+            <div class="clear"></div>
+
+            <%= f.fields_for :user_profile_pfl do |b| %>
+
+              <div class="marginTop15" >
+                <div class="lt leftSideField">Owner</div>
+                <%= b.text_field :owner,:id=>"p_owner_firstname",:name=>"p_owner_firstname",:value=>"#{@owner1}",:onfocus =>"focusChangeBorderColor('p_owner_firstname');",:onblur=>"blurChangeBorderColor('p_owner_firstname')", :class=>"lt textbox_ownerprovider",:style=>"outline: none;", :tabindex => '7', :onchange => "validateOwnerFirstname()" , :maxlength => 25 %>
+
+                <%= b.text_field :owner,:id=>"p_owner_lastname",:name=>"p_owner_lastname",:value=>"#{@owner2}",:onfocus =>"focusChangeBorderColor('p_owner_lastname');",:onblur=>"blurChangeBorderColor('p_owner_lastname')", :class=>"lt textbox_ownerprovider",:style=>"outline: none; margin-left:5px;", :tabindex => '8', :onchange => "validateOwnerLastname()"%>
+                <div class="clear"></div>
+              </div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="p_owner_firstname_error" style="display: inline-block; float: left;width: 150px;"></div>
+              </div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt" id="p_owner_lastname_error" style="display: inline-block; float: right; margin-right:19px;width: 150px;"></div>
+                <div class="lt" style="margin-left: 8px;"></div>
+              </div>
+              <div class="clear"></div>
+
+            </div>
+
+
+            <div class="lt" style="width: 450px; padding: 20px 0 0 25px;">
+              <div class="marginTop15">
+                <div class="lt leftSideField">Email</div>
+                <%= f.text_field :email_usr,:id=>"p_email",:name=>"p_email",:value=>"#{@p_email}", :class=>"lt textbox_provider",:maxlength => 50,:style=>"outline: none;",:onfocus =>"focusChangeBorderColor('p_email');",:onblur=>"blurChangeBorderColor('p_email')", :tabindex => '2'%>
+                <div class="clear"></div>
+              </div>
+			   <% if @user_usr.errors.any? %>
+				  <div id="error_explanation" class="errorDiv">
+					<div class="lt leftSideField">&nbsp;</div>
+					<% @user_usr.errors.each_with_index do |msg, i| %>
+					  <div class ="setStyleEmail"><%= msg[1] %></div>
+					<% end %>
+				  </div>
+				<% end %>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="p_email_error"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="marginTop14">
+                <div class="lt leftSideField">Business Logo</div>
+                <div class="lt FileUpload">
+                  <input type="file" accept="image/*" onchange="document.getElementById('browse_photo').value =this.value;fakepath(this.value)" size="21" id="photo" class="BrowserHidden" name="activity_image">
+                  <div class="BrowserVisible" style="border:none;">
+                    <input type="text" name="browse_photo" id="browse_photo" class="FileField"  tabindex="5"/>
+                  </div>
+                  <span class="browse"><img src="/assets/register/browse.png" width="76" height="30" /></span>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="b_logo_error"></div>
+              </div>
+              <p class="msg" style=" color: #FC8989; font-size: 12px;  font-weight: normal;margin-left: 135px;"></p>
+              <div class="clear"></div>
+
+              <div class="marginTop15">
+                <div class="lt leftSideField">Business Name</div>
+
+                <%= b.text_field :buisness_name,:id=>"b_name",:name=>"b_name",:value=>"#{@buis_name}",:class=>"lt textbox_provider",:style=>"outline: none;",:onfocus =>"focusChangeBorderColor('b_name');",:onblur=>"blurChangeBorderColor('b_name')",:onchange=>"removeunwantedSpace(this.value)", :tabindex => '6', :maxlength => 50 %>
+                <div class="clear"></div>
+              </div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="b_name_error"></div>
+              </div>
+              <div class="clear"></div>
+    <%#*<div class="marginTop15" >%>
+    <%#*<div class="lt leftSideField">Administrator</div>%>
+    <%#= b.text_field :owner,:id=>"p_admin_firstname",:name=>"p_admin_firstname", :class=>"lt textbox_ownerprovider",:style=>"outline: none;", :tabindex => '9'%>
+
+    <%#= b.text_field :owner,:id=>"p_admin_lastname",:name=>"p_admin_lastname", :class=>"lt textbox_ownerprovider",:style=>"outline: none; margin-left:5px;", :tabindex => '10'%>
+    <%#*<div class="clear"></div>%>
+    <%#*</div>%>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="p_admin_firstname_error" style="display: inline-block; float: left; width: 150px;"></div>
+              </div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt" id="p_admin_lastname_error" style="display: inline-block; float: right; margin-right:8px;width: 150px;"></div>
+                <div class="lt" style="margin-left: 8px;"></div>
+              </div>
+              <div class="clear"></div>
+    <%#*<div class="marginTop12">%>
+    <%#*<div class="lt leftSideField">&nbsp;</div>%>
+    <%#*<div class="lt">%>
+    <%#*<input type="hidden" name="admin_provider" id="admin_provider" value="" />%>
+    <%#*<span  class="checkbox">%>
+    <%#*<a href="javascript:void(0)" title="" id="admin_checkbox_selected" onclick="dispCheckboxImgProvider('admin_checkbox_selected')" onkeydown="ag_cb_keydown(event,'admin_checkbox_selected')" style="display: none" tabindex="12"><img src="/assets/register/checkbox_selected.png" alt=""/></a>%>
+    <%#*<a href="javascript:void(0)" title="" id="admin_checkbox_normal" onclick="dispCheckboxImgProvider('admin_checkbox_normal')" onkeydown="ag_cb_keydown(event,'admin_checkbox_normal')" tabindex="11"><img src="/assets/register/checkbox_normal.png" alt=""/></a>%>
+    <%#*<a href="javascript:void(0)" title="" id="admin_checkbox_error" onclick="dispCheckboxImgProvider('admin_checkbox_error')" onkeydown="ag_cb_keydown(event,'admin_checkbox_error')"  tabindex="13" style="display: none"><img src="/assets/register/checkbox_error.png" alt=""/></a>%>
+    <%#*</span>%>
+    <%#*<p class="lt checkboxCont" style="color: #6a6a6a;">Same as Owner</p>%>
+    <%#*<div class="clear"></div>%>
+    <%#*</div>%>
+    <%#*<div class="clear"></div>%>
+    <%#*</div>%>
+    <%#*<div class="clear"></div>%>
+
+              <div class="errorDiv" style="display:none">
+                <div class="lt errorDivProvider" id="admin_provider_error" style="margin-left: 160px;"></div>
+              </div>
+              <div class="clear"></div>
+              <!--div class="marginTop15">
+                <div class="lt leftSideField">Language</div>
+                <div class="lt customCity">
+                  <div class="selectBoxLanguage" onkeydown="selectLanguageUsrKeyDown(event)" onmouseover="flag=true;" onmouseout="flag=false;">
+              <%if @lang%>
+                                                              <input type="hidden" id="p_language" name="language_usr" value="<%=@lang%>"/>
+                                                              <div id="language_field" class="selectDiv" style="line-height:23px;" tabindex="8"><%=@lang%></div>
+              <%else%>
+                                                              <input type="hidden" id="p_language" name="language_usr" value="" />
+                                                              <div id="language_field" class="selectDiv" style="line-height:23px;" tabindex="8">Select</div>
+              <%end%>
+                  </div>
+
+                  <div class="dropDownDivLanguage" id="dropDownDiv" style="display:none;">
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setLanguageUserValue('English',this)" tabindex="9">English</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setLanguageUserValue('Hindi',this)" tabindex="10">Hindi</a>
+
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="p_language_error"></div>
+              </div>
+              <div class="clear"></div-->
+
+
+              <!--div class="set_height"><p></p></div-->
+
+
+
+            </div>
+            <div class="clear"></div>
+
+          </div>
+          <div>
+            <div class="lt" style="width: 460px; padding-left: 12px; margin-top: -10px;" >
+              <p class="head" style="margin-top: 20px; color:#186171;">Billing Address</p>
+              <div class="marginTop14">
+                <div class="lt leftSideField">Address Line 1</div>
+                <%= b.text_field :address_1,:id=>"address1",:name=>"address1",:value=>"#{@add1}", :class=>"lt textbox_provider",:maxlength => 50,:style=>"outline: none;",:onfocus =>"focusChangeBorderColor('address1');",:onblur=>"blurChangeBorderColor('address1')",:onchange=>"removeunwantedSpace(this.value)", :tabindex => '9'%>
+                <div class="clear"></div>
+              </div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="address1_error"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="marginTop14">
+                <div class="lt leftSideField">Country</div>
+                <div class="lt customCity">
+                  <div class="selectBoxPCountry" onkeydown="selectCountryUsrKeyDown(event)" onmouseover="flag2=true;" onmouseout="flag2=false;">
+
+                      <input type="hidden" id="p_country" name="country" value=""/>
+                      <div id="p_Countryfield" class="selectDiv" style="line-height:23px;" tabindex="13">--Choose Country--</div>
+                  </div>
+
+                  <div class="dropDownDivProviderCountry" id="dropDownDiv2" style="display:none;">
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setCountryProviderValue('United States')" tabindex="">United States</a>
+                    <!--a href="javascript:void(0)"  rel="1" title="" onclick="setCountryProviderValue('Country2',this)" tabindex="">Country2</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setCountryProviderValue('Algeria',this)" tabindex="">Algeria</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setCountryProviderValue('American Samoa',this)" tabindex="">American Samoa</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setCountryProviderValue('Angola',this)" tabindex="">Angola</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setCountryProviderValue('Antartica',this)" tabindex="">Antartica</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setCountryProviderValue('Antigua and Barbuda',this)" tabindex="">Antigua and Barbuda</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setCountryProviderValue('Argentina',this)" tabindex="">Argentina</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setCountryProviderValue('Armenia',this)" tabindex="">Armenia</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setCountryProviderValue('Aruba',this)" tabindex="">Aruba</a-->
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="p_country_error"></div>
+              </div>
+              <div class="clear"></div>
+				  <div class="marginTop14" id="city_height">
+                <div class="lt leftSideField">City</div>
+                <div class="lt customCity">
+                  <div class="selectBoxPCity" onkeydown="selectCityUsrKeyDown(event)" onmouseover="flag1=true;" onmouseout="flag1=false;">
+                    <%if @city%>
+                      <input type="hidden" id="p_city" name="city" value=""/>
+                      <div id="p_Cityfield" class="selectDiv" style="line-height:23px;" tabindex="12">--Choose City--</div>
+                    <%else%>
+                      <input type="hidden" id="p_city" name="city" value=""/>
+                      <div id="p_Cityfield" class="selectDiv" style="line-height:23px;" tabindex="12">--Choose City--</div>
+                    <%end%>
+                  </div>
+
+                  <div class="dropDownDivProviderCity" id="dropDownDiv1" style="display:none;">
+                  </div>
+                </div>
+
+                <div class="clear"></div>
+              </div>
+              <div class="errorDiv" style="display:none" id="cityError">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="p_city_error"></div>
+              </div>
+              <div class="clear"></div>
+              
+              
+              <div class="marginTop14">
+                <div class="lt leftSideField">Time Zone</div>
+                <div class="lt customCity">
+                  <div class="selectBoxPTime" onkeydown="selectTimeUsrKeyDown(event)" onmouseover="flag3=true;" onmouseout="flag3=false;">
+                    <%if @country%>
+                      <input type="hidden" id="p_time" name="time" value="<%= @country %>"/>
+                      <div id="p_timefield" class="selectDiv" style="line-height:23px;" tabindex="15"><%= @country %></div>
+                    <%else%>
+                      <input type="hidden" id="p_time" name="time" value=""/>
+                      <div id="p_timefield" class="selectDiv" style="line-height:23px;" tabindex="15">--Choose Time Zone--</div>
+                    <%end%>
+                  </div>
+
+                  <div class="dropDownDivProviderCountry" id="dropDownDiv3" style="display:none; height:103px; overflow-y:scroll;">
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-11:00) Midway Island, Samoa',this)" tabindex="">(GMT-11:00) Midway Island, Samoa</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-10:00) Hawaii-Aleutian',this)" tabindex="">(GMT-10:00) Hawaii-Aleutian</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-10:00) Hawaii',this)" tabindex="">(GMT-10:00) Hawaii</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-09:30) Marquesas Islands',this)" tabindex="">(GMT-09:30) Marquesas Islands</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-09:00) Gambier Islands',this)" tabindex="">(GMT-09:00) Gambier Islands</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-09:00) Alaska',this)" tabindex="">(GMT-09:00) Alaska</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-08:00) Tijuana, Baja California',this)" tabindex="">(GMT-08:00) Tijuana, Baja California</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-08:00) Pitcairn Islands',this)" tabindex="">(GMT-08:00) Pitcairn Islands</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-08:00) Pacific Time (US and Canada)',this)" tabindex="">(GMT-08:00) Pacific Time (US and Canada)</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-07:00) Mountain Time (US and Canada)',this)" tabindex="">(GMT-07:00) Mountain Time (US and Canada)</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-07:00) Chihuahua, La Paz, Mazatlan',this)" tabindex="">(GMT-07:00) Chihuahua, La Paz, Mazatlan</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-07:00) Arizona',this)" tabindex="">(GMT-07:00) Arizona</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-06:00) Saskatchewan, Central America',this)" tabindex="">(GMT-06:00) Saskatchewan, Central America</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-06:00) Guadalajara, Mexico City, Monterrey',this)" tabindex="">(GMT-06:00) Guadalajara, Mexico City, Monterrey</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-06:00) Easter Island',this)" tabindex="">(GMT-06:00) Easter Island</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-06:00) Central Time (US and Canada)',this)" tabindex="">(GMT-06:00) Central Time (US and Canada)</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-05:00) Eastern Time (US and Canada)',this)" tabindex="">(GMT-05:00) Eastern Time (US and Canada)</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-05:00) Cuba',this)" tabindex="">(GMT-05:00) Cuba</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-05:00) Bogota, Lima, Quito, Rio Branco',this)" tabindex="">(GMT-05:00) Bogota, Lima, Quito, Rio Branco</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-04:30) Caracas',this)" tabindex="">(GMT-04:30) Caracas</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-04:00) Santiago',this)" tabindex="">(GMT-04:00) Santiago</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-04:00) La Paz',this)" tabindex="">(GMT-04:00) La Paz</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-04:00) Faukland Islands',this)" tabindex="">(GMT-04:00) Faukland Islands</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-04:00) Brazil',this)" tabindex="">(GMT-04:00) Brazil</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-04:00) Atlantic Time (Goose Bay)',this)" tabindex="">(GMT-04:00) Atlantic Time (Goose Bay)</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-04:00) Atlantic Time (Canada)',this)" tabindex="">(GMT-04:00) Atlantic Time (Canada)</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-03:30) Newfoundland',this)" tabindex="">(GMT-03:30) Newfoundland</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-03:00) UTC-3',this)" tabindex="">(GMT-03:00) UTC-3</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-03:00) Montevideo',this)" tabindex="">(GMT-03:00) Montevideo</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-03:00) Miquelon, St. Pierre',this)" tabindex="">(GMT-03:00) Miquelon, St. Pierre</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-03:00) Greenland',this)" tabindex="">(GMT-03:00) Greenland</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-03:00) Buenos Aires',this)" tabindex="">(GMT-03:00) Buenos Aires</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-03:00) Brasilia',this)" tabindex="">(GMT-03:00) Brasilia</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-02:00) Mid-Atlantic',this)" tabindex="">(GMT-02:00) Mid-Atlantic</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-01:00) Cape Verde Is',this)" tabindex="">(GMT-01:00) Cape Verde Is</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT-01:00) Azores',this)" tabindex="">(GMT-01:00) Azores</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT) Greenwich Mean Time : Belfast',this)" tabindex="">(GMT) Greenwich Mean Time : Belfast</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT) Greenwich Mean Time : Dublin',this)" tabindex="">(GMT) Greenwich Mean Time : Dublin</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT) Greenwich Mean Time : Lisbon',this)" tabindex="">(GMT) Greenwich Mean Time : Lisbon</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT) Greenwich Mean Time : London',this)" tabindex="">(GMT) Greenwich Mean Time : London</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT) Monrovia, Reykjavik',this)" tabindex="">(GMT) Monrovia, Reykjavik</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna',this)" tabindex="">(GMT+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague',this)" tabindex="">(GMT+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+01:00) Brussels, Copenhagen, Madrid, Paris',this)" tabindex="">(GMT+01:00) Brussels, Copenhagen, Madrid, Paris</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+01:00) West Central Africa',this)" tabindex="">(GMT+01:00) West Central Africa</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+01:00) Windhoek',this)" tabindex="">(GMT+01:00) Windhoek</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+02:00) Beirut',this)" tabindex="">(GMT+02:00) Beirut</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+02:00) Cairo',this)" tabindex="">(GMT+02:00) Cairo</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+02:00) Gaza',this)" tabindex="">(GMT+02:00) Gaza</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+02:00) Harare, Pretoria',this)" tabindex="">(GMT+02:00) Harare, Pretoria</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+02:00) Jerusalem',this)" tabindex="">(GMT+02:00) Jerusalem</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+02:00) Minsk',this)" tabindex="">(GMT+02:00) Minsk</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+02:00) Syria',this)" tabindex="">(GMT+02:00) Syria</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+03:00) Moscow, St. Petersburg, Volgograd',this)" tabindex="">(GMT+03:00) Moscow, St. Petersburg, Volgograd</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+03:00) Nairobi',this)" tabindex="">(GMT+03:00) Nairobi</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+03:30) Tehran',this)" tabindex="">(GMT+03:30) Tehran</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+04:00) Abu Dhabi, Muscat',this)" tabindex="">(GMT+04:00) Abu Dhabi, Muscat</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+04:00) Yerevan',this)" tabindex="">(GMT+04:00) Yerevan</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+04:30) Kabul',this)" tabindex="">(GMT+04:30) Kabul</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+05:00) Ekaterinburg',this)" tabindex="">(GMT+05:00) Ekaterinburg</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+05:00) Tashkent',this)" tabindex="">(GMT+05:00) Tashkent</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi',this)" tabindex="">(GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+05:45) Kathmandu',this)" tabindex="">(GMT+05:45) Kathmandu</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+06:00) Astana, Dhaka',this)" tabindex="">(GMT+06:00) Astana, Dhaka</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+06:00) Novosibirsk',this)" tabindex="">(GMT+06:00) Novosibirsk</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+06:30) Yangon (Rangoon)',this)" tabindex="">(GMT+06:30) Yangon (Rangoon)</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+07:00) Bangkok, Hanoi, Jakarta',this)" tabindex="">(GMT+07:00) Bangkok, Hanoi, Jakarta</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+07:00) Krasnoyarsk',this)" tabindex="">(GMT+07:00) Krasnoyarsk</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi',this)" tabindex="">(GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+08:00) Irkutsk, Ulaan Bataar',this)" tabindex="">(GMT+08:00) Irkutsk, Ulaan Bataar</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+08:00) Perth',this)" tabindex="">(GMT+08:00) Perth</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+08:45) Eucla',this)" tabindex="">(GMT+08:45) Eucla</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+09:00) Osaka, Sapporo, Tokyo',this)" tabindex="">(GMT+09:00) Osaka, Sapporo, Tokyo</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+09:00) Seoul',this)" tabindex="">(GMT+09:00) Seoul</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+09:00) Yakutsk',this)" tabindex="">(GMT+09:00) Yakutsk</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+09:30) Adelaide',this)" tabindex="">(GMT+09:30) Adelaide</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+09:30) Darwin',this)" tabindex="">(GMT+09:30) Darwin</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+10:00) Brisbane',this)" tabindex="">(GMT+10:00) Brisbane</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+10:00) Hobart',this)" tabindex="">(GMT+10:00) Hobart</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+10:00) Vladivostok',this)" tabindex="">(GMT+10:00) Vladivostok</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+10:30) Lord Howe Island',this)" tabindex="">(GMT+10:30) Lord Howe Island</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+11:00) Solomon Is., New Caledonia',this)" tabindex="">(GMT+11:00) Solomon Is., New Caledonia</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+11:00) Magadan',this)" tabindex="">(GMT+11:00) Magadan</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+11:30) Norfolk Island',this)" tabindex="">(GMT+11:30) Norfolk Island</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+12:00) Anadyr, Kamchatka',this)" tabindex="">(GMT+12:00) Anadyr, Kamchatka</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+12:00) Auckland, Wellington',this)" tabindex="">(GMT+12:00) Auckland, Wellington</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+12:00) Fiji, Kamchatka, Marshall Is',this)" tabindex="">(GMT+12:00) Fiji, Kamchatka, Marshall Is</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+12:45) Chatham Islands',this)" tabindex="">(GMT+12:45) Chatham Islands</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+13:00) Nuku'alofa',this)" tabindex="">(GMT+13:00) Nuku'alofa</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeProviderValue('(GMT+14:00) Kiritimati',this)" tabindex="">(GMT+14:00) Kiritimati</a>
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="p_time_error"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="marginTop15">
+                <div class="lt leftSideField">Mobile</div>
+
+                <%= b.text_field :mobile_no,:id=>"p_mobile",:name=>"p_mobile",:value=>"#{@mobile}", :class=>"lt textbox_provider",:maxlength => 50,:style=>"outline: none;",:onfocus =>"focusChangeBorderColor('p_mobile');",:onblur=>"blurChangeBorderColor('p_mobile')",:onchange=>"removeunwantedSpace(this.value)", :tabindex => '17', :onchange =>"validateMobileNumber()"%>
+                <div class="clear"></div>
+              </div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="p_mobile_error"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="marginTop15">
+                <div class="lt leftSideField">Web Address</div>
+                <%= b.text_field :website_pfl,:id=>"web_addrs",:value=>"#{@web}",:name=>"web_addrs", :class=>"lt textbox_provider",:maxlength => 50,:style=>"outline: none;",:onfocus =>"focusChangeBorderColor('web_addrs');",:onblur=>"blurChangeBorderColor('web_addrs')",:onchange=>"removeunwantedSpace(this.value)", :tabindex => '19'%>
+                <div class="clear"></div>
+              </div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="web_addrs_error"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="marginTop12">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt">
+                  <input type="hidden" name="agree_provider" id="agree_provider" value="" />
+                  <span  class="checkbox">
+                    <a href="javascript:void(0)" title="" id="p_checkbox_selected" onclick="dispCheckboxImg('p_checkbox_selected')" onkeydown="ag_cb_keydown(event,'p_checkbox_selected')" style="display: none" tabindex="21"><img src="/assets/register/checkbox_selected.png" alt=""/></a>
+                    <a href="javascript:void(0)" title="" id="p_checkbox_normal" onclick="dispCheckboxImg('p_checkbox_normal')" onkeydown="ag_cb_keydown(event,'p_checkbox_normal')" tabindex="20"><img src="/assets/register/checkbox_normal.png" alt=""/></a>
+                    <a href="javascript:void(0)" title="" id="p_checkbox_error" onclick="dispCheckboxImg('p_checkbox_error')" onkeydown="ag_cb_keydown(event,'p_checkbox_error')"  tabindex="22" style="display: none"><img src="/assets/register/checkbox_error.png" alt=""/></a>
+                  </span>
+                  <p class="lt checkboxCont">I agree to the <a href="javascript:void(0)" onkeydown="termsKeyDown(event)" title="" tabindex="23">Terms of Service, Privacy &amp; Refund Policies</a></p>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="errorDiv" style="display:none">
+                <div class="lt errorDivProvider" id="agree_provider_error" style="margin-left: 160px;"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="paddingTop20">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div style="width: 400px;*margin:-20px 0 0 67px; position: relative;">
+                  <input type="submit" id="register_button"  width="95" height="33" alt="" class="lt loginButton" tabindex="24" value="" title="Register" onclick="return validateProviderForm();"/>
+                  <a href="javascript:clearData()" title="" tabindex="25" style="display:inline-block;" onkeydown="cancelKeyDown(event)"><img src="/assets/register/cancel.png" width="95" height="33" alt="" class="lt" /></a>
+
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="marginTop14">
+                <div class="lt leftSideField">&nbsp;</div>
+                <p class="alreadyText">Already have an account?  <a href="/login" title="" tabindex="26" onkeydown="signinKeyDown(event); _gaq.push(['_trackEvent', 'Login', 'clickLogin']);">Login</a></p>
+                <div class="clear"></div>
+              </div>
+
+
+            </div>
+            <div class="lt" style="width: 450px; padding: 0px 0 0 25px; margin-top: -10px;">
+              <p class="head" style="margin-top: 20px;">&nbsp;</p>
+              <div class="marginTop15">
+                <div class="lt leftSideField">Address Line 2</div>
+                <%= b.text_field :address_2,:id=>"address2",:name=>"address2",:value=>"#{@add2}", :class=>"lt textbox_provider",:maxlength => 50,:style=>"outline: none;",:onfocus =>"focusChangeBorderColor('address2');",:onblur=>"blurChangeBorderColor('address2')",:onchange=>"removeunwantedSpace(this.value)", :tabindex => '10',:onchange => "addressLine2()"%>
+                <div class="clear"></div>
+              </div>
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="address2_error"></div>
+              </div>
+              <div class="clear"></div>
+            <div class="marginTop14">
+                <div class="lt leftSideField">State</div>
+                <div class="lt customCity">
+                  <div class="selectBoxPState"  onkeydown="selectStateUsrKeyDown(event)"  onmouseover="flag0=true;" onmouseout="flag0=false;">
+                      <input type="hidden" id="p_state" name="state" value=""/>
+                      <div id="p_Statefield" class="selectDiv" style="line-height:23px;" tabindex="11">--Choose State--</div>
+                  </div>
+
+                  <div class="dropDownDivProviderState" id="dropDownDiv" style="display:none;">
+<!--                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Alabama',this)" tabindex="">Alabama</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Alaska',this)" tabindex="">Alaska</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Arizona',this)" tabindex="">Arizona</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Arkansas',this)" tabindex="">Arkansas</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('California',this)" tabindex="">California</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Colorado',this)" tabindex="">Colorado</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Connecticut',this)" tabindex="">Connecticut</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('District of Columbia',this)" tabindex="">District of Columbia</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Florida',this)" tabindex="">Florida</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Georgia',this)" tabindex="">Georgia</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Hawaii',this)" tabindex="">Hawaii</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Idaho',this)" tabindex="">Idaho</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Illinois',this)" tabindex="">Illinois</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Indiana',this)" tabindex="">Indiana</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Iowa',this)" tabindex="">Iowa</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Kansas',this)" tabindex="">Kansas</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Kentucky',this)" tabindex="">Kentucky</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Louisiana',this)" tabindex="">Louisiana</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Maryland',this)" tabindex="">Maryland</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Massachusetts',this)" tabindex="">Massachusetts</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Michigan',this)" tabindex="">Michigan</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Minnesota',this)" tabindex="">Minnesota</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Mississippi',this)" tabindex="">Mississippi</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Missouri',this)" tabindex="">Missouri</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Montana',this)" tabindex="">Montana</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Nebraska',this)" tabindex="">Nebraska</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Nevada',this)" tabindex="">Nevada</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('New Hampshire',this)" tabindex="">New Hampshire</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('New Jersey',this)" tabindex="">New Jersey</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('New Mexico',this)" tabindex="">New Mexico</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('New York',this)" tabindex="">New York</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('North Carolina',this)" tabindex="">North Carolina</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('North Dakota',this)" tabindex="">North Dakota</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Ohio',this)" tabindex="">Ohio</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Oklahoma',this)" tabindex="">Oklahoma</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Oregon',this)" tabindex="">Oregon</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Pennsylvania',this)" tabindex="">Pennsylvania</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Rhode Island',this)" tabindex="">Rhode Island</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('South Carolina',this)" tabindex="">South Carolina</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('South Dakota',this)" tabindex="">South Dakota</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Tennessee',this)" tabindex="">Tennessee</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Texas',this)" tabindex="">Texas</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Utah',this)" tabindex="">Utah</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Virginia',this)" tabindex="">Virginia</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Washington',this)" tabindex="">Washington</a>
+                    <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderValue('Wisconsin',this)" tabindex="">Wisconsin</a>
+-->
+
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="p_state_error"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="marginTop14">
+                <div class="lt leftSideField">Zip Code</div>
+                <%= b.text_field :zip_code,:id=>"p_zipcode",:value=>"#{@zip}",:name=>"p_zipcode", :class=>"lt textbox_provider",:maxlength => 50,:style=>"outline: none;",:onfocus =>"focusChangeBorderColor('p_zipcode');",:onblur=>"blurChangeBorderColor('p_zipcode')",:onchange=>"removeunwantedSpace(this.value)", :tabindex => '14'%>
+                <div class="clear"></div>
+              </div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="p_zipcode_error"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="marginTop15">
+                <div class="lt leftSideField">Phone</div>
+                <%= b.text_field :phone_no,:id=>"p_phone",:name=>"p_phone",:value=>"#{@phone}", :class=>"lt textbox_provider",:maxlength => 12,:style=>"outline: none;",:onfocus =>"focusChangeBorderColor('p_phone');",:onblur=>"blurChangeBorderColor('p_phone')",:onchange=>"removeunwantedSpace(this.value)", :tabindex => '16'%>
+                <div class="clear"></div>
+              </div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="p_phone_error"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="marginTop15">
+                <div class="lt leftSideField">Fax</div>
+                <%= b.text_field :fax_no,:id=>"p_fax",:name=>"p_fax",:value=>"#{@fax}", :class=>"lt textbox_provider",:maxlength => 50,:style=>"outline: none;",:onfocus =>"focusChangeBorderColor('p_fax');",:onblur=>"blurChangeBorderColor('p_fax')",:onchange=>"removeunwantedSpace(this.value)", :tabindex => '18'%>
+                <div class="clear"></div>
+              </div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="p_fax_error"></div>
+              </div>
+              <div class="clear"></div>
+            </div>
+          </div>
+          </form>
+        <%end%>
+      <%end%>
+      <div class="clear"></div>
+    </div>
+
+  </div>
+</div>
+
+<!--#include virtual="/icom_includes/bizo/tag.html"-->
+
+<!-- START VIBRANT --><!--#include virtual="/includes/Vibrant.html" --><!-- END VIBRANT -->
+
+<script language="JavaScript" type="text/javascript">
+function fakepath(filepath)
+{
+	inputNode = filepath.replace('C:\\fakepath\\', '');	
+	var pos = filepath.lastIndexOf( filepath.charAt( filepath.indexOf(":")+1) );
+	var filename = filepath.substring( pos+1);
+	
+	var ua=navigator.userAgent;
+	if(ua.indexOf("Firefox")!=-1){ 
+		$("#browse_photo").val(filepath); 
+	} 
+	else {
+		$("#browse_photo").val(filename);
+	}
+}
+  var gDomain="www.qsstats.com";
+  var gDcsId="dcs17vxkl10000wkxczu5l0wa_9y2e";
+  var gFpc="WT_FPC";
+  var gConvert=true;
+  var gFpcDom = "webreference.com";
+  if ((typeof(gConvert) != "undefined") && gConvert && (document.cookie.indexOf(gFpc + "=") == -1) && (document.cookie.indexOf("WTLOPTOUT=")==-1)) {
+    document.write("<SCR"+"IPT TYPE='text/javascript' SRC='http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+"/"+gDcsId+"/wtid.js"+"'><\/SCR"+"IPT>");
+  }
+  function dcsAdditionalParameters() {}
+</script>
+
+
+	  

@@ -1,0 +1,61 @@
+<% 
+	@purchase_flag = false	
+	if !@act_activityid.nil?
+		@activity = Activity.find_by_activity_id(@act_activityid)
+		user= User.find_by_user_id(@activity.user_id) if !@activity.nil? && !@activity.user_id.nil?
+		 activ_url = activity_link_format(@activity,user) if user && user.present?
+		if !@activity.nil? && @activity.present? && !@activity.purchase_url.nil? && @activity.purchase_url!='' && @activity.purchase_url.present?
+			@purchase_flag = true
+		else
+			@purchase_flag = false
+		end
+		@purchase_btn=get_purchase_status(@act_activityid,@act_userid)	
+		if !@purchase_btn.nil?
+			if @purchase_btn == 'curator'
+			%>
+			   <a href="<%= $image_global_path %><%=activ_url if activ_url%>" target="_blank" title="Get info" class="disInblo">
+				<img src="<%= $image_global_path %>/assets/newsletter/get_info_button.png" width="68" height="24" alt=""  border="0" />
+			  </a>
+			<%
+			elsif @purchase_btn == 'get info'
+			%>
+			  <a href="<% if @purchase_flag%><%= @activity.purchase_url %><% else %><%= $image_global_path %><%=activ_url if activ_url%><% end %>" target="_blank" title="Get info" class="disInblo">
+				<img src="<%= $image_global_path %>/assets/newsletter/get_info_button.png" width="68" height="24" alt=""  border="0" />
+			  </a>			  
+			<%
+			elsif @purchase_btn == 'buy now'
+			%>
+			 <a href="<% if @purchase_flag%><%= @activity.purchase_url %><% else %><%= $image_global_path %><%=activ_url if activ_url%><% end %>" target="_blank" title="Attend">
+				<img src="<%= $image_global_path %>/assets/card_images/buy_now.png" width="78" height="21" alt=""  border="0" />
+			 </a>
+			<%
+			elsif @purchase_btn == 'edit'
+			%>
+				 <a href="<% if @purchase_flag%><%= @activity.purchase_url %><% else %><%= $image_global_path %><%=activ_url if activ_url%><% end %>" target="_blank" title="Attend">
+				<img src="<%= $image_global_path %>/assets/card_images/buy_now.png" width="78" height="21" alt=""  border="0" />
+			 </a>
+			<%
+			elsif @purchase_btn == 'attend'
+			%>
+			<a href="<% if @purchase_flag%><%= @activity.purchase_url %><% else %><%= $image_global_path %><%=activ_url if activ_url%><% end %>" target="_blank" title="Attend">
+				<img src="<%= $image_global_path %>/assets/card_images/attend_card.png" width="78" height="21" alt=""  border="0" />
+			</a>
+			<%
+			end
+		else
+		%>
+		<a  href="<% if @purchase_flag%><%= @activity.purchase_url %><% else %><%= $image_global_path %><%=activ_url if activ_url%><% end %>"  target="_blank" title="Get info" class="disInblo">
+				<img src="<%= $image_global_path %>/assets/card_images/get_info_btn.png" width="33" height="23" alt=""  border="0" />
+		</a>
+		<%
+		end
+	else
+	%>
+		<a href="<% if @purchase_flag%><%= @activity.purchase_url %><% else %><%= $image_global_path %><%=activ_url if activ_url%><% end %>"  target="_blank" title="Get info" class="disInblo">
+				<img src="<%= $image_global_path %>/assets/newsletter/get_info_button.png" width="68" height="24" alt=""  border="0" />
+		</a>
+	<%
+	end
+	%>
+
+

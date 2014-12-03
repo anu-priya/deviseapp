@@ -1,0 +1,194 @@
+<%=stylesheet_link_tag "user_settings/parent_settings", :media => "all"%>
+<%=javascript_include_tag "settings/select_option"%>
+<%= render "parent_header"%>
+<div class="wrapper_contianer_inner_login">
+	<div class="staic_inner">
+	<div class="page_head">		
+		<div class="head_line"></div>
+		<h1 class="search_head">Settings&nbsp;</h1>
+	</div><br>
+
+	<div class="boxContainer">
+	  <form name="settings" id="settings" action="create_parent_settings" data-remote="true" method="post">
+		<input type="hidden" id="famti_contact" name="famti_contact" value=""/>
+		<input type="hidden" id="user_id_delete" name="user_id_delete" value="<%=current_user.user_id if !current_user.nil? && current_user.present?%>"/>
+
+	 <!--  Mobile Settings part-->	
+		<div id="mobile_settings">
+			<%=render :partial => 'mob_num_settings',:locals => {:number => @user_profile.sms_mobile_num, :status => @user_profile.sms_notify_status}%>
+		</div>
+	<!--  Mobile Settings part-->
+		  <!--  Notification Settings part-->
+		  <!--div class="setdividerImage" style="margin-top:28px;"></div-->	
+	<div class="clear"></div>
+	<h2 class="section_head">Notification Settings&nbsp;</h2>
+
+<div class="SettingNum1">	  
+<!--Fam Network -->
+	  <div class="parent_notification">	
+		<div id="sms_err_msg" style="display:none;"></div>	  
+		<div class="Parent_leftDiv">
+			  <!--div style="color:#3D8EA3;font-weight:bold;">Fam Network</div-->
+		<input type="hidden" id="fam_detail" name="fam_detail" value="fam_network"/>
+		<input type="hidden" id="count_fam_notify" name="count_fam_notify" value="<%=@fam_net_notify.length%>"/>
+			  <%notify_ft=1%>
+			  <%@notify_fam_check=0%>
+			   <%@fam_net_notify.each do |parent_notify|%>
+			<div class="lt" style="width:800px;">
+				<div class="parent_Content lt" style="width:400px;"><%=parent_notify.notify_name if !parent_notify.nil?%></div>
+				<div class="content lt" style="width:400px;">
+				
+				<%if @check_notify_fam  !="" && !@check_notify_fam.nil? && @check_notify_fam.present?%>
+						
+						<%  if !@check_notify_fam[@notify_fam_check].nil? && !@check_notify_fam[@notify_fam_check].parent_notify_id.nil? && @check_notify_fam[@notify_fam_check].parent_notify_id!=''%> 			             
+							<% chk_val = findCheckboxValues(@check_notify_fam[@notify_fam_check])%>
+							<% @email_chk_value = chk_val[0] %>			
+							<% @sms_chk_value = chk_val[1] %>
+						<% else %>	  			   
+								<% @email_chk_value = "" %>	
+								<% @sms_chk_value = "" %>								
+						<%end%>
+				<% else %>	  			   
+					<% @email_chk_value = "" %>	
+					<% @sms_chk_value = "" %>						
+				<%end%>
+				<div class="parent_Content lt" style="width:65px;color:#2B91AF;">Notify me</div>
+				<div class="lt">
+				    <input type="hidden" name="notify_famnet<%=notify_ft%>" value="<%=parent_notify.parent_notify_id if !parent_notify.parent_notify_id.nil? && !parent_notify.nil?%>"/>	
+				    <div class="lt squaredFour" style="width:100px;">
+				     <input class="lt" id="email_chk_fam<%=notify_ft%>" name="email_chk_fam<%=notify_ft%>" type="checkbox" <%=@email_chk_value%> value="<%=parent_notify.parent_notify_id if !parent_notify.parent_notify_id.nil? && !parent_notify.nil?%>"/>
+				     <label id="s<%=notify_ft%>" for="email_chk_fam<%=notify_ft%>">&nbsp;</label>
+				     <div class="lt by-txt">by email</div>
+				     </div>
+				    <div class="lt squaredFour" style="width:100px;">
+				     <input onclick="chk_sms_notify('<%=notify_ft%>');" class="lt"  id="sms_chk_fam<%=notify_ft%>" name="sms_chk_fam<%=notify_ft%>" type="checkbox" <%=@sms_chk_value%> value="<%=parent_notify.parent_notify_id if !parent_notify.parent_notify_id.nil? && !parent_notify.nil?%>"/>
+				     <label id="sms<%=notify_ft%>"for="sms_chk_fam<%=notify_ft%>" >&nbsp;</label>
+				     <div class="lt by-txt">by text</div>
+				     </div>
+				</div>
+				</div>
+
+			</div>
+			<%notify_ft=notify_ft+1%>
+			<%@notify_fam_check=@notify_fam_check+1%>
+			<%end%>
+		
+		</div>
+	  </div>
+	</div>
+	  <!--  Notification Settings part-->
+	  <div class="clear"></div>
+	  
+	<!-- Account Setting Notification start-->
+	<%if current_user && current_user.user_type && current_user.user_type.downcase == "u"%>
+	<h2 class="section_head">Account Setting&nbsp;</h2>
+	<div class="parent_notification">
+		<div class="del_div" style="margin:5px 0 10px;">
+			<div class="lt" style="width:400px;float:left;">
+			<div class="parent_Content">Would you like to delete your account?</div>
+			</div>
+			<div class="lt" style="width:400px;float:left;">
+			<div class="parent_Content" style="color: #3D8EA3;font-size: 14px;"><span><a href="javascript:void(0);" class="menuText" style="color: #3D8EA3;" title="" onClick="delete_account();">Delete Account</a></span></div>
+			</div>
+		</div>
+	</div>
+	<%end%>
+	<!-- Account Setting Notification end-->
+	  
+	  
+	<div class="top_info_text">
+		<div id="change_password">
+			<!--div class="paddingTop10_settings" style="width:829px;">
+			<div class="clear"></div>
+			</div-->
+		<div class="clear"></div>
+		<div class="form-sub">
+			<div class="save-button lt" onclick="submit_fm();">Save</div>
+			<div class="paddingTop10_settings lt" style="width: 400px; margin-left: 121px;">
+			<!--<div class="lt leftSideField">&nbsp;</div>-->
+				<div class="success_setting_info" style="display:none;color:green;font-size:14px;">All the changes in settings have been applied successfully!</div>
+				<div class="success_setting_info_false" style="display:none;color:red;font-size:14px;">Please choose atleast one value!</div>
+				<div class="clear"></div>
+			</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+		</div>
+	</form>
+	</div>
+	</div>
+</div><!--main div ending here-->
+
+
+<!-- user delete account feature popup start -->
+<div id="delete_account_feature" style="display:none;">
+	<div id="UserDte">
+	  <div id="UserAccountDelete" style="font-weight:bold;font-family: 'open_sansregular',Sans-Serif;">Delete your Account</div>
+		  <div id="UserClose">
+			<a class="delimg imageall b-close" title="" href="javascript:void(0)"></a>
+		  </div>
+	  </div>
+	  <div class="content_popup" style="padding: 0px 25px 15px 25px;font-family: 'open_sansregular',Sans-Serif;">
+	 <br><b>Important! Deleting your account will permanently remove all account information.  Click "Delete Account" or select "No" to cancel and return to Famtivity.</b><br><br>
+		 <table width="100%">
+			 <tr><td valign="top">
+			 <span id="DeleteUsrFeature"><a class="save-button" href="javascript:void(0)" onclick="user_delete_call();" title="">Delete Account</a></span>
+			  <a href="javascript:void(0);" title="" class="cancel-button"><span class="b-close">No</span></a>
+			 <span id="loading_img_delete" style="display:none; position:relative; top:-30px;left:115px;">
+				<%= image_tag("/assets/loading.gif")%>
+			 </span> 
+			</td></tr>
+		</table>
+	</div>
+</div>
+<!-- user delete account feature feature popup end -->
+
+
+<!-- delete success popup start -->
+<div id="user_deleted" style="display:none;">
+	<div class="content_popup" style="display:block;"><br>Your Famtivity account has been deleted.<br><br>
+	<span class="b-close"><a class="save-button" href="javascript:void(0)" onclick="user_destroy_call()" title="" style="height:26px;">OK</a></span>
+	</div>
+</div>
+<!-- delete success popup end -->
+
+<script>
+
+//calling the ajax function when submiting the change-password form.
+//onSubmit="return change_password_validation()"
+
+$(document).ready(function() {
+        $('#settings').submit(function (){
+      $.post($(this).attr('action'), $(this).serialize(), null, "script");
+      return false;
+    });
+    });
+    
+   function submit_fm(){
+	$("#settings").submit();
+   }   
+    
+   function chk_sms_notify(sms_val){
+   var num = "<%=@user_profile.sms_mobile_num%>";
+   var status = "<%=@user_profile.sms_notify_status%>";
+   if(num=='' || status=='false'){
+    $("#sms_err_msg").show();
+    $("#sms_err_msg").css("color","red");
+    $("#sms_err_msg").html("Please provide the confirmation code on mobile settings to enable this features.");
+    //~ $(".flash-message").html("Please provide the confirmation code on mobile settings to enable this features");
+    $('#sms_err_msg').fadeIn().delay(5000).fadeOut(); 
+    if ($("#sms_chk_fam"+sms_val).is(":checked") == true)
+    {
+    //~ $("#sms_chk_fam"+sms_val).click();
+        $("#sms_chk_fam"+sms_val).removeAttr('checked');
+    }
+    }
+   }
+    //~ $(document).click(function(event) { 
+    //~ if(!$(event.target).closest('.settingsDropdown').length) {
+        //~ if($('.dropDownDivSettingVisible').is(":visible")) {
+            //~ $('.dropDownDivSettingVisible').hide()
+        //~ }
+    //~ }        
+//~ })
+</script>

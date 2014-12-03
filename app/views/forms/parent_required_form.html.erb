@@ -1,0 +1,218 @@
+<%=stylesheet_link_tag "form_builder/form_builder", :media => "all"%>
+<%=javascript_include_tag "global/jquery-1.8.3.min"%>
+
+<div class="" style="width:900px;  margin:0 auto;">
+	<div style="margin-top:70px; margin-bottom:20px; border:1px solid #ccc; background:#fff;">
+		<div class="clear">&nbsp;</div>
+		<div id="createformContainer">
+			<form id="frmrequired" name="frmrequired" method="get" onsubmit="return validateRequiredFrom()" action="">
+		<%if !@question.nil? && @question.present? && @question!='' && @question.length > 0 && !@activity.nil? && @activity.present?%>			
+			<%if !@form.nil? && @form!=''%>
+				<div class="previewformTop">
+					<div class="fntSize20 kidsTxt"><%=@form["title"]%></div>						
+					<div class="txtKidinfo" style="font-size: 14px;"><%=@form["description"]%></div>					
+				</div>
+				<div id="err_div" style="display:none; margin-left:210px; font-size:14px; color:red; font-weight:bold;">			
+				</div>
+				<div id="thankyou_pop" style="display:none;" class="thank_blue" align="center">					
+				</div>
+				<input type="hidden" name="frm_view" id="frm_view" value="<%=@fview if !@fview.nil?%>" />
+				<input type="hidden" name="frm_mode" id="frm_mode" value="<%=@mode if !@mode.nil?%>" />
+				<input type="hidden" name="frm_parentid" id="frm_parentid" value="<%=@parentid if !@parentid.nil?%>" />
+				<input type="hidden" name="frm_guestid" id="frm_guestid" value="<%=@guest_id if @guest_id && !@guest_id.nil? && @guest_id.present?%>" />
+				<input type="hidden" name="form_id" id="form_id" value="<%=@form["form_id"]%>" />
+				<input type="hidden" name="activity_id" id="form_id" value="<%=@activity["activity_id"]%>" />
+				<input type="hidden" name="activity_name" id="form_id" value="<%=@activity["activity_name"]%>" />
+				<input type="hidden" name="part_id" id="part_id" value="<%=@part_id if !@part_id.nil?%>"/>
+				<input type="hidden" name="part_name" id="part_name" value="<%if !@participant_chk.nil? && @participant_chk.present?%><%=@participant_chk.participant_name%><%else%><%=@participant.participant_name if !@participant.nil? && @participant.present?%><%end%>"/>
+				<input type="hidden" name="schedule_id" id="schedule_id" value="<%= Base64.decode64(params[:scheid]) if !params[:scheid].nil? && params[:scheid]!=''%>"/>
+			<%end%>	
+			<%@i=1%>
+			<div id="form_field">
+			<%@question.each do |qval|%>
+				<div class="createformField">
+					<div class="lt createformFieldLeft"><b><%=qval["field_name"]%><%if qval["is_required"]%><span class="require">*</span><%end%></b></div>
+					<div class="creatformFieldRight">
+					<!-- edit mode get the answer for provider only -->
+					<% if !@fview.nil? && @fview == 'u'%>
+						<% if !params[:scheid].nil? && params[:scheid]!='' %>
+							<% @scheid = Base64.decode64(params[:scheid]) %>
+						<%else%>
+							<% @scheid = '' %>
+						<%end%>
+						<% if (!@parentid.nil? && @parentid!='') || (@guest_id && !@guest_id.nil? && @guest_id.present?)%>
+						<% par_r_guesid = (!@parentid.nil? && @parentid!='') ? @parentid : @guest_id%>
+						<% guest_present =  (@guest_id && !@guest_id.nil? && @guest_id.present?) ? true : false%>
+						<%@ans_val_h=get_ques_answer(@form["form_id"],@activity["activity_id"],@activity["schedule_mode"],@scheid,@part_id,qval["question_id"],par_r_guesid,guest_present)%>
+						<%end%>
+					<%end%>
+						<!--  get question type details -->
+						<%@type=get_type_details(qval["question_type_id"])%>
+						<%if !@type.nil? && @type.present? && @type!=''%>
+							<%if !@type["type_value"].nil? && @type["type_value"]!='' && @type["type_value"].downcase == 'textbox'%>
+								<input type="text" class="lt textbox"  name="frm_<%=qval["question_id"]%>" id="frm_<%=qval["question_id"]%>"  style="<%if !@ans_val_h.nil?%>color:#000;<%end%>" value="<%if !@ans_val_h.nil?%><%=@ans_val_h["question_value"]%><%else%><%=qval["help_text"]%><%end%>" tabindex="<%=@i%>" onfocus="if(this.value == '<%=qval["help_text"]%>') { this.value = ''; this.style.color = '#000000'; }" onblur="if(this.value == '') { this.value = '<%=qval["help_text"]%>'; this.style.color = '#9e9e9e'; }" />								
+							<%elsif !@type["type_value"].nil? && @type["type_value"]!='' && @type["type_value"].downcase == 'paragraph'%>
+								<textarea rows="6" cols="30"  tabindex="<%=@i%>" name="frm_<%=qval["question_id"]%>" id="frm_<%=qval["question_id"]%>" style="<%if !@ans_val_h.nil?%>color:#000;<%end%>" onfocus="if(this.value == '<%=qval["help_text"]%>') { this.value = ''; this.style.color = '#000000'; }" onblur="if(this.value == '') { this.value = '<%=qval["help_text"]%>'; this.style.color = '#9e9e9e'; }"><%if !@ans_val_h.nil?%><%=@ans_val_h["question_value"]%><%else%><%=qval["help_text"]%><%end%></textarea>								
+							<%elsif !@type["type_value"].nil? && @type["type_value"]!='' && @type["type_value"].downcase == 'radio'%>
+								<!--  get option details -->
+								<%@option = get_question_option(qval["question_id"])%>
+								<% if !@option.nil? && @option.present? && @option!=''%>
+									<%@option.each do |pval|%>
+									<div class="requireRadio">
+										<div class='radiobutton_wrapper mTop10'>
+											<input type="radio" name="frm_<%=qval["question_id"]%>" id="frm_<%=qval["question_id"]%>"  tabindex="<%=@i%>" value="<%=pval["field_value"]%>" <%if !@ans_val_h.nil? && pval["field_value"]!='' && pval["field_value"].downcase == @ans_val_h["question_value"].downcase%>checked<%end%> />										
+											<span class="radioTxt"><%=pval["field_value"]%></span>
+										</div>									
+									 </div>
+									 <%@i=@i+1%>
+									 <%end%>
+								 <%end%>
+							<%elsif !@type["type_value"].nil? && @type["type_value"]!='' && @type["type_value"].downcase == 'checkbox'%>
+								<%@option = get_question_option(qval["question_id"])%>
+								<% if !@option.nil? && @option.present? && @option!=''%>
+								<%if !@ans_val_h.nil? %>
+									<%@ans_str=@ans_val_h["question_value"].split(',')%>
+								<%end%>								
+									<%@option.each do |pval|%>									
+									<div class='checkbox_wrapper'>
+										<input type="checkbox" name="frm_<%=qval["question_id"]%>[]" id="frm_<%=qval["question_id"]%>" tabindex="<%=@i%>"  value="<%=pval["field_value"]%>"  <%if !@ans_val_h.nil? && (@ans_str.include?pval["field_value"])%>checked<%end%>  />										
+										<span class="radioTxt"><%=pval["field_value"]%></span>
+									</div>
+									<%@i=@i+1%>
+									 <%end%>
+								 <%end%>
+							<%elsif !@type["type_value"].nil? && @type["type_value"]!='' && @type["type_value"].downcase == 'list'%>
+								<select class="dropdown" size="1" name="frm_<%=qval["question_id"]%>" id="frm_<%=qval["question_id"]%>"  tabindex="<%=@i%>" onchange="changeFont(this)" style="<%if !@ans_val_h.nil?%>color:#000;<%end%>">
+									<option selected="selected" value="">--<%=qval["help_text"]%>--</option>
+									<%@option = get_question_option(qval["question_id"])%>
+									<% if !@option.nil? && @option.present? && @option!=''%>
+									<%@option.each do |pval|%>
+										<option value="<%=pval["field_value"]%>"  <%if !@ans_val_h.nil? && pval["field_value"]!='' && pval["field_value"].downcase == @ans_val_h["question_value"].downcase%>selected<%end%> ><%=pval["field_value"]%></option>
+									<%end%>
+									<%end%>
+								</select>								
+							<%end%>
+						<%end%>						
+					</div>	
+					<div class="clear">&nbsp;</div>		
+				</div>
+				<%@i=@i+1%>
+			<%end if !@question.nil? && @question.present? && @question!=''%>
+			<!-- each loop end -->			
+			<div class="createFormbottom">
+				<div class="lt createformFieldLeft">&nbsp;</div>			
+				<div>
+					<input type="image"  src="/assets/form_builder/button_submit.png" id="btnsubmit" tabindex="<%=@i=@i+1%>" />
+					<img alt="cancel" src="/assets/form_builder/cancel_button.png" id="" tabindex="<%=@i=@i+1%>" onclick="formReset();"/>
+				</div>
+			</div>
+			</div>
+		<%else%>
+			<br>
+			Form not available		
+		<%end%>	    		
+		<br><br>
+		</form>
+		</div> <!--createformContainer end -->
+	
+	</div>
+	<br><br><br>
+</div>
+<!--- success popup -->
+<div id="success_required_form" style="background:#fff;">
+	<div class="content_popup" style="display:block;">
+		<div id="form_content">
+		<% if !params[:mode].nil? && params[:mode]!='' && Base64.decode64(params[:mode]).downcase=="provider" %>
+			Do you want to save the form?
+		<% else %>
+			<!-- Please check the information again because once <br>you have saved the form you can't edit the information. <br> -->Do you want to save the form?
+		<% end %>
+		</div>
+		<br>
+		<a href="javascript:void(0)" title="" onclick="validateRequiredFromSubmit()"><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38", :style=>"border:0px;")%></a>
+		<a href="javascript:void(0)" title="" onclick="close_form_bpopup()"><%=image_tag("/assets/form_builder/cancel_button.png", :alt=>"Cancel", :id=>"cancel")%></a>
+	</div>
+</div>
+
+<script>
+function close_form_bpopup()
+{
+	 $("#success_required_form").bPopup().close();
+}
+function validateRequiredFrom()
+{		
+	$.ajax({
+	type: "GET",
+	data: $("#frmrequired").serialize(),
+	url: "/required_form_validate",
+	success: function(data){		
+		if(data=='confirmation')
+		{			
+			$('#err_div').hide().html('');
+			$('#success_required_form').bPopup({
+			modalClose:false
+			}
+			);
+		}
+		else
+		{
+			$('#err_div').show();
+			$('#err_div').html(data);
+			
+		}
+	}
+	});
+	return false;
+}
+function validateRequiredFromSubmit()
+{
+	//edit mode only use this value
+	form_view = $('#frm_view').val();
+	if(form_view=='u')
+	{
+		url_val='/required_form_update';
+	}
+	else
+	{
+		url_val='/required_form_submit';
+	}
+	$('#err_div').hide().html('');
+	$.ajax({
+	type: "GET",
+	data: $("#frmrequired").serialize(),
+	url: url_val,
+	success: function(data){			
+		$("#success_required_form").bPopup().close();		
+		$("#frmrequired")[0].reset();
+		$("#createformContainer div input[type=text]").css('color','#9e9e9e');
+		$("#createformContainer div select").css('color','#9e9e9e');
+		$("#createformContainer div textarea").css('color','#9e9e9e');
+		$('#form_field').hide();				
+		$('#thankyou_pop').show();
+		$('#thankyou_pop').html(data);
+	}
+	});
+}
+function formReset()
+{	
+	$("#frmrequired")[0].reset();
+	$('#err_div').html('');
+	$("#createformContainer div input[type=text]").css('color','#9e9e9e');
+	$("#createformContainer div select").css('color','#9e9e9e');
+	$("#createformContainer div textarea").css('color','#9e9e9e');
+	self.close();
+}
+function changeFont(ch){
+	id=ch.id;
+	if($('#'+id).val()!='')
+	{
+		$('#'+id).css('color','#000000');
+	}
+	else
+	{
+		$('#'+id).css('color','#9e9e9e');
+	}
+}
+</script>
+	
+	

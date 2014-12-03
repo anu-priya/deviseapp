@@ -1,0 +1,4 @@
+$("#daya").val(<%= @tpage %>);
+$("#load_more").css('display','none');
+$('#fsearch_count').html('('+<%=@search_count%>+')');
+$('.right_container').append('<%= escape_javascript(render(:partial => 'basic_search')) %>');

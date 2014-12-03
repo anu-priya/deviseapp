@@ -1,0 +1,67 @@
+<!--meta tags added for quick link pages-->
+<%if params[:search_type] && params[:search_type]!="" && !params[:search_type].nil?
+  qtags=quicklink_mtags(params[:search_type])
+end
+if qtags && qtags!="" && !qtags.nil?
+  meta :title => "#{qtags[0]}",
+    :description => "#{qtags[1]}",
+    :keywords => "#{qtags[2]}"
+end
+%>
+<%cookies[:set_bread] = ""%>
+<%cookies[:browse_city] = ""%>
+<%cookies[:browse_category] = ""%>
+<%cookies[:categv]=""%>
+<%cookies[:sub_categv]=""%>
+<%cookies[:ctyv] =""%>
+<%cookies.delete :category%>
+<%cookies.delete :subcategory%>
+<%= javascript_include_tag "pagination.js" %>
+<%if current_user.nil? || !current_user.present?%>
+  <!-- banner image gallery -->
+  <%=render :partial => "/banner/banner"%>
+<%end%>
+<%=render :partial => "common/qlinks_menu"%>
+<div class="wrapper_static">
+  <input type="hidden" id="total_length_act" style="border:none;background:none;text-indent:-999px;" name="total_length_act" value="<%= @tpage %>"/>
+  <input type="hidden" id="url_ref_id"/>
+  <input type="hidden" id="passing_page" value="<%=request.fullpath%>"/>
+  <div class="feature_head">
+    <div class="page_head">
+      <div class="head_line"></div>
+      <div class="search_head">Search Results&nbsp;<span id="fsearch_count" class="search_count">(<% if !@search_count.nil? && @search_count.present?%><%=@search_count%><%else%>0<%end%>)</span>&nbsp;</div>
+    </div>
+  </div>
+  <div class="content_btm right_container">
+    <%= render "activity_card/quick_link_hot"%>
+  </div>
+  <div class="clear"></div>
+  <div style="margin-bottom:50px;">
+    <%if (@activity_free && @activity_free.total_pages) > 1%>
+      <div align="center">
+        <a href="javascript:void(0);" class="load_more" style="display:none;"><%= image_tag("/assets/loading.gif") %></a>
+      </div>
+      <div style="text-align:center" id="showmorebtn">
+        <a onclick="quick_link_ajax();" href="javascript:void(0);"><span class="showtxt">Show More</span></a>
+      </div>
+    <%end%>
+  </div>
+</div>
+
+<input type="hidden" id="page_no" value="1"/>
+
+<div class="clear"></div>
+<div id="popup_container" style="top: 20px !important;"></div>
+<script type="text/javascript">
+  function quick_link_ajax(){
+    var qlink_type = '<%=params[:search_type] if params[:search_type]%>';
+    var pageno = $('#page_no').val();
+    $(".load_more").show();
+    $.ajax({
+      url:'/'+qlink_type+'-activities?page='+pageno,  //display the url dynamically for quick link pages
+      dataType: 'script',
+      success:function(data){
+      }
+    });
+  }
+</script>

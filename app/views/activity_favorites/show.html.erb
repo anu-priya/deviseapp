@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Favorite:</b>
+  <%= @activity_favorite.favorite_id %>
+</p>
+
+<p>
+  <b>Activity:</b>
+  <%= @activity_favorite.activity_id %>
+</p>
+
+<p>
+  <b>Activity name:</b>
+  <%= @activity_favorite.activity_name %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @activity_favorite.user_id %>
+</p>
+
+<p>
+  <b>Inserted date:</b>
+  <%= @activity_favorite.inserted_date %>
+</p>
+
+<p>
+  <b>Modified date:</b>
+  <%= @activity_favorite.modified_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_activity_favorite_path(@activity_favorite) %> |
+<%= link_to 'Back', activity_favorites_path %>

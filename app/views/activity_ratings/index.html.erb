@@ -1,0 +1,33 @@
+<h1>Listing activity_ratings</h1>
+
+<table>
+  <tr>
+    <th>Rating</th>
+    <th>Rating count</th>
+    <th>Activity</th>
+    <th>User</th>
+    <th>Inserted date</th>
+    <th>Modified date</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @activity_ratings.each do |activity_rating| %>
+  <tr>
+    <td><%= activity_rating.rating_id %></td>
+    <td><%= activity_rating.rating_count %></td>
+    <td><%= activity_rating.activity_id %></td>
+    <td><%= activity_rating.user_id %></td>
+    <td><%= activity_rating.inserted_date %></td>
+    <td><%= activity_rating.modified_date %></td>
+    <td><%= link_to 'Show', activity_rating %></td>
+    <td><%= link_to 'Edit', edit_activity_rating_path(activity_rating) %></td>
+    <td><%= link_to 'Destroy', activity_rating, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Activity rating', new_activity_rating_path %>

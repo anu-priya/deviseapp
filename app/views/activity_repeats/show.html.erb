@@ -1,0 +1,60 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Repeat:</b>
+  <%= @activity_repeat.repeat_id %>
+</p>
+
+<p>
+  <b>Repeats:</b>
+  <%= @activity_repeat.repeats %>
+</p>
+
+<p>
+  <b>Repeat every:</b>
+  <%= @activity_repeat.repeat_every %>
+</p>
+
+<p>
+  <b>Repeat on:</b>
+  <%= @activity_repeat.repeat_on %>
+</p>
+
+<p>
+  <b>Starts on:</b>
+  <%= @activity_repeat.starts_on %>
+</p>
+
+<p>
+  <b>Ends never:</b>
+  <%= @activity_repeat.ends_never %>
+</p>
+
+<p>
+  <b>Ends occurrences:</b>
+  <%= @activity_repeat.ends_occurrences %>
+</p>
+
+<p>
+  <b>Ends on:</b>
+  <%= @activity_repeat.ends_on %>
+</p>
+
+<p>
+  <b>Activity schedule:</b>
+  <%= @activity_repeat.activity_schedule_id %>
+</p>
+
+<p>
+  <b>Modified date:</b>
+  <%= @activity_repeat.modified_date %>
+</p>
+
+<p>
+  <b>Repeated by month:</b>
+  <%= @activity_repeat.repeated_by_month %>
+</p>
+
+
+<%= link_to 'Edit', edit_activity_repeat_path(@activity_repeat) %> |
+<%= link_to 'Back', activity_repeats_path %>

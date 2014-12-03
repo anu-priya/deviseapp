@@ -1,0 +1,119 @@
+<%=javascript_include_tag "pagination", "user_settings/provider_activity_discount"%>
+<%=stylesheet_link_tag "discount_dollar/provider_activity_discount","discount_dollar/discount_dollar", :media => "all"%>
+<%= render "provider_settings/provider_submenu"%>
+<div class="wrapper_contianer_inner_login">
+	<div class="staic_inner">
+		<div class="page_head">		
+			<div class="head_line"></div>
+			<h1 class="search_head">Activity Discount&nbsp;</h1>
+		</div><br>
+		<div id="providerEventList" style="border-left:none;border-right:none;">
+			<table cellspacing="0" cellpadding="0" border="0" width="100%">
+			      <tr>
+				<%if !current_user.nil? && current_user.user_type.downcase=='p'%>
+				  <td align="left" height="40" width="12%">
+				    <div class="leftMenus" style="margin-left:47px;">
+				      <input type="hidden" name="pe" id="pe" value="0" />
+				      <!--span  class="checkboxImg">
+					<a href="javascript:void(0)" title="" id="select" onclick="selectall('select',0)" style="display: none"><%#=image_tag("/assets/provider_event_list/top_checkbox_selected.png", :width=>"18", :height=>"18", :style=>"border:0px;")%></a>
+					<a href="javascript:void(0)" title="" id="not_select" onclick="selectall('not_select',1)" ><%#=image_tag("/assets/provider_event_list/top_checkbox_normal.png", :width=>"18", :height=>"18", :style=>"border:0px;")%></a>
+				      </span-->
+     				<%if @pro_fees.length > 0 %>
+				      <span class="squaredFour" style="margin-right:5px;">
+				      <input id="select_all" onclick="selectall();" name="row" type="checkbox"/>
+				      <label id="" for="select_all">&nbsp;</label>
+				      </span>
+				      <span class="menuText setLt">Select All</span>
+				      <span class="pipeSymbol_new" style="margin: 2px 1px 0 5px; ">|</span>
+				      <span class="delete-icon">
+					<div id="menu" class="actionDivMenu" style="top:-5px;.top:-6px;">
+					  <span>
+					  <!-- <a href="#" title="" onclick="before_delete_all()" class="del-icon"><%#=image_tag("/assets/event/delete_image.png", :width=>"13", :height=>"13", :style=>"margin-top:2px;vertical-align:top;")%></a> -->
+					  <a class="delimg imageall del-icon" onclick="before_delete_all()" title="" href="#"></a>
+					  <a href="#" class="menuText del-txt" onclick="before_delete_all('multiple')">Delete</a>
+					  </span>
+					  <div class="clear"></div>
+					</div>
+				      </span>
+				    <% end %>
+				      <a class="menuText addText save-button" title="" onclick="display_popup();" href="javascript:void(0)" style="padding-top:0px;">
+				      <span class="plusImg">+</span>
+				      <span class="postxt">Add</span>
+				      </a>
+				    </div>
+				  </td>
+				<%end%>
+			       </tr>
+			</table>
+
+			<div class="boxContainer">
+			  <div class="centerContainer" id="provider_partial_event_list" style="border:1px solid #d4d4d4;">
+			    <%= render "provider_activity_discount_list"%>
+			  </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- ajax loader -->
+<div id='loadingmessage' style='display:none;margin-top:-424px' align="center"><%=image_tag("/assets/ajax-loader.gif", :width=>"32", :height=>"32", :style=>"border:0px;")%></div>
+<div id="popup_container"></div>
+<div id="edit_disc_type"></div>
+
+<div id="create_disc_creat_pop" class="create_pop_ups" style="display: none">
+  <div class="create_head">
+    <b> create new discount type</b><a  id="close_fee_pop" title="" onclick="cancel_display_popup();" href="javascript:void(0)"> <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%> </a>
+  </div>
+  <div id="create_discounttype_success" class="discount-msg">Discount Type has been Created Successfully</div>
+  <div id="create_discounttype_failure" class="discount-msg">Discount Type has been already exists!</div>
+ 
+  <div class="inner_body_popup">
+
+    <div class="inner_body_contents">
+      <table cellpadding="5" cellspacing="0" border="0">
+        <tr>
+          <td colspan="4"><b>Discount type</b></td>
+        </tr>
+        <tr>
+          <td width="300"><input type="text" class="textbox" style="width: 300px" onfocus="if (this.value=='Enter Discount type') { this.value = '';$(this).css('color','#444444');}" onblur="if (this.value==''){ this.value = 'Enter Discount type';$(this).css('color','#585858');}" id="create_disc_name" name="create_disc_name" value="Enter Discount type"></td>
+          <td>
+	  <span  class="squaredFour">
+	  <input type="checkbox" id="create_disc_quantity" name="create_disc_quantity" value="1"/>
+	  <label id="lbl_create_disc_quantity" for="create_disc_quantity">&nbsp;</label>
+	  </span>
+	  <b>Quantity field</b>
+	</td>
+          <td>
+	  <span  class="squaredFour">
+	  <input type="checkbox" id="create_disc_valid" name="create_disc_valid" value="1"/> 
+	  <label id="lbl_create_disc_valid" for="create_disc_valid">&nbsp;</label>
+	  </span>
+	  <b>Valid date</b>
+	  </td>
+          <td>
+	  <span  class="squaredFour">
+	  <input type="checkbox" id="create_disc_price" name="create_disc_price" value="1"/>
+	  <label id="lbl_create_disc_price" for="create_disc_price">&nbsp;</label>
+	  </span>
+	  <b> Discount price</b>
+	  </td>
+        <input type="hidden" id="selected_div_create" name="selected_div_create" value="0"/>
+        </tr>
+        <tr>
+          <td colspan="4"><textarea id="create_disc_notes" class="textbox" style="width: 670px;height: 50px;"name="create_disc_notes" onfocus="if (this.value=='Enter notes') { this.value = '';$(this).css('color','#444444');}" onblur="if (this.value==''){ this.value = 'Enter notes';$(this).css('color','#585858');}">Enter notes</textarea> </td>
+
+        </tr>
+        <tr id="parent_did_type_eror" style="display: none;">
+          <td colspan="4" id="dis_type_error"></td>
+        <tr>
+          <td>
+            <a class="save-button" onclick="save_new_discount_options(); _gaq.push(['_trackEvent', 'Provider Module', 'clickDiscount','Save']);">Save</a>
+            <a class="cancel-button" onclick="cancel_display_popup(); _gaq.push(['_trackEvent', 'Provider Module', 'clickDiscount','Cancel']);">Cancel</a>
+          </td>
+        </tr>
+      </table>
+
+    </div>
+  </div>
+</div>

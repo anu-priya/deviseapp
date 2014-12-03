@@ -1,0 +1,194 @@
+<!--link rel="stylesheet" href="/assets/provider_event_list/provider_event_list.css" type="text/css" /-->
+<link rel="stylesheet" type="text/css" href="/assets/header/header.css" />
+<link rel="stylesheet" type="text/css" href="/assets/event_index/menu.css" />
+
+<script type="text/javascript" src="/assets/event_index/event_index.js"></script>
+<!-- <script type="text/javascript" src="/assets/provider_event_list/provider_event_list.js"></script> -->
+<script type="text/javascript" src="/assets/global/checkbox.js"></script>
+
+<link rel="stylesheet" href="/assets/contacts_users_new/contact_user.css" type="text/css" />
+<script type="text/javascript" src="/assets/header/header.js"></script>
+<script type="text/javascript" src="/assets/contacts_users_new/contact_user.js"></script>
+
+<!-- DHTML Modal Effect -->
+<link rel="stylesheet" href="/assets/global/overlay/windowfiles/dhtmlwindow.css" type="text/css" />
+<link rel="stylesheet" href="/assets/global/overlay/modalfiles/modal.css" type="text/css" />
+
+<script type="text/javascript" src="/assets/global/overlay/windowfiles/dhtmlwindow.js"></script>
+<script type="text/javascript" src="/assets/global/overlay/modalfiles/modal.js"></script>
+<!--mac fix-->
+<script type="text/javascript" src="/assets/event_index/macfix.js"></script>
+<!-- drop down menu-->
+<script type="text/javascript" src="/assets/event_index/jquery.dropdownPlain.js"></script>
+
+
+<div id="event_index_container">
+
+  <div class="headerPart1" style="padding:0px;">
+         <%if current_user.user_type=="P" %>
+         <div align="center"><a href="/provider_activites" title=""><img src="/assets/event_index/famtivity_logo_parent.png" width="110" height="35"></a></div>
+      <% else %>
+         <div align="center"><a href="/event_index" title=""><img src="/assets/event_index/famtivity_logo_parent.png" width="110" height="35"></a></div>                   
+      <%end%> 
+  
+    <table cellpadding="0" class="headerDivRight" cellspacing="0" width="355" border="0" style="float:right; display:inline-block; margin-top:-33px; .margin-top:-28px;">
+      <tr>
+        <td align="right" valign="" width="300">
+
+         <!--profile image dynamically modified on 29dec12-->
+              <%if !current_user.nil? && !current_user.user_profile.nil?%>
+           <%@profile_data=current_user.user_profile if !current_user.user_profile.nil?%>
+         <%if !@p_f.nil? && @p_f!=""%>
+        <%= image_tag @p_f,  :width => '21', :height => '21', :style =>"top:-8px; position:relative;", :alt => "Profile image"%>
+         <%else%>
+        <span><img src="/assets/event_index/photo_register.png"  style="top:-8px; position:relative;"/></span>
+        <%end%>
+    <%elsif !current_user.nil?%>
+    <span><img src="/assets/event_index/photo_register.png"  style="top:-8px; position:relative;"/></span>
+              <%end%>
+          
+
+          <span id="user_menu" class="UserDivMenu">
+            <ul>
+              <li>
+                <!--modified the user_name based on type on 29dec12-->
+                <%if current_user.user_type=="P" %>
+                  <a href="" class="userDiv" style="color: #4495AE; border: 1px solid #DBEEF4;"><%= current_user.user_profile.business_name if !current_user.nil? && !current_user.user_profile.business_name.nil? && !current_user.user_profile.nil? %><span class="actImg"><img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/></span></a>
+                <%else%>
+                  <a href="" class="userDiv" style="color: #4495AE; border: 1px solid #DBEEF4;"><%= current_user.user_name if !current_user.nil? %><span class="actImg"><img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/></span></a>
+                <%end%>
+                <ul class="sub-menu dispParentUserDiv" style=".margin-top:30px; right:0px;" align="right">
+					  <%if current_user.user_type=="P" %>
+					  <li style="border:1px #B1D7E3 solid;background-color:#EDF2F5;"><a href="/event_index" style="padding-top:8px;color:#E24C4B;"><b>Switch to Parent</b></a></li>
+					  <%else%>
+					  <li style="border:1px #B1D7E3 solid;background-color:#EDF2F5;"><a href="#" style="padding-top:8px;color:#E24C4B;" onclick="pop_become_provider('/become_provider');" title=""><b>Become a Provider</b></a></li>
+					  <%end%>
+					   <%if current_user.user_type=="P" %>
+					  <li><a href="/provider_profile" title="">Business Info</a></li>
+					  <%else%>
+					  <li><a href="/parent_profile" title="">Business Info</a></li>
+					  <%end%>
+					  <%if current_user.user_type=="P" %>
+					  <!--<li><a href="/billing_sponsorship" title="">Sponsorship</a></li>-->
+					  <%end%>
+					  <%if current_user.user_type=="P" %>
+					  <li><a href="/provider_settings" title="">Settings</a></li>
+					  <%else%>
+					  <li><a href="/parent_settings" title="">Settings</a></li>
+					  <%end%>
+					  <li><a href="/logout" title="">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="clear"></div>
+          </span>
+
+        </td>
+        <td width="58" align="left">
+		   <div id="contact_menu" class="contactDivMenu">
+            <ul>
+              <li>
+                <a href="/contact_users" class="contactDiv" style="color: #4495AE; border: 1px solid #DBEEF4; width:40px;"><img id="contact_img" src="assets/contact/contacts_icon_new.png" alt="" /><span class="actImg"><img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -11px;" height="4" width="7"/></span></a>
+                <ul class="sub-menu dispParentContactDiv">
+                  <li><a href="javascript:void(0)" onclick="pop_invite_friendPage('/invite_friend'); _gaq.push(['_trackEvent','Parent Module', 'clickServices','Invite a Friend']);" style="padding-top:8px;" title="">Invite a friend</a></li>
+                  <li><a href="javascript:void(0)" title="" onclick="pop_invite_provider('/invite_provider?aclick=parent'); _gaq.push(['_trackEvent','Parent Module', 'clickServices','Invite your provider']);" class="lt setRt" style="width:118px;">Invite your provider</a></li>
+                  <li><a href="javascript:void(0)" title="" onclick="pop_new_contact('/contact_users/new'); _gaq.push(['_trackEvent','Parent Module', 'clickContact','Create New contact']);">Create New contact</a></li>
+                  <li><a href="/index" title="" onclick="_gaq.push(['_trackEvent','Parent Module', 'clickContact','Go to contacts']);">Go to contacts</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="clear"></div>
+          </div>
+
+        </td>
+       
+		
+        <!---------service div display none------->
+          <div id="service_menu" class="serviceDivMenu" style="display:none;">
+            <ul>
+              <li>
+                <a href="" class="serviceDiv" style="color: #4495AE; border: 1px solid #DBEEF4; width:65px;">Service<span class="actImg"><img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/></span></a>
+                <ul class="sub-menu dispParentServiceDiv" style="margin-left:-66px;.margin-top:28px; .margin-left:-147px;">
+                  <li><a href="/how-it-works" style="padding-top:8px;" title="">How it works</a></li>
+                  <li><a href="javascript:void(0)" title="" onclick="pop_support_form('/support');" class="lt setRt">Support</a></li>
+                  <li><a href="/terms_of_service" title="">Terms of Service</a></li>
+                  <li><a href="/privacy_policy" title="">Privacy Policy</a></li>
+				  <li><a href="/about_us">About</a></li>
+				  <li><a href="/contact_us">Contact</a></li>
+				  <li><a href="http://www.famtivity.com/blog/" target="_blank">Blog</a></li>
+				  <li><a href="/faq">FAQ</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="clear"></div>
+          </div>
+
+        </td>
+      </tr>
+    </table>
+    </div>
+  </div>
+  <div id="providerEventList">
+    <div class="topContainer" style="margin-top:43px;">
+                  </div>
+
+                  <div class="centerContainer contactlist" >
+                    <form name="contact_user" id="contact_user" action="" method="post">
+                      <table cellspacing="0" cellspadding="0" border="0" width="100%">
+                        <tr>
+                          <td align="left" class="topContactText" width="34%">
+						    <span class="contactTxt" style="font-size:16px; padding:5px 0 0 20px;"><b>Kids Art School</b></span>
+                          </td>
+                          <td align="left" class="topContactText" width="34%">
+						    <span class="contactTxt" style="color:#6d6d6d;">From :</span>
+							<span class="contactTxt">john@gmail.com</span>
+                          </td>
+
+                          <td align="left" class="topContactText" width="32%">
+						    <span class="contactTxt" style="color:#6d6d6d;">Sent On :</span>
+							<span class="contactTxt">13 March ( 1 day go)</span>
+                          </td>
+                        </tr>
+                      </table>
+
+                      <div class="contactListContainer" style="padding:50px;">
+					  <div style="width:700px;">
+						<table cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #CDE0E6; margin:0px; padding:0px;">
+						  <tr style="background:#DBEEF4; border:1px solid #CDE0E6;">
+							<td colspan="2" align="center" height="55" style="border-bottom:1px solid #CDE0E6;"><a href="/contacts" title="">
+								<img src="http://www.famtivity.com:3000/assets/newsletter/newsletter_logo.png" alt="Famtivity" style="border:none;"></a></td>
+						  </tr>
+						  <tr>
+							<td colspan="2" style="padding:10px; background:#fff; font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#414546;"><b>Hello Smith kramer,</b></td>
+						  </tr>
+						   <tr>
+							<td colspan="2" style="padding:10px; background:#fff; font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#414546;">Sebastian has accept your friend request and included you in his friend circle.</td>
+						  </tr>
+						   <tr>
+							<td colspan="2" style="padding:10px; background:#fff; font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#414546;">&nbsp;</td>
+						  </tr>
+						  <tr>
+							<td colspan="2" style=" padding:12px; background:#fff; font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#414546;"">With Kind Regards, <br />Famtivity Team</td>
+						  </tr>
+					
+						  <tr style="background:#DBEEF4; border:1px solid #CDE0E6;">
+							<td align="left" height="40" style="border-top:1px solid #CDE0E6; ">
+							  <div style="float:left; display:inline-block;width:300px; font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#414546; padding:12px;"><a href="http://www.famtivity.com">http://www.famtivity.com</div>
+							</td>
+							<td align="right">
+							  <div style="float:right; display:inline-block; font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#414546; padding:12px;">Copyright &copy; Famtivity Pvt.Ltd. All rights reserved.</div>
+							</td>
+					
+						  </tr>
+						</table>
+						</div>
+	
+	                      </div>
+                    </form>
+                  </div>
+                  </div>
+
+                  <div class="clear"></div>
+                  </div>
+				 
+				 

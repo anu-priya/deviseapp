@@ -1,0 +1,99 @@
+<table cellspacing="0" cellpadding="0">
+  <tr><td>
+      <table  cellpadding="0" cellspacing="0" border="0" style="background:#EDFBFE; border:1px solid #CDE0E6; padding:12px; width:98%; margin:0 auto;">
+        <tr>
+          <td align="left" style="border:1px #CDE0E6 solid;" width="194">
+          <table  cellpadding="0" cellspacing="0" border="0" width="100%" style="background: none repeat scroll 0 0 #F1471D; ">
+            <tr style="border-bottom: 2px solid #C53A1C;">
+               <td align="center" style="border-right: 1px solid #C53A1C; color: #FFFFFF;font-family: Arial,Helvetica,sans-serif; font-size: 14px;font-weight: bold; width: 67px;min-height: 45px; padding-top:5px"><%=@activity.activity_schedule.last.start_date.strftime("%d %b") if !@activity.nil? && @activity.present? && !@activity.activity_schedule.nil? && @activity.activity_schedule.present? && !@activity.activity_schedule.last.start_date.nil?%></td>
+               <td align="center" style="border-right: 1px solid #C53A1C; font-weight: normal; width: 67px;color: #FFFFFF;font-family: Arial,Helvetica,sans-serif; font-size: 14px;font-weight: bold;"><%=@activity.activity_schedule.last.start_time.strftime("%I:%M %p") if !@activity.nil? && @activity.present? && !@activity.activity_schedule.nil? && @activity.activity_schedule.present? && !@activity.activity_schedule.last.start_time.nil?%></td>
+               <td align="center" style="border-right: 1px solid #C53A1C; font-weight: normal; width: 67px;color: #FFFFFF;font-family: Arial,Helvetica,sans-serif; font-size: 14px;font-weight: bold;"><%=@activity.activity_schedule.last.end_time.strftime("%I:%M %p") if !@activity.nil? && @activity.present? && !@activity.activity_schedule.nil? && @activity.activity_schedule.present? && !@activity.activity_schedule.last.end_time.nil?%></td>
+            </tr>
+            <tr>
+              <td align="center" style="border-bottom:2px solid #C53A1C; border-right: 1px solid #C53A1C; color: #FFFFFF;font-family: Arial,Helvetica,sans-serif; font-size: 14px;font-weight: normal; width: 67px; padding:5px 0 5px 0;"></td>
+               <td align="center" style="border-bottom:2px solid #C53A1C; border-right: 1px solid #C53A1C; color: #FFFFFF;font-family: Arial,Helvetica,sans-serif; font-size: 14px;font-weight: normal; width: 67px; padding:5px 0 5px 0;">Start time</td>
+              <td align="center" style="border-bottom:2px solid #C53A1C; border-right: 1px solid #C53A1C; color: #FFFFFF;font-family: Arial,Helvetica,sans-serif; font-size: 14px;font-weight: normal; width: 67px; padding:5px 0 5px 0;">End time</td>
+            </tr>
+
+            <tr>
+              <td colspan="3" height="120" style="border-bottom: 2px solid #E83B19;"> <div style="height:143px; text-align: center; width: 221px;"><span style="  color: #FFFFFF;display: block; font-family: Arial,Helvetica,sans-serif; font-size: 23px; font-weight: bold;
+                 overflow: hidden;padding-top: 51px;width: 221px; "><%= @activity.activity_name %></span></div></td>
+            </tr>
+            <tr>
+              <td colspan="3" style="background:#fff;"><img width="222" height="174" alt="" src="<%=$image_global_path%>/assets/tickets/view_page_ticket_image22.png"></td>
+            </tr>
+            <tr>
+              <td colspan="3" align="left" valign="top"><table width="100%" align="center"  cellpadding="0" cellspacing="0" style="background:#fff;">
+                <tr>
+                  <td align="left" valign="top" style="color:#4495AE; display: block; font-family: Arial,Helvetica,sans-serif; font-size: 16px; font-weight: bold; padding:12px 0 2px 8px;"><%= @activity.activity_name %></td>
+                </tr>
+                <tr>
+                  <td align="left" valign="top" style="color:#807E7E; display: block; font-family: Arial,Helvetica,sans-serif; font-size: 14px; padding: 5px 0 2px 8px;width: 210px;word-wrap: break-word;">
+                    <%= raw @activity.description.truncate(250)%>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" valign="top" style="color:#4495AE; display: block; font-family: Arial,Helvetica,sans-serif; font-size: 16px; font-weight: bold; padding: 5px 0 2px 8px;">Venue</td>
+                </tr>
+                <tr>
+                  <td align="left" valign="top" style="color:#807E7E; display: block; font-family: Arial,Helvetica,sans-serif; font-size: 14px;  padding: 5px 0 2px 8px;">
+                  	 <% if !@activity.schedule_mode.nil? && @activity.schedule_mode=="Any Where"%>
+                    <%= @activity.schedule_mode.gsub(" W","w")%><%if !@activity.phone.nil?%>, Ph:<%= @activity.phone if !@activity.nil?%> <%end%>
+                  <%else%>
+			<%= @activity.address_1 if !@activity.nil?%><% if !@activity.address_2.nil?%> <%end%><%= @activity.address_2 if !@activity.nil? %><% if !@activity.city.nil?%> <%end%><%= @activity.city if !@activity.nil?%><% if !@activity.phone.nil?%>,<%end%><% if !@activity.phone.nil?%> Ph:<%= @activity.phone if !@activity.nil?%><%end%>
+		<% end%>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" valign="top" style="color:#807E7E; display: block; font-family: Arial,Helvetica,sans-serif; font-size: 16px;  padding: 5px 0 2px 8px;">&nbsp;</td>
+                </tr>
+              </table></td>
+            </tr>
+            <tr>
+              <td colspan="3" align="left" valign="top" style="border-bottom: 2px solid #E83B19;">
+                <table width="100%" align="center" cellpadding="0" cellspacing="0" style="background:#fff;">                  
+                  <tr>
+                      <td align="left" width="50%" valign="top" style="color:#4495AE; font-family: Arial,Helvetica,sans-serif; font-size: 16px; font-weight: bold;  padding: 5px 0 2px 8px;">Price</td>
+                      
+                    </tr>
+                  <tr>
+                      <td align="left" valign="top" style="color: #807E7E; font-family: Arial,Helvetica,sans-serif; font-size: 16px; font-weight: bold; padding-left:8px;">
+                      <% if @amount.to_i == 0 %>
+                  		Free
+	                  <% else %>
+	                  $<%= (number_with_precision @amount, :precision => 2)%>/-
+	                  <% end %>
+                      </td>
+                      <td align="left" valign="top">
+                      	&nbsp;
+                      </td>
+                    </tr>
+                  <tr>
+                      <td align="left" width="50%" valign="top" style="color:#4495AE; font-family: Arial,Helvetica,sans-serif; font-size: 16px; font-weight: bold; padding: 5px 0 2px 8px;">Ticket Code</td>
+                      
+                    </tr>
+                  <tr>
+                      <td align="left" valign="top" style="color: #807E7E; font-family: Arial,Helvetica,sans-serif; font-size: 16px; font-weight: bold; padding-left:8px;">
+                       <%=@ticket_code %>
+                      </td>                      
+                    </tr>
+                  <tr>
+                    <td align="left" valign="top" style="color:#4495AE; font-family: Arial,Helvetica,sans-serif; font-size: 16px; font-weight: bold; padding-left:8px;">&nbsp;</td>
+                    
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>          </td>
+          
+        </tr>
+        <tr>
+          <td align="left" valign="top">&nbsp;</td>
+        </tr>
+      </table>
+    </td></tr>
+
+   
+</table>
+<p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;padding-top:20px;">Your Famtivity Team.</p>
+

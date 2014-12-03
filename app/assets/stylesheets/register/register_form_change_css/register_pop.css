@@ -1,0 +1,803 @@
+/** General Styles **/
+*{
+    margin:0;
+    padding:0;
+}
+img{ border:none;/*behavior:url("js/iw_iepngfix.htc");*/ }
+.lt{
+    display:inline-block;
+    float:left;
+}
+.rt{
+    display:inline-block;
+    float:right;
+}
+.clear{
+    clear:both;
+    height:0px;
+    overflow:hidden;
+}
+a, a:hover{
+    text-decoration:none;
+}
+/** Structural Styles **/
+
+body{
+/*    background:#d5eaf1;*/
+    font-family:Arial, Helvetica, sans-serif;
+}
+#register_outerContainer{
+    width:100%;
+    height:100%;
+}
+#register_outerContainer .innerContainer{
+    width:557px;
+    height:100%;
+    margin:0 auto;
+}
+#register_outerContainer .header{
+    padding-top:16px;
+}
+#register_outerContainer .blueText{
+    font-size:17px;
+    color:#266f89;
+    margin-top: 8px;
+}
+#register_outerContainer .redText{
+    font-size:17px;
+    color:#ca2317;
+    margin-top: 10px;
+}
+#register_outerContainer .CenterContent{
+    font-size:14px;
+    width:700px;
+	margin:0 auto;
+}
+#register_outerContainer .head{
+    font-size:18px;
+    color:#515050;
+    margin-bottom:14px;
+}
+#register_outerContainer .marginTop11{
+    padding-top:11px;
+    width:517px;
+}
+#register_outerContainer .marginTop12{
+    padding-top:11px;
+    width:517px;
+}
+#register_outerContainer .marginTop14{
+    padding-top:14px;
+    width:517px;
+}
+#register_outerContainer .marginTop15{
+    padding-top:15px;
+    width:517px;
+}
+#register_outerContainer .paddingTop20{
+    padding-top:20px;
+    width:517px;
+}
+#register_outerContainer .leftSideField{
+    font-weight:bold;
+    color:#6a6a6a;
+    width: 155px;
+    position: relative;
+    top: 6px;
+}
+#register_outerContainer .textbox{
+    width:349px;
+    height:28px;
+    *height:22px;
+    border:1px solid #BDD6DD;
+    padding:0px 4px 0px 4px;
+    *padding:6px 4px 0px 4px;
+    color:#999999;
+    font-size:13px;
+}
+#register_outerContainer .textShadowColor{
+    width:349px;
+    height:28px;
+    *height:22px;
+    border:1px solid #BDD6DD;
+    padding:0px 4px 0px 4px;
+    *padding:6px 4px 0px 4px;
+    color:#999999;
+    font-size:13px;
+}
+#register_outerContainer .errorDiv{
+    margin-top:3px;
+    /*color:#dd4b39;*/
+    color:#fc8989;
+    font-size:12px;
+	font-weight:normal;
+}
+#register_outerContainer .errorDivAgree{
+    margin-left:154px;
+    margin-top:3px;
+}
+#register_button {
+    background: url("/assets/login/register_button.png") no-repeat scroll 0 0 transparent;
+    border: medium none;
+    height: 37px;
+    width: 97px;
+    cursor: pointer;
+}
+#register_next_button{
+    background: url("/assets/register/button_next.png") no-repeat scroll 0 0 transparent;
+    border: medium none;
+    height: 33px;
+    width: 95px;
+    cursor: pointer;
+
+}
+#register_outerContainer .errorDivProvider{
+    margin-left:154px;
+    margin-top:3px;
+}
+#register_outerContainer .checkbox{
+    display: inline-block;
+    float:left;
+    width: 19px;
+    height: 21px;
+    position:relative;
+   /* top:3px;*/
+    left:0px;
+}
+#register_outerContainer .checkbox a{
+    display: inline-block;
+    float:left;
+    width: 19px;
+    height: 21px;
+    position:relative;
+    top:3px;
+    left:0px;
+}
+
+#register_outerContainer .checkboxCont{
+    display: inline-block;
+    color:#060606;
+    font-size:12px;
+    position:relative;
+    top:7px;
+    left:7px;
+	font-weight:normal;
+}
+#register_outerContainer .checkboxCont a,
+#register_outerContainer .checkboxCont a:hover{
+    color:#307193;
+}
+#register_outerContainer .loginButton{
+    margin-right:10px;
+}
+#register_outerContainer .alreadyText{
+    font-size:12px;
+    color:#060606;
+    margin-bottom: 22px;
+	font-weight:normal;
+}
+#register_outerContainer .alreadyText a,
+#register_outerContainer .alreadyText a:hover{
+    color:#307193;
+}
+/***********************************
+ *        Select Box
+ * *********************************/
+.container .cityDiv .customCity{
+    margin:8px 0px 0px 65px;
+}
+.selectBoxCity{
+    display:inline-block;
+    background:url('/assets/register/selece_box_normal.png') no-repeat;
+    width:359px;
+    height:28px;
+    top:0px;
+    position:relative;
+}
+.selectBoxCity .selectDiv{
+    display:inline-block;
+    cursor:default;
+    font-size:12px;
+    color:#999999;
+    width:242px;
+    position:relative;
+    top:3px;
+    left:4px;
+    width:322px;
+    height:21px;
+    overflow:hidden;
+    padding-left: 5px;
+}
+.dropDownDivCity{
+    display:inline-block;
+    color:#231F20;
+    font-size:12px;
+    background:#ffffff;
+    color:#6a6a6a;
+    border:1px solid #BDD6DD;
+    width:356px;
+    margin-top:-1px;
+    margin-left:0px;
+    position:absolute;
+    z-index:500;
+    height:63px;
+}
+.dropDownDivCity a{
+    color:#6a6a6a;
+    display:block;
+    text-decoration:none;
+    padding:3px 0px 3px 7px;
+}
+.dropDownDivCity a:hover{
+    background:#73C3DD;
+    color:#ffffff;
+}
+
+/**********************Provider_register**************************/
+
+
+#register_outerContainer .ProviderCenterContent {
+    background: none repeat scroll 0 0 #E9F4F7;
+    font-size: 14px;
+   /* margin: 49px 0 69px;
+    padding: 23px 20px 17px;*/
+    width: 871px;
+	margin:0 auto;
+
+}
+#register_outerContainer .ProviderMarketouterContent{
+background: none repeat scroll 0 0 #E9F4F7;
+
+}
+#register_outerContainer .Provider_innerContainer {
+    height: 100%;
+    margin: 0 auto;
+    width: 950px;
+}
+
+#register_outerContainer .textbox_provider_free {
+    border: 1px solid #BDD6DD;
+    color: #999999;
+    font-size: 13px;
+    height: 28px;
+    padding: 0 4px;
+	.height: 22px;
+	.padding: 6px 4px 0px 4px;
+    width: 265px;
+}
+
+#register_outerContainer .marginTop14_provider {
+    padding-top: 0;
+    width: 517px;
+}
+.ProviderCenterContent .selectBoxProvider{
+    display:inline-block;
+    background:url('/assets/register/select_box_provider.png') no-repeat;
+    width:275px;
+    height:28px;
+    /*top:-17px;
+	left:95px;*/
+    position:relative;
+}
+.ProviderCenterContent .selectBoxPCity{
+    display:inline-block;
+    background:url('/assets/register/select_box_provider.png') no-repeat;
+    width:275px;
+    height:28px;
+    /*top:-17px;
+	left:95px;*/
+    position:relative;
+}
+.ProviderCenterContent .selectBoxPCity .selectDiv {
+    color: #999999;
+    cursor: default;
+    display: inline-block;
+    font-size: 12px;
+    height: 24px;
+    left: 4px;
+    overflow: hidden;
+    padding-left: 5px;
+    position: relative;
+    top: 3px;
+    width: 266px;
+	font-weight: normal;
+}
+.ProviderCenterContent .selectBoxPTime{
+    display:inline-block;
+    background:url('/assets/register/select_box_provider.png') no-repeat;
+    width:275px;
+    height:28px;
+    /*top:-17px;
+	left:95px;*/
+    position:relative;
+}
+.ProviderCenterContent .selectBoxPTime .selectDiv {
+    color: #999999;
+    cursor: default;
+    display: inline-block;
+    font-size: 12px;
+    height: 24px;
+    left: 4px;
+    overflow: hidden;
+    padding-left: 5px;
+    position: relative;
+    top: 3px;
+    width: 266px;
+	font-weight: normal;
+}
+.ProviderCenterContent .selectBoxPState{
+    display:inline-block;
+    background:url('/assets/register/select_box_provider.png') no-repeat;
+    width:275px;
+    height:28px;
+    /*top:-17px;
+	left:95px;*/
+    position:relative;
+}
+.ProviderCenterContent .selectBoxPState .selectDiv {
+    color: #999999;
+    cursor: default;
+    display: inline-block;
+    font-size: 12px;
+    height: 24px;
+    left: 4px;
+    overflow: hidden;
+    padding-left: 5px;
+    position: relative;
+    top: 3px;
+    width: 266px;
+	font-weight: normal;
+}
+.ProviderCenterContent .selectBoxPCountry{
+    display:inline-block;
+    background:url('/assets/register/select_box_provider.png') no-repeat;
+    width:275px;
+    height:28px;
+    /*top:-17px;
+	left:95px;*/
+    position:relative;
+}
+.ProviderCenterContent .selectBoxPCountry .selectDiv {
+    color: #999999;
+    cursor: default;
+    display: inline-block;
+    font-size: 12px;
+    height: 24px;
+    left: 4px;
+    overflow: hidden;
+    padding-left: 5px;
+    position: relative;
+    top: 3px;
+    width: 266px;
+	font-weight: normal;
+}
+.ProviderCenterContent .dropDownDivProviderCountry a:hover{
+    background:#73C3DD;
+    color:#ffffff;
+}
+.ProviderCenterContent .dropDownDivProviderState a:hover{
+    background:#73C3DD;
+    color:#ffffff;
+}
+
+.ProviderCenterContent .dropDownDivProviderCity a:hover{
+    background:#73C3DD;
+    color:#ffffff;
+}
+
+.ProviderCenterContent .selectBoxPTime a:hover{
+    background:#73C3DD;
+    color:#ffffff;
+}
+
+
+.ProviderCenterContent .selectBoxLanguage{
+    display:inline-block;
+    background:url('/assets/register/select_box_provider.png') no-repeat;
+    width:275px;
+    height:28px;
+    /*top:-17px;
+	left:95px;*/
+    position:relative;
+}
+.ProviderCenterContent .selectBoxFax{
+    display:inline-block;
+    background:url('/assets/register/select_box_provider.png') no-repeat;
+    width:275px;
+    height:28px;
+    /*top:-17px;
+	left:95px;*/
+    position:relative;
+
+}
+.ProviderCenterContent .selectBoxFax .selectDiv {
+    color: #999999;
+    cursor: default;
+    display: inline-block;
+    font-size: 12px;
+    height: 21px;
+    left: 4px;
+    overflow: hidden;
+    padding-left: 5px;
+    position: relative;
+    top: 3px;
+    width: 261px;
+	font-weight: normal;
+}
+.ProviderCenterContent .dropDownDivProvider {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #BDD6DD;
+    color: #6A6A6A;
+    display: inline-block;
+    font-size: 12px;
+    height: 45px;
+    /* margin-left: 95px;
+     margin-top: -17px;*/
+    position: absolute;
+    width: 305px;
+    z-index: 500;
+}
+.ProviderCenterContent .dropDownDivProviderCity{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #BDD6DD;
+    color: #6A6A6A;
+    display: inline-block;
+    font-size: 12px;
+    height: 90px;
+	overflow-y:scroll;
+    /* margin-left: 95px;
+     margin-top: -17px;*/
+    position: absolute;
+    width: 273px;
+    z-index: 500;
+}
+.ProviderCenterContent .dropDownDivProviderCountry{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #BDD6DD;
+    color: #6A6A6A;
+    display: inline-block;
+    font-size: 12px;
+    height: 43px;
+    /* margin-left: 95px;
+     margin-top: -17px;*/
+    position: absolute;
+    width: 273px;
+    z-index: 500;
+}
+.ProviderCenterContent .dropDownDivProviderState{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #BDD6DD;
+    color: #6A6A6A;
+    display: inline-block;
+    font-size: 12px;
+    height: 103px;
+	overflow-y:scroll;
+    /* margin-left: 95px;
+     margin-top: -17px;*/
+    position: absolute;
+    width: 273px;
+    z-index: 500;
+}
+.ProviderCenterContent .dropDownDivProviderCity a {
+    color: #6A6A6A;
+    display: block;
+    padding: 3px 0 3px 7px;
+    text-decoration: none;
+	font-weight: normal;
+}
+.ProviderCenterContent .dropDownDivProviderCountry a{
+	color: #6A6A6A;
+    display: block;
+    padding: 3px 0 3px 7px;
+    text-decoration: none;
+	font-weight: normal;
+}
+.ProviderCenterContent .dropDownDivProviderState a{
+	color: #6A6A6A;
+    display: block;
+    padding: 3px 0 3px 7px;
+    text-decoration: none;
+	font-weight: normal;
+}
+
+.ProviderCenterContent .dropDownDivLanguage{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #BDD6DD;
+    color: #6A6A6A;
+    display: inline-block;
+    font-size: 12px;
+    height: 45px;
+    /* margin-left: 95px;
+     margin-top: -17px;*/
+    position: absolute;
+    width: 305px;
+    z-index: 500;
+}
+
+.ProviderCenterContent .dropDownDivProvider a {
+    color: #6A6A6A;
+    display: block;
+    padding: 3px 0 3px 7px;
+    text-decoration: none;
+}
+.ProviderCenterContent .dropDownDivLanguage a {
+    color: #6A6A6A;
+    display: block;
+    padding: 3px 0 3px 7px;
+    text-decoration: none;
+}
+.ProviderCenterContent .selectBoxLanguage .selectDiv {
+    color: #999999;
+    cursor: default;
+    display: inline-block;
+    font-size: 12px;
+    height: 24px;
+    left: 4px;
+    overflow: hidden;
+    padding-left: 5px;
+    position: relative;
+    top: 3px;
+    width: 270px;
+}
+.ProviderCenterContent .selectBoxProvider .selectDiv {
+    color: #999999;
+    cursor: default;
+    display: inline-block;
+    font-size: 12px;
+    height: 24px;
+    left: 4px;
+    overflow: hidden;
+    padding-left: 5px;
+    position: relative;
+    top: 3px;
+    width: 270px;
+}
+/*.ProviderCenterContent .FileUpload {
+    position:relative;
+    margin-top:1px;
+    width: 303px;
+    height: 28px;
+}
+.ProviderCenterContent .BrowserVisible {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 3;
+    width:212px;
+	height:28px;
+	border:1px solid red;
+}
+.ProviderCenterContent .FileField {
+	width:232px;
+	height:28px;
+	*height:21px;
+	border:1px solid #CDE0E6;
+	color: #999999;
+	padding:0px 5px 0px 5px;
+	*padding-top:5px;
+	word-wrap:break-word;
+	position:relative;
+	z-index:3;
+}
+.ProviderCenterContent .BrowserHidden {
+    position:relative;
+    z-index:2;
+
+	width:200px;
+	height:28px;
+
+    -moz-opacity:0;
+    filter:alpha(opacity= 0);
+    opacity: 0;
+
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:.5em;
+	font-weight:normal;
+	color: #999999;
+	margin-top1:72px;
+	margin-left:166px;
+	*margin-left:91px;
+
+	cursor: pointer;
+}
+.ProviderCenterContent .browse{
+	font-size:14px;
+	width:53px;
+    color:#fd7d0c;
+    font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
+	cursor:pointer;
+	display: inline-block;
+	position:relative;
+	z-index:1;
+	margin-left:245px;
+	top:-21px;
+	*top:-23px;
+	border:1px solid blue;
+}*/
+.ProviderCenterContent .FileUpload {
+    position:relative;
+    margin-top:1px;
+    width: 170px;
+    height: 31px;
+}
+.ProviderCenterContent .BrowserVisible {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 3;
+    width:106px;
+    height:27px;
+}
+.ProviderCenterContent .FileField {
+    width:189px;
+    height:26px;
+    *height:21px;
+    border:1px solid #CDE0E6;
+    color: #444444;
+    padding:0px 5px 0px 5px;
+    *padding-top:5px;
+    word-wrap:break-word;
+    position:relative;
+    z-index:3;
+}
+.ProviderCenterContent .BrowserHidden {
+    position:relative;
+    z-index:2;
+
+    width:151px;
+    height:25px;
+    .height:28px;
+    -moz-opacity:0;
+    filter:alpha(opacity= 0);
+    opacity: 0;
+
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:.9em;
+    font-weight:normal;
+    color: #999999;
+    left: 50px;
+	.left: 125px;
+	.top:0px;
+	left:125px\0/IE9;
+    margin-top: 1px;
+    cursor: pointer;
+}
+.ProviderCenterContent .browse{
+    font-size:14px;
+    width:53px;
+    color:#fd7d0c;
+    font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
+    cursor:pointer;
+    display: inline-block;
+    position:relative;
+    z-index:1;
+    margin-left:200px;
+    top:-27px;
+	.margin-top:-4px;
+}
+#register_outerContainer .ProviderCenterContent .leftSideField {
+    color: #6A6A6A;
+    font-weight: bold;
+    position: relative;
+    top: 6px;
+    width: 133px;
+	font-size:14px;
+}
+.setStyleEmail{
+    color:#fc8989;
+    font-size:12px;
+    list-style-type: none;
+}
+#register_outerContainer .textbox_ownerprovider {
+    border: 1px solid #BDD6DD;
+    color: #999999;
+    font-size: 13px;
+    height: 28px;
+    padding: 0 4px;
+	.height: 22px;
+	.padding: 6px 4px 0px 4px;
+    width: 125px;
+
+}
+@media \0screen {
+#register_outerContainer .textbox_provider_free {
+    height: 22px;
+    padding:6px 4px 0px 4px;
+
+}
+#register_outerContainer .textbox_ownerprovider {
+    height: 23px;
+    padding:5px 4px 0px 4px;	
+
+}
+
+    #register_outerContainer .textbox,
+    #register_outerContainer .textShadowColor{
+        height:20px;
+        padding:7px 4px 0px 4px;
+    }	
+	.ProviderCenterContent .BrowserHidden {
+    position:relative;
+    z-index:2;
+    width:75px;
+    height:26px;
+    -moz-opacity:0;
+    filter:alpha(opacity= 0);
+    opacity: 0;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:6em;
+    font-weight:normal;
+    color: #999999;
+    left: 200px; 
+    top: 0px;
+    cursor: pointer;
+}
+.ProviderCenterContent .browse{
+    font-size:14px;
+    width:53px;
+    color:#fd7d0c;
+    font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
+    cursor:pointer;
+    display: inline-block;
+    position:relative;
+    z-index:1;
+    margin-left:201px;
+    top:-31px;
+}
+.ProviderCenterContent .FileField {
+    width:190px;
+    height:21px;
+    border:1px solid #CDE0E6;
+    color: #444444;
+    padding:5px 5px 0px 5px;
+    word-wrap:break-word;
+    position:relative;
+    z-index:3;
+}
+		
+}
+@media screen and (-webkit-min-device-pixel-ratio:0){
+.ProviderCenterContent .BrowserHidden {
+    position:relative;
+    z-index:2;
+
+    width:151px;
+    height:25px;
+    -moz-opacity:0;
+    filter:alpha(opacity= 0);
+    opacity: 0;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:.9em;
+    font-weight:normal;
+    color: #999999;
+    left: 127px;
+    margin-top: 1px;
+    cursor: pointer;
+}
+}
+
+
+/*******************************************
+
+Pop Up for Login and parent and provider forms
+
+*******************************************/
+
+ .dot {
+    display: inline-block;
+    position: relative;
+    top: 3px;
+}
+ .selectedMenuText {
+    color: #5AA3B6;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+}
+ .menuText {
+    color: #5AA3B6;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+	white-space:nowrap;
+}

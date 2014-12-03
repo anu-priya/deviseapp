@@ -1,0 +1,17 @@
+<%if params[:page].nil?%>
+  $('#search_desc').html('<%= escape_javascript(render(:partial => 'search_load')) %>');
+<%else%>
+  $('#search_desc').append('<%= escape_javascript(render(:partial => 'search_load')) %>');
+<%end%>
+$('#search_load').hide();
+$('#search_count').html('(<%= @search_count %>)')
+<%if @search.results.total_pages == @search.results.current_page %>
+  $('#search_show').hide();
+<%else%>
+  <%if @search.results.total_pages <= 1%>
+    $('#search_show').hide();
+    $('#search_desc').html('<div width="<div width="100%" style="font-size:20px;text-align:center;"><%= image_tag("/assets/search/search_cn_icon.jpg") %></div><div width="100%" style="font-size:20px;text-align:center;color:#585858;">Sorry we found no results for your search.</div>');
+  <%else%>
+    $('#search_show').show();
+  <%end%>
+<%end%>

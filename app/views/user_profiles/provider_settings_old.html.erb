@@ -1,0 +1,358 @@
+<script type="text/javascript" src="/assets/global/checkbox.js"></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+    initARC('settings','altCheckboxOn','altCheckboxOff');
+	initARC('parent_notify','altCheckboxOn','altCheckboxOff');
+	initARC('provider_notify','altCheckboxOn','altCheckboxOff');
+	
+  });
+</script>
+
+<link rel="stylesheet" type="text/css" href="/assets/header/header.css" />
+<link rel="stylesheet" type="text/css" href="/assets/profile/profile.css" />
+<script type="text/javascript" src="/assets/header/header.js"></script>
+<link rel="stylesheet" href="/assets/landing/how_it_works.css" type="text/css" />
+
+
+
+<!-- DHTML Modal Effect -->
+<link rel="stylesheet" href="/assets/global/overlay/windowfiles/dhtmlwindow.css" type="text/css" />
+<link rel="stylesheet" href="/assets/global/overlay/modalfiles/modal.css" type="text/css" />
+
+<script type="text/javascript" src="/assets/global/overlay/windowfiles/dhtmlwindow.js"></script>
+<script type="text/javascript" src="/assets/global/overlay/modalfiles/modal.js"></script>
+
+<!--contact menu-->
+<script type="text/javascript" src="/assets/global/checkbox.js"></script>
+<script type="text/javascript" src="/assets/settings/contact_list.js"></script>
+
+
+<!--settings select option dropdown-->
+<script type="text/javascript" src="/assets/settings/select_option.js">
+
+
+<!--mac fix-->
+<script type="text/javascript" src="/assets/event_index/macfix.js"></script>
+<!-- drop down menu-->
+<script type="text/javascript" src="/assets/event_index/jquery.dropdownPlain.js"></script>
+<style type="text/css" id="page-css">
+  /* Styles specific to this particular page */
+    body{
+  	background:#F6F8F7;
+  }
+
+  .scroll-pane
+  {
+    width: 100%;
+    height: 185px;
+    overflow: auto;
+  }
+  .horizontal-only
+  {
+    height: auto;
+    max-height: 185px;
+  }
+</style>
+<script type="text/javascript" id="sourcecode">
+  $(function(){
+    $('.scroll-pane').jScrollPane();
+  });
+</script>
+
+
+<link rel="stylesheet" type="text/css" href="/assets/custom_scroll/jquery.jscrollpane.css" />
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="/assets/custom_scroll/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="/assets/custom_scroll/jquery.jscrollpane.min.js"></script>
+<script type="text/javascript" src="/assets/custom_scroll/demo.js"></script>
+
+<!--calender-->
+<!--<link rel="stylesheet" href="/assets/provider_event_list/provider_event_list.css" type="text/css" />-->
+<script type="text/javascript" src="/assets/event/event.js"></script>
+<link rel="stylesheet" type="text/css" href="/assets/create_new_activity/jquery.ui.datepicker.css" />
+<link rel="stylesheet" type="text/css" href="/assets/create_new_activity/jquery.ui.theme.css" />
+
+<script type="text/javascript" src="/assets/create_new_activity/jquery.ui.core.js"></script>
+<script type="text/javascript" src="/assets/event/provider_jquery.ui.datepicker.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  //get mutiple check box id and store to hidden field
+  function getchk_actid(curr_actid,span_)
+  {
+    span_index=$(".checkboxImg").index(span_);
+    chk_staus=$(".checkboxImg:eq("+span_index+") label").attr('class');
+    if(chk_staus=="altCheckboxOn")
+    {
+      //add selected checkbox id
+      txt_id=$("#actid_chk").val();
+      if(txt_id=="")
+      { selected_ids=curr_actid; 	}
+      else{ selected_ids=txt_id+","+curr_actid; 	}
+      $("#actid_chk").val(selected_ids);
+	  
+    }
+    else
+    {
+      //remove the id
+      txt_id=$("#actid_chk").val();
+      selected_ids=txt_id.replace(curr_actid,'');
+      $("#actid_chk").val(selected_ids);
+      $('#select').css('display','none');
+      $('#not_select').css('display','inline-block');
+      $('#row').val(0);
+    }
+  }
+
+});
+  
+</script>
+
+<script type="text/javascript">
+  var activitySupportPage;
+  var inviteproviderPage;
+  var EditparentprofilePage;
+  
+  function pop_support_form(url){
+    activitySupportPage = dhtmlmodal.open("Delete Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+     $(".drag-contentarea").css("height","685px");
+		
+    return false;
+  }
+  
+    function pop_invite_provider(url){
+    inviteproviderPage = dhtmlmodal.open("Edit Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+		
+    return false;
+  }
+    
+
+  function pop_provider_edit_profile(url){
+    EditparentprofilePage = dhtmlmodal.open("Edit Password ","iframe",url,"", "width=896px,height=2000px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+  </script>
+
+
+<div id="event_index_container">
+<input type="hidden" id="actid_chk" name="actid_chk" value="" />
+  <div class="headerPart1">
+    <div align="center"><a href="/provider_activites" title=""><img src="/assets/event_index/famtivity_logo_parent.png" width="110" height="35"></a></div>
+    <table cellpadding="0" class="headerDivRight" cellspacing="0" width="429" border="0" style="float:right; display:inline-block; margin-top:-33px; .margin-top:-30px;">
+      <tr>
+        <td align="right" valign="" width="300">
+
+          <!--profile image dynamically modified on 29dec12-->
+         
+              <%if !current_user.nil? && !current_user.user_profile.nil?%>
+               <%@profile_data=current_user.user_profile if !current_user.user_profile.nil?%>
+                 <%if !@profile_data.profile_file_name.nil? && @profile_data.profile.present?%>
+                <%= image_tag @profile_data.profile.url(:thumb),  :width => '21', :height => '21', :style =>"top:-8px; position:relative;", :alt => "Profile image"%>
+                 <%else%>
+                <span><img src="/assets/event_index/photo_register.png"  style="top:-8px; position:relative;"/></span>
+                <%end%>
+              <%end%>
+          
+
+          <span id="user_menu" class="UserDivMenu">
+            <ul>
+              <li>
+                <!--modified the user_name based on type on 29dec12-->
+                <%if current_user.user_type=="P" %>
+                  <a href="" class="userDiv" style="color: #4495AE; border: 1px solid #DBEEF4;"><%= current_user.user_profile.business_name if !current_user.nil? && !current_user.user_profile.business_name.nil? && !current_user.user_profile.nil? %><span class="actImg"><img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/></span></a>
+                <%else%>
+                  <a href="" class="userDiv" style="color: #4495AE; border: 1px solid #DBEEF4;"><%= current_user.user_name if !current_user.nil? %><span class="actImg"><img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/></span></a>
+                <%end%>
+                <ul class="sub-menu dispParentUserDiv" style=".margin-top:30px; right:0px;" align="right">
+                  <li style="border:1px #B1D7E3 solid;background-color:#EDF2F5;"><a href="/event_index" style="padding-top:8px;color:#E24C4B;"><b>Switch to Parent</b></a></li>
+                  <li><a href="/provider_profile" title="">Business Info</a></li>
+                  <li><a href="/transaction" title="">Transaction</a></li>
+                  <li><a href="/provider_plan" title="">Plan</a></li>
+				  <li><a href="/billing_sponsorship" title="">Sponsorship</a></li>
+				  <li><a href="/provider_settings" title="">Settings</a></li>
+                  <li><a href="/logout" title="">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="clear"></div>
+          </span>
+
+        </td>
+        <td width="33" align="left">
+          <div><a href="/contact_users" title=""><img src="/assets/event_index/contacts_icon.png" width="28" height="26" /  onmouseover='$(this.src="/assets/event_index/contacts_icon_over.png")' onmouseout='$(this.src="/assets/event_index/contacts_icon.png")'></a></div>
+        </td>
+        <td width="0" align="left"><div><a href="javascript:void(0)" title=""><img src="/assets/event_index/divider_top.png" width="1" height="17" /></a></div></td>
+<!--        <td width="31" align="left"><div><a href="/contact_users" title=""><img src="/assets/event_index/message_icon.png" width="26" height="24" /  onmouseover='$(this.src="/assets/event_index/message_icon_over.png")' onmouseout='$(this.src="/assets/event_index/message_icon.png")'></a></div></td>
+        <td width="1" align="left"><div><a href="javascript:void(0)" title=""><img src="/assets/event_index/divider_top.png" width="1" height="17" /></a></div></td>
+-->
+        <td >
+
+          <div id="service_menu" class="serviceDivMenu">
+            <ul>
+              <li>
+                <a href="" class="serviceDiv" style="color: #4495AE; border: 1px solid #DBEEF4; width:65px;">Service<span class="actImg"><img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/></span></a>
+                <ul class="sub-menu dispParentServiceDiv" style="margin-left:-66px;.margin-top:28px; .margin-left:-147px;">
+                  <li><a href="/how_it_works" style="padding-top:8px;" title="">How it works</a></li>
+                  <li><a href="javascript:void(0)" title="" onclick="pop_support_form('/support');" class="lt setRt">Support</a></li>
+                  <li><a href="/terms_of_service" title="">Terms of Service</a></li>
+                  <li><a href="/privacy_policy" title="">Privacy Policy</a></li>
+				  <li><a href="/about_us">About</a></li>
+				  <li><a href="/contact_us">Contact</a></li>
+				  <li><a href="http://www.famtivity.com/blog/" target="_blank">Blog</a></li>
+				  <li><a href="/faq">FAQ</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="clear"></div>
+          </div>
+
+        </td>
+      </tr>
+    </table>
+    <div class="clear"></div>
+  </div>
+
+
+  <div id="how_it_worksDiv" class="SettingsDiv" style="padding-bottom:0px;">
+    <div class="TopListText" align="center" style="width:258px; padding: 10px 0 29px; .padding: 10px 0 10px;">
+      <span class="lt"><a href="/provider_profile" class="menuText" title="">Business Info</a></span>
+      <span class="dot menuText">&bull;</span>
+<!--      <span class="lt"><a href="/provider_policies" class="menuText" title="">Policies</a></span>
+	  <span class="dot menuText">&bull;</span>
+      <span class="lt"><a href="/transaction" class="menuText" title="">Transactions</a></span>
+      <span class="dot menuText">&bull;</span>
+      <span class="lt"><a href="/payment_setup" class="menuText" title="">Payments Setup</a></span>
+	  <span class="dot menuText">&bull;</span>
+      <span class="lt"><a href="/provider_plan" class="menuText" title="">Plan</a></span>
+      <span class="dot menuText">&bull;</span>
+-->      <span class="lt"><a href="/billing_sponsorship" class="menuText" title="">Sponsorship</a></span>
+      <span class="dot menuText">&bull;</span>
+      <span class="lt"><a href="#" class="menuText" title=""><b>Settings</b></a></span>
+    </div>
+    <div class="clear"></div>
+    <div class="setTopBprder" style="padding-top:8px;"></div>
+	  
+      
+		<!--change password part-->
+      <div class="dottedDiv" style="position:relative; margin-top:23px;"> 
+          <div class="Title" id="sharedText"><b>Change Password</b></div>
+	   </div>
+     <div class="top_info_text" style="width:829px; margin:0;">
+      <div id="change_password">
+        <input id="pwd" name="pwd" type="hidden" value="<%=current_user.user_password%>" />
+        <form name="change_password_form" id="change_password_form" action="" method="post" onSubmit="return change_password_validation()">
+    
+          <div class="paddingTop10_settings" style="width:829px;">
+           
+            <div class="clear"></div>
+          </div>
+          <div class="paddingTop10_settings"></div>
+          <div class="paddingTop10_settings"></div>
+          <div class="paddingTop10_settings">
+            <div class="lt leftSideField" style="margin-left:7px;">&nbsp;</div>
+            <div class="setLockBg">
+              <div style="float:left; display:inline-block;">
+                <img src="/assets/profile/privacy_lock.png">
+              </div>
+              <div class="lock_text" align="center">To Change your password, enter your current password in the field below</div>
+            </div>
+            <div class="clear"></div>
+          </div>
+    
+    
+          <div class="paddingTop10_settings">
+            <div class="lt leftSideField">&nbsp;</div>
+            <!--successful message -->
+            <div class="success_update_info" style="display:none;color:green;">Your password was successfully updated</div>
+            <div class="clear"></div>
+          </div>
+    
+          <div class="paddingTop10_settings">
+            <div class="lt leftSideField" style="margin-left:6px;">Current Password</div>
+            <input type="password" name="user_password" id="current_password" value="password" class="lt textbox" maxlength="25" onfocus="if(this.value == 'password'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='password'}"/>
+            <div class="clear"></div>
+          </div>
+    
+          <div class="clear"></div>
+          <div class="errorDiv" style="display:none">
+            <div class="lt leftSideField" style="margin-left:21px;">&nbsp;</div>
+            <div class="lt" id="current_password_error"></div>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+    
+          <div class="paddingTop10_settings">
+            <div class="lt leftSideField" style="margin-left:6px;">New Password</div>
+            <input type="password" name="new_pass" id="new_pass" value="newpassword" class="lt textbox" onfocus="if(this.value == 'newpassword'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='newpassword'}"/>
+            <div class="clear"></div>
+          </div>
+    
+          <div class="clear"></div>
+          <div class="errorDiv" style="display:none">
+            <div class="lt leftSideField" style="margin-left:21px;">&nbsp;</div>
+            <div class="lt" id="new_pass_error"></div>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+    
+          <div class="paddingTop10_settings">
+            <div class="lt leftSideField" style="margin-left:6px;">Confirm New Password</div>
+            <input type="password" name="confirm_pass" id="confirm_pass" value="newpassword" class="lt textbox" maxlength="15" onfocus="if(this.value == 'newpassword'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='newpassword'}"/>
+            <div class="clear"></div>
+          </div>
+    
+          <div class="clear"></div>
+          <div class="errorDiv" style="display:none">
+            <div class="lt leftSideField" style="margin-left:21px;">&nbsp;</div>
+            <div class="lt" id="confirm_password_error"></div>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+          <div class="buttonDiv">
+            <div class="lt leftSideField" style="margin-left:20px;">
+              &nbsp;
+            </div>
+            <div class="lt"> 
+              <input type="image" src="/assets/settings/save_button.png" width="113" height="41" alt="" />
+    
+              <a href="javascript:void(0)" onClick="clearpasswordfields()" onkeydown="cancelActivityClearData(event)"><img src="/assets/settings/cancel_button.png"  width="113" height="41" alt="" /></a>
+            </div>
+            <div class="clear"></div>
+          </div>
+    
+        </form>
+      </div>
+     <div style="height:20px;"></div>
+    
+    </div>
+
+	  <div class="clear"></div>
+<div class="clear"></div>
+</div>
+
+</div>
+
+
+

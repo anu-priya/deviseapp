@@ -1,0 +1,5 @@
+<%if (current_user.user_plan == "sponsor" ||current_user.user_plan == "sell") && @activity_profile_apf.created_by=="Provider" %>
+$('#activity_render').html("<%=escape_javascript(render 'create_act_bid_thank')%>");
+<%else%>
+$('#activity_render').html("<%=escape_javascript(render 'create_thank')%>");
+<%end%>

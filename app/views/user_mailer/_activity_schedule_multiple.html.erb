@@ -1,0 +1,190 @@
+<%if !@delete_schedule.nil? && @delete_schedule.present?%>
+<%@activity=@delete_schedule%>
+<%end%>
+
+
+	<!--date format new changes start-->
+	<% @agt_share = DeletedSchedule.where("schedule_id = ?",@activity.schedule_id).each do |share| %>
+
+	<% if !share.nil? && share.present?%>
+	<%session_date=Time.now.strftime("%Y-%m-%d")%>
+	<%@se_date=Time.now.strftime("%Y-%m-%d")%>                           
+
+		<!--schedule displayed start -->
+		<% if share.schedule_mode=="Schedule"%>
+		<% @se_date = Date.parse(session_date).strftime("%Y-%m-%d") if !session_date.nil? %>
+		<%@schedule=!share.nil? && share.present? && share %>
+		<%@repeat_date=""%>
+		<%@repeat =ActivityRepeat.find_by_activity_schedule_id(share.schedule_id)%>
+		<%#@repeat=@schedule.activity_repeat.last if !@schedule.activity_repeat.last.nil? %>
+		<%@repeat_date = @repeat.ends_on.strftime("%Y-%m-%d") if @repeat.present? && @repeat.ends_on.present? %>
+		<%@schedule_date = !@schedule.nil? && !@schedule.start_date.nil? && @schedule.start_date.strftime("%Y-%m-%d")%>
+
+		<%if (!share.start_date.nil? && !share.end_date.nil?) || !share.start_date.nil?%>
+		<% if (share.start_date.strftime("%Y-%m-%d")== @se_date) && (!share.end_date.nil? && share.end_date.strftime("%Y-%m-%d") > share.start_date.strftime("%Y-%m-%d"))  %>
+		Ongoing, <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %><% if !share.start_date.nil? && !share.end_date.nil?%> - <%end%> <%=share.end_date.strftime("%a, %b %d, %Y")  if !share.end_date.nil?  %><br>
+		<%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+		<%elsif (share.start_date.strftime("%Y-%m-%d") > @se_date) && (!share.end_date.nil? && share.end_date.strftime("%Y-%m-%d") > share.start_date.strftime("%Y-%m-%d")) %>
+		<%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %><% if !share.start_date.nil? && !share.end_date.nil?%> - <%end%> <%=share.end_date.strftime("%a, %b %d, %Y")  if !share.end_date.nil?  %><br>
+		<%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+		<%elsif (share.start_date.strftime("%Y-%m-%d") == @se_date) && (!share.end_date.nil? && share.end_date.strftime("%Y-%m-%d") == share.start_date.strftime("%Y-%m-%d")) %>
+		Ongoing, <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %><br>
+		<%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+		<%elsif (share.start_date.strftime("%Y-%m-%d") > @se_date) && (!share.end_date.nil? && share.end_date.strftime("%Y-%m-%d") == share.start_date.strftime("%Y-%m-%d")) %>
+		<%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %><br>
+		<%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+		<%elsif (share.start_date.strftime("%Y-%m-%d") < @se_date) && (!share.end_date.nil? && share.end_date.strftime("%Y-%m-%d") == @se_date) %>
+		Ongoing, <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %><% if !share.start_date.nil? && !share.end_date.nil?%> - <%end%> <%=share.end_date.strftime("%a, %b %d, %Y")  if !share.end_date.nil?  %><br>
+		<%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> to <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+		<%elsif (share.start_date.strftime("%Y-%m-%d") < @se_date) && (!share.end_date.nil? && share.end_date.strftime("%Y-%m-%d") > @se_date) %>
+		Ongoing, <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %><% if !share.start_date.nil? && !share.end_date.nil?%> - <%end%> <%=share.end_date.strftime("%a, %b %d, %Y")  if !share.end_date.nil?  %><br>
+		<%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> to <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+		<%elsif !@schedule_date.nil? && !@repeat_date.nil?%>
+		<%if @schedule_date == @repeat_date%>
+		<%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %><br>
+		<%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+		<%elsif (@schedule_date < @repeat_date) && (@repeat_date >= @se_date) %>
+		Ongoing, <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %><% if !share.start_date.nil? && !@repeat.nil? && !@repeat.ends_on.nil? && @repeat.ends_on.strftime("%Y-%m-%d") %> - <%end%> <%=!@repeat.nil? && !@repeat.ends_on.nil? && @repeat.ends_on.strftime("%a, %b %d, %Y")  if !@repeat.nil? && !@repeat.ends_on.nil?%><br>
+		<%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+		<%elsif (@schedule_date == @se_date) && (@schedule_date < @repeat_date)%>
+		Ongoing, <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %><% if !share.start_date.nil? && !@repeat.nil? && !@repeat.ends_on.nil? && @repeat.ends_on.strftime("%Y-%m-%d") %> - <%end%> <%=!@repeat.nil? && !@repeat.ends_on.nil? && @repeat.ends_on.strftime("%a, %b %d, %Y")  if !@repeat.nil? && !@repeat.ends_on.nil?%><br>
+		<%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+		<%elsif @schedule_date < @se_date %>            
+		<%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %><br>
+		<%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+		<%elsif @schedule_date > @se_date %>
+		<%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %><br>
+		<%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+		<%elsif !share.start_date.nil?%>
+		<%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %><br>
+		<%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+		<%end%>
+		<%elsif !share.start_date.nil? && share.start_date.strftime("%a, %b %d, %Y") == @se_date   %>
+		Ongoing, <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %><br>
+		<%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+		<%elsif !share.start_date.nil?%>
+		<%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %><br>
+		<%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+		<%end%>
+		<%end%>
+		<%end%>
+		<!--schedule displayed end-->
+
+	<%if !share.nil? && !share.schedule_mode.nil? %>
+	<%@repeat =ActivityRepeat.find_by_activity_schedule_id(share.schedule_id)%>
+	<% if share.schedule_mode=="Schedule" && @repeat.present?%>
+	<%@schedule=@activity.activity_schedule.last if !@activity.activity_schedule.last.nil? %>
+	<%#@repeat=@schedule.activity_repeat.last if !@schedule.activity_repeat.last.nil? %>
+	<%@repeat_date = !@repeat.nil? && !@repeat.ends_on.nil? && @repeat.ends_on.strftime("%Y-%m-%d") %>
+	<%@schedule_date = !@schedule.nil? && !@schedule.start_date.nil? && @schedule.start_date.strftime("%Y-%m-%d")%>
+
+	<%if @repeat_date != @schedule_date%>
+
+	<%if @repeat.repeats=="Daily" %>Repeats <%if @repeat.repeat_every=="1"%><%@repeat.repeat_every if !@repeat.repeat_every.nil? %> Daily <%else%> Every <%=@repeat.repeat_every if !@repeat.repeat_every.nil? %> Days<%end%> <%=@repeat.ends_on.strftime("until %a, %b %d, %Y") if !@repeat.ends_on.nil?%><%if !@repeat.end_occurences.nil?%> <%if @repeat.end_occurences=="1"%>Once<%else%>,<%=@repeat.end_occurences if !@repeat.end_occurences.nil?%> times <%end%><%end%><%end%>
+	<!--weekly-->
+	<%if @repeat.repeats=="Weekly" %>Repeats <%if @repeat.repeat_every=="1"%><%@repeat.repeat_every if !@repeat.repeat_every.nil? %> Weekly <%else%> Every <%=@repeat.repeat_every if !@repeat.repeat_every.nil? %> Weeks <%end%> on <%=@repeat.repeat_on if !@repeat.repeat_on.nil?%> <%=@repeat.ends_on.strftime("until %a, %b %d, %Y") if !@repeat.ends_on.nil?%><%if !@repeat.end_occurences.nil?%> <%if @repeat.end_occurences=="1"%>, Once<%else%>,<%=@repeat.end_occurences if !@repeat.end_occurences.nil?%> times <%end%><%end%><%end%>
+	<!--monthly-->
+	<%if @repeat.repeats=="Monthly" %>
+	<%if @repeat.repeat_every=="1"%>
+	Repeats
+	<%@repeat.repeat_every if !@repeat.repeat_every.nil? %>
+	Monthly
+	<%else%>
+	Every
+	<%=@repeat.repeat_every if !@repeat.repeat_every.nil? %>
+	Months
+	<%end%> on
+	<%if @repeat.repeated_by_month=="TRUE"%>
+	<%=@repeat.starts_on.strftime("day %d") if !@repeat.starts_on.nil?%>
+	<%else%>
+	<!--repeated week-->
+	<%my_date = @repeat.starts_on%>
+	<%week_of_target_date = my_date.strftime("%U").to_i%>
+	<%week_of_beginning_of_month = my_date.beginning_of_month.strftime("%U").to_i%>
+	<%repeat_week = week_of_target_date - week_of_beginning_of_month + 1%>
+	<%if repeat_week==1%>First
+	<%elsif repeat_week==2%>Second
+	<%elsif repeat_week==3%>Third
+	<%elsif repeat_week==4%>Fourth
+	<%elsif repeat_week==5%>Fifth
+	<%end%>
+	<%=@repeat.starts_on.strftime("%a") if !@repeat.starts_on.nil?%>
+	<%end%> <%=@repeat.ends_on.strftime("until %a, %b %d, %Y") if !@repeat.ends_on.nil?%>
+	<%if !@repeat.end_occurences.nil?%>
+	<%if @repeat.end_occurences=="1"%>, Once<%else%>,<%=@repeat.end_occurences if !@repeat.end_occurences.nil?%> times <%end%>
+	<%end%>
+	<%end%>
+	<!--yearly-->
+	<%if @repeat.repeats=="Yearly" %>Repeats <%if @repeat.repeat_every=="1"%><%@repeat.repeat_every if !@repeat.repeat_every.nil? %> Annually <%else%> Every <%=@repeat.repeat_every if !@repeat.repeat_every.nil? %> years <%end%> on <%=@repeat.starts_on.strftime("%a, %b %d %Y") if !@repeat.starts_on.nil?%> <%=@repeat.ends_on.strftime("until %a, %b %d, %Y") if !@repeat.ends_on.nil?%><%if !@repeat.end_occurences.nil?%><%if @repeat.end_occurences=="1"%>, Once<%else%>,<%=@repeat.end_occurences if !@repeat.end_occurences.nil?%> times <%end%><%end%><%end%>
+	<!--selected date-->
+	<%if @repeat.repeats!="Daily" && @repeat.repeats!="Weekly" && @repeat.repeats!="Monthly" && @repeat.repeats!="Yearly" && !@repeat.repeats.nil? %>
+	Repeats <%=@repeat.repeats if !@repeat.repeats.nil? && @repeat.repeats!="NULL" %> <%=@repeat.ends_on.strftime("until %a, %b %d, %Y") if !@repeat.ends_on.nil?%> <%if !@repeat.end_occurences.nil?%><%if @repeat.end_occurences=="1"%>, Once<%else%>,<%=@repeat.end_occurences if !@repeat.end_occurences.nil?%> times <%end%><%end%>
+	<%end%>
+	<%end%>
+	<%end%>
+	<%end%>
+
+	<!--by appointment displayed-->
+	<% if share.schedule_mode=="By Appointment"%>
+	<%end%>
+	<!--by appointment displayed end -->
+
+
+	    <!--whole displayed start -->
+		<% @act_share = DeletedSchedule.where("activity_id = ?",@activity.activity_id).each do |share| %>
+		<% if share.schedule_mode=="Whole Day"%>
+		<% @se_date = Date.parse(session_date).strftime("%Y-%m-%d") %>
+		<%if !share.start_date.nil?%>
+		<% if share.start_date.strftime("%Y-%m-%d") == @se_date %>
+		<%@e_date = !share.end_date.nil? && share.end_date.strftime("%Y-%m-%d")%>
+		<%if (share.start_date.strftime("%Y-%m-%d")== @se_date) && (!share.end_date.nil? && share.end_date.strftime("%Y-%m-%d") > share.start_date.strftime("%Y-%m-%d"))  %>
+		Ongoing<br>
+		<%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%><br>
+		to <%=share.end_date.strftime("%a, %b %d, %Y") if !share.end_date.nil? %>, <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%>
+		<%elsif (share.start_date.strftime("%Y-%m-%d")== @se_date) && (share.start_date.strftime("%Y-%m-%d") == @e_date)  %> 
+		Ongoing<br>
+		<%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %><br>
+		<%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+		<%else%>
+		<%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %><br>
+		<%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%>
+		<%end%>
+		<%elsif share.start_date.strftime("%Y-%m-%d") > @se_date %>
+		<%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%><br>
+		to <%=share.end_date.strftime("%a, %b %d, %Y") if !share.end_date.nil? %>, <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%>
+		<%elsif (share.start_date.strftime("%Y-%m-%d")== @se_date) && (!share.end_date.nil? && share.end_date.strftime("%Y-%m-%d") > share.start_date.strftime("%Y-%m-%d"))  %>
+		Ongoing<br>
+		<%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%><br>
+		to <%=share.end_date.strftime("%a, %b %d, %Y") if !share.end_date.nil? %>, <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%>
+		<%elsif (share.start_date.strftime("%Y-%m-%d") < @se_date) && (!share.end_date.nil? && share.end_date.strftime("%Y-%m-%d") > @se_date )  %>
+		Ongoing<br>
+		<%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%><br>
+		to <%=share.end_date.strftime("%a,") if !share.end_date.nil? %> <%=share.end_date.strftime("%b %d, %Y") if !share.end_date.nil? %>, <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%>
+		<%elsif (share.start_date.strftime("%Y-%m-%d") < @se_date) && (!share.end_date.nil? && share.end_date.strftime("%Y-%m-%d") == @se_date )  %> 
+		Ongoing<br>
+		<%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%><br>
+		to <%=share.end_date.strftime("%a,") if !share.end_date.nil? %> <%=share.end_date.strftime("%b %d, %Y") if !share.end_date.nil? %>, <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%>
+		<%elsif (share.start_date.strftime("%Y-%m-%d") == @se_date) && (share.start_date.strftime("%Y-%m-%d") == !share.end_date.nil? && share.end_date.strftime("%Y-%m-%d"))  %>
+		Ongoing<br>
+		<%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %><br>
+		<%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%>
+		<%elsif (share.start_date.strftime("%Y-%m-%d"))  %>
+		<%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %><br>
+		<%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%>
+		<%end%>
+		<%end%>
+		<%end%>
+		<%end%>
+		<!--whole displayed end -->
+		<!--whole displayed start -->
+		<% if share.schedule_mode=="Any Time"%>
+		<%=@activity.business_hours.capitalize if !@activity.nil?%>, <%=@activity.start_time.strftime("%l:%M %p") if !@activity.nil?%> - <%=@activity.end_time.strftime("%l:%M %p") if !@activity.nil?%><br>
+		<%end%>
+		<!--whole displayed end -->
+
+	<%end%><!--share end-->
+
+	<!--date format new changes end-->
+
+
+<%end%>

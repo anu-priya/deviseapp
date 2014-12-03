@@ -1,0 +1,179 @@
+
+<input type="hidden" id="provider_list_count" value="<%= cookies[:provider_count].blank? ? 1 : cookies[:provider_count]%>" />
+    <%if (current_user.nil? || current_user=="")%>
+    <div id="basic_Search" class="advsearchbeforelogin" style="left:31px;;top:44px;">
+      <%else%>
+	<div id="basic_Search" class="advsearchafterlogin" style="left:31px;top:44px;">
+      <%end%>
+      <table cellspacing="0" cellpadding="0" border="0" width="100%">
+        <tr>
+          <!--<td width="28%"></td>-->
+          <td width="44%" align="left">
+            <%@user_agent = request.env['HTTP_USER_AGENT']%>
+            <div class="search_bar_outer <%if !current_user.nil?%>search_bar_login<%end%>" style="<%if !current_user.nil?%><%else%>margin-top: 3px;<%end%>">
+              <form id="advanced_search_update" action="/search" name="advanced_search_update" method="get">
+
+                <div id="search_outer" align="center">
+                  <div id="bS_outer" style="width:auto;">
+                    <div id="category" class="bS_menus">Category
+                      <div class="drop_dwon" id="adv_category_detail">
+                        <div style="height:275px; width:529px; overflow-y:scroll;overflow-x:hidden;padding-top: 0px;">
+                          <%sub=1%>
+                          <input type="hidden" id="ad_sub_category_1" name="ad_sub_category_1" value=""/>
+                          <input type="hidden" id="ad_sub_category_id_1" name="ad_sub_category_id" value=""/>
+                          <%@accordion && @accordion.each do |s|%>
+                            <%if !s.category.nil? && !s.nil? && s.category!=""%>
+                              <div class="Adv_categoryText ftwt"><%=s.category.capitalize if !s.category.nil?%></div>
+                            <%end%>
+                            <div class="clear"></div>
+                            <%@ac_sub=get_all_subcategory_fromactivity(s.category.downcase) if !s.nil? && !s.category.nil?%>
+                            <%if @ac_sub.present? && @ac_sub!="" && !@ac_sub.nil?%>
+                              <div class="Adv_CategoryStyle">
+                                <%@ac_sub.each do |st|%>
+                                  <%if !st.sub_category.nil? && !st.nil? && st.sub_category!=""%>
+                                    <div class="Adv_sub_category">
+					<div class="categorycheckbox"><input type="checkbox" name="ad_cate_<%=sub%>" id="ad_cate_<%=sub%>" value="" class="checkbox" onClick="get_subCat_id('<%=sub%>','<%=  st.sub_category.capitalize if !st.sub_category.nil? && !st.nil? && st.sub_category!=""%>')"></div>
+					<span class="inner_text categorytext"><%=  st.sub_category.capitalize if !st.sub_category.nil? && !st.nil? && st.sub_category!=""%></span>
+				    </div>
+                                    <%sub=sub+1%>
+                                  <%end%>
+                                <%end%>
+                              </div>
+                            <%end%>
+                          <%end%>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="age_range" class="bS_menus">Age Range
+                      <div class="drop_dwon" id="range_age">
+                        <table width="270" border="0" align="left" cellpadding="0" cellspacing="0">
+                          <tr>
+                            <td width="86"  align="left" valign="top">
+                              <input type="hidden" value="" id="age_range7"/>
+                              <input type="hidden" value="" id="age_all"/>
+                              <input type="hidden" value="" id="age_r1"/>
+                              <input type="hidden" value="" id="age_r4"/>
+                              <input type="hidden" value="" id="age_r8"/>
+                              <span><input type="checkbox" name="aa_all" value="a_all" id="aa_all" class="checkbox" onClick="daterange_all_changes1()"/></span><span class="inner_text">All</span>
+                            </td>
+                          </tr>
+                          <td width="88"  align="left" valign="top">
+                            <span><input type="checkbox" name="aa_r1" value="0-3" id="aa_r1" class="checkbox1" onClick="date_range_changes1(1,this.value)"/></span><span class="inner_text">0 - 3</span>
+                          </td>
+                          <tr>
+                            <td width="96"  align="left" valign="top">
+                              <span><input type="checkbox" name="aa_r4" value="4-7" id="aa_r4" class="checkbox1" onClick="date_range_changes1(4,this.value)"/></span><span class="inner_text">4 - 7</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="top">
+                              <span><input type="checkbox" name="aa_r8" value="8-15" id="aa_r8" class="checkbox1" onClick="date_range_changes1(8,this.value)"/></span><span class="inner_text">8 +</span>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                    <div id="start_D"class="bS_menus">
+                      <span id="start_dates_formate">Start Date</span><input type="hidden" name="start_dates" id="start_dates" value="" />
+                      <div class="drop_dwon  " id="date_start" >
+                      </div>
+                    </div>
+                    <div id="end_D" class="bS_menus">
+                      <span id="end_dates_formate">End Date</span><input type="hidden" name="end_dates" id="end_dates" value="" />
+                      <div class="drop_dwon  " id="date_end" >
+                      </div>
+                    </div>
+                    <div  id="day_W"class="bS_menus">Day of Week
+                      <div class="drop_dwon" id="d_week">
+                        <input type="hidden" name="age_rangera" id="age_rangera" value=""/>
+                        <table cellpadding="0" cellspacing="0" border="0" width="270">
+                          <tr>
+                            <td width="83"  align="left" valign="top">
+                              <span><input type="checkbox" name="day_of_week_1" value="Mon" id="day_of_week_1" class="checkbox2" onClick="price_range_changes()"/></span><span class="inner_text">Monday</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="74"  align="left" valign="top">
+                              <span><input type="checkbox" name="day_of_week_2" value="Tue" id="day_of_week_2" class="checkbox2" onClick="date_range_changes()"/></span><span class="inner_text">Tuesday</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="113"  align="left" valign="top">
+                              <span><input type="checkbox" name="day_of_week_3" value="Wed" id="day_of_week_3" class="checkbox2" onClick="date_range_changes()"/></span><span class="inner_text">Wednesday</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="top">
+                              <span><input type="checkbox" name="day_of_week_4" value="Thu" id="day_of_week_4" class="checkbox2" onClick="date_range_changes()"/></span><span class="inner_text">Thursday</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="top">
+                              <span><input type="checkbox" name="day_of_week_5" value="Fri" id="day_of_week_5" class="checkbox2" onClick="date_range_changes()"/></span><span class="inner_text">Friday</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="top">
+                              <span><input type="checkbox" name="day_of_week_6" value="Sat" id="day_of_week_6" class="checkbox2" onClick="date_range_changes()"/></span><span class="inner_text">Saturday</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="top">
+                              <span><input type="checkbox" name="day_of_week_7" value="Sun" id="day_of_week_7" class="checkbox2" onClick="date_range_changes()"/></span><span class="inner_text">Sunday</span>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                    <div id="gend_r" class="bS_menus">Gender
+                      <div class="drop_dwon" id="gender">
+                        <table border="0" cellpadding="0" cellspacing="0" width="129">
+                          <tr><td  align="left" valign="top">
+                              <span><input type="radio" name="gender" id="sex" value="g_all" class="checkbox"/></span><span class="inner_text">Both</span>
+                            </td></tr>
+                          <tr><td  align="left" valign="top">
+                              <span><input type="radio" name="gender" id="sex" value="Male" class="checkbox"/></span><span class="inner_text">Male</span>
+                            </td></tr>
+                          <tr><td  align="left" valign="top">
+                              <span><input type="radio" name="gender" id="sex" value="Female" class="checkbox"/></span><span class="inner_text">Female</span>
+                            </td></tr>
+                        </table>
+                      </div>
+                    </div>
+                    <input type="hidden" id="city_search" value="" name="city_search_ra"/>
+
+                    <div id="Price"class="bS_menus">Price
+                      <input type="hidden" name="age_range71_8"  id="age_range71_8" value=""/>
+                      <div class="drop_dwon" id="chose_price">
+                        <table border="0" cellpadding="0" cellspacing="0" width="129">
+                          <tr><td  align="left" valign="top">
+                              <input type="hidden" value="" id="price_range"/>
+                              <span><input type="checkbox" name="p_all" value="p_all" id="price_all" class="checkbox" onClick="price_all_changes()"/></span><span class="inner_text">All</span>
+                            </td></tr>
+                          <tr><td  align="left" valign="top">
+                              <span><input type="checkbox" name="a_f" value="free" id="price_free" class="checkbox3" onClick="price_range_changes()"/></span><span class="inner_text">Free</span>
+                            </td></tr>
+                          <tr><td  align="left" valign="top">
+                              <span><input type="checkbox" name="paid" value="paid" id="price_paid" class="checkbox3" onClick="price_range_changes()"/></span><span class="inner_text">Paid</span>
+                            </td></tr>
+                        </table>
+                      </div>
+                    </div>
+                    
+                    <div id="submit"class="bS_menu" style="padding: 3px;">
+                      <input type="button" name="search" id="search_button" value="search" onClick="advance_search_navigate()" />
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+
+              <div class="clear"></div>
+            </div>
+          </td>
+        <!--  <td width="27%"></td>-->
+        </tr>
+      </table>
+
+    </div>
+    

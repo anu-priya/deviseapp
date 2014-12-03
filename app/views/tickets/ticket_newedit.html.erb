@@ -1,0 +1,92 @@
+<%=stylesheet_link_tag "global/pop_up","tickets/ticket_edit", :media => "all"%>
+<%= javascript_include_tag "tickets/tickets"%>
+
+<script language="javascript">
+  function closepopup() {
+    parent.neweditTicketPage.hide();
+  }
+</script>
+
+<div id="new_act_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">
+              Activity Ticket
+
+            </div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""><%= image_tag("/assets/global/pop_up/button_close.png", size:"15x15")%></a>
+          </div>
+        </div>
+        <div id="edit_ticket">
+            <div class="centerCont">
+        <form id="edit_activity_ticket" name="edit_activity_ticket" action="#" method="post" onSubmit="return validate_ticket()">
+        <div class="row">
+          <div class="lt">
+            <!-- editTicket1 -->
+            <div class="lt setTotalWidth">
+           
+              <div class="rt ticketContainer" id="editTicket1">               
+                <div class="row1">
+                  <div class="lt col1"><span class="whiteText"><b><%= @activities.activity_name %></b><br/><span class='whiteTextSmall'>Augest</span></span></div>
+                  <div class="lt col2"><span class="whiteText"><b>2:00 pm</b><br/><span class='whiteTextSmall'>Start time</span></span></div>
+                  <div class="lt col3"><span class="whiteText"><b>6:00 pm</b><br/><span class='whiteTextSmall'>End time</span></span></div>
+                </div>  
+                <div class="row2"><span class='actName'>Kids Art School</span></div>
+                <div class="row3">
+                  <%= image_tag("/assets/tickets/view_page_ticket_image111.png", size:"181x143")%>
+                </div> 
+              
+                <div class="contRow">
+                <div style='height:136px;overflow:hidden;'>
+                <div class="head">Kids Art School</div>
+                <div class="desp" style="font-size:9px;">Lorim ipsum dolor sit amet,<Br/> consectetur adipicsing elit.</div>
+                <div class="head">Venue</div>
+                <div class="desp">No.16, world cross street, Near white house city, us. Pn:8900450050</div>
+                </div>
+                <div class="clear"></div>
+                <div>
+                  <div class="lt priceCode">
+                    <div class="head">Price</div>
+                    <div class="redText">$15.00/-</div>             
+                  </div>
+                  <div class="lt priceCodert">
+                    <div class='ticketText'>FamPass Code</div>
+                    <%= image_tag("/assets/tickets/ticket_code.png", size:"92x43", class: "lt ticketCodeImg")%>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>               
+              </div>
+            </div>
+            <div class="clear"></div> 
+            </div>
+            
+            <!-- editTicket2 -->
+            
+
+            
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+        </div>
+   
+    
+
+
+   
+        </form>
+        </div>
+    </div>
+      </div>  
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+</div>

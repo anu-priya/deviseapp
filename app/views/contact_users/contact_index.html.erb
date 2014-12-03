@@ -1,0 +1,894 @@
+<link rel="stylesheet" type="text/css" href="/assets/event_index/menu.css" />
+<link rel="stylesheet" type="text/css" href="/assets/event_index/event_index.css" />
+<link rel="stylesheet" href="/assets/contacts_users_new/contact_user.css" type="text/css" />
+<script type="text/javascript" src="/assets/contacts_users_new/contact_user.js"></script>
+<script src="<%=request.protocol%>connect.facebook.net/en_US/all.js"></script>
+<script type="text/javascript" src="/assets/jquery.cookie.js"></script>
+<script src="/assets/header/header.js" type="text/javascript"></script>
+<!-- Auto complete js & css -->
+<link rel="stylesheet" type="text/css" href="/assets/contacts_users/jquery-ui.css" />
+<!-- end -->
+<!--Showby drop down list-->
+<link rel="stylesheet" href="/assets/dropdown/contact.css">
+<!--Show drop down list end-->
+<link rel="stylesheet" type="text/css" href="/assets/custom_scrollbar/mCustomScrollbar.min.css" />
+<script src="/assets/custom_scrollbar/mCustomScrollbar.concat.min.js"></script>
+<style type="text/css">
+   .ui-autocomplete {
+     /*left: 70.4% !important;*/
+     border-bottom: 4px solid #ef322e;
+     width: 11.5%;
+  }
+  </style>
+<script type="text/javascript">
+  function updateContacts() {   
+    $.post("/contact_users/index", "", null, "script");
+  }
+  var viewContactPage;
+  var editContactPage;
+  var deleteContactPage;
+  var deleteContactPageEmpty;
+  var activitySupportPage;
+  
+  function pop_view_contact(url){
+    viewContactPage = dhtmlmodal.open("Event View Contact","iframe",url," ", "width=910px,height=610px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);   
+    return false;
+  }
+  function pop_edit_contact(url){
+    editContactPage = dhtmlmodal.open("Event Edit Contact","iframe",url," ", "width=910px,height=510px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    return false;
+  }
+  function pop_delete_contact(url){
+    deleteContactPage = dhtmlmodal.open("Event Delete Contact","iframe",url," ", "width=466px,height=290px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);    
+    return false;
+  }
+  <!--modified by rajkumar-->
+  function pop_delete_contact_empty(url){
+    deleteContactPageEmpty = dhtmlmodal.open("Event Delete Contact","iframe",url," ", "width=466px,height=290px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    return false;
+  }  
+  //create message  
+  function pop_create_message(){
+    var selected_ids = $('#contact_names').val();
+    var group_ids = $('#group_names').val();
+    var act_ids = $('#act_names').val();
+
+    popCreateMessagePage = dhtmlmodal.open("Delete Activity","iframe",'/contact_create_message?mail='+selected_ids+'&group_mail='+group_ids+'&act_mail='+act_ids," ", "width=1007px,height=800px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    return false;
+  }
+  function before_delete(){
+    var contact = $('#contact_names').val();
+    var groupid = $('#group_names').val();
+    var other_netwrok=$('#other_network_names').val();
+    var other_contacts=$('#net_contact_names').val();
+    if ((other_netwrok!="")&&(other_netwrok!=undefined))
+    {  
+       $("#loadimg").show();
+       $.ajax({
+              type: "POST",
+              dataType: 'script',
+              data: {"group_ids": other_netwrok},
+              url: " /contact_groups/frinds_networks"             
+            });
+    }
+    else if((other_contacts!="")&&(other_contacts!=undefined))
+    {
+        $(".flash-message").html("Your can't delete the contact(s)");
+        var win=$(window).width();
+        var con=$(".flash_content").width();
+        var leftvalue=((win/2)-(con/2))
+        $(".flash_content").css("left",leftvalue+"px");
+        $(".flash_content").css("top","67px");
+        $('.flash_content').fadeIn().delay(5000).fadeOut();
+    }
+    else{
+      if ((contact!="" && contact!=" ") || (groupid!="" &&  groupid!=" "))
+      {
+        if(groupid == undefined || groupid=='undefined')
+        {
+          pop_delete_contact('/contact_users/delete?id='+contact+"&groupid=")
+        }
+        else
+        {
+          pop_delete_contact('/contact_users/delete?id='+contact+"&groupid="+groupid)
+        }
+      }
+      else
+      { 
+        pop_delete_contact_empty('/contact_users/delete_empty?id='+contact+"&groupid="+groupid+"&type=contacts")
+      }
+  }
+  }
+
+  function before_mail(){
+    var raj = $('#contact_names').val();
+    
+    if (raj!="" && raj!=" ")
+    {
+      pop_mail_contact('/contact_users/select_mail?id='+raj)
+    }
+    else
+    {
+      pop_mail_contact_empty('/contact_users/select_mail_empty?id='+raj)
+    }
+  }
+
+  function new_message(mode){
+    var contact_ids = $('#contact_names').val();
+    var other_contact_ids = $('#net_contact_names').val();
+    var group_ids = $('#group_names').val();
+    var other_netwrok=$('#other_network_names').val();
+    var all_groups= group_ids + other_netwrok
+    if ((other_contact_ids!="")&&(other_contact_ids!=undefined)){
+      $("#frm_contacts").val(other_contact_ids);
+    }
+    else
+    {
+      $("#frm_contacts").val(contact_ids);
+    }
+    $("#frm_group").val(all_groups);
+    //document.frm_pst.action="/messages/new?mode="+mode;
+    
+    document.frm_pst.submit();
+
+    // window.location.href="/messages/new?mode="+mode
+    // window.location.href="/messages/new?mode="+mode+'&contacts='+contact_ids
+  }
+  
+  
+  function assign_user_to_groups(){
+    var selected_groups =   $('#groupmenu_ids').val();
+    var selected_contacts = $('#contact_names').val();
+    var other_contact_ids = $('#net_contact_names').val();
+     if ((other_contact_ids!="")&&(other_contact_ids!=undefined)){
+        $(".flash-message").html("Your can't assing the contact(s)");
+        var win=$(window).width();
+        var con=$(".flash_content").width();
+        var leftvalue=((win/2)-(con/2))
+        $(".flash_content").css("left",leftvalue+"px");
+        $(".flash_content").css("top","67px");
+        $('.flash_content').fadeIn().delay(5000).fadeOut();
+    }
+    else{
+            if(selected_contacts != "" && selected_contacts != " " && selected_groups != "" && selected_groups != " ")
+            {
+              $("#loadimg").show();
+              $.ajax({
+                type: "POST",
+                dataType: 'script',
+                data: {"group_ids": selected_groups,"contact_ids": selected_contacts},
+                url: " /contact_groups/assign_to_groups"
+              });
+              var arr_values = [];
+              $(".groupmenu_checkbox").each(function(){
+                var i = $( this ).val();
+                if(i==1)
+                {
+                  var str = this.id.toString();
+                  arr = str.split("_");
+                  arr_values.push(arr[arr.length-1]);
+                }
+              });
+              $.each(arr_values, function( index, value ) {
+                dispCheckSelectedGroupMenu(value);
+              });
+            }
+            else
+            {
+              pop_delete_contact_empty('/contact_users/delete_empty?id='+selected_contacts+"&groupid="+selected_groups+"&type=groups")
+            }
+
+  }
+  }
+
+  function sendRequest(id,cuser){
+    FB.init({
+      appId:'<%= FB_APP_ID %>', cookie:true,
+      status:true, xfbml:true,
+
+    });
+
+    FB.getLoginStatus(function(response) {
+      if (response.status === 'connected') {
+        var uid = response.authResponse.userID;
+        var accessToken = response.authResponse.accessToken;
+
+        //alert(id);
+        FB.ui(
+        {
+          method: 'apprequests',
+          to: id,
+          message: 'Hi friends, Please join me on famtivity, the family activity network! I think you will really enjoy it.Dialogs provide a simple. </n>  ' +cuser+' '
+        },
+        function(param){
+          console.log(param);
+
+        }
+      );
+
+
+
+  
+      } else if (response.status === 'not_authorized') {
+        // the user is logged in to Facebook,
+        // but has not authenticated your app
+      } else {
+    
+        FB.ui(
+        {
+          method: 'apprequests',
+          to: id,
+          message: 'Hi friends, Please join me on famtivity, the family activity network! I think you will really enjoy it.Dialogs provide a simple. </n>  ' +cuser+' ',
+        },
+        function(param){
+          console.log(param);
+
+        }
+      );
+      }
+    });
+
+    FB.init({
+      appId:'<%= FB_APP_ID %>', cookie:true,
+      status:true, xfbml:true,frictionlessRequests: true,
+    });
+
+  }
+  
+  function warmup(){
+    FB.init({
+      appId:'<%= FB_APP_ID %>', cookie:true,
+      status:true, xfbml:true,frictionlessRequests: true,
+    });
+  }
+
+</script>
+<style>
+
+  .edit_grp_page {
+    height: auto;
+    margin-left: -60px;
+    position: absolute;
+    width: 225px;
+    z-index: 200;
+    top:138px;
+  }
+  .edit_container
+  {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #D7DADB;
+    height: auto;
+    width: 255px;
+    margin-left: 40px;
+    border-bottom: 4px solid red;
+    margin-top: -48%;
+  }
+  .edit_container .g_name{
+    border: 1px solid #E1E1E1;
+    height: 20px;
+    padding: 3px;
+    width: 230px;
+  }
+  .network_heding{
+    margin-right: 5px;margin-top:2px;display: block;width: 200px;
+  }
+  .header_edit
+  {
+    padding:3px;
+  }
+  .header_edit_content
+  {
+    color: #4AA3B6;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    padding-left: 67px;
+  }
+  .innerDiv
+  {
+    border-top: 1px solid #D8E7EC;
+    padding: 8px;
+  }
+  #grp-sub-menu{
+    top: 21px !important;
+  }
+  .contact_tablebdr{
+   /* background-color: #EDF8FC;*/
+  }
+  .headline {
+    font-size:16px;
+  }
+  .network_row{
+    width: 100%;
+    font-size: 12px;
+    padding: 7px 1px;
+  }
+  .network_row :hover{
+    color: #000 !important;
+  }
+  .cont_head{
+    margin-bottom: 5px;
+    margin-top: -6px;
+  }
+
+</style>
+
+<div id="providerEventList" style="overflow-x:hidden;">
+   <div id="full_section" class="wrapper_static" >
+  <div id="contact_outercontainer" class="wrapper_static" >
+  <div class="topContainer cont_head" id="contact_header" >
+    <%= render :partial=>"contact_header" %>
+  </div>
+  
+  <!--div class="top-line"></div-->
+<div id="outercontainer" style="width: 1260px;margin: 0 auto;"%> <!-- outer container div start-->
+  <div class="centerContainer contactlist" style="width: 98.5%;">
+    <table cellspacing="0" cellpadding="0" border="0" width="99.7%" style="margin-left: 5px;">
+      <tr>
+        <!-- select all show by section started-->
+        <td align="left" class="topContactText top-contact" valign="middle">
+          <div class="contact_line"></div>
+          <div style="margin: 19px 0px 5px 0px;">
+            <input type="hidden" name="groups_all" id="groups_all" value="0" />
+            <span  class="checkboxImg" style="top:0px; position:relative;margin: -1px -3px 0px 0px;">
+              <a href="javascript:void(0)" title="" id="select_group" onclick="selectAnyGroup('select',0)" style="display: none"><img src="/assets/contact/selected_checkbox.png" alt=""/></a>
+              <a href="javascript:void(0)" title="" id="not_select_group" onclick="selectAnyGroup('not_select',1)" ><img src="/assets/contact/normal_checkbox.png" alt=""/></a>
+            </span>
+            <span class="menuText setLt new_font" style=" color: #4495ae;font-size: 14px;padding-left: 7px;">Networks</span>
+            <span class="pipeSymbol" style="position: relative;top: -1px;">|</span>
+            <span class="pipeSymbol" style="height: 25px;font-size: 14px;width: 70px;margin-left: -4px;">
+              
+              <div id="grp_frnd_ct" class="contact_menu_style new_font" style="margin-top: 2px;display:inline-block;border: none;">
+                <ul style="margin: 0px;">
+                  <li style="padding: 5px 0px;">
+                    <a href="#" class="top_menu_icon menuText " style="color: #4495ae;width: 75px;">
+                      <span id="txt-group-type">Show By</span>
+                      <span style="margin-left: 2px;display: inline-block;">
+                        <img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/>
+                      </span>
+                    </a>
+                    <ul class="sub-menu menu_group" style="height: auto;width: 120px;background-color: white;border: 1px solid #D7DADB;margin-left: -35px;border-bottom: 4px solid red;top: 31px;">
+                      <div align="right" class="netmenu new_font" style="margin-top: -13px;"><img src="/assets/event/schedule_top_arrow.png" alt=""></div>
+                      <li style="padding: 0px 6px;font-family: 'open_sansregular';"><a href="javascript:void(0)" onclick="all_filter('all','showby'); _gaq.push(['_trackEvent','Parent Module', 'clickContact','All Friends']);" id="all" class="topshow" style="padding-top:7px;width: 116px;margin-left: -7px;text-indent: 5px;padding-bottom: 8px;">All Contacts</a></li>
+                    </ul>
+                  </li>
+                </ul>
+                <div class="clear"></div>
+              </div>
+        <!--section {{=it.selected.label}}>
+              <div class="search-container-inline daya">
+               <style type="text/css">
+               </style>
+                <script id="dropdown-selected" type="text/x-dot-template">
+              {{=it.label}}
+                </script>
+                <script id="dropdownsdsd" type="text/x-dot-template">
+                  <div class="dropdown " style="width:122px;height: 12px;font-size:14px;" tabindex="1">
+                    <div class="selected" style="padding:7px 13px;font-size:14px;color: #4495ae;font-family: 'open_sansregular';"><%if !params[:key_word].nil? && params[:key_word]!="" %><%= params[:key_word] %><%else%>Show By<%end%></div>
+                    <ul style="width: 126px; left: -2px; top: 33px;">
+                {{~it.items :item:index}}
+                      <li data-index="{{=index}}">{{=item.label}}</li>
+                {{~}}
+                    </ul>
+                  </div>
+                </script>
+
+                  <select id="age_drop" data-template="#dropdownsdsd" style="display:none;">
+                  <option> <a href="javascript:void(0)" onclick="contact_filter('all'); _gaq.push(['_trackEvent','Parent Module', 'clickContactUser','All']);" id="all">All Contacts</a></option>
+                </select>
+              </div>
+              <!/section-->
+             <!-- <span>please check your csv file</span>-->
+            </span>
+            <span class="pipeSymbol" style="position: relative;top: -1px;">|</span>
+            <!--span class="pipeSymbol" style="height: 25px;font-size: 14px;">
+
+              <!--div id="menu_group" class="contact_menu_style" style="display:inline-block;">
+                <ul type="none">
+                  <li style="padding: 5px 0px;bottom: 3px;">
+                    <a href="#" id="group_menu" class="menuText top_menu_icon" style="color: #4495ae;width: 75px;">
+                      <span><b>Create New Network</b></span>
+
+                      <span style="margin-left: 2px;display: inline-block;">
+                        <img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/>
+                      </span>
+                    </a>
+                    <ul class="sub-menu menu_group" style="padding: 5px 0px 0px;width: 245px;">
+                      
+                        <li class="menupadding crte_grp" id="new_group_create">
+
+                          <div style="padding:1px">
+                            <input class="lt txtbox_create" type="textbox" name="contact_group_name" id="contact_group_name" style="width: 230px;"/>
+                            <span id="grp_error_msg" style="color:red;"></span>
+                          </div>
+                          <div class="clear"></div>
+                          <div class="network_row">
+                            <input type="checkbox" id="fam_net" name="fam_net"/>
+                            Add this network as a row in your feed
+                          </div>
+                        </li>
+                      <li><a href="#" style="padding:0px;"><span class="underLine" style="left: -2px;margin-bottom: -5px;width: 247px;"></span></a></li>
+                      <li class="menupadding">
+                        <a class="lt" style="margin-right: 5px;margin-left:-2px;margin-top:-5px;" href="javascript:void(0)"><img width="54px" height="28px" src="/assets/contact/save_button.png" alt="" onclick="grp_create(); _gaq.push(['_trackEvent','Parent Module', 'clickContactGroup','Save']);"/></a>
+                        <a href="javascript:void(0)" style="margin-top:-5px;"><img src="/assets/contact/close_button.png" alt="" onclick="grp_cancel(); _gaq.push(['_trackEvent','Parent Module', 'clickContactGroup','Cancel']);"/></a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+                <div class="clear"></div>
+              </div>
+
+            </span-->
+            
+            <!--span class="pipeSymbol" id="group_message_fail" style="font-weight: bold;
+                  padding: 6px 5px 0px 5px;display:none;height: 25px;font-size: 14px;"> </span-->
+                  <span id="fam-contact" style="cursor:pointer;" onclick="fam_pop_network('/fam_network'); _gaq.push(['_trackEvent','Parent Module', 'clickFriending','Create Fam Network']);">
+                  <span class="fam_button contact_fam_ic"></span>
+                  <span class="new_font" style="height: 25px;font-size: 14px;color: #4495ae;margin-left: 20px;">Create FamNetwork</span></span>
+                  
+          </div>
+        </td>
+        <!--select all show by section started-->
+      </tr>
+    </table>
+    <div class="contactListContainer" id="group_list_member" style="overflow-x: hidden;border:none;">
+      <div id="delete-group-msg" style="display:none;color:green;margin-left: 380px;font-weight: bold;">Your Network has been deleted.</div>
+      <div id="delete-msg" style="display:none;color:green;margin-left: 380px;font-weight: bold;">The contact has been deleted.</div>
+      <div id="create-msg" style="display:none;color:green;margin-left: 380px;font-weight: bold;">Your Network has been created.</div>
+      <div id="contact_user_index" style="padding:5px 0px;">
+        <%= render :partial=>"contact_group" %>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <form name="contact_user" id="contact_user" action="" method="post">
+      <table cellspacing="0" cellpadding="0" border="0" width="100%">
+        <tr>
+          <!-- select all show by section started-->
+          <td align="left" class="topContactText" valign="middle">
+            <%if !@contact_users.nil? && @contact_users.present?%>
+            <div class="user_line"></div>
+            <div style="padding: 20px 0px 5px 0px;margin-left: -14px;">
+              <input type="hidden" name="contacts" id="contacts" value="0" />
+              <span class="lt topContact">&nbsp;</span>
+              <span  class="checkboxImg" style="top:0px; position:relative;margin: -1px -3px 0px 0px;">
+                <a href="javascript:void(0)" title="" id="select" onclick="selectAnyCont('select',0)" style="display: none"><img src="/assets/contact/selected_checkbox.png" alt=""/></a>
+                <a href="javascript:void(0)" title="" id="not_select" onclick="selectAnyCont('not_select',1)" ><img src="/assets/contact/normal_checkbox.png" alt=""/></a>
+              </span>
+              <span class="menuText setLt new_font" style=" color: #4495ae;font-size: 14px;padding-left: 7px;">Contacts</span>
+              <span class="pipeSymbol" style="position: relative;top: -1px;">|</span>
+
+              <span class="pipeSymbol" style="height: 25px;font-size: 14px;margin-left: -4px;">
+
+                <div id="menu_contact" class="contact_menu_style" style="margin-top: 2px;">
+                  <ul style="margin: 0px;">
+                    <li style="padding: 5px 3px;bottom: 5px;"><a href="#" class="menuText top_menu_icon" style="color: #4495ae;width: 75px;height: 20px; width:auto;"><span id="txt-mem-type" class="new_font">Show By</span>
+                      <span style="margin-left: 2px;display: inline-block;"><img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/></span></a>
+                      <ul id="grp-sub-menu" class="sub-menu menu_group" style="height: auto;width: 120px;background-color: white;border: 1px solid #D7DADB;margin-left: -31px;border-bottom: 4px solid red;margin-top: 9px;">
+                        <div align="right" class="netmenu" style="margin-top: -13px;"><img src="/assets/event/schedule_top_arrow.png" alt=""></div>
+                        <li class="menupadding"><a href="javascript:void(0)" onclick="contact_filter('all'); _gaq.push(['_trackEvent','Parent Module', 'clickContactUser','All']);" id="all" style="padding:5px 0px 6px;">All</a></li>
+                        <li class="menupadding"><a href="javascript:void(0)" onclick="contact_filter('non_member'); _gaq.push(['_trackEvent','Parent Module', 'clickContactUser','Non-Member']);" id="non-mem" style="padding:5px 0px 6px;">Non-Member</a></li>
+                        <li class="menupadding"><a href="javascript:void(0)" onclick="contact_filter('member'); _gaq.push(['_trackEvent','Parent Module', 'clickContactUser','Member']);" id="mem" style="padding:5px 0px 6px;">Member</a></li>
+                        <li class="menupadding"><a href="javascript:void(0)" onclick="contact_filter('friend'); _gaq.push(['_trackEvent','Parent Module', 'clickContactUser','Friend']);" id="friend" style="padding:5px 0px 6px;">Friend</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                  <div class="clear"></div>
+                </div>
+
+
+       <!--Custom drop down starting here>
+      <div class="search-container-inline daya">
+       <style type="text/css">
+       </style>
+        <script id="dropdown-selected" type="text/x-dot-template">
+      {{=it.label}}
+        </script>
+        <script id="dropdownsdsd" type="text/x-dot-template">
+          <div class="dropdown " style="width:122px;height: 12px;font-size:14px;" tabindex="1">
+            <div class="selected" style="padding:7px 13px;font-size:14px;color: #4495ae;font-family: 'open_sansregular';"><%if !params[:key_word].nil? && params[:key_word]!="" %><%= params[:key_word] %><%else%>Show By<%end%></div>
+            <ul style="width: 126px; left: -2px; top: 33px;">
+        {{~it.items :item:index}}
+              <li data-index="{{=index}}">{{=item.label}}</li>
+        {{~}}
+            </ul>
+          </div>
+        </script>
+
+          <select id="age_drop" data-template="#dropdownsdsd" style="display:none;">
+          <option> <a href="javascript:void(0)" onclick="contact_filter('all'); _gaq.push(['_trackEvent','Parent Module', 'clickContactUser','All']);" id="all">All </a></option>
+          <option> <a href="javascript:void(0)" onclick="contact_filter('non_member'); _gaq.push(['_trackEvent','Parent Module', 'clickContactUser','Non-Member']);" id="non-mem">Non-Member</a></option>
+          <option> <a href="javascript:void(0)" onclick="contact_filter('member'); _gaq.push(['_trackEvent','Parent Module', 'clickContactUser','Member']);" id="mem">Member</a></option>
+          <option> <a href="javascript:void(0)" onclick="contact_filter('friend'); _gaq.push(['_trackEvent','Parent Module', 'clickContactUser','Friend']);" id="friend">Friend</a></option>
+
+        </select>
+      </div>
+      <Custom drop down ending here-->
+              </span>
+              <span class="pipeSymbol" style="position: relative;top: -1px;">|</span>
+              <span class="pipeSymbol" style="height: 25px;font-size: 14px;margin-left: -3px;">
+                <div id="menu_group_friend" class="network_contact " style="margin-top: -3px;">
+                  <ul type="none">
+                    <li style="padding: 5px 3px;">
+                      <a href="#" id="group_menu" class="menuText top_menu_icon" style="color: #4495ae;width: 75px;height: 20px; width:auto;">
+                        <span class="new_font">Add to Network</span>
+                        <span style="margin-left: 2px;display: inline-block;">
+                          <img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/>
+                        </span>
+                      </a>
+                      <ul class="sub-menu menu_group" style="padding: 5px 0px 0px;width: 180px;height:auto;background-color: white;position: relative;top: 7px;border: 1px solid #D7DADB;border-bottom: 4px solid #ef322e;">
+                        <div align="right" class="netmenu"><img src="/assets/event/schedule_top_arrow.png" alt=""></div>
+                        <div id="sub-group-menu">
+                          <input id="groupmenu_ids" name="grp_ids" type="hidden" value="" />
+                          <% if !@contact_groups.blank?%>
+                            <div id="group-list" class="group-scroll-pane-category">
+                              <%i=1%>
+                              <% @contact_groups.each do |group|%>
+                                <li class="menupadding">
+                                  <div style="margin-right:0px;width: 25px;" class="lt checkbox setstyle">
+                                    <input id="groupmenu_<%=i%>" class="groupmenu_checkbox_value" type="hidden" value="<%= group.group_id %>"/>
+                                    <input id="groupmenu_checkbox_<%=i%>" class="groupmenu_checkbox" type="hidden" value="0"/>
+                                    <a style="display: none;position: relative;top: -4px;" href="javascript:void(0)" title="" class="groupmenu_checkbox_selected" id="groupmenu_checkbox_selected_<%=i%>" data="<%=i%>" ><img src="/assets/contact/selected_checkbox.png" alt=""/></a>
+                                    <a style="position: relative;top: -4px;" href="javascript:void(0)" title="" class="groupmenu_checkbox_normal" id="groupmenu_checkbox_normal_<%=i%>" data="<%=i%>"><img src="/assets/contact/normal_checkbox.png" alt=""/></a>
+                                  </div>
+                                  <div class="scText fts12" title="<%= group.group_name%>"><%= truncate(group.group_name,length: 20, omission: "...")%></div>
+                                  <div class="clear"></div>
+                                </li>
+                                <%i=i+1%>
+                              <%end%>
+                            </div>
+                          <%else%>
+                            <span style="margin-left: 12px;"><b>No Networks Available</b></span>
+                          <%end%>
+                        </div>
+                        <!--li><a href="#" style="padding:0px;"><span class="underLine" style="left: -2px;margin-bottom: -5px;width: 182px;"></span></a></li-->
+                        <div class="menupadding" style="height:40px;margin-left: 14px;">
+                          <% if !@contact_groups.blank?%>
+                              <a class="save-button" href="javascript:void(0)" onclick="assign_user_to_groups(); _gaq.push(['_trackEvent','Parent Module', 'clickContactGroup','Save']);" onkeydown="continueKeyDown(event)">Apply</a>
+                              <%end%>
+                              <a class="cancel-button" href="javascript:void(0)" onclick="grp_close();" onkeydown="cancelKeyDown(event)">Close</a> 
+                          </div>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+                <!-- <span>please check your csv file</span>-->
+              </span>
+              <!--span class="menuText setLt" style="color: #4495ae;font-size: 14px;padding-left: 7px;"><a href="javascript:void(0)" onclick="send_multi_req();" class=" menuText" style="display:none;height: 20px;margin: 1px 0 0 0px;padding: 3px 5px;color: #13849B;width: auto;" id="text-type">Send Invite to Join</a></span-->
+            </div>
+            <%else%>
+            <div class="user_line" style="width: 98%;"></div>
+            <%end%>
+          </td>
+          <!--select all show by section started-->
+
+        </tr>
+      </table>
+      <div>
+        <div id="share-success" style="display:none;color:green;font-size: 14px; padding-top: 10px;" align="center">Your invite has been sent successfully!</div>
+        <div id="share-fail" style="display:none;color:green;font-size: 14px; padding-top: 10px;" align="center">Oops something went wrong. Please invite again</div>
+
+        <div id="friend_list_member" class="contactListContainer" style="overflow-x: hidden;border:none">
+          <div id="contact_list_member" style="padding:0px;">
+            <%= render :partial=>"contact_user" %>
+          </div>
+        </div>
+    </form>
+  </div>
+
+</div><!-- outer container div end-->
+</div>
+  <div class="clear"></div>
+</div>
+</div>
+</div>
+
+<!--ajax loader -->
+<div id="loadimg" style="top: 58.5%;left: 48%;position: absolute;display:none;"><center><img src="/assets/loading.gif" /></center></div>
+<!-- friend request  success popup -->
+<div id="thankyou_newsletter">
+
+  <div class="content_popup" style="display:block;"><br><%= Base64.decode64(params[:cont_msg])  if !params[:cont_msg].nil?%><br><br>
+    <span class="b-close" onclick="change_message();" id="loginFeature"><a href="javascript:void(0)" title=""><img src="/assets/register/ok_btn.png" /></a></span>
+  </div>
+</div>
+<!-- friend request success popup  end-->
+
+<!-- avoid window scroll -->
+<script type="text/javascript">
+  $(document).ready(function(){
+    <%if !@gbox.nil? && @gbox=="grp"%>
+    $(".full_table_0").css('border','1px solid #ffa0a0');
+    <%end%>
+    <% if !@contact_groups.nil? && !@famnetwork.nil? && !@activity_groups.nil?%>
+        <%@totalgr=@activity_groups+@famnetwork+@contact_groups%>
+    <%elsif !@contact_groups.nil? && !@activity_groups.nil?%>
+       <% @totalgr=@activity_groups+@famnetwork+@contact_groups%>
+    <%else%>
+        <%@totalgr=@contact_groups%>
+    <%end%>
+    <%if !@totalgr.nil? && @totalgr.count>3%>
+    $("#group_list_member").mCustomScrollbar({
+       theme:"dark-2"
+   });
+    var tot=<%=(((@totalgr.count )/4))%>
+    var first_row_height=300;
+    var ht=first_row_height+(tot*155)
+    $('.mCSB_container').css('min-height',ht+'px');
+    <%end%>
+     $("#friend_list_member, #group-list, .ui-autocomplete").mCustomScrollbar({
+       theme:"dark-2"
+   });
+
+  <%if ((!@del.nil? && @del.present?)||(!@grp.nil? && @grp.present?)||(!@net.nil? && @net.present?)||(!@cr_invite.nil? && @cr_invite.present?)||(!@create.nil? && @create.present?))%>
+    <%if @del==true%>
+    $(".flash-message").html("The contact(s) has been deleted successfully.");
+    <% elsif @grp==true%>
+    $(".flash-message").html("Your Network has been deleted successfully.");
+    <% elsif @net==true%>
+    $(".flash-message").html("Your Network has been created successfully.");
+    <% elsif @cr_invite==true%>
+    $(".flash-message").html("You have successfully added a contact in Famtivity! An email has been sent to the contact with the invite.");
+    <% elsif @create==true%>
+    $(".flash-message").html("You have successfully added a contact in Famtivity!");
+    <%end%>
+    var win=$(window).width();
+    var con=$(".flash_content").width();
+    var leftvalue=((win/2)-(con/2))
+    $(".flash_content").css("left",leftvalue+"px");
+    $(".flash_content").css("top","8%");
+    $('.flash_content').fadeIn().delay(10000).fadeOut();
+    <%end%>
+
+  });
+  // Added Autocomplete functionality for friends & groups
+  var obj  = {};
+  var availableTags=new Array();
+<%if !@groups.nil?%>
+  <% @groups.each do |auto_complete|%>
+      availableTags.push({"label":"<%= auto_complete%>", "category": "Networks", 'data': 'general'});
+  <%end%>
+<%end%>
+<%if !@activities.nil?%>
+  <% @activities.each do |auto_complete|%>
+      availableTags.push({"label":"<%= auto_complete%>", "category": "Activity Groups", 'data': 'activity_groups'});
+  <%end%>
+<%end%>
+<%if !@friends.nil?%>
+  <% @friends.each do |auto_complete|%>
+      availableTags.push({"label":"<%= auto_complete.contact_name%>, <%= auto_complete.contact_email%>", "category": "Friends", 'data': 'general'});
+  <%end%>
+<%end%>
+<%if !@users.nil?%>
+  <% @users.each do |auto_complete|%>
+      availableTags.push({"label":"<%= auto_complete.user_name%>, <%= auto_complete.email_address%>", "category": "Activity Users", 'data': 'activity_users'});
+  <%end%>
+<%end%>
+
+
+  
+
+  var count = 2;
+  function loadcontact(pageNumber){
+    $('#loadmoreajaxloader').show();
+    var l_val;
+    l_val= pageNumber * 5;
+    $.ajax({
+      url: "contact_users",
+      type:'GET',
+      data: "page="+ pageNumber + '&loop_file='+l_val+'',
+      dataType: "script",
+      success: function(html){
+        $('#loadmoreajaxloader').hide('1000');
+      }
+    });
+    return false;
+  }
+
+  function contact_filter(fil){
+    $("#text-type").hide();
+    $("#select").hide();
+    $("#not_select").show();
+    $("#s_key").val(fil)
+    var s_val = $("#s_key").val();
+    var mode = "<%=params[:mode]%>"
+   // $("#event_search").val("Search for Friend");
+    //$("#event_search").css('color','#999999');
+    $("#pipe-sym").show();
+    if (s_val == "non_member")
+    {
+      $(".contact_tablebdr").css('border','1px solid #ededed');
+      $(".user_line").css("width","69%");
+      $("#txt-mem-type").html("Non-Member");
+      //$("#all").css("color","#959292");
+      //$("#mem").css("color","#959292");
+      //$("#friend").css("color","#959292");
+      //$("#non-mem").css("color","#F97C0E");
+    }
+    else if(s_val == "member")
+    {  
+      $(".contact_tablebdr").css('border','1px solid #ededed');
+      $(".user_line").css("width","71%");
+      $("#txt-mem-type").html("Member");
+      //$("#all").css("color","#959292");
+      //$("#non-mem").css("color","#959292");
+      //$("#friend").css("color","#959292");
+      //$("#mem").css("color","#F97C0E");
+    }
+    else if(s_val == "friend")
+    { 
+      $(".contact_tablebdr").css('border','1px solid #ededed');
+      $(".user_line").css("width","72%");
+      $("#txt-mem-type").html("Friend");
+      //$("#all").css("color","#959292");
+      //$("#non-mem").css("color","#959292");
+      //$("#mem").css("color","#959292");
+      //$("#friend").css("color","#F97C0E");
+    }
+    else
+    {
+      $(".contact_tablebdr").css('border','1px solid #ededed');
+      $("#txt-mem-type").html("All");
+      $(".user_line").css("width","74%");
+      //$("#non-mem").css("color","#959292");
+      //$("#mem").css("color","#959292");
+      //$("#friend").css("color","#959292");
+      //$("#all").css("color","#F97C0E");
+    }
+    $("#loadimg").show();
+    
+    $.ajax({
+      type: "GET",
+      data: {"key_word":fil},
+      url: "/contact_type_filter",
+    })
+  }
+
+  function all_filter(fil_text,group)
+  {
+    $(".contact_tablebdr").css('border','1px solid #ededed');
+    if (group=="grp")
+    {
+     $(".full_table_0").css('border','1px solid #ffa0a0');
+     }
+    var mode = "<%=params[:mode]%>"
+    $("#event_search").val("Search for famtivity people");
+    $("#txt-mem-type").html("Show By");
+    $(".contact_tablebdr").css("background-color","#FFFFFF");
+    $(".contactbrdr").css("background-color","#FFFFFF");
+    $("#loadimg").show();
+    $.ajax({
+      type: "GET",
+      data: {"key_word":fil_text,"refresh":true,"mode":mode,"gbox":group},
+      url: "/contact_type_filter",
+    });
+  }
+
+  function send_multi_req()
+  {
+    var contact_val = $('#contact_names').val();
+    var request_text = $("#text-type").text();
+    if (contact_val!="" && contact_val!=" ")
+    {
+      if (request_text == "Send Invite to Join")
+        pop_mail_contact('/contact_users/req_multi_email?ids='+contact_val+'&request=new_invite')
+      else if (request_text == "Send Friend Request")
+        pop_mail_contact('/contact_users/req_multi_email?ids='+contact_val+'&request=friend_invite')
+    }
+    else
+    {
+      pop_mail_contact_empty('/contact_users/select_mail_empty?id='+contact_val)
+    }
+  }
+</script>
+
+<script type="text/javascript">
+  /* Group menu checkbox */
+
+  $(".groupmenu_checkbox_selected").bind("click",function(){
+    var test = this.id;
+    var val = $("#"+test).attr('data');
+    dispCheckSelectedGroupMenu(val);
+  });
+  
+  $(".groupmenu_checkbox_normal").bind("click",function(){
+    var test = this.id;
+    var val = $("#"+test).attr('data');
+    dispCheckNormalGroupMenu(val);
+  });
+   
+  function dispCheckSelectedGroupMenu(incVal){
+    $('#select').css('display','none');
+    $('#not_select').css('display','inline-block');
+    $('#pe').val(0);
+  
+    $('#groupmenu_checkbox_selected_'+incVal).css('display','none');
+    $('#groupmenu_checkbox_normal_'+incVal).css('display','inline-block');
+    $('#groupmenu_checkbox_'+incVal).val(0);
+    joinValGroupMenu();
+  }
+
+  function dispCheckNormalGroupMenu(incVal){
+    $('#groupmenu_checkbox_selected_'+incVal).css('display','inline-block');
+    $('#groupmenu_checkbox_normal_'+incVal).css('display','none');
+    $('#groupmenu_checkbox_'+incVal).val(1);
+    joinValGroupMenu();
+  }
+
+  function joinValGroupMenu(){
+    var input_val='';
+    var input_id ='';
+    var joinStr1 ='';
+    var cont_input_box_length=$('input.groupmenu_checkbox_value').length;
+  
+    for(var i=1;i<=cont_input_box_length;i++)
+    {
+      input_val = $('#groupmenu_checkbox_'+i).val();
+      if(input_val!=0){
+        input_id = $('#groupmenu_'+i).val();
+        joinStr1 += input_id+",";
+    
+      }
+    }
+    $('#groupmenu_ids').val(joinStr1);
+  }
+  function change_message(){
+    history.pushState(null, "", "/contact_users?mode=parent");
+  }
+
+</script>
+<script type="text/javascript">
+ $.widget( "custom.catcomplete", $.ui.autocomplete, {
+    _renderMenu: function( ul, items ) {
+      var that = this,
+      currentCategory = "";
+      $.each( items, function( index, item ) {
+        if ( item.category != currentCategory ) {
+          ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+          currentCategory = item.category;
+        }
+        that._renderItemData( ul, item );
+      });
+    }
+  });
+
+  function split( val ) {
+    return val.split( /,\s*/ );
+  }
+  function extractLast( term ) {
+    return split( term ).pop();
+  }
+
+  $("#event_search").catcomplete({
+    minLength: 1,
+     position: {
+        my: 'left top',
+        at: 'left bottom',
+        of: $('.ad_textbox '),
+        offset: '0 5',
+        }, 
+    source: function(request, response) {
+      var results = $.ui.autocomplete.filter(availableTags, extractLast( request.term ));
+      response(results.slice(0, 8));
+    },
+    focus: function() {
+      return false;
+    },
+    select: function( event, ui ) {
+      this.value = ui.item.value;
+      $("#represented").val(ui.item.data);
+      if(this.value != "")
+      {
+        search_ajax_contact();
+        $("#represented").val("general");
+      }
+      return false;
+    }
+  });
+
+  
+</script>
+

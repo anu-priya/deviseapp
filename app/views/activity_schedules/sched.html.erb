@@ -1,0 +1,478 @@
+<link rel="stylesheet" type="text/css" href="/assets/activity_schedule/schedule.css" />
+<script type="text/javascript" src="/assets/activity_schedule/schedule.js"></script>
+
+<script type="text/javascript" src="/assets/header/header.js"></script>
+<script type="text/javascript" src="/assets/global/checkbox.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/assets/header/header.css" />
+<link rel="stylesheet" type="text/css" href="/assets/event/event.css" />
+
+<script type="text/javascript" src="/assets/event_index/menu.js"></script>
+<link rel="stylesheet" type="text/css" href="/assets/event_more/menu.css" />
+<!--link rel="stylesheet" type="text/css" href="/assets/provider_event_list/provider_event_list.css" /-->
+
+<link rel="stylesheet" type="text/css" href="/assets/event_index/menu.css" />
+<script type="text/javascript" src="/assets/event_index/event_index.js"></script>
+<!-- <script type="text/javascript" src="/assets/provider_event_list/provider_event_list.js"></script> -->
+<script type="text/javascript" src="/assets/event/event.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/assets/event_index/event_index.css?v=1" />
+<script type="text/javascript" src="/assets/event_index/event_index.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/assets/create_new_activity/jquery.ui.datepicker.css" />
+<link rel="stylesheet" type="text/css" href="/assets/create_new_activity/jquery.ui.theme.css" />
+
+<script type="text/javascript" src="/assets/create_new_activity/jquery.ui.core.js"></script>
+<script type="text/javascript" src="/assets/event/provider_jquery.ui.datepicker.js"></script>
+
+<!-- DHTML Modal Effect -->
+<link rel="stylesheet" href="/assets/global/overlay/windowfiles/dhtmlwindow.css" type="text/css" />
+<link rel="stylesheet" href="/assets/global/overlay/modalfiles/modal.css" type="text/css" />
+<script type="text/javascript" src="/assets/global/overlay/windowfiles/dhtmlwindow.js"></script>
+<script type="text/javascript" src="/assets/global/overlay/modalfiles/modal.js"></script>
+
+<script type="text/javascript">
+
+  var newActivityPage;
+  var shareActivityPage;
+  var activityDetailsPage;
+  var addparticipantpage;
+  var editActivityPage;
+  var secureCheckoutPage;
+  var proceedCheckoutPage;
+  var editactivitypage;
+  var FavoriteActivityPage;
+
+  function pop_Activity_Detail(url){
+    activityDetailsPage = dhtmlmodal.open("Activity Detail ","iframe",url,"", "width=903px,height=960px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+
+  function pop_add_participant(url){
+    addparticipantpage = dhtmlmodal.open("Add Participant","iframe",url,"", "width=903px,height=370px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; border:1px solid red; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+
+  }
+
+  function pop_secure_checkout(url){
+    secureCheckoutPage = dhtmlmodal.open("Add Participant","iframe",url,"", "width=903px,height=570px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+
+  }
+  function save_to_parent_index(activity_id,user_id){
+    $.post("/activity_favorites/add_favorite", {"activity_id":activity_id,"user_id":user_id}, null, "json");
+  }
+  function pop_proceed_checkout(url){
+    proceedCheckoutPage = dhtmlmodal.open("proceed_to_checkout","iframe",url," ", "width=903px,height=570px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+
+  }
+
+  function pop_email_Detail(url){
+    emailPage = dhtmlmodal.open("Activity Detail ","iframe",url,"", "width=903px,height=960px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+  function pop_embed_Detail(url){
+    embedPage = dhtmlmodal.open("Embed Activity ","iframe",url," ", "width=950px,height=960px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+
+  function pop_share_activity(url){
+    shareActivityPage = dhtmlmodal.open("Share Activity","iframe",url," ", "width=903px,height=570px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+  function pop_new_activity(url){
+    newActivityPage = dhtmlmodal.open("Event New Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+  function pop_share_activity_thank(url){
+    shareActivityPagethank = dhtmlmodal.open("Share Activity","iframe",url," ", "width=903px,height=570px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+  function pop_edit_activity(url){
+    editActivityPage = dhtmlmodal.open("Edit Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+  function pop_favorite_activity(url){
+    FavoriteActivityPage = dhtmlmodal.open("Edit Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+
+
+
+</script>
+<style>
+  .actDiv:hover{border:1px solid #DBEEF4; background:none;text-decoration:underline;}
+</style>
+<input type='hidden' id='fav_val' value=''/>
+<input type='hidden' id='rem_fav_val' value=''/>
+
+<div id="event_index_container">
+  <div class="headerPart1">
+    <div align="center"><a href="/provider_activites" title=""><img src="/assets/event_index/famtivity_logo_parent.png" width="110" height="35"></a></div>
+    <div class="lt" style="margin-top:-38px; margin-left:-20px; width:340px;">
+      <div class="setDateDiv" style="margin-top:3px;">
+        <input type="hidden" id="datepicker_test" class="datePicker"/>
+        <a href="javascript:void(0)" title="" id="datePickerOver" class="datePickerOver" onmouseOver="raja_se()" style="margin-top:2px; .margin-top:3px;"><span id="month"></span>&nbsp;<span id="date"><sup></sup></span><img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px; left:4px;" height="4" width="7"></a>
+      </div>
+      <div class="selectedCity2" style="float: left; margin-left: 10px; margin-top:0px; display: inline-block;">
+        <a href="/event_index" class="actDiv" style="width: 76px; margin-left:-7px;">Schedule<span class="actImg"><img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/></span></a>
+        <div class="clear"></div>
+
+      </div>
+
+
+
+    </div>
+    <div class="clear"></div>
+
+    <table cellpadding="0" class="headerDivRight" cellspacing="0" width="466" border="0" style="float:right; display:inline-block; margin-top:-33px; .margin-top:-30px;">
+      <tr>
+        <td align="right" width="300">
+
+          <span><img src="/assets/event_index/photo_register.png"  style="top:-7px; position:relative;"/></span>
+          <span id="user_menu" class="UserDivMenu">
+            <ul>
+              <li>
+                <!--modified the user_name based on type on 29dec12-->
+                <%if current_user.user_type=="P"%>
+                  <a href="" class="userDiv" style="color: #4495AE; border: 1px solid #DBEEF4;"><%= current_user.user_profile.business_name if !current_user.nil? && !current_user.user_profile.business_name.nil? && !current_user.user_profile.nil? %><span class="actImg"><img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/></span></a>
+                <%else%>
+                  <a href="" class="userDiv" style="color: #4495AE; border: 1px solid #DBEEF4;"><%= current_user.user_name if !current_user.nil? %><span class="actImg"><img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/></span></a>
+                <%end%>
+
+                <ul class="sub-menu dispParentUserDiv" style="height:116px;.margin-top:30px; right:0px;" align="right">
+                  <li style="border:1px #B1D7E3 solid;margin-bottom:3px;background-color:#EDF2F5;"><a href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? %>" style="padding-top:8px;color:#E24C4B;"><b>Switch to Provider</b></a></li>
+                  <li><a href="/profile">Profile</a></li>
+                  <li><a href="#">Change Password</a></li>
+                  <li><a href="/logout">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="clear"></div>
+          </span>
+
+        </td>
+        <td width="33" align="left">
+          <div><a href="/contact_users" title=""><img src="/assets/event_index/contacts_icon.png" width="28" height="26" /  onmouseover='$(this.src="/assets/event_index/contacts_icon_over.png")' onmouseout='$(this.src="/assets/event_index/contacts_icon.png")'></a></div>
+        </td>
+        <td width="6" align="left"><div><a href="javascript:void(0)" title=""><img src="/assets/event_index/divider_top.png" width="1" height="17" /></a></div></td>
+        <td width="31" align="left"><div><a href="javascript:void(0)" title=""><img src="/assets/event_index/message_icon.png" width="26" height="24" /  onmouseover='$(this.src="/assets/event_index/message_icon_over.png")' onmouseout='$(this.src="/assets/event_index/message_icon.png")'></a></div></td>
+        <td width="1" align="left"><div><a href="javascript:void(0)" title=""><img src="/assets/event_index/divider_top.png" width="1" height="17" /></a></div></td>
+
+        <td >
+
+          <div id="service_menu" class="serviceDivMenu">
+            <ul>
+              <li>
+                <a href="" class="serviceDiv" style="color: #4495AE; border: 1px solid #DBEEF4; width:65px;">Service<span class="actImg"><img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/></span></a>
+                <ul class="sub-menu dispParentServiceDiv" style="height:135px; margin-left:-66px;.margin-top:28px; .margin-left:-147px;">
+                  <li><a href="/how_it_works" style="padding-top:8px;">How it works</a></li>
+                  <li><a href="#">Support</a></li>
+                  <li><a href="#">Terms of Service</a></li>
+                  <li><a href="#">Privacy Policy</a></li>
+                  <li><a href="#">Invite Your Provider</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="clear"></div>
+          </div>
+
+        </td>
+      </tr>
+    </table>
+
+
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+
+  <!-- Show Activity Detail View ***Start***--->
+  <div id='show_detail_1' class='showActivityDetail' style='display:none'>
+    <div class='showtopArrow'><img src="/assets/activity_schedule/top_arrow.png" width="15" height="12" /></div>
+    <div class="showDetialView">
+      <div class="closeButton" align="right">
+        <a href="javascript:void(0)" onClick="close_activity_detail(1)" title="" tabindex="2"> <img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" /> </a>
+      </div>
+      <div class="showInnerDiv">
+        <p class="head">Kids Art School</p>
+        <div class='setPadding'>
+          <div class='lt leftPart'>
+            <div class='lt leftCont'>Leader</div>
+            <div class='rt leftCont colon'>:</div>
+            <div class='clear'></div>
+          </div>
+          <div class='lt rightCont'>Abby Roundy</div>
+          <div class='clear'></div>
+        </div>
+        <div class='setPadding'>
+          <div class='lt leftPart'>
+            <div class='lt leftCont'>Address</div>
+            <div class='rt leftCont colon'>:</div>
+            <div class='clear'></div>
+          </div>
+          <div class='lt rightCont'>Event Academy, Stevenson St, San Francisco</div>
+          <div class='clear'></div>
+        </div>
+        <div class='setPadding'>
+          <div class='lt leftPart'>
+            <div class='lt leftCont'>Date &amp; Time</div>
+            <div class='rt leftCont colon'>:</div>
+            <div class='clear'></div>
+          </div>
+          <div class='lt rightCont'>Mon 8/6/2012 </br>4:30 PM &amp; 5:30 PM </div>
+          <div class='clear'></div>
+        </div>
+        <div class='setPadding' align='center'>
+          <input tabindex="1" type="image" src="/assets/activity_schedule/button_edit.png" alt="" style="position:relative;" width="70" height="28" />
+          <a href="javascript:void(0)" title="" tabindex="2"> <img src="/assets/activity_schedule/button_delete.png" alt="" width="70" height="28" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Show Activity Detail View ***End*** --->
+
+  <!-- Center Area  -->
+  <script src="/assets/full_calendar_old/fullcalendar.js" type="text/javascript"></script>
+  <script src="/assets/full_calendar_old/gcal.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="/assets/full_calendar/fullcalendar.css" />
+  <div class="wrapper">
+
+    <div class="subPageContent" style='margin-top:46px;'>
+
+      <% if flash[:notice] -%>
+        <div id = 'flash_notice'>
+          <%= flash[:notice] %>
+        </div>
+      <% end -%>
+      <% if flash[:error] -%>
+        <div id = 'flash_error'>
+          <%= flash[:error] %>
+        </div>
+      <%end -%>
+      <!--div id = 'loading'> Loading...</div-->
+      <div class="aplicationContent">
+
+        <script type="text/javascript" language="javascript">
+          $(document).ready(function(){
+            // page is now ready, initialize the calendar...
+            $('#calendar').fullCalendar({
+              editable: true,
+              header: {
+                left: 'prev,next',
+                center: 'title',
+                right: ''
+              },
+              defaultView: 'agendaWeek',
+              height: 500,
+              slotMinutes: 30,
+              loading: function(bool){
+                if (bool)
+                  $('#loading').show();
+                else
+                  $('#loading').hide();
+              },
+              events: "activity_schedules/get_sched_cal",
+              timeFormat: 'h:mm t{ - h:mm t} ',
+              axisFormat: 'hh:mm tt{ - h:mm tt}',
+              dragOpacity: "0.5",
+              eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc){
+                //              if (confirm("Are you sure about this change?")) {
+                moveEvent(event, dayDelta, minuteDelta, allDay);
+                //              }
+                //              else {
+                //                  revertFunc();
+                //              }
+              },
+
+              eventResize: function(event, dayDelta, minuteDelta, revertFunc){
+                resizeEvent(event, dayDelta, minuteDelta);
+              },
+              eventRender: function(event,element,calEvent) {
+                element.find(".fc-event-title").after($("<br/><span class=\"fc-event-icons\"></span>")
+                .html("<img src=\"http://png-5.findicons.com/files//icons/2018/business_icons_for/16/passport.png\" onclick=\"javascript:iconsAlert("+this.id+",'passport')\" class=\"icon\" />"+
+                  "<img src=\"http://findicons.com/files//icons/1571/chalkwork_payments/16/card_visa.png\" onclick=\"javascript:iconsAlert("+this.id+",'visa')\" class=\"icon\" />"+
+                  "<img src=\"http://findicons.com/files//icons/894/banking_stuff/16/postage_stamp.png\" onclick=\"javascript:iconsAlert("+this.id+",'traveldoc')\" class=\"icon\" />"+
+                  "<img src=\"http://findicons.com/files//icons/756/ginux/16/richtext.png\" onclick=\"javascript:iconsAlert("+this.id+",'entrystamp')\" class=\"icon\" />"));
+              },
+              eventClick: function(calEvent, jsEvent, view) {
+
+                  var d = new Date();
+                  $('#calendar').fullCalendar('gotoDate', d);
+
+              }
+            });
+
+
+
+
+
+          });
+          function raja_se(){
+            $("#datepicker_test").datepicker({
+              dateFormat: 'mm/dd/yy',
+              showOn: "button",
+              buttonImage: "/assets/calendar.gif",
+              buttonImageOnly: true,
+              onClose: function(dateText, inst) {  date_check(); }
+            });
+            $('#datepicker_test').datepicker({
+              showOn: 'focus',
+              onselect:function(raj,raja){
+                alert('raja');
+                $('#datepicker_test').html(raj);
+              }
+            }).focus();
+            $('#datepicker_test').addClass('hasDatepicker');
+            $("#ui-datepicker-div").show();
+            $("#ui-datepicker-div").css('top','35px');
+            $('#datePickerOver').removeClass('datePickerOver');
+            $('#datePickerOver').addClass('datePickerOverSelected');
+          }
+
+        </script>
+
+        <div id='calendar'>
+          <div class="clearFix"></div>
+        </div>
+        <div id="desc_dialog" style="display:none;">
+          <div id="event_desc">
+          </div>
+          <div id="event_actions">
+            <span id="edit_event"></span>
+            <span id="delete_event"></span>
+          </div>
+        </div>
+        <div id="create_event_dialog" style ="display:none;">
+          <div id="create_event">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- styles needed by jScrollPane - include in your own sites -->
+  <link type="text/css" href="/assets/global/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+
+  <style type="text/css" id="page-css">
+    /* Styles specific to this particular page */
+    .scroll-pane{
+      width: 100%;
+      height: 450px;
+      overflow-y: scroll;
+      padding-bottom:30px;
+    }
+    .horizontal-only{
+      height: 420px;
+    }
+  </style>
+
+  <!-- the mousewheel plugin -->
+  <script type="text/javascript" src="/assets/global/jquery.mousewheel.js"></script>
+  <!-- the jScrollPane script -->
+  <script type="text/javascript" src="/assets/global/jquery.jscrollpane.js"></script>
+
+  <script type="text/javascript" language="javascript">
+    $(document).ready(function(){
+      $(function() {$('table.fc-header td.fc-header-list a').bind('click',function(event){
+          var $anchor = $(this);
+          $('html, body').stop().animate({scrollTop:$($anchor.attr('href')).offset().top}, 1500,'easeInOutExpo');event.preventDefault(); });
+      });
+      $('.scroll-pane').jScrollPane();
+    });
+
+    window.onresize = function(event) {
+      $('.scroll-pane').jScrollPane();
+    }
+  </script>
+
+  <div class="clear"></div>
+  <div class="footer">
+    <div class="border"></div>
+    <div class="footerConts">&copy; Copyright 2012 famtivity Inc.</div>
+  </div>

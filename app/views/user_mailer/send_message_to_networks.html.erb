@@ -1,0 +1,20 @@
+<table cellspacing="0" cellpadding="0">
+            <tr>
+              <td style="padding:12px;">
+                <p>Hi  <%=(@email && @email.present?) ? @email.split('@').first.capitalize : ''%></p>
+				<p><%=@message%></p>
+              </td>
+            </tr>
+</table>
+<table cellspacing="0" cellpadding="0" style="width:98%; margin:12px;">    
+	<tr>
+		<td height="10"></td>
+	</tr>
+	<tr>
+		<td height="24" align="left" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#444444;">Thanks</td>
+	</tr>		
+	<tr>
+		<td  align="left" height="24" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;"><%=@user.user_name if @user && @user.present? && @user.user_name && !@user.user_name.nil?%></td>
+	</tr>	
+</table>	
+     

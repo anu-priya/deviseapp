@@ -1,0 +1,7 @@
+<%@footcity.each do |s|%>
+	  <%if !session[:city].nil? && s.present? && session[:city].downcase==s.downcase%>
+	<a href="?cities/<%=s.parameterize%>" title="" style="color:#F58112;"  onclick="filter_parent_update_state(this.innerHTML,1);"><%= s %></a>
+	<%else%>
+	<a href="?cities/<%=s.parameterize%>" title=""  onclick="filter_parent_update_state(this.innerHTML,1);"><%= s %></a>
+	<%end%>
+<%end%>

@@ -1,0 +1,53 @@
+<%if !@provider_user.nil? && @provider_user.length > 0%>
+      <%@provider_user.each do |sub|%>
+        <!-- Inner Div Start-->
+        <%if !sub.business_name.nil?%>
+          <div class="lt subCat providerSubCat" id="subCat_<%= sub.user_id %>">
+            
+            <input id="sc<%= sub.user_id %>" name="sc<%= sub.user_id %>" type="checkbox" value="<%= sub.user_id %>" style="position: absolute; left: -1000px;" />
+            <span class="scImg" onClick="provider_row(<%= sub.user_id %>,<%= sub.user_id %>)"><label class="altCheckboxoff" for="sc<%= sub.user_id %>">&nbsp;</label></span>
+            <a href="javascript:void(0)" onmouseOver="detailedView('provider_row_<%= sub.user_id %>')" onmouseOut="detailedClose('provider_row_<%= sub.user_id %>')" class="smallImg">
+              <%if !sub.user_profile.profile.nil? && sub.user_profile.profile.present? %>
+    <%= image_tag (sub.user_profile.profile.url(:small)),  :width => '21', :height => '21', :style =>"position:relative;"%>
+              <%else%>
+    <%=image_tag("/assets/landing/user_icon_21.png", :width=>"21", :height=>"21", :style=>"position:relative;")%>
+            <%end%>
+            </a>
+            <span class="scText setWidthCP"><a href="javascript:void(0)" onmouseOver="detailedView('provider_row_<%= sub.user_id %>')" onmouseOut="detailedClose('provider_row_<%= sub.user_id %>')" ><%=truncate(sub.business_name.html_safe, :length =>20, :omission => '... ')%></a></span>
+
+            <div class="clear"></div>
+            <div class="detailedViewDivOuter detailedViewRt" id="provider_row_<%= sub.user_id %>" style="display:none;">
+              <table cellspacing="0" cellpadding="0" border="0" width="220">
+                <tr>
+                  <td class="detailedViewDivInner" width="205">
+                    <table cellspacing="0" cellpadding="0" border="0" width="205"> 
+                      <tr>
+                        <td width="40" valign="top">
+                          <%if !sub.user_profile.profile.nil? && sub.user_profile.profile.present? %>
+                          <%= image_tag (sub.user_profile.profile.url(:small)),  :width => '40', :height => '40', :style =>"position:absolute;overflow:hidden;"%>
+                          <%else%>
+                             <%=image_tag("/assets/landing/user_icon_40.png", :width=>"40", :height=>"40", :style=>"position:absolute;overflow:hidden;border:none;")%>
+                          <%end%>
+                        </td>
+                        <td valign="top" class="info">
+                          <p class="fstText"><b><%= sub.user_name %></b></p>
+                          <p class="thdText"><%= sub.city%>, <%= sub.state%>,<%= sub.country%></p>
+                          <p class="thdText"><%= sub.business_name %></p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td width="15" class="arrowRt">
+                     <%=image_tag("/assets/event/right_arrow.png", :width=>"12", :height=>"20", :class=>"de_right_arrow")%>
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+          </div>
+        <% end %>
+      <% end %>
+    <%else%>
+      <div style="padding:10px;"> No search keyword found </div>
+    <% end %>
+    <!-- End -->

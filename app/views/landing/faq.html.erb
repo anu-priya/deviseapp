@@ -1,0 +1,304 @@
+﻿<%
+meta :title => "Social Networking Software for Team Sports, Classes, & Parents",
+     :description => "Famtivity provides social networking software for parent and team communication for sports and classes of all types",
+     :keywords => "Team Social Networking Software, Parent Social Networking Software, Provider Social Networking Software"
+%>
+<%= stylesheet_link_tag "landing/how_it_works.css" %>
+<%= stylesheet_link_tag "event_index/event_index.css" %>
+<%= stylesheet_link_tag "event_index/menu.css" %>
+<style type="text/css">
+		
+body{
+	background:#F6F8F7;
+}
+.outer-content{
+
+}
+#content1 {
+		margin:0 auto;
+		border-bottom:#D6D7D9 dashed 1px;
+		padding-left: 15px;		
+	 }
+#content1{
+		color:#4595AE;
+		display: inline-block;
+		width: 100%;
+		margin-bottom: 20px;
+		padding-bottom: 20px;
+	 }
+.Parent{
+		border-right: 1px dashed #D6D7D9;
+		float: left;
+		margin-right: 10px;
+		padding-right: 19px;
+		width: 50%;
+	}
+.Provider{
+		float: left;
+		width: 45%;
+		padding-top: 40px;
+}
+ .setcolor_q{
+		color: #5099AC;
+		font-weight: bold;
+		padding: 8px 0px;
+		display: block;
+		text-decoration: none;
+		margin:0px;
+		font-size:14px;
+	}
+.list{
+		
+		color: #5099AC;
+		font-weight: bold;
+		font-family: Arial,Helvetica,sans-serif;		
+
+	}
+.head{
+		color:#5099AC;
+		font-weight: bold;
+		margin:10px;
+		font-size:17px;
+		margin:14px;
+}
+#head-faq{
+		color: #4595AE;
+   	 	font-family: arial;
+    	font-size: 21px;
+   	 	font-weight: bold;
+    	margin-bottom: 15px;
+}
+#sub-head{
+		color: #4395AB;
+   	 	font-family: arial;
+    	font-size: 18px;
+   	 	margin-bottom: 15px;
+
+}
+	
+.parent-content{
+		padding-left:16px;
+}
+#content2 {color: #4595AE;}
+#content2{ 
+		padding:15px;
+		border-bottom:#D6D7D9 dashed 1px;
+}
+#content3 {color: #4595AE;}
+#content3{ 
+		padding:15px;
+}
+.para{
+ 		color:#80777A;
+		font-family: Arial,Helvetica,sans-serif;
+		font-size: 14px;
+		line-height: 23px;
+		font-weight:normal;}
+.sub_div{
+	margin-left: 35px;
+	padding: 10px 0 0;
+	list-style: decimal outside none;
+}
+</style>
+
+<div id="how_it_worksDiv" style="margin-top:44px; padding-top:2px;">
+
+<div class="TopDiv" style="margin: 0 auto; width: 77%;">
+	<%if !current_user.nil?%>
+		<div class="outer-content aftrlogindiv">
+	<%else%>
+		<div class="outer-content bfrlogindiv">
+	<%end%>
+	<div id="content1">
+				<div class="Parent">
+					<h1 id="head-faq">FAQ</h1>
+					<div id="sub-head">Parents</div>
+					<ul class="sub_div">
+					<li class="list"><a href="#" class="setcolor_q">What is Famitivity?</a></li>
+					<li class="list"><a href="#" class="setcolor_q">How do I find activities in my area?</a></li>
+					<li class="list"><a href="#" class="setcolor_q">Can I sign up for an activity directly on Famtivity?</a></li>
+					<li class="list"><a href="#" class="setcolor_q">What are Discount Dollars and how do they work?</a></li>
+					<li class="list"><a href="#" class="setcolor_q">Can I apply Discount Dollars to activities that aren&#39;t being sold directly through Famtivity?</a></li>
+					<li class="list"><a href="#" class="setcolor_q">How do I determine the quality of an activity listed on Famtivity?</a></li>					
+					<li class="list"><a href="#" class="setcolor_q">Does it cost more or less to sign up on Famtivity?</a></li>
+					<li class="list"><a href="#" class="setcolor_q">How do I get my friends to join so we can coordinate sign-ups and schedules?</a></li>
+					<li class="list"><a href="#" class="setcolor_q">Is there an incentive for encouraging my friends to join Famtivity?</a></li>					
+					<li class="list"><a href="#" class="setcolor_q">How do I get my favorite providers to list their activities on Famtivity?</a></li>
+					<li class="list"><a href="#" class="setcolor_q">Is there an incentive for encouraging activity providers to join Famtivity?</a></li>
+					<li class="list"><a href="#" class="setcolor_q">How do I submit a review of an activity on Famtivity?</a></li>	
+					<li class="list"><a href="#" class="setcolor_q">Will my information be shared with anyone without my permission?</a></li>
+					</ul>
+				</div>
+				<div class="Provider" style="height: auto;">				
+					<div id="sub-head">Providers</div>
+					<ul class="sub_div">
+					<li class="list"><a href="#" class="setcolor_q">How will Famtivity benefit my business?</a></li>
+					<li class="list"><a href="#" class="setcolor_q">What are the benefits of selling activities within Famtivity?</a></li>
+					<li class="list"><a href="#" class="setcolor_q">What do I pay to list my activities on Famtivity?</a></li>
+					<li class="list"><a href="#" class="setcolor_q">How do I get paid if someone purchases my activity?</a></li>
+					<li class="list"><a href="#" class="setcolor_q">How does the Discount Dollars program work for Providers?</a></li>
+					<li class="list"><a href="#" class="setcolor_q">What if I don&rsquo;t want to sell activities but I want leads to new customers from Famtivity?</a></li>
+					<li class="list"><a href="#" class="setcolor_q">How do I create and edit my activities?</a></li>
+					<li class="list"><a href="#" class="setcolor_q">What bank information is needed to get direct deposit for activities sold within Famtivity?</a></li>
+					<li class="list"><a href="#" class="setcolor_q">When do I receive payment for activities sold through Famtivity?</a></li>					
+					<li class="list"><a href="#" class="setcolor_q">Can I use my own custom registration forms or policies inside Famtivity?</a></li>
+					<li class="list"><a href="#" class="setcolor_q">How can I ensure that my activities are seen by the most people in Famtivity?</a></li>
+					<li class="list"><a href="#" class="setcolor_q">Can I change or cancel my plan once I sign up?</a></li>
+					</ul>					
+				</div>
+		</div>
+		<div id="content2">
+				
+				<div id="sub-head">Parents FAQ</div>	
+				<div class="parent-content" >	
+					<div class="head">
+						<div>What is Famitivity?</div>
+						<div class="para"><p>Famtivity is a web and mobile service that simplifies the process of finding, organizing and purchasing activities. We connect activity seekers with activity providers to create a network we call The Family Activity Network.</p>
+						</div>					
+					</div>
+					<div class="head">
+						<div>How do I find activities in my area?</div>
+						<div class="para"><p>Enter the type of activity you&#39;re seeking in the main search box. After getting results, you can enter additional criteria using the check boxes to zero in on your desired activities, date, day, gender and age.</p>
+						</div>					
+					</div>
+					<div class="head">
+						<div>Can I sign up for an activity directly on Famtivity?</div>
+						<div class="para"><p>Yes. If you have created a Famtivity account and your desired provider is also signed up to sell through Famtivity, you sign up directly on Famtivity, pay and register within the system.</p>
+						</div>					
+					</div>
+					<div class="head">
+						<div>What are Discount Dollars and how do they work?</div>
+						<div class="para"><p>Discount Dollars are credit that you can redeem towards the purchase of any activity sold through Famtivity. You can redeem Discount Dollars for any activity that the provider has indicated qualifies for the program.  Providers determine which activities qualify and the total amount of Discount Dollars they will accept for each. You can view your dollars under the Discount Dollar tab in your profile page. When purchasing an activity you’ll be able to see your Discount Dollar total and apply them to your purchase, which is essentially a discount off the normal price.</p>
+						</div>					
+					</div>
+					<div class="head">
+						<div>Can I apply Discount Dollars to activities that aren&#39;t being sold directly through Famtivity?</div>
+						<div class="para"><p>Not at this time. However, if you invite your desired provider to join Famtivity and they sign-up for the sell-through plan, then you get a $25 credit and can then apply your Discount Dollars towards their activities.</p>
+						</div>					
+					</div>
+					<div class="head">
+						<div>How do I determine the quality of an activity listed on Famtivity?</div>
+						<div class="para"><p>We will be adding user reviews soon.  Only those who have registered for the specific activity through Famtivity can post a review, ensuring that all reviews are both honest and relevant.</p>
+						</div>					
+					</div>
+
+					<div class="head">
+						<div>Does it cost more or less to sign up on Famtivity?</div>
+						<div class="para"><p>Activities in Famtivity will usually be less than what you would pay by signing up directly with the provider. Activity providers determine registration fees for their activities, but they agree to never charge more on Famtivity. . In addition, you can apply Famtivity’s Discount Dollars towards many activities purchased through Famtivity, which gives you great deals from great providers.</p>
+						</div>					
+					</div>
+					<div class="head">
+						<div>How do I get my friends to join so we can coordinate sign-ups and schedules?</div>
+						<div class="para"><p>Famtivity&#39;s &ldquo;Invite A Friend&rdquo; button under the &ldquo;Friends&rdquo; tab makes it easy. Simply fill out the required fields, click &lsquo;send&rsquo; and your friends will receive an invitation to join our network.</p>
+						</div>
+					</div>
+					<div class="head">
+						<div>Is there an incentive for encouraging my friends to join Famtivity?</div>
+						<div class="para"><p>Yes. For every friend you invite, you earn $1 Discount Dollar that can be used towards purchasing any qualifying activity within the Famtivity network.</p>
+						</div>					
+					</div>
+
+					<div class="head">
+						<div>How do I get my favorite providers to list their activities on Famtivity?</div>
+						<div class="para"><p>Famtivity&rsquo;s &rdquo;Invite Your Provider&ldquo; button under the &rdquo;Friends&ldquo; tab makes it easy. Simply fill out the required fields, click &lsquo;send&rsquo; and the activity provider will receive an invitation to join Famtivity.</p>
+						</div>					
+					</div>
+					<div class="head">
+						<div>Is there an incentive for encouraging activity providers to join Famtivity?</div>
+						<div class="para"><p>Yes. For each provider that you invite who joins Famtivity you receive a credit of $<%=$dollar%> Discount Dollars.</p>
+						</div>					
+					</div>
+					<div class="head">
+						<div>How do I submit a review of an activity on Famtivity?</div>
+						<div class="para"><p>The review feature is coming soon!</p>
+						</div>					
+					</div>
+					<div class="head">
+						<div>Will my information be shared with anyone without my permission?</div>
+						<div class="para"><p>Absolutely not! Your privacy is extremely important to us. Famtivity will never use your information without your consent. You can change your privacy settings at any time.</p>
+						</div>					
+					</div>
+									
+
+				</div>
+				
+				
+		</div>
+		<div id="content3">
+				
+				<div id="sub-head">Providers FAQ</div>	
+				<div class="parent-content" >										
+					<div class="head">
+						<div>How will Famtivity benefit my business?</div>
+						<div class="para"><p>Famtivity is a one-stop shop for parents looking for activities, classes, camps and local events. Parents visit Famtivity to find and register for activities from providers just like you. We promote Famtivity on all major social networks, numerous parenting websites, and national and local websites and blogs to grow our network and create visibility for your activities - so you can get more customers.</p>
+						</div>					
+					</div>
+					<div class="head">
+						<div>What are the benefits of selling activities within Famtivity?</div>
+						<div class="para"><p>We help parents search activities by location, age, time, day of the week, interests, availability, special needs and more. . Parents prefer to go to a one stop shop to search, register and schedule all activities. We provide you with a new set of potential customers looking for activities within our network. If you&#39;ve signed up for the &ldquo;Sell-Through&rdquo; plan, your activity can be purchased instantly by anyone who sees it, and you get a new customer that you probably wouldn&rsquo;t have otherwise.</p>
+						</div>					
+					</div>
+					<div class="head">
+						<div>What do I pay to list my activities on Famtivity?</div>
+						<div class="para"><p>Just contact us and we will automatically list your business profile and contact information at no cost.  If you want to list your specific activities, camps, classes or lessons, you can choose the <a href="javascript:void();" title="" onclick="show_pop_up(30); pop_Parent_Login('/parent_register?price=provider');show_provider_plan();  _gaq.push(['_trackEvent', 'Parent Module', 'clickServices','Pricing']);">monthly plan</a> that fit your specific needs.</p>
+						</div>					
+					</div>
+					<div class="head">
+						<div>How do I get paid if someone purchases my activity?</div>
+						<div class="para"><p>We collect the fee and provide you with a direct deposit in your bank account.</p>
+						</div>					
+					</div>
+					<div class="head">
+						<div>How does the Discount Dollars program work for Providers?</div>
+						<div class="para"><p>When parents sign-up for Famtivity, they get &ldquo;Discount Dollars&rdquo; to use for buying activities and can also earn additional credits by inviting their friends and favorite providers to join the network.  Providers can designate which specific activities will accept Discount Dollars and how much can be applied.  For example, if you list an activity for $75 and allow for $10 in Discount Dollars to be applied as an incentive, your net revenue from the sale will be $65.  You must sign up for the Sell-Through plan to participate in the Discount Dollars program.</p>
+						</div>					
+					</div>
+
+					<div class="head">
+						<div>How do I create and edit my activities?</div>
+						<div class="para"><p>On your profile page, click on the &ldquo;plus&rdquo; sign at the top. Simply fill out the required fields and click save to create an activity. To edit an activity, you can return to your activities page and click on the activity to edit.</p>
+						</div>					
+					</div>
+					<div class="head">
+						<div>What bank information is needed to get direct deposit for activities sold within Famtivity?</div>
+						<div class="para"><p>We need your bank name and address, name on the account, bank routing number, and account number. This allows us to transfer money in your account when people sign up for your activities.</p>
+						</div>					
+					</div>
+
+					<div class="head">
+						<div>When do I receive payment for activities sold through Famtivity?</div>
+						<div class="para"><p>We collect and then transfer payments to your bank account each week.</p>
+						</div>					
+					</div>
+					<div class="head">
+						<div>Can I use my own custom registration forms or policies inside Famtivity?</div>
+						<div class="para"><p>Yes, go to the policies section and add your own policies as well as upload forms that attendees need to sign and submit prior to attending your activity.</p>
+						</div>					
+					</div>
+
+					<div class="head">
+						<div>How can I ensure that my activities are seen by the most people in Famtivity?</div>
+						<div class="para"><p>One of the best ways to ensure people see your activities is by allowing for Discount Dollars to be applied to the price of your listing.  We often promote those activities that accept Discount Dollars.</p>
+						</div>					
+					</div>
+					<div class="head">
+						<div>Can I change or cancel my plan once I sign up?</div>
+						<div class="para"><p>Yes. Just go to the &ldquo;Plan&rdquo; area and you can upgrade, downgrade, or cancel your account at any time.</p>
+						</div>					
+					</div>
+								
+				</div>
+				
+				
+		</div>
+</div>
+</div>
+ </div>
+ <div class="clear"></div>
+</div>
+
+</div>
+<div class="clear"></div>
+
+
+

@@ -1,0 +1,6 @@
+$("#total_length_admin").val(<%= @total if @total %>);
+$("#total_length_providers").val(<%= @total_provider_l if @total_provider_l %>);
+$('#activity_counts_l').html('<%= @total if @total %>');
+$('#activity_counts_providers').html('<%= @total_provider_l if @total_provider_l %>');
+$('#provider_partial_category_list').html("<%=escape_javascript(render 'admin/category_reports')%>");
+$(".loading_page_admin").hide();		

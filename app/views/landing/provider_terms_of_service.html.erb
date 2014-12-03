@@ -1,0 +1,102 @@
+<%= stylesheet_link_tag "landing/how_it_works.css" %>
+<%= stylesheet_link_tag "event_index/event_index.css" %>
+<%= stylesheet_link_tag "event_index/menu.css" %>
+	<style type="text/css" id="page-css">
+		/* Styles specific to this particular page 
+		.scroll-pane
+		{
+			width: 100%;
+			height1: 570px;
+			overflow: auto;
+		}
+		.horizontal-only
+		{
+			height: auto;
+			max-height1: 500px;
+		}*/
+		.terms_of_service{
+			padding:8px;
+			font-family:Arial, Helvetica, sans-serif;
+			font-size:14px;
+			color: #7E7979;
+			margin:0 0 0 40px;
+		}
+		.clrBlueLight{
+			 color: #4495AE;
+		}
+	</style>
+ 
+<div id="how_it_worksDiv" style="margin-top:46px;">
+		  
+		  <%if !current_user.nil?%>
+			  <div class="TopListText" align="center" style="width:100%; marign:0 auto; padding-top:20px;">
+		  <%else%>
+		      <div class="TopListText" align="center" style="width:100%; marign:0 auto; padding-top:43px;">
+		  <%end%>
+			  
+				<span><a href="/provider_terms_of_service" class="menuText"><b>Terms of Service</b></a></span>
+				<div class="clear"></div>
+			  </div>
+			 <div class="clear"></div>
+			  <div class="setTopBprder"></div>
+				<div class="TopDiv">
+				<div class="scroll-pane">
+				<p class="terms_of_servie_text" style="color:#6a6a6a; padding-bottom:15px;"><b>Last Updated:</b> <span>April 13/4/2013</span></p>
+				<p class="terms_of_servie_text"><b>Famtivity Provider Terms</b></p>
+				<p class="para_inner_text"><span style="color:#6a6a6a;">1.</span> Welcome and thank you for your interest in Famtivity, Inc. (&ldquo;<b>Famtivity</b>&rdquo;). This agreement (&ldquo;<b>Agreement</b>&rdquo;) governs your access to and use of the Famtivity Service as a Provider. By using the Service as a Provider, you hereby agree to the Famtivity Terms of Use, located at <a href="http://www.famtivity.com/terms_of_service" style="color: #4495AE;" target="_blank">www.famtivity.com/terms</a> (the &ldquo;<b>Terms</b>&rdquo;). The Terms are hereby incorporated into this Agreement by reference. Capitalized terms used, but not defined, herein have the meaning given to them in the Terms. To the extent that there is an express conflict between this Agreement and the Terms, this Agreement shall govern.</p>
+				
+				<p class="para_inner_text"><span style="color:#6a6a6a;">2.</span> PLEASE READ THIS AGREEMENT CAREFULLY. BY CLICKING &ldquo;I AGREE,&rdquo; YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTOOD, AND AGREE TO BE BOUND BY THE TERMS AND CONDITIONS OF THIS AGREEMENT, INCLUDING THE TERMS. If you are not eligible, or do not agree to the terms and conditions of this Agreement, then please do not use the Service as a Provider.</p>
+
+				<p class="para_inner_text"><span class="clrBlueLight"><b>1. Provider Responsibilities for Bookings.</b></span> Provider hereby agrees that it will fulfill all bookings made by end users of the Service (&ldquo;<b>Users</b>&rdquo;) by providing its Activities at the scheduled dates and times, and at the booked prices.</p>
+				
+				<p class="para_inner_text"><span class="clrBlueLight"><b>2. Fees and Refunds.</b></span></p>
+				
+				<p  class="para_inner_text" style="margin-left:10px;"><span style="color:#6a6a6a;">a.</span> <span><b>Sign-up Fees.</b></span> Access to and use of the Service as a Provider requires the payment of the applicable fees (including, as applicable, fees to create an account and the Service Fees, as defined below) displayed through the Service and agreed upon between you and Famtivity (the &ldquo;<b>Fees</b>&rdquo;). You will have an opportunity to review and accept the applicable Fees that you will be charged. Famtivity may change the Fees for the Service or any feature of the Service, including by adding additional fees or charges, on a going forward basis at any time (except as may otherwise be agreed by you and Famitvity). For payment of certain Fees, Famtivity will charge the payment method you specify at the time you agree to the payment of those Fees or thereafter. You authorize Famtivity to charge all Fees described herein to such payment method. To the extent any dispute arises regarding the amount of Fees due to Famtivity, you and Famitivity hereby agree that Famtivity&rsquo;s records with respect to the Fees shall control.</p>
+				<p  class="para_inner_text" style="margin-left:10px;"><span style="color:#6a6a6a;">a.</span> A<b>ctivity Tickets.</b> Famtivity may provide functionality through the Service that allows you to make available tickets for Activities for purchase by Users (&ldquo;Activity Tickets&rdquo;). Provider agrees to honor the terms of Activity Tickets sold through the Service by allowing Users holding such Activity Tickets to redeem Provider&rsquo;s products or services identified in the Activity Tickets. For each Activity Ticket sold through the Service, Provider will pay to Famtivity the Service Fee. &ldquo;Service Fee&rdquo; means an agreed upon percentage of each transaction for the booking of an Activity Ticket that is processed through the Service. The aggregate of all Service Fees shall be due and payable to Famtivity within 30 days of the close of each calendar month.</p>
+				
+				<p  class="para_inner_text" style="margin-left:10px;"><span style="color:#6a6a6a;">b.</span> <b>Refunds.</b> It is the responsibility of Provider to communicate its refund policy to Users and to issue refunds as applicable pursuant to their refund policy. Famtivity may provide functionality through the Service that permits a Provider to issue refunds to Users through the Service, provided the refund is issued by Provider within thirty (30) after the date of purchase of the Activity Ticket. Refunds will be processed within thirty (30) days. Except as set forth herein, Famtivity will not issue refunds (unless required by applicable law). Subject to the foregoing, refunds issued by a Provider will be processed within thirty (30) days after Provider instructs the issuance of the refunds via the Service.</p>
+				
+		   <p class="para_inner_text"><span class="clrBlueLight"><b>3. Payments.</b></span></p>	
+		   
+<p  class="para_inner_text" style="margin-left:10px;"><span style="color:#6a6a6a;">a.</span> <b>Payments to Provider.</b> Famtivity shall pay to Provider the Provider Revenue Share. &ldquo;<b>Provider Revenue Share</b>&rdquo; as used herein means the aggregate payments actually received by Famtivity from Users for Provider&rsquo;s Activity Tickets minus all Fees, refunds, bad debt, and chargebacks. Famtivity shall pay the Provider Revenue Share due hereunder directly to Provider within 30 days following the end of each calendar month, provided that (i) Provider has submitted appropriate tax documentation, as set forth in Section 3.b, and (ii) Provider's earned balance is greater than or equal to $20 USD. Unpaid balances will roll over to the next month. Provider is solely responsible for the collection and remittance of any and all applicable sales taxes that may be due in respect of Activity Tickets. Famtivity reserves the right to remit payment through the mechanism of its choice, to modify its payment mechanism of choice from time to time, and to require that Provider has an account through which to receive payment.</p>
+
+<p  class="para_inner_text" style="margin-left:10px;"><span style="color:#6a6a6a;">b.</span> <b>Tax Info.</b> Provider is solely responsible for providing and maintaining accurate address and other contact information as well as payment information associated with the account. For U.S. taxpayers, this information may include without limitation a valid U.S. tax identification number and a fully-completed Form W-9, which may be filled out through the Provider site on the Service. For non-U.S. taxpayers, this information may include without limitation a fully-completed Form W-8 or other applicable form, which may require a valid U.S. tax identification number, as required by the U.S. tax authorities. Please note that Famtivity will hold payments until we have required tax information on file. Provider Revenue Share will continue to accrue, and will be paid to you once your information has been submitted.</p>
+
+<p  class="para_inner_text" style="margin-left:10px;"><span style="color:#6a6a6a;">c.</span> <b>Famtivity Revenue Report.</b> Famtivity will provide to Provider access to certain data detailing the calculations for the applicable Provider Revenue Share (the &ldquo;<b>Famtivity Revenue Report</b>&rdquo;). Calculation of Provider Revenue Share is based solely on the data provided in the Famtivity Revenue Report. To the extent any dispute arises regarding the amount of Provider Revenue Share due to Famtivity, the you and Famtivity hereby agree that Famtivity&rsquo;s records with respect to the Provider Revenue Share, including the Famtivity Revenue Report, shall control.</p>
+
+<p  class="para_inner_text" style="margin-left:10px;"><span style="color:#6a6a6a;">d.</span> <b>Payments by User.</b> All payments by Users are processed through Famtivity&rsquo;s third-party payment processor(s).</p>				
+		
+		 <p class="terms_of_servie_text"><b>4. Provider Responsibility for User Interactions.</b></p>
+		  <p class="para_inner_text">4. Provider Responsibility for User Interactions.You acknowledge that Famtivity is not in any way responsible for any interactions between Providers and Users, including in-person interactions that result from the booking of an Activity through the Service. Additionally, Famtivity is not in any way responsible for a User&rsquo;s experience while participating in an Activity. You are solely responsible and liable for (a) any communications with Users by you or any Provider personnel, whether through the Service or otherwise; (b) User&rsquo;s experience while participating in an Activity or when interacting with the Provider; (c) compliance with any laws related to the Activity or otherwise related to the Provider&rsquo;s business operations. Provider agrees to defend, indemnify, and hold harmless Famtivity for any claims related to the foregoing.</p>
+		   
+		<p class="terms_of_servie_text"><b>5. Provider Representations and Warranties.</b><span class="para_inner_text">Provider represents and warrants to Famtivity that:</span></p>
+		<p class="para_inner_text" style="margin-left:10px;><span style="color:#6a6a6a;">a.</span> Provider has the right to enter into this Agreement and to grant the rights and licenses granted to Famtivity under this Agreement; </p>
+		<p class="para_inner_text" style="margin-left:10px;"><span style="color:#6a6a6a;">b.</span> Provider has obtained and shall maintain throughout the term of this Agreement all necessary licenses, authorizations, approvals and consents to enter into and perform its obligations hereunder in compliance with all applicable laws, rules and regulations. </p>			
+	    <p class="para_inner_text" style="margin-left:10px;"><span style="color:#6a6a6a;">c.</span> Provider will remain fully responsible for all access to and use of the Service through Provider&rsquo;s login name and password, including access to any features the use of which results in monetary charges to Provider, whether or not Provider has knowledge of or authorizes such access and use; and </p>
+		<p  class="para_inner_text" style="margin-left:10px;"><span style="color:#6a6a6a;">d.</span> Provider has provided and will continue to provide Famtivity with accurate and complete account and other information, and will inform Famtivity in writing of any changes or updates to such information during the term of this Agreement.</p>
+
+		<p class="terms_of_servie_text"><b>6. Indemnification.</b><span class="para_inner_text">Provider will defend, indemnify and hold harmless Famtivity and Famtivity&rsquo;s affiliated and related entities, and all of their agents, officers, directors and employees, against any claims, lawsuits, allegations, assertions and investigations, and any related losses, damages, expenses, and penalties (including attorney fees and costs) arising in connection with Provider&rsquo;s actions and inactions under this Agreement or otherwise in connection with Provider&rsquo;s use of the Service. Provider shall not, without the express written consent of Famtivity, settle or compromise any claim, or consent to the entry of any judgment that imposes any liability or obligation upon Famtivity.</span> </p>
+		
+		<p  class="terms_of_servie_text" style="margin-top:20px;"><b>7. Warranty Disclaimer.</b> <span class="para_inner_text">EXCEPT AS EXPRESSLY SET FORTH IN THESE TERMS, THE SERVICE AND ANY MATERIALS PROVIDED BY FAMTIVITY IN ACCORDANCE WITH THESE TERMS (INCLUDING ALL CONTENT, SOFTWARE, MATERIALS AND INFORMATION ACCESSED BY ANY MEANS THEREOF) ARE PROVIDED ON AN &ldquo;AS IS&rdquo; AND &ldquo;AS AVAILABLE&rdquo; BASIS, AND FAMTIVITY DISCLAIMS ALL OTHER EXPRESS WARRANTIES INCLUDING, WITHOUT LIMITATION, ANY WARRANTY THAT THE SERVICE OR ANY MATERIALS PROVIDED BY FAMTIVITY (1) WILL MEET THE REQUIREMENTS OF PROVIDER, OR (2) WILL BE UNINTERRUPTED OR THAT ANY INTERRUPTION WILL BE CORRECTED IN A TIMELY MANNER. FAMTIVITY FURTHER DISCLAIMS ALL IMPLIED WARRANTIES WITH RESPECT TO THE SERVICE AND ANY MATERIALS PROVIDED BY FAMTIVITY INCLUDING, WITHOUT LIMITATION, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NONINFRINGEMENT, AND TITLE.</span></p>
+		
+		<p  class="para_inner_text"><span class="terms_of_servie_text"><b>8. Limitation of Liability.</b></span></p>
+		
+		<p  class="para_inner_text" style="margin-left:10px;"><span style="color:#6a6a6a;">a.</span> <b>Consequential Damages.</b> UNDER NO CIRCUMSTANCES, INCLUDING, BUT NOT LIMITED TO, NEGLIGENCE, WILL FAMTIVITY, ITS AFFILIATES, AND ITS SUBSIDIARIES BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL, CONSEQUENTIAL, PUNITIVE, RELIANCE, OR EXEMPLARY DAMAGES THAT RESULT FROM THESE TERMS, EVEN IF FAMTIVITY OR FAMTIVITY&rsquo;S AUTHORIZED REPRESENTATIVE HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES, INCLUDING, BUT NOT LIMITED TO, ANY LOSS OF PROFIT (WHETHER INCURRED DIRECTLY OR INDIRECTLY), ANY LOSS OF GOODWILL OR BUSINESS REPUTATION, ANY LOSS OF DATA SUFFERED, COST OF PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES, OR OTHER INTANGIBLE LOSS. </p>
+		
+		<p  class="para_inner_text" style="margin-left:10px;"><span style="color:#6a6a6a;">b.</span> <b>Liability Cap.</b> EXCEPT FOR AMOUNTS EXPRESSLY DUE AND OWING HEREUNDER, IN NO EVENT WILL FAMTIVITY AND ITS AFFILIATES AND SUBSIDIARIES&rsquo; TOTAL LIABILITY TO PROVIDER FOR ALL DAMAGES, LOSSES, AND CAUSES OF ACTION ARISING OUT OF OR RELATING TO THESE TERMS (WHETHER IN CONTRACT OR TORT, INCLUDING NEGLIGENCE, WARRANTY, INDEMNIFICATION OR OTHERWISE) EXCEED THE AMOUNT RECEIVED BY FAMTIVITY FROM PROVIDER OR BY PROVIDER FROM FAMTIVITY, WHICHEVER IS GREATER, DURING THE 12 MONTH PERIOD PRIOR TO THE DATE OF THE EVENT GIVING RISE TO THE CLAIM. </p>
+		
+		<p  class="para_inner_text" style="margin-left:10px;"><span style="color:#6a6a6a;">c.</span> <b>Limit on Claims.</b> Provider will make any claim against Famtivity in connection with these Terms within 12 months of the date that the cause of action arises. If Provider does not bring such claim within 12 months, the claim will be deemed to be waived by Provider.</p>
+		
+		<p  class="para_inner_text"><span class="terms_of_servie_text"><b>9. Termination and Effect of Termination.</b></span> Famtivity may terminate this Agreement at any time effective immediately by providing notice to you either through your account on the Service or to the e-mail address associated with your account. You may terminate this Agreement at any time by contacting us at support@famtivity.com. Notwithstanding anything to the contrary, in the event of any termination, you will remain liable for any amount due under this Agreement through the effective date of termination and such obligation to pay shall survive any termination of this Agreement. Sections 1 (for Provider&rsquo;s responsibility to honor bookings), 2 (for calculation of Fees and Refunds), 3(for Payments), and 4-10 shall survive termination of this Agreement. </p>
+		
+		<p  class="para_inner_text"><span class="terms_of_servie_text"><b>10. Independent Contractor Relationship.</b></span> The relationship of Famtivity and Provider is one of independent contractors, and nothing contained in this Agreement will be construed to (i) give either party the power to direct and control the day-to-day activities of the other, (ii) constitute the parties as partners, joint venturers, co-owners or otherwise as participants in a joint or common undertaking, or (iii) allow Provider to create or assume any obligation on behalf of Famtivity for any purpose whatsoever. </p>
+		
+		<p  class="para_inner_text"><span class="terms_of_servie_text"><b>11. General.</b></span> This Agreement will be governed by and interpreted in accordance with the laws of the State of California, without reference to conflict of laws principles. You agree that any claim or dispute you may have against Famtivity shall be exclusively resolved in a court located in Santa Clara County, California. You agree to personal jurisdiction of the courts located within Santa Clara County, California for the purpose of litigating all such claims or disputes. If any provision in this Agreement is found or be held to be invalid or unenforceable in any jurisdiction in which this Agreement is being performed, then the meaning of that provision will be construed, to the extent feasible, so as to render the provision enforceable, and if no feasible interpretation would save such provision, it will be severed from the remainder of this Agreement, which will remain in full force and effect. No modification, amendment or waiver of any provision of this Agreement will be effective unless in writing and signed by the party to be charged. This Agreement, the Terms constitutes the final, complete and exclusive agreement between the parties with respect to the subject matter hereof, and supersedes any prior or contemporaneous agreement or understandings, whether oral or written with respect to the subject matter hereof.</p>
+
+			</div>
+
+			  </div>
+			 <div class="clear"></div>		
+
+		 </div> 
+</div>

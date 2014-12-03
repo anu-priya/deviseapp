@@ -1,0 +1,16 @@
+$('#form_container_<%=@act.activity_id%>').html("<%=escape_javascript(render 'forms/required_form_list')%>");
+<%if @chk_form%>
+$('html, body').animate({ scrollTop: 0 });
+$('#send_msg').val('');
+$('.flash-message').html('Forms have been updated successfully!');
+var win=$(window).width();
+var con=$('.flash_content').width();
+var leftvalue=((win/2)-(con/2))
+$('.flash_content').css('left',leftvalue+'px');
+$('.flash_content').css('top','67px');
+$('.flash_content').fadeIn().delay(5000).fadeOut();
+<%end%>
+
+$('#pformContainerDiv_<%=@act.activity_id%>').hide();
+$('#chk_status').val("");
+$('#rm_status').val("");

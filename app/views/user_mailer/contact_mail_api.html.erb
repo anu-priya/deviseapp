@@ -1,0 +1,18 @@
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+      <p><strong>Name :</strong> <%= @name.capitalize%></p>
+      <p><strong>Email :</strong> <%= @email %></p>
+	   <p><strong>Name :</strong> <%= @name.capitalize%></p>
+      <p><strong>User type:</strong> <%= @areyou %></p>
+      <% if !@phone.nil? && @phone!='' && @phone.present? %>
+      	<p><strong>Phone :</strong>  <%= @phone %></p>
+      <% end %>
+      <% if !@msg.nil? && @msg!='' && @msg.present? %>
+      	<p><strong>Message :</strong>  <%= @msg %></p>
+      <% end %>
+	  <p>&nbsp;</p>
+    </td>
+  </tr>
+</table>
+<p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;padding-top:20px;">Your Famtivity Team.</p>

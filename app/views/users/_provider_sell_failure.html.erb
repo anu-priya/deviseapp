@@ -1,0 +1,34 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up_success.css" />
+<script language="javascript">
+  $(document).ready(function(){
+    $("html, body", window.parent.document).animate({ scrollTop: 0 }, 100);
+    if(navigator.appName=="Microsoft Internet Explorer")
+    {
+      window.location.hash='/provider_sell_failure';
+    }
+    else
+    {
+      var stateObj = { foo: "bar" };
+      parent.history.replaceState(stateObj,'test','/provider_sell_failure')
+    }
+  });
+  function closepopup() {
+    if(navigator.appName=="Microsoft Internet Explorer")
+    {
+      window.location.hash='';
+    }
+    else
+    {
+      var stateObj = { foo: "bar" };
+      parent.history.replaceState(stateObj,'test','/')
+    }
+    parent.parentLoginPage.hide();
+  }
+</script>
+
+<div align="center" style="height:230px;">
+<!--<p class="successText" style="padding:60px 0;">Registration failed! Please enter valid credit card details.<%#=@failer_message if !@failer_message.nil? %></p>-->
+  <p class="successText" style="padding:60px 0;">Registration failed!.<%=@failer_message if !@failer_message.nil? %></p>
+  <div class="clear"></div>
+  <a href="javascript:void(0)" onClick="closepopup()" title=""><img src="/assets/register/ok_btn.png" /></a>
+</div>

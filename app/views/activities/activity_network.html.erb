@@ -1,0 +1,535 @@
+<%=stylesheet_link_tag "activity_view_detail/activity_details","event_index/event_index","global/pop_up", :media => "all"%>
+<style>
+#event_index_container{
+	border:none;
+}
+</style>
+<script language="javascript" type="text/javascript" src="/assets/event/activity_network.js"></script>
+
+<div id="new_act_container">
+	<div class="popupContainer">
+	<div class="popupContainerTop"></div>
+	<div class="popupContainerCenter">
+		<div class="innerContainer">
+			<div class="headTab">
+				<div class="heading">
+					<div class="headCont">Activit Network</div>
+				</div>
+				<div class="closeButton"><a href="javascript:void(0)" onClick="closepopup()" title=""> <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%> </a></div>
+			</div>
+			<div class="centerCont activity_network">
+				<!-- 	Block1	-->
+				<div class="part1">
+					<div class="titNameActivity">				
+						<p class="actHedtxt">Cricket Activity</p>
+						<span class="proftz12"><b>Event Academy</b></span>				
+						<span class="proftz12"><b>Powered by</b></span>				
+						<span class="proftz12"><b>EDA</b>,&nbsp;</span>				
+						<span class="ftcBlue3c"><a href="mailto:banupriya@i-waves.com" title="banupriya@i-waves.com" class="flink"><nobr>banupriya@i-waves.com</nobr></a>,&nbsp;</span>
+						<span class="ftcGray55"><b>123-123-1234</b></span>
+					</div>					
+				</div>
+				<div class="setBorder">
+					<!-- 	Block2	-->
+					<div class="part2 schedule">
+						<input type="hidden"  value="1" id="display_schedule" name="display_schedule"/>
+						<table cellspacing="0" cellpadding="0" border="0" class="topArea">
+						<tbody><tr>
+							<td width="50"><a id="schedPrev" class="schedPrev" title="" onclick="prevData()" href="javascript:void(0)"><%=image_tag("/assets/event/previous_arrow.png", :width=>"23", :height=>"23")%></a></td>
+							<td width="769" class="schd_cont_main">
+								<!--
+								>	schd_cont_1 --- 1 as increment varibale 
+								> 	Single SCHEDULE detail Start
+								-->						
+								<div class="schd_cont" id="schd_cont_1">
+									<p class="ftcBlue fts15">Start on Mon, Nov 25, 2013, 9:00 AM to 6:00 PM</p>
+									<p class="ftcBlue fts15">Repeats Daily, until Thu, Nov 28, 2013 </p>
+								</div>
+
+								<div class="schd_cont" id="schd_cont_2">
+									<p class="ftcBlue fts15">Start on Mon, Nov 25, 2013, 9:00 AM to 6:00 PM</p>
+									<p class="ftcBlue fts15">2</p>
+								</div>
+
+								<div class="schd_cont" id="schd_cont_3">
+									<p class="ftcBlue fts15">Start on Mon, Nov 25, 2013, 9:00 AM to 6:00 PM</p>
+									<p class="ftcBlue fts15">3</p>
+								</div>
+
+								<div class="schd_cont" id="schd_cont_4">
+									<p class="ftcBlue fts15">Start on Mon, Nov 25, 2013, 9:00 AM to 6:00 PM</p>
+									<p class="ftcBlue fts15">4</p>
+								</div>
+
+								<div class="schd_cont" id="schd_cont_5">
+									<p class="ftcBlue fts15">Start on Mon, Nov 25, 2013, 9:00 AM to 6:00 PM</p>
+									<p class="ftcBlue fts15">5</p>
+								</div>
+								<!--  single SCHEDULE detail End--->												
+							</td>
+							<td width="50"><a id="schedNext" class="schedNext"title="" onclick="nextData()" href="javascript:void(0)"><%=image_tag("/assets/event/next_arrow.png", :width=>"23", :height=>"23")%></a></td>
+						</tr>
+						</tbody></table>
+						<div class="clear"></div>
+						<div class="rt sched_pagination ftcBlue fts12">
+							<div class="lt"><a href="javascript:void(0)" title="" class="ftcBlue schedPrev" onclick="prevData()">Prev</a>&nbsp;</div>
+							<div class="lt display_num">&nbsp;&nbsp;&nbsp;</div>
+							<div class="lt"><a href="javascript:void(0)" title="" class="ftcBlue schedNext" onclick="nextData()">Next</a></div>
+							<div class="clear"></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<!-- 	Block3	-->
+					<div class="part3">
+						<div class="menuArea">
+							<input class="lt" type="checkbox" name="network_all" id="network_all" value="" />
+							<div class="lt ftcBlue fts14 check_select_all">Select All</div>
+							<div class="lt ftcBlue fts14 pipeSymbol">|</div>							
+							<div class="lt ftcBlue fts14 "><a title="" href="#"><%=image_tag("/assets/event/delete_image.png", :width=>"13", :height=>"13")%></a></div>
+							<div class="lt ftcBlue fts14 check_select_all">Delete</div>
+							<div class="lt ftcBlue fts14 pipeSymbol">|</div>							
+							<div class="lt sendMsgNormal" id="sendMsgId" onmouseover="displaySendMsg()" onmouseout="hideSendMsg()">
+								<div class="lt ftcBlue fts14 send_meg_icon"><a title="" href="#"><%=image_tag("/assets/contact/send_message.png", :width=>"20", :height=>"16")%></a></div>
+								<div class="lt ftcBlue fts14 check_select_all">Send Message</div>
+								<div class="lt dropdown_arrow"><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4")%></div>
+							</div>							
+							<div class="displaySendMsgDiv" style="display:none" onmouseover="displaySendMsg()" onmouseout="hideSendMsg()">
+								<div class="sendmsgSelectAll">
+									<input class="lt" type="checkbox" name="sendmsg_all" id="sendmsg_all" value="" onchange="select_sendmsg_all()" />
+									<span align="left" class="lt mangersText" style="color:#4595AE">Select All</span>
+									<div class="clear"></div>
+								</div>
+								<div class="displaySendMsgCheck">
+									<div class="sendmsgSelectAny">
+										<input class="lt" type="checkbox" name="sendmsg_1" id="sendmsg_1" value="" onchange="select_send_msg(1)" />
+										<span align="left" class="lt mangersText" style="color:#4595AE" id="sendmsg_text_1">May 30 - Jun 05, 9:00 AM - 6:00 PM</span>
+										<div class="clear"></div>
+									</div>
+									<div class="sendmsgSelectAny">
+										<input class="lt" type="checkbox" name="sendmsg_2" id="sendmsg_2" value="" onchange="select_send_msg(2)" />
+										<span align="left" class="lt mangersText" style="color:#4595AE" id="sendmsg_text_2">May 30 - Jun 05, 9:00 AM - 6:00 PM</span>
+										<div class="clear"></div>
+									</div>
+									<div class="sendmsgSelectAny">
+										<input class="lt" type="checkbox" name="sendmsg_3" id="sendmsg_3" value="" onchange="select_send_msg(3)" />
+										<span align="left" class="lt mangersText" style="color:#4595AE" id="sendmsg_text_3">May 30 - Jun 05, 9:00 AM - 6:00 PM</span>
+										<div class="clear"></div>
+									</div>
+									<div class="sendmsgSelectAny">
+										<input class="lt" type="checkbox" name="sendmsg_4" id="sendmsg_4" value="" onchange="select_send_msg(4)" />
+										<span align="left" class="lt mangersText" style="color:#4595AE" id="sendmsg_text_4">May 30 - Jun 05, 9:00 AM - 6:00 PM</span>
+										<div class="clear"></div>
+									</div>
+									<div class="sendmsgSelectAny">
+										<input class="lt" type="checkbox" name="sendmsg_5" id="sendmsg_5" value="" onchange="select_send_msg(5)" />
+										<span align="left" class="lt mangersText" style="color:#4595AE" id="sendmsg_text_5">May 30 - Jun 05, 9:00 AM - 6:00 PM</span>
+										<div class="clear"></div>
+									</div>
+								</div>
+								<div class="sendmsgButton">
+									<a href="javascript:void(0)" title="" onclick="pop_participant_message_form('/participant_message');"><%=image_tag("/assets/event/msg_send_button.png", :width=>"69", :height=>"28")%></a>
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<!-- 	Block4	-->
+					<div class="part4 managerDiv">
+						<div class="mangerText ftcBlue fts18" align="center">Manager</div>
+						<div class="clear"></div>
+						<div id="providerEventList">  
+							<table cellspacing="0" cellpadding="0" border="0">
+								<tr>
+									<td align="left" width="25" class="headText setPadLt10">
+										<input class="lt" type="checkbox" name="manager_all" id="manager_all" value="" onchange="select_manager_all()" />
+									</td>
+									<td align="left" width="65" class="headText">Image</td>
+									<td align="left" width="180" class="headText">Name</td>
+									<td align="left" width="230" class="headText">Email</td>
+									<td align="left" width="240" class="headText">Phone Number</td>
+									<td align="left" width="110" class="headText">Permission</td>
+								</tr>
+								
+								<tr height="75" class="managerCheck">
+									<td align="left"class="contentText setPadLt10">
+										<input class="lt" type="checkbox" name="manager_name_1" id="manager_name_1" value="" onchange="select_manager_single(1)" />
+									</td>
+									<td align="left" class="contentText">
+										<span class="lt setimgBorder"><%=image_tag("/assets/contact/photo.png", :width=>"62", :height=>"52")%></span>
+									</td>
+									<td align="left" class="contentText ftcBlue"><span class="ftcBlue">Bikowski</span></td>
+									<td align="left" class="contentText ftcBlue"><a href="mailto:banupriya@i-waves.com" title="" class="ftcBlue">bikowski@gmail.com</a></td>
+									<td align="left" class="contentText">987-654-3210</td>
+									<td align="left" class="contentText">
+										<span class="permissions_icon_bg"></span>
+										<span class="ftcBlue permissionsText">Permissions</span>
+									</td>
+								</tr>
+								<tr height="75" class="managerCheck">
+									<td align="left"class="contentText setPadLt10">
+										<input class="lt" type="checkbox" name="manager_name_2" id="manager_name_2" value="" onchange="select_manager_single(2)" />
+									</td>
+									<td align="left" class="contentText">
+										<span class="lt setimgBorder"><%=image_tag("/assets/contact/photo.png", :width=>"62", :height=>"52")%></span>
+									</td>
+									<td align="left" class="contentText ftcBlue"><span class="ftcBlue">Bikowski</span></td>
+									<td align="left" class="contentText ftcBlue"><a href="mailto:banupriya@i-waves.com" title="" class="ftcBlue">bikowski@gmail.com</a></td>
+									<td align="left" class="contentText">987-654-3210</td>
+									<td align="left" class="contentText">
+										<span class="permissions_icon_bg"></span>
+										<span class="ftcBlue permissionsText">Permissions</span>
+									</td>
+								</tr>	
+								<tr height="75" class="managerCheck">
+									<td align="left"class="contentText setPadLt10">
+										<input class="lt" type="checkbox" name="manager_name_3" id="manager_name_3" value="" onchange="select_manager_single(3)" />
+									</td>
+									<td align="left" class="contentText">
+										<span class="lt setimgBorder"><%=image_tag("/assets/contact/photo.png", :width=>"62", :height=>"52")%></span>
+									</td>
+									<td align="left" class="contentText ftcBlue"><span class="ftcBlue">Bikowski</span></td>
+									<td align="left" class="contentText ftcBlue"><a href="mailto:banupriya@i-waves.com" title="" class="ftcBlue">bikowski@gmail.com</a></td>
+									<td align="left" class="contentText">987-654-3210</td>
+									<td align="left" class="contentText">
+										<span class="permissions_icon_bg"></span>
+										<span class="ftcBlue permissionsText">Permissions</span>
+									</td>
+								</tr>								
+
+							</table>
+							<div class="clear"></div>
+						</div>
+					</div>
+					<!-- 	Block5	-->
+					<div class="part5 inviteAssingDiv">
+						<div align="center"><%=image_tag("/assets/event/invite_and_assign_icon.png", :width=>"16", :height=>"18", :id=>"invite_and_assign_icon")%>&nbsp;<a href="javascript:void(0)" title="" onClick="invite_assign_manager(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Invite & Assign Managers']);" class="ftcBlue fts14 inviteText"><u><b>Invite &amp; Assign Managers</b></u></a></div>
+						<div class="holeManagerDiv" style="display:none;">
+							<div align="center">
+								<div class="managerDiv">
+									<input class="lt" type="radio" name="manager" id="invite" value="" onchange="invite_manager_open(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Invite Manager']);" checked="checked" />
+									<span align="left" class="lt contentText mangersText">Invite Managers</span>
+									<input class="lt" type="radio" name="manager" id="assign" value="" onchange="assign_manager_open(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Assign Manager']); " />
+									<span align="left" class="lt contentText mangersText mangersText1">Assign Managers</span>
+									<div class="clear"></div>								
+								</div>
+							</div>
+							<!-- inviteManager Start-->
+							<div class="inviteManager">
+								<div align="center"><p class="actGrayBg fts12" align="center">Invite manager to join this activity group</p></div>
+								<div class="row1">
+									<div class="lt leftText fts14"><b>Email</b></div>									
+									<input type="text" name="invite_email" id="invite_email" value="" class="lt textBox" onfocus="this.style.color='#444444'" />
+									<div class="clear"></div>
+								</div>
+								<div class="row1">
+									<div class="lt leftText fts14"><b>Permission</b></div>
+									<div class="lt checkInvite">
+										<input class="" type="checkbox" name="invite_manager_i" id="invite_manager_i" value="" />
+										<span class="checkTt">Invite Manager</span>
+										<input class="" type="checkbox" name="invite_attendees_i" id="invite_attendees_i" value="" />
+										<span class="checkTt">Invite Attendees</span>
+									</div>
+									<div class="lt leftText fts14"><b>&nbsp;</b></div>									
+									<div class="lt checkInvite">
+										<input class="" type="checkbox" name="view_i" id="view_i" value="" />
+										<span class="checkTt">View</span>
+										<input class="" type="checkbox" name="edit_i" id="edit_i" value="" />
+										<span class="checkTt">Edit</span>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="row1">
+									<div class="lt leftText fts14"><b>&nbsp;</b></div>	
+									<a href="javascript:void(0)" title="" onclick=""><%=image_tag("/assets/event/invite_button.png", :width=>"91", :height=>"34")%></a>
+									<a href="javascript:void(0)" title="" onclick="invite_assign_manager_close()"><%=image_tag("/assets/event/invite_close.png", :width=>"91", :height=>"34")%></a>
+									<div class="clear"></div>	
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="clear"></div>
+							<!-- inviteManager End-->
+							<!-- assignManager Start-->
+							<div class="assignManager" style="display:none;">
+								<div align="center"><p class="actGrayBg fts12" align="center">Select and assign managers to this activity</p></div>								
+								<div class="row1">
+									<div class="lt leftText fts14"><b>Manager</b></div>									
+									<div class="lt assMgDiv">
+										<div class="lt checkInvite">
+											<input class="" type="checkbox" name="assign_manager_1" id="assign_manager_1" value="" />
+											<span class="checkTt ftcBlue">Abby Roundy</span>											
+										</div>
+										<div class="lt checkInvite">
+											<input class="" type="checkbox" name="assign_manager_1" id="assign_manager_1" value="" />
+											<span class="checkTt ftcBlue">Bikowski(Assigned)</span>											
+										</div>
+										<div class="lt checkInvite">
+											<input class="" type="checkbox" name="assign_manager_1" id="assign_manager_1" value="" />
+											<span class="checkTt ftcBlue">Adams</span>											
+										</div>
+										<div class="lt checkInvite">
+											<input class="" type="checkbox" name="assign_manager_1" id="assign_manager_1" value="" />
+											<span class="checkTt ftcBlue">Williams</span>											
+										</div>										
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="row1">
+									<div class="lt leftText fts14"><b>&nbsp;</b></div>	
+									<a href="javascript:void(0)" title="" onclick=""><%=image_tag("/assets/event/assign_button.png", :width=>"91", :height=>"34")%></a>
+									<a href="javascript:void(0)" title="" onclick="invite_assign_manager_close()"><%=image_tag("/assets/event/invite_close.png", :width=>"91", :height=>"34")%></a>
+									<div class="clear"></div>	
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="clear"></div>
+							<!-- assignManager End-->
+						</div>
+					</div>
+					<!-- 	Block6	-->
+					<div class="part6 attendeesDiv">						
+						<table cellspacing="0" cellpadding="0" border="0" width="880" class="attendeesTop"> 
+							<tr>
+								<td width="400" align="left">
+									<div class="lt showbyNormal">
+										<div class="lt ftcBlue fts14 showByText">Show By</div>
+										<div class="lt"><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4")%></div>
+									</div>
+								</td>
+								<td width="80" class="ftcBlue fts18" align="center">Attendees</td>
+								<td width="400" align="right" valign="top">
+									<input type="text" name="invite_email" id="invite_email" value="" class="textBox" style="display:inline-block;width:245px;height:25px;margin-right:5px;" onfocus="this.style.color='#444444'" />
+									<div class="rt"><a href="javascript:void(0)" title="" onclick="invite_assign_manager_close()" style="display:inline-block;margin-right:10px;" ><%=image_tag("/assets/event/invite_search.png", :width=>"65", :height=>"29")%></a></div>
+								</td>
+							</tr>
+						</table>
+						<div class="clear"></div>
+						<div id="providerEventList" class="attendeesHeight" style="width:860px;max-height:405px;">  
+						<table cellspacing="0" cellpadding="0" border="0" width="860"> 
+							<tr>
+								<td align="left" width="25" class="headText setPadLt10"><input class="lt" type="checkbox" name="attendees_all" id="attendees_all" value="" onchange="select_attendees_all()" /></td>
+								<td align="left" width="50" class="headText">Image</td>
+								<td align="left" width="130" class="headText">Name</td>
+								<td align="left" width="145" class="headText">Email</td>
+								<td align="left" width="145" class="headText">Code No</td>
+								<td align="left" width="100" class="headText">Payment</td>
+								<td align="left" width="145" class="headText">Required Forms</td>
+								<td align="left" width="75" class="headText">FamPass Status</td>
+							</tr>
+							<tr height="70" class="setBg1 attendeesCheck">
+								<td align="left"class="contentText setPadLt10"><input class="lt" type="checkbox" name="attendees_name_1" id="attendees_name_1" value="" onchange="select_attendees_single(1)" /></td>
+								<td align="left" class="contentText"><span class="lt setimgBorder"><%=image_tag("/assets/event/attendees_no_image.png", :width=>"34", :height=>"37")%></span></td>
+								<td align="left" class="contentText ftcBlue"><span class="ftcBlue">Bikowski</span></td>
+								<td align="left" class="contentText ftcBlue"><a href="mailto:banupriya@i-waves.com" title="" class="ftcBlue">bikowski@gmail.com</a></td>
+								<td align="left" class="contentText">110001010100</td>
+								<td align="left" class="contentText"><span class="setBg_required_forms_icon" style="margin:0;"></span></td>
+								<td align="left" class="contentText">
+									<div class="lt formDiv" id="formDiv_1" ><div class="formNormalBg" onmouseover="showFormDetails(1)" onmouseout="hideFormDetails()"><span class="ftcBlue">Form</span><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4", :style=>"position: relative; top: -1px; left:5px;")%></div></div>
+									<div class="lt setBg_required_forms_icon" id="set_required_forms_img_1"></div>
+									<div class="pformContainerDiv requiredFormDiv" id="pformContainerDiv_1" style="visibility:hidden;" onmouseover="showFormDetails(1)" onmouseout="hideFormDetails()">
+										<table cellspacing="0" cellpadding="0" border="0"> 										
+											<tr height="25">
+												<td align="left" nowrap="nowrap">Kids Application Form</td>
+												<td align="right" class="setBg_required_forms_icon" style="margin:0 15px;"></td>
+											</tr>
+											<tr height="25">
+												<td align="left" nowrap="nowrap">Kids Infromation</td>
+												<td align="right" class="setBg_required_forms_disable_icon" style="margin:0 15px;"></td>
+											</tr>
+											<tr height="25">
+												<td align="left" nowrap="nowrap">Parent Information</td>
+												<td align="right" class="setBg_required_forms_disable_icon" style="margin:0 15px;"></td>
+											</tr>
+											<tr height="25">
+												<td align="left" nowrap="nowrap">Kids Application Form</td>
+												<td align="right" class="setBg_required_forms_icon" style="margin:0 15px;"></td>
+											</tr>
+											<tr height="25">
+												<td align="left" nowrap="nowrap">Kids Infromation</td>
+												<td align="right" class="setBg_required_forms_disable_icon" style="margin:0 15px;"></td>
+											</tr>
+											<tr height="25">
+												<td align="left" nowrap="nowrap">Parent Information</td>
+												<td align="right" class="setBg_required_forms_disable_icon" style="margin:0 15px;"></td>
+											</tr>
+										</table>
+									</div>
+								</td>
+								<td align="left" class="contentText">Accepted</td>
+							</tr>
+							<tr height="70" class="setBg2 attendeesCheck">
+								<td align="left"class="contentText setPadLt10"><input class="lt" type="checkbox" name="attendees_name_2" id="attendees_name_2" value="" onchange="select_attendees_single(2)"  /></td>
+								<td align="left" class="contentText"><span class="lt setimgBorder"><%=image_tag("/assets/event/attendees_no_image.png", :width=>"34", :height=>"37")%></span></td>
+								<td align="left" class="contentText ftcBlue"><span class="ftcBlue">Bikowski</span></td>
+								<td align="left" class="contentText ftcBlue"><a href="mailto:banupriya@i-waves.com" title="" class="ftcBlue">bikowski@gmail.com</a></td>
+								<td align="left" class="contentText">110001010100</td>
+								<td align="left" class="contentText">N/A</td>
+								<td align="left" class="contentText"><span class="ftcBlue">Send Required Form</div></td>
+								<td align="left" class="contentText"><span class="ftcBlue">Accept</span></td>
+							</tr>
+							<tr height="70" class="setBg1 attendeesCheck">
+								<td align="left"class="contentText setPadLt10"><input class="lt" type="checkbox" name="attendees_name_3" id="attendees_name_3" value="" onchange="select_attendees_single(3)"  /></td>
+								<td align="left" class="contentText"><span class="lt setimgBorder"><%=image_tag("/assets/event/attendees_no_image.png", :width=>"34", :height=>"37")%></span></td>
+								<td align="left" class="contentText ftcBlue"><span class="ftcBlue">Bikowski</span></td>
+								<td align="left" class="contentText ftcBlue"><a href="mailto:banupriya@i-waves.com" title="" class="ftcBlue">bikowski@gmail.com</a></td>
+								<td align="left" class="contentText">110001010100</td>
+								<td align="left" class="contentText"><span class="setBg_required_forms_icon" style="margin:0;"></span></td>
+								<td align="left" class="contentText">
+									<div class="lt formDiv" id="formDiv_2" ><div class="formNormalBg" onmouseover="showFormDetails(2)" onmouseout="hideFormDetails()"><span class="ftcBlue">Form</span><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4", :style=>"position: relative; top: -1px; left:5px;")%></div></div>
+									<div class="lt setBg_required_forms_disable_icon" id="set_required_forms_img_2"></div>
+									<div class="pformContainerDiv requiredFormDiv" id="pformContainerDiv_2" style="visibility:hidden;" onmouseover="showFormDetails(2)" onmouseout="hideFormDetails()">
+										<table cellspacing="0" cellpadding="0" border="0"> 										
+											<tr height="25">
+												<td align="left" nowrap="nowrap">Kids Application Form</td>
+												<td align="right" class="setBg_required_forms_icon" style="margin:0 15px;"></td>
+											</tr>
+											<tr height="25">
+												<td align="left" nowrap="nowrap">Kids Infromation</td>
+												<td align="right" class="setBg_required_forms_disable_icon" style="margin:0 15px;"></td>
+											</tr>
+											<tr height="25">
+												<td align="left" nowrap="nowrap">Parent Information</td>
+												<td align="right" class="setBg_required_forms_disable_icon" style="margin:0 15px;"></td>
+											</tr>
+											<tr height="25">
+												<td align="left" nowrap="nowrap">Kids Application Form</td>
+												<td align="right" class="setBg_required_forms_icon" style="margin:0 15px;"></td>
+											</tr>
+											<tr height="25">
+												<td align="left" nowrap="nowrap">Kids Infromation</td>
+												<td align="right" class="setBg_required_forms_disable_icon" style="margin:0 15px;"></td>
+											</tr>
+											<tr height="25">
+												<td align="left" nowrap="nowrap">Parent Information</td>
+												<td align="right" class="setBg_required_forms_disable_icon" style="margin:0 15px;"></td>
+											</tr>
+										</table>
+									</div>
+								</td>
+								<td align="left" class="contentText">Accepted</td>
+							</tr>
+							<tr height="70" class="setBg2 attendeesCheck">
+								<td align="left"class="contentText setPadLt10"><input class="lt" type="checkbox" name="attendees_name_4" id="attendees_name_4" value="" onchange="select_attendees_single(4)"  /></td>
+								<td align="left" class="contentText"><span class="lt setimgBorder"><%=image_tag("/assets/event/attendees_no_image.png", :width=>"34", :height=>"37")%></span></td>
+								<td align="left" class="contentText ftcBlue"><span class="ftcBlue">Bikowski</span></td>
+								<td align="left" class="contentText ftcBlue"><a href="mailto:banupriya@i-waves.com" title="" class="ftcBlue">bikowski@gmail.com</a></td>
+								<td align="left" class="contentText">110001010100</td>
+								<td align="left" class="contentText">N/A</td>
+								<td align="left" class="contentText"><span class="ftcBlue">Send Required Form</span></td>
+								<td align="left" class="contentText">N/A</td>
+							</tr>
+							<tr height="70" class="setBg1 attendeesCheck">
+								<td align="left"class="contentText setPadLt10"><input class="lt" type="checkbox" name="attendees_name_5" id="attendees_name_5" value="" onchange="select_attendees_single(5)"  /></td>
+								<td align="left" class="contentText"><span class="lt setimgBorder"><%=image_tag("/assets/event/attendees_no_image.png", :width=>"34", :height=>"37")%></span></td>
+								<td align="left" class="contentText ftcBlue"><span class="ftcBlue">Bikowski</span></td>
+								<td align="left" class="contentText ftcBlue"><a href="mailto:banupriya@i-waves.com" title="" class="ftcBlue">bikowski@gmail.com</a></td>
+								<td align="left" class="contentText">110001010100</td>
+								<td align="left" class="contentText">N/A</td>
+								<td align="left" class="contentText"><span class="ftcBlue">Send Required Form</span></td>
+								<td align="left" class="contentText">N/A</td>
+							</tr>
+							
+						</table>
+						</div>						
+					</div>				
+					<!-- 	Block7	-->
+					<div class="part7 inviteAttendeesDiv">
+						<div align="center"><%=image_tag("/assets/event/invite_attendees_icon.png", :width=>"22", :height=>"21", :id=>"invite_attendees")%>&nbsp;<a href="javascript:void(0)" title="" onClick="invite_attendees_show(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Click here to Invite Attendees']);" class="ftcBlue fts14 inviteText"><u><b>Click here to Invite Attendees</b></u></a></div>
+						<table cellspacing="0" cellpadding="0" border="0" width="880" class="attendeesDiv attendeesTop pendingAttendeesTop" style="padding: 10px 10px 0;"> 
+							<tr>
+								<td width="355" align="left">																			
+									<div class="lt"><%=image_tag("/assets/event/invite_again_icon.png", :width=>"23", :height=>"25", :id=>"invite_attendees")%></div>
+									<div class="lt ftcBlue fts14 showByText">Invite Again</div>									
+								</td>
+								<td width="145" class="ftcBlue fts18" align="center">Pending Invites</td>
+								<td width="355" align="right" valign="top"></td>
+							</tr>
+						</table>
+						<div class="clear"></div>
+						<div id="providerEventList" class="pendingAttendees" style="width:860px;max-height:420px;">  
+							<table cellspacing="0" cellpadding="0" border="0">
+								<tr>
+									<td align="left" width="25" class="headText setPadLt10"><input class="lt" type="checkbox" name="pending_invite_all" id="pending_invite_all" value="" onchange="select_pending_invite_all()"/></td>
+									<td align="left" width="375" class="headText">Email</td>									
+									<td align="left" width="380" class="headText">Status</td>	
+									<td align="left" width="70" class="headText">Action</td>									
+								</tr>
+								
+								<tr height="75" class="setBg1 pending_invite_check">
+									<td align="left" class="contentText setPadLt10"><input class="lt" type="checkbox" name="pending_invite_1" id="pending_invite_1" value="" onchange="select_pending_invite_single(1)" /></td>
+									<td align="left" class="contentText">Billy@gmail.com</td>	
+									<td align="left" class="contentText">Pending</td>										
+									<td align="left" class="contentText"><a href="javascript:void(0)" title=""><span class="enable_delete_icon"></span></a></td>	
+								</tr>
+								<tr height="75"  class="setBg2 pending_invite_check">
+									<td align="left" class="contentText setPadLt10"><input class="lt" type="checkbox" name="pending_invite_2" id="pending_invite_2" value="" onchange="select_pending_invite_single(2)" /></td>
+									<td align="left" class="contentText">Billy@gmail.com</td>	
+									<td align="left" class="contentText">Pending</td>										
+									<td align="left" class="contentText"><a href="javascript:void(0)" title=""><span class="enable_delete_icon"></span></a></td>		
+								</tr>
+								<tr height="75"  class="setBg1 pending_invite_check">
+									<td align="left" class="contentText setPadLt10"><input class="lt" type="checkbox" name="pending_invite_3" id="pending_invite_3" value="" onchange="select_pending_invite_single(3)" /></td>
+									<td align="left" class="contentText">Billy@gmail.com</td>	
+									<td align="left" class="contentText">Pending</td>										
+									<td align="left" class="contentText"><a href="javascript:void(0)" title=""><span class="enable_delete_icon"></span></a></td>		
+								</tr>
+								<tr height="75"  class="setBg2 pending_invite_check">
+									<td align="left" class="contentText setPadLt10"><input class="lt" type="checkbox" name="pending_invite_4" id="pending_invite_4" value="" onchange="select_pending_invite_single(4)" /></td>
+									<td align="left" class="contentText">Billy@gmail.com</td>	
+									<td align="left" class="contentText">Pending</td>										
+									<td align="left" class="contentText"><a href="javascript:void(0)" title=""><span class="enable_delete_icon"></span></a></td>		
+								</tr>
+								<tr height="75" class="setBg1 pending_invite_check">
+									<td align="left" class="contentText setPadLt10"><input class="lt" type="checkbox" name="pending_invite_5" id="pending_invite_5" value="" onchange="select_pending_invite_single(5)" /></td>
+									<td align="left" class="contentText">Billy@gmail.com</td>	
+									<td align="left" class="contentText">Pending</td>										
+									<td align="left" class="contentText"><a href="javascript:void(0)" title=""><span class="enable_delete_icon"></span></a></td>		
+								</tr>
+								<tr height="75" class="setBg2 pending_invite_check">
+									<td align="left" class="contentText setPadLt10"><input class="lt" type="checkbox" name="pending_invite_6" id="pending_invite_6" value="" onchange="select_pending_invite_single(6)" /></td>
+									<td align="left" class="contentText">Billy@gmail.com</td>	
+									<td align="left" class="contentText">Pending</td>										
+									<td align="left" class="contentText"><a href="javascript:void(0)" title=""><span class="enable_delete_icon"></span></a></td>		
+								</tr>
+							</table>
+						</div>
+						
+						<div class="inviteAttendeesJoin" style="display:none;">						
+							<div align="center"><p class="actGrayBg fts12" align="center">Invite Non Famtivity attendees to join this activity group</p></div>
+							<div class="row1">
+								<div class="lt leftText fts14"><b>Email</b></div>									
+								<input type="text" name="invite_email" id="invite_email" value="" class="lt textBox" onfocus="$(this).css('color','#444444')"/>
+								<div class="clear"></div>
+							</div>
+							<div class="row1">
+								<div class="lt leftText fts14"><b>Message</b></div>
+								<textarea name="invite_email" id="invite_email" value="" class="lt textBox" style="height:80px;" onfocus="$(this).css('color','#444444')"></textarea>
+								<div class="clear"></div>
+							</div>
+							<div class="row1">
+								<div class="lt leftText fts14"><b>&nbsp;</b></div>	
+								<a href="javascript:void(0)" title="" onclick=""><%=image_tag("/assets/event/send_button.png", :width=>"91", :height=>"34")%></a>
+								<a href="javascript:void(0)" title="" onclick="invite_attendees_close()"><%=image_tag("/assets/event/invite_close.png", :width=>"91", :height=>"34")%></a>
+								<div class="clear"></div>	
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+					<!-- End -->
+					<div class="clear"></div>
+				</div>
+			</div>
+		<div class="clear"></div>
+		</div>		
+	</div>
+	<div class="clear"></div>
+	</div>
+	<div class="popupContainerBottom"></div>
+	<div class="clear"></div>
+</div>
+<script language="javascript">
+// closepopup
+function closepopup(){
+	parent.activityNetworkkPage.hide();
+}
+</script>

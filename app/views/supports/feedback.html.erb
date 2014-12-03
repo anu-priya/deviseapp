@@ -1,0 +1,419 @@
+<%
+meta :title => "Feedback | Famtivity - Kids Activities, Events, Camps, Classes, Lessons",
+     :description => "Submit feedback and suggestions to make the Famtivity network more fun",
+     :keywords => "Famtivity Feedback, Service feedback, Suggestions on services"
+%>
+<%=stylesheet_link_tag "contacts_users/contact_user","global/pop_up","email_editor/kube","email_editor/redactor", :media => "all"%>
+<%=javascript_include_tag "contacts_users/contact_user","jquery.form","email_editor/jquery-1.9.1.min","email_editor/global","email_editor/prettify","email_editor/redactor"%>
+<style type="text/css">
+.file_success_text{
+	left: 0px;
+	border 1px solid red;
+	position: relative;
+	top: -12px;
+	.top:20px;
+	.bottom:20px;
+	.left:-170px;
+	color:green;
+	font-family: arial;
+	font-size:13px;
+	display1:none;
+	top: 22px\0/IE9;
+	left:-170px\0/IE9;
+	padding:10px 0;
+}
+ .drop_down_left {
+    border: 1px solid #BDD6DD;
+    color: #444444;
+    display: inline-block;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    height: 31px;
+    padding: 5px 0 4px 2px;
+    width:517px;
+}
+#contact_container .textbox{
+	width:507px;
+}
+#field1 option{
+	padding:2px 8px;
+	color:#999999;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 13px;
+	
+}
+@media \0 screen {
+.file_success_text{
+	top:20px;
+	bottom:20px;
+	left:-170px;
+	padding:0;
+	}
+.screenshot_txt{
+	margin-top:20px;
+}
+}
+.redactor_editor p{
+/*line-height:5px; */
+}
+.support_form #file_path{
+	margin: 16px 0 0 307px;
+}
+</style>
+<div id="contact_container" class="support_form" style="background:#fff;">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Feedback</div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title="">
+              <!-- <img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" /> -->
+              <%= image_tag("/assets/global/pop_up/button_close.png", size: "15")%>
+            </a>
+          </div>
+        </div>
+        <div class="setfeedbackDiv" align="center">Please give us your feedback with this form. Add comments and screenshots. <br/><span class="required">*</span>&nbsp;Please fill out required fields.</div>
+        <div style="margin:0 auto; margin-top:15px; width:880px;" align="center">
+          <a href="javascript:void(0)" class="menuText" title="" onclick="show_comment('comment')">
+            <!-- <img src="/assets/register/comments_selection.png" id="img1" width="18"  height="18" align="top" style="top:3px; position:relative;"> -->
+            <%= image_tag("/assets/register/comments_selection.png", id: "img1", size: "18x18", style: "top:3px; position:relative;", align: "top" )%>
+           <span id="comment_test" style="padding-left:3px;font-weight: bold;">Comment</span></a>
+          <span class="dot menuText">&bull;</span>
+          <a href="javascript:void(0)" class="menuText" title="" onclick="show_error('error')">
+            <!-- <img src="/assets/register/error.png" id="img2" width="18" height="18" align="top" style="top:1px; position:relative;"> -->
+            <%= image_tag("/assets/register/error.png", id: "img2", size: "18x18", style: "top:1px; position:relative;", align: "top" )%>
+            <span id="error_text" style="padding-left:3px;">Error</span></a>
+          <span class="dot menuText">&bull;</span>
+          <a href="javascript:void(0)" class="menuText" title="" onclick="show_suggest('suggestion')">
+            <!-- <img src="/assets/register/suggestion.png" id="img3" width="18" height="18" align="top" style="top:1px; position:relative;"> -->
+            <%= image_tag("/assets/register/suggestion.png", id: "img3", size: "18x18", style: "top:1px; position:relative;", align: "top" )%>
+            <span id="suggest_text">Suggestion</span></a>
+          <span class="dot menuText">&bull;</span>
+          <a href="javascript:void(0)" class="menuText" title="" onclick="show_like('like')">
+            <!-- <img src="/assets/register/like.png" id="img4" width="18" height="18" align="top" style="top:1px; position:relative;"> -->
+            <%= image_tag("/assets/register/like.png", id: "img4", size: "18x18", style: "top:1px; position:relative;", align: "top" )%>
+            <span id="like_text">Like</span></a>
+        </div>
+
+        <div class="centerCont contactNew">
+          <form id="support_contact" name="support_contact" action="feedback_create" method="post" enctype="multipart/form-data">
+            <div class="paddingTop10"></div>
+            <div class="paddingTop10">
+
+              <div class="clear"></div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField"><span style="padding-left:50px;">Your Email</span><span class="required"><b>*</b></span></div>
+                <%if current_user.present? && !current_user.nil?%>
+                  <input type="text" name="email_address" id="email_id" class="lt textbox" tabindex="1" value="<%=current_user.email_address if !current_user.email_address.nil?%>" />
+                <%else%>
+                  <input type="text" name="email_address" id="email_id" class="lt textbox" tabindex="2"/>
+                <%end%>
+                <div class="clear"></div>
+              </div>
+              <input type="hidden" name="label_id" id="label_id" class="lt textbox" tabindex="3"/>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="email_id_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <input type="hidden" name="support_type" id="support_type" value="comments"/>
+              <div class="paddingTop10">
+                <div class="lt leftSideField"><span style="padding-left:50px;">Labels</span></div>
+                <div class="lt gender">
+                 <!-- <div onmouseout="flag1=false;" onmouseover="flag1=true;" class="selectBoxCity" id="label_border">
+                    <input type="hidden" value="" name="label" id="label">
+                    <div tabindex="5" style="line-height: 23px; color:#999999;" class="selectDiv" id="field1">--Select--</div>
+                  </div>
+                  <div style="display: none; height:168px; overflow-y: auto;" id="dropDownDiv1" class="dropDownDivCity">
+                    <%@parsed["results"].each do |s|%>
+                      <a title="" onclick="support_setLabel('<%=  s['fbk_label_id']%>','<%=  s['fbk_label_name'].gsub("HTML-","").gsub("HTML -","")%>','<%=  s['fbk_label_name']%>')" href="javascript:void(0)"><%=  s['fbk_label_name'].gsub("HTML-","").gsub("HTML -","")%></a>
+                    <%end if !@parsed.nil?%>
+
+
+                  </div>-->
+		 <input type="hidden" value="" name="label" id="label">
+		<select class="drop_down_left"  name="field1" id="field1" tabindex="2" >
+		<option>--Select--</option>
+		 <%@parsed["results"].each do |s|%>
+		<option value="<%=  s['fbk_label_name'].gsub("HTML-","").gsub("HTML -","")%>"><%=  s['fbk_label_name'].gsub("HTML-","").gsub("HTML -","")%></option>
+		<%end if !@parsed.nil?%>
+		</select>
+		  
+                </div>              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="label_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+
+                        <table width="880" height="34" border="0" cellpadding="1" cellspacing="0" style="margin-top:10px;">
+                          <tr>
+                              <input type="hidden" name="cmt" id="cmt" value="" />
+                            <td width="151" class="setfont_share" align="left" valign="top"><span style="margin-left:70px; position:absolute; color:#5A5757;font-size:14px;"><span style="padding-left:50px;"><b>Comments</b></span><span class="required"><b>*</b></span></span></td>
+                            <td width="495">
+                            <div id="page" style="margin: auto;padding: 0 15px; width: 735px;">
+                                
+                            <div class="row">
+                                <div class="threequarter centered" style="margin-left: 102px; width:70%;">
+                                <div id="redactor_content" tabindex="3">
+								
+                                </div>        
+                            
+                            </div>
+                            </div>
+                            
+                            </td>
+                          </tr>
+                        </table>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="message_no_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+
+              <div id="edit_image_activity" class="paddingTop10">
+                <div class="lt leftSideField setTop">
+                  &nbsp;
+                </div>
+                <div class="lt">
+                  <div class="lt">
+                    <div class="lt setImgBorder">
+                      <!--<img  src="/assets/register/icon.png" alt="Nature">
+                      <input type="file" style="display:none;" onchange="dispPhotoName()" readonly="readonly" class="FileField" id="photo" name="activity_image" accept="image/*">-->
+                    </div>
+                    <div class="lt"><!--a href="#" title="" class="changeProf" tabindex="88" onClick="selectFile()">Change Picture</a-->
+                      <div class="lt FileUpload" style="margin:0px;">
+                        <input type="file" style="width: 113px;height: 20px;top:0px;" name="support" class="BrowserHidden" id="photo" size="21" onchange="document.getElementById('photo1').value =this.value;fakepath(this.value); document.getElementById('attach_file_error').innerHTML='You have successfully attached';
+       document.getElementById('attach_file_error').style.display='block';" accept="image/*">
+                        <div style="border:none;width: 174px;" class="BrowserVisible">
+                          <input type="hidden" style="border:1px solid #ffffff;" readonly="readonly" value="" class="FileField" id="photo1" name="photo1">
+						  <div id="file_path"></div>
+
+                        </div>
+                        <span style="cursor:pointer; position:absolute;top: 0px;left: 0px; display:inline-block; width: 108px; height:20px;"  class="browse"><a href="javascript:void(0)" title="" style="color: #5099AC;">
+                          <!-- <img src="/assets/register/attach.jpg" width="108" height="16" alt="Attach File" /> -->
+                          <%= image_tag("/assets/register/attach.jpg", size: "108x16", alt:"Attach File" )%>
+                        </a></span>
+						
+                        <div class="clear"></div>
+						
+                      </div>
+					  <div  ><div class="file_success_text" id="attach_file_error">&nbsp;</div></div>
+                    </div>
+
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+              </div>
+			   <div class="clear"></div>
+			  <div class="screenshot_txt" style=".margin-top:20px;">How to capture screenshots? Click for <a href="https://www.youtube.com/watch?v=oeuw08pEBqw" title="" target="_blank" style="color: #5AA3B6; text-decoration:underline;">Mac</a> | <a href="https://www.youtube.com/watch?v=gGG-58qnsnk" title=""  target="_blank" style="color: #5AA3B6; text-decoration:underline;">PC</a></div>
+			  <div class="buttonDiv" style="padding: 0 0 10px;">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+                <div class="lt">
+                  <input type="image" src="/assets/login/send_button.png"  style="display:inline-block;" alt="" tabindex="4"/>
+
+                  <a href="javascript:void(0)" onClick="closepopup()" style="display:inline-block;" onkeydown="cancelActivityClearData(event)" tabindex="5">
+                    <!-- <img src="/assets/login/close_button.png" alt=""  /> -->
+                    <%= image_tag("/assets/login/close_button.png")%>
+                  </a>
+	        <span id="loading_img" style="display:none; position:relative; top:-12px; left: 5px;">
+            <!-- <img  src="/assets/loading_small.gif" /> -->
+            <%= image_tag("/assets/loading_small.gif")%>
+          </span> 
+                </div>
+                <div class="clear"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>
+
+<script language="javascript">
+  function closepopup() {
+    //SEO URL Changes
+		var stateObj = {
+		foo: "bar"
+		};
+		if(navigator.appName=="Microsoft Internet Explorer"){
+		window.location.hash="/";
+		}
+		else{
+		parent.history.replaceState(stateObj, "Feedback", "/");
+		}
+		//SEO URL Changes
+    parent.activityFeedbackPage.hide();
+     }
+  var flag_s=false;
+  function show_comment(val){
+    $("#img1").attr("src","/assets/register/comments_selection.png");
+    $("#img2").attr("src","/assets/register/error.png");
+    $("#img3").attr("src","/assets/register/suggestion.png");
+    $("#img4").attr("src","/assets/register/like.png");
+    $("#comment_test").css("font-weight","bold");
+    $("#error_text").css("font-weight","normal");
+    $("#suggest_text").css("font-weight","normal");
+    $("#like_text").css("font-weight","normal");
+    $("#support_type").val('comments');
+    flag_s=true;
+  }
+  function show_error(){
+    $("#img1").attr("src","/assets/register/comments.png");
+    $("#img2").attr("src","/assets/register/error_selection.png");
+    $("#img3").attr("src","/assets/register/suggestion.png");
+    $("#img4").attr("src","/assets/register/like.png");
+    $("#comment_test").css("font-weight","normal");
+    $("#error_text").css("font-weight","bold");
+    $("#suggest_text").css("font-weight","normal");
+    $("#like_text").css("font-weight","normal");
+    $("#support_type").val('error');
+    flag_s=true;
+  }
+  function show_suggest(){
+    $("#img1").attr("src","/assets/register/comments.png");
+    $("#img2").attr("src","/assets/register/error.png");
+    $("#img3").attr("src","/assets/register/suggestion_selection.png");
+    $("#img4").attr("src","/assets/register/like.png");
+    $("#comment_test").css("font-weight","normal");
+    $("#error_text").css("font-weight","normal");
+    $("#suggest_text").css("font-weight","bold");
+    $("#like_text").css("font-weight","normal");
+    $("#support_type").val('suggestion');
+    flag_s=true;
+  }
+  function show_like(){
+    $("#img1").attr("src","/assets/register/comments.png");
+    $("#img2").attr("src","/assets/register/error.png");
+    $("#img3").attr("src","/assets/register/suggestion.png");
+    $("#img4").attr("src","/assets/register/like_selection.png");
+    $("#comment_test").css("font-weight","normal");
+    $("#error_text").css("font-weight","normal");
+    $("#suggest_text").css("font-weight","normal");
+    $("#like_text").css("font-weight","bold");
+    $("#support_type").val('like');
+    flag_s=true;
+  }
+
+  function support_setLabel(id,val,orgval){
+    document.getElementById("label").value=orgval;
+    document.getElementById("label_id").value=id;
+    document.getElementById("field1").innerHTML=val;
+    document.getElementById("field1").style.color="#444444"
+    document.getElementById("dropDownDiv1").style.display="none";
+  }
+function fakepath(filepath){
+	inputNode = filepath.replace('C:\\fakepath\\', '');	
+	var pos = filepath.lastIndexOf( filepath.charAt( filepath.indexOf(":")+1) );
+	var filename = filepath.substring( pos+1);
+	var str='';
+	var ua=navigator.userAgent;
+	if(ua.indexOf("Firefox")!=-1){
+		if(filepath.length >45)
+			str=filepath.substr(0,45)+'...';
+		else
+			str=filepath;		
+		$("#photo1").val(filepath);
+		$('#file_path').html(str);
+	} 
+	else {
+		if(filename.length >45)
+			str=filename.substr(0,45)+'...';
+		else
+			str=filename;	
+		$("#photo1").val(filename);
+		$('#file_path').html(str);
+	}
+}
+
+$(document).ready(function (){ 
+    $('#redactor_content').redactor({ focus: true });    	
+    $('#support_contact').submit(function (){	
+	var email_id= $("#email_id").val();    
+	var label=$("#field1").val();     
+	var message_html = $("#redactor_content").html();
+	$("#cmt").val(message_html);        
+	
+	var message = $("#redactor_content").text(); 	
+	
+      var errorFlag = false;
+      
+      $("#email_id").css("border","1px solid #CDE0E6");
+      $("#email_id_error").html("");
+      $("#email_id_error").parent().css("display","none");
+      $("#field1").css("border","1px solid #CDE0E6");
+      $("#label_error").html("");
+      $("#label_error").parent().css("display","none");
+      $("#message").css("border","1px solid #CDE0E6");
+      $("#message_no_error").html("");
+      $("#message_no_error").parent().css("display","none");
+      //~ $("#attach_file_error").html("");
+      //~ $("#attach_file_error").parent().css("display","none");
+	   $("#redactor_content").css("border","none");  
+	  
+      email_id = email_id.replace(/^\s+|\s+$/g, "");
+      if(email_id == "" ){
+        $("#email_id").css("border","1px solid #fc8989");
+        $("#email_id_error").html("Please enter Email");
+        $("#email_id_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(!validateCorrectEmail(email_id)){
+        $("#email_id").css("border","1px solid #fc8989");
+        $("#email_id_error").html("Please enter valid Email");
+        $("#email_id_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(!validateDot(email_id)){
+        $("#email_id").css("border","1px solid #fc8989");
+        $("#email_id_error").html("Please enter valid Email");
+        $("#email_id_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      if(label == "" || label == "--Select--"){
+        $("#field1").css("border","1px solid #fc8989");
+        $("#label_error").html("Please select label");
+        $("#label_error").parent().css("display","block");
+        errorFlag = true;
+      }
+     // message = message.replace(/^\s+|\s+$/g, "");
+      if(message==""){
+        $("#redactor_content").css("border","1px solid #fc8989");
+        $("#message_no_error").html("Please enter comments");
+        $("#message_no_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      if(errorFlag == false){
+	$('#loading_img').css("display","inline-block");
+      }
+      if(errorFlag){
+        return false;
+      }
+    });	
+  });    
+</script>

@@ -1,0 +1,64 @@
+ <%if @pro_fees.length >=1%>
+<div id="header_fee">
+  <a onclick="open_add_fee()"><b>Add +</b></a>
+</div>
+<div id="scrolling_fees">
+  <table>
+    <%i = 1%>
+    <%@pro_fees.each do |s|%>
+      <%if i==1%>
+        <tr>
+        <%end%>
+        <td><div style="float: left; width: 16px;"><input type="checkbox" name="other_new_fee" value="<%=  s.provider_fee_type_id %>" onclick="modify_provider_fee('<%= s.provider_fee_type_id %>')" id="other_fee_<%= s.provider_fee_type_id %>" value="0"/></div>&nbsp;&nbsp;
+
+          <div style="float: left; "><a class="edit_fee_other" onclick="edit_provider_fee('<%= s.provider_fee_type_id %>')"><%= s.fee_name %></a></div>
+          <% if !s.note.nil? && s.note!=""%>
+            <div style="float: left;width: 25px;margin-left: 4px;" id="provider_event_list">
+
+              <div id="menu_active" class="lt ActiveDivMenu">
+                <ul>
+                  <li><%=image_tag("/assets/provider_register/help.png", :width=>"17", :height=>"17", :style=>"cursor:pointer;")%>
+                    <ul style="width: 215px;" class="sub-menu dispParticipantToll">
+                      <li><%=  s.note%></li>
+                    </ul>
+                  </li>
+                </ul>
+                <div class="clear"></div>
+              </div>
+            </div>
+          <%end%>
+          <div style="float: left"><a class="edit_fee_other" onclick="delete_other_provider_fee('<%= s.provider_fee_type_id %>')"><%=image_tag("/assets/create_new_activity/delete_fee_icon.png", :width=>"11", :height=>"11", :style=>"cursor:pointer;")%></a></div></td>
+              <%i+=1%>
+              <%if i>3%>
+        </tr>
+        <%i= 1%>
+      <%end%>
+    <%end%>
+  </table>
+</div>
+<script type="text/javascript" >
+  var fav = $("#add_other_org").val();
+  if (fav!=""){
+    fav_cal = fav.split(",")
+    jQuery.each(fav_cal, function(index, value) {
+      $("#other_fee_"+value).attr('checked', true);
+      //  $("#other_fee_"+value+" label").addClass('altCheckboxOn');
+      //  $("#other_fee_"+value+" label").removeClass('altCheckboxOff');
+    });
+  }
+
+  var rem_fav = $("#rem_other_org").val();
+  if (rem_fav!=""){
+    rem_fav_cal = rem_fav.split(",")
+    jQuery.each(rem_fav_cal, function(index, value) {
+      $("#other_fee_"+value).attr('checked', false);
+      // $("#other_fee_"+value+" label").addClass('altCheckboxOff');
+      //$("#other_fee_"+value+" label").removeClass('altCheckboxOn');
+    });
+  }
+
+</script>
+<%else%>
+ <div id="fee_text1"> No fee created. Create other fee for this activity</div>
+                        <div id="fee_text2" onclick="open_add_fee()"> <b >+<b>&nbsp;Create new fee</div>
+<%end%>

@@ -1,0 +1,330 @@
+<%if !current_user.nil?%>
+  <%@available = "present" %>
+<%else%>
+  <%@available = "p" %>
+<%end%>
+
+
+<%prev_act = 0%>
+
+<% @activity_featured && @activity_featured.each do |share|%>
+  <!-- activity count updation goes here -->
+  <%@a_count=update_activity_count(share[:id]) if !share[:id].nil? && share[:id]!=''%>
+  <%random = [1,2].sample%>
+  <%act_det = ActivitySchedule.where("activity_id = ? AND expiration_date >= ?",share[:id],Date.today ) if !share[:id].nil?%>
+  <% shedule_count=act_det.count%>
+
+  <%user_id = ((share[:model_mode]=='user') ? share[:id] : share[:user_id])%>
+
+  <%@use = User.find_by_user_id(user_id) if !share.nil?%>
+
+  <%current_act = user_id%>
+
+  <%if share[:model_mode]=='user' && current_act!=prev_act && @use.present? && @use.show_card%>
+    <%user_profile = UserProfile.where("user_id =?",user_id).last%>
+    <%=render :partial => "provider_card_landing",:locals => {:user => @use, :user_profile => user_profile}%>
+  <%end%>
+
+  <%prev_act = current_act%>
+
+  <%if share[:model_mode]=='activity' || share[:model_mode]=='weekend'%>  <!--  open of class activity if    -->
+    <%activitylink = activity_link_format(share,@use)%> <!-- Activity Link formation - From application helper link formation-->
+    <div id="field" style="width: 228px; float:left;" class="featuredRow">
+      <%if share[:model_mode]=='weekend'%><div id="borderFrame"><%end%><!-- open of week_ends -->
+        <%if share[:model_mode]=='weekend'%><div class="div_weekend Title" align="center" style="background-color:#D6EDF3;margin-top:-10px;width:89.5%; font-size:16px; font-weight:bold;">This Weekend Newsletter</div><%end%>
+        <%if !share.nil? && !share[:price_type].nil? && share[:price_type] == "1" || share[:price_type] == "2"%>
+          <%@p_details=""%>
+          <%@p_details = ActivityPrice.get_price_details(share[:id]) if !share[:id].nil?%>
+          <%@val_date=activity_valid_date(share[:id]) if !share[:id].nil? && share[:id]!=''%>
+      <%#=@val_date[0] if !@val_date.nil? && !@val_date[0].nil? %>
+          <%if !@p_details.nil? && @p_details!=""%>
+            <% if !share.nil? && !share[:discount_eligible].nil? && share[:discount_eligible].present? && !@val_date.nil? && !@val_date[0].nil?%>
+              <span class="SetOfferBgEligible" onmouseover="$('#specialContFR<%= share[:id] %>').show();" onmouseout="$('#specialContFR<%= share[:id] %>').hide();"></span>
+            <%elsif !@val_date.nil? && !@val_date[0].nil?%>
+              <span class="SetOfferBg" onmouseover="$('#specialContFR<%= share[:id] %>').show();" onmouseout="$('#specialContFR<%= share[:id] %>').hide();"></span>
+            <%elsif !share.nil? && !share[:discount_eligible].nil? && share[:discount_eligible].present?%>
+              <span class="SetOfferBgDiscount" onmouseover="$('#specialContFR<%= share[:id] %>').show();" onmouseout="$('#specialContFR<%= share[:id] %>').hide();"></span>
+              <p class="SetOfferBgpdetails" id="specialContFR<%= share[:id] %>" onmouseover="$('#specialContFR<%= share[:id] %>').show();" onmouseout="$('#specialContFR<%= share[:id] %>').hide();">
+                <a class="specialDetails"><img src="/assets/activity_schedule/top_arrow.png" /></a>
+                <!--discount eligible div--><span class="listSPecialspace" style="text-align:center;margin-bottom:-6px"><label class="firstsptxt" style="width:auto;font-size:16px">Get&nbsp;<label class="secdsptxtred">$<%=(number_with_precision share[:discount_eligible], :precision => 2)  if !share.nil? && !share[:discount_eligible].nil? && share[:discount_eligible].present?%></label>&nbsp;Off With Discount Dollars</label></span><!--discount eligible div-->
+              </p>
+            <%end%>
+            <p class="SetOfferBgpdetails" id="specialContFR<%= share[:id] %>" onmouseover="$('#specialContFR<%= share[:id] %>').show();" onmouseout="$('#specialContFR<%= share[:id] %>').hide();">
+              <a class="specialDetails"><img src="/assets/activity_schedule/top_arrow.png" /></a>
+              <% if !share.nil? && !share[:discount_eligible].nil? && share[:discount_eligible].present?%>
+                <!--discount eligible div--><span class="listSPecialspace" style="text-align:center;border-bottom:1px dotted #C4DFE6;margin-bottom:5px"><label class="firstsptxt" style="width:auto;font-size:16px">Get&nbsp;<label class="secdsptxtred">$<%= (number_with_precision share[:discount_eligible], :precision => 2) if !share.nil? && !share[:discount_eligible].nil? && share[:discount_eligible].present?%></label>&nbsp;Off With Discount Dollars</label></span><!--discount eligible div end-->
+              <%end%>
+              <%if !@val_date.nil? && !@val_date[0].nil? %>
+                <span class="titleTxtspecial">Special Discounts</span>
+                <span class="listSPecialspace"><!--displaying the discount price details start 2013-8-22-->
+
+                  <%@discount_price=""%>
+                  <% @activity_price = ActivityPrice.where("activity_id = ?", share[:id]) if !share[:id].nil? && share[:id].present?%>
+                  <%@discount_price = @activity_price if !@activity_price.nil? && @activity_price.present? %>
+                  <%!@discount_price.nil? && @discount_price.each do |dprice|%>
+                    <%@dis_price=dprice.activity_discount_price%>
+                    <%k=0%>
+                    <%@dis_price.each do |dprice|%>
+                      <%if k<5%>
+                        <%@early_bird_date = dprice.discount_valid.strftime("%Y-%m-%d") if !dprice.discount_valid.nil?%>
+                        <%@max_date = @early_bird_date if !@early_bird_date.nil? && @early_bird_date.present? && @early_bird_date!=""%>
+                        <%@cday = Time.now.strftime("%Y-%m-%d")%>
+                        <%if !@early_bird_date.nil? && @early_bird_date.present? && @early_bird_date >= @cday%>
+                          <label class="firstsptxt"><%=dprice.discount_type if !dprice.nil? && !dprice.discount_type.nil?%></label><label class="secdsptxtred"><% if !dprice.nil? && !dprice.discount_currency_type.nil? && dprice.discount_currency_type.present? && dprice.discount_currency_type=="$" %>$<%end%><%=number_with_precision dprice.discount_price, :precision => 2 if !dprice.nil? && !dprice.discount_price.nil?%><% if !dprice.nil? && !dprice.discount_currency_type.nil? && dprice.discount_currency_type.present? && dprice.discount_currency_type=="%" %>%<%end%>&nbsp;<%if !dprice.nil? && !dprice.discount_type.nil? && dprice.discount_type.present? %>Off&nbsp;<%end%></label><label class="thirdsptxtgray"><%if !dprice.nil? && !dprice.discount_valid.nil? && dprice.discount_valid.present? %> <%=dprice.discount_valid.strftime("till %a, %b %d, %Y ")%> <%else%> for <%=dprice.discount_number if !dprice.nil? && !dprice.discount_number.nil?%><% if !dprice.discount_type.nil? && dprice.discount_type.downcase=='multiple session discount'%>Sessions<%else%> Participants<%end%><%end%></label>
+                                <%k=k+1%>
+                            <%elsif dprice.discount_valid.nil? %>
+                              <label class="firstsptxt"><%=dprice.discount_type if !dprice.nil? && !dprice.discount_type.nil?%></label><label class="secdsptxtred"><% if !dprice.nil? && !dprice.discount_currency_type.nil? && dprice.discount_currency_type.present? && dprice.discount_currency_type=="$" %>$<%end%><%=number_with_precision dprice.discount_price, :precision => 2 if !dprice.nil? && !dprice.discount_price.nil?%><% if !dprice.nil? && !dprice.discount_currency_type.nil? && dprice.discount_currency_type.present? && dprice.discount_currency_type=="%" %>%<%end%>&nbsp;<%if !dprice.nil? && !dprice.discount_type.nil? && dprice.discount_type.present? %>Off&nbsp;<%end%></label><label class="thirdsptxtgray"><%if !dprice.nil? && !dprice.discount_valid.nil? && dprice.discount_valid.present? %> <%=dprice.discount_valid.strftime("till %a, %b %d, %Y ")%> <%else%> for <%=dprice.discount_number if !dprice.nil? && !dprice.discount_number.nil?%> <% if !dprice.discount_type.nil? && dprice.discount_type.downcase=='multiple session discount'%>Sessions<%else%> Participants<%end%><%end%></label>
+                                    <%k=k+1%>
+                                <%end%>
+                              <%end%>
+                            <%end%>
+
+                          <%end%>
+                          <%if !@discount_price.nil? && @discount_price.present? && !@p_details.nil? && @p_details.present? && (@discount_price.count>5 ||@p_details.count>5)%><label class="thirdsptxtgray" style="width:100%;text-align:right;"><a data-pjax href="<%=activitylink%>" onclick="return setbreadcrumb();"  class="firstsptxt">More</a></label><%end%>
+
+                          </span><!--displaying the discount price details end 2013-8-22-->
+                        <%end%>
+                        </p>
+                      <%elsif !share.nil? && !share[:discount_eligible].nil? && share[:discount_eligible].present?%>
+                        <span class="SetOfferBgDiscount" onmouseover="$('#specialContFR<%= share[:id] %>').show();" onmouseout="$('#specialContFR<%= share[:id] %>').hide();"></span>
+                        <p class="SetOfferBgpdetails" id="specialContFR<%= share[:id] %>" onmouseover="$('#specialContFR<%= share[:id] %>').show();" onmouseout="$('#specialContFR<%= share[:id] %>').hide();">
+                          <a class="specialDetails"><img src="/assets/activity_schedule/top_arrow.png" /></a>
+                          <!--discount eligible div--><span class="listSPecialspace" style="text-align:center;margin-bottom:-6px"><label class="firstsptxt" style="width:auto;font-size:16px">Get&nbsp;<label class="secdsptxtred">$<%=(number_with_precision share[:discount_eligible], :precision => 2)  if !share.nil? && !share[:discount_eligible].nil? && share[:discount_eligible].present?%></label>&nbsp;Off With Discount Dollars</label></span><!--discount eligible div-->
+                        </p>
+                      <%end%><%end%>
+                    <div <%if share[:model_mode]=='weekend'%>style="background-color:#F0FAFC;"<%else%> id="borderFrame"<%end%>>
+                      <%@share = share[:schedule] if !share[:schedule].nil? && share[:schedule].present?  %>
+                      <%@a_share = share[:activity] if !share[:activity].nil? && share[:activity].present?  %>
+                      <div class="BottomContent" id="rowdiv<%= share[:id] %>" onmouseover="$('#rowdiv<%= share[:id] %>').show();" onmouseout="$('#rowdiv<%= share[:id] %>').hide();" style="display:none; z-index:9997; left:80px; top:24px; position:absolute;">
+                        <a href="javascript:void(0)" onclick="<%if @available == "present" %>pop_favorite_activity('/save_favorites?click=clicked&activity_id=<%=share[:id]%>');<%else%>login_feature('save_favorites','<%=share[:id]%>');<%end%>_gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','Save Favorites',<%= share[:id] %>])" title="Save to Favorites" id="ShowPop_purchase" ><img src="/assets/event_index/fave_img.png" class="lt" style="padding-left:5px;"/></a>
+                        <%if @available == "present"%>
+                          <span class="SetStarImg1" id="more_friends"><a href="javascript:void(0)" title="Request more information or share with friends"  onclick="pop_share_activity('/share_activity?activity_id=<%=share[:id]%>&mode=parent')"><img src="/assets/event_index/chat_img.png" width="25" height="25" style="padding-left:5px;"></a></span>
+                        <%else%>
+                          <span class="SetStarImg1" id="more_friends"><a href="javascript:void(0)" title="Request more information or share with friends"  onclick="login_feature('share_activity','<%=share[:id]%>')"><img src="/assets/event_index/chat_img.png" width="25" height="25" style="padding-left:5px;"></a></span>
+                        <%end%>
+                      </div>
+                      <%if share[:model_mode]=='weekend'%>
+                        <div class="center_bg_scroll" id="setHeightMac" style="height:468px;margin-top:9px;">
+                        <%else%>
+                          <div class="center_bg_scroll" id="setHeightMac" style="height:540px">
+                          <%end%>
+                          <%if !share[:avatar_file_name].nil? && !share[:avatar].nil? && share[:avatar].present?%>
+                            <%if random == 1 %>
+                              <div align="center" style="width:209px;height1: 190px;overflow:hidden; margin-left:9px;" id="getid1" ><a data-pjax href="<%=activitylink%>" title="" onmouseover="$('#rowdiv<%= share[:id] %>').css('display','block'); $('#tooltipfeaturediv<%= share[:id] %>').css('display','none'); $('#rowdiv<%= share[:id] %>'+ ' #tooltip').css('display','none'); _gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','Featured Row','<%= share[:id] %>']);" onmouseout="$('#rowdiv<%= share[:id] %>').css('display','none'); _gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','Featured Row','<%= share[:id] %>']);" onclick="return setbreadcrumb();_gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','Featured Row','<%= share[:id] %>']);"><%= image_tag share[:avatar].url(:thumb), :alt => "#{share[:activity_name] if share && share[:activity_name]}, #{share[:category] if share && share[:category]} Activities - #{share[:sub_category] if share && share[:sub_category]}", :style=> "margin:3px 0px 3px 0px;" if !share[:avatar].url(:thumb).nil?%></a></div>
+                            <%elsif random == 2%>
+                              <div align="center" style="width:209px;height1: 274px; overflow:hidden; margin-left:9px;" id="getid1" ><a data-pjax href="<%=activitylink%>" title="" onmouseover="$('#rowdiv<%= share[:id] %>').css('display','block'); $('#tooltipfeaturediv<%= share[:id] %>').css('display','none'); $('#rowdiv<%= share[:id] %>'+ ' #tooltip').css('display','none'); _gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','Featured Row','<%= share[:id] %>']);" onmouseout="$('#rowdiv<%= share[:id] %>').css('display','none'); _gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','Featured Row','<%= share[:id] %>']);" onclick="return setbreadcrumb();_gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','Featured Row','<%= share[:id] %>']);"><%= image_tag share[:avatar].url(:small), :alt => "#{share[:activity_name] if share && share[:activity_name]}, #{share[:category] if share && share[:category]} Activities - #{share[:sub_category] if share && share[:sub_category]}", :style=> "margin:3px 0px 3px 0px;" if !share[:avatar].url(:small).nil?%></a></div>
+                            <%elsif random == 3%>
+                              <div align="center" style="width:209px;height1: 324px; overflow:hidden; margin-left:9px;" id="getid1" ><a data-pjax href="<%=activitylink%>" title="" onmouseover="$('#rowdiv<%= share[:id] %>').css('display','block'); $('#tooltipfeaturediv<%= share[:id] %>').css('display','none'); $('#rowdiv<%= share[:id] %>'+ ' #tooltip').css('display','none'); _gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','Featured Row','<%= share[:id] %>']);" onmouseout="$('#rowdiv<%= share[:id] %>').css('display','none'); _gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','Featured Row','<%= share[:id] %>']);" onclick="return setbreadcrumb();_gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','Featured Row','<%= share[:id] %>']);"><%= image_tag share[:avatar].url(:thumb), :class=>"lazy", :alt => "#{share[:activity_name] if share && share[:activity_name]}, #{share[:category] if share && share[:category]} Activities - #{share[:sub_category] if share && share[:sub_category]}", :style=> "margin:3px 0px 3px 0px;" if !share[:avatar].url(:thumb).nil?%></a></div>
+                            <%end%>
+                          <%else%>
+                            <div align="center" style="width:209px; overflow:hidden; margin-left:9px;"><a data-pjax href="<%=activitylink%>" onclick="return setbreadcrumb();" title="" onmouseover="$('#rowdiv<%= share[:id] %>').css('display','block'); $('#tooltipfeaturediv<%= share[:id] %>').css('display','none'); $('#rowdiv<%= share[:id] %>'+ ' #tooltip').css('display','none')" onmouseout="$('#rowdiv<%= share[:id] %>').css('display','none');"><%= image_tag "no_image.png", :class=>"lazy", :alt => "#{share[:activity_name] if share && share[:activity_name]}, #{share[:category] if share && share[:category]} Activities - #{share[:sub_category] if share && share[:sub_category]}", :style=> "margin:3px 0px 3px 0px;"%></a></div>
+                          <%end%>
+
+                          <%if share[:model_mode]=='weekend' && random == 1 %>
+                            <div class="ImgbottomDiv" id="bottomDiv" style="height:190px;">
+                            <%elsif share[:model_mode]=='weekend' && random == 2 %>
+                              <div class="ImgbottomDiv" id="bottomDiv" style="height:274px;">
+                              <%else%>
+                                <div class="ImgbottomDiv" id="bottomDiv" style="height:330px;">
+
+                                <%end%>
+                                <table cellspacing="0" cellpadding="0" border="0">
+                                  <tr>
+                                    <td width="10">&nbsp;</td>
+                                    <td align="left" width="205">
+                                      <% if !share[:activity_name].nil? && share[:activity_name].present?%>
+                                        <h2 class="truncateText"><a data-pjax href="<%=activitylink%>" title="<%=share[:activity_name]%>" onclick="return setbreadcrumb(); _gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','Shared Row','<%= share[:id]%>']);" class="Title" ><%= share[:activity_name] %></a></h2>
+                                <!-- <a href="javascript:void(0)" title="<%=share[:activity_name]%>" onclick="popContentOpen('<%= share[:id] %>','parent','landing_new')" class="Title" ><%=truncate(share[:activity_name], :length =>19, :omission => '... ')%></a>-->
+                                      <%end%>
+                                    </td>
+                                    <td width="10">&nbsp;</td>
+                                  </tr>
+                                  <tr><td height="8"></td></tr>
+                                  <tr><td width="10">&nbsp;</td>
+                                    <td>
+                                      <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                        <tr><!--price value start-->
+                                          <% if share[:schedule_mode].downcase!='any time' && !shedule_count.nil? && shedule_count>1%>
+                                            <td valign="middle" class="price_text" align="left"><span class="price_textlarge">$</span><a data-pjax href="<%=activitylink%>" class="price_text" onclick="return setbreadcrumb();_gaq.push(['_trackEvent', 'Parent Module',  'clickPriceDetails','Price Details','<%= share[:id]%>']);"> Price Details</a></td>
+                                          <%elsif !share[:price_type].nil? && share[:price_type] == "1" || share[:price_type] == "2"%><!--get the data from activities helper by rajkumar-->
+                                            <%@price_det = get_activity(share[:id]) if !share.nil? && !share[:id].nil?%>
+                                            <%if !@price_det.nil? && @price_det.present? && @price_det.length>1%><!-- pricedetail popup start-->
+                                              <td valign="middle" class="price_text" align="left"><span class="price_textlarge">$</span> <a data-pjax href="<%=activitylink%>" class="price_text" onclick="return setbreadcrumb();_gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','Attend Activity','<%= share[:id] %>']);" onmouseOver="showPriceDetails_land1('<%= share[:id]%>_f')" onmouseOut="hidePriceDetails_lands1('<%= share[:id]%>_f')">Price Details</a>
+                                                <div  id="pricingDetail_<%= share[:id]%>_f"  class="pricingDetail1" style="margin: 8px 0 0 0px;position: absolute;width: 220px;.background: #ffffff;left:2px" onmouseOver="showPriceDetails_land1('<%= share[:id]%>_f')" onmouseOut="hidePriceDetails_lands1('<%= share[:id]%>_f')">
+                                                  <div class="topArrow" align="center" onmouseOver="showPriceDetails_land1('<%= share[:id]%>_f')" onmouseOut="hidePriceDetails_lands1('<%= share[:id]%>_f')" style="height: 20px;left: -59px;width: 220px;"><img alt="" src="/assets/activity_schedule/top_arrow.png"></div>
+                                                  <%@activity_price = get_activity(share[:id]) if !share.nil? && !share[:id].nil?%>
+                                                  <div class="setHeightScroll" <%if @activity_price.length>=3%>style="overflow-y: auto; overflow-x: hidden; height:160px; width:220px;"<%end%> ></div>
+                                                  <div ><%= render :partial =>"landing/price_detail" %></div>
+            <%# if !share[:activity][:note].nil? && share[:activity][:note].present?%>
+                                                  <!--div class="notes" style="margin-top: 10px;">
+                                                    <div class="lt paymentNotes" style="margin-left:5px;">Notes</div>
+                                                    <div class="lt paymentContent" style="width: 175px;margin-left:5px;"><%#= share[:activity][:note] if !share[:activity][:note].nil?%></div>
+                                                  </div-->
+            <%#end%>
+                                                </div>
+                                              </td>
+                                            <%elsif !@price_det.nil? && @price_det.present? && @price_det.length==1 %>
+                                              <td valign="middle" class="price_textlarge" align="left">$ <%=number_with_precision @price_det[0].price , :precision => 2  if !@price_det.nil?%><%#=@price_det[0].price if !@price_det.nil?%></td>
+                                            <%end%><!-- pricedetail popup end-->
+                                          <%elsif !share[:price_type].nil? && share[:price_type].present? && share[:price_type] == "2"%>
+                                            <td valign="middle" class="price_textlarge" align="left">$ <%= number_with_precision share[:price], :precision => 2 %></td>
+                                          <%elsif !share[:price_type].nil? && share[:price_type] == "3" || share[:filter_id] == "3" || share[:created_by].downcase == "parent"%>
+                                            <td valign="middle" class="price_text" align="left"><span class="price_textlarge">$</span> Free</td>
+                                          <%elsif !share[:price_type].nil? && share[:price_type] == "4"%>
+                                            <td valign="middle" class="price_text" align="left" nowrap="nowrap">
+                                              <span class="price_textlarge">$</span> Contact Provider
+                                            </td>
+                                          <% elsif share[:price].present? && !share[:price].nil?  && share[:price]!=0%>
+                                            <td valign="middle" class="price_textlarge" align="left">$ <%= number_with_precision share[:price], :precision => 2 %></td>
+                                          <%end%>
+                                          <td valign="middle">&nbsp;</td>
+                                          <td valign="middle" align="right">
+                                            <%
+                                            @act_activityid = share[:id]
+                                            @act_userid = current_user.user_id if !current_user.nil?
+                                          %>
+                                            <%= render :partial => 'common/activity_purchase_status' %>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                    </td><td width="10">&nbsp;</td>
+                                  </tr>
+                                  <tr><td height="11"></td></tr>
+        <%#if (!share[:min_age_range].nil? && share[:min_age_range].present? && share[:min_age_range]!='') || (!share[:city].nil? &&  share[:city].present?) %>
+                                  <tr><td width="10">&nbsp;</td>
+                                    <td>
+                                      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                        <tr>
+                                          <%if (!share[:min_age_range].nil? && share[:min_age_range].present?) && (!share[:max_age_range].nil? && share[:max_age_range].present?) %>
+                                            <td width="51%" class="city_text" valign="top" nowrap="nowrap"><div style="width:87px;" class="truncateText">
+          <%#if  !share[:city].nil? &&  share[:city].present?%><a href="javascript:void(0)" title="<%=share[:city]%>" class="city_text" style="cursor:default;"><span style="top:-2px; position:relative;"><%if share[:schedule_mode] == 'Any Where'%>Anywhere<%else%><%= share[:city].strip %><%end%></span></a><%#end%>
+                                              </div></td>
+                                          <%else%>
+                                            <td width="51%" class="city_text" valign="top"><div style="width:87px;" class="truncateText">
+          <%#if  !share[:city].nil? &&  share[:city].present?%><a href="javascript:void(0)" title="<%=share[:city]%>" class="city_text" style="cursor:default;"><span style="top:-2px; position:relative;"><%if share[:schedule_mode] == 'Any Where'%>Anywhere<%else%><%= share[:city].strip%><%end%></span></a><%#end%>
+                                              </div></td>
+                                          <%end%>
+                                          <td width="2%" valign="top">&nbsp;</td>
+                                          <%if (!share[:min_age_range].nil? && share[:min_age_range].present?) && (!share[:max_age_range].nil? && share[:max_age_range].present?) %>
+                                            <td width="20%" valign="top" class="price_text" nowrap="nowrap"><span class="agePic">Age</span></td>
+                                            <td width="8%" valign="top" align="left" class="price_text" nowrap="nowrap"><span style="top:-2px; position:relative;"><%=age_range_cal(share[:min_age_range],share[:max_age_range])%></span></td>
+                                          <%end%>
+                                        </tr>
+                                      </table>
+                                    </td>
+                                    <td width="10">&nbsp;</td>
+                                  </tr>
+                                  <tr><td height="8"></td></tr>
+        <%#end%>
+                                  <% if !shedule_count.nil? && shedule_count>1%>
+                                  <% else%>
+                                    <%= render :partial =>"activities/activity_weekday" %>
+                                  <%end%>
+                                  <%@repeat_days=""%>
+                                  <% @repeat_days = any_time_activity(share[:id]) %>
+                                  <%if !@repeat_days.nil? && @repeat_days.present? && @repeat_days!=""%>
+                                    <%= render :partial =>"activities/activity_day_selection" %>
+                                  <%end%>
+                                  <% if share[:created_by].downcase=='parent' && !share[:schedule_mode].nil? && share[:schedule_mode].present? && share[:schedule_mode].downcase=='any time' %>
+                                    <tr><td width="10">&nbsp;</td><td><table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td class="city_text calPic">AnyTime</td></tr></table></td><td width="10">&nbsp;</td></tr>
+                                    <tr><td height="8"></td></tr>
+                                  <% elsif share[:created_by].downcase=='parent' && !share[:schedule_mode].nil? && share[:schedule_mode].present? && share[:schedule_mode].downcase != 'any time'%>
+                                    <tr><td width="10">&nbsp;</td><td valign="middle"><% if !@share.nil? && @share.present?%><table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td valign="middle" class="city_text calPic setLineHeight"><%= render :partial =>"activities/schedule_new_format" %></td></tr></table><%end%></td><td width="10">&nbsp;</td></tr>
+                                    <tr><td height="8"></td></tr>
+                                  <% elsif (!share.nil? && !share[:schedule_mode].nil? && share[:schedule_mode] == "By Appointment")%>
+                                    <tr><td width="10">&nbsp;</td><td valign="middle" class="city_text setLineHeight"><table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td valign="middle" class="city_text calPic setLineHeight">By Appointment</td></tr></table></td><td width="10">&nbsp;</td></tr><tr><td height="8"></td></tr>
+                                  <%else%>
+                                    <% if !@share.nil? && @share.present?%>
+                                      <% if @share.schedule_mode=="Schedule" && !shedule_count.nil? && shedule_count>1%>
+                                        <tr><td width="10">&nbsp;</td><td valign="middle" class="city_text setLineHeight"><table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td valign="middle" class="city_text calPic setLineHeight"><a data-pjax href="<%=activitylink%>" class="price_text" onclick="return setbreadcrumb();_gaq.push(['_trackEvent', 'Parent Module',  'clickScheduleDetails','Schedule details','<%= share[:id]%>']);"> Schedule details</a> </td></tr></table></td><td width="10">&nbsp;</td></tr><tr><td height="8"></td></tr>
+                                      <%elsif @share.schedule_mode=="Schedule"%>
+                                        <tr><td width="10">&nbsp;</td><td valign="middle" class="city_text setLineHeight"><table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td valign="middle" class="city_text calPic setLineHeight"><%= render :partial =>"activities/schedule_new_format" %></td></tr></table></td><td width="10">&nbsp;</td></tr><tr><td height="8"></td></tr>
+                                      <%end%>
+                                      <% if @share.schedule_mode=="Whole Day" && !shedule_count.nil? && shedule_count>1%>
+                                        <tr><td width="10">&nbsp;</td><td valign="middle" class="city_text setLineHeight"><table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td valign="middle" class="city_text calPic setLineHeight"><a data-pjax href="<%=activitylink%>" class="price_text" onclick="return setbreadcrumb();_gaq.push(['_trackEvent', 'Parent Module',  'clickScheduleDetails','Schedule details','<%= share[:id]%>']);"> Schedule details</a> </td></tr></table></td><td width="10">&nbsp;</td></tr><tr><td height="8"></td></tr>
+                                      <% elsif @share.schedule_mode=="Whole Day"%>
+                                        <tr><td width="10">&nbsp;</td><td valign="middle" class="city_text setLineHeight"><table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td valign="middle" class="city_text calPic setLineHeight"><%= render :partial =>"activities/wholeday_new_format" %></td></tr></table></td><td width="10">&nbsp;</td></tr><tr><td height="8"></td></tr>
+                                      <%end%>
+                                      <% if @share.schedule_mode=="By Appointment"%>
+                                        <tr><td width="10">&nbsp;</td><td valign="middle" class="city_text setLineHeight"><table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td valign="middle" class="city_text calPic setLineHeight">By Appointment</td></tr></table></td><td width="10">&nbsp;</td></tr><tr><td height="8"></td></tr>
+                                      <%end%>
+                                      <% if @share.schedule_mode=="Any Time"%>
+                                        <tr><td width="10">&nbsp;</td><td valign="middle" class="city_text setLineHeight"><table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td valign="middle" class="city_text calPic setLineHeight">AnyTime</td></tr></table></td><td width="10">&nbsp;</td></tr><tr><td height="8"></td></tr>
+                                      <%end%>
+                                      <% if @share.schedule_mode=="Any Where"%>
+                                        <tr><td width="10">&nbsp;</td><td valign="middle" class="city_text setLineHeight"><table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td valign="middle" class="city_text calPic setLineHeight">AnyTime</td></tr></table></td><td width="10">&nbsp;</td></tr><tr><td height="8"></td></tr>
+                                      <%end%>
+                                    <%end%>
+                                  <%end%>
+
+                                  <%if !@use.nil? && @use.present? && !@use.user_profile.nil? && @use.user_profile.present?%>
+                                    <tr><td width="10">&nbsp;</td>
+                                      <td>
+                                        <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                          <tr>
+                                            <td width="27" valign="middle">
+                                              <div style="width:21px; overflow:hidden;">
+                                                <%if !share.nil? && !share[:created_by].nil? && share[:created_by] == "Parent"%>
+                                                  <%if !@use.nil? && @use.present? && !@use.user_profile.nil? && !@use.user_profile.user_photo.blank? && !@use.user_profile.user_photo.nil?%><%= image_tag(@use.user_profile.user_photo.url(:thumb), :alt=>"#{@use.user_profile.business_name if @use.user_profile && @use.user_profile.business_name}, #{@use.user_profile.city if @use.user_profile && @use.user_profile.city}, CA", :width => "21")%><%else%><img src="/assets/profile/user_icon.png" alt="<%=@use.user_profile.business_name if @use && @use.user_profile && @use.user_profile.business_name%>, <%=@use.user_profile.city if @use && @use.user_profile && @use.user_profile.city%>, CA" height="21" width="21" style="width:21px;height:21px;"/><%end%>
+                                                <%else%>
+                                                  <%if !@use.nil? && @use.present? && !@use.user_profile.nil? && !@use.user_profile.profile.blank? && !@use.user_profile.profile.nil?%><%= image_tag(@use.user_profile.profile.url(:thumb), :alt=>"#{@use.user_profile.business_name if @use.user_profile && @use.user_profile.business_name}, #{@use.user_profile.city if @use.user_profile && @use.user_profile.city}, CA", :width => "21")%><%else%><img src="/assets/profile/user_icon.png" alt="<%=@use.user_profile.business_name if @use && @use.user_profile && @use.user_profile.business_name%>, <%=@use.user_profile.city if @use && @use.user_profile && @use.user_profile.city%>, CA" height="21" width="21" style="width:21px;height:21px;"/><%end%>
+                                                <%end%>
+                                              </div>
+                                            </td>
+                                            <% if !@use.nil? && @use.present? && @use!="" && !@use.user_profile.nil? && @use.user_profile.present?%>
+                                              <td class="price_text">  <div style="width:174px;" class="truncateText"><b>
+                                                    <%if !share.nil? && !share[:created_by].nil? && share[:created_by] == "Parent"%>
+                                                      <%=@use.user_name.titlecase if !@use.nil? && !@use.user_name.nil?%>
+                                                    <%else%>
+                                                      <% if !@use.nil? && @use.present? && @use!="" && !@use.user_profile.nil? && !@use.user_profile.business_name.nil?%> <%=@use.user_profile.business_name%><%else%> <%=@use.user_name.titlecase if !@use.nil? && !@use.user_name.nil?%><%end%>
+                                                    <%end%></b></div>
+                                              </td>
+                                            <%end%>
+                                          </tr>
+                                          <tr><td height="8"></td></tr>
+                                        </table>
+                                      </td><td width="10">&nbsp;</td>
+                                    </tr>
+                                  <%end%>
+                                </table>
+                              </div>
+
+
+                              <div class="clear"></div>
+                            </div>
+                          </div>
+                          <div class="SetGrayBg" <%if share[:model_mode]=='weekend'%>style="height:auto;padding:2px 0px;background-color:#D6EDF3;"<%else%>style="height:0px;"<%end%>>
+                            <%if share[:model_mode]=='weekend'%><div class="see_more_weekend" onclick="week_click_new(); _gaq.push(['_trackEvent', 'Parent Module',  'clickWeekend','See more weekend activities']);" style="padding-left:0px; text-align:center; width:100%;">Other activities from nearby cities</div><%end%>
+                          </div>
+
+                          <%if share[:model_mode]=='weekend'%></div><%end%><!-- close of week_ends -->
+                      </div>
+
+                    <%end%> <!--  close of class activity if    -->
+                  <%end%>
+
+                  <%if cookies[:feature_page] == "1"%>
+                    <script>
+      <%if @activity_featured.length == 0%>
+        $("#featured").hide();
+        $(".testfeatured").hide();
+      <%end%>
+                    </script>
+                  <%end%>
+                  <script type="text/javascript">
+                    processing_feature = false;
+                    $(".featured_row_loader").remove();
+                    var actLength = $(".featuredRow").length;
+                    if(actLength>2){
+                      $("div.featuredRow:last-child p.SetOfferBgpdetails").css("left","-178px");
+                      $("div.featuredRow:last-child p.SetOfferBgpdetails a.specialDetails").css("left","188px");
+                    }
+                    $("#show_all_rows").css("height","auto");
+                    $("#show_all_rows").css("visibility","visible");
+                   
+
+                    function setbreadcrumb(){
+                      "<%cookies[:past_action] = request.env['HTTP_REFERER'] %>"
+                      // return true or false, depending on whether you want to allow the `href` property to follow through or not
+                    }
+                  </script>

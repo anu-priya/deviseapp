@@ -1,0 +1,333 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+    <%if !@gbox.nil? && @gbox=="grp"%>
+    $(".full_table_0").css('border','1px solid #ffa0a0');
+    <%end%>
+ });
+  </script>
+<div id="friend_list" class="list" style="position:relative;">
+  <div class="lt checkbox setstyle contact_chkbox"style="visibility: hidden;">
+    <img alt="" src="/assets/register/checkbox_normal.png">
+  </div>
+  <div class="contact_tablebdr lt full_table_0" style="height: 125px;">
+    <table id="group-list-table_0" data="0" class="contactbrdr" >
+      <tr>
+      <input id="grpid_0" name="grpid" type="hidden" value=""/>
+      <td rowspan="4"><img style="margin-right: 5px;margin-top: 15px;" src="/assets/contact/fam_group_icon.png" alt=""/></td>
+      <td><div class="ftcBlue contactpadding grp_name headline boxhead" style="margin-bottom: 4px;" id="group-list-tr_0" data="0" onclick="all_filter('all','grp'); _gaq.push(['_trackEvent','Parent Module', 'clickContact','All Friends']);" title="All Contacts">All Contacts (<%= @all_users.count%>)</div></td>
+      </tr>
+      <tr><td width="130"><div style="font-size:13px;color: #666666;font-family: 'open_sansregular';"> Members(<%= @mem_l if !@mem_l.nil?%>),</div></td></tr>
+      <tr><td width="130"><div style="font-size:13px;color: #666666;font-family: 'open_sansregular';"> Nonmembers(<%=@non_mem if !@non_mem.nil? %>),</div></td></tr>
+      <tr><td width="130"><div style="font-size:13px;color: #666666;font-family: 'open_sansregular';"> Friends(<%= @frd_l if !@frd_l.nil?%>)</div></td></tr>
+      <tr><td colspan="2">
+            <div class="contactpadding" style="margin-left: 56px;padding-top: 4px;" >
+              <a class="fts12 ftcBlue delete_grp_btn" href="/messages/new?mode=<%=params[:mode]%>&users=all" title="" style="font-size:13px;" onclick="post_message_form('/messages/new?mode=<%=params[:mode]%>&users=all&c_url=<%=request.fullpath%>','<%=params[:mode]%>'); _gaq.push(['_trackEvent','<%=params[:mode].capitalize if !params[:mode].nil?%> Module', 'clickMessages','Create New Message']);">Post a Message</a>
+            </div>
+          </td></tr>
+    </table>
+  </div>
+</div>  
+<% if (@contact_groups.blank? && @activity_groups.blank?) && @search == "search" %>
+  <div style="width:98%;display:blo2k;text-align:center;margin-top: 70px;">
+    <table border="0" cellpadding="0" cellspacing="0" width="47%" align="center">
+      <tr>
+        <td class="no_activities new_font" width="100%" align="center" valign="middle" style="text-align:center;">
+          <!--div class="contact-search search-grp" style="top: -61px;left: 210px;"></div-->
+          <div class="search-result" >
+            <div><img src="/assets/contact/contact_search.png" alt=""/></div>
+          Sorry we found no results for your search.
+        </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+<%end%>
+<input id="group_names" name="group_names" type="hidden" value="" />
+<input id="other_network_names" name="other_network_names" type="hidden" value="" />
+<input id="act_names" name="act_names" type="hidden" value="" />
+<div id="grp_success_msg" style="display:none;color:green;margin-left: 380px;font-weight: bold;font-size: 14px;">Your contacts have been added to the network</div>
+<div id="group_error_msg" style="color:red;font-size: 14px;"></div>
+<%if !@contact_groups.blank? || !@famnetwork.blank? ||!@activity_groups.blank?%>
+  <%j=1%>
+  <% @contact_groups.each do |group|%>
+    <div id="friend_list" class="list" style="position:relative;">
+      <div class="lt checkbox setstyle contact_chkbox">
+        <input id="group_id_<%=j%>" class="group_checkbox_value" type="hidden" value="<%= group.group_id %>"/>
+        <input id="group_checkbox_<%=j%>" class="group_checkbox" type="hidden" value="0"/>
+        <a href="javascript:void(0)" title="" class="checkbox_selected_s" id="group_checkbox_selected_<%=j%>"  data="<%=j%>" style="display: none;top: 15px;position: relative;"><img alt="" src="/assets/contact/selected_checkbox.png"></a>
+        <a href="javascript:void(0)" title="" class="checkbox_normal_s"  id="group_checkbox_normal_<%=j%>" data="<%=j%>" style="top: 15px;position: relative;"><img alt="" src="/assets/contact/normal_checkbox.png"></a>
+      </div>
+      <div class="contact_tablebdr lt full_table_<%=j%>" style="height: 125px;">
+        <table id="group-list-table_<%=j%>" data="<%=j%>" class="contactbrdr" >
+          <tr>
+          <%member =ContactUser.find_by_sql("select * FROM contact_users INNER JOIN contact_user_groups as fam
+                                        ON contact_users.contact_id = fam.contact_user_id and fam.contact_group_id='#{group.group_id}' and contact_users.contact_user_type='member'" )%>
+          <%nonmember =ContactUser.find_by_sql("select * FROM contact_users
+          INNER JOIN contact_user_groups as fam
+          ON contact_users.contact_id = fam.contact_user_id and fam.contact_group_id='#{group.group_id}' and contact_users.contact_user_type='non_member'" )%>
+          <%friend =ContactUser.find_by_sql("select * FROM contact_users
+          INNER JOIN contact_user_groups as fam
+          ON contact_users.contact_id = fam.contact_user_id and fam.contact_group_id='#{group.group_id}' and fam.fam_accept_status='true' and contact_users.contact_user_type='friend'" )%>
+          <%waiting_list =ContactUser.find_by_sql("select * FROM contact_users
+          INNER JOIN contact_user_groups as fam
+          ON contact_users.contact_id = fam.contact_user_id and fam.contact_group_id='#{group.group_id}' and fam.fam_accept_status!='true' and contact_users.contact_user_type='friend'" )%>
+          <%if !waiting_list.nil?
+            member=member+waiting_list
+          end%>
+          <%#@ss=group.contact_users%>
+          <%
+          if member && nonmember && friend
+            @totmember=member+nonmember+friend
+          else
+            @totmember=0
+          end
+          %>
+          <input id="grpid_<%=j%>" name="grpid" type="hidden" value="<%= group.group_id %>"/>
+          <td rowspan="4"><img style="margin-right: 5px;margin-top: 15px;" src="/assets/contact/fam_group_icon.png" alt=""/></td>
+          <td><div class="ftcBlue contactpadding grp_name headline boxhead" style="margin-bottom: 4px;" id="group-list-tr_<%=j%>" data="<%=j%>" onclick="filter_grp_name(<%=j%>,'groups'); _gaq.push(['_trackEvent','Parent Module', 'clickContactGroup','Filter Group','<%= j %>']);" title="<%= group.group_name%>"><%= truncate(group.group_name,length: 13)%>(<%=@totmember.count%>)</div></td>
+          </tr>
+          <tr><td width="130"><div style="font-size:13px;color: #666666;font-family: 'open_sansregular';"><%#= group.contact_users.count%> Members(<%=member.count if !member.nil?%>),</div></td>
+          </tr><tr><td width="130"><div style="font-size:13px;color: #666666;font-family: 'open_sansregular';"><%#= group.contact_users.count%> Nonmembers(<%=nonmember.count if !nonmember.nil?%>),</div></td></tr>
+          <tr><td width="130"><div style="font-size:13px;color: #666666;font-family: 'open_sansregular';"><%#= group.contact_users.count%> Friends(<%=friend.count if !friend.nil?%>)</div></td></tr>
+          <tr><td colspan="3">
+            <span class="contactpadding" style="padding-top: 4px;padding-left: 12px;position: absolute;">
+              <span>
+              <a class="fts12 ftcBlue edit_grp_btn" href="javascript:void(0)" title="" id="edit_grp_btn_<%=group.group_id%>" onclick="displayEditGroup('<%=group.group_id%>','<%=group.group_name%>'); _gaq.push(['_trackEvent','Parent Module', 'clickContactGroup','Edit Group','<%=group.group_id%>']);" style="font-size:13px;">Edit</a>
+              <span>
+              <span style="color: #4595AE;">|</span>
+              <span  class="new_font" >
+                  <span >
+                    <a href="#" class="del-content" onclick="delete_show('<%= j %>');" >
+                     <span class="new_font delfongroup" style="font-size:13px;" id="del_grp_btn_<%=j%>">Delete</span>
+                    </a>
+                    <span class="sub-menu menu_group menu-csv popupDeleteClose" id="<%=j%>grp-delete" style="margin-top: -7px;;margin-left: -22px;display: block;width: 236px;display: none;">
+                      <div align="right" class="netmenu new_font" style="margin-top: -16px;left: 65px;"><img src="/assets/event/schedule_top_arrow.png" alt=""></div>
+                      <span class="gr-del-outer"><a id="all" class="gr-del-word">Do you want to delete this Net work?</a></span>
+                      <div id="deletefam" style="margin-left: 8px;margin-bottom: 8px;">
+                          <input type="hidden" id="to_delete" value="<%= group.group_id %>">
+                       <a class="save-button" href="javascript:void(0)" onclick="delete_group();" onkeydown="continueKeyDown(event)">Ok</a>        
+                       <a class="cancel-button" href="javascript:void(0)" onclick="delete_close('<%=j%>');" onkeydown="cancelKeyDown(event)">Close</a>   
+                        <div class="clear"></div>
+                      </div>
+                     
+                    </span>
+                </span>
+              </span>
+              <span style="color: #4595AE;">|</span>
+              <span>
+              <a class="fts12 ftcBlue delete_grp_btn" style="font-size:13px;" href="/fam_create_post?mode=<%= params[:mode] %>&id=<%= group.group_id %>" title="" id="delete_grp_btn_<%=j%>" data="<%=j%>" onclick="_gaq.push(['_trackEvent','Parent Module', 'clickFriending','New Post']);">Post a Message</a>
+            </span>
+            </span>
+              <!--  Edit Group-->
+              <div id="edit_grp_<%=group.group_id%>" class="edit_grp_page" style="display:none;">
+                <div class="edit_container">
+                  <div align="right" class="netmenu new_font" style="margin-top: -13px;left:65px;"><img src="/assets/event/schedule_top_arrow.png" alt=""></div>
+                  <div class="header_edit">
+                    <div class="lt new_font contact-name" style="margin-left: 70px;">Edit Network</div>
+                    <div class="rt"><a class="blueText delplus contact_all" href="javascript:void(0)" title="" onclick="closeEditGroup('<%=group.group_id%>')" style="top: 15px;left: 10px;background-size: 27px auto;"><!--img width="15" height="15" alt="" src="/assets/global/pop_up/button_close.png"/--></a></div>
+                    <div class="clear"></div>
+                  </div>
+                  <div class="innerDiv">
+                    <div>
+                      <span class="new_font" style="color: #585858;"><b>Network Name: </b></span>
+                      <input class="lt g_name" type="text" name="contact_group_name new_font" id="edit_group_name_<%=group.group_id%>" value="<%=group.group_name%>" />
+
+                    </div>
+                    <div id='editgroup' class="loaderedit" ><img src="/assets/loading.gif"/></div>
+                    <div class="clear"></div>
+                    <div id='error-group-msg_<%=group.group_id%>' class="ftcRedff" style='padding-top:10px;display:none;'></div>
+                    <div class="clear"></div>
+                  </div>
+                  <div class="clear"></div>
+                  <div id="editfam" style="margin-left: 8px;margin-bottom: 8px;">
+
+                   <a class="save-button" href="javascript:void(0)" onclick="UpdateGroup('<%=group.group_id%>'); _gaq.push(['_trackEvent','Parent Module', 'clickContactGroup','Update Group','<%=group.group_id%>']);" onkeydown="continueKeyDown(event)">Save</a>             
+                  <a class="cancel-button" href="javascript:void(0)" onclick="closeEditGroup('<%=group.group_id%>')" onkeydown="cancelKeyDown(event)">Cancel</a>   
+
+                    <div class="clear"></div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+            </td></tr>
+        </table>
+      </div>
+    </div>
+    <% j= j.to_i+1 %>
+   <%end%>  
+<!-- network start-->
+<%l=1%>
+  <% !@famnetwork.nil? && @famnetwork.each do |group|%>
+    <div id="friend_list" class="list" style="position:relative;">
+       <div class="lt checkbox setstyle contact_chkbox">
+        <input id="othernetwork_id_<%=l%>" class="group_checkbox_value" type="hidden" value="<%= group.group_id %>"/>
+        <input id="othernetwork_checkbox_<%=l%>" class="other_network_checkbox" type="hidden" value="0"/>
+        <a href="javascript:void(0)" title="" class="checkbox_selected_other_network" id="othernetwork_checkbox_selected_<%=l%>"  data="<%=l%>" style="display: none;top: 15px;position: relative;"><img alt="" src="/assets/contact/selected_checkbox.png"></a>
+        <a href="javascript:void(0)" title="" class="checkbox_normal_other_network"  id="othernetwork_checkbox_normal_<%=l%>" data="<%=l%>" style="top: 15px;position: relative;"><img alt="" src="/assets/contact/normal_checkbox.png"></a>
+      </div>
+
+      <!-- <div class="lt checkbox setstyle contact_chkbox">
+        <input id="group_id_<%=l%>" class="group_checkbox_value" type="hidden" value="<%= group.group_id %>"/>
+        <input id="group_checkbox_<%=l%>" class="group_checkbox" type="hidden" value="0"/>
+        <a href="javascript:void(0)" title="" class="checkbox_others" id="group_checkbox_selected_<%=l%>"  data="<%=l%>" style="display: none;top: 15px;position: relative;"><img alt="" src="/assets/contact/selected_checkbox.png"></a>
+        <a href="javascript:void(0)" title="" class="checkbox_others" onclick="others_network();" id="group_checkbox_normal_<%=l%>" data="<%=l%>" style="top: 15px;position: relative;"><img alt="" src="/assets/contact/normal_checkbox.png"></a>
+      </div> -->
+      <div class="contact_tablebdr lt fam_table_<%=l%>" style="height: 125px;">
+        <table id="group-list-table_<%=l%>" data="<%=l%>" class="contactbrdr" >
+          <tr>
+          <%@ss=group.contact_users%>
+          <%#member=@ss.where("contact_user_type=? and contact_email!=?","member",current_user.email_address)%>
+          <%#nonmember=@ss.where("contact_user_type=?","non_member")%>
+          <%#friend=@ss.where("contact_user_type=? and contact_email!=?","friend",current_user.email_address)%>
+          <%member =ContactUser.find_by_sql("select * FROM contact_users INNER JOIN contact_user_groups as fam
+                                        ON contact_users.contact_id = fam.contact_user_id and fam.contact_group_id='#{group.group_id}' and contact_users.contact_user_type='member'" )%>
+          <%nonmember =ContactUser.find_by_sql("select * FROM contact_users
+          INNER JOIN contact_user_groups as fam
+          ON contact_users.contact_id = fam.contact_user_id and fam.contact_group_id='#{group.group_id}' and contact_users.contact_user_type='non_member'" )%>
+          <%friend =ContactUser.find_by_sql("select * FROM contact_users
+          INNER JOIN contact_user_groups as fam
+          ON contact_users.contact_id = fam.contact_user_id and fam.contact_group_id='#{group.group_id}' and fam.fam_accept_status='true' and contact_users.contact_user_type='friend'" )%>
+          <%waiting_list =ContactUser.find_by_sql("select * FROM contact_users
+          INNER JOIN contact_user_groups as fam
+          ON contact_users.contact_id = fam.contact_user_id and fam.contact_group_id='#{group.group_id}' and fam.fam_accept_status!='true' and contact_users.contact_user_type='friend'" )%>
+          <%if !waiting_list.nil?
+            member=member+waiting_list
+          end%>
+          <%
+          if member && nonmember && friend
+            @totmember=member+nonmember+friend
+          else
+            @totmember=0
+          end
+          %>
+          <input id="otrid_<%=l%>" name="grpid" type="hidden" value="<%= group.group_id %>"/>
+          <td rowspan="4"><img style="margin-right: 5px;margin-top: 15px;" src="/assets/contact/fam_group_icon.png" alt=""/></td>
+          <td><div class="ftcBlue contactpadding grp_name headline boxhead" style="margin-bottom: 4px;" id="group-list-tr_<%=l%>" data="<%=l%>" onclick="filter_grp_name(<%=l%>,'others'); _gaq.push(['_trackEvent','Parent Module', 'clickContactGroup','Filter Group','<%= l %>']);" title="<%= group.group_name%>"><%= truncate(group.group_name,length: 13)%>(<%=@totmember.count%>)</div></td>
+          </tr>
+          <tr><td width="130"><div style="font-size:13px;color: #666666;font-family: 'open_sansregular';"><%#= group.contact_users.count%> Members(<%=member.count if !member.nil?%>),</div></td>
+          </tr><tr><td width="130"><div style="font-size:13px;color: #666666;font-family: 'open_sansregular';"><%#= group.contact_users.count%> Nonmembers(<%=nonmember.count if !nonmember.nil?%>),</div></td></tr>
+          <tr><td width="130"><div style="font-size:13px;color: #666666;font-family: 'open_sansregular';"><%#= group.contact_users.count%> Friends(<%=friend.count if !friend.nil?%>)</div></td></tr>
+          <tr><td colspan="2">
+            <div class="contactpadding" style="padding-top: 4px;padding-left: 22px;">
+                            
+              <a class="fts12 ftcBlue delete_grp_btn" style="font-size:13px;margin-left: 35px;" href="/fam_create_post?mode=<%= params[:mode] %>&id=<%= group.group_id %>" title="" id="delete_grp_btn_<%=l%>" data="<%=l%>" onclick="_gaq.push(['_trackEvent','Parent Module', 'clickFriending','New Post']);">Post a Message</a>
+            </div>
+              
+            </td></tr>
+        </table>
+      </div>
+    </div>
+    <% l= l.to_i+1 %>
+  <%end%>
+<!-- network end -->
+
+  <%k=1%>
+  <%#if params[:mode] != "parent"%>
+  <% @activity_groups.each do |group|%>
+    <%activity = find_activity_record(group.is_a?(Array) ? group[0] : group.id)%>
+    <%if !activity.blank?%>
+      <div id="friend_list" class="list" style="position:relative;">
+        <div class="lt checkbox setstyle contact_chkbox" style="top: 50px;">
+          <input id="act_id_<%=k%>" class="act_checkbox_value" type="hidden" value="<%= activity.activity_id%>"/>
+          <input id="act_checkbox_<%=k%>" class="act_checkbox" type="hidden" value="0"/>
+          <a href="javascript:void(0)" title="" class="checkbox_selected_act" id="act_checkbox_selected_<%=k%>"  data="<%=k%>" style="display: none;"><img alt="" src="/assets/contact/selected_checkbox.png"></a>
+          <a href="javascript:void(0)" title="" class="checkbox_normal_act"  id="act_checkbox_normal_<%=k%>" data="<%=k%>"><img alt="" src="/assets/contact/normal_checkbox.png"></a>
+        </div>
+        <div class="contact_tablebdr lt activity_contact_<%=k%>" id="act_id_<%=k%>" style="height: 125px;">
+          <table id="act-list-table_<%=k%>" data="<%=k%>" class="contactbrdr" >
+            <tr>
+            <input id="actid_<%=k%>" name="actid" type="hidden" value="<%= activity.activity_id%>"/>
+            <td rowspan="5"><img style="margin-right: 5px;" src="/assets/contact/fam_group_icon.png" alt=""/></td>
+            <td><div class="ftcBlue contactpadding grp_name headline boxhead" id="act-list-tr_<%=k%>" data="<%=k%>" onclick="filter_grp_name(<%=k%>,'activities'); _gaq.push(['_trackEvent','Parent Module', 'clickContactGroup','Filter Group','<%= k %>']);" style="margin-left: 10px;margin-bottom: 5px;" title="<%= activity.activity_name%>"><%= truncate(activity.activity_name,length: 12)%></div></td>
+            </tr>
+            <% members_count = find_attendees(activity.activity_id,current_user.user_id)%>
+            <tr><td width="130"><div class="fts14 contactpadding" style="margin-left: 10px;font-size:13px;color: #666666;margin-bottom: 4px;"><%= members_count%> Attendees</div></td></tr>
+            <tr><td>
+                <div class="contactpadding">
+                  <% parents = find_parents(activity.activity_id)%>
+                  <% parents_count = parents.blank? ? 0 : parents.count%>
+                  <span style="margin-left: 10px;color: #666666;font-size:13px;"><%= parents_count%> <%= parents_count == 1 ? "Parent" : "Parents"%> </span>
+                </div>
+              </td></tr>
+              <tr><td style="height:15px;">
+              </td></tr>
+              <tr><td style="height:15px;">
+              </td></tr>
+          </table>
+        </div>
+      </div>
+    <%end%>
+    <% k= k.to_i+1 %>
+  <%end%>
+  <%#end%>
+<%end%>
+<script type="text/javascript">
+function others_network(){
+    $(".flash-message").html("Your can't select the network");
+    var win=$(window).width();
+    var con=$(".flash_content").width();
+    var leftvalue=((win/2)-(con/2))
+    $(".flash_content").css("left",leftvalue+"px");
+    $(".flash_content").css("top","67px");
+    $('.flash_content').fadeIn().delay(5000).fadeOut();
+  }
+  $(".checkbox_selected_s").click(function(){
+    var test = this.id;
+    var val = $("#"+test).attr('data');
+    dispCheckSelectedGroup(val);
+  });
+  
+  $(".checkbox_normal_s").click(function(){
+    var test = this.id;
+    var val = $("#"+test).attr('data');
+    dispCheckNormalGroup(val);
+  });
+
+  $(".checkbox_selected_other_network").click(function(){
+    var test = this.id;
+    var val = $("#"+test).attr('data');
+    dispCheckSelectedOthernetwork(val);
+  });
+  
+  $(".checkbox_normal_other_network").click(function(){
+    var test = this.id;
+    var val = $("#"+test).attr('data');
+    dispCheckNormalOthernetwork(val);
+  });
+   
+  $(".checkbox_selected_act").click(function(){
+    var test = this.id;
+    var val = $("#"+test).attr('data');
+    dispCheckSelectedActivity(val);
+  });
+  
+  $(".checkbox_normal_act").click(function(){
+    var test = this.id;
+    var val = $("#"+test).attr('data');
+    dispCheckNormalActivity(val);
+  });
+
+  //group delete
+ function delete_group(){
+    $('.loadertext').css("display","block");
+    var delete_value = $('#to_delete').val();
+    $.ajax({
+        type: "DELETE",
+        url: "/contact_groups/"+delete_value+""
+      });
+      //parent.$("#delete-group-msg").delay(4000).fadeOut();
+  }
+  function delete_close(id){
+    $("#del_grp_btn_"+id).css('color','#4595AE');
+    $('#' + id +'grp-delete').hide();
+  }
+  function delete_show(id){
+      $(".full_table_0").css('border','1px solid #ededed');
+      $(".contactpadding .ftcBlue").css('color','#4595AE');
+      $(".delfongroup").css('color','#4595AE');
+      $("#del_grp_btn_"+id).css('color','#F97C0E');
+      $('.edit_grp_page').css('display','none');
+      $('.popupDeleteClose').css('display','none');
+      $('#' + id +'grp-delete').css('display','block');
+  }
+</script>

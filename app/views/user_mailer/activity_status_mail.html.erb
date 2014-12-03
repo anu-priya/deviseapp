@@ -1,0 +1,13 @@
+<table cellpadding="0" cellpadding="0">
+            <tr>
+              <td style="padding:12px;">
+                <p>Hi <%=@user.user_name if @user.present? && @user.user_name.present?%></p>
+                <p>Your  Activity "<b><%=@activity.activity_name%></b>" status have been changed successfully</p>
+                <p>Your Activity Status :<b><%=@activity.active_status if !@activity.nil? && !@activity.active_status.nil? %></b></p>
+              </td>
+            </tr>
+</table>
+<p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;padding-top:20px;">Your Famtivity Team.</p>
+
+
+     

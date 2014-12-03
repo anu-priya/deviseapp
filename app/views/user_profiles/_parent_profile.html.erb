@@ -1,0 +1,306 @@
+<%=stylesheet_link_tag "event/add_participant", :media => "all"%>
+<script src="//connect.facebook.net/en_US/all.js"></script>
+
+<script>
+window.fbAsyncInit = function() {
+  FB.init({ appId: '403872903035404', 
+        status: true, 
+        cookie: true,
+        xfbml: true,
+        oauth: true});
+
+
+
+  function updateButton(response) {
+ 
+    var button = document.getElementById('fb-auth');
+    
+    if (response.authResponse) {
+      //user is already logged in and connected
+    
+      FB.api('/me', function(response) {
+     
+            button.innerHTML = '<img id="fb-auth" src="/assets//assets/profile/disconnect_button.png" />';
+      console.log(response);
+             //response.email;
+      
+      });
+      button.onclick = function() {
+        FB.logout(function(response) {
+           console.log(response);
+    });
+      };
+    } else {
+      //user is not connected to your app or logged out
+
+      button.onclick = function() {
+        FB.login(function(response) {
+        
+      if (response.authResponse) {
+            FB.api('/me', function(response) {
+          console.log(response);
+        });    
+          } else {
+            //user cancelled login or did not grant authorization
+          }
+        }, {scope:'email'});    
+      }
+    }
+  }
+
+  // run once with current status and whenever the status changes
+  FB.getLoginStatus(updateButton);
+  FB.Event.subscribe('auth.statusChange', updateButton);    
+};
+    
+(function() {
+  var e = document.createElement('script'); e.async = true;
+  e.src = document.location.protocol 
+    + '//connect.facebook.net/en_US/all.js';
+  document.getElementById('fb-root').appendChild(e);
+}());
+
+
+</script>
+  <script src="http://platform.twitter.com/anywhere.js?id=EqyeDRaIxdDIjcOMU8Y7Q&v=1" type="text/javascript"></script>
+
+<script type="text/javascript">
+    twttr.anywhere(function (T) {
+    document.getElementById("signin-btn").onclick = function () {
+      T.signIn();
+    };
+  });
+
+</script>
+
+<div class="top_info_text">
+  <table cellpadding="0" cellspacing="0" border="0" width="622">
+    <tr>
+     <td width="69" valign="top">
+     <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.user_photo.blank? %>
+        <%= image_tag(current_user.user_profile.user_photo.url(:small), :width => 69, :height => 69 )%>   
+     <% else %> 
+        <%= image_tag("/assets/profile/user_icon_69.png", size:"69x69", style:"border:1px solid #CEE1E8;")%>
+     <% end %>
+    </td>
+      <td  valign="top">
+        <!-- check any value available start-->
+        <% if !current_user.user_profile.nil? && ((!@user_profile.dob.nil?)||(!@user_profile.gender.nil?)||(!@user_profile.country.nil?)||(!@user_profile.website.nil?)||(!@user_profile.mobile.nil?)||(!@user_profile.state.nil?)||(!@user_profile.business_language.nil?)||(!@user_profile.time_zone.nil?))%>
+        <div class="profileRt">
+          <table cellpadding="0" cellspacing="0" width="485" >
+            <% if !current_user.user_profile.nil? %>
+              <% if !@user_profile.dob.nil?  && @user_profile.dob.present?%>
+                 <tr>
+                   <td class="profile_font_border profile_font_rtColor" style="color:#5099AC;padding-bottom:5px;"><b><%=current_user.user_name if !current_user.user_name.nil? %></b><span class="topyear_text">&nbsp;&nbsp;<%= @user_profile.dob.strftime("%b-%d-%Y") %></span></td>
+                   <td class="profile_font_border profile_font_rtColor">&nbsp;</td>       
+                 </tr>
+              <% end %>         
+              <% if !@user_profile.gender.nil? && @user_profile.gender.present?%>
+                <tr>
+                  <td class="profile_font" width="175" height="26"><b>Gender</b></td>
+                  <td class="profile_font_rtColor"><%=@user_profile.gender if !@user_profile.nil? %></td>
+                </tr>
+              <% end %>
+            <% end %>          
+
+      <% if !current_user.user_profile.nil? %>
+            <% if !@user_profile.country.nil? && @user_profile.country.present?%>
+              <tr>
+              <td class="profile_font_border" height="26"><b>Country</b></td>
+              <td class="profile_font_border profile_font_rtColor" style="color: #5099AC;" ><%=@user_profile.state if !@user_profile.nil? %>  <%=@user_profile.country if !@user_profile.nil? %></td>
+              </tr>
+            <% end %>          
+     
+            <% if !@user_profile.website.nil? && @user_profile.website.present?%>
+            <tr>
+              <td class="profile_font" height="30"><b>Website</b></td>
+              <td class="profile_font_rtColor"><a href="#" title="" style="color: #5099AC;"><u><%=@user_profile.website %></u></a></td>
+            </tr>
+            <% end %>
+
+           <% if !@user_profile.mobile.nil? && @user_profile.mobile.present?%>
+              <tr>
+              <td class="profile_font" height="26"><b>Contact Number</b></td>
+              <td class="profile_font_rtColor"><%=@user_profile.mobile if !@user_profile.nil? %></td>
+            </tr>
+            <% end %>
+           <% if !@user_profile.state.nil? && @user_profile.state.present?%>
+            <tr>
+              <td class="profile_font_border" style="<% if @user_profile.business_language.nil? && !@user_profile.business_language.present?%>border-bottom:none<% end %>" height="26"><b>Address</b></td>
+              <td class="profile_font_border" style="color: #5099AC;<% if @user_profile.business_language.nil? && !@user_profile.business_language.present?%>border-bottom:none<% end %>"  ><%=@user_profile.city if !@user_profile.nil? %>   <%=@user_profile.state if !@user_profile.nil? %></td>
+            </tr>
+            <% end %>
+
+           <% if !@user_profile.business_language.nil? && @user_profile.business_language.present?%>
+            <tr>
+              <td class="profile_font" height="30"><b>Language</b></td>
+              <td class="profile_font_rtColor"><%=@user_profile.business_language if !@user_profile.nil? %></td>
+            </tr>
+            <% end %>
+
+            <% if !@user_profile.time_zone.nil? && @user_profile.time_zone.present?%>
+            <tr>
+              <td class="profile_font_border" height="26"><b>Time Zone</b></td>
+              <td class="profile_font_border profile_font_rtColor" style="color: #5099AC;" ><%=@user_profile.time_zone if !@user_profile.nil? %></td>
+            </tr>
+            <tr>
+              <td class="profile_font" height="30" style="color:#5099AC; font-size:14px;"><b>Set Color</b></td>
+              <td class="profile_font_rtColor">&nbsp;</td>
+            </tr>
+              <% if @participants.count > 0 %>
+                  <% @agerangecolors.each do |ageclr| %>
+                    <tr>
+                    <td class="profile_font" height="26"><b><%= ageclr.age_range if !ageclr.age_range.nil?%></b></td>
+                    <td class="profile_font_rtColor"><div class="setBorder"><div class="setBg" style="background-color:<%= ageclr.color if !ageclr.color.nil?%>;"></div></div></td>
+                    </tr>
+                  <% end %>
+              <% else %>
+                <tr>
+                    <td class="profile_font" height="26">
+                      <b>Please Add Colors</b>
+                    </td>
+                </tr>
+              <% end %>
+            <% end %>
+            <% end %>
+
+          </table>
+        </div>  
+      <% end %><!-- check any value available end-->
+  <% if !current_user.email_address.nil? && current_user.email_address.present?%> 
+   <br/>
+    <div class="profileRt">
+      <table cellpadding="0" cellspacing="0" width="485" >           
+        <tr>
+        <td class="profile_font_border" width="175" style="border:none;"><b>Email</b></td>
+        <td class="profile_font_rtColor" width="210" style="color: #5099AC;width:200px;padding-bottom: 10px;"><a style="color: #5099AC;" href="mailto:<%=current_user.email_address if !current_user.email_address.nil? %>" title=""><%=current_user.email_address if !current_user.email_address.nil? %></a></td>
+        <td style="padding-bottom: 10px;"><a onclick="pop_change_email('/change_email?u_type=parent');" href="javascript:void(0);" title="Change Email">
+          <%= image_tag("/assets/form_builder/edit_icon.png", size:"15x15", alt:"Edit")%>
+          </a>&nbsp;</td>
+        <td style="padding-bottom: 10px;"><a onclick="pop_change_email('/change_email?u_type=parent');" href="javascript:void(0)" style="color:#5099AC" title="Change Email"><b>Change Email</b></p></td>
+        </tr> 
+      </table>
+    </div>
+  <% end %>  
+  
+      
+      </td>
+
+       <td valign="top">
+      <%if current_user.user_type=="U" %>
+     <div class="becomeProviderDiv" >
+       <div class="setfeedbackDiv">Click here to create a provider account for listing and selling your activities within Famtivity.</div>
+     <div class="clear"></div>
+     <div><a href="javascript:void(0)" title="" style="padding-top:21px; display:inline-block;" onclick="pop_become_provider('/become_provider');">
+      <%= image_tag("/assets/profile/become_provider_button.png")%>
+      </a></div>
+     </div>
+     <%else%>   
+     &nbsp; 
+     <%end%> 
+    </td>
+
+    </tr>
+  </table>
+ 
+     
+      
+  <div id="edit_profie_container" >
+    <div id="linkedin" style="display:none"%>
+  <div class="categories_text"><b>Linked Accounts</b></div>  
+    <div class="set_linked_bg lt" style="width:635px;">
+    <div class="lt"><a href="#">
+      <%= image_tag("/assets/profile/face_icon.png")%>
+      </a><span><a href="#" class="fb_text">Facebook</a></span></div>
+    <div style="float:right; display:inline-block;"><a href="#" id="fb-auth"><%= image_tag("/assets/profile/connect_button.png")%>
+    </a></div>
+    </div>
+<!--    <div class="set_linked_bg lt" style='border-top:none;width:635px;'>
+      <div class="lt"><a href="#"><img src="/assets/profile/gplus_icon.png"></a><span><a href="#" class="fb_text">Google+</a></span></div>
+      <div style="float:right; display:inline-block;"><a href="#"><img src="/assets/profile/connect_button.png"></a></div>
+    </div>
+-->   <div class="set_linked_bg lt" style='border-top:none;width:635px;'>
+      <div class="lt"><a href="#"><%= image_tag("/assets/profile/twitter_icon.png")%></a><span><a href="#" class="fb_text">Twitter</a></span></div>
+      <div style="float:right; display:inline-block;"><a href="#" id="signin-btn"><%= image_tag("/assets/profile/connect_button.png")%></a></div>
+    </div>
+    <div class="set_linked_bg lt" style='border-top:none;width:635px;'>
+      <div class="lt"><a href="#"><%= image_tag("/assets/profile/pinterest_icon.png")%></a><span><a href="#" class="fb_text">Pinterest</a></span></div>
+      <div style="float:right; display:inline-block;"><a href="#"><%= image_tag("/assets/profile/connect_button.png")%></a></div>
+    </div>
+   <div class="clear"></div>
+    </div>
+  <div class="categories_text"><b>Participants</b></div>
+  <%# unless @participants.nil? %>  
+<% if @participants.count > 0 %>
+  <div id="add_participant" class="setPadd" style="width: 650px;">  
+    
+    <div class="centerArea">
+    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+      <tr height="35">
+      <td width="110" class="thead thead1">Image</td>
+      <td width="150" class="thead">Participant Name</td>
+      <td width="175" class="thead"><span class="setLeft">Date of Birth</span></td>
+      <td width="120" class="thead"><span class="setLeft">Age Range</span></td>
+      <td width="75" class="thead"><span class="setLeft">Gender</span></td>     
+      </tr>
+
+      <% @participants.each do |part|%>  
+
+      <tr height="80">
+      <td class="contentText thead1 setBG1">
+      <% if !part.participant_file_name.nil?%>
+       <%= image_tag part.participant.url(:small),:style=>"width:69px;height:69px;" %></td>
+       <% else %>
+        <%= image_tag("/assets/profile/user_icon_69.png", sie:"69x69")%>
+       <% end %>
+      <td class="contentText setBG1"><%= part.participant_name if !part.participant_name.nil?%></td>
+      <td class="contentText setBG1"><span class="setLeft"><%= part.participant_birth_date.strftime("%b-%d-%Y") if !part.participant_birth_date.nil?%></span></td>
+      <td class="contentText setBG1"><span class="setLeft"><%= part.participant_age if !part.participant_age.nil?%></span></td>
+      <td class="contentText setBG1"><span class="setLeft"><%= part.participant_gender if !part.participant_gender.nil?%></span></td> 
+
+      <%#= @user_profile.inserted_date.strftime("%d-%m-%Y %H:%M:%S") %>
+  
+      </tr>
+      <%end%>
+    </table>
+    </div>
+  </div>
+      
+     
+<% else %>
+    <div>No participants</div>
+ <%end%>
+
+  <!--interested category removed-->
+  <!--<div class="categories_text"><b>Interested Categories</b></div>
+
+  <%# if @user_category.count > 0 %>
+  <%# unless @user_category.nil? %> 
+
+  <div class="outer_category">
+    <div class="scroll-pane">
+
+      <div class="categories">
+        <%# @user_category.each do |category|%>
+          <div class="profile_font_rtColor setwidthProfile"><b> <%#= category.row_type if !category.row_type.nil? && !category.nil? && category !="" && category.row_type !="" %></br></b></div>
+    <%#end%>
+        <div class="clear"></div>
+
+      </div>
+    </div>
+  <div class="clear"></div>
+    </div>
+  <%#else%>
+   <div> No category    </div>
+ <%#end%>-->
+  
+  <!--interested category removed-->
+  
+  <div class="edtiDiv"><a href="#" title="" onclick="pop_provider_edit_profile('/parent_edit_profile');">
+    <%= image_tag("/assets/register/edit_button.png")%>
+  </a></div>
+  <div class="clear"></div>
+    </div>
+  
+</div>  
+</div>

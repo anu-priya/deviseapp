@@ -1,0 +1,64 @@
+<%= javascript_include_tag "jquery-1.8.2.min" %>
+<style>
+  .pro_container{
+    margin:0 auto;
+    width:250px;
+    border:1px solid #ccc;
+    display:block;
+  }
+  .clear{
+    clear: both;
+  }
+  .list_head{
+    background: none repeat scroll 0 0 #F0F6F8;
+    border-color: #E9EDEE -moz-use-text-color;
+    border-style: solid none;
+    border-width: 1px medium;
+    color: #4AA3B6;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    height: 33px;
+  }
+  .list_td{
+    border-bottom: 1px solid #E2EAEC;
+    color: #807E7E;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    height: 58px;
+    padding-right: 21px;
+  }
+</style>
+<script>
+  $(document).ready(function(){
+    $('#frm_provider').submit(function (){
+      $.post($(this).attr('action'), $(this).serialize(), null, "script");
+      return false;
+    });
+  });
+</script>
+<div class="pro_container">
+  <form id="frm_provider" name="frm_provider" method="post" action="/proviter_submit">
+    <div style="float:left;">
+      <div style="float: left;">
+        <select name="dd_city" siae="1">
+          <% if @city.length > 0 %>
+            <%@city.each do |cityval|%>
+              <option value="<%=cityval.city_name%>"><%=cityval.city_name%></option>
+            <%end%>
+          <%else%>
+            <option value="">No City Found</option>
+          <%end%>
+        </select>
+      </div>
+      <div style="float: left; margin-left:10px;">
+        <input type="submit" name="btnsubmit" id="btnsubmit" value="Go" />
+      </div>
+    </div>
+  </form>
+</div>
+<div class="clear"></div>
+<div id="providerlist" style="display:block;">
+  <%= render :partial => "providerlist"%>
+</div>

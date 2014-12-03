@@ -1,0 +1,21 @@
+<%=stylesheet_link_tag "global/pop_up_success", :media => "all"%>
+<script type="text/javascript">
+  $(document).ready(function() { 
+	$(".headTab").hide();
+	$("html, body", window.parent.document).animate({ scrollTop: 0 }, 100);
+  }); 
+  function closepopup() {
+    parent.parent.newActivityPage.hide();
+    parent.parent.location.reload(true);
+  }
+</script>
+
+<div align="center" style="height:230px;">
+  <p class="successText" style="padding: 45px 0px 0px;">Your activity has been created!</p>
+  <div class="clear"></div>
+  <p class="successText" style="padding: 20px 0px 40px 0">A  ticket for your new activity has been added  to the ticket section. <br/>Do you want to set up your bid?</p>
+  <a href="javascript:void(0)" onClick="parent.newActivityPage.hide();_gaq.push(['_trackEvent', 'Provider Module', 'clickAddActivity','Success']);parent.pop_bid_new_activity('/activity_create_bid?id=<%= @activity_profile_apf.activity_id %>')" title=""><%=image_tag("/assets/detailed_view/yes_button.png", :width=>"103", :height=>"41")%></a>
+  <a href="javascript:void(0)" onClick="closepopup();_gaq.push(['_trackEvent', 'Provider Module', 'clickAddActivity','Close']);" title=""><%=image_tag("/assets/detailed_view/no_button.png", :width=>"103", :height=>"41")%></a>
+</div>
+
+

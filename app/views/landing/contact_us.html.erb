@@ -1,0 +1,614 @@
+<%
+meta :title => "Contact Famtivity - Kids Activities, Events, Camps, Classes, Lessons",
+     :description => "Contact Famtivity to obtain support and learn more about our Family Activity Social Network",
+     :keywords => "Contact us, Reach us, Contact famtivity"
+%>
+<%= stylesheet_link_tag "landing/how_it_works.css" %>
+<%= stylesheet_link_tag "event_index/event_index.css" %>
+<%= stylesheet_link_tag "event_index/menu.css" %>
+<style type="text/css" id="page-css">
+  /* Styles specific to this particular page */
+  .setHyphen{
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:14px;
+  color:#999999;
+  margin-top:6px;
+}
+
+  .scroll-pane
+  {
+    width: 100%;
+    height1: 570px;
+    overflow: auto;
+  }
+  .horizontal-only
+  {
+    height: auto;
+    max-height1: 500px;
+  }
+
+  .terms_of_service{
+    padding:8px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:14px;
+    color: #7E7979;
+    margin:0 0 0 40px;
+  }
+  .clrBlueLight{
+    color:#4495ae;
+  }
+
+  .contact-us-para{
+    margin: 12px 0;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    line-height: 23px
+
+  }
+  .qstn{
+    color: #5099AC;
+    font-size: 15px;
+    font-weight: bold;
+  }
+  .contact-us-title
+  {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    color:#5099AC;
+    font-weight:bold;
+    font-size: 22px;
+  }
+  .contact-us span,a{
+    color:#5099AC;
+
+  }
+  .image
+  {
+    background: url('assets/event_index/contact_profile_bg.jpg') no-repeat scroll 0 0 transparent;
+    margin-left: 586px;
+    padding: 7px;
+    width: 245px;
+
+  }
+  .contact-us input[type="text"]{
+    background-color: #FFFFFF;
+    border: 1px solid #CDE0E6;
+    height: 28px;
+    width: 410px;
+    padding-left:4px;
+    padding-right:4px;
+    .padding:4px;
+    .height:18px;
+
+  }
+  .contact-us textarea{
+
+    padding:8px 4px 4px 4px;
+    .padding:8px 4px 4px 4px;
+    background-color: #FFFFFF;
+    border: 1px solid #CDE0E6;
+    width: 410px;
+    height:130px;
+  }
+  .form{
+    background:url('/assets/event_index/formsection_middle.jpg') repeat-y ;
+    padding: 8px 5px 2px 14px;
+    .padding: 8px 5px 22px 14px;
+    width: 531px; 
+    margin-top: -7px;
+
+  }
+  #star{color:#FF0000;!important}
+  .questions{
+    width:565px;
+    float:left;
+  }
+  .contact-us-content-3{
+    clear:both;}
+  .contact-us{
+    width:880px;
+    margin: 0 auto;
+
+  }
+  .label{
+    width:88px;
+    font-size:14px;
+    font-weight:bold;
+    color:#595758;
+    height:40px;
+  }
+  .submit{
+    margin-top:18px;
+  }
+  .answ{color:#444444;}
+  .error{
+    display:none;
+    color:#FC8989 !important;
+    font-size:13px;
+  }
+
+  .contact-us table tr{
+    margin:10px;
+  }
+  .setbg_top_contact{
+    background:url('/assets/event_index/formsection_top.jpg') no-repeat;
+    height: 23px;
+    width:548px;
+  }
+
+  .setbg_bottom_contact{
+    background:url('/assets/event_index/formsection_bottom.jpg') no-repeat;
+    height: 23px;
+    width:548px;
+  }
+  .inpt{
+    margin-bottom:7px;
+    margin-top:-15px;
+    position:relative;
+  }
+  .message_div{
+    margin-top: 47px;
+
+  }
+
+  @media \0Screen{
+    .contact-us input[type="text"]{
+      background-color: #FFFFFF;
+      border: 1px solid #CDE0E6;
+      width: 410px;
+      height: 18px;
+      padding:4px;
+
+    }
+
+    .submit{
+      margin-top:0px;
+    }
+
+    .contact-us textarea{
+      padding:4px;
+      background-color: #FFFFFF;
+      border: 1px solid #CDE0E6;
+      margin-bottom: 10px;
+      width: 410px;
+      height:120px;
+      resize: both !important;
+    }
+  }
+  .areyoupp{
+    background-color: #FFFFFF;
+    border: 1px solid #CDE0E6;
+    height: 28px;
+    width: 420px;
+    color: #999999;
+    font-size: 13px;
+    padding: 3px 0px;
+  }
+  .areyoupp option{
+    padding: 4px 0px 4px 5px;
+    background: #F6F8F7;
+  }
+</style>
+<script type="text/javascript">
+  function validateForm()
+  {
+  
+    var name = document.getElementById("name").value;
+    //var phone = document.getElementById("phone").value;
+    var phone1 = document.getElementById("profile_phone_1").value;
+    var phone2 = document.getElementById("profile_phone_2").value;
+    var phone3 = document.getElementById("profile_phone_3").value;
+    var msg = document.getElementById("msg").value;
+    var email=document.forms["myForm"]["email"].value;
+    var atpos=email.indexOf("@");
+    var dotpos=email.lastIndexOf(".");
+    var areyou = document.getElementById('areyou').value;
+    //alert(areyou);
+    $(".inpt").css("margin-top", "0px");
+    var errorFlag = false;
+    if(name=="" || name == "Eg:john" || name == "eg:john")
+    {
+      $(".name").css("border-color","#FC8989");
+      $("#name_span").css("display","block");
+      errorFlag = true;
+    
+    }else{
+    
+      $(".name").css("border-color","#CDE0E6");
+      $("#name_span").css("display","none");
+        
+    }
+    if (atpos<1 || dotpos<atpos+2 || dotpos+2>=email.length)
+    {
+      $(".email").css("border-color","#FC8989");
+      $("#email_span").show();
+      $("#email_empty").hide();
+      errorFlag = true;
+    
+    }
+    else if (email =="Eg:john@gmail.com" || email =="eg:john@gmail.com")
+     { 
+      $(".email").css("border-color","#FC8989");
+      $("#email_span").hide();
+      $("#email_empty").show();
+      errorFlag = true;
+    }
+    else{
+      $(".email").css("border-color","#CDE0E6");
+      $("#email_span").hide();
+      $("#email_empty").hide();
+    
+    }
+    if ( areyou=="select")	{
+	  $(".areyoupp").css("border-color","#FC8989");
+          $("#areyoupp_span").css("display","block");
+          errorFlag = true;
+	} else{
+	  $(".areyoupp").css("border-color","#CDE0E6");
+          $("#areyoupp_span").css("display","none");
+    }
+   /* if(phone=='')
+    {
+      $(".phone").css("border-color","#FC8989");
+      $("#phone_span").show();
+      errorFlag = true;
+    }
+    else if(isNaN(phone))
+    {
+      $(".phone").css("border-color","#FC8989");
+      $("#phone_span").show();
+      errorFlag = true;
+    }
+    else{
+      $(".phone").css("border-color","#CDE0E6");
+      $("#phone_span").hide();
+        
+    } */
+if ( phone1 !="xxx" && phone2 != "xxx" && phone3 != "xxxx"){ 
+
+    if( phone1 !="" ){
+          if(phone1.length<3){
+            
+
+      $("#profile_phone_1").css("border","1px solid #fc8989");
+      $("#phone_span").show();
+      $("#phone_empty").hide();
+      errorFlag = true;
+    }
+  }
+  
+    if( phone2 !="" ){
+     if(phone2.length<3){  
+     
+      $("#profile_phone_2").css("border","1px solid #fc8989");
+      $("#phone_span").show();
+      $("#phone_empty").hide();
+      errorFlag = true;     
+    }
+  }
+
+    if( phone3 !="" ){
+     if(phone3.length<4){ 
+    
+      $("#profile_phone_3").css("border","1px solid #fc8989");
+       $("#phone_span").show();
+       $("#phone_empty").hide();
+      errorFlag = true;     
+    }
+  }
+     if( phone1 == "000" &&  phone2 == "000" && phone3 == "0000" ){
+    
+    $("#profile_phone_1").css("border","1px solid #FC8989");
+    $("#profile_phone_2").css("border","1px solid #FC8989");  
+    $("#profile_phone_3").css("border","1px solid #FC8989");
+    $("#phone_span").show();
+    $("#phone_empty").hide();
+    errorFlag = true;
+    }
+    else if( phone1 == "" &&  phone2 == "" && phone3 == ""){
+   
+    $("#profile_phone_1").css("border","1px solid #FC8989");
+    $("#profile_phone_2").css("border","1px solid #FC8989");  
+    $("#profile_phone_3").css("border","1px solid #FC8989");
+    $("#phone_span").show();
+    $("#phone_empty").hide();
+    errorFlag = true;
+    }
+    else if((phone1 != "000" &&  phone2 != "000" && phone3 != "0000") && (phone1.length>=3 && phone2.length>=3 && phone3.length>=4) || (phone1 != "000" && phone1.length>=3  &&  phone2 == "000" && phone3 == "0000") ||  (phone2 != "000" && phone2.length>=3  &&  phone1 == "000" && phone3 == "0000") || (phone3 != "0000" && phone3.length>=4  &&  phone1 == "000" && phone2 == "000") || (phone1 != "000" && phone1.length>=3  &&  phone2 == "000" && phone3 != "0000" && phone3.length>=4 ) || (phone2 != "000" && phone2.length>=3  &&  phone1 == "000" && phone3 != "0000" && phone3.length>=4 ) ){
+
+      $("#profile_phone_1").css("border-color","#CDE0E6");
+      $("#profile_phone_2").css("border-color","#CDE0E6");
+      $("#profile_phone_3").css("border-color","#CDE0E6");
+      $("#phone_span").hide();
+      $("#phone_empty").hide();
+        
+    }
+
+}
+
+
+if(phone1 == "xxx" &&  phone2 == "xxx" && phone3 == "xxxx" ){
+  
+    $("#profile_phone_1").css("border","1px solid #FC8989");
+    $("#profile_phone_2").css("border","1px solid #FC8989");  
+    $("#profile_phone_3").css("border","1px solid #FC8989");
+    //$('#phone_span').css("display","block");
+    //$('#phone_span').html('Please enter your phone number');
+    $("#phone_empty").show();
+    $("#phone_span").hide();
+    errorFlag = true;
+       
+    }
+
+   if(phone1 != "xxx" &&  phone2 == "xxx" && phone3 == "xxxx") {
+  
+      $("#profile_phone_2").css("border","1px solid #FC8989");  
+      $("#profile_phone_3").css("border","1px solid #FC8989");
+      $("#phone_span").show();
+      $("#phone_empty").hide();
+     }
+   else if(phone1 == "xxx" &&  phone2 != "xxx" && phone3 == "xxxx") {
+  
+      $("#profile_phone_1").css("border","1px solid #FC8989");  
+      $("#profile_phone_3").css("border","1px solid #FC8989");
+      $("#phone_span").show();
+      $("#phone_empty").hide();
+        
+    }
+    else if(phone1 == "xxx" &&  phone2 == "xxx" && phone3 != "xxxx") {
+  
+      $("#profile_phone_1").css("border","1px solid #FC8989");  
+      $("#profile_phone_2").css("border","1px solid #FC8989");
+      $("#phone_span").show();
+      $("#phone_empty").hide();
+        
+    }
+    else if(phone1 != "xxx" &&  phone2 == "xxx" && phone3 != "xxxx") {
+   
+      $("#profile_phone_2").css("border","1px solid #FC8989");
+      $("#phone_span").show();
+      $("#phone_empty").hide();
+        
+    }
+    else if(phone1 != "xxx" &&  phone2 != "xxx" && phone3 == "xxxx") {
+  
+      $("#profile_phone_3").css("border","1px solid #FC8989");
+      $("#phone_span").show();
+      $("#phone_empty").hide();
+        
+    }
+
+    if(msg=='')
+    {
+      $(".msg").css("border-color","#FC8989");
+      $("#msg_span").show();
+
+      errorFlag = true;
+    }
+    else{
+      $(".msg").css("border-color","#CDE0E6");
+      $("#msg_span").hide();
+    }
+   
+    if(errorFlag){
+      return false;
+    }
+
+    else{
+  
+      $('#loading_img').show();
+      $.ajax({
+        type: "Post",
+        url: "landing/contact_us_mail",
+        data: {
+          "msg":msg,
+          "name":name,
+          "phone1":phone1,
+          "phone2":phone2,
+          "phone3":phone3,
+          "email": email,
+          "usertype":areyou
+        },
+        cache: false,
+        success: function(data){
+          if (data == "failed"){
+            $("#email_id").css("border","1px solid #fc8989");
+            $("#email_id_error").html("Please enter valid Email");
+            $("#email_id_error").parent().css("display","block");
+            errorFlag = true;
+          }
+          else{
+      $('#loading_img').hide();
+            errorFlag = false;
+      $("#name").val('Eg:john');
+      $("#name").css("color","#999999");
+      $("#email").val('Eg:john@gmail.com');
+      $("#email").css("color","#999999");
+      $("#areyou").val('--Select--');
+      $("#profile_phone_1").val('xxx');
+      $("#profile_phone_1").css("color","#999999");
+      $("#profile_phone_2").val('xxx');
+      $("#profile_phone_2").css("color","#999999");
+      $("#profile_phone_3").val('xxxx');
+      $("#profile_phone_3").css("color","#999999");
+      $("#msg").val('');
+          }
+
+        }
+      });
+      return false;
+    }
+  
+  }
+</script>
+
+<script type="text/javascript">
+ function number(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57 ) && (charCode != 46 ) ){
+        //alert("Allow only Numbers");
+        return false;     
+    }
+    return true;
+}
+//set automatically go to next textbox
+  function movetoNext(current, nextFieldID) {
+    if (current.value.length >= current.maxLength) {
+
+      document.getElementById(nextFieldID).focus();
+    }
+    return true;
+  }
+
+
+</script>
+
+  <div id="how_it_worksDiv" style="margin-top:44px; padding-top:2px; background:#F6F8F7;">
+    <div class="TopDiv" style="margin: 0 auto;">
+      <%if !current_user.nil?%>
+		<div class="contact-us aftrlogindiv">
+	<%else%>
+		<div class="contact-us bfrlogindiv">
+	<%end%>
+        <h1 class="contact-us-title">
+	Contact Us 
+        </h1>
+        <div class="contact-us-content-2">
+
+          <div class="questions">
+
+            <div class="contact-us-para">
+              <div class="qstn">Support for Parents</div>
+              <div class="answ">Have a question or comment about our site, our listed providers, or how we can support your&nbsp;child's after school program? Visit our <span><a href="/faq">Frequently Asked Questions page</a></span> or email us at <span><a href="mailto:support@famtivity.com" title="">support@famtivity.com</a>.</span></div>
+            </div>
+            <div class="contact-us-para">
+              <div class="qstn">Support for Providers</div>
+              <div  class="answ">Have a question about our services, our site, or how we can help promote your business? Visit our <span><a href="/faq">Frequently Asked Questions page</a></span>, call us toll-free at 1-888-386-6479 or complete the form below. Our support hours are Monday through Friday from 8am-5pm Pacific Time and we’ll get back to you within 24 hours.</div>
+            </div>
+            <div class="contact-us-para">
+              <div class="qstn">Press, Investor & General Inquiries</div>
+              <div class="answ">For all press, inverstor and other inquiries, contact us at <span><a href="mailto:admin@famtivity.com" >admin@famtivity.com</a></span> or complete the form below.</div>
+            </div>
+            <!--div class="contact-us-para">
+              <div class="qstn">Questions about our Privacy Policy or Terms of Use?</div>
+              <div class="answ">Email <span><a href="mailto:admin@famtivity.com" >admin@famtivity.com</a></span></div>
+            </div-->
+
+          </div>
+          <div class="image">
+             <%= image_tag("/assets/event_index/contact-us.jpg") %>
+          </div>
+        </div>
+
+        <div class="contact-us-content-3">
+
+          <div class="setbg_top_contact"></div>
+          <div class="form">
+            <div class="success_update_info" style="display:none;color:green;margin:10px 10px 14px 92px;">Our support team will get back to you shortly</div>
+            <form name="myForm" action="/contact_us_mail" onsubmit="return validateForm();" method="post">
+              <table >
+                <tr>
+                  <td valign="middle"><div class="label"><label for="name">Name<span id="star">*</span></label></div></td>
+                  <td valign="middle">
+                    <div class="name inpt ">
+                      <input type="text" id="name" tabindex="1" name="name" class="name" value="Eg:john" style="outline:none;color:#999999;" onFocus="if(this.value == 'Eg:john') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onBlur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Eg:john'}" maxlength="50" />
+                      <span id="name_span" class="error">Please enter your name</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="middle"><div class="label"><label for="name">Are you a<span id="star">*</span></label></div></td>
+                  <td>
+                     <div class="name inpt ">
+                      <select id="areyou" name="areyou" class="areyoupp" tabindex="2">
+                        <option value="select" selected="selected">--Select--</option>
+                        <option value="Provider">Provider</option>
+                        <option value="Parent">Parent</option>
+			   <option value="Other">Other</option>
+                      </select>
+                      <span id="areyoupp_span" class="error">Please select user type</span>
+                     </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="middle"><div class="label"><label for="email">Email<span id="star">*</span></label></div></td>
+                  <td valign="middle">
+                    <div class="email inpt">
+                      <input type="text" id="email" class="email"  tabindex="3" name="email" style="outline:none;color:#999999;" value="Eg:john@gmail.com" onFocus="if(this.value == 'Eg:john@gmail.com') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onBlur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Eg:john@gmail.com'}" maxlength="50"  />
+
+                      <span id="email_span" class="error">Please enter your valid Email</span>
+                      <span id="email_empty" class="error">Please enter your Email</span>
+                    </div></td>
+                </tr>
+                <tr>
+                  <td><div class="label"><label for="phone">Phone<span id="star">*</span></label></div></td>
+                  <td><div class="inpt" style="width:400px;"> 
+                    <input type="text" name="profile_phone_1" id="profile_phone_1"  tabindex="4" value="xxx" class="lt phone1" style="outline:none; margin-right:10px; color:#999999; width: 40px;" onfocus="if(this.value == 'xxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxx'}" maxlength="3"  onkeyup="movetoNext(this, 'profile_phone_2')" onKeyPress="return number(event);"> 
+
+         
+                  <div class="lt setHyphen">-</div>
+
+                  <input type="text" name="profile_phone_2" id="profile_phone_2" tabindex="5" value="xxx" class="lt phone2" style="outline:none; margin:0px 10px 0px 10px; width: 40px; color:#999999;" onfocus="if(this.value == 'xxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxx'}" maxlength="3"  onkeyup="movetoNext(this, 'profile_phone_3')" onKeyPress="return number(event);"> 
+
+                  <div class="lt setHyphen">-</div>
+
+                  <input type="text" name="profile_phone_3" id="profile_phone_3" tabindex="6" value="xxxx" class="lt phone3" style="outline:none; margin-left:10px; color:#999999; width: 40px;" onfocus="if(this.value == 'xxxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxxx'}" maxlength="4" onkeyup="movetoNext(this, 'sell_phone_4')" onKeyPress="return number(event);">
+
+
+
+
+                    <!--<input type="text" id="phone" class="phone" name="phone"/>-->
+                    <div class="clear"></div>
+                      <div id="phone_span" class="error">Please enter the valid phone number</div>
+                      <div id="phone_empty" class="error">Please enter your phone number</div>
+                    </div></td>
+
+                </tr>
+                <tr>
+                  <td valign="top"><div class="label"><label for="message">Message<span id="star">*</span></label></div></td>
+                  <td valign="top"><div style="height:145px;">
+                      <textarea id="msg" class="msg" name="msg" name="message" tabindex="7"></textarea>
+
+
+                    </div><span id="msg_span" class="error">Please enter your message</span></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td><div class="submit"><input type="image"  src="/assets/event_index/submit_btn.jpg" value="submit" tabindex="8" /></div></td>
+	        <td><div class="submit"><span id="loading_img" style="display:none; position:relative; top:-2px; left: -316px;"> <%= image_tag("/assets/loading_small.gif") %></span> </div></td>
+                </tr>
+
+              </table>
+            </form>
+          </div>
+          <div class="setbg_bottom_contact"></div>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var docheight = $(window).height();
+      var innerHeight = docheight - parseInt(200);
+      innerHeight = innerHeight+"px";
+      $(".scroll-pane").css('height',innerHeight);
+      $(".scroll-pane").jScrollPane();
+    });
+    window.onresize = function(event) {
+      var docheight = $(window).height();
+      var innerHeight = docheight - parseInt(200);
+      innerHeight = innerHeight+"px";
+      $(".scroll-pane").css('height',innerHeight);
+      $(".scroll-pane").jScrollPane();
+    }
+  </script>
+

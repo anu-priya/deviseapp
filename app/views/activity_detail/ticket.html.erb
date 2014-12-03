@@ -1,0 +1,109 @@
+<%=stylesheet_link_tag "checkout/checkout","global/pop_up", :media => "all"%>
+<%=javascript_include_tag "event/add_participant"%>
+
+<div class="popupContainer" id="checkout">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+	<form id="secure_checkout" name="secure_checkout" action="#" method="post" enctype="multipart/form-data">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Activity Ticket</div>
+          </div>
+          <div class="closeButton">
+            <a href="proceed_to_checkout" title="" >
+	    <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%>
+            </a>
+          </div>
+        </div>
+        <div class="centerCont">
+		  <div class="ticketOuter">
+				<div class="ticketDivLeft">
+					<div class="ticketBgTop">
+						<div class="checkoutLt FtSz13" align="center" id="SetColorTop">
+							<div ><b>21</b></div>
+							<div>August</div>
+					    </div>
+						<div class="checkoutLt FtSz13" align="center" style="color:#fff; margin:8px 0 0 24px;">
+							<div ><b>2:00pm</b></div>
+							<div>Start time</div>
+					    </div>
+						<div class="checkoutLt FtSz13" align="center" style="color:#fff; margin:8px 0 0 23px;">
+							<div ><b>6:00pm</b></div>
+							<div>End time</div>
+					    </div>
+						<div class="CricketTextFont">Cricket</div>
+					</div>
+					<div class="ticketBgCenter">
+						<div>
+							<div class="CricketFont SetDesc">Cricket</div>
+							<div class="SetDesc FtSz13" style="color:#616566;">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+							<div class="CricketFont SetDesc">Venue</div>
+							<div class="FtSz13 SetDesc" style="color:#616566;">No.16, world cross street, Near white house city, us. Ph:8900450050</div>
+						</div>
+						 <div class="checkoutLt" style="margin-top:5px;">
+						  <div class="CricketFont SetDesc">Price</div>
+						  <div class="SetDesc FtSz13" style="color:#D23B32;">$15.00/-</div>
+						 </div>  
+						 <div class="SetDesc checkoutLt" id="cricket_image"></div>   
+						 <div class="clear"></div>
+					</div>
+					<div class="ticketBgBottom"></div>
+				</div>
+				<div class="ticketDivRight">
+					<table width="472" style="margin: 0 auto;" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td class="proftz12" height="27" style="padding-top:7px;"><b>Ticket Name</b></td>
+                      <td class="proftz12" style="color: #5099AC; padding-top:7px;">Sports Activity</td>
+                    </tr>
+                    <tr>
+                      <td class="proftz12" height="24"><b>Schedule</b></td>
+                      <td class="proftz12" style="color: #5099AC;">Mon 8/6/2012 04:30 PM to 05:30 PM</td>
+                    </tr>
+                    <tr>
+                      <td class="proftz12" height="23"><b>FamPass Code No</b></td>
+                      <td class="proftz12" style="color: #5099AC;">1000D467R567T</td>
+                    </tr>
+                    <tr>
+                      <td height="3" colspan="2" class="proftz12" ><p style="border-top:1px solid #D7DADB; margin: 11px 0 -4px 0; ">&nbsp;</p></td>
+                    </tr>
+                    <tr>
+                      <td class="proftz12" height="23"><b>Participant Name</b></td>
+                      <td class="proftz12" style="color: #5099AC;">Sebastian</td>
+                    </tr>
+                    <tr>
+                      <td class="proftz12" height="23"><b>Date of birth</b></td>
+                      <td class="proftz12" style="color: #5099AC;">21-Dec-2012</td>
+                    </tr>
+                    <tr>
+                      <td class="proftz12" height="23"><b>Age Range</b></td>
+                      <td class="proftz12" style="color: #5099AC;">4-6</td>
+                    </tr>
+					 <tr>
+                      <td class="proftz12" height="23"><b>Gender</b></td>
+                      <td class="proftz12" style="color: #5099AC;">Male</td>
+                    </tr>
+					 <tr>
+                      <td class="proftz12" height="7"><b>&nbsp;</b></td>
+                      <td class="proftz12" style="color: #5099AC;">&nbsp;</td>
+                    </tr>
+                   
+                  </table>
+				</div>
+				 <div class="clear"></div>
+				 <div style="padding:20px 0 45px 3px; .padding:20px 0 0px 3px;">
+				 	<div class="checkoutLt"><a href="#" title=""><%=image_tag("/assets/activity_ticket/download.png", :width=>"101", :height=>"32", :style=>"border:0px;")%></a></div>
+					<div class="checkoutLt" style="padding-left:6px;"><a href="#" title=""><%=image_tag("/assets/activity_ticket/print.png", :width=>"101", :height=>"32", :style=>"border:0px;")%></a></div>
+					<div class="checkoutLt" style="padding-left:6px;"><a href="#" title=""><%=image_tag("/assets/activity_ticket/cancel.png", :width=>"101", :height=>"32", :style=>"border:0px;")%></a></div>
+				 </div>
+			</div>
+		  <div class="clear"></div>
+		 
+				
+		</div>
+      </div>
+	</form>
+	</div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+</div>

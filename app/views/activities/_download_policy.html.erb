@@ -1,0 +1,92 @@
+<%#file_down = user_download_file(@uid)%>
+<%file_down = ActivityForm.where("policy_file_id IS NOT NULL and active_status=true and activity_id=?",@activity.activity_id )%>
+<%if file_down && file_down.count > 0%>
+<input type="hidden" id="acti_id" value="<%=@activity.activity_id%>">
+<div id="dwonload_scrolol_head">
+<table width="100%">
+    <tr id="checkboxImg">
+  	     <td width="50%" align="center" ><span><a href="javascript:void(0);" onclick="downvalues();"  id="send_zip" class="pdfupload" title="Download"><%=image_tag("/assets/policies/dwniconnormal.png", :width=>"8", :height=>"12", :style=>"border:0px;")%>&nbsp;<b>Download All</b></a></span></td>
+         <td width="50%" align="right"><span onclick="hide_downloadpopup()"><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%></span></td>
+    </tr>
+</table>
+<div id="dashed_separate">&nbsp;</div>
+</div>
+
+  <div id="dwonload_scrolol">
+  <table cellpadding="0" cellspacing="0" width="100%" id="up-down-pop">
+    <input type="hidden"  id="test" name="file_names" value=""/>
+    <%i = 1%>
+    <%file_down && file_down.each do |s|%>
+      <%f=PolicyFile.where("policy_file_id=?",s.policy_file_id).last%>
+      <%if !f.nil? && !f.policy_file_id.nil? %>
+       <input id="f_downl_<%=i%>" class="f_downl_val" type="hidden" value="<%=f.policy_file_id%>"/>
+       <input id="f_downl_checkbox_<%=i%>" class="f_downl_checkbox" type="hidden" value="0"/>
+     <tr>
+      <td width="45" align="right"><span style="cursor:default;"><%=image_tag("/assets/policies/pdf_icon.png", :width=>"21", :height=>"26", :style=>"border:0px;")%></span></td>
+      <%name = f.pdf_file_name if !f.nil?%>
+      <td width="200"><p class="pdfupload" style="cursor:default;text-align:left;">&nbsp;<%=((name.length>15) ? (name[0, 16] + "..." + name[-6, 6]) : name) if !name.nil?%></p></td>
+    </tr>
+    <tr><td colspan="3" height="10"></td></tr>
+    <%i = i+1%>
+    <%end%>
+    <%end%>
+    <span id="error-msg" style="display:none;">Select atleast one file to download.</span>
+  </table>
+  </div>
+  <%else%>
+    <div id="empty_value">
+      <div style="float:right; clear:both; width:100%" onclick="hide_downloadpopup()"><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;float:right;")%></div>
+      <div>No files to download.</div>
+      <span class="chkdwnarrrw" onclick="downloadpopup();"><%=image_tag("/assets/policies/dwnbxarrw.png", :width=>"8", :height=>"12", :style=>"border:0px;")%></span>
+    </div>
+  <%end%>
+  
+  
+  <script type="text/javascript">
+   function downvalues(){
+    check_box_joinval();
+    var t_val = $("#test").val();
+    var act_id = $("#acti_id").val();
+  //var r_val=t_val.replace(/undefined,undefined,/, '');
+  var errorFlag = true;
+    if (t_val.length==0)
+    {
+    errorFlag = false;
+    }
+      if (errorFlag == false)
+      {
+        //$("#up-down-pop").hide();
+        //$("#checkboxImg").hide();
+        $('#error-msg').fadeIn().delay(4000).fadeOut();
+        //$("#error-msg").show();
+        $("#send_zip").attr("href", "javascript:void(0)");
+      }
+      else
+      {
+        $("#send_zip").attr("href", "/multi_download?val="+t_val+"&id="+act_id);
+      }
+   }
+   
+    function check_box_joinval(){
+		var input_val='';
+		var input_id ='';
+		var joinStr1 ='';
+		var length=$('input.f_downl_checkbox').length;
+		
+		for(var i=1;i<=length;i++)
+		{
+				//~ input_val = $('#f_downl_checkbox_'+i).val();
+				//~ if(input_val!=0){
+						input_id = $('#f_downl_'+i).val();
+						if(input_id!=undefined){
+						  joinStr1 += input_id+",";
+						}
+				//~ }
+		}
+		
+		$('#test').val(joinStr1);
+ }
+
+ 
+  </script>
+

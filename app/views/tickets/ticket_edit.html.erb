@@ -1,0 +1,212 @@
+<%=stylesheet_link_tag "global/pop_up","tickets/ticket_edit", :media => "all"%>
+<%= javascript_include_tag "tickets/tickets"%>
+
+<script language="javascript">
+  function closepopup() {
+    parent.editTicketPage.hide();
+  }
+</script>
+
+<div id="new_act_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">
+							Edit Activity Ticket Design
+            </div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> 
+            	<%= image_tag("/assets/global/pop_up/button_close.png", size:"15x15")%>
+            </a>
+          </div>
+        </div>
+        <div id="edit_ticket">
+            <div class="centerCont">
+				<form id="edit_activity_ticket" name="edit_activity_ticket" action="#" method="post" onSubmit="return validate_ticket()">
+				<div class="row">
+					<div class="lt ltSide">Ticket Image</div>
+					<div class="lt">
+						<!-- editTicket1 -->
+						<div class="lt setTotalWidth">
+							<div class="lt radioBox">
+								<input type="hidden" name="ticket_1" id="ticket_1" value="0" />								
+								 <a href="javascript:void(0)" title="" id="select_1" onclick="selectRadioButton('not_select',1,0)" class="select">
+								 	<%= image_tag("/assets/tickets/radio_selected.png")%>
+								 </a>
+								 <a href="javascript:void(0)" title="" id="not_select_1" onclick="selectRadioButton('select',1,1)" class="not_select" style="display: none" ><%= image_tag("/assets/tickets/radio_normal.png")%></a>
+							</div>
+							<div class="rt ticketContainer" id="editTicket1">								
+								<div class="row1">
+									<div class="lt col1"><span class="whiteText"><b>21</b><br/><span class='whiteTextSmall'>Augest</span></span></div>
+									<div class="lt col2"><span class="whiteText"><b>2:00 pm</b><br/><span class='whiteTextSmall'>Start time</span></span></div>
+									<div class="lt col3"><span class="whiteText"><b>6:00 pm</b><br/><span class='whiteTextSmall'>End time</span></span></div>
+								</div>	
+								<div class="row2"><span class='actName'>Kids Art School</span></div>
+								<div class="row3"><%= image_tag("/assets/tickets/view_page_ticket_image111.png", size:"181x143")%></div>	
+							
+								<div class="contRow">
+								<div style='height:136px;overflow:hidden;'>
+								<div class="head">Kids Art School</div>
+								<div class="desp" style="font-size:9px;">Lorim ipsum dolor sit amet,<Br/> consectetur adipicsing elit.</div>
+								<div class="head">Venue</div>
+								<div class="desp">No.16, world cross street, Near white house city, us. Pn:8900450050</div>
+								</div>
+								<div class="clear"></div>
+								<div>
+									<div class="lt priceCode">
+										<div class="head">Price</div>
+										<div class="redText">$15.00/-</div>							
+									</div>
+									<div class="lt priceCodert">
+										<div class='ticketText'>FamPass Code</div>
+										<%= image_tag("/assets/tickets/ticket_code.png", size:"92x43", class: "lt ticketCodeImg")%>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="clear"></div>								
+							</div>
+						</div>
+						<div class="clear"></div>	
+						</div>
+						
+						<!-- editTicket2 -->
+						<div class="lt setTotalWidth">
+							<div class="lt radioBox">
+								<input type="hidden" name="ticket_2" id="ticket_2" value="0" />								
+								 <a href="javascript:void(0)" title="" id="select_2" onclick="selectRadioButton('not_select',2,0)" class="select" style="display: none">
+								 	<%= image_tag("/assets/tickets/radio_selected.png")%>
+								 </a>
+								 <a href="javascript:void(0)" title="" id="not_select_2" onclick="selectRadioButton('select',2,1)" class="not_select" >
+								 	<%= image_tag("/assets/tickets/radio_normal.png")%>
+								 </a>
+							</div>
+							<div class="rt ticketContainer" id="editTicket2">
+								<div class="row1 setbottomBorder">
+								  <div class="lt col1 setOrgBg"><span class="whiteText"><b>21</b><br/><span class='whiteTextSmall'>Augest</span></span></div>
+								  <div class="lt col2 setOrgBg setleftBorder"><span class="whiteText"><b>2:00 pm</b><br/><span class='whiteTextSmall'>Start time</span></span></div>
+								  <div class="lt col3 setOrgBg setleftBorder"><span class="whiteText"><b>6:00 pm</b><br/><span class='whiteTextSmall'>End time</span></span></div>
+								</div>	
+								<div class="row2 setOrgBg"><span class='actName'>Kids Art School</span></div>
+								<div class="row3">
+									<%= image_tag("/assets/tickets/view_page_ticket_image222.png", size:"181x143")%>
+								</div>	
+								<div class="contRow redBottom">
+									<div style='height:136px;overflow:hidden;'>
+									<div class="head">Kids Art School</div>
+									<div class="desp" style="font-size:9px;">Lorim ipsum dolor sit amet,<Br/> consectetur adipicsing elit.</div>
+									<div class="head">Venue</div>
+									<div class="desp">No.16, world cross street, Near white house city, us. Pn:8900450050</div>
+									</div>
+									<div class="clear"></div>
+									<div>
+										<div class="lt priceCode">
+											<div class="head">Price</div>
+											<div class="redText">$15.00/-</div>							
+										</div>
+										<div class="lt priceCodert">
+											<div class='ticketText'>FamPass Code</div>
+											<%= image_tag("/assets/tickets/ticket_code.png", size:"92x43", class: "lt ticketCodeImg")%>
+										</div>
+										<div class="clear"></div>
+									</div>
+									<div class="clear"></div>		
+								</div>
+							</div>
+						</div>
+
+						<!-- editTicket3 -->
+						<div class="lt setTotalWidth">
+							<div class="lt radioBox">
+								 <input type="hidden" name="ticket_3" id="ticket_3" value="0" />								
+								 <a href="javascript:void(0)" title="" id="select_3" onclick="selectRadioButton('not_select',3,0)" class="select" style="display: none">
+								 	<%= image_tag("/assets/tickets/radio_selected.png")%>
+								 </a>
+								 <a href="javascript:void(0)" title="" id="not_select_3" onclick="selectRadioButton('select',3,1)" class="not_select" >
+								 	<%= image_tag("/assets/tickets/radio_normal.png")%></a>
+							</div>
+							<div class="rt ticketContainer" id="editTicket3" style="border:none;">
+								<div class="type3Inner liteBlueBottom" >
+									<%= image_tag("/assets/tickets/view_page_ticket_image333.png" , size:"144x50")%>
+									<div style='height:332px;overflow:hidden;'>
+									<div class="head">Kids Art School</div>
+									<div class="desp" style="font-size:9px;">Lorim ipsum dolor sit amet,<Br/> consectetur adipicsing elit.</div>									
+									<div class="head">Date</div>
+									<div class="desp">21 Augest 2012</div>
+									<div class="head">Time</div>
+									<div class="desp">2.00pm to 6.00pm</div>
+									<div class="head">Venue</div>
+									<div class="desp">No.16, world cross street, Near white house city, us. Pn:8900450050</div>	
+									<div class="head">Details</div>
+									<div class="desp">Lorem ipsum dolor sit amet, con sectetur adipicsing elit. Lorem ips um dolor sitamet.</div>
+									</div>
+									<div class="clear"></div>							
+									<div>
+										<div class="lt priceCode">
+											<div class="head">Price</div>
+											<div class="redText">$15.00/-</div>							
+										</div>
+										<div class="lt priceCodert">
+											<div class='ticketText'>FamPass Code</div>
+											<%= image_tag("/assets/tickets/ticket_code.png", size:"92x43", class: "lt ticketCodeImg")%>
+										</div>
+										<div class="clear"></div>
+									</div>
+									<div class="clear"></div>		
+								</div>
+							</div>
+						</div>
+
+						
+						<div class="clear"></div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="row">
+					<div class="lt ltSide">Ticket Name</div>
+					<input type="text" id="ticket_name" name="ticket_name" class="textbox" value="" tabindex="2" />
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt ltSide">&nbsp;</div>
+                  <div class="lt" id="ticket_name_error"></div>
+                </div>
+
+				<div class="clear"></div>
+				<div class="row">
+					<div class="lt ltSide">Activity Name</div>
+					<input type="text" id="activity_name" name="activity_name" class="textbox" value="" tabindex="3" />
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt ltSide">&nbsp;</div>
+                  <div class="lt" id="activity_name_error"></div>
+                </div>
+
+				<div class="clear"></div>
+				<div class="buttonDiv">
+					<div class="lt ltSide">&nbsp;</div>
+					<div class="lt">
+						<input type="image" src="/assets/tickets/save.png" alt="" tabindex="4" />
+						<a href="javascript:void(0)" title="" tabindex="5" >
+							<%= image_tag("/assets/tickets/cancel_small.png", :onClick => "closepopup();")%>
+						</a>	
+					</div>
+					<div class="clear"></div>
+				</div>
+				</form>
+		    </div>
+		</div>
+      </div>  
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+</div>
+			  

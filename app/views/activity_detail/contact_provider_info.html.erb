@@ -1,0 +1,286 @@
+<%=stylesheet_link_tag "checkout/checkout","global/pop_up", :media => "all"%>
+<%=javascript_include_tag "event/add_participant"%>
+
+<script type="text/javascript" language="javascript">
+
+  function show_msg_div(){
+    $('#messgeTo').addClass('dispBlock');
+    if($('#messgeTo').hasClass('dispBlock')){
+      $(".buttons").addClass("dispNone");
+    }
+    else{
+      $(".buttons").removeClass("dispNone");
+    }
+  }
+  function closemessageDiv(){
+    $("#messgeTo").removeClass('dispBlock');
+    $(".buttons").removeClass("dispNone");
+    $("#provider_to").css("border","1px solid #BDD6DD");
+    $("#message").css("border","1px solid #BDD6DD");
+	
+    $("#to_error").html("");
+    $("#msg_error").html("");
+	
+    $("#to_error").parent().css("display","none");
+    $("#msg_error").parent().css("display","none");	
+	 }
+</script>
+
+<script language="javascript">
+	function closepopup() {		
+		parent.contactproviderinfoPage.hide();
+	}
+	//onSubmit="return validate()"
+</script>
+
+<div class="popupContainer" id="provider_information">
+  <div class="popupContainerTop"></div>
+  <div class="popupContainerCenter">
+    <form id="provider_info" name="provider_info" action="contact_provider_success" method="post" data-remote="true" enctype="multipart/form-data">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Contact Provider For Price</div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" title="" onclick="closepopup()">
+              <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+	   <%@use = User.find_by_user_id(@activity.user_id) if !@activity.nil?%>
+            <input type="hidden" name="activity_id"value="<%=@activity.activity_id if !@activity.nil? %>"/>
+            <input type="hidden" name="provider_mail"value="provider_information"/>
+            <input type="hidden" name="user_id" value="<%=@activity.user_id if !@activity.nil?%>"/>
+            <input type="hidden" name="send_to" value="<%=@use.email_address if !@use.email_address.nil?%>"/>
+	 
+	<!--provider information start-->
+	      <div class="centerCont" style="margin:0 auto; border:1px solid #D7DADB; width:758px; margin-top:20px;">
+        <div style="padding:0px 20px; width: 716px;">
+          <table cellpadding="0" cellspacing="0" border="0" width="717" style="margin:0 auto;">
+
+            <tr>
+              <%if @use.user_type=="P" && !@use.nil? && @use.present?%>
+                <td class="head_text setbottomline" width="430"><%=@use.user_profile.business_name if !@use.nil? && !@use.user_profile.business_name.nil?%></td>
+                <td class="setbottomline">&nbsp;</td>
+              <%else%>
+                <td class="head_text setbottomline" width="430"><%=@use.user_name if !@use.nil?%></td>
+                <td class="setbottomline">&nbsp;</td>
+              <%end%>
+            </tr>
+            <tr>
+              <td class="font_admin">Administrator</td>
+              <%if @use.user_type=="P" || @use.user_type=="U" && !@use.nil? && @use.present?%>
+                <td class="name_text"><%=@use.user_name if !@use.nil?%></td>
+              <%end%>
+
+            </tr>
+            <tr>
+              <td class="font_admin setbottomline">Email</td>
+              <%if @use.user_type=="P" || @use.user_type=="U" && !@use.nil? && @use.present?%>
+                <td class="name_text setbottomline"><%=@use.email_address%></td>
+              <%end%>
+            </tr>
+            <tr>
+              <td class="font_admin">Website</td>
+              <%if !@use.nil? && @use.present? && @use.user_type=="P" && !@use.user_profile.nil? && !@use.user_profile.website.nil? && @use.user_profile.website.present? && @use.user_profile.website!="" %>
+                <td class="name_text"><u><%=@use.user_profile.website if !@use.nil? && !@use.user_profile.website.nil?%></u></td>
+	    <%else%>
+	      <td class="name_text">Not Available</td>
+              <%end%>
+            </tr>
+            <tr>
+              <td class="font_admin">Phone Number</td>
+              <%if @use.user_type=="P" && !@use.nil? && @use.present?%>
+                <td class="name_text"><% if @use.user_profile.present? && !@use.nil? && !@use.user_profile.phone.nil? && @use.user_profile.phone.present? && @use.user_profile.phone!=''%><% if @use.user_profile.phone.length==12%><b><%=@use.user_profile.phone %></b></span><%elsif @use.user_profile.phone.length==10%><span class="proftz12"><b><%=@use.user_profile.phone.first(3) %>-<%=@use.user_profile.phone[3,3] %>-<%=@use.user_profile.phone.last(4) %></b></span><% end%><% end%><%#=@use.user_profile.phone if !@use.nil? && !@use.user_profile.phone.nil?%></td>
+	   <%else%>
+	      <td class="name_text">Not Available</td>
+              <%end%>
+            </tr>
+
+          </table>
+        </div>
+        <div class="clear"></div>
+      </div>
+	<!--provider information stop-->
+
+      <div style="height:10px;"></div>
+      <div id="messgeTo" class="dispBlock">
+        <!--<div style="width:716px; margin:0 auto;">
+          <img src="/assets/checkout/divider line.png">
+        </div>-->
+        <table cellpadding="0" cellspacing="0" border="0" width="717" style="margin:0 auto;">
+          <tr>
+            <td style="color:#000;" valign="top">&nbsp;</td>
+            <td width="495">&nbsp;</td>
+          </tr>
+          <tr>
+            <td  class="font_admin" style="color:#000;"width="170">To</td>
+            <%if @use.user_type=="P" || @use.user_type=="U" && !@use.nil? && @use.present?%>
+              <td><input type="text" name="provider_to" id="provider_to" value="<%=@use.email_address%>" disabled="disabled" class="textboxTo"></td>
+            <%end%>
+          </tr>
+        </table>
+        <div style="display:none" class="errorDiv">
+          <div class="lt leftSideField">&nbsp;</div>
+          <div id="to_error" class="lt"></div>
+        </div>
+        <div style="height:8px;"></div>
+        <table cellpadding="0" cellspacing="0" border="0" width="717" style="margin:0 auto;">
+          <tr>
+            <td class="font_admin" style="color:#595856;" valign="top" width="170">Message</td>
+            <td width="495"><textarea  value="" id="message" name="message" class="textArea"><%=@cont_message%></textarea></td>
+          </tr>
+        </table>
+        <div style="display:none" class="errorDiv">
+          <div class="lt leftSideField">&nbsp;</div>
+          <div id="msg_error" class="lt"></div>
+        </div>
+        <table cellpadding="0" cellspacing="0" border="0" width="717" style="margin:0 auto;">
+          <tr>
+            <td valign="top" width="154">&nbsp;</td>
+            <td width="495">
+              <div style="margin:20px 0 10px 0;">
+                <input id="send" type="image"  alt="" src="/assets/login/send_button.png">
+                <a href="#">
+                  <!--<img onclick="closemessageDiv()" alt="" src="/assets/login/cancel_button.png">-->
+		<%=image_tag("/assets/login/cancel_button.png", :width=>"97", :height=>"37", :style=>"border:0px;", :onclick=>"parent.contactproviderinfoPage.hide();")%>
+                </a>
+	   <span id="loading_img" style="display:none;"><%=image_tag("/assets/ajax-loader.gif", :width=>"32", :height=>"32")%></span>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <div style="display:none" class="errorDiv">
+          <div class="lt leftSideField">&nbsp;</div>
+          <div id="msg_error" class="lt"></div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+<!--  <div class="popupContainerBottom"></div>-->
+  <div class="clear"></div>
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+$('#provider_info').submit(function (){
+    var provider_to = $("#provider_to").val();
+    var provider_msg = $("#message").val();
+    provider_to = provider_to.replace(/^\s+|\s+$/g, "");
+    provider_msg = provider_msg.replace(/^\s+|\s+$/g, "");
+		
+    $("#provider_to").css("border","1px solid #BDD6DD");
+    $("#message").css("border","1px solid #BDD6DD");
+	
+    $("#to_error").html("");
+    $("#msg_error").html("");
+	
+    $("#to_error").parent().css("display","none");
+    $("#msg_error").parent().css("display","none");	
+	
+    var errorFlag = false;
+	
+    if(provider_to == "" || provider_to=="Eg:john@gmail.com"){
+      $("#provider_to").css("border","1px solid #fc8989");
+      $("#to_error").html("Please enter your email address");
+      $("#to_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    else if(!validateCorrectEmail(provider_to)){
+      $("#provider_to").css("border","1px solid #fc8989");
+      $("#to_error").html("Please Check The Email Address Entered");
+      $("#to_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    else if(!validateDot(provider_to)){
+      $("#provider_to").css("border","1px solid #fc8989");
+      $("#to_error").html("Please Check The Email Address Entered");
+      $("#to_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    if(provider_msg == ""){
+      $("#message").css("border","1px solid #fc8989");
+      $("#msg_error").html("Please enter your message");
+      $("#msg_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    if(errorFlag){	
+      return false;
+    }
+    else{
+        var formData = new FormData(this);
+	$('#loading_img').show();
+        $.ajax({
+          url:$(this).attr('action'),
+          type:"post",
+          dataType:"script",
+          processData: false,
+          contentType: false,
+          data:formData,
+          success:function(data){
+	  $('#loading_img').hide(); 
+          }
+        });
+        return false;
+      }
+  })
+  })
+  function validateDot(elementValue) {
+    var emailSplitat = elementValue.split("@");
+    var emailSplitdotf = emailSplitat[0].split(".");
+    var emailSplitdotl = emailSplitat[1].split(".");
+  	 
+    if(emailSplitat[0].length<4){
+      return false;
+    }
+  	  	
+    if(emailSplitdotf.length>3){
+      return false;
+    }
+    if(emailSplitdotf.length<3){
+      var filter = /[^a-z/g]+/gi;
+      var filter1 = /^[0-9]+$/;
+      if(filter.test( emailSplitdotf) && filter1.test( emailSplitdotf)){
+        return false;
+      }
+    }
+    if(emailSplitdotl.length>1){
+      var prev = emailSplitdotl[0];
+      var curr = emailSplitdotl[1];
+      for(var i=1;i<emailSplitdotl.length;i++){
+        if(prev == curr ){
+          return false;
+        }
+        prev = curr;
+        curr = 	emailSplitdotl[i+1];
+      }
+    }
+    if(emailSplitdotl.length>3){
+      return false;
+    }
+    return true;
+  }
+	
+  function validateCorrectEmail(elementValue){
+    var emailPattern = /^([a-zA-Z0-9]+([~{|}`^?=+*'#$!%._-]{0,1}[a-zA-Z0-9]+)*)@(([a-zA-Z0-9]+([._-]{0,1}[a-zA-Z0-9]+)*)+(?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,3})?)$/;
+    return emailPattern.test(elementValue);
+    /*var e = elementValue;
+        elementValue = e.trim();
+        var filter = /^[A-Za-z0-9][A-Za-z0-9\_\-\.]*\@[A-Za-z0-9][A-Za-z0-9\_\-\.]*\.[A-Za-z]{2,}$/;
+        var filter2 = /(\.\.+)|(\@\@+)|(\_\_+)|(\-\-+)/;
+        var filter3 = /(\.ac|\.ad|\.ae|\.aero|\.af|\.ag|\.ai|\.al|\.am|\.an|\.ao|\.aq|\.ar|\.arpa|\.as|\.at|\.au|\.aw|\.ax|\.az|\.ba|\.bb|\.bd|\.be|\.bf|\.bg|\.bh|\.bi|\.biz|\.bj|\.bm|\.bn|\.bo|\.br|\.bs|\.bt|\.bv|\.bw|\.by|\.bz|\.ca|\.cat|\.cc|\.cd|\.cf|\.cg|\.ch|\.ci|\.ck|\.cl|\.cm|\.cn|\.co|\.com|\.coop|\.cr|\.cu|\.cv|\.cx|\.cy|\.cz|\.de|\.dj|\.dk|\.dm|\.do|\.dz|\.ec|\.edu|\.ee|\.eg|\.er|\.es|\.et|\.eu|\.fi|\.fj|\.fk|\.fm|\.fo|\.fr|\.ga|\.gb|\.gd|\.ge|\.gf|\.gg|\.gh|\.gi|\.gl|\.gm|\.gn|\.gov|\.gp|\.gq|\.gr|\.gs|\.gt|\.gu|\.gw|\.gy|\.hk|\.hm|\.hn|\.hr|\.ht|\.hu|\.id|\.ie|\.il|\.im|\.in|\.info|\.int|\.io|\.iq|\.ir|\.is|\.it|\.je|\.jm|\.jo|\.jobs|\.jp|\.ke|\.kg|\.kh|\.ki|\.km|\.kn|\.kr|\.kw|\.ky|\.kz|\.la|\.lb|\.lc|\.li|\.lk|\.lr|\.ls|\.lt|\.lu|\.lv|\.ly|\.ma|\.mc|\.md|\.mg|\.mh|\.mil|\.mk|\.ml|\.mm|\.mn|\.mo|\.mobi|\.mp|\.mq|\.mr|\.ms|\.mt|\.mu|\.museum|\.mv|\.mw|\.mx|\.my|\.mz|\.na|\.name|\.nc|\.ne|\.net|\.nf|\.ng|\.ni|\.nl|\.no|\.np|\.nr|\.nu|\.nz|\.om|\.org|\.pa|\.pe|\.pf|\.pg|\.ph|\.pk|\.pl|\.pm|\.pn|\.pr|\.pro|\.ps|\.pt|\.pw|\.py|\.qa|\.re|\.ro|\.ru|\.rw|\.sa|\.sb|\.sc|\.sd|\.se|\.sg|\.sh|\.si|\.sj|\.sk|\.sl|\.sm|\.sn|\.so|\.sr|\.st|\.su|\.sv|\.sy|\.sz|\.tc|\.td|\.tel|\.tf|\.tg|\.th|\.tj|\.tk|\.tl|\.tm|\.tn|\.to|\.tp|\.tr|\.travel|\.tt|\.tv|\.tw|\.tz|\.ua|\.ug|\.uk|\.um|\.us|\.uy|\.uz|\.va|\.vc|\.ve|\.vg|\.vi|\.vn|\.vu|\.wf|\.ws|\.ye|\.yt|\.yu|\.za|\.zm|\.zw)$/i;
+	
+	
+        if( (!filter.test( elementValue ))  || ( filter2.test( elementValue )) || ( !filter3.test( elementValue )) ) {
+                return false;
+        }
+        return true;*/
+  }
+
+</script>
+

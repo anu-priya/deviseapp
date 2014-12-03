@@ -1,0 +1,72 @@
+<table cellpadding="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+     <table cellpadding="0" cellpadding="0">
+        <tr>
+            <td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="40"><b>Hello <%= @user.user_name if !@user.nil?%>,</b></td>
+        </tr>
+	<%if !@old_plan.nil? && @old_plan!='' && @old_plan.downcase == 'curator' || @old_plan.downcase == 'sell'%>
+        <tr>
+            <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="20">
+	    This is to inform you that your account has been successfully upgraded to <%= @nplan if !@nplan.nil?%>  and the monthly fee of $<%= number_with_precision @plan_amount, :precision => 2 if !@plan_amount.nil? %> was debited from the credit card on file.
+	    </td>
+	    <tr>
+		<td height="10"></td>
+	</tr>
+	<tr>
+		<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="20">Your new plan is : <%= @nplan if !@nplan.nil?%></td>
+	</tr>
+	<tr>
+		<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="20">Monthly fee : $<%= number_with_precision @plan_amount, :precision => 2 if !@plan_amount.nil? %> </td>
+	</tr>
+        </tr>
+	<%else %>
+	<tr>
+            <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="20">
+	    Congratulations! You have successfully upgraded your Famtivity account.
+	    </td>
+        </tr>
+	<tr>
+		<td height="10"></td>
+	</tr>
+	<tr>
+		<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="20">Your new plan is : <%= @nplan if !@nplan.nil?%></td>
+	</tr>
+	<tr>
+		<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="20">Monthly fee : $<%= number_with_precision @plan_amount, :precision => 2 if !@plan_amount.nil? %> </td>
+	</tr>
+	<tr>
+		<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="20">Prorated fee billed for remainder of this month : $<%= number_with_precision @current_amt, :precision => 2 if !@current_amt.nil? %></td>
+	</tr>
+	<tr>
+		<td height="10"></td>
+	</tr>
+	<tr>
+            <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="20">	    
+	    Since you modified your plan in the middle of a billing cycle, you will only be charged the pro-rated difference between the two plans for this month.  The new monthly fee of $<%= number_with_precision @plan_amount, :precision => 2 if !@plan_amount.nil? %> will begin on next month's bill.
+	     <!-- Since you have already registered for a plan and it has been renewed this month, you will only be charged the difference between the existing plan and the upgraded plan initially, i.e., you will only be charged $<%# @current_amt if !@current_amt.nil?%> this month.-->
+	    </td>
+        </tr>
+	<%end%>
+	<tr>
+		<td height="10"></td>
+	</tr>
+        <tr>
+            <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="30">
+	    Contact us anytime at <a href="mailto:support@famtivity.com" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#196076;">support@famtivity.com</a> if you have any questions.	
+	    </td>
+        </tr>
+	<tr>
+		<td height="10"></td>
+	</tr>
+	<!-- <tr>
+	<td height="20" align="left" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#444444;">Thanks,</td>
+	</tr>-->
+
+        <tr>
+        <td><span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;padding-top: 15px;display: block;">Your Famtivity Team</span></td>
+      </tr>
+  </table>
+    </td>
+  </tr>
+</table>

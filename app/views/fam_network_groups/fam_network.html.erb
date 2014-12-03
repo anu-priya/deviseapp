@@ -1,0 +1,248 @@
+<style>
+  .fam_network{
+    width: 896px;
+    height: 990px;
+    border: 2px solid #e1e1e1;
+    background: #ffffff;
+  }
+  .fam_network_header{
+    width: 100%;
+    height: 25px;
+    text-align: center;
+    padding: 10px 0px;
+    color: #3d83a3;
+    font-family: arial;
+    font-weight: bold;
+    font-size: 20px;
+    text-transform: capitalize;
+    border-bottom: 1px solid #e1e1e1;
+  }
+  .name_network{
+    width: 660px;
+    height: 437px;
+    background: #f6fbfc;
+    border: 1px solid #e1eef2;
+    margin: 0 auto;
+    margin-top: 30px;
+  }
+  .fam_net_img{
+    width: 189px;
+    height: 189px;
+    margin: 0 auto;
+
+    background: url("/assets/fam_networks/fan_net_image.png") center no-repeat;
+  }
+  .name_ur_network{
+    width: 100%;
+    height: auto;
+    text-align: center;
+    margin: 0 auto;
+
+    color: #5099ac;
+    font-family: arial;
+    font-weight: regular;
+    font-size: 26px;
+    text-transform: capitalize;
+  }
+
+  .name_ur_network input[type="text"]{
+    width: 420px;
+    height: 46px;
+    border: 1px solid #e1e1e1;
+    padding: 0 10px;
+    margin: 0 auto;
+    box-shadow: inset 0px 0px 5px #e1e1e1;
+  }
+  #create_network{
+    background: #f82b2b;
+    color: #fff;
+    width: 441px;
+    height: auto;
+    font-family: arial;
+    font-size: 18px;
+    /*margin: 0 auto;*/
+    padding: 11px 0px;
+    cursor: pointer;
+    float: left;
+    margin-left: 25px;
+    font-weight: bold;
+  }
+  .fam_dots{
+    width: 774px;
+    height: 30px;
+    border-bottom: 1px dotted #e1e1e1;
+    margin: 0 auto;
+  }
+  .fam_space{
+    width: 100%;
+    height: 30px;
+  }
+  .fam_space1{
+    width: 100%;
+    height: 20px;
+  }
+  .clear{
+    clear: both;
+  }
+  .fam_tutorial{
+    width: 100%;
+    padding:20px 0px;
+    margin: 0 auto;
+    font-family: arial;
+    color: #5099ac;
+    font-size: 20px;
+    text-transform: capitalize;
+    text-align: center;
+  }
+  .fam_video{
+    border: 5px solid #bfe1eb;
+    width: 532px;
+    height: 290px;
+    margin: 0 auto;
+  }
+  #error_networkmessage{
+    display: none;
+    color: #F82B2B;
+    padding: 3px;
+    width: 441px;
+    text-align: left;
+    margin: 0 auto;
+  }
+  #loding_symbol{
+    display: none;
+    text-align: center;
+    float: left;
+    padding-top: 5px;
+    width: 25px;
+    height: 25px;
+  }
+  #fam_heading{
+    width: 95%;
+    float: left;
+  }
+  .close_popup{
+    width: 5%;
+    float: left;
+  }
+.loders_style{
+  margin: 0 auto;
+  width: 493px;
+}
+
+</style>
+<div class="fam_network">
+  <div class="fam_network_header">
+    <div id="fam_heading">	fam network</div><div class="close_popup" ><a href="#" onclick="close_pop_create()"><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%></a></div>
+  </div>
+  <div class="clear"></div>
+  <div class="name_network">
+    <div class="fam_space"></div>
+    <div class="fam_net_img"></div>
+    <div class="fam_space"></div>
+    <div class="clear"></div>
+    <div class="name_ur_network" id="name_text">name your network</div>
+    <div class="fam_space1"></div>
+    <div class="name_ur_network">
+      <input type="text" value="" name="fam_name" id="fam_name"/>
+    </div>
+    <div class="fam_space1">
+      <div id="error_networkmessage"></div>
+    </div>
+    <div class="name_ur_network">
+      <div class="loders_style">
+	<div id="create_network" onclick="create_network(); _gaq.push(['_trackEvent','Parent Module', 'clickFriending','Create Private Network']);">create private network</div>
+	 <div id="loding_symbol">
+	 <%=image_tag("/assets/loading.gif", :width=>"25", :height=>"25")%>
+	</div>
+      </div>
+    </div>
+    <div class="fam_space">
+     
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="fam_dots"></div>
+  <div class="clear"></div>
+  <div class="fam_tutorial">fam network tutorial</div>
+  <div class="clear"></div>
+  <div class="fam_video">
+    <div id="vidFrame_1" >
+      <a href="javascript:void(0);" onClick="show_video('1','loFpx-Vd2jo')"><%=image_tag("/assets/fam_networks/fam_video_image.png", :width=>"532", :height=>"290", :alt=>"Fam tutorials")%></a>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function()
+  { 
+    //hide back scroll start
+    parent.$('html, body').css({
+    'overflow': 'auto',
+    'height': '100%'
+    })
+    //hide back scroll end
+ });
+  var StartVal=1;
+  var endVal=7;
+  function show_video(getid,url){
+
+    for(i=StartVal;i<endVal;i++)
+    {
+      if(i==getid){
+        autoPlayVideo(url,'532','290',i);
+      }
+    }
+  }
+
+  function autoPlayVideo(vcode, width, height,value) {
+    $("#vidFrame_"+value).html('<iframe width="'+width+'" height="'+height+'" src="https://www.youtube.com/embed/'+vcode+'?autoplay=1&loop=1&rel=0&wmode=transparent" style="margin:0;" frameborder="0" allowfullscreen wmode="Opaque"></iframe>');
+  }
+
+  function close_pop_create(){
+    //show back scroll start
+    parent.history.replaceState("", "", "/");
+    parent.$('html, body').css({
+    'overflow': 'auto',
+    'height': 'auto'
+    })
+    //show back scroll end
+    parent.FamGroupPage.hide();
+  }
+  function create_network(){
+    //$("#loading").show();
+    var fam_name = $("#fam_name").val()
+    if(fam_name==''){
+      $('#error_networkmessage').show();
+      $('#error_networkmessage').text('Please enter a valid network name.');
+      $('#fam_name').css('border','1px solid #F82B2B');
+    }
+    else if (fam_name!=""){
+      $('#loding_symbol').show();
+      $('#error_networkmessage').hide();
+      $('#fam_name').css('border','1px solid #e1e1e1');
+        
+      $.ajax({
+        url: "/create_network",
+        type:'GET',
+        data: {
+          group_name:fam_name
+        },
+        dataType: "json",
+        success: function(html){
+          if (html.data == "success"){
+            parent.FamGroupPage.hide();
+            parent.pop_invite_friend_check('/invite_friend_famtivity?fam_true=yes&check_invite=invite&net=true&fam_last=/&fam_net_id='+html.value);
+          }
+          else{
+            $('#loding_symbol').hide();
+            $('#error_networkmessage').show();
+            $('#error_networkmessage').text('The network name already exists.');
+            $('#fam_name').css('border','1px solid #F82B2B');
+            
+          }
+ 
+        }
+      });
+    }
+    return false;
+  }
+</script>

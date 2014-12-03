@@ -1,0 +1,140 @@
+<!--displayed date format for schedule repeat with occurrence,ends_never,ends_on by Rajkumar june 29-2013-->
+	<% @se_date = Time.now.strftime("%Y-%m-%d") %>
+		<%if (!@share.start_date.nil? && !@share.end_date.nil?) || !@share.start_date.nil?%> 
+			<%@schedule=""%>
+			<%@schedule=!@share.nil? && @share.present? && @share %>
+			<%@repeat=""%>
+			<%@repeat=@schedule.activity_repeat.last if !@schedule.activity_repeat.last.nil? %>
+			<%@repeat_date=""%>
+			<%@repeat_date = @repeat.ends_on.strftime("%Y-%m-%d") if @repeat.present? && @repeat.ends_on.present? %>
+			<%@schedule_date=""%>
+			<%@schedule_date = !@schedule.nil? && !@schedule.start_date.nil? && @schedule.start_date.strftime("%Y-%m-%d")%>
+			<% if (@share.start_date.strftime("%Y-%m-%d")== @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") > @share.start_date.strftime("%Y-%m-%d"))  %> 
+			<span class="ftSz12"><span class="city_text">Ongoing</span> <%#=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %><br>
+			
+			<%elsif (@share.start_date.strftime("%Y-%m-%d") > @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") > @share.start_date.strftime("%Y-%m-%d")) %> 
+			<span class="ftSz12"><%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %><% if !@share.start_date.nil? && !@share.end_date.nil?%> - <%end%> <%=@share.end_date.strftime("%b %d,")  if !@share.end_date.nil?  %><br>
+			<span class="ftSz12"><%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span><%if !@share.nil? && !@share.schedule_mode.nil? %><% if @share.schedule_mode=="Schedule" && @share.activity_repeat.present?%><%@repeat=@share.activity_repeat.last if !@share.activity_repeat.last.nil? %><%if @repeat.repeats=="Daily" %>, <span class="city_text">Daily</span><%end%><%if @repeat.repeats=="Weekly" %>, <span class="city_text">Weekly</span><%end%><%if @repeat.repeats=="Monthly" %>, <span class="city_text">Monthly</span><%end%><%if @repeat.repeats=="Yearly" %>, <span class="city_text">Yearly</span><%end%><%end%><%end%></span>
+			<%elsif (@share.start_date.strftime("%Y-%m-%d") == @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") == @share.start_date.strftime("%Y-%m-%d")) %>
+			<span class="ftSz12"><span class="city_text">Ongoing</span> <%#=@share.start_date.strftime("%b %d,") if !@share.start_date.nil? %><br>
+			<span class="ftSz12"></span></span>
+			<%elsif (@share.start_date.strftime("%Y-%m-%d") > @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") == @share.start_date.strftime("%Y-%m-%d")) %>
+			<span class="ftSz12"><%=@share.start_date.strftime("%b %d,") if !@share.start_date.nil? %><span class="ftSz12"><%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span></span>
+			<%elsif (@share.start_date.strftime("%Y-%m-%d") < @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") == @se_date) %>
+			<span class="ftSz12"><span class="city_text">Ongoing</span> <%#=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %><br>
+			
+			<%elsif (@share.start_date.strftime("%Y-%m-%d") < @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") > @se_date) %>
+			<span class="ftSz12"><span class="city_text">Ongoing</span> <%#=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %><br>
+			
+			<%elsif !@schedule_date.nil? && !@repeat.nil? && @repeat.present?%>
+				<%if (@schedule_date < @se_date) && (!@repeat_date.nil? && @repeat_date.present? && @schedule_date == @repeat_date)%>
+				<span class="ftSz12"><%=@share.start_date.strftime("%b %d,") if !@share.start_date.nil? %><span class="ftSz12"><%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span></span>
+				<%elsif (@schedule_date > @se_date) && (!@repeat_date.nil? && @repeat_date.present? && @schedule_date == @repeat_date)%>
+				<span class="ftSz12"><%=@share.start_date.strftime("%b %d,") if !@share.start_date.nil? %><span class="ftSz12"><%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span></span>
+				<%elsif  (@schedule_date == @se_date) && (!@repeat_date.nil? && @repeat_date.present? && @schedule_date == @repeat_date)%>
+				<span class="ftSz12"><span class="city_text">Ongoing</span> <%#=@share.start_date.strftime("%b %d,") if !@share.start_date.nil? %><br>
+				
+				<%elsif (@schedule_date > @se_date) && (!@repeat_date.nil? && @repeat_date.present? && @repeat_date > @se_date) %>
+				<span class="ftSz12"><%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %><% if !@share.start_date.nil? && !@repeat.nil? && !@repeat.ends_on.nil? && @repeat.ends_on.strftime("%Y-%m-%d") %> - <%end%> <%=!@repeat.nil? && !@repeat.ends_on.nil? && @repeat.ends_on.strftime("%b %d,")  if !@repeat.nil? && !@repeat.ends_on.nil?%><br>
+				<span class="ftSz12"><%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span><%if !@share.nil? && !@share.schedule_mode.nil? %><% if @share.schedule_mode=="Schedule" && @share.activity_repeat.present?%><%@repeat=@share.activity_repeat.last if !@share.activity_repeat.last.nil? %><%if @repeat.repeats=="Daily" %>, <span class="city_text">Daily</span><%end%><%if @repeat.repeats=="Weekly" %>, <span class="city_text">Weekly</span><%end%><%if @repeat.repeats=="Monthly" %>, <span class="city_text">Monthly</span><%end%><%if @repeat.repeats=="Yearly" %>, <span class="city_text">Yearly</span><%end%><%end%><%end%></span>
+				<%elsif (@schedule_date <= @se_date) && (!@repeat_date.nil? && @repeat_date.present? && @schedule_date < @repeat_date) && (@repeat_date >= @se_date) %>
+				<span class="ftSz12"><span class="city_text">Ongoing</span> <%#=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %><br>
+				
+				<%elsif (@schedule_date == @se_date) && (!@repeat_date.nil? && @repeat_date.present? && @schedule_date < @repeat_date)%>
+				<span class="ftSz12"><span class="city_text">Ongoing</span> <%#=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %><br>
+				
+				<%elsif (@schedule_date <= @se_date) && (!@repeat_date.nil? && @repeat_date.present? && @repeat_date > @se_date) %>
+				<span class="ftSz12"><span class="city_text">Ongoing</span> <%#=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %><br>
+				
+				<%elsif (@schedule_date < @se_date) && (!@repeat_date.nil? && @repeat_date.present? && @repeat_date < @se_date) %>
+				<span class="ftSz12"><%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %><% if !@share.start_date.nil? && !@repeat.nil? && !@repeat.ends_on.nil? && @repeat.ends_on.strftime("%Y-%m-%d") %> - <%end%> <%=!@repeat.nil? && !@repeat.ends_on.nil? && @repeat.ends_on.strftime("%b %d,")  if !@repeat.nil? && !@repeat.ends_on.nil?%><br>
+				<span class="ftSz12"><%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span><%if !@share.nil? && !@share.schedule_mode.nil? %><% if @share.schedule_mode=="Schedule" && @share.activity_repeat.present?%><%@repeat=@share.activity_repeat.last if !@share.activity_repeat.last.nil? %><%if @repeat.repeats=="Daily" %>, <span class="city_text">Daily</span><%end%><%if @repeat.repeats=="Weekly" %>, <span class="city_text">Weekly</span><%end%><%if @repeat.repeats=="Monthly" %>, <span class="city_text">Monthly</span><%end%><%if @repeat.repeats=="Yearly" %>, <span class="city_text">Yearly</span><%end%><%end%><%end%></span>
+				<%elsif (@schedule_date <= @se_date) && (!@repeat.nil? && !@repeat.ends_never.nil? && @repeat.ends_never.present? && @repeat.ends_never==TRUE)  %>
+				<span class="ftSz12"><span class="city_text">Ongoing</span> <%#=@share.start_date.strftime("%b %d,") if !@share.start_date.nil? %><br>
+				
+				<%elsif((@schedule_date <= @se_date) || (@schedule_date >= @se_date))  && !@repeat.nil? && !@repeat.end_occurences.nil? && @repeat.end_occurences.present? %>
+					
+						<%if !@repeat.repeats.nil? && @repeat.repeats=="Daily"%>
+							 <%if !@repeat.end_occurences.nil? && @repeat.end_occurences.present?%>
+							<%@occ_daily=""%>
+							<%daily_e_date=""%>
+							<%daily_e_date = @schedule.start_date + (@repeat.repeat_every.to_i * @repeat.end_occurences.to_i).days%>
+							  <%@occ_daily = daily_e_date.strftime("%Y-%m-%d") if @repeat.present? && daily_e_date.present? %>
+									  <% if(@schedule_date <= @se_date) && !@occ_daily.nil? && @occ_daily >= @se_date%>
+									 <span class="ftSz12"><span class="city_text">Ongoing</span> <%#=@share.start_date.strftime("%b %d,") if !@share.start_date.nil? %><br>
+									 
+									  <%else%>
+									  <span class="ftSz12"><%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %><% if !@share.start_date.nil? && !@occ_daily.nil? && @occ_daily!="" %> - <%end%> <%=daily_e_date.strftime("%b %d,")  if !daily_e_date.nil?%><br>
+									  <span class="ftSz12"><%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span><%if !@share.nil? && !@share.schedule_mode.nil? %><% if @share.schedule_mode=="Schedule" && @share.activity_repeat.present?%><%@repeat=@share.activity_repeat.last if !@share.activity_repeat.last.nil? %><%if @repeat.repeats=="Daily" %>, <span class="city_text">Daily</span><%end%><%if @repeat.repeats=="Weekly" %>, <span class="city_text">Weekly</span><%end%><%if @repeat.repeats=="Monthly" %>, <span class="city_text">Monthly</span><%end%><%if @repeat.repeats=="Yearly" %>, <span class="city_text">Yearly</span><%end%><%end%><%end%></span>
+									  <%end%>
+							  <%end%>
+						  <%end%>
+						  
+						  <%if !@repeat.repeats.nil? && @repeat.repeats=="Weekly"%>
+							 <%if !@repeat.end_occurences.nil? && @repeat.end_occurences.present?%>
+							<%@occ_weekly=""%>
+							<%daily_e_date=""%>
+							   <%daily_e_date = @schedule.start_date + (@repeat.repeat_every.to_i * @repeat.end_occurences.to_i * 7).days%>
+							   <%@occ_weekly = daily_e_date.strftime("%Y-%m-%d") if @repeat.present? && daily_e_date.present? %>
+									<% if(@schedule_date <= @se_date) && !@occ_weekly.nil? && @occ_weekly.present? && @occ_weekly >= @se_date%>
+									  <span class="ftSz12"><span class="city_text">Ongoing</span> <%#=@share.start_date.strftime("%b %d,") if !@share.start_date.nil? %><br>
+									  
+									  <%else%>
+									  <span class="ftSz12"><%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %><% if !@share.start_date.nil? && !@occ_weekly.nil? && @occ_weekly!="" %> - <%end%> <%=daily_e_date.strftime("%b %d,")  if !daily_e_date.nil?%><br>
+									  <span class="ftSz12"><%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span><%if !@share.nil? && !@share.schedule_mode.nil? %><% if @share.schedule_mode=="Schedule" && @share.activity_repeat.present?%><%@repeat=@share.activity_repeat.last if !@share.activity_repeat.last.nil? %><%if @repeat.repeats=="Daily" %>, <span class="city_text">Daily</span><%end%><%if @repeat.repeats=="Weekly" %>, <span class="city_text">Weekly</span><%end%><%if @repeat.repeats=="Monthly" %>, <span class="city_text">Monthly</span><%end%><%if @repeat.repeats=="Yearly" %>, <span class="city_text">Yearly</span><%end%><%end%><%end%></span>
+									  <%end%>
+							  <%end%>
+						  <%end%>
+						  
+						  <%if !@repeat.repeats.nil? && @repeat.repeats=="Monthly"%>
+							 <%if !@repeat.end_occurences.nil? && @repeat.end_occurences.present?%>
+							<%@occ_monthly=""%>
+							<%daily_e_date=""%>
+							<%daily_e_date = @schedule.start_date + (@repeat.repeat_every.to_i * @repeat.end_occurences.to_i).months%>
+							<%@occ_monthly = daily_e_date.strftime("%Y-%m-%d") if @repeat.present? && daily_e_date.present? %>
+									<% if(@schedule_date <= @se_date) && !@occ_monthly.nil? && @occ_monthly >= @se_date%>
+									  <span class="ftSz12"><span class="city_text">Ongoing</span> <%#=@share.start_date.strftime("%b %d,") if !@share.start_date.nil? %><br>
+									  
+									  <%else%>
+									  <span class="ftSz12"><%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %><% if !@share.start_date.nil? && !@occ_monthly.nil? && @occ_monthly!="" %> - <%end%> <%=daily_e_date.strftime("%b %d,")  if !daily_e_date.nil?%><br>
+									  <span class="ftSz12"><%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span><%if !@share.nil? && !@share.schedule_mode.nil? %><% if @share.schedule_mode=="Schedule" && @share.activity_repeat.present?%><%@repeat=@share.activity_repeat.last if !@share.activity_repeat.last.nil? %><%if @repeat.repeats=="Daily" %>, <span class="city_text">Daily</span><%end%><%if @repeat.repeats=="Weekly" %>, <span class="city_text">Weekly</span><%end%><%if @repeat.repeats=="Monthly" %>, <span class="city_text">Monthly</span><%end%><%if @repeat.repeats=="Yearly" %>, <span class="city_text">Yearly</span><%end%><%end%><%end%></span>
+									  <%end%>
+							  <%end%>
+						  <%end%>
+						  
+						  <%if !@repeat.repeats.nil? && @repeat.repeats=="Yearly"%>
+							 <%if !@repeat.end_occurences.nil? && @repeat.end_occurences.present?%>
+							<%@occ_yearly=""%>
+							<%daily_e_date=""%>
+							<%daily_e_date = @schedule.start_date + (@repeat.repeat_every.to_i * @repeat.end_occurences.to_i).years%>
+							  <%@occ_yearly = daily_e_date.strftime("%Y-%m-%d") if @repeat.present? && daily_e_date.present? %>
+									<% if(@schedule_date <= @se_date) && !@occ_yearly.nil? && @occ_yearly >= @se_date%>
+									    <span class="ftSz12"><span class="city_text">Ongoing</span> <%#=@share.start_date.strftime("%b %d,") if !@share.start_date.nil? %><br>
+									   
+									  <%else%>
+									  <span class="ftSz12"><%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %><% if !@share.start_date.nil? && !@occ_yearly.nil? && @occ_yearly!="" %> - <%end%> <%=daily_e_date.strftime("%b %d,")  if !daily_e_date.nil?%><br>
+									  <span class="ftSz12"><%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span><%if !@share.nil? && !@share.schedule_mode.nil? %><% if @share.schedule_mode=="Schedule" && @share.activity_repeat.present?%><%@repeat=@share.activity_repeat.last if !@share.activity_repeat.last.nil? %><%if @repeat.repeats=="Daily" %>, <span class="city_text">Daily</span><%end%><%if @repeat.repeats=="Weekly" %>, <span class="city_text">Weekly</span><%end%><%if @repeat.repeats=="Monthly" %>, <span class="city_text">Monthly</span><%end%><%if @repeat.repeats=="Yearly" %>, <span class="city_text">Yearly</span><%end%><%end%><%end%></span>
+									  <%end%>
+							  <%end%>
+						  <%end%>
+					
+				
+				<%elsif @schedule_date < @se_date %>
+				<span class="ftSz12"><%=@share.start_date.strftime("%b %d,") if !@share.start_date.nil? %><span class="ftSz12"><%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span></span>
+				<%elsif @schedule_date > @se_date %>
+				<span class="ftSz12"><%=@share.start_date.strftime("%b %d,") if !@share.start_date.nil? %><span class="ftSz12"><%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span></span>
+				<%elsif @schedule_date %>
+				<span class="ftSz12"><%=@share.start_date.strftime("%b %d,") if !@share.start_date.nil? %><span class="ftSz12"><%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span></span>
+				<%end%>
+			<%elsif !@share.start_date.nil? && @share.start_date.strftime("%Y-%m-%d") == @se_date   %>
+			<span class="ftSz12"><span class="city_text">Ongoing</span> <%#=@share.start_date.strftime("%b %d,") if !@share.start_date.nil? %></br>
+			
+			<%elsif (!@share.start_date.nil? && @share.start_date.present?) && (!@share.end_date.nil? && @share.end_date.present?) && (@share.start_date.strftime("%Y-%m-%d") < @se_date) && (@share.end_date.strftime("%Y-%m-%d") == @share.start_date.strftime("%Y-%m-%d"))%>
+			<span class="ftSz12"><%=@share.start_date.strftime("%b %d,") if !@share.start_date.nil? %><span class="ftSz12"><%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span></span>
+			<%elsif (!@share.start_date.nil? && @share.start_date.present?) && (!@share.end_date.nil? && @share.end_date.present?) && (@share.start_date.strftime("%Y-%m-%d") < @se_date) && (@share.end_date.strftime("%Y-%m-%d") < @se_date)%>
+			<span class="ftSz12"><%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %><% if !@share.start_date.nil? && !@share.end_date.nil?%> - <%end%> <%=@share.end_date.strftime("%b %d,")  if !@share.end_date.nil?  %><br>
+			<span class="ftSz12"><%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span>
+			<%elsif !@share.start_date.nil? %>
+			<span class="ftSz12"><%=@share.start_date.strftime("%b %d,") if !@share.start_date.nil? %><span class="ftSz12"><%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span></span>
+			<%end%>
+		<%end%>

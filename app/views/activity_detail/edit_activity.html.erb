@@ -1,0 +1,2663 @@
+<%=stylesheet_link_tag "create_new_activity_new/create_new_activity","global/pop_up","global/jquery.ui.datepicker","global/jquery.ui.theme", :media => "all"%>
+<%=javascript_include_tag "create_new_activity/provider_activity_select_option","create_new_activity/create_new_activity","create_new_activity/jquery.form","create_new_activity/validate"%>
+
+<style>
+  #new_act_container .selectBoxCity .selectDiv{
+    width:509px;
+  }
+  #new_act_container .selectBoxCity .selectDivMedium{
+    width:235px;
+  }
+  #new_act_container .selectBoxCity .selectDivSmall{
+    width:165px;
+  }
+  #new_act_container .selectBoxCity .selectDivTime{
+    left: 4px;
+    padding-left: 3px;
+    width: 39px;
+  }
+  #new_act_container .selectBoxCity .selectDivTime_63{
+    padding-left:5px;
+    width:28px;
+    margin-left:2px;
+  }
+  #new_act_container .endTimeDiv{
+    float:left;
+  }
+  #new_act_container .timStart .dropDownDivCity{
+    margin-top:31px;
+    margin-left:1px;
+    .margin-left:-138px;
+  }
+  #new_act_container .CampsStartDateDiv, .CampsEndDateDiv{
+    margin-left:-56px;
+  }
+  @media \0screen {
+    #new_act_container .CampsStartDateDiv, .CampsEndDateDiv{
+      margin-left:-60px;
+    }
+  }
+
+  /*******edit activity*********/
+
+  .FileUpload {
+    position:relative;
+    margin-top:14px;
+    width: 170px;
+    height: 31px;
+  }
+  .BrowserVisible {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 3;
+    width:106px;
+    height:27px;	
+  }
+  .FileField {
+    color: #999999;
+    display: block;
+    height: 26px;
+    margin: 50px 0 0 142px;
+    padding: 0 5px;
+    position: relative;
+    width: 306px;
+    word-wrap: break-word;
+    z-index: 3;
+    border:1px solid #ffffff;
+  }
+  .BrowserHidden {
+    position:relative;
+    z-index:2;
+    height:19px;
+    -moz-opacity:0;
+    filter:alpha(opacity: 0);
+    opacity: 1;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 22px;
+
+    font-weight:normal;
+    color: #999999;
+    margin-top: 57px;
+    /*left: -239px;*/
+    left:10px;
+
+    /*width:100px;*/
+    width:111px;
+    cursor: pointer;
+
+    .margin-top:50\9px;
+    width:120px\9;
+    font-size: 23px\9;
+    left: 5px\9;
+    .margin-left: 249px\9;
+
+    .font-size: 21px;
+    .margin-left: -10px;
+    .margin-top: 54px;
+    .height:21px;
+
+  }
+  .browse{
+    color: #5099AC;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    margin-left: 6px;
+    position: relative;
+    top: -31px;
+    .top:-20px;
+    width: 124px;
+    z-index: 1;
+
+    top:  -22px\9;
+  }
+  @media screen and (-webkit-min-device-pixel-ratio:0){
+    .BrowserHidden {
+      left: 8px;
+      height:10px;
+      font-size:19px;
+      width:115px;
+      position:relative;
+      cursor:pointer;
+      -moz-opacity:0;
+      filter:alpha(opacity: 0);
+      opacity: 0;
+      display: inline-block;
+      z-index: 3;
+    }
+    .browse{
+      top:-16px;
+      cursor: pointer;
+      display: inline-block;
+      position:relative;
+      z-index: 2;
+    }
+  }
+
+</style>
+<script language="javascript">
+
+  $(document).ready(function(){
+    setDropDownValue2('<%= @activity.schedule_mode %>');
+    set_category_update('<%= @activity.category %>');
+    setDropDownValue1('<%= @activity.sub_category %>');
+  });
+
+
+  $('#ui-datepicker-div').css('left' ,'90px');
+  $(function() {
+    $( "#dateFormate_1" ).datepicker({
+      showOn: "button",
+      buttonImage: "/assets/create_new_activity/date_icon.png",
+      buttonImageOnly: true,
+      dateFormat: "D m/d/yy",
+      altField: "#date_1",
+      altFormat: "yy-m-d"
+    });
+  });
+
+  $(function() {
+    $( "#dateFormate_billing" ).datepicker({
+      showOn: "button",
+      buttonImage: "/assets/create_new_activity/date_icon.png",
+      buttonImageOnly: true,
+      dateFormat: "D m/d/yy",
+      altField: "#datebill_1",
+      altFormat: "yy-m-d"
+    });
+  });
+
+  $(function() {
+    $( "#datestartcamps_1" ).datepicker({
+      showOn: "button",
+      buttonImage: "/assets/create_new_activity/date_icon.png",
+      buttonImageOnly: true,
+      dateFormat: "D m/d/yy",
+      altField: "#datestcamps_1",
+      altFormat: "yy-m-d"
+    });
+  });
+
+  $(function() {
+    $( "#dateendcamps_2" ).datepicker({
+      showOn: "button",
+      buttonImage: "/assets/create_new_activity/date_icon.png",
+      buttonImageOnly: true,
+      dateFormat: "D m/d/yy",
+      altField: "#dateencamps_2",
+      altFormat: "yy-m-d"
+    });
+  });
+
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function()
+  {
+    var status='';
+    var curTime=new Date();
+
+    /*  Find Current time */
+
+    var curTime=new Date();
+    var cdate = curTime.getDate();
+    var cmonth = curTime.getMonth();
+    var cyear = curTime.getFullYear();
+    cmonth = parseInt(cmonth)+1;
+    var weekday=new Array(7);
+    weekday[0]="Sun";
+    weekday[1]="Mon";
+    weekday[2]="Tue";
+    weekday[3]="Wed";
+    weekday[4]="Thu";
+    weekday[5]="Fri";
+    weekday[6]="Sat";
+    var cday = curTime.getDay();
+    var incval = parseInt(cday)+1;
+    var cday = weekday[cday];
+    var dayname = days(cday);
+
+    var cuday = cday+" "+cmonth+"/"+cdate+"/"+cyear;
+    var repeat_day = cmonth+"/"+cdate+"/"+cyear;
+    //var date_value = cmonth+"-"+cdate+"-"+cyear;
+	var date_value = cyear + "-" + cmonth + "-" + cdate;
+
+<%if @activity.schedule_mode !="Schedule"%>
+      $('#date_1').val(date_value);
+      $('#dateFormate_1').val(cuday);
+<%end%>
+<%if @activity.schedule_mode !="By Appointment"%>
+      $('#datebill_1').val(date_value);
+      $('#dateFormate_billing').val(cuday);
+<%end%>
+<%if @activity.schedule_mode !="Camps/Workshop"%>
+      $('#datestcamps_1').val(date_value);
+      $('#datestartcamps_1').val(cuday);
+      $('#dateencamps_2').val(date_value);
+      $('#dateendcamps_2').val(cuday);
+<%end%>
+
+  });
+</script>
+<script language="javascript">
+  function closepopup() {
+    parent.editActivityPage.hide();
+  }
+
+</script>
+<%=javascript_include_tag "global/jquery-1.8.3.min","global/jquery.ui.core","global/jquery.ui.datepicker"%>
+
+<div id="new_act_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">
+							Edit Activity
+            </div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%> </a>
+          </div>
+        </div>
+        <div class="centerCont">
+          <form id="createactivity" name="activity" action="event_activity_update" method="post" enctype="multipart/form-data" onsubmit="return validateAddActivity();">
+            <input type="hidden" name="activity[activity_id]" value="<%= @activity.activity_id %>"/>
+            <div class="paddingTop10">
+              <div class="paddingTop10">
+                <div class="lt leftSideField">
+									Activity Name<span class="required">*</span>
+                </div>
+
+                <input type="text" name="activity[activity_name]" id="title" class="lt textbox" value="<%= @activity.activity_name %>" onfocus="focusChangeBorderColor('title')" onblur="blurChangeBorderColor('title')" tabindex="1" maxlength="100" />
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+                <div class="lt" id="title_error"></div>
+              </div>
+              <input type="hidden" id="title_er" name="title_er" value="" />
+            </div>
+            <div class="clear"></div>
+
+            <div class="paddingTop7">
+              <div class="lt leftSideField">
+								Choose Category<span class="required">*</span>
+              </div>
+
+              <div class="lt category">
+                <div class="lt col1">
+                  <div class="selectBoxCity selectBoxMedium"  onkeydown="selectRegUsrKeyDown_create(event)" onmouseover="flag0=true;" onmouseout="flag0=false;">
+                    <input type="hidden" id="category" name="activity[category]" value="<%= @activity.category %>"  />
+                    <div id="field0" class="selectDiv selectDivMedium" style="line-height:23px;" tabindex="2">
+                      <%= @activity.category %>
+                    </div>
+                  </div>
+
+                  <div class="dropDownDivCity dropDownDivMedium" id="dropDownDiv0" style="display:none;">
+                    <% @activities_category = ActivityCategory.order(:category_name)%>
+                    <%@activities_category.each do |cat|%>
+                      <a href="javascript:void(0)" onclick="set_category('<%= cat.category_id %>','<%= cat.category_name %>')" title=""><%= cat.category_name %></a>
+                    <%end%>
+                  </div>
+                </div>
+                <div class="lt col2">
+                  <div class="lt sub_category">
+
+                    <div class="selectBoxCity selectBoxMedium"  onmouseover="flag1=true;" onmouseout="flag1=false;">
+                      <input type="hidden" id="sub_category" name="activity[sub_category]" value="<%= @activity.sub_category%>" />
+                      <div id="field1" class="selectDiv selectDivMedium" style="line-height:23px;" tabindex="3">
+                        <%= @activity.sub_category %>
+                      </div>
+                    </div>
+                    <div class="dropDownDivCity dropDownDivMedium" id="dropDownDiv1" style="display:none;">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="clear"></div>
+            <div id="category_errorDiv" class="errorDiv" style="display:none">
+              <div class="lt leftSideField">
+                &nbsp;
+              </div>
+              <div class="lt" id="category_error"></div>
+              <div class="lt" id="sub_category_error"></div>
+              <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <div class="paddingTop10">
+              <div class="lt leftSideField">
+		Description<span class="required">*</span>
+              </div> 
+              <textarea name="description" id="desc" rows="10" cols="40"  class="lt textbox descTextbox"  onfocus="focusChangeBorderColor('desc')" onblur="blurChangeBorderColor('desc')" tabindex="4"><%if !@activity.description.nil?%><%= @activity.description%><%else%>Description should not exceed 1000 characters<%end%></textarea>
+              <!-- <div id="char_left"></div> // display total no of chars -->
+              <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <div class="errorDiv" style="display:none">
+              <div class="lt leftSideField">
+                &nbsp;
+              </div>
+              <div class="lt" id="desc_error"></div>
+              <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <%@day_v = []%>
+            <%@day_start = []%>
+            <%@day_end = []%>
+            <% @st = []%>
+            <% @se = []%>
+            <%if @activity.schedule_mode =="Any Time"%>
+              <%@schedule.each do |s|%>
+                <% @se.push(s.schedule_id) %>
+                <% @st << "#{s.schedule_id}" %>
+                <%@day_v << "#{s.business_hours}"%>
+                <%@day_start << "#{s.start_time}"%>
+                <%@day_end << "#{s.end_time}"%>
+              <%end%>
+              <input type="hidden" id="schedule_id" name="schedule_id_value" value="<%= @se %>" />
+            <%else%>
+              <input type="hidden" id="schedule_id" name="schedule_id_value" value="<%= @schedule.last.schedule_id if !@schedule.last.nil?%>" />
+            <%end%>
+            <div class="paddingTop10">
+              <div class="lt leftSideField">
+								Billing Type<span class="required">*</span>
+              </div>
+
+              <div class="lt billing">
+                <div class="selectBoxCity"  onmouseover="flag2=true;" onmouseout="flag2=false;">
+                  <input type="hidden" id="billing_type" name="activity[schedule_mode]" value="<%= @activity.schedule_mode%>" />
+                  <div id="field2" class="selectDiv" style="line-height:23px;" tabindex="5">
+                    <%= @activity.schedule_mode%>
+                  </div>
+                </div>
+                <div class="dropDownDivCity" id="dropDownDiv2" style="display:none;">
+                  <a href="javascript:void(0)" onclick="setDropDownValue2('Schedule')" title="">Schedule</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue2('By Appointment')" title="">By Appointment</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue2('Any Time')" title="">Any Time</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue2('Camps/Workshop')" title="">Camps/Workshop</a>
+                </div>
+              </div>
+              <div class="clear"></div>
+            </div>
+
+            <div class="errorDiv" style="display:none">
+              <div class="lt leftSideField">
+                &nbsp;
+              </div>
+              <div class="lt" id="billing_error"></div>
+              <div class="clear"></div>
+            </div>
+
+            <input type="hidden" value="" id="schedule_sdate_time_1" name="schedule_sdate_time_val"/>
+            <input type="hidden" value="" id="schedule_edate_time_1" name="schedule_edate_time_val"/>
+
+            <div class="paddingTop10" id="dtstyle" style="display:none;">
+              <input type="hidden" id="dtCountStr" name="date_total" value="1," />
+              <div class="lt leftSideField">
+								Date &amp; Time
+              </div>
+              <%@sc_start_time = '01:00'
+              @sc_start_s1 = 'AM'
+              @sc_end_time = '01:00'
+              @sc_end_s1 = 'AM'
+              @start_on_hid = Time.now.strftime("%Y-%m-%d") if !Time.now.nil?
+              @start_on_disp = Time.now.strftime("%a %m/%d/%Y") if !Time.now.nil?
+            %>
+
+              <%if @activity.schedule_mode =="Schedule"%>
+                <% @schedule.each do |sc|
+                  @sc_start_time = sc.start_time.strftime("%I:%M") if !sc.start_time.nil?
+                  @sc_start_s1 = sc.start_time.strftime("%p") if !sc.start_time.nil?
+                  @sc_end_time = sc.end_time.strftime("%I:%M") if !sc.end_time.nil?
+                  @sc_end_s1 = sc.end_time.strftime("%p") if !sc.end_time.nil?
+                  @start_on_disp = sc.start_date.strftime("%a %m/%d/%Y") if !sc.start_date.nil?
+                  @start_on_hid = sc.start_date.strftime("%Y-%m-%d") if !sc.start_date.nil?
+                end%>
+
+              <%end%>
+              <div class="lt dateTimeDiv" id="dateTimeDiv_1">
+                <div class="lt" >
+                  <div class="dateDiv">
+                    <input type="text"  id="dateFormate_1" name="dateFormate_1" class="dateTextbox" value="<%= @start_on_disp %>" readonly="readonly" style="outline: none;"  tabindex="6"/>
+                    <input type="hidden" id="date_1" name="date_1" value="<%= @start_on_hid %>" />
+                  </div>
+                </div>
+                <div class="lt marginLt5" id="multipledate_1" >
+                  <div class="timelabel"  id="timelabel" style="float:left; display: inline-block; padding-top: 8px;">
+											Start
+                  </div>
+                  <div class="timStart" id="schedule_start_time_1" style="width: 145px;">
+
+
+
+                    <div class="endTimeDiv selectBoxCity selectBoxBilling"  onmouseover="flag7=true;" onmouseout="flag7=false;">
+                      <input type="hidden" id="schedule_stime_1" name="schedule_stime_1" value=<%= @sc_start_time %> />
+                      <div id="field7" class="selectDiv selectDivTime" style="line-height:23px;" tabindex="7"><%= @sc_start_time %></div>
+                    </div>
+                    <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv7" style="display:none;">
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('01:00')" title="">01:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('01:30')" title="">01:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('02:00')" title="">02:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('02:30')" title="">02:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('03:00')" title="">03:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('03:30')" title="">03:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('04:00')" title="">04:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('04:30')" title="">04:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('05:00')" title="">05:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('05:30')" title="">05:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('06:00')" title="">06:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('06:30')" title="">06:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('07:00')" title="">07:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('07:30')" title="">07:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('08:00')" title="">08:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('08:30')" title="">08:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('09:00')" title="">09:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('09:30')" title="">09:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('10:00')" title="">10:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('10:30')" title="">10:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('11:00')" title="">11:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('11:30')" title="">11:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('12:00')" title="">12:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue7('12:30')" title="">12:30</a>
+					  <a href="javascript:void(0)" onclick="setDropDownValue7('N/A')" title="">N/A</a>
+                    </div>
+
+                    <div class="endTimeDiv selectBoxCity selectBoxBilling_63"  onmouseover="flag8=true;" onmouseout="flag8=false;" >
+                      <input type="hidden" id="schedule_stime_2" name="schedule_stime_2" value="<%= @sc_start_s1 %>" />
+                      <div id="field8" class="selectDiv selectDivTime_63" style="line-height:23px;" tabindex="8"><%= @sc_start_s1 %></div>
+                    </div>
+                    <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv8" style="display:none;">
+                      <a href="javascript:void(0)" onclick="setDropDownValue8('AM')" title="">AM</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue8('PM')" title="">PM</a>
+					  <a href="javascript:void(0)" onclick="setDropDownValue8('N/A')" title="">N/A</a>
+                    </div>
+
+
+                  </div>
+
+                  <div class="timelabel" style="float:left; display: inline-block; padding-top: 8px; margin-left:3px;">
+											End
+                  </div>
+
+                  <div class="timStart" id="schedule_end_time_1" style="width: 147px;">
+                    <div class="endTimeDiv selectBoxCity selectBoxBilling"  onmouseover="flag9=true;" onmouseout="flag9=false;">
+                      <input type="hidden" id="schedule_etime_1" name="schedule_etime_1" value="<%= @sc_end_time %>"/>
+                      <div id="field9" class="selectDiv selectDivTime" style="line-height:23px;" tabindex="9"><%= @sc_end_time %></div>
+
+                    </div>
+                    <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv9" style="display:none;">
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('01:00')" title="">01:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('01:30')" title="">01:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('02:00')" title="">02:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('02:30')" title="">02:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('03:00')" title="">03:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('03:30')" title="">03:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('04:00')" title="">04:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('04:30')" title="">04:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('05:00')" title="">05:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('05:30')" title="">05:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('06:00')" title="">06:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('06:30')" title="">06:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('07:00')" title="">07:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('07:30')" title="">07:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('08:00')" title="">08:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('08:30')" title="">08:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('09:00')" title="">09:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('09:30')" title="">09:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('10:00')" title="">10:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('10:30')" title="">10:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('11:00')" title="">11:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('11:30')" title="">11:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('12:00')" title="">12:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue9('12:30')" title="">12:30</a>
+					  <a href="javascript:void(0)" onclick="setDropDownValue9('N/A')" title="">N/A</a>
+                    </div>
+
+                    <div class="endTimeDiv selectBoxCity selectBoxBilling_63" onmouseover="flag10=true;" onmouseout="flag10=false;" >
+                      <input type="hidden" id="schedule_etime_2" name="schedule_etime_2" value="<%= @sc_end_s1 %>"/>
+                      <div id="field10" class="selectDiv selectDivTime_63" style="line-height:23px;" tabindex="10"><%= @sc_end_s1 %></div>
+                    </div>
+                    <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv10" style="display:none;">
+                      <a href="javascript:void(0)" onclick="setDropDownValue10('AM')" title="">AM</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue10('PM')" title="">PM</a>
+					  <a href="javascript:void(0)" onclick="setDropDownValue10('N/A')" title="">N/A</a>
+                    </div>
+
+                  </div>
+                  <%if !@act_repeat.nil?%>
+                    <input type="hidden" name="repeatCheck" id="repeatCheck" value="1" />
+                    <span  class="lt checkbox setstyle" style="margin-right:0px;.margin-right:5px; display: inline-block;.top:-1px;"> <a href="javascript:void(0)" title="" class="checkbox_selected_s" id="checkbox_selected_s1" onclick="dispCheck('checkbox_selected',1)" style="display: block" tabindex="11"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_s" id="checkbox_normal_s1" onclick="dispCheck('checkbox_normal',1)" style="display: none" tabindex="11"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+                    <span class="lt"><a style="position:relative;top:3px;left:3px;" tabindex="12" onclick="disp_edit_db();" id="repeatEdit" class="repeatEdit_db" title="Edit Repeat" href="javascript:void(0)"><%=image_tag("/assets/provider_event_list/edit_icon.png", :width=>"29", :height=>"26", :align=>"absbottom")%></a></span>
+					<span class="lt repeatTest ftSz13Clr" style="margin-right:-30px;">Repeat</span>
+                    <% @wek = @act_repeat.repeats if !@act_repeat.repeats.nil? %>
+                    <% @repeat_every = @act_repeat.repeat_every if !@act_repeat.repeat_every.nil? %>
+                    <%@repeat_never_s = @act_repeat.ends_never if !@act_repeat.ends_never.nil? %>
+                    <%@repeat_occ = @act_repeat.end_occurences if !@act_repeat.end_occurences.nil? %>
+                    <%@repeat_end = @act_repeat.ends_on if !@act_repeat.ends_on.nil? %>
+                    <%@repeat_on = @act_repeat.repeat_on if !@act_repeat.repeat_on.nil? %>
+                    <%@repeat_week = @act_repeat.repeats if !@act_repeat.repeats.nil?%>
+
+
+                  <%else%>
+                    <%@wek = "Weekly"%>
+                   		<input type="hidden" name="repeatCheck" id="repeatCheck" value="" />
+                        <span  class="lt checkbox setstyle" style="margin-right:0px;"> <a href="javascript:void(0)" title="" class="checkbox_selected_s" id="checkbox_selected_s1" onclick="dispCheck('checkbox_selected',1)" style="display: none" tabindex="11"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_s" id="checkbox_normal_s1" onclick="dispCheck('checkbox_normal',1)" tabindex="11"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+						<span class="lt"><a style="display:none;position:relative;top:3px;left:3px;" tabindex="12" onclick="disp_edit();" id="repeatEdit" title="Edit Repeat" href="javascript:void(0)"><%=image_tag("/assets/provider_event_list/edit_icon.png", :width=>"29", :height=>"26", :align=>"absbottom")%></a></span>
+						<span class="lt repeatTest ftSz13Clr">Repeat</span>
+                        
+                  <%end%>
+
+                  <div class="clear"></div>
+                </div>
+              </div>
+
+
+              <div id="dateErrorDiv_1" class="errorDiv dateErrorDiv" style="display:none">
+                <div class="lt dateTimeDiv">
+                  <div class="lt date_error" id="date_error_1"></div>
+                  <div class="lt" id="time_error_1"></div>
+                </div>
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+
+              <link rel="stylesheet" type="text/css" href="/assets/create_new_activity_new/repeat_popup.css" />
+              <script type="text/javascript" src="/assets/create_new_activity_new/repeat_popup.js"></script>
+
+              <script language="javascript">
+				$(function() {					 
+						$("#repeat_on_date1" ).datepicker({					  	
+							showOn: "button",
+							buttonImage: "/assets/create_new_activity/date_icon.png",
+							buttonImageOnly: true,
+							dateFormat: "D m/d/yy",                      
+							altField : "#repeat_alt_on_date1",
+							altFormat : "yy-mm-d"
+						});
+					});
+				
+                function disp_edit_db(){
+                  $('.radio_selected_repeat').css('display','none');
+                  $('.radio_normal_repeat').css('display','inline-block');
+                  $('.r_value input').val(0);
+				  
+                  $('.checkbox_selected_repeat').css('display','none');
+                  $('.checkbox_normal_repeat').css('display','block');
+
+                  $('#repeatPOPUPDiv_1').css('display','block');
+                  $('#repeatCheck').val('yes');
+				  
+                  $('#started_date_disp').css('background-color','#ECE9D8');
+                  $('#started_date_disp').attr("disabled",true);
+				  
+                  $("#summaryText").html('');
+
+<%if !@act_repeat.nil?%>
+      $("#repeatWeekVal").val('<%= @wek %>');
+      $("#rfield").html('<%=  @wek%>');
+      $("#repeatNumWeekVal").val('<%= @repeat_every %>');
+      $("#rfield1").html('<%= @repeat_every %>');
+  <% if @repeat_never_s == false %>
+    <%if @repeat_occ !='' && !@repeat_occ.nil?%>
+          
+          $("#after_occ").val('<%= @repeat_occ %>');
+          $('#radio_normal_repeat_2').css('display','none');
+          $('#radio_selected_repeat_2').css('display','inline-block');
+          $('#r2').val(1);
+
+          $('#repeatPOPUPDiv_1 #after_occ').css('background-color','#ffffff');
+          $('#repeatPOPUPDiv_1 #after_occ').removeAttr('disabled');
+          $('#repeat_on_date1').parent().css('background-color','#ECE9D8');
+          $('.repeatContainer .dateDivRepeat img').hide();
+          $('.repeatContainer .dateDivRepeat input').hide();
+
+    <%else%>
+          $('#repeat_on_date1').val('<%= @repeat_end %>');
+		  
+          var dateVal = $('#repeat_on_date1').val();
+          var splitOfDate = dateVal.split('-');
+		  
+          var yy = splitOfDate[0];
+          var mm = splitOfDate[1];
+          var dd = splitOfDate[2];
+		  
+          var month=new Array();
+          month[1]="Jan";
+          month[2]="Feb";
+          month[3]="Mar";
+          month[4]="Apr";
+          month[5]="May";
+          month[6]="June";
+          month[7]="July";
+          month[8]="Aug";
+          month[9]="Sep";
+          month[10]="Oct";
+          month[11]="Nov";
+          month[12]="Dec";
+          var n = month[mm];
+			
+          var someFormattedDateDisp = n+" "+dd+", "+yy;
+		  			  
+          $('#repeat_alt_on_date1').val(someFormattedDateDisp);
+		
+		  
+          $('#radio_normal_repeat_3').css('display','none');
+          $('#radio_selected_repeat_3').css('display','inline-block');
+          $('#r3').val(1);
+		  
+          $('#repeatPOPUPDiv_1 #after_occ').css('background-color','#ECE9D8');
+          $('#repeatPOPUPDiv_1 #after_occ').attr('disabled',true);
+          $('#repeatPOPUPDiv_1 #after_occ').val('');
+          
+          $('#repeat_on_date1').parent().css('background-color','#ffffff');
+          $('.repeatContainer .dateDivRepeat img').show();
+          $('.repeatContainer .dateDivRepeat input').show();
+
+    <%end%>
+  <%else%>
+        $('#radio_normal_repeat_1').css('display','none');
+        $('#radio_selected_repeat_1').css('display','inline-block');
+        $('#r1').val(1);
+        $('#repeatPOPUPDiv_1 #after_occ').val('');
+        $('#repeatPOPUPDiv_1 #after_occ').attr('disabled',true);
+        $('#repeat_on_date1').val('');
+        $('#repeat_alt_on_date1').val('');
+        $('#repeat_on_date1').parent().css('background-color','#ECE9D8');
+        $('.repeatContainer .dateDivRepeat img').hide();
+        $('.repeatContainer .dateDivRepeat input').hide();
+  <%end%>
+  <%if !@repeat_on.nil?%>
+    <%@repeat_on_val = @repeat_on.split(",")%>
+
+    <%if @repeat_on_val.include?('Sun')%>
+          $('#checkbox_normal_repeat_1').css('display','none');
+          $('#checkbox_selected_repeat_1').css('display','inline-block');
+          $("#day1").val('Sun');
+    <%end%>
+    <%if @repeat_on_val.include?('Mon')%>
+          $('#checkbox_normal_repeat_2').css('display','none');
+          $('#checkbox_selected_repeat_2').css('display','inline-block');
+          $("#day2").val('Mon');
+
+    <%end%>
+    <%if @repeat_on_val.include?('Tue')%>
+          $('#checkbox_normal_repeat_3').css('display','none');
+          $('#checkbox_selected_repeat_3').css('display','inline-block');
+          $("#day3").val('Tue');
+    <%end%>
+    <%if @repeat_on_val.include?('Wed')%>
+          $('#checkbox_normal_repeat_4').css('display','none');
+          $('#checkbox_selected_repeat_4').css('display','inline-block');
+          $("#day4").val('Wed');
+    <%end%>
+    <%if @repeat_on_val.include?('Thu')%>
+          $('#checkbox_normal_repeat_5').css('display','none');
+          $('#checkbox_selected_repeat_5').css('display','inline-block');
+          $("#day5").val('Thu');
+    <%end%>
+    <%if @repeat_on_val.include?('Fri')%>
+          $('#checkbox_normal_repeat_6').css('display','none');
+          $('#checkbox_selected_repeat_6').css('display','inline-block');
+          $("#day6").val('Fri');
+    <%end%>
+    <%if @repeat_on_val.include?('Sat')%>
+          $('#checkbox_normal_repeat_7').css('display','none');
+          $('#checkbox_selected_repeat_7').css('display','inline-block');
+          $("#day7").val('Sat');
+    <%end%>
+      
+        $('#repeat_no_of_days').val('<%= @repeat_on%>');
+
+  <%end%>
+  <%if @repeat_week == 'Monthly'%>
+    <%@ch_rep_mont = @act_repeat.repeated_by_month if !@act_repeat.repeated_by_month.nil?%>
+    <%if @ch_rep_mont == "1" %>
+          dispCheckMonthlyRepeat('month_normal_repeat',1)
+    <%else%>
+          dispCheckMonthlyRepeat('month_normal_repeat',2)
+    <%end%>
+  <%end%>
+      changed_summary();
+<%end%>
+
+  }
+  
+  
+  function cancelRepeatDiv(){	
+		disp_edit_db();
+		$('#repeatPOPUPDiv_1').css('display','none');
+  }
+	
+  /*$(function() { $( "#started_date_disp" ).datepicker(); });*/
+
+              </script>
+
+
+              <div class="repeatContainer" id="repeatPOPUPDiv_1" style="display:none;margin-left: 359px;">
+                <div class="repeatContainerTop"></div>
+                <div class="repeatContainerCenter">
+                  <div class="innerContainer">
+                    <div class="headTab">
+                      <div class="heading">
+                        <div class="headCont">
+                          Repeat
+                        </div>
+                      </div>
+                      <div class="closeButton">
+                        <a href="javascript:void(0)" onClick="closeRepeatDiv()" title=""> <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%> </a>
+                      </div>
+                    </div>
+                    <div class="repeatFormContent">
+                      <!--form name="r_form" id="r_form" method="post" action="" -->
+                      <div class="row">
+                        <div class="lt ltField ">
+                          Repeats
+                        </div>
+                        <div class="lt">
+
+                          <div class="selectBoxImg1" onMouseOver="rflag=true;" onMouseOut="rflag=false;">
+                            <input id="repeatWeekVal" name="repeatWeekVal" value="<%= @wek%>" type="hidden" tabindex="13" />
+                            <div id="rfield" class="selectDiv1" style="line-height:23px;">
+                              <%= @wek%>
+                            </div>
+                          </div>
+
+                          <div class="dropDownDiv1" id="rdropDownDiv" style="display:none;" tabindex="14">
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue('Daily')">Daily</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue('Every week (Monday to Friday)')">Every week (Monday to Friday)</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue('Every Monday,Wednesday and Friday')">Every Monday,Wednesday and Friday</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue('Every Tuesday and Thursday')">Every Tuesday and Thursday</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue('Weekly')">Weekly</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue('Monthly')">Monthly</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue('Yearly')">Yearly</a>
+                          </div>
+                        </div>
+                        <div class="clear"></div>
+                      </div>
+                      <div class="row repeatEvery">
+                        <div class="lt ltField">
+                          Repeat Every
+                        </div>
+
+                        <div class="lt">
+                          <div class="selectBoxImg2" onMouseOver="rflag1=true;" onMouseOut="rflag1=false;">
+                            <input id="repeatNumWeekVal" name="repeatNumWeekVal" value="4" type="hidden">
+                            <div id="rfield1" class="selectDiv1 selectDiv2" style="line-height:23px;" tabindex="15">
+                              1
+                            </div>
+                          </div>
+
+                          <div class="dropDownDiv1 dropDownDiv2" id="rdropDownDiv1" style="display:none;">
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('1')">1</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('2')">2</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('3')">3</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('4')">4</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('5')">5</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('6')">6</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('7')">7</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('8')">8</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('9')">9</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('10')">10</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('11')">11</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('12')">12</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('13')">13</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('14')">14</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('15')">15</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('16')">16</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('17')">17</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('18')">18</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('19')">19</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('20')">20</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('21')">21</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('22')">22</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('23')">23</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('24')">24</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('25')">25</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('26')">26</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('27')">27</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('28')">28</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('29')">29</a>
+                            <a href="javascript:void(0)" title="" onClick="rsetDropDownValue1('30')">30</a>
+                          </div>
+                        </div>
+                        <div class="lt weekText repeatEveryText">
+                          Week
+                        </div>
+                        <div class="clear"></div>
+                      </div>
+                      <input id="repeat_no_of_days" name="repeat_no_of_days" type="hidden" value="" tabindex="16"/>
+                      <div class="row repeatOn">
+                        <div class="lt ltField" >
+                          Repeat On
+                        </div>
+                        <div class="lt">
+                          <span  class="lt checkbox">
+                            <input id="day1" name="day1" type="hidden" value=""/>
+                            <a href="javascript:void(0)" title="" class="checkbox_selected_repeat" id="checkbox_selected_repeat_1" onclick="dispCheckRepeat('checkbox_selected_repeat',1,'Sun')" style="display: none" tabindex="17"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat" id="checkbox_normal_repeat_1" onclick="dispCheckRepeat('checkbox_normal_repeat',1,'Sun')" tabindex="17"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">S</span>
+
+                          <span  class="lt checkbox">
+                            <input id="day2" name="day2" type="hidden" value=""/>
+                            <a href="javascript:void(0)" title="" class="checkbox_selected_repeat" id="checkbox_selected_repeat_2" onclick="dispCheckRepeat('checkbox_selected_repeat',2,'Mon')" style="display: none" tabindex="18"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat"  id="checkbox_normal_repeat_2" onclick="dispCheckRepeat('checkbox_normal_repeat',2,'Mon')" tabindex="18"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">M</span>
+
+                          <span  class="lt checkbox">
+                            <input id="day3" name="day3" type="hidden" value=""/>
+                            <a href="javascript:void(0)" title="" class="checkbox_selected_repeat" id="checkbox_selected_repeat_3" onclick="dispCheckRepeat('checkbox_selected_repeat',3,'Tue')" style="display: none" tabindex="19"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat" id="checkbox_normal_repeat_3" onclick="dispCheckRepeat('checkbox_normal_repeat',3,'Tue')" tabindex="19"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">T</span>
+
+                          <span  class="lt checkbox">
+                            <input id="day4" name="day4" type="hidden" value=""/>
+                            <a href="javascript:void(0)" title="" class="checkbox_selected_repeat" id="checkbox_selected_repeat_4" onclick="dispCheckRepeat('checkbox_selected_repeat',4,'Wed')" style="display: none" tabindex="20"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat" id="checkbox_normal_repeat_4" onclick="dispCheckRepeat('checkbox_normal_repeat',4,'Wed')" tabindex="20"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">W</span>
+
+                          <span  class="lt checkbox">
+                            <input id="day5" name="day5" type="hidden" value=""/>
+                            <a href="javascript:void(0)" title="" class="checkbox_selected_repeat" id="checkbox_selected_repeat_5" onclick="dispCheckRepeat('checkbox_selected_repeat',5,'Thu')" style="display: none" tabindex="21"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat" id="checkbox_normal_repeat_5" onclick="dispCheckRepeat('checkbox_normal_repeat',5,'Thu')" tabindex="21"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">T</span>
+
+                          <span  class="lt checkbox">
+                            <input id="day6" name="day6" type="hidden" value=""/>
+                            <a href="javascript:void(0)" title="" class="checkbox_selected_repeat"  id="checkbox_selected_repeat_6"  onclick="dispCheckRepeat('checkbox_selected_repeat',6,'Fri')" style="display: none" tabindex="22"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat" id="checkbox_normal_repeat_6" onclick="dispCheckRepeat('checkbox_normal_repeat',6,'Fri')" tabindex="22"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">F</span>
+
+                          <span  class="lt checkbox">
+                            <input id="day7" name="day7" type="hidden" value=""/>
+                            <a href="javascript:void(0)" title=""  class="checkbox_selected_repeat" id="checkbox_selected_repeat_7" onclick="dispCheckRepeat('checkbox_selected_repeat',7,'Sat')" style="display: none" tabindex="23"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat" id="checkbox_normal_repeat_7" onclick="dispCheckRepeat('checkbox_normal_repeat',7,'Sat')" tabindex="23"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">S</span>
+                          <div class="clear"></div>
+                        </div>
+                        <div class="clear"></div>
+                      </div>
+                      <div class="errorDiv" style="display:none">
+                        <div class="lt ltField">
+                          &nbsp;
+                        </div>
+                        <div id="repeat_on_error"></div>
+                      </div>
+                      <div class="clear"></div>
+
+                      <div class="row repeated_by" style="display:none;">
+                        <div class="lt ltField">
+                          Repeated by
+                        </div>
+                        <div class="lt">
+                          <div class="col month">
+                            <span class="lt radio">
+
+                              <input id="month1" name="month1" value="1" type="hidden"/>
+                              <a href="javascript:void(0)" title="" class="month_selected_repeat" id="month_selected_repeat_1" onclick="dispCheckMonthlyRepeat('month_selected_repeat',1)" tabindex="24"><%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a><a href="javascript:void(0)" title="" class="month_normal_repeat" id="month_normal_repeat_1" onclick="dispCheckMonthlyRepeat('month_normal_repeat',1)" style="display: none" tabindex="24"><%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a></span><span class="lt radioText">Day of the month&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+                            <span class="lt radio">
+                              <input id="month2" name="month2" value="0" type="hidden"/>
+                              <a href="javascript:void(0)" title="" class="month_selected_repeat" id="month_selected_repeat_2" onclick="dispCheckMonthlyRepeat('month_selected_repeat',2)" style="display: none" tabindex="25"><%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a><a href="javascript:void(0)" title="" class="month_normal_repeat" id="month_normal_repeat_2" onclick="dispCheckMonthlyRepeat('month_normal_repeat',2)" tabindex="25"><%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a></span><span class="lt radioText">Day of the week</span>
+                            <div class="clear"></div>
+                          </div>
+                        </div>
+                        <div class="clear"></div>
+                      </div>
+
+                      <div class="row">
+                        <div class="lt ltField">
+                          Starts On
+                        </div>
+                        <div class="lt">
+                          <input type="hidden" value="<%= @start_on_hid%>" class="repeatTextBox" id="started_date" name="started_date" >
+                          <input type="text" value="<%= @start_on_disp%>" class="repeatTextBox" id="started_date_disp" tabindex="26" />
+                        </div>
+                        <div class="clear"></div>
+                      </div>
+                      <div class="row">
+                        <div class="lt ltField">
+                          Ends
+                        </div>
+                        <div class="lt">
+                          <div class="col">
+                            <span class="lt radio r_value">
+                              <input id="r1" name="r1" value="1" type="hidden"/>
+                              <a href="javascript:void(0)" title="" class="radio_selected_repeat" id="radio_selected_repeat_1" onclick="dispCheckRepeat('radio_selected_repeat',1)" tabindex="27"><%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a><a href="javascript:void(0)" title="" class="radio_normal_repeat" id="radio_normal_repeat_1" onclick="dispCheckRepeat('radio_normal_repeat',1,1)" style="display: none" tabindex="27"><%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a></span><span class="lt radioText">Never</span>
+
+                            <div class="clear"></div>
+                          </div>
+
+                          <div class="col">
+                            <span class="lt radio r_value">
+                              <input id="r2" name="r2" value="0" type="hidden"/>
+                              <a href="javascript:void(0)" title="" class="radio_selected_repeat" id="radio_selected_repeat_2" onclick="dispCheckRepeat('radio_selected_repeat',2)" style="display: none" tabindex="28"><%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a><a href="javascript:void(0)" title="" class="radio_normal_repeat" id="radio_normal_repeat_2" onclick="dispCheckRepeat('radio_normal_repeat',2,1)" tabindex="28"><%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a></span><span class="lt radioText">After&nbsp;&nbsp;&nbsp;</span>
+                            <input type="text" maxlength="20" value="" class="repeatTextBox afterTextBox" id="after_occ" name="after_occ" onKeyPress="return number(event)" onchange="changed_summary()" />
+                            <span class="lt radioText">&nbsp;&nbsp;&nbsp;occurrences</span>
+
+                            <div class="clear"></div>
+                          </div>
+
+                          <div class="errorDiv" style="display:none">
+                            <div id="after_occ_error"></div>
+                          </div>
+
+                          <div class="col">
+                            <span class="lt radio r_value">
+                              <input id="r3" name="r3" value="0" type="hidden" />
+                              <a href="javascript:void(0)" title="" class="radio_selected_repeat" id="radio_selected_repeat_3" onclick="dispCheckRepeat('radio_selected_repeat',3)" style="display: none" tabindex="29"><%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a><a href="javascript:void(0)" title="" class="radio_normal_repeat"  id="radio_normal_repeat_3" onclick="dispCheckRepeat('radio_normal_repeat',3,1)" tabindex="29"><%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a></span><span class="lt radioText">On&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <div class="lt dateDivRepeat">
+                              <input type="text" id="repeat_on_date1" name="repeat_on_date1" class="rdateTextbox" value="" style="outline: none;" tabindex="30"/>
+                              <input type="hidden" id="repeat_alt_on_date1" name="repeat_alt_on_date1" value=""/>
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+
+                          <div class="errorDiv" style="display:none">
+                            <div id="repeat_alt_error"></div>
+                          </div>
+
+                        </div>
+                        <div class="clear"></div>
+                      </div>
+                      <div class="summaryDiv">
+                        <div class="lt ltField">
+                          Summary <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>:
+                        </div>
+
+                        <div class="lt">
+                          <span class="lt summaryText"><b>&nbsp;</b><span id="summaryText" class="weekText">Weekly on Wednesday</span></span>
+                        </div>
+                        <div class="clear"></div>
+                      </div>
+                      <div class="buttonDiv">
+                        <div class="lt ltField">
+                          &nbsp;
+                        </div>
+                        <div class="lt">
+                          <a href="#" tabindex="31"><%=image_tag("/assets/create_new_activity/repeat/save.png", :width=>"67", :height=>"33", :style=>"border:0px;", :onclick=>"saveRepeatDiv();")%></a>
+                          <a href="#" tabindex="32"><%=image_tag("/assets/create_new_activity/repeat/cancel.png", :width=>"67", :height=>"33", :style=>"border:0px;", :onclick=>"cancelRepeatDiv();")%></a>
+                        </div>
+                        <div class="clear"></div>
+                      </div>
+
+                      <!--/form-->
+                    </div>
+                  </div>
+                </div>
+                <div class="repeatContainerBottom"></div>
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="createDynamicDivs"></div>
+              <div class="clear"></div>
+
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="schedule_time_error"></div>
+              </div>
+
+
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <input type="hidden" value="" id="app_sdate_time" name="app_sdate_time_val"/>
+        <input type="hidden" value="" id="app_edate_time" name="app_edate_time_val"/>
+
+        <div class="paddingTop10" id="dtstyle_billing" style="display:none">
+          <input type="hidden" id="dtCountStr" name="date_total_bill" value="1," />
+          <div class="lt leftSideField">
+            Preferred Date &amp; Time
+          </div>
+
+          <%@ap_start_time_by_ap = '01:00'
+          @ap_start_s1 = 'AM'
+          @ap_end_time_by_ap = '01:00'
+          @ap_end_s1 = 'AM'%>
+
+
+
+          <%if @activity.schedule_mode =="By Appointment"%>
+            <% @schedule.each do |sc|
+              @ap_date_disp = sc.start_date.strftime("%a %d/%m/%Y") if !sc.start_date.nil?
+              @ap_date_hid = sc.start_date.strftime("%Y-%m-%d")if !sc.start_date.nil?
+              @ap_start_time_by_ap = sc.start_time.strftime("%I:%M") if !sc.start_time.nil?
+              @ap_start_s1 = sc.start_time.strftime("%p") if !sc.start_time.nil?
+              @ap_end_time_by_ap = sc.end_time.strftime("%I:%M") if !sc.end_time.nil?
+              @ap_end_s1 = sc.end_time.strftime("%p") if !sc.end_time.nil?
+            end%>
+
+
+          <%end%>
+          <div class="lt dateTimeDiv" id="dateTimeDivbil_1">
+            <div class="lt" style=".margin-right:8px;">
+              <div class="dateDiv dateBilling">
+                <input type="text"  id="dateFormate_billing" name="dateFormate_1" class="dateTextbox" value="<%=@ap_date_disp%>" readonly="readonly" style="outline: none; " tabindex="33" />
+                <input type="hidden" id="datebill_1" name="datebill_1" value="<%= @ap_date_hid%>"/>
+              </div>
+            </div>
+            <div class="rt" style="margin-left: 10px;">
+
+              <div class="timelabel" style="float:left; display: inline-block; padding-top: 8px; margin-right:9px;">
+                Start
+              </div>
+
+              <div class="timStart" id="app_start_time" style="width: 145px;">
+
+
+                <div class="endTimeDiv selectBoxCity selectBoxBilling" onmouseover="flag15=true;" onmouseout="flag15=false;">
+                  <input type="hidden" id="appointment_stime_1" name="appointment_stime_1" value="<%= @ap_start_time_by_ap%>" />
+                  <div id="field15" class="selectDiv selectDivTime" style="line-height:23px;" tabindex="34"><%= @ap_start_time_by_ap%></div>
+                </div>
+                <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv15" style="display:none;">
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('01:00')" title="">01:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('01:30')" title="">01:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('02:00')" title="">02:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('02:30')" title="">02:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('03:00')" title="">03:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('03:30')" title="">03:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('04:00')" title="">04:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('04:30')" title="">04:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('05:00')" title="">05:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('05:30')" title="">05:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('06:00')" title="">06:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('06:30')" title="">06:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('07:00')" title="">07:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('07:30')" title="">07:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('08:00')" title="">08:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('08:30')" title="">08:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('09:00')" title="">09:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('09:30')" title="">09:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('10:00')" title="">10:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('10:30')" title="">10:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('11:00')" title="">11:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('11:30')" title="">11:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('12:00')" title="">12:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue15('12:30')" title="">12:30</a>
+				  <a href="javascript:void(0)" onclick="setDropDownValue15('N/A')" title="">N/A</a>
+                </div>
+
+                <div class="endTimeDiv selectBoxCity selectBoxBilling_63"  onmouseover="flag16=true;" onmouseout="flag16=false;" >
+                  <input type="hidden" id="appointment_stime_2" name="appointment_stime_2" value="<%= @ap_start_s1 %>" />
+                  <div id="field16" class="selectDiv selectDivTime_63" style="line-height:23px;" tabindex="35"><%= @ap_start_s1 %></div>
+                </div>
+                <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv16" style="display:none;">
+                  <a href="javascript:void(0)" onclick="setDropDownValue16('AM')" title="">AM</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue16('PM')" title="">PM</a>
+				  <a href="javascript:void(0)" onclick="setDropDownValue16('N/A')" title="">N/A</a>
+                </div>
+
+              </div>
+              <div class="timelabel" style="float:left; display: inline-block; padding-top: 8px; margin-right:9px;">
+										End
+              </div>
+              <div class="timStart" id="app_end_time" style="width: 150px;">
+
+                <div class="endTimeDiv selectBoxCity selectBoxBilling"  onmouseover="flag17=true;" onmouseout="flag17=false;">
+                  <input type="hidden" id="appointment_etime_1" name="appointment_etime_1" value="<%= @ap_end_time_by_ap%>" />
+                  <div id="field17" class="selectDiv selectDivTime" style="line-height:23px;" tabindex="36"><%= @ap_end_time_by_ap%></div>
+                </div>
+                <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv17" style="display:none;">
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('01:00')" title="">01:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('01:30')" title="">01:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('02:00')" title="">02:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('02:30')" title="">02:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('03:00')" title="">03:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('03:30')" title="">03:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('04:00')" title="">04:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('04:30')" title="">04:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('05:00')" title="">05:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('05:30')" title="">05:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('06:00')" title="">06:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('06:30')" title="">06:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('07:00')" title="">07:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('07:30')" title="">07:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('08:00')" title="">08:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('08:30')" title="">08:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('09:00')" title="">09:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('09:30')" title="">09:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('10:00')" title="">10:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('10:30')" title="">10:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('11:00')" title="">11:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('11:30')" title="">11:30</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('12:00')" title="">12:00</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue17('12:30')" title="">12:30</a>
+				  <a href="javascript:void(0)" onclick="setDropDownValue17('N/A')" title="">N/A</a>
+                </div>
+
+                <div class="endTimeDiv selectBoxCity selectBoxBilling_63"  onmouseover="flag18=true;" onmouseout="flag18=false;" >
+                  <input type="hidden" id="appointment_etime_2" name="appointment_etime_2" value="<%= @ap_end_s1 %>" />
+                  <div id="field18" class="selectDiv selectDivTime_63" style="line-height:23px;" tabindex="37"><%= @ap_end_s1 %></div>
+                </div>
+                <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv18" style="display:none;">
+                  <a href="javascript:void(0)" onclick="setDropDownValue18('AM')" title="">AM</a>
+                  <a href="javascript:void(0)" onclick="setDropDownValue18('PM')" title="">PM</a>
+				  <a href="javascript:void(0)" onclick="setDropDownValue18('N/A')" title="">N/A</a>
+                </div>
+
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="errorDiv" style="display:none">
+            <div class="lt leftSideField">&nbsp;</div>
+            <div class="lt" id="preferred_time_error"></div>
+          </div>
+
+          <div class="clear"></div>
+        </div>
+
+        <input type="hidden" value="" id="anytime_smon_val" name="anytime_smon_val"/>
+        <input type="hidden" value="" id="anytime_emon_val" name="anytime_emon_val"/>
+        <input type="hidden" value="" id="anytime_stue_val" name="anytime_stue_val" />
+        <input type="hidden" value="" id="anytime_etue_val" name="anytime_etue_val"/>
+        <input type="hidden" value="" id="anytime_swed_val" name="anytime_swed_val" />
+        <input type="hidden" value="" id="anytime_ewed_val" name="anytime_ewed_val" />
+        <input type="hidden" value="" id="anytime_sthu_val" name="anytime_sthu_val" />
+        <input type="hidden" value="" id="anytime_ethu_val" name="anytime_ethu_val" />
+        <input type="hidden" value="" id="anytime_sfri_val" name="anytime_sfri_val"/>
+        <input type="hidden" value="" id="anytime_efri_val" name="anytime_efri_val"/>
+        <input type="hidden" value="" id="anytime_ssat_val" name="anytime_ssat_val"/>
+        <input type="hidden" value="" id="anytime_esat_val" name="anytime_esat_val"/>
+        <input type="hidden" value="" id="anytime_ssun_val" name="anytime_ssun_val"/>
+        <input type="hidden" value="" id="anytime_esun_val" name="anytime_esun_val"/>
+
+        <div class="paddingTop10" id="any_time_disp" style="display:none;">
+          <div class="lt leftSideField">
+								Hours of Operation
+          </div>
+          <div class="lt">
+            <div id="anytime_mon" style="margin-bottom:15px;.margin-bottom:10px;margin-top:20px;.margin-top:7px;">
+              <div class="workDays">
+                <div class="DayText">
+                  <div class="lt setWidth">Monday</div>:</div>
+                <%@mon_sc = '01:00'
+                @mon_s1 = 'AM'
+                @mon_en = '01:00'
+                @mon_s2 = 'AM'%>
+                <%if @day_v.include?("mon")%>
+                  <%mon_value = @day_v.index("mon")%>
+                  <% mon_schedule = ActivitySchedule.find(@st[mon_value])%>
+                  <% @mon_sc = mon_schedule.start_time.strftime("%I:%M") if !mon_schedule.start_time.nil?  %>
+                  <% @mon_en = mon_schedule.end_time.strftime("%I:%M") if !mon_schedule.end_time.nil?  %>
+                  <% @mon_s1 = mon_schedule.start_time.strftime("%p") if !mon_schedule.start_time.nil?  %>
+                  <% @mon_s2 = mon_schedule.end_time.strftime("%p") if !mon_schedule.end_time.nil?  %>
+                <%end%>
+
+                <div class="billingDiv" style="margin-left: 132px;  margin-top: -13px;.margin-top: 0px; width: 452px;">
+                  <div class="timStart" id="anytime_mon_start_time" style="width: 140px; margin-top: -8px;">
+
+
+                    <div class="endTimeDiv selectBoxCity selectBoxBilling"  onmouseover="flag19=true;" onmouseout="flag19=false;">
+                      <input type="hidden" id="anytime_smon_1" name="anytime_smon_1" value="<%= @mon_sc %>" />
+                      <div id="field19" class="selectDiv selectDivTime" style="line-height:23px;" tabindex="38"><%= @mon_sc %></div>
+                    </div>
+                    <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv19" style="display:none;">
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('01:00')" title="">01:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('01:30')" title="">01:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('02:00')" title="">02:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('02:30')" title="">02:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('03:00')" title="">03:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('03:30')" title="">03:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('04:00')" title="">04:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('04:30')" title="">04:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('05:00')" title="">05:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('05:30')" title="">05:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('06:00')" title="">06:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('06:30')" title="">06:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('07:00')" title="">07:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('07:30')" title="">07:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('08:00')" title="">08:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('08:30')" title="">08:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('09:00')" title="">09:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('09:30')" title="">09:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('10:00')" title="">10:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('10:30')" title="">10:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('11:00')" title="">11:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('11:30')" title="">11:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('12:00')" title="">12:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue19('12:30')" title="">12:30</a>
+					  <a href="javascript:void(0)" onclick="setDropDownValue19('N/A')" title="">N/A</a>
+                    </div>
+
+                    <div class="endTimeDiv selectBoxCity selectBoxBilling_63" onmouseover="flag20=true;" onmouseout="flag20=false;" >
+                      <input type="hidden" id="anytime_smon_2" name="anytime_smon_2" value="<%= @mon_s1 %>" />
+                      <div id="field20" class="selectDiv selectDivTime_63" style="line-height:23px;" tabindex="39"><%= @mon_s1 %></div>
+                    </div>
+                    <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv20" style="display:none;">
+                      <a href="javascript:void(0)" onclick="setDropDownValue20('AM')" title="">AM</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue20('PM')" title="">PM</a>
+					  <a href="javascript:void(0)" onclick="setDropDownValue20('N/A')" title="">N/A</a>
+                    </div>
+
+                  </div>
+                  <div class="setStyleDash">&ndash;</div>
+
+                  <div class="timStart" id="anytime_mon_end_time"  style="width: 142px; margin-left:10px;margin-top: -8px;">
+                    <div class="endTimeDiv selectBoxCity selectBoxBilling"  onmouseover="flag21=true;" onmouseout="flag21=false;">
+                      <input type="hidden" id="anytime_emon_1" name="anytime_emon_1" value="<%= @mon_en %>" />
+                      <div id="field21" class="endTimeDiv selectDiv selectDivTime" style="line-height:23px;" tabindex="40"><%= @mon_en %></div>
+                    </div>
+                    <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv21" style="display:none;">
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('01:00')" title="">01:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('01:30')" title="">01:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('02:00')" title="">02:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('02:30')" title="">02:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('03:00')" title="">03:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('03:30')" title="">03:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('04:00')" title="">04:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('04:30')" title="">04:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('05:00')" title="">05:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('05:30')" title="">05:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('06:00')" title="">06:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('06:30')" title="">06:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('07:00')" title="">07:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('07:30')" title="">07:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('08:00')" title="">08:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('08:30')" title="">08:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('09:00')" title="">09:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('09:30')" title="">09:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('10:00')" title="">10:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('10:30')" title="">10:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('11:00')" title="">11:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('11:30')" title="">11:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('12:00')" title="">12:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue21('12:30')" title="">12:30</a>
+					  <a href="javascript:void(0)" onclick="setDropDownValue21('N/A')" title="">N/A</a>
+                    </div>
+
+                    <div class="endTimeDiv selectBoxCity selectBoxBilling_63"  onmouseover="flag22=true;" onmouseout="flag22=false;" >
+                      <input type="hidden" id="anytime_emon_2" name="anytime_emon_2" value="<%= @mon_s2 %>" />
+                      <div id="field22" class="selectDiv selectDivTime_63" style="line-height:23px;" tabindex="41"><%= @mon_s2 %></div>
+                    </div>
+                    <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv22" style="display:none;">
+                      <a href="javascript:void(0)" onclick="setDropDownValue22('AM')" title="">AM</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue22('PM')" title="">PM</a>
+					  <a href="javascript:void(0)" onclick="setDropDownValue22('N/A')" title="">N/A</a>
+                    </div>
+
+                  </div>
+
+                  <span  class="checkbox setstyle" style="top:-5px; left:5px;" id="chkbox_chked">
+                    <%if @day_v.include?("mon")%>
+                      <input type="hidden" name="anytime_closed_mon" id="anytime_closed_mon" value="1" />
+                      <a href="javascript:void(0)" title="" class="testChk" id="checkbox_selected" onclick="dispCheckboxImg('checkbox_selected')" style="display: none;" tabindex="42"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="testChk" id="checkbox_normal" onclick="dispCheckboxImg('checkbox_normal')" onkeydown="new_activity_keydown(event,'checkbox_normal')" tabindex="42"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+                  <%else%>
+                    <input type="hidden" name="anytime_closed_mon" id="anytime_closed_mon" value="0" />
+                    <a href="javascript:void(0)" title="" class="testChk" id="checkbox_selected" onclick="dispCheckboxImg('checkbox_selected')"  tabindex="42"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="testChk" id="checkbox_normal" onclick="dispCheckboxImg('checkbox_normal')" onkeydown="new_activity_keydown(event,'checkbox_normal')" style="display: none;" tabindex="42"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+
+                  <%end%>
+                  <span class="closed_txt" style="left:3px;">Closed</span>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="clear"></div>
+            <div class="errorDiv" style="display:none">
+              <div class="lt anyTimeError" id="hours_mon_time_error"></div>
+              <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+
+
+            <div id="anytime_tue" style="margin-bottom:15px;" >
+              <div class="workDays1">
+                <div class="DayText">
+                  <div class="lt setWidth">
+                    Tuesday
+                  </div>
+                  :
+                </div>
+                <%@tue_sc = '01:00'
+                @tue_s1 = 'AM'
+                @tue_en = '01:00'
+                @tue_s2 = 'AM'%>
+
+                <%if @day_v.include?("tue")%>
+                  <%tue_value = @day_v.index("tue")%>
+                  <% tue_schedule = ActivitySchedule.find(@st[tue_value])%>
+                  <% @tue_sc = tue_schedule.start_time.strftime("%I:%M") if !tue_schedule.start_time.nil?  %>
+                  <% @tue_en = tue_schedule.end_time.strftime("%I:%M") if !tue_schedule.end_time.nil?  %>
+                  <% @tue_s1 = tue_schedule.start_time.strftime("%p") if !tue_schedule.start_time.nil?  %>
+                  <% @tue_s2 = tue_schedule.end_time.strftime("%p") if !tue_schedule.end_time.nil?  %>
+                <%end%>
+
+                <div class="timStart" id="anytime_tue_start_time"  style="width: 140px; margin-left:28px;margin-top: -8px;">
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling"  onmouseover="flag23=true;" onmouseout="flag23=false;">
+                    <input type="hidden" id="anytime_stue_1" name="anytime_stue_1" value="<%= @tue_sc %>" />
+                    <div id="field23" class="selectDiv selectDivTime" style="line-height:23px;" tabindex="43"><%= @tue_sc %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv23" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('01:00')" title="">01:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('01:30')" title="">01:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('02:00')" title="">02:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('02:30')" title="">02:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('03:00')" title="">03:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('03:30')" title="">03:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('04:00')" title="">04:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('04:30')" title="">04:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('05:00')" title="">05:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('05:30')" title="">05:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('06:00')" title="">06:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('06:30')" title="">06:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('07:00')" title="">07:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('07:30')" title="">07:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('08:00')" title="">08:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('08:30')" title="">08:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('09:00')" title="">09:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('09:30')" title="">09:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('10:00')" title="">10:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('10:30')" title="">10:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('11:00')" title="">11:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('11:30')" title="">11:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('12:00')" title="">12:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue23('12:30')" title="">12:30</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue23('N/A')" title="">N/A</a>
+                  </div>
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling_63"  onmouseover="flag24=true;" onmouseout="flag24=false;" >
+                    <input type="hidden" id="anytime_stue_2" name="anytime_stue_2" value="<%= @tue_s1 %>" />
+                    <div id="field24" class="selectDiv selectDivTime_63" style="line-height:23px;" tabindex="44"><%= @tue_s1 %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv24" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue24('AM')" title="">AM</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue24('PM')" title="">PM</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue24('N/A')" title="">N/A</a>
+                  </div>
+
+                </div>
+                <div class="setStyleDash">&ndash;</div>
+                <div class="timStart" id="anytime_tue_end_time"  style="width: 142px; margin-left:10px;margin-top: -8px;">
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling"  onmouseover="flag25=true;" onmouseout="flag25=false;">
+                    <input type="hidden" id="anytime_etue_1" name="anytime_etue_1" value="<%= @tue_en %>" />
+                    <div id="field25" class="selectDiv selectDivTime" style="line-height:23px;" tabindex="45"><%= @tue_en %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv25" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('01:00')" title="">01:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('01:30')" title="">01:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('02:00')" title="">02:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('02:30')" title="">02:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('03:00')" title="">03:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('03:30')" title="">03:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('04:00')" title="">04:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('04:30')" title="">04:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('05:00')" title="">05:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('05:30')" title="">05:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('06:00')" title="">06:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('06:30')" title="">06:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('07:00')" title="">07:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('07:30')" title="">07:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('08:00')" title="">08:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('08:30')" title="">08:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('09:00')" title="">09:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('09:30')" title="">09:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('10:00')" title="">10:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('10:30')" title="">10:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('11:00')" title="">11:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('11:30')" title="">11:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('12:00')" title="">12:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue25('12:30')" title="">12:30</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue25('N/A')" title="">N/A</a>
+                  </div>
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling_63"  onmouseover="flag26=true;" onmouseout="flag26=false;" >
+                    <input type="hidden" id="anytime_etue_2" name="anytime_etue_2" value="<%= @tue_s2 %>" />
+                    <div id="field26" class="selectDiv selectDivTime_63" style="line-height:23px;" tabindex="46"><%= @tue_s2 %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv26" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue26('AM')" title="">AM</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue26('PM')" title="">PM</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue26('N/A')" title="">N/A</a>
+                  </div>
+
+                </div>
+
+                <span  class="checkbox setstyle" style="top:-5px; left:3px;">
+                  <%if @day_v.include?("tue")%>
+                    <input type="hidden" name="anytime_closed_tue" id="anytime_closed_tue" value="1" />
+                    <a href="javascript:void(0)" title=""  id="checkbox_selected1" onclick="dispCheckboxImg('checkbox_selected1')" onkeydown="ag_cb_keydown(event,'checkbox_selected1')" style="display: none" tabindex="47"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" id="checkbox_normal1" onclick="dispCheckboxImg('checkbox_normal1')" onkeydown="ag_cb_keydown(event,'checkbox_normal1')" tabindex="47"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+
+                <%else%>
+
+                  <input type="hidden" name="anytime_closed_tue" id="anytime_closed_tue" value="0" />
+                  <a href="javascript:void(0)" title=""  id="checkbox_selected1" onclick="dispCheckboxImg('checkbox_selected1')" onkeydown="ag_cb_keydown(event,'checkbox_selected1')"  tabindex="47"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" id="checkbox_normal1" onclick="dispCheckboxImg('checkbox_normal1')" onkeydown="ag_cb_keydown(event,'checkbox_normal1')" style="display: none" tabindex="47"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+
+                <%end%>
+                <span class="closed_txt" style="left:5px;">Closed</span>
+              </div>
+            </div>
+
+            <div class="clear"></div>
+            <div class="errorDiv" style="display:none">
+              <div class="lt anyTimeError" id="hours_tue_time_error"></div>
+              <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+
+            <div id="anytime_wed" style="margin-bottom:15px;">
+              <div class="workDays3">
+                <div class="DayText">
+                  <div class="lt setWidth">
+                    Wednesday
+                  </div>
+                  :
+                </div>
+
+                <%@wed_sc = '01:00'
+                @wed_s1 = 'AM'
+                @wed_en = '01:00'
+                @wed_s2 = 'AM'%>
+
+                <%if @day_v.include?("wed")%>
+                  <%wed_value = @day_v.index("wed")%>
+                  <% wed_schedule = ActivitySchedule.find(@st[wed_value])%>
+                  <% @wed_sc = wed_schedule.start_time.strftime("%I:%M") if !wed_schedule.start_time.nil?  %>
+                  <% @wed_en = wed_schedule.end_time.strftime("%I:%M") if !wed_schedule.end_time.nil?  %>
+                  <% @wed_s1 = wed_schedule.start_time.strftime("%p") if !wed_schedule.start_time.nil?  %>
+                  <% @wed_s2 = wed_schedule.end_time.strftime("%p") if !wed_schedule.end_time.nil?  %>
+                <%end%>
+
+                <div class="timStart" id="anytime_wed_start_time"  style="width: 140px; margin-left:28px;margin-top: -8px;">
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling"  onmouseover="flag27=true;" onmouseout="flag27=false;">
+                    <input type="hidden" id="anytime_swed_1" name="anytime_swed_1" value="<%= @wed_sc %>" />
+                    <div id="field27" class="selectDiv selectDivTime" style="line-height:23px;" tabindex="48"><%= @wed_sc %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv27" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('01:00')" title="">01:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('01:30')" title="">01:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('02:00')" title="">02:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('02:30')" title="">02:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('03:00')" title="">03:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('03:30')" title="">03:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('04:00')" title="">04:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('04:30')" title="">04:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('05:00')" title="">05:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('05:30')" title="">05:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('06:00')" title="">06:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('06:30')" title="">06:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('07:00')" title="">07:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('07:30')" title="">07:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('08:00')" title="">08:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('08:30')" title="">08:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('09:00')" title="">09:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('09:30')" title="">09:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('10:00')" title="">10:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('10:30')" title="">10:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('11:00')" title="">11:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('11:30')" title="">11:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('12:00')" title="">12:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue27('12:30')" title="">12:30</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue72('N/A')" title="">N/A</a>
+                  </div>
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling_63"  onmouseover="flag14=true;" onmouseout="flag14=false;" >
+                    <input type="hidden" id="anytime_swed_2" name="anytime_swed_2" value="<%= @wed_s1 %>" />
+                    <div id="field14" class="selectDiv selectDivTime_63" style="line-height:23px;" tabindex="49"><%= @wed_s1 %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv14" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue14('AM')" title="">AM</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue14('PM')" title="">PM</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue14('N/A')" title="">N/A</a>
+                  </div>
+
+
+                </div>
+                <div class="setStyleDash">&ndash;</div>
+                <div class="timStart" id="anytime_wed_end_time" style="width: 142px; margin-left:10px;margin-top: -8px;">
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling"  onmouseover="flag28=true;" onmouseout="flag28=false;">
+                    <input type="hidden" id="anytime_ewed_1" name="anytime_ewed_1" value="<%= @wed_en %>" />
+                    <div id="field28" class="selectDiv selectDivTime" style="line-height:23px;" tabindex="50"><%= @wed_en %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv28" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('01:00')" title="">01:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('01:30')" title="">01:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('02:00')" title="">02:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('02:30')" title="">02:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('03:00')" title="">03:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('03:30')" title="">03:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('04:00')" title="">04:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('04:30')" title="">04:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('05:00')" title="">05:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('05:30')" title="">05:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('06:00')" title="">06:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('06:30')" title="">06:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('07:00')" title="">07:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('07:30')" title="">07:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('08:00')" title="">08:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('08:30')" title="">08:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('09:00')" title="">09:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('09:30')" title="">09:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('10:00')" title="">10:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('10:30')" title="">10:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('11:00')" title="">11:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('11:30')" title="">11:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('12:00')" title="">12:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue28('12:30')" title="">12:30</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue28('N/A')" title="">N/A</a>
+                  </div>
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling_63"  onmouseover="flag29=true;" onmouseout="flag29=false;" >
+                    <input type="hidden" id="anytime_ewed_2" name="anytime_ewed_2" value="<%= @wed_s2 %>" />
+                    <div id="field29" class="selectDiv selectDivTime_63" style="line-height:23px;" tabindex="51"><%= @wed_s2 %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv29" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue29('AM')" title="">AM</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue29('PM')" title="">PM</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue29('N/A')" title="">N/A</a>
+                  </div>
+
+                </div>
+
+                <span  class="checkbox setstyle" style="top:-5px; left:3px;">
+                  <%if @day_v.include?("wed")%>
+                    <input type="hidden" name="anytime_closed_wed" id="anytime_closed_wed" value="1" />
+                    <a href="javascript:void(0)" title="" id="checkbox_selected2" onclick="dispCheckboxImg('checkbox_selected2')" onkeydown="ag_cb_keydown(event,'checkbox_selected2')" style="display: none" tabindex="52"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" id="checkbox_normal2" onclick="dispCheckboxImg('checkbox_normal2')" onkeydown="ag_cb_keydown(event,'checkbox_normal2')" tabindex="52"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+
+                <%else%>
+
+                  <input type="hidden" name="anytime_closed_wed" id="anytime_closed_wed" value="0" />
+                  <a href="javascript:void(0)" title="" id="checkbox_selected2" onclick="dispCheckboxImg('checkbox_selected2')" onkeydown="ag_cb_keydown(event,'checkbox_selected2')"  tabindex="52"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" id="checkbox_normal2" onclick="dispCheckboxImg('checkbox_normal2')" onkeydown="ag_cb_keydown(event,'checkbox_normal2')" style="display: none" tabindex="52"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+
+
+                <%end%>
+
+
+                <span class="closed_txt" style="left:5px;">Closed</span>
+              </div>
+            </div>
+
+            <div class="clear"></div>
+            <div class="errorDiv" style="display:none">
+              <div class="lt anyTimeError" id="hours_wed_time_error"></div>
+              <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+
+
+            <div id="anytime_thur" style="margin-bottom:15px;">
+              <div class="workDays4">
+                <div class="DayText">
+                  <div class="lt setWidth">
+                    Thursday
+                  </div>
+                  :
+                </div>
+
+                <%@thu_sc = '01:00'
+                @thu_s1 = 'AM'
+                @thu_en = '01:00'
+                @thu_s2 = 'AM'%>
+                <%if @day_v.include?("thu")%>
+                  <%thu_value = @day_v.index("thu")%>
+                  <% thu_schedule = ActivitySchedule.find(@st[thu_value])%>
+                  <% @thu_sc = thu_schedule.start_time.strftime("%I:%M") if !thu_schedule.start_time.nil?  %>
+                  <% @thu_en = thu_schedule.end_time.strftime("%I:%M") if !thu_schedule.end_time.nil?  %>
+                  <% @thu_s1 = thu_schedule.start_time.strftime("%p") if !thu_schedule.start_time.nil?  %>
+                  <% @thu_s2 = thu_schedule.end_time.strftime("%p") if !thu_schedule.end_time.nil?  %>
+                <%end%>
+
+                <div class="timStart" id="anytime_thur_start_time" style="width: 140px; margin-left:28px;margin-top: -8px;">
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling"  onmouseover="flag30=true;" onmouseout="flag30=false;">
+                    <input type="hidden" id="anytime_sthu_1" name="anytime_sthu_1" value="<%= @thu_sc %>" />
+                    <div id="field30" class="selectDiv selectDivTime" style="line-height:23px;" tabindex="53"><%= @thu_sc %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv30" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('01:00')" title="">01:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('01:30')" title="">01:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('02:00')" title="">02:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('02:30')" title="">02:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('03:00')" title="">03:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('03:30')" title="">03:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('04:00')" title="">04:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('04:30')" title="">04:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('05:00')" title="">05:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('05:30')" title="">05:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('06:00')" title="">06:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('06:30')" title="">06:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('07:00')" title="">07:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('07:30')" title="">07:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('08:00')" title="">08:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('08:30')" title="">08:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('09:00')" title="">09:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('09:30')" title="">09:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('10:00')" title="">10:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('10:30')" title="">10:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('11:00')" title="">11:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('11:30')" title="">11:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('12:00')" title="">12:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue30('12:30')" title="">12:30</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue30('N/A')" title="">N/A</a>
+                  </div>
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling_63"  onmouseover="flag31=true;" onmouseout="flag31=false;" >
+                    <input type="hidden" id="anytime_sthu_2" name="anytime_sthu_2" value="<%= @thu_s1 %>" />
+                    <div id="field31" class="selectDiv selectDivTime_63" style="line-height:23px;" tabindex="53"><%= @thu_s1 %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv31" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue31('AM')" title="">AM</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue31('PM')" title="">PM</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue31('N/A')" title="">N/A</a>
+                  </div>
+
+
+
+
+                </div>
+                <div class="setStyleDash">&ndash;</div>
+                <div class="timStart"  id="anytime_thur_end_time" style="width: 142px; margin-left:10px;margin-top: -8px;">
+
+                  <span class="endTimeDiv selectBoxCity selectBoxBilling"  onmouseover="flag32=true;" onmouseout="flag32=false;">
+                    <input type="hidden" id="anytime_ethu_1" name="anytime_ethu_1" value="<%= @thu_en %>" />
+                    <div id="field32" class="selectDiv selectDivTime" style="line-height:23px;" tabindex="54"><%= @thu_en %></div>
+                  </span>
+                  <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv32" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('01:00')" title="">01:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('01:30')" title="">01:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('02:00')" title="">02:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('02:30')" title="">02:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('03:00')" title="">03:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('03:30')" title="">03:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('04:00')" title="">04:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('04:30')" title="">04:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('05:00')" title="">05:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('05:30')" title="">05:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('06:00')" title="">06:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('06:30')" title="">06:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('07:00')" title="">07:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('07:30')" title="">07:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('08:00')" title="">08:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('08:30')" title="">08:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('09:00')" title="">09:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('09:30')" title="">09:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('10:00')" title="">10:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('10:30')" title="">10:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('11:00')" title="">11:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('11:30')" title="">11:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('12:00')" title="">12:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue32('12:30')" title="">12:30</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue32('N/A')" title="">N/A</a>
+                  </div>
+
+                  <span class="endTimeDiv selectBoxCity selectBoxBilling_63"  onmouseover="flag33=true;" onmouseout="flag33=false;" >
+                    <input type="hidden" id="anytime_ethu_2" name="anytime_ethu_2" value="<%= @thu_s2 %>" />
+                    <div id="field33" class="selectDiv selectDivTime_63" style="line-height:23px;" tabindex="55"><%= @thu_s2 %></div>
+                  </span>
+                  <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv33" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue33('AM')" title="">AM</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue33('PM')" title="">PM</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue33('N/A')" title="">N/A</a>
+                  </div>
+
+                </div>
+
+                <span  class="checkbox setstyle" style="top:-5px; left:3px;">
+                  <%if @day_v.include?("thu")%>
+
+                    <input type="hidden" name="anytime_closed_thu" id="anytime_closed_thu" value="1" />
+                    <a href="javascript:void(0)" title="" id="checkbox_selected3" onclick="dispCheckboxImg('checkbox_selected3')" onkeydown="ag_cb_keydown(event,'checkbox_selected3')" style="display: none" tabindex="56"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" id="checkbox_normal3" onclick="dispCheckboxImg('checkbox_normal3')" onkeydown="ag_cb_keydown(event,'checkbox_normal3')" tabindex="56"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+
+
+                <%else%>
+                  <input type="hidden" name="anytime_closed_thu" id="anytime_closed_thu" value="0" />
+                  <a href="javascript:void(0)" title="" id="checkbox_selected3" onclick="dispCheckboxImg('checkbox_selected3')" onkeydown="ag_cb_keydown(event,'checkbox_selected3')"  tabindex="56"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" id="checkbox_normal3" onclick="dispCheckboxImg('checkbox_normal3')" onkeydown="ag_cb_keydown(event,'checkbox_normal3')" style="display: none" tabindex="56"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+
+
+                <%end%>
+                <span class="closed_txt" style="left:5px;">Closed</span>
+              </div>
+            </div>
+
+            <div class="clear"></div>
+            <div class="errorDiv" style="display:none">
+              <div class="lt anyTimeError" id="hours_thu_time_error"></div>
+              <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+
+            <div id="anytime_frid" style="margin-bottom:15px;">
+              <div class="workDays5">
+                <div class="DayText">
+                  <div class="lt setWidth">
+                    Friday
+                  </div>
+                  :
+                </div>
+                <%@fri_sc = '01:00'
+                @fri_s1 = 'AM'
+                @fri_en = '01:00'
+                @fri_s2 = 'AM'%>
+                <%if @day_v.include?("fri")%>
+                  <%fri_value = @day_v.index("fri")%>
+                  <% fri_schedule = ActivitySchedule.find(@st[fri_value])%>
+                  <% @fri_sc = fri_schedule.start_time.strftime("%I:%M") if !fri_schedule.start_time.nil?  %>
+                  <% @fri_en = fri_schedule.end_time.strftime("%I:%M") if !fri_schedule.end_time.nil?  %>
+                  <% @fri_s1 = fri_schedule.start_time.strftime("%p") if !fri_schedule.start_time.nil?  %>
+                  <% @fri_s2 = fri_schedule.end_time.strftime("%p") if !fri_schedule.end_time.nil?  %>
+                <%end%>
+
+                <div class="timStart"  id="anytime_frid_start_time" style="width: 140px; margin-left:28px;margin-top: -8px;">
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling"  onmouseover="flag34=true;" onmouseout="flag34=false;">
+                    <input type="hidden" id="anytime_sfri_1" name="anytime_sfri_1" value="<%= @fri_sc %>" />
+                    <div id="field34" class="selectDiv selectDivTime" style="line-height:23px;" tabindex="57"><%= @fri_sc %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv34" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('01:00')" title="">01:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('01:30')" title="">01:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('02:00')" title="">02:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('02:30')" title="">02:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('03:00')" title="">03:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('03:30')" title="">03:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('04:00')" title="">04:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('04:30')" title="">04:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('05:00')" title="">05:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('05:30')" title="">05:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('06:00')" title="">06:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('06:30')" title="">06:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('07:00')" title="">07:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('07:30')" title="">07:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('08:00')" title="">08:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('08:30')" title="">08:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('09:00')" title="">09:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('09:30')" title="">09:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('10:00')" title="">10:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('10:30')" title="">10:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('11:00')" title="">11:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('11:30')" title="">11:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('12:00')" title="">12:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue34('12:30')" title="">12:30</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue34('N/A')" title="">N/A</a>
+                  </div>
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling_63"  onmouseover="flag35=true;" onmouseout="flag35=false;" >
+                    <input type="hidden" id="anytime_sfri_2" name="anytime_sfri_2" value="<%= @fri_s1 %>" />
+                    <div id="field35" class="selectDiv selectDivTime_63" style="line-height:23px;" tabindex="57"><%= @fri_s1 %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv35" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue35('AM')" title="">AM</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue35('PM')" title="">PM</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue35('N/A')" title="">N/A</a>
+                  </div>
+
+                </div>
+                <div class="setStyleDash">&ndash;</div>
+                <div class="timStart"  id="anytime_frid_end_time" style="width: 142px; margin-left:10px;margin-top: -8px;">
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling"  onmouseover="flag36=true;" onmouseout="flag36=false;">
+                    <input type="hidden" id="anytime_efri_1" name="anytime_efri_1" value="<%= @fri_en %>" />
+                    <div id="field36" class="selectDiv selectDivTime" style="line-height:23px;" tabindex="58"><%= @fri_en %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv36" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('01:00')" title="">01:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('01:30')" title="">01:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('02:00')" title="">02:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('02:30')" title="">02:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('03:00')" title="">03:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('03:30')" title="">03:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('04:00')" title="">04:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('04:30')" title="">04:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('05:00')" title="">05:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('05:30')" title="">05:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('06:00')" title="">06:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('06:30')" title="">06:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('07:00')" title="">07:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('07:30')" title="">07:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('08:00')" title="">08:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('08:30')" title="">08:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('09:00')" title="">09:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('09:30')" title="">09:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('10:00')" title="">10:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('10:30')" title="">10:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('11:00')" title="">11:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('11:30')" title="">11:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('12:00')" title="">12:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue36('12:30')" title="">12:30</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue36('N/A')" title="">N/A</a>
+                  </div>
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling_63"  onmouseover="flag37=true;" onmouseout="flag37=false;" >
+                    <input type="hidden" id="anytime_efri_2" name="anytime_efri_2" value="<%= @fri_s2 %>" />
+                    <div id="field37" class="selectDiv selectDivTime_63" style="line-height:23px;" tabindex="58"><%= @fri_s2 %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv37" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue37('AM')" title="">AM</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue37('PM')" title="">PM</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue37('N/A')" title="">N/A</a>
+                  </div>
+
+                </div>
+
+                <span  class="checkbox setstyle" style="top:-5px; left:3px;">
+                  <%if @day_v.include?("fri")%>
+                    <input type="hidden" name="anytime_closed_fri" id="anytime_closed_fri" value="1" />
+                    <a href="javascript:void(0)" title="" id="checkbox_selected4" onclick="dispCheckboxImg('checkbox_selected4')" onkeydown="ag_cb_keydown(event,'checkbox_selected4')" style="display: none" tabindex="59"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" id="checkbox_normal4" onclick="dispCheckboxImg('checkbox_normal4')" onkeydown="ag_cb_keydown(event,'checkbox_normal4')"tabindex="59" ><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+
+                <%else%>
+
+
+                  <input type="hidden" name="anytime_closed_fri" id="anytime_closed_fri" value="0" />
+                  <a href="javascript:void(0)" title="" id="checkbox_selected4" onclick="dispCheckboxImg('checkbox_selected4')" onkeydown="ag_cb_keydown(event,'checkbox_selected4')"  tabindex="59"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" id="checkbox_normal4" onclick="dispCheckboxImg('checkbox_normal4')" onkeydown="ag_cb_keydown(event,'checkbox_normal4')" style="display: none"tabindex="59" ><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+
+                <%end%>
+                <span class="closed_txt" style="left:5px;">Closed</span>
+              </div>
+            </div>
+
+            <div class="clear"></div>
+            <div class="errorDiv" style="display:none">
+              <div class="lt anyTimeError" id="hours_fri_time_error"></div>
+              <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+
+
+            <div id="anytime_satu" style="margin-bottom:15px;">
+              <div class="workDays6">
+                <div class="DayText">
+                  <div class="lt setWidth">
+                    Saturday
+                  </div>
+                  :
+                </div>
+                <%@sat_sc = '01:00'
+                @sat_s1 = 'AM'
+                @sat_en = '01:00'
+                @sat_s2 = 'AM'%>
+                <%if @day_v.include?("sat")%>
+                  <%sat_value = @day_v.index("sat")%>
+                  <% sat_schedule = ActivitySchedule.find(@st[sat_value])%>
+                  <% @sat_sc = sat_schedule.start_time.strftime("%I:%M") if !sat_schedule.start_time.nil?  %>
+                  <% @sat_en = sat_schedule.end_time.strftime("%I:%M") if !sat_schedule.end_time.nil?  %>
+                  <% @sat_s1 = sat_schedule.start_time.strftime("%p") if !sat_schedule.start_time.nil?  %>
+                  <% @sat_s2 = sat_schedule.end_time.strftime("%p") if !sat_schedule.end_time.nil?  %>
+                <%end%>
+
+                <div class="timStart" id="anytime_satu_start_time" style="width: 140px; margin-left:28px;margin-top: -8px;">
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling"  onmouseover="flag38=true;" onmouseout="flag38=false;">
+                    <input type="hidden" id="anytime_ssat_1" name="anytime_ssat_1" value="<%= @sat_sc %>" />
+                    <div id="field38" class="selectDiv selectDivTime" style="line-height:23px;" tabindex="60"><%= @sat_sc %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv38" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('01:00')" title="">01:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('01:30')" title="">01:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('02:00')" title="">02:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('02:30')" title="">02:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('03:00')" title="">03:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('03:30')" title="">03:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('04:00')" title="">04:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('04:30')" title="">04:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('05:00')" title="">05:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('05:30')" title="">05:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('06:00')" title="">06:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('06:30')" title="">06:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('07:00')" title="">07:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('07:30')" title="">07:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('08:00')" title="">08:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('08:30')" title="">08:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('09:00')" title="">09:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('09:30')" title="">09:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('10:00')" title="">10:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('10:30')" title="">10:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('11:00')" title="">11:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('11:30')" title="">11:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('12:00')" title="">12:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue38('12:30')" title="">12:30</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue38('N/A')" title="">N/A</a>
+                  </div>
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling_63"  onmouseover="flag39=true;" onmouseout="flag39=false;" >
+                    <input type="hidden" id="anytime_ssat_2" name="anytime_ssat_2" value="<%= @sat_s1 %>" />
+                    <div id="field39" class="selectDiv selectDivTime_63" style="line-height:23px;" tabindex="61"><%= @sat_s1 %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv39" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue39('AM')" title="">AM</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue39('PM')" title="">PM</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue39('N/A')" title="">N/A</a>
+                  </div>
+
+                </div>
+                <div class="setStyleDash">&ndash;</div>
+                <div class="timStart" id="anytime_satu_end_time" style="width: 142px; margin-left:10px;margin-top: -8px;">
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling"  onmouseover="flag40=true;" onmouseout="flag40=false;">
+                    <input type="hidden" id="anytime_esat_1" name="anytime_esat_1" value="<%= @sat_en %>" />
+                    <div id="field40" class="selectDiv selectDivTime" style="line-height:23px;" tabindex="62"><%= @sat_en %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv40" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('01:00')" title="">01:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('01:30')" title="">01:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('02:00')" title="">02:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('02:30')" title="">02:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('03:00')" title="">03:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('03:30')" title="">03:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('04:00')" title="">04:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('04:30')" title="">04:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('05:00')" title="">05:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('05:30')" title="">05:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('06:00')" title="">06:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('06:30')" title="">06:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('07:00')" title="">07:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('07:30')" title="">07:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('08:00')" title="">08:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('08:30')" title="">08:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('09:00')" title="">09:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('09:30')" title="">09:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('10:00')" title="">10:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('10:30')" title="">10:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('11:00')" title="">11:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('11:30')" title="">11:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('12:00')" title="">12:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue40('12:30')" title="">12:30</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue40('N/A')" title="">N/A</a>
+                  </div>
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling_63"  onmouseover="flag41=true;" onmouseout="flag41=false;" >
+                    <input type="hidden" id="anytime_esat_2" name="anytime_esat_2" value="<%= @sat_s2 %>" />
+                    <div id="field41" class="selectDiv selectDivTime_63" style="line-height:23px;" tabindex="63"><%= @sat_s2 %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv41" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue41('AM')" title="">AM</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue41('PM')" title="">PM</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue41('N/A')" title="">N/A</a>
+                  </div>
+
+
+                </div>
+
+                <span  class="checkbox setstyle" style="top:-5px; left:3px;">
+                  <%if @day_v.include?("sat")%>
+                    <input type="hidden" name="anytime_closed_sat" id="anytime_closed_sat" value="1" />
+                    <a href="javascript:void(0)" title="" id="checkbox_selected5" onclick="dispCheckboxImg('checkbox_selected5')" onkeydown="ag_cb_keydown(event,'checkbox_selected5')" style="display: none"  tabindex="64"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" id="checkbox_normal5" onclick="dispCheckboxImg('checkbox_normal5')" onkeydown="ag_cb_keydown(event,'checkbox_normal5')"  tabindex="64"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+
+
+                <%else%>
+
+                  <input type="hidden" name="anytime_closed_sat" id="anytime_closed_sat" value="0" />
+                  <a href="javascript:void(0)" title="" id="checkbox_selected5" onclick="dispCheckboxImg('checkbox_selected5')" onkeydown="ag_cb_keydown(event,'checkbox_selected5')"   tabindex="64"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" id="checkbox_normal5" onclick="dispCheckboxImg('checkbox_normal5')" onkeydown="ag_cb_keydown(event,'checkbox_normal5')"  style="display: none" tabindex="64"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+
+                <%end%>
+
+                <span class="closed_txt" style="left:5px;">Closed</span>
+              </div>
+            </div>
+
+            <div class="clear"></div>
+            <div class="errorDiv" style="display:none">
+              <div class="lt anyTimeError" id="hours_sat_time_error"></div>
+              <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+
+            <div id="anytime_sund" style="margin-bottom:15px;">
+              <div class="workDays7">
+                <div class="DayText">
+                  <div class="lt setWidth">
+                    Sunday
+                  </div>
+                  :
+                </div>
+
+                <%@sun_sc = '01:00'
+                @sun_s1 = 'AM'
+                @sun_en = '01:00'
+                @sun_s2 = 'AM'%>
+                <%if @day_v.include?("sun")%>
+                  <%sun_value = @day_v.index("sun")%>
+                  <% sun_schedule = ActivitySchedule.find(@st[sun_value])%>
+                  <% @sun_sc = sun_schedule.start_time.strftime("%I:%M") if !sun_schedule.start_time.nil?  %>
+                  <% @sun_en = sun_schedule.end_time.strftime("%I:%M") if !sun_schedule.end_time.nil?  %>
+                  <% @sun_s1 = sun_schedule.start_time.strftime("%p") if !sun_schedule.start_time.nil?  %>
+                  <% @sun_s2 = sun_schedule.end_time.strftime("%p") if !sun_schedule.end_time.nil?  %>
+                <%end%>
+
+                <div class="timStart" id="anytime_sund_start_time" style="width: 140px; margin-left:28px;margin-top: -8px;">
+
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling"  onmouseover="flag42=true;" onmouseout="flag42=false;">
+                    <input type="hidden" id="anytime_ssun_1" name="anytime_ssun_1" value="<%= @sun_sc %>" />
+                    <div id="field42" class="selectDiv selectDivTime" style="line-height:23px;"  tabindex="65"><%= @sun_sc %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv42" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('01:00')" title="">01:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('01:30')" title="">01:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('02:00')" title="">02:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('02:30')" title="">02:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('03:00')" title="">03:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('03:30')" title="">03:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('04:00')" title="">04:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('04:30')" title="">04:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('05:00')" title="">05:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('05:30')" title="">05:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('06:00')" title="">06:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('06:30')" title="">06:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('07:00')" title="">07:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('07:30')" title="">07:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('08:00')" title="">08:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('08:30')" title="">08:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('09:00')" title="">09:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('09:30')" title="">09:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('10:00')" title="">10:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('10:30')" title="">10:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('11:00')" title="">11:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('11:30')" title="">11:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('12:00')" title="">12:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue42('12:30')" title="">12:30</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue42('N/A')" title="">N/A</a>
+                  </div>
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling_63"  onmouseover="flag43=true;" onmouseout="flag43=false;" >
+                    <input type="hidden" id="anytime_ssun_2" name="anytime_ssun_2" value="<%= @sun_s1 %>" />
+                    <div id="field43" class="selectDiv selectDivTime_63" style="line-height:23px;"  tabindex="65"><%= @sun_s1 %></div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv43" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue43('AM')" title="">AM</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue43('PM')" title="">PM</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue43('N/A')" title="">N/A</a>
+                  </div>
+
+
+                </div>
+                <div class="setStyleDash">&ndash;</div>
+                <div class="timStart" id="anytime_sund_end_time" style="width: 142px; margin-left:10px;margin-top: -8px;">
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling"  onmouseover="flag44=true;" onmouseout="flag44=false;">
+                    <input type="hidden" id="anytime_esun_1" name="anytime_esun_1" value="<%= @sun_en %>" />
+                    <div id="field44" class="selectDiv selectDivTime" style="line-height:23px;"  tabindex="66"><%= @sun_en %> </div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv44" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('01:00')" title="">01:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('01:30')" title="">01:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('02:00')" title="">02:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('02:30')" title="">02:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('03:00')" title="">03:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('03:30')" title="">03:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('04:00')" title="">04:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('04:30')" title="">04:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('05:00')" title="">05:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('05:30')" title="">05:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('06:00')" title="">06:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('06:30')" title="">06:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('07:00')" title="">07:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('07:30')" title="">07:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('08:00')" title="">08:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('08:30')" title="">08:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('09:00')" title="">09:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('09:30')" title="">09:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('10:00')" title="">10:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('10:30')" title="">10:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('11:00')" title="">11:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('11:30')" title="">11:30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('12:00')" title="">12:00</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue44('12:30')" title="">12:30</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue44('N/A')" title="">N/A</a>
+                  </div>
+
+                  <div class="endTimeDiv selectBoxCity selectBoxBilling_63"  onmouseover="flag45=true;" onmouseout="flag45=false;" >
+                    <input type="hidden" id="anytime_esun_2" name="anytime_esun_2" value="<%= @sun_s2 %>"  />
+                    <div id="field45" class="selectDiv selectDivTime_63" style="line-height:23px;"  tabindex="67"><%= @sun_s2 %> </div>
+                  </div>
+                  <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv45" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue45('AM')" title="">AM</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue45('PM')" title="">PM</a>
+					<a href="javascript:void(0)" onclick="setDropDownValue45('N/A')" title="">N/A</a>
+                  </div>
+
+                </div>
+
+                <span  class="checkbox setstyle" style="top:-5px; left:3px;">
+                  <%if @day_v.include?("sun")%>
+                    <input type="hidden" name="anytime_closed_sun" id="anytime_closed_sun" value="1" />
+                    <a href="javascript:void(0)" title="" id="checkbox_selected6" onclick="dispCheckboxImg('checkbox_selected6')" onkeydown="ag_cb_keydown(event,'checkbox_selected6')"  tabindex="68" style="display: none"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" id="checkbox_normal6" onclick="dispCheckboxImg('checkbox_normal6')" onkeydown="ag_cb_keydown(event,'checkbox_normal6')"  tabindex="68"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+                <%else%>
+                  <input type="hidden" name="anytime_closed_sun" id="anytime_closed_sun" value="0" />
+                  <a href="javascript:void(0)" title="" id="checkbox_selected6" onclick="dispCheckboxImg('checkbox_selected6')" onkeydown="ag_cb_keydown(event,'checkbox_selected6')" tabindex="68" ><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" id="checkbox_normal6" onclick="dispCheckboxImg('checkbox_normal6')" onkeydown="ag_cb_keydown(event,'checkbox_normal6')"   tabindex="68" style="display: none"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+                <%end%>
+                <span class="closed_txt" style="left:5px;">Closed</span>
+              </div>
+            </div>
+
+            <div class="clear"></div>
+            <div class="errorDiv" style="display:none">
+              <div class="lt anyTimeError" id="hours_sun_time_error"></div>
+              <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+
+          </div>
+          <div class="clear"></div>
+        </div>
+
+
+
+
+        <input type="hidden" value="" id="camps_sdate_time_val" name="camps_sdate_time_val" />
+        <input type="hidden" value="" id="camps_edate_time_val" name="camps_edate_time_val" />
+        <div class="paddingTop10" id="bill_cams_works" style="display:none;">
+          <div class="lt leftSideField">
+            Date &amp; Time
+          </div>
+          <div class="lt" id="camps_date_time">
+            <div style="width: 545px; height: 76px;">
+              <div class="CalenderDiv" style="width:255px;">
+                <div class="StrtTxt" style="width:125px;">
+                  Start Date
+                </div>
+                <div class="StrtDte">
+                  <div class="dateDiv CampsStartDateDiv" id="CampsDateDiv">
+
+                    <input type="text"  id="datestartcamps_1" name="datestartcamp_1" class="dateTextbox" value="<%= @schedule.last.start_date.strftime("%a %d/%m/%Y") unless @schedule.last.start_date.nil? if !@schedule.last.nil? if @activity.schedule_mode =="Camps/Workshop" %>" readonly="readonly" style="margin-right:23px;.margin-right:18px;.margin-left:10px;"  tabindex="69"/>
+                    <input type="hidden" id="datestcamps_1" name="datestcamps_1" value="<%= @schedule.last.start_date.strftime("%Y-%m-%d") unless @schedule.last.start_date.nil? if !@schedule.last.nil? if @activity.schedule_mode =="Camps/Workshop" %>"/>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+
+
+                <div>
+                  <div class="StrtTxt" style="width:125px;">
+                    End Date
+                  </div>
+                  <div class="StrtDte">
+                    <div class="dateDiv CampsEndDateDiv" id="CampsDateDiv">
+                      <input type="text"  id="dateendcamps_2" name="dateendcamp_2" class="dateTextbox" value="<%= @schedule.last.end_date.strftime("%a %d/%m/%Y") unless @schedule.last.end_date.nil? if !@schedule.last.nil? if @activity.schedule_mode =="Camps/Workshop" %>" readonly="readonly" style="margin-right:23px;.margin-right:18px;.margin-left:10px;" tabindex="72"/>
+                      <input type="hidden" id="dateencamps_2" name="dateencamps_2" value="<%= @schedule.last.end_date.strftime("%Y-%m-%d") unless @schedule.last.end_date.nil? if !@schedule.last.nil? if @activity.schedule_mode =="Camps/Workshop" %>"/>
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+
+
+
+              </div>
+              <div style="float: left; display: inline-block; width: 255px; margin-left: -10px;.margin-left: 0px;">
+                <div>
+                  <div class="StrtTxt" style="width: 70px; margin-left: 25px;">
+                    Start Time
+                  </div>
+
+                  <div class="timStart" id="camps_start_time" style="width: 140px; height:36px;margin-top: -1px;">
+                    <%@cam_start_time = '01:00'
+                    @cam_start_s1 = 'AM'
+                    @cam_end_time = '01:00'
+                    @cam_end_s1 = 'AM'%>
+                    <%if @activity.schedule_mode =="Camps/Workshop"%>
+                      <% @schedule.each do |sc|
+                        @cam_start_time = sc.start_time.strftime("%I:%M") if !sc.start_time.nil?
+                        @cam_start_s1 = sc.start_time.strftime("%p") if !sc.start_time.nil?
+                        @cam_end_time = sc.end_time.strftime("%I:%M") if !sc.end_time.nil?
+                        @cam_end_s1 = sc.end_time.strftime("%p") if !sc.end_time.nil?
+                      end%>
+
+
+                    <%end%>
+
+                    <div class="endTimeDiv selectBoxCity selectBoxBilling"  onmouseover="flag46=true;" onmouseout="flag46=false;">
+                      <input type="hidden" id="camps_stime_1" name="camps_stime_1" value="<%= @cam_start_time %>"  />
+                      <div id="field46" class="selectDiv selectDivTime" style="line-height:23px;"  tabindex="70"><%= @cam_start_time %> </div>
+                    </div>
+                    <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv46" style="display:none;">
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('01:00')" title="">01:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('01:30')" title="">01:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('02:00')" title="">02:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('02:30')" title="">02:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('03:00')" title="">03:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('03:30')" title="">03:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('04:00')" title="">04:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('04:30')" title="">04:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('05:00')" title="">05:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('05:30')" title="">05:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('06:00')" title="">06:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('06:30')" title="">06:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('07:00')" title="">07:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('07:30')" title="">07:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('08:00')" title="">08:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('08:30')" title="">08:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('09:00')" title="">09:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('09:30')" title="">09:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('10:00')" title="">10:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('10:30')" title="">10:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('11:00')" title="">11:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('11:30')" title="">11:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('12:00')" title="">12:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue46('12:30')" title="">12:30</a>
+					  <a href="javascript:void(0)" onclick="setDropDownValue46('N/A')" title="">N/A</a>
+                    </div>
+
+                    <div class="endTimeDiv selectBoxCity selectBoxBilling_63"  onmouseover="flag47=true;" onmouseout="flag47=false;" >
+                      <input type="hidden" id="camps_stime_2" name="camps_stime_2" value="<%= @cam_start_s1 %>" />
+                      <div id="field47" class="selectDiv selectDivTime_63" style="line-height:23px;" tabindex="71"><%= @cam_start_s1 %></div>
+                    </div>
+                    <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv47" style="display:none;">
+                      <a href="javascript:void(0)" onclick="setDropDownValue47('AM')" title="">AM</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue47('PM')" title="">PM</a>
+					  <a href="javascript:void(0)" onclick="setDropDownValue47('N/A')" title="">N/A</a>
+                    </div>
+
+                  </div>
+                  <div class="clear"></div>
+                </div>
+
+                <div>
+                  <div class="StrtTxt" style="width: 70px; margin-left: 25px;  margin-top:3px; position:relative;">
+												End Time
+                  </div>
+                  <div class="timStart" id="camps_end_time"  style="width: 140px; margin-top: -4px;">
+
+                    <div class="endTimeDiv selectBoxCity selectBoxBilling"  onmouseover="flag48=true;" onmouseout="flag48=false;">
+                      <input type="hidden" id="camps_etime_1" name="camps_etime_1" value="<%= @cam_end_time %>" />
+                      <div id="field48" class="selectDiv selectDivTime" style="line-height:23px;" tabindex="73"><%= @cam_end_time %></div>
+                    </div>
+                    <div class="dropDownDivCity dropDownDivTime" id="dropDownDiv48" style="display:none;">
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('01:00')" title="">01:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('01:30')" title="">01:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('02:00')" title="">02:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('02:30')" title="">02:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('03:00')" title="">03:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('03:30')" title="">03:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('04:00')" title="">04:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('04:30')" title="">04:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('05:00')" title="">05:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('05:30')" title="">05:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('06:00')" title="">06:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('06:30')" title="">06:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('07:00')" title="">07:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('07:30')" title="">07:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('08:00')" title="">08:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('08:30')" title="">08:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('09:00')" title="">09:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('09:30')" title="">09:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('10:00')" title="">10:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('10:30')" title="">10:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('11:00')" title="">11:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('11:30')" title="">11:30</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('12:00')" title="">12:00</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue48('12:30')" title="">12:30</a>
+					  <a href="javascript:void(0)" onclick="setDropDownValue48('N/A')" title="">N/A</a>
+                    </div>
+
+                    <div class="endTimeDiv selectBoxCity selectBoxBilling_63"  onmouseover="flag3=true;" onmouseout="flag3=false;" >
+                      <input type="hidden" id="camps_etime_2" name="camps_etime_2" value="<%= @cam_end_s1 %>" />
+                      <div id="field3" class="selectDiv selectDivTime_63" style="line-height:23px;" tabindex="74"><%= @cam_end_s1 %></div>
+                    </div>
+                    <div class="dropDownDivCity dropDownDivTime_63" id="dropDownDiv3" style="display:none;">
+                      <a href="javascript:void(0)" onclick="setDropDownValue3('AM')" title="">AM</a>
+                      <a href="javascript:void(0)" onclick="setDropDownValue3('PM')" title="">PM</a>
+					  <a href="javascript:void(0)" onclick="setDropDownValue3('N/A')" title="">N/A</a>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+              <div class="clear"></div>
+              <div style="display:none;" class="errorDiv">
+                <div id="camps_error" class="lt" style="padding-bottom:15px;"></div>
+              </div>
+              <div class="clear"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="paddingTop10" style="width:800px;">
+          <div class="lt leftSideField">
+            Enter Price<span class="required">*</span>
+          </div>
+
+          <div class="lt">
+            <%if @activity.filter_id == 3%>
+              <input type="text" id="price" name="activity[price]" class="lt textbox" disabled="disabled" value="<%if @activity.price.present? && @activity.price!=0 %><%=@activity.price%><%else%><%end%>"  style="width:260px;margin-right:10px;" onfocus="focusChangeBorderColor('price')" onblur="blurChangeBorderColor('price')" tabindex="75"/><div class="lt ftSz13Clr priceText"  style="margin-top:7px;">$ or USD</div>
+            <%else%>
+              <input type="text" id="price" name="activity[price]" class="lt textbox" <%if @activity.contact_price == true%> disabled="disabled" <%end%> value="<%= @activity.price%>"  style="width:260px;margin-right:10px;" onfocus="focusChangeBorderColor('price')" onblur="blurChangeBorderColor('price')" tabindex="75"/><div class="lt ftSz13Clr priceText" style="margin-top:7px;">$ or USD</div>
+            <%end%>
+          </div>
+
+          <div class="clear"></div>
+          <div class="lt leftSideField"></div>
+          <div class="lt">
+            <%if @activity.filter_id == 3%>
+              <input type="hidden" name="prizeCheck" id="prizeCheck" value="1"  />
+              <span  class="checkbox setstyle"> <a href="javascript:void(0)" title="" class="checkbox_selected_p" id="checkbox_selected_p1" onclick="dispCheck('checkbox_selected_p')" tabindex="76"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_p" id="checkbox_normal_p1" onclick="dispCheck('checkbox_normal_p')" tabindex="76" style="display: none;"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="ftSz13Clr">Free</span>
+            <%else%>
+              <input type="hidden" name="prizeCheck" id="prizeCheck" value="0" />
+              <span  class="checkbox setstyle"> <a href="javascript:void(0)" title="" class="checkbox_selected_p" id="checkbox_selected_p1" onclick="dispCheck('checkbox_selected_p')" tabindex="76"  style="display: none;"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:vcamps_start_timeoid(0)" title="" class="checkbox_normal_p" id="checkbox_normal_p1" onclick="dispCheck('checkbox_normal_p')" tabindex="76" ><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="ftSz13Clr">Free</span>
+            <%end%>
+            <%if @activity.contact_price == true%>
+              <input type="hidden" name="con_provider" id="con_provider" value="1" />
+              <span class="checkbox setstyle"  style="margin-left:20px;margin-right:5px;"><a href="javascript:void(0)" title="" class="checkbox_selected_cp" id="checkbox_selected_cp1" onclick="dispCheckCP('checkbox_selected_cp')" tabindex="80"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a><a href="javascript:void(0)" title="" class="checkbox_normal_cp" id="checkbox_normal_cp1" onclick="dispCheckCP('checkbox_normal_cp')" tabindex="80" style="display: none" ><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a></span>
+            <%else%>
+              <input type="hidden" name="con_provider" id="con_provider" value="0" />
+              <span class="checkbox setstyle"  style="margin-left:20px;margin-right:5px;"><a href="javascript:void(0)" title="" class="checkbox_selected_cp" id="checkbox_selected_cp1" onclick="dispCheckCP('checkbox_selected_cp')" style="display: none" tabindex="80"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a><a href="javascript:void(0)" title="" class="checkbox_normal_cp" id="checkbox_normal_cp1" onclick="dispCheckCP('checkbox_normal_cp')" tabindex="80"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a></span>
+            <%end%>
+            <span class="ftSz13Clr">Contact Provider for price</span>
+          </div>
+          <div class="clear"></div>
+
+
+        </div>
+        <div class="errorDiv" style="display:none">
+          <div class="lt leftSideField">
+            &nbsp;
+          </div>
+          <div class="lt" id="price_error"></div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="paddingTop10">
+          <div class="lt leftSideField">
+            Leader Name
+          </div>
+          <div class="lt">
+            <input type="text" name="activity[leader]" id="leader" class="lt textbox" value="<%if @activity.leader.present?%><%=@activity.leader%><%else%>Enter Leader Name<%end%>" onfocus="focusChangeBorderColor('leader')" onblur="blurChangeBorderColor('leader')" tabindex="77" maxlength="50"/>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="clear"></div>
+        <div class="errorDiv" style="display:none">
+          <div class="lt leftSideField">
+            &nbsp;
+          </div>
+          <div class="lt" id="leader_error"></div>
+        </div>
+        <div class="clear"></div>
+
+
+        <div class="paddingTop10">
+          <div class="lt leftSideField">
+            Choose Skill Level
+          </div>
+          <div class="lt">
+            <div class="selectBoxCity"  onmouseover="flag4=true;" onmouseout="flag4=false;">
+              <input type="hidden" id="skill_level" name="activity[skill_level]" value="<%if @activity.skill_level.present?%><%=@activity.skill_level%><%else%>Enter Leader Name<%end%>" />
+              <div id="field4" class="selectDiv" style="line-height:23px;" tabindex="78">
+                <%if@activity.skill_level.present?%><%=@activity.skill_level%><%else%>Enter Leader Name<%end%>
+              </div>
+            </div>
+            <div class="dropDownDivCity" id="dropDownDiv4" style="display:none;">
+              <a href="javascript:void(0)" onclick="setDropDownValue4('--Select--')" title="">--Select--</a>
+			  <a href="javascript:void(0)" onclick="setDropDownValue4('Beginner')" title="">Beginner</a>
+              <a href="javascript:void(0)" onclick="setDropDownValue4('Intermediate')" title="">Intermediate</a>
+              <a href="javascript:void(0)" onclick="setDropDownValue4('Advanced')" title="">Advanced</a>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="paddingTop10">
+          <div class="lt leftSideField">
+            Website &amp; Email Id
+          </div>
+          <div class="lt">
+            <div class="lt col1">
+              <input type="text" name="activity[website]" id="website" class="lt textbox textboxMedium" value="<%if @activity.website.present?%><%=@activity.website%><%else%>Enter URL<%end%>" onchange="removeunwantedSpace('website',this.value)" onfocus="focusChangeBorderColor('website')" onblur="blurChangeBorderColor('website')" tabindex="79"/>
+            </div>
+            <div class="lt col2">
+              <input type="text" name="activity[email]" id="email_id" class="lt textbox textboxMedium" value="<%if @activity.email.present?%><%=@activity.email%><%else%>Enter Email Id<%end%>" onchange="removeunwantedSpace('email_id',this.value)" onfocus="focusChangeBorderColor('email_id')" onblur="blurChangeBorderColor('email_id')" tabindex="80"/>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <div id="webEmail_errorDiv" class="errorDiv" style="display:none">
+          <div class="lt leftSideField">
+            &nbsp;
+          </div>
+          <div class="lt dateTimeDiv city_zip">
+            <div class="lt" id="web_error"></div>
+            <div class="lt" id="e_error"></div>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="paddingTop10">
+          <div class="lt leftSideField">Phone Number</div>
+          <input type="text" name="activity[phone]" id="phone_no" class="lt textbox" value="<%if @activity.phone.present?%><%=@activity.phone%><%else%>Eg +1 987654321<%end%>" onfocus="focusChangeBorderColor('phone_no')" onblur="blurChangeBorderColor('phone_no')" maxlength="13" tabindex="81"/>
+          <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="errorDiv" style="display:none">
+          <div class="lt leftSideField">
+            &nbsp;
+          </div>
+          <div class="lt" id="phone_no_error"></div>
+        </div>
+
+        <div class="clear"></div>
+        <div class="paddingTop10">
+          <div class="lt leftSideField">Address<span class="required">*</span>
+          </div>
+          <input type="text" name="activity[address_1]" id="add_1" class="lt textbox" value="<%if @activity.address_1.present? %><%=@activity.address_1%><%else%>Address Line2<%end%>" onfocus="focusChangeBorderColor('add_1')" onblur="blurChangeBorderColor('add_1')" tabindex="82"/>
+          <div class="clear"></div>
+        </div>
+        <div class="paddingTop2">
+          <div class="lt leftSideField">
+            &nbsp;
+          </div>
+          <input type="text" name="activity[address_2]" id="add_2" class="lt textbox" value="<%if @activity.address_2.present? %><%=@activity.address_2%><%else%>Address Line2<%end%>"  onfocus="focusChangeBorderColor('add_2')" onblur="blurChangeBorderColor('add_2')" tabindex="83"/>
+          <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="errorDiv" style="display:none">
+          <div class="lt leftSideField">
+            &nbsp;
+          </div>
+          <div class="lt" id="venue_error"></div>
+        </div>
+        <div class="clear"></div>
+		
+		<!--<div class="paddingTop10">
+                <div class="lt leftSideField">
+								Country<span class="required">*</span> &amp; State<span class="required">*</span>
+                </div>
+                <div class="lt country">
+					<div class="lt col1">
+						<div class="selectBoxCity selectBoxMedium"  onmouseover="flag5=true;" onmouseout="flag5=false;">
+						  <input type="hidden" id="act_country" name="[country]" value="" />
+						  <div id="field5" class="selectDiv selectDivMedium" style="line-height:23px;" tabindex="88" >
+													--Choose Country--
+						  </div>
+						</div>
+
+						<div class="dropDownDivCity dropDownDivMedium" id="dropDownDiv5" style="display:none; height:29px;">
+                           <a href="javascript:void(0)" onclick="setCountryValue('United States')" title="">United States</a>
+						</div>
+					</div>
+					<div class="lt col2 state" >
+						<div class="selectBoxCity selectBoxMedium"  onmouseover="flag6=true;" onmouseout="flag6=false;">
+						  <input type="hidden" id="act_state" name="[state]" value="" />
+						  <div id="field6" class="selectDiv selectDivMedium" style="line-height:23px;" tabindex="88" >
+													--Choose State--
+						  </div>
+						</div>
+
+						<div class="dropDownDivCity dropDownDivMedium" id="dropDownDiv6" style="display:none; height:109px; overflow-y:scroll;">
+						</div>
+					</div>
+				</div>
+            </div>
+          <div class="clear"></div>
+              <div id="country_errorDiv" class="errorDiv" style="display:none">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+                <div class="lt" id="country_error"  style="width: 275px;"></div>
+                <div class="lt" id="state_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+	   -->
+        <div class="paddingTop10">
+          <div class="lt leftSideField">
+            City &amp; Zip code<span class="required">*</span>
+          </div>
+          <div class="lt city">
+            <div class="lt col1">
+              <div class="selectBoxCity selectBoxMedium"  onmouseover="flag12=true;" onmouseout="flag12=false;">
+                <input type="hidden" id="act_city" name="activity[city]" value="<%= @activity.city%>" />
+                <div id="field12" class="selectDiv selectDivMedium" style="line-height:23px;" tabindex="84">
+                  <%= @activity.city%>
+                </div>
+              </div>
+
+              <div class="dropDownDivCity dropDownDivMedium" id="dropDownDiv12" style="display:none;">
+                <% if !@cities.nil? %>
+                  <% @cities.each do |city|%>
+                    <a href="javascript:void(0)" onclick="setDropDownValue12('<%=city%>')" title=""><%=city%></a>
+                  <%end%>
+                <%end %>
+              </div>
+            </div>
+            <div class="lt col2">
+              <input type="text" name="activity[zip_code]" id="zip_code" class="lt textbox textboxMedium" value="<%= @activity.zip_code%>" onchange="removeunwantedSpace('zip_code',this.value)" onfocus="focusChangeBorderColor('zip_code')" onblur="blurChangeBorderColor('zip_code')" tabindex="85"/>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <div id="cityZip_errorDiv" class="errorDiv" style="display:none">
+          <div class="lt leftSideField">
+            &nbsp;
+          </div>
+          <div class="lt dateTimeDiv city_zip">
+            <div class="lt" id="city_error"></div>
+            <div class="lt" id="zip_error"></div>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="paddingTop10">
+          <div class="lt leftSideField">
+            Age Range	
+          </div>
+          <div class="lt age_range">
+            <div class="selectBoxCity"  onmouseover="flag13=true;" onmouseout="flag13=false;">
+              <input type="hidden" id="age_range" name="activity[age_range]" value="<%if @activity.age_range.present?%><%=@activity.age_range%><%else%>--Select Age Range--<%end%>" />
+              <div id="field13" class="selectDiv" style="line-height:23px;" tabindex="86">
+                <%if @activity.age_range.present? %><%=@activity.age_range%><%else%>--Select Age Range--<%end%>
+              </div>
+            </div>
+
+            <div class="dropDownDivCity" id="dropDownDiv13" style="display:none; height:154px;">
+              <a href="javascript:void(0)" title="" onclick="setDropDownValue13('')">--Select Age Range--</a>
+			  <a href="javascript:void(0)"  rel="1" title="" onclick="setDropDownValue13('1-3')">1-3</a>
+              <a href="javascript:void(0)"  rel="2" title="" onclick="setDropDownValue13('4-6')">4-6</a>
+              <a href="javascript:void(0)"  rel="3" title="" onclick="setDropDownValue13('7-9')">7-9</a>
+              <a href="javascript:void(0)"  rel="3" title="" onclick="setDropDownValue13('10-12')">10-12</a>
+              <a href="javascript:void(0)"  rel="3" title="" onclick="setDropDownValue13('13-15')">13-15</a>
+              <a href="javascript:void(0)"  rel="3" title="" onclick="setDropDownValue13('16-18')">16-18</a>
+              <a href="javascript:void(0)"  rel="3" title="" onclick="setDropDownValue13('Adults')">Adults</a>
+            </div>
+          </div>
+          <div class="clear"></div>
+          <div class="errorDiv" style="display:none">
+            <div class="lt leftSideField">
+              &nbsp;
+            </div>
+            <div class="lt" id="age_range_error"></div>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="paddingTop10">
+          <div class="lt leftSideField">
+            No of Participants
+          </div>
+          <input type="text" name="activity[no_participants]" id="no_pat" class="lt textbox" value="<%if @activity.no_participants.present? && @activity.no_participants!=0 %><%=@activity.no_participants%><%else%>Specify Number<%end%>" onfocus="focusChangeBorderColor('no_pat')" onblur="blurChangeBorderColor('no_pat')" maxlength="50" tabindex="87"/>
+          <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="errorDiv" style="display:none">
+          <div class="lt leftSideField">
+            &nbsp;
+          </div>
+          <div class="lt" id="no_pat_error"></div>
+        </div>
+        <div class="clear"></div>
+		<div class="paddingTop10" id="edit_image_activity">
+          <div class="lt leftSideField setTop">
+            Activity Image
+          </div>
+          <div class="lt" >
+            <div class="lt" >			 	
+              <div class="lt setImgBorder">
+                <%if !@activity.avatar.url(:original).nil?%>
+                  <%= image_tag @activity.avatar.url(:original), :width => '84', :height => '85' if !@activity.avatar.url(:original).nil?%>
+                <%else%>
+                  <%=image_tag("/assets/event_edit_activity/photo_pic.png", :width=>"84", :height=>"85", :style=>"border:0px;")%>
+                <%end%>
+              </div>
+              <div class="lt">
+                <div class="lt FileUpload">
+                  <input type="file" accept="image/*" onchange="document.getElementById('photo1').value=this.value;validateBrowse();" size="21" id="photo" class="BrowserHidden" name="activity[avatar]" style=".width:100px;">
+                  <div class="BrowserVisible" style="border:none;">
+                    <input type="text" name="photo1" id="photo1" class="FileField" readonly="readonly" style="border:1px solid #ffffff;" />
+
+                  </div>
+                  <span class="browse" tabindex="88" style="cursor:pointer; position:relative; display:inline-block;"><b>Change Picture</b></span>
+                  <div class="clear"></div>
+                </div>
+              </div>
+
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+
+          <div class="errorDiv" style="display:none; margin:7px 0 0 0;">
+            <div class="lt leftSideField">
+              &nbsp;
+            </div>
+            <div class="lt" id="activity_photo_error"></div>
+          </div>
+          <div class="clear"></div>
+        
+        <div>
+          <div class="lt leftSideField">&nbsp;</div>
+          <div class="lt">
+            <input type="hidden" value="1" id="attendees" name="attendees"/>
+            <span  class="checkbox setstyle"> <a href="javascript:void(0)" title="" class="checkbox_selected_a" id="checkbox_selected_a1" onclick="dispCheck('checkbox_selected_a')" tabindex="89"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_a" id="checkbox_normal_a1" onclick="dispCheck('checkbox_normal_a')" style="display: none" tabindex="89"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="ftSz13Clr">Please notify attendees about the changes</span>
+          </div>
+        </div>
+        <div class="clear"></div>
+        <div class="buttonDiv">
+          <div class="lt leftSideField">
+            &nbsp;
+          </div>
+          <div class="lt">
+            <input type="image" src="/assets/create_new_activity/save.png" alt="" tabindex="90" style="position:relative;"/>
+
+            <a href="javascript:void(0);" tabindex="91" onkeydown="cancelActivityClearData(event)" onclick="closepopup()" style="position:relative;"><%=image_tag("/assets/create_new_activity/cancel.png", :width=>"113", :height=>"41", :style=>"border:0px;")%></a>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+
+        </form>
+      </div>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+</div>  <script language="javascript">
+  $(document).ready(function() {
+<%if @act_repeat%>
+      rsetDropDownValue('<%= @act_repeat.repeats%>')
+<%end%>
+  });
+
+</script>
+<script>
+  function cancelKeyDown(e){
+    var KeyCode = (e.which) ? e.which : e.keyCode
+    if(KeyCode==32){
+      activityClearData();
+    }
+  }
+</script>

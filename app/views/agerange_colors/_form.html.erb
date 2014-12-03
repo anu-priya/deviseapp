@@ -1,0 +1,33 @@
+<%= form_for(@agerange_color) do |f| %>
+  <% if @agerange_color.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@agerange_color.errors.count, "error") %> prohibited this agerange_color from being saved:</h2>
+
+      <ul>
+      <% @agerange_color.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :color_id %><br />
+    <%= f.number_field :color_id %>
+  </div>
+  <div class="field">
+    <%= f.label :age_range %><br />
+    <%= f.text_area :age_range %>
+  </div>
+  <div class="field">
+    <%= f.label :color_code %><br />
+    <%= f.text_area :color_code %>
+  </div>
+  <div class="field">
+    <%= f.label :user_id %><br />
+    <%= f.number_field :user_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

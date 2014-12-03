@@ -1,0 +1,8 @@
+$('#fsearch_count').hide();
+$('.right_container').append("<%=escape_javascript(render 'basic_search')%>");
+$("#total_length").val('<%= @tpage %>');
+$("#load_more").css('display','none');
+$('#fadvance_search_count').html('('+<%=@search_count%>+')');
+
+
+

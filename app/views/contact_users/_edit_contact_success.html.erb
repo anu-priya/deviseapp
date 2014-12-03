@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="/assets/contacts_users/contact_user.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up_success.css" />
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css"/>
+<style>
+  .deletePopupContainer{
+    margin:0 auto;width:442px;display:block;
+    overflow:hidden;
+  }
+  .deletePopupContainer .p1{
+    padding-top: 30px;
+  }
+  .deletePopupContainer .buttons{
+    padding-top: 30px;
+  }
+  #page_wrapper{
+    margin-bottom:0px;
+  }
+</style>
+<div class="deletePopupContainer" align="center" >
+     <p class="successText" style="padding:28px 0;">Your friend have been update successfully!</p>
+	 <p style="color:red;"><%if !@error_arr.blank?%><%= @error_msg.html_safe%><%end%></p>
+     <div class="clear"></div>
+     <div></div>
+     <%= link_to image_tag("/assets/register/ok_btn.png", :border => 0), contact_users_path, :target => "_parent" %>
+</div>

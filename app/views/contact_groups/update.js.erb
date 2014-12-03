@@ -1,0 +1,16 @@
+$(".flash-message").html("Network name has been updated successfully");
+var win=$(window).width();
+var con=$(".flash_content").width();
+var leftvalue=((win/2)-(con/2))
+//alert((win/2) +"ss"+ (con/2));
+$(".flash_content").css("left",leftvalue+"px");
+$(".flash_content").css("top","8%");
+$('.flash_content').fadeIn().delay(10000).fadeOut();
+<%if @errors.blank?%>
+$("#error-group-msg_<%= @contact_group.group_id%>").css('display','none');
+$('#contact_user_index').html('<%= escape_javascript(render(:partial => '/contact_users/contact_group')) %>');
+$('#contact_list_member').html('<%= escape_javascript(render(:partial => '/contact_users/contact_user')) %>');
+<%else%>
+$("#error-group-msg_<%= @contact_group.group_id%>").html("<%= @errors.first[1] if !@errors.nil? && !@errors.blank?%>")
+$("#error-group-msg_<%= @contact_group.group_id%>").css('display','block');
+<%end%>

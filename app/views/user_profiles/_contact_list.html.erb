@@ -1,0 +1,11 @@
+<div style="text-align:center">
+<% if @contacts.count > 0 %>
+<% for i in @contacts %>
+<input type="checkbox" name="email_address[]" id="email_address_<%= i %>" value="<%= i %>" /><%= i %><br>
+<!--<input type="checkbox" name="email[]" id="email_<%= i %>" value="<%= i %>" /><%= i %><br>-->
+
+<% end %>
+<% else %>
+<p> Sorry you have no friends </p>
+<% end %>
+</div>

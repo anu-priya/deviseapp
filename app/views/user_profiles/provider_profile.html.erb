@@ -1,0 +1,65 @@
+<%=stylesheet_link_tag "profile/profile","landing/how_it_works", :media => "all"%>
+<%=javascript_include_tag "global/jquery-1.9.1.min","event/event"%>
+
+<script type="text/javascript">
+  
+  var EditpasswordPage;
+  var EditproviderprofilePage;
+  var changeEmailPage;
+  function pop_edit_password(url){
+    EditpasswordPage = dhtmlmodal.open("Edit Password ","iframe",url,"", "width=896px,height=2000px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);   
+    return false;
+  }  
+  function pop_provider_edit_profile(url){
+    EditproviderprofilePage = dhtmlmodal.open("Provider Edit Profile","iframe",url,"", "width=995px,height=2000px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);    
+    return false;
+  }    
+  function pop_change_email(url){
+    changeEmailPage = dhtmlmodal.open("Edit Password ","iframe",url,"", "width=555px,height=400px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);   
+    return false;
+  }
+</script>
+
+  <div id="how_it_worksDiv">
+     <div class="TopListText" align="center" style="width:100%; marign:0 auto; padding-top:21px; background:#F6F8F7;">
+	<span><a href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil? %>" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity List']);">Activity List</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/provider_activites" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity Cards']);">Activity Cards</a></span>
+	<span class="dot menuText">&bull;</span>
+  <span><a href="/provider_activity_discount" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity Discount']);">Activity Discount</a></span><span class="dot menuText">&bull;</span>
+	<span><a href="/activity_provider_schedule" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Schedule']);">Schedule</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/provider_profile" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Business Info']);"><b>Business Info</b></a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/provider_policies" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Policies']);">Policies</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/provider_plan" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Plan']);">Plan</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/change_password" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Password']);">Password</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/provider_settings" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Settings']);">Settings</a></span>
+        <span class="dot menuText">&bull;</span>	
+	<span><a href="/transaction" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Reports']);">Reports</a></span>
+	 <span class="dot menuText">&bull;</span>
+          <span><a href="javascript:void(0);" class="menuText" title="" onClick="pop_provider_embed_Detail('activity_detail/provider_embedded_link?activity_id=<%= get_embed_data if current_user.present? %>'); _gaq.push(['_trackEvent','Provider Module', 'clickSettings','Embed Link']);">Embed Link</a></span>
+	
+		 <div class="clear"></div>
+		 </div>
+    <div class="clear"></div>
+    <div class="setTopBprder" style="padding-top: 13px;"></div>
+    <!--added partial file for profile in form view-->
+    <div <%if @pro == "profile"%> style="display:none;"<%end%>>
+      <%=render :partial=>"provider_profile"%>
+    </div>
+    <div <%if @pro == "profile"%> style="display:none;"<%end%>>
+      <%#=render :partial=>"change_password"%>
+    </div>
+
+  </div>
+
+</div>
+
+

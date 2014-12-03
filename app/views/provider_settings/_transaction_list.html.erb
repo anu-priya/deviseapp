@@ -1,0 +1,150 @@
+<head>
+
+<!-- the jScrollPane script -->
+
+        <!--script type="text/javascript" id="sourcecode">
+          /*  $(function()
+            {
+                $('.scroll-pane').jScrollPane();
+            });/*
+        </script-->
+
+</head>
+<body>
+<%if !@transactions.nil? && @transactions!="" && @transactions.present? %>
+<table width="100%">
+	<tr>
+		<td border="0">
+		<div id="providerEventList" style="height:530px;border:none;">
+			<!--first div start-->
+			<div class="first" style="width:21%">
+			<table width="100%" cellspacing="0" border="0" cellpadding="0">
+			 <tr>
+				<td class="headText setPadRt setborderLt" width="150">Transaction ID</td>
+				<td class="headText setPadRt">Transaction Date</td>
+				<td class="headText setPadRt">Product ID</td>
+			 </tr>   
+			<%i = 0%>
+			<%if !@transactions.nil? && @transactions!="" && @transactions.present? %>
+			<%@transactions && @transactions.each do |tran|%>
+				<%#if i.even? %>
+				<!-- <tr class="setBg2"> -->
+				<%#else%>
+				<tr class="setBg1">
+				<%#end%>
+				<%i = i + 1%>	
+						<td align="left" class="contentText setPadLt activityName">
+							<span onclick="pop_transaction_form('/transaction_detail?tran_id=<%=tran.trans_id%>')" class="blueText checkboxText"><%=tran.transaction_id%></span>
+						</td>
+						<td align="left" class="contentText setPadLt activityName">
+							<span class="contentText" style="border-bottom:none; margin-right:10px"><%=tran.payment_date.strftime("%b %d, %Y") if tran && tran.payment_date %></span>
+						</td>
+						<td align="left" class="contentText setPadLt activityName">
+							<span class="contentText" style="border-bottom:none; margin-right:10px"><%=tran.activity_id%></span>
+						</td>
+					</tr>
+				<%end%>
+			<%end%>
+			</table>
+			</div>
+			<!--first div end-->	
+
+			<!--second div start-->
+			<div class="second container" style="width:70.005%">
+			<div class="ot_second  scroll-pane horizontal-onlyy" style="height:520px;width:100%;">
+			<table width="100%" cellspacing="0" border="0" cellpadding="0">
+			<tr>
+			<td align="left" class="headText " style="width:11%">Activity Name</td>
+			<td align="left" class="headText setPadRt " style="width:10%;">Customer Name</td >
+			<td align="left"  class="headText setPadRt "style="width:7%">Customer Phone</td>
+			<td align="left"  class="headText setPadRt " style="width:8%">Contact <br/>Information</td>
+			<td align="left"  class="headText setPadRt " style="width:8%">Participant(s) Name</td>
+			<td align="left"  class="headText setPadRt" style="width:6%">Provider Share</td>
+			<td align="left"  class="headText setPadRt " style="width:9%">Representative Share</td>
+			<td align="left"  class="headText setPadRt " style="width:7%">Voucher</td>
+			<td align="left"  class="headText setPadRt " style="width:8%">Sale Price($)</td>
+			<td align="left"  class="headText setPadRt " style="width:5%;padding-left:6px;">Discount</td>
+			<td align="left"  class="headText setPadRt " style="width:6%;padding-left:6px;">Discount Dollar</td>
+			<td align="left"  class="headText setPadRt " style="width:6%;padding-left:6px;">Amount Charged($)</td>
+			<td  align="left"  class="headText setPadRt " style="width:12%;padding-left:6px;">Minus&nbsp;CreditCard&nbsp; Fees (processing fee) 3%</td>
+			<td align="left"  class="headText setPadRt " style="width:5%;padding-left:5px;">Famtivity&nbsp;Fee</td>
+
+			</tr>
+			<%i = 0%>
+			<%if !@transactions.nil? && @transactions.length > 0 %>
+			<%@transactions && @transactions.each do |tran|%>
+			<%#if i.even? %>
+				<!-- <tr class="setBg2"> -->
+			<%#else%>
+				<tr class="setBg1">
+			<%#end%>
+			<%i = i + 1%>
+
+			<td align="left" class="contentText td_more"  style="width:11%;"><div  style="margin-right:10px;"><%=tran.activity_name%></div></td>
+			<td  align="left" class="contentText td_more" style="width:10%"><div  style="margin-right:10px;"><%=tran.customer_name%></div></td>
+			<td  align="left" class="contentText td_more" style="width:7%"><div  style="margin-right:10px;"><%=tran.customer_phone%></div></td>
+			<td  align="left" class="contentText td_more" style="width:8%"><div  style="margin-right:10px;"><%=tran.customer_address%></div></td>
+			<td  align="left" class="contentText td_more" style="width:6%"><div  style="margin-right:10px;" title= "<%=(!tran.participant_name.nil? && tran.participant_name[-1]==',') ? tran.participant_name.chop : tran.participant_name%>"><%=(!tran.participant_name.nil? && tran.participant_name[-1]==',') ? truncate(tran.participant_name.chop ,length: 15, omission:"...") : truncate(tran.participant_name,length: 15, omission:"...")%></div></td>
+			<% fam_fee_amt = calculate_fam_fee_for_provider_reports(tran.amount,tran.activity_id,current_user.user_id,tran.famtivity_fee,tran.credit_card_fee,tran.inserted_date)%>
+			<%if current_user && !current_user.nil? && current_user.user_plan.downcase=='sell'%>
+			<td  align="left" class="contentText td_more"><div  style="margin-right:10px;"><%=(fam_fee_amt && fam_fee_amt[4] && fam_fee_amt[4].present? && fam_fee_amt[4]!='' && !fam_fee_amt[4].nil?) ? fam_fee_amt[4].to_s+'%' : '-'%></div></td>
+			<td  align="left" class="contentText td_more" style="width:7%"><div  style="margin-right:10px;"><%=(fam_fee_amt && fam_fee_amt[3] && fam_fee_amt[3].present? && fam_fee_amt[3]!='' && !fam_fee_amt[3].nil?) ? fam_fee_amt[3].to_s+'%' : '-'%></div></td><%end%>
+			<td  align="left" class="contentText " style="width:8%"><div  style="margin-right:10px;"><%=tran.ticket_code%></div></td>
+			<td align="left" class="contentText " style="width:7%"><div  style="margin-right:10px;"><%=  (number_with_precision tran.sale_price, :precision => 2)%></div></td>
+			<td align="left" class="contentText " style="width:6%"><div  style="margin-right:10px;padding-left:5px;"><%= (number_with_precision tran.discount, :precision => 2)%></div></td>
+			<td align="left" class="contentText " style="width:7%"><div  style="margin-right:10px;"><%= (number_with_precision tran.dd_price, :precision => 2)%></div></td>
+			<td  align="left" class="contentText " style="width:8%"><div  style="margin-right:10px;"><%= (number_with_precision tran.amount, :precision => 2)%></div></td>
+
+			<td  align="left" class="contentText " style="width:12%"><div  style="margin-right:10px;"><%=(fam_fee_amt && fam_fee_amt[2] && fam_fee_amt[2].present? && fam_fee_amt[2] > 0) ?  (number_with_precision fam_fee_amt[2], :precision => 2)  : '-'%></div></td>
+			<td  align="left" class="contentText " style="width:5%"><div  style="margin-right:10px;"><%=(fam_fee_amt && fam_fee_amt[0] && fam_fee_amt[0].present? && fam_fee_amt[0]!='') ?  (number_with_precision fam_fee_amt[0], :precision => 2) : 'NA'%></div></td>
+
+				</tr>
+				<%end%>
+			<%end%>
+			</table>
+			</div>
+			</div>
+			<!--second div end-->
+
+			<!--third div start-->
+			<div class="third" style="width:9%">
+			<table width="100%" cellspacing="0" border="0" cellpadding="0">
+			<tr>
+			<td class="headText setborderRt" style="text-align:center;">Net Amount Payable($)</td>
+			</tr>
+			<%i = 0%>
+			<%@transactions && @transactions.each do |tran|%>
+			<%#if i.even? %>
+			<!-- <tr class="setBg2"> -->
+			<%#else%>
+			<tr class="setBg1">
+			<%#end%>
+			<%i = i + 1%>
+			<% fam_fee_amt = calculate_fam_fee_for_provider_reports(tran.amount,tran.activity_id,current_user.user_id,tran.famtivity_fee,tran.credit_card_fee,tran.inserted_date)%>
+				<td align="left" class="contentText" style="padding-left: 25px;">
+					<div style="margin-right:10px;">
+						<%=(fam_fee_amt && fam_fee_amt[1] && fam_fee_amt[1].present?) ? (fam_fee_amt[1]!='free' ? (number_with_precision fam_fee_amt[1].round(2), :precision => 2)  : (number_with_precision fam_fee_amt[1], :precision => 2)) : tran.amount%>
+					</div>
+				</td>
+			</tr>
+			<%end%>
+			</table>
+			</div>
+			<!--third div end-->
+		</div>
+		</td>
+	</tr>
+	<tr>
+	<td>
+		<div class="pro_pagination" style="margin-top:15px;margin-right:3%;">
+			<%= will_paginate @transactions if (!@transactions.nil? && !@transactions.empty?)%>
+		</div>
+	</td>
+	</tr>
+</table>
+<%else%>
+	<div align="center" width="100%" style="padding-top: 60px;">
+		<span class="no-debit-text">No reports available.</span>
+	</div>
+<%end%>
+</body>

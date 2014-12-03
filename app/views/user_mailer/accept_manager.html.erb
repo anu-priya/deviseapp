@@ -1,0 +1,245 @@
+<table cellspacing="0" cellpadding="0" style="width:98%; margin:12px;">   
+	<tr>
+    	<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;"><% if !@user.user_profile.nil? && @user.user_profile.present? && @user.user_profile!=''%>
+			<% if !@user.user_profile.business_name.nil? && @user.user_profile.business_name.present? && @user.user_profile.business_name!=''%>
+				<b>Hi <%=@user.user_profile.business_name %></b>,
+			<%else%>
+				<b>Hi <%=@user.user_name%></b>,
+			<%end%>
+		<%else%>
+			<b>Hi <%=@user.user_name%></b>,
+		<%end%></td>
+	</tr>
+	<tr>
+    	<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;"><%=@m_user.user_name if !@m_user.nil?%> has accepted your request to manage the "<%=@activity.activity_name.capitalize unless @activity.nil? && @activity.activity_name.nil?%>" activity.</td>
+	</tr>		
+</table>
+<%if !@activity.nil? && @activity.present? && @activity!=""  %>
+      <%activitylink = activity_link_format(@activity,@user)%> <!-- Activity Link formation - From application helper link formation-->
+<table  cellpadding="0" cellspacing="0" border="0" style="border:1px solid #CDE0E6; width:98%; margin:12px;">
+	<tr>
+		<td colspan="5" height="14"></td>		
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td align="center" width="245" valign="top"><div style="float:left; display:inline-block;padding:10px;border:1px #CDE0E6 solid;width:245px; overflow:hidden;">
+			<div style="width:230px; overflow:hidden;"><a href="<%= @image_url%>/<%=activitylink%>" title="">
+				 <%= image_tag("#{@activity.avatar.url(:medium) unless @activity.avatar.nil?}", style:"border:none;")%>
+				</a> 
+			</div>
+		</td>
+		<td>&nbsp;</td>
+		<td align="left" valign="top">
+			<table   cellpadding="0" cellspacing="0" border="0" style="font-family:Arial, Helvetica, sans-serif; font-size:13px;width:97%;">
+				<tr height="25">
+					<td width="200" align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#999999;"><b>Activity Name</b></div>
+					</td>
+					<td align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#5099AC"><%=@activity.activity_name unless @activity.nil? && @activity.activity_name.nil?%></div>						
+					</td>					
+				</tr>
+				<tr height="25">
+					<td width="200" align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#999999;"><b>Type</b></div>
+					</td>
+					<td align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#5099AC"><%if !@activity.nil? && !@activity.schedule_mode.nil? && @activity.schedule_mode=="Any Where" %>Anywhere<%elsif !@activity.nil? && !@activity.schedule_mode.nil? %><%=@activity.schedule_mode %><%end%></div>					
+					</td>					
+				</tr>
+				<%@schedules = @activity.activity_schedule%>
+				<%if @activity.schedule_mode.downcase!='by appointment'%>
+				<tr height="25">
+					<td width="200" align="left" valign="top">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#999999;"><b>Date&nbsp;&amp;&nbsp;Time</b></div>
+					</td>
+					<td align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#5099AC">
+						<%if @schedules.count>0%>
+							<%if @schedules.count==1%>
+							<%@single_schedule = true%>
+							<% act_sched = @schedules.last%>
+								<%if act_sched.schedule_mode.downcase=='any time'%>
+									<%anytimesch = AnyTimeSchedule(@activity)%>
+									<%anytimesch && anytimesch[0] && anytimesch[0].each do |t_sch| %>
+									<%=t_sch%><br/>
+									<%end%>
+									<%=(anytimesch && anytimesch[1] && anytimesch[1]!='') ? 'Closed On '+anytimesch[1] : ''%>
+								<%elsif ((act_sched.schedule_mode.downcase=='schedule') || (act_sched.schedule_mode.downcase=='whole day'))%>
+									<%=render "/activity_detail/display_schedule_format",:act_sched => act_sched%><%if act_sched && act_sched.activity_repeat && act_sched.activity_repeat.last%>,<%=RepeatDisplays(act_sched.activity_repeat.last)%><%end%>
+								<%end%>
+							<%elsif @schedules.count>1%>
+							<%@multi_schedule = true%>
+							<a href="<%= @image_url%>/<%=activitylink%>" title="" target="_blank" style="color:#5099AC;text-decoration:none;">More Schedules</a>
+							<%end%>
+						<%end%>
+						</div>						
+					</td>					
+				</tr>
+				<%end%>
+				<tr height="25">
+					<td width="200" align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#999999;"><b>Price</b></div>
+					</td>
+					<td align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#5099AC">
+						<%if @activity.schedule_mode=="By Appointment"%>
+						     <%@act_cnt = ActivityPrice.where("activity_id=?",@activity.activity_id)%>
+						     <%if @activity.price_type=='3'%>
+						     		Free
+							 <%elsif @activity.price_type=='4'%>
+									Contact Provider
+							 <%else%>
+								 <%if @act_cnt.count>1 %>
+								    <a href="<%= @image_url%>/<%=activitylink%>" title="" target="_blank" style="color:#5099AC;text-decoration:none;">Price Details</a>
+								 <%else%>
+								    <%act_cnt=@act_cnt.last%>
+									<%if @activity.price_type=='1'%>
+									   $<%=act_cnt.price%>
+									<%elsif @activity.price_type=='2'%>
+									   $<%=@activity.price%>
+									<%end%>
+							  	<%end%>
+							 <%end%>
+						<%elsif @single_schedule%>
+						 <% act_price = act_sched.activity_prices %>        
+							<%if act_price.count>1%>
+								<a href="<%= @image_url%>/<%=activitylink%>" title="" target="_blank" style="color:#5099AC;text-decoration:none;">Price Details</a>
+							<%else%>
+							<%if act_sched.price_type=='3'%>
+								Free
+							<%elsif act_sched.price_type=='4'%>
+								Contact Provider
+							<%else%>
+								<% if act_price && !act_price.last.nil? && act_price.last.price.present?%>
+								$<%=act_price.last.price%>
+								<% else%>
+								$<%=@activity.price%>
+								<%end%>
+							<%end%>
+							<%end%>
+						<%elsif @multi_schedule%>
+						    <a href="<%= @image_url%>/<%=activitylink%>" title="" target="_blank" style="color:#5099AC;text-decoration:none;">Price Details</a>
+						<%end%>
+						</div>
+					</td>					
+				</tr>
+				<tr height="25">
+					<td colspan="2">
+						<div style="float:left;width:100%; display:block; border-top:1px solid #D7DADB;margin-top:15px;margin-bottom:-8px;">&nbsp;</div>
+					</td>
+				</tr>
+				
+				<% if !@activity.city.nil? && @activity.city!='' && @activity.city.present? %>
+				<tr height="20">
+					<td width="200" align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#999999;"><b>Address</b></div>
+					</td>
+					<td align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#5099AC"><%=@activity.address_1 unless         @activity.nil? && @activity.address_1.nil?%> <% if !@activity.address_2.nil?%>,<%end%> <%=@activity.address_2 unless @activity.nil? && @activity.address_2.nil?%></div>						
+					</td>					
+				</tr>
+				<tr height="30">
+					<td width="200" align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#999999;"><b>City</b></div> 
+					</td>
+					<td align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#5099AC"><%=@activity.city unless         @activity.nil? && @activity.city.nil?%></div>					
+					</td>					
+				</tr>
+				<%end%>
+				<tr height="25">
+					<td width="200" align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#999999;"><b>Category&nbsp;&amp;&nbsp;Sub Category</b></div>  	
+					</td>
+					<td align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#5099AC"><%=@activity.category unless         @activity.nil? && @activity.category.nil?%> > <%=@activity.sub_category unless @activity.nil? && @activity.sub_category.nil?%></div>						
+					</td>					
+				</tr>
+				<%if !@activity.nil? && !@activity.min_age_range.nil? && @activity.min_age_range.present? && @activity.min_age_range!="" && !@activity.max_age_range.nil?  %>
+				<tr height="25">
+					<td width="200" align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#999999;"><b>Age Range</b></div>
+					</td>
+					<td align="left" valign="middle">	
+						<div style="float:left; display:inline-block;padding-left:10px;color:#5099AC"><%=age_range_cal(@activity.min_age_range,@activity.max_age_range)%></div><!-- if free color value:#D2691E-->						
+					</td>										
+				</tr>
+				<%end%>
+				<%if (!@activity.skill_level.nil? && @activity.skill_level.present?) || (!@activity.no_participants.nil? && @activity.no_participants.present? && @activity.no_participants!=0) || (!@activity.leader.nil?  && @activity.leader.present?)%>
+				<tr height="25">
+					<td colspan="2">
+						<div style="float:left;width:100%; display:block; border-top:1px solid #D7DADB;margin-top:15px;margin-bottom:-8px;">&nbsp;</div>
+					</td>
+				</tr>
+				<%end%>
+				<%if !@activity.nil? && !@activity.no_participants.nil? && @activity.no_participants.present? && @activity.no_participants!="" && @activity.no_participants!=0 %>
+				<tr height="20">
+					<td width="200" align="left" valign="middle"> 
+						<div style="float:left; display:inline-block;padding-left:10px;color:#999999;"><b>No of Participants</b></div>
+					</td>
+					<td align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#5099AC"><%=@activity.no_participants unless @activity.nil? && @activity.no_participants.nil?%></div>						
+					</td>					
+				</tr>
+				<%end%>
+				<%if !@activity.nil? && !@activity.skill_level.nil? && @activity.skill_level.present? && @activity.skill_level!=""  %>
+				<tr height="30">
+					<td width="200" align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#999999;"><b>Skill Level</b></div>
+					</td>
+					<td align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#5099AC"><%=@activity.skill_level unless @activity.nil? && @activity.skill_level.nil?%></div>					
+					</td>					
+				</tr>
+				<%end%>
+				<%if !@activity.nil? && !@activity.leader.nil? && @activity.leader.present? && @activity.leader!=""  %>
+				<tr height="25">
+					<td width="200" align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#999999;"><b>Leader</b></div>
+					</td>
+					<td align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#5099AC"><%=@activity.leader unless @activity.nil? && @activity.leader.nil?%></div>						
+					</td>					
+				</tr>
+				<%end%>
+				<%if !@activity.nil? && !@activity.website.nil? && @activity.website.present? && @activity.website!=""  %>
+				<tr height="25">
+					<td width="200" align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#999999;"><b>Website</b></div>
+					</td>
+					<td align="left" valign="middle">
+						<div style="float:left; display:inline-block;padding-left:10px;color:#5099AC"><a href="<%=@activity.website unless @activity.nil? && @activity.website.nil?%>" style="text-decoration : none; color:#5099AC;" title=""><%=@activity.website unless @activity.nil? && @activity.website.nil?%></a></div>					
+					</td>										
+				</tr>
+				<%end%>							
+				<tr>
+					<td colspan="2" height="10"></td>
+				</tr>
+			</table>
+			
+		</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan="5" height="14"></td>		
+	</tr>
+</table>
+<%end%>
+<table cellspacing="0" cellpadding="0" style="width:98%; margin:12px;">    
+	<tr>
+		<td height="10"></td>
+	</tr>
+	<tr>
+		<td height="24" align="left" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#444444;">Thanks</td>
+	</tr>		
+	<tr>
+		<td  align="left" height="24" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;">Your Famtivity Team</td>
+	</tr>	
+</table>	

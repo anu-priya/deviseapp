@@ -1,0 +1,55 @@
+        <div id="top_menu_user" style="float:right;">
+            <ul>
+              <li style="padding: 4px;">
+                <div class="top_menu_icon" align="center">
+                  <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.profile.blank? %>
+                    <%= image_tag(current_user.user_profile.profile.url(:small), :width => '21', :height => '21', :align=>'middle', :alt=>"") %>
+                  <% else %>
+		  <%=image_tag("/assets/profile/user_icon.png", :width=>"21", :height=>"21", :align=>"middle")%>
+                  <% end %>
+                </div>
+                <div class="lt" align="center">
+                  <div class="lt">
+                    <%if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?%>
+                      <%if current_user.user_profile.business_name.length<= 12%>
+                        <%= current_user.user_profile.business_name if !current_user.nil? && !current_user.user_profile.business_name.nil? && !current_user.user_profile.nil? %>
+                      <%else%>
+                        <%= current_user.user_profile.business_name[0..11] if !current_user.nil? && !current_user.user_profile.business_name.nil?%>..
+                      <%end%>
+                    <%else%>
+                      <%if !current_user.nil? && current_user.user_name.length<= 12%>
+                        <%= current_user.user_name if !current_user.nil? %>
+                      <%else%>
+                        <%= current_user.user_name[0..11] if !current_user.nil? %>..
+                      <%end%>
+                    <%end%>
+                  </div>
+                  <div class="lt">
+		  <%=image_tag("/assets/header/drop_arrow.png", :width=>"4", :height=>"4", :class=>"top_menu_arrow")%>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <ul>
+                  <%if @pusers.nil? || !@pusers.present? || @pusers==""%>
+                    <li style="background-color:#EDF2F5;border-bottom:1px solid #B1D7E3; color:#E24C4B; font-weight:bold;">
+                      <a href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?%>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?%>" onClick="_gaq.push(['_trackEvent','Parent Module', 'clickMyAccounts','Switch to Provider']);" id="switch_parent" style="color:#E24C4B; text-decoration:none;">
+                                                          Switch to Provider View
+                      </a>
+                    </li>
+                    <li><a href="javascript:void(0)" title="" id="select" onClick="activity_admin_view('list')">List View</a></li>
+                    <li><a href="javascript:void(0)" title="" id="select" onClick="activity_admin_view('gallery')">Thumbnail View</a></li>
+                    <li><a href="/discount_codes" title="">Discount Codes</a></li>
+                    <li><a href="/provider_transaction?mode=admin" title="">Transaction Reports</a></li>
+                    <li><a href="/provider_plan_report?mode=admin" title="">Pricing Plan</a></li>
+                    <!--li><a href="/famtivity_user_report?mode=admin" title="">User Reports</a></li-->
+                    <li><a href="/admin/user_reports?mode=admin" title="">User Reports</a></li>
+                    <li><a href="/admin/general_reports?mode=admin" title="">General Reports</a></li>
+                    <li><a href="/admin/email_metrics?mode=admin" title="">Email Metric Reports</a></li>
+                    <li><a href="/admin/category_reports?mode=admin" title="">Activity Category Reports</a></li>
+		<li><a href="/admin/providercard_listview?mode=admin" title="">Provider Card Reports</a></li>
+                  <%end%>
+                  <li><a href="/logout" onClick="_gaq.push(['_trackEvent','Provider Module', 'clickMyAccounts','Logout']);">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>

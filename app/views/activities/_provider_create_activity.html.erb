@@ -1,0 +1,93 @@
+<%=javascript_include_tag "global/checkbox","acitivity_view_details/schedule_price"%>
+<!-- video files -->
+ <script type="text/javascript">
+$(document).ready(function(){
+
+$("a.createActivity").click(function(){
+	autoPlayVideo('VcAyKhXw5RI','431','225');
+});
+			function autoPlayVideo(vcode, width, height) {
+				$("#vidFrame").html('<iframe width="'+width+'" height="'+height+'" src="https://www.youtube.com/embed/'+vcode+'?autoplay=1&loop=1&rel=0&wmode=transparent" style="margin:0;" frameborder="0" allowfullscreen wmode="Opaque"></iframe>');
+			}
+			
+});
+ 			
+ </script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    initARC('provider_event_list','altCheckboxOn','altCheckboxOff');
+    selectAny();
+  });
+
+
+  function before_delete(a){ 
+    var a;
+    pop_delete_activity('/activities/delete_activity?id='+a)
+  }
+  
+
+</script>
+<style type="text/css">
+#create_activity_new{
+	background:#fff;
+	width:880px;
+	margin:0 auto;
+	border-right:1px solid #ebebeb;
+	border-top:1px solid #ebebeb;
+	border-bottom:1px solid #ebebeb;
+}
+
+.add_activity_text{
+	color:#4495AE;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size:29px;
+	text-align:center;
+	padding-top: 45px;
+}
+.setBg{
+	background:#fff;
+	display: inline-block;
+    float: left;
+    margin-top: 2px;
+    width: 439px;
+}
+a:focus{
+	outline:none;
+}
+.setStyleProvider{
+	margin: 0 auto;
+	width: 880px;
+	padding-bottom: 25px;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size:18px;
+	color:#4495AE;
+}
+.providerT{
+	background:#F6F8F7;
+	padding: 30px 50px 50px;
+	width: 880px;
+	margin: 0 auto;
+}
+</style>
+<form name="provider_event_list" id="provider_event_list">
+<div class="providerT">
+<div class="setStyleProvider" align="center">Provider Tutorial</div>
+<div class="clear"></div>
+<div id="create_activity_new">
+	<div class="lt" style="width:430px; height:225px;" id="vidFrame"><a href="javascript:void(0)" class="createActivity"><%=image_tag("/assets/create_new_activity/video_tutorial_image.png", :width=>"431", :height=>"225")%></a></div>
+	<div class="setBg">
+	   <div class="add_activity_text">It's lonely in here! Start adding<br/> some activities now!</div>
+	   <div align="center" style="padding-top:24px; padding-bottom:39px;"><a href="javascript:void(0)" <%if current_user && current_user.present? && !current_user.user_status.nil? && current_user.user_status == "deactivate" %> onclick="deactivate_user_added_act();" title="In Deactive state you can't add activities"<%else%>title="" onclick="pop_new_activity('/create_new_activity');_gaq.push(['_trackEvent', 'Provider Module', 'clickAddActivity','Add New Activity']);"<%end%>><%=image_tag("/assets/create_new_activity/create_new_activity_button.png", :width=>"226", :height=>"37")%></a></div>
+	   <div class="clear"></div>
+	</div>
+	<div class="clear"></div>
+</div>
+<div class="clear"></div>
+</div>
+
+<div class="pro_pagination">
+  <%= will_paginate @activities if ! @activities.nil? &&  @activities!='' &&  @activities.present?%>
+</div>
+</div>
+</form>

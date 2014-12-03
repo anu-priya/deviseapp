@@ -1,0 +1,53 @@
+<%= form_for(@support) do |f| %>
+  <% if @support.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@support.errors.count, "error") %> prohibited this support from being saved:</h2>
+
+      <ul>
+      <% @support.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :email_address %><br />
+    <%= f.text_area :email_address %>
+  </div>
+  <div class="field">
+    <%= f.label :support_type %><br />
+    <%= f.text_area :support_type %>
+  </div>
+  <div class="field">
+    <%= f.label :labels %><br />
+    <%= f.text_area :labels %>
+  </div>
+  <div class="field">
+    <%= f.label :comments %><br />
+    <%= f.text_area :comments %>
+  </div>
+  <div class="field">
+    <%= f.label :support_content_type %><br />
+    <%= f.text_area :support_content_type %>
+  </div>
+  <div class="field">
+    <%= f.label :support_file_size %><br />
+    <%= f.number_field :support_file_size %>
+  </div>
+  <div class="field">
+    <%= f.label :support_updated_at %><br />
+    <%= f.datetime_select :support_updated_at %>
+  </div>
+  <div class="field">
+    <%= f.label :inserted_at %><br />
+    <%= f.datetime_select :inserted_at %>
+  </div>
+  <div class="field">
+    <%= f.label :modified_at %><br />
+    <%= f.datetime_select :modified_at %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

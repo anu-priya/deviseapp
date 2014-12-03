@@ -1,0 +1,318 @@
+<%= stylesheet_link_tag "landing/how_it_works" %>
+<%= stylesheet_link_tag "policies/policies" %>
+<%= stylesheet_link_tag "profile/profile" %>
+<%= javascript_include_tag "jquery.form" %>
+<%= javascript_include_tag "policies/policies" %>
+<%= javascript_include_tag "policies/nicEdit" %>
+<%= javascript_include_tag "event/event" %>
+<%= javascript_include_tag "policies/smoothscroll" %>
+<style type="text/css">
+  blockquote{
+    margin:1em 40px;
+  }
+</style>
+<script type="text/javascript">
+  bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+</script>
+<script type="text/javascript">
+  
+  var EditpasswordPage;
+  var EditproviderprofilePage;
+  var ppupload;
+
+  function pop_edit_password(url){
+    EditpasswordPage = dhtmlmodal.open("Edit Password ","iframe",url,"", "width=896px,height=2000px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+  
+  function pop_provider_edit_profile(url){
+    EditproviderprofilePage = dhtmlmodal.open("Edit Password ","iframe",url,"", "width=995px,height=2000px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+  
+  function ageprompt(){	
+    ppupload=dhtmlmodal.open('agebox', 'div', 'ppuploadfile', 'Age Check', 'width=545px,height=250px,left=45%,top=300px,resize=0,scrolling=0');
+    var winwidt = $(window).width();
+    var winheight = $(window).height();
+    //alert(winwidt+" "+winheight);
+    $('#agebox').css({'left':((winwidt-545)/2),'top':((winheight-250)/2)});
+  }
+
+  function closepopup(){
+    ppupload.hide();
+  }
+</script>
+
+
+<div id="menu"></div>
+<div id="event_index_container">
+
+  <div id="how_it_worksDiv" style="margin-top:27px;">
+    <div class="TopListText" align="center" style="width:100%; marign:0 auto; padding-top:21px; background:#F6F8F7;">
+      <span><a href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil? %>" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity List']);">Activity List</a></span>
+      <span class="dot menuText">&bull;</span>
+      <span><a href="/provider_activites" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity Cards']);">Activity Cards</a></span>
+      <span class="dot menuText">&bull;</span>
+      <span><a href="/provider_activity_discount" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity Discount']);">Activity Discount</a></span><span class="dot menuText">&bull;</span>
+      <span><a href="/activity_provider_schedule" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Discount']);">Schedule</a></span>
+      <span class="dot menuText">&bull;</span>
+      <span><a href="/provider_profile" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Business Info']);">Business Info</a></span>
+      <span class="dot menuText">&bull;</span>
+      <span><a href="/provider_policies" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Policies']);"><b>Policies</b></a></span>
+      <span class="dot menuText">&bull;</span>
+      <span><a href="/provider_plan" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Plan']);">Plan</a></span>
+      <span class="dot menuText">&bull;</span>
+      <span><a href="/change_password" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Password']);">Password</a></span>
+      <span class="dot menuText">&bull;</span>
+      <span><a href="/provider_settings" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Settings']);">Settings</a></span>
+      <span class="dot menuText">&bull;</span>
+      <span><a href="/transaction" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Reports']);">Reports</a></span>
+      <span class="dot menuText">&bull;</span>
+      <span><a href="javascript:void(0);" class="menuText" title="" onClick="pop_provider_embed_Detail('activity_detail/provider_embedded_link?activity_id=<%= get_embed_data if current_user.present? %>'); _gaq.push(['_trackEvent','Provider Module', 'clickSettings','Embed Link']);">Embed Link</a></span>
+
+      <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div class="setTopBprder" style="padding-top: 0px;"></div>
+
+    <!-- content display-->
+
+    <form  name="provider_policies" id="provider_policies" action="policy_update" onsubmit="return policies_validation()" method="post">
+      <table width="100%" cellspacing="0" cellpadding="0" border="0" height="600px;">
+        <tr>
+          <td width="20%" valign="top" style="border-right: 1px solid #c7e5ef;">
+            <div style="padding: 17px 0px 0px 0px;">
+              <!--<%if !@old_policy.nil? && !@old_policy.modified_date.nil? %>
+                                                     <div class="update_text">Updated on : <span class="date_text"><b><%= @old_policy.modified_date.strftime("%Y-%m-%d") if !@old_policy.nil? %></b></span></div><%end%>-->
+              <!--terms-->
+              <% i = 0 %>
+              <% @policy_type.each do |p_type| %>
+                <% i= i+1 %>
+                <div class="radio_Con_lt" style="margin: 15px 0px 0px 20px; ">
+                  <div class="lt radioBox" style="width:30px;">
+                    <input type="hidden" name="radio_<%=i%>" id="radio_<%=i%>" value="0" />
+                    <a href="javascript:void(0)" title="" id="select_<%=i%>" onclick="selectRadioButton('not_select',<%=i%>,0)" class="select"><%= image_tag("/assets/tickets/radio_selected.png",:id=>"ptype_image_#{i}") %></a>
+                    <a href="javascript:void(0)" title="" id="not_select_<%=i%>" onclick="selectRadioButton('select',<%=i%>,1)" class="not_select" style="display: none" ><%= image_tag("/assets/tickets/radio_normal.png") %></a>
+                  </div>
+                  <div class="lt terms_text" id="terms_<%=i%>"><%=p_type.type_name%>
+                  </div>
+
+                  <div class="clear"></div>
+                </div>
+              <%end%>
+              <!--Waiver-->
+
+              <span class="createDynamicDivs"></span>
+              <!--<div class="radio_Con_lt">
+						  <div id="textBox" style="display:none; height:35px;"><input type="text" name="add_1" id="add_1" class="add_textbox" value=""></div>
+						  <div id="errorDiv_1" class="errorDiv" style="display:none;">
+					 	     <div id="input_error">&nbsp;</div>
+					      </div>
+
+						<div class="clear"></div>
+					 </div>	-->
+            </div>
+
+            <div class="ppdownloadwrap" id="pdownload"><!--Upload file-->
+              <%=render :partial => "upload_file"%>
+            </div>
+            <div class="clear"></div>
+
+          </td>
+          <td width="80%" valign="top">
+
+            <div class="editor_rt" >
+
+              <% if @policy_one.nil? && !@policy_one.present? && @policy_two.nil? && !@policy_two.present? %>
+                <div style="padding-top: 20px; margin:0 0 10px -9px;" >
+                  <div class="noteText" id="note_change">
+                    <b>Note:</b> &#34Provider should consult its legal representatives when drafting terms and conditions applicable to Provider&#39;s good and services. Famtivity, Inc. disclaims all liability resulting from Provider&#39;s terms and conditions (including use of the example text below).&#34<br/> &#34To the extent the Provider terms and conditions expressly conflict with the Famtivity Terms of Use, the Famtivity Terms of Use will govern.&#34
+                    <!--<b>Note:</b> "The text below is an example only and should not be used by Providers. Provider should consult its legal representatives when draping terms and conditions applicable to Provider's good and services. Famtivity, Inc. disclaims all liability resulting from Provider's terms and conditions (including use of the example text below)." <br/> "To the extent the Provider terms and conditions expressly conflict with the Famtivity Terms of Use, the Famtivity Terms of Use will govern." -->
+                  </div> </div>
+              <% end%>
+
+              <div id="selected_content" style="display:none" >
+                <% if !@policy_old.nil? %>
+                  <div class="terms_text" id="field_1"><% if !@policy_old.nil? && @policy_old.present? && !@policy_one.nil?%><%= @policy_one.content.html_safe %><%elsif !@policy_old.nil? && @policy_one.nil? && !@policy_one.present? && !@policy_two.nil? && @policy_two.present?%><% @provider_policies.each do |p| %><%=p.content.html_safe%><% end %><%else%><% @provider_policies.each do |p| %><%=p.content.html_safe%><% end %><%end%></div>
+                  <div class="terms_text" id="field_2"><% if !@policy_old.nil? && @policy_old.present? && !@policy_two.nil?%><%= @policy_two.content.html_safe %><%elsif !@policy_old.nil? && @policy_two.nil? && !@policy_two.present? && !@policy_one.nil? && @policy_one.present?%><% @waiver.each do |p| %><%=p.content.html_safe%><% end %><%else%><% @waiver.each do |p| %><%=p.content.html_safe%><% end %><%end%></div>
+                  <div class="terms_text" id="field_3"><%= @policy_three.content.html_safe if !@policy_three.nil?%></div>
+                <%end %>
+
+              </div>
+
+              <div class="terms_text" id="terms_title" style="margin:26px 0 10px -25px;">Terms &amp; Conditions</div>
+              <div class="errorDiv" id="alertText" style="display:none; font-size:16px; margin-bottom:5px;">No terms available. Please add your terms and conditions.</div>
+              <div id="normal_mode">
+                <div class="setStyleFont" id="p_type"><% if !@policy_old.nil? && @policy_old.present? && !@policy_one.nil?%><%= @policy_one.content.html_safe %><%elsif !@policy_old.nil? && @policy_one.nil? && !@policy_one.present? && !@policy_two.nil? && @policy_two.present?%><% @provider_policies.each do |p| %><%=p.content.html_safe%><% end %><%else%><% @provider_policies.each do |p| %><%=p.content.html_safe%><% end %><%end%></div>
+                <% if @policy_value.nil? %>
+                  <div><a href="javascript:void(0)" title="" id="btton_change" onclick="change_mode(); " style="top:25px; position:relative;"><img src="/assets/policies/add_button.png" width="113" height="43" alt=""></a></div></br>
+                <%end%>
+              </div>
+
+              <div class="clear"></div>
+              <div id="edit_mode" style="display:none; margin:15px 0 10px -25px;" >
+
+                <textarea name="content" id="content"><% if !@policy_old.nil? && @policy_old.present? && !@policy_one.nil?%><%= @policy_one.content.html_safe %><%elsif !@policy_old.nil? && @policy_one.nil? && !@policy_one.present? && !@policy_two.nil? && @policy_two.present?%><% @provider_policies.each do |p| %><%=p.content.html_safe%><% end %><%else%><% @provider_policies.each do |p| %><%=p.content.html_safe%><% end %><%end%></textarea>
+
+                <div style="padding-top:10px; display:none;" class="errorDiv">
+
+                  <div id="email_error"></div>
+                </div>
+                <div class="clear"></div>
+
+                <!--                <div class="lt setWidth" style="margin-top:10px; border:1px solid #F6F8F7;" padding-bottom: 140px;>&nbsp;</div>-->
+                <div class="buttonDiv" style="top:10px; position:relative;">
+                  <% if @policy_value.nil? %>
+                    <div class="lt"><a href="javascript:void(0)" title="" class="lt set_inline_block_a"><input type="image" src="/assets/settings/save_button.png"></a></div>
+                    <div class="lt"><a href="javascript:void(0)" title="" class="lt set_inline_block_a" style="margin-left:6px;" onclick="cancel_error()"><%= image_tag("/assets/settings/cancel_button.png") %></a></div>
+                  <% end %>
+                </div>
+
+
+              </div>
+            </div>
+            </br>
+          </td>
+        </tr>
+      </table>
+    </form>
+
+  </div>
+
+  <div id="ppuploadfile" style="display:none;">
+    <div class="ppuploadfile">
+      <div class="headTab">
+        <table cellpadding="0" cellspacing="0" class="headTab">
+          <tr>
+            <td width="95%" align="center"><div id="contact_header" class="headCont">Upload Required Form</div></td>
+            <td width="10%"><a title="" onclick="closepopup()" href="javascript:void(0)"> <%= image_tag("/assets/global/pop_up/button_close.png",width: '15', height: '15') %></a></td>
+          </tr>
+        </table>
+      </div>
+      <div class="choPdfWrap">
+        <form id="upload-policy" action="/upload_policy" name="test_popup" method="post" enctype="multipart/form-data" onsubmit="return validateBrowse();">
+          <p class="uploadTxt">Choose PDF file from your computer</p>
+          <p class="filechotxt">PDF file to upload:</p>
+          <input type="file" name="policy[datafile]" class="uploadpdf" id="uploadpdf" accept="/" />
+          <input type="hidden" id="pdf_name" name="pdf_name" value=""/>
+          <div id="activity_photo_error"></div>
+          <div style="display: inline-block;">
+            <input type="image"  src="/assets/policies/Uplaod_BTN.png" name="uploadpdf" class="le" />
+            <a href="javascript:void(0);" title="" class="le" onclick="closepopup()"><%= image_tag("/assets/policies/Cancel_BTN.png",width: '73',height: '29') %></a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script type="text/javascript">
+
+  function validateBrowse(){
+    var fup = document.getElementById('uploadpdf');
+    var fileName = fup.value;
+    var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+    var pname = $("#uploadpdf").val();
+    var gg=pname.replace("C:\\fakepath\\", "");
+    $("#pdf_name").val(gg);
+    if(fileName=="")
+    {
+      $('#activity_photo_error').parent().css("display","block");
+      $("#uploadpdf").css("border","1px solid #fc8989");
+      $('#activity_photo_error').html('Please select a file');
+      return false;
+    }
+    if(ext == "pdf" || ext == "doc" || ext == "docx" || ext == "odt")
+    {
+      //~ $("#upload-policy").hide();
+      $("#invite_friend_loader_img").show();
+      $('#activity_photo_error').parent().css("display","none");
+      $('#upload-policy').ajaxSubmit(
+      {
+        success: function(text){
+          if (text=='false')
+          {
+            $("#invite_friend_loader_img").hide();
+            $('#activity_photo_error').parent().css("display","block");
+            $("#uploadpdf").css("border","1px solid #fc8989");
+            $('#activity_photo_error').html('Invalid file');
+            return false;
+          }
+          else if (text=='already_exit')
+          {
+            $("#invite_friend_loader_img").hide();
+            $('#activity_photo_error').parent().css("display","block");
+            $("#uploadpdf").css("border","1px solid #fc8989");
+            $('#activity_photo_error').html('This file has already been uploaded');
+            return false;
+          }
+          else
+          {
+            ppupload.hide();
+            $("#pdownload").html(text);
+          }
+        }
+      });
+      return false;
+    }
+    else
+    {
+      $('#activity_photo_error').parent().css("display","block");
+      $("#uploadpdf").css("border","1px solid #fc8989");
+      $('#activity_photo_error').html('Please select an valid file');
+      return false;
+    }
+    return false;
+  }
+
+
+
+  function change_mode()
+  {
+    $("#normal_mode").css("display","none");
+    $("#alertText").hide();
+    $("#edit_mode").css("display","block");
+    $('.nicEdit-main').focus();
+    return false;
+  }
+
+  $(document).ready(function(){
+    $("#alertText").show();
+    selectRadioButton('select',1,1);
+    var x=$(document).height();
+    var y= $(".headerPart1").height();
+    var z= $(".footerConts").height();
+    //alert(y);
+    //alert(z);
+    //alert(x);
+    //var xx=$(window).height();
+    //alert(xx);
+    //var xxx=$("#event_index_container").height();
+    //$(".editor_rt").css("height",x+"px");
+    //alert(xxx);
+    function show_activities(act){
+      var x=$("#"+act).height();
+      //var t= parseInt (x.top) - parseInt("60");
+      //$("#"+act).css("top",t+"px");
+      //$("#"+act).css("position","absolute");
+
+    }
+  });
+</script>
+
+
+

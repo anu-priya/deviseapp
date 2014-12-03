@@ -1,0 +1,67 @@
+﻿#backgroundPopup{
+display:none;
+position:fixed;
+_position:absolute; /* hack for internet explorer 6*/
+height:100%;
+width:100%;
+top:0;
+left:0;
+background:#ffffff;
+border:1px solid #cecece;
+z-index:1;
+}
+.popupContainer{
+	display: block;	
+	width:900px;
+	margin:0 auto;	
+}
+.popupContainer .popupContainerTop{
+	display: block;
+	background:url('/assets/global/pop_up/popup_bg_top.png') no-repeat;
+	width: 896px;
+	height:18px;
+}
+.popupContainer .popupContainerCenter{
+	display: block;
+	background:url('/assets/global/pop_up/popup_bg_center.png') repeat-y;
+	width: 896px;
+}
+.popupContainer .popupContainerCenter .innerContainer{	
+	margin: 0 8px 0 7px;
+}
+.popupContainer .popupContainerCenter .headTab{		
+	height: 34px;	
+	width: 881px;
+	border-bottom: 1px solid #d7dadb;
+}
+.popupContainer .popupContainerCenter .headTab .heading{
+	display:inline-block;
+	float:left;
+	width: 849px;	
+	text-align:center;	
+}
+.popupContainer .popupContainerCenter .headTab .heading .headCont{
+	padding-left:31px;
+	font-size:20px;
+	font-weight:bold;
+	color:#5099ac;
+}
+.popupContainer .popupContainerCenter .headTab .closeButton{
+	display:inline-block;
+	float:left;
+	width: 31px;	
+}
+.popupContainer .popupContainerCenter .headTab .closeButton a{
+	display:inline-block;
+	float:left;	
+}
+.popupContainer .popupContainerCenter .headTab .closeButton img{
+	display:inline-block;
+	margin-top:5px;
+}
+.popupContainer .popupContainerBottom{
+	display: block;
+	background:url('/assets/global/pop_up/popup_bg_bottom.png') no-repeat;
+	width: 896px;
+	height:18px;
+}

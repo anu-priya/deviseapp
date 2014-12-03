@@ -1,0 +1,10 @@
+<%if (@activity_free && @activity_free.present? && @activity_free.total_pages > 1) %>
+	$('#activitycardlist').append("<%=escape_javascript(render 'activity_card/quick_link_hot')%>");
+	$(".featured_load").hide();
+	$('.pagination a').attr('data-remote', 'true');
+	$('#activity_show').hide();
+	$("#pro_show_more").hide();
+<%else%>
+	$(".featured_load").hide();
+	$("#pro_show_more").hide();
+<%end%>

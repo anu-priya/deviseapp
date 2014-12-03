@@ -1,0 +1,75 @@
+<table cellspacing="0" cellpadding="0" border="0" style="width:98%; margin:12px; font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;">
+    <tr>
+        <td align="left" valign="top" height="24" style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;">
+            <b>Hi <%=@to.split('@')[0]%></b>,
+        </td>
+    </tr>
+    <tr>
+        <td height="10"></td>
+    </tr>
+    <tr>
+        <td style="color:#333333;" align="left" valign="top">
+	<%=@fromuser.user_name if @fromuser && @fromuser.user_name%> has just added a new message post to the Famtivity Network '<b><%= @fam_post.group_name if @fam_post && @fam_post.group_name%></b>'.</td>
+    </tr>
+    <tr>
+        <td height="10"></td>
+    </tr>
+    <%if @msg && !@msg.nil? && @msg != '' && @msg.present?%>
+    <!--message section started here-->
+	  <tr>
+            <td height="20" style="border-bottom:1px dashed #999;"></td>
+          </tr>
+          <tr>
+            <td height="15"></td>
+          </tr>
+	<tr>
+            <td style="color:#2B91AF;font-weight:bold;font-size:18px;">Message</td>
+          </tr>
+	<tr>
+            <td height="15"></td>
+          </tr>
+          <tr>
+            <td style="color:#444444;font-family:Arial, Helvetica, sans-serif; font-size:15px;" align="left" valign="top">
+              <%=raw @msg.truncate(100)%>
+            </td>
+          </tr>
+          <tr>
+            <td height="20" style="border-bottom:1px dashed #999;"></td>
+          </tr>
+	  <tr>
+	<td height="15"></td>
+	</tr>
+    <!--message section ending here-->
+    <%end%>
+	
+    <!--tr>
+        <td style="color:#333333;" align="left" valign="top">
+	Click "View &amp; Reply" to see the full post, attachements and reply!</td>
+    </tr-->
+    <tr>
+        <td height="10"></td>
+    </tr>
+    <tr>
+        <td align="left" valign="middle">
+            <a href="<%=@url%>" title="" target="_blank" class="disInblo"><img src="<%=@image_path%>/assets/contact/view_reply.png" alt=""/></a>
+        </td>
+    </tr>
+    <tr>
+        <td height="10"></td>
+    </tr>
+    <tr>
+	<td align="left">
+	 <img src="<%=@image_path%>/assets/fam_networks/sms_settings_icon.png" alt=""/> 
+		Go to <a href="<%=@image_path%>/parent_settings?mode=parent" title="" target="_blank" class="disInblo" style="color:#2B91AF;cursor:pointer;">Settings</a> to get these emails as SMS text messages!
+	 </td>
+    </tr>
+     <tr>
+        <td height="10"></td>
+    </tr>
+    <tr>
+        <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#444444;" height="30" align="left" valign="middle">Have fun!</td>
+    </tr>
+    <tr>
+        <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;" height="20" align="left" valign="middle">Your Famtivity Team</td>
+    </tr>
+</table>

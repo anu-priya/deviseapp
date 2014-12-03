@@ -1,0 +1,85 @@
+<%=javascript_include_tag "pagination"%>
+
+<style>
+#providerEventList{
+    width:1260px;
+    margin:75px auto 25px;
+}
+#providerEventList .headText{
+    color:#4aa3b6;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight:bold;
+    font-size:14px;
+    background:#f0f6f8;
+    border:1px solid #E9EDEE;
+    border-left:none;
+    border-right:none;
+    height:43px;
+}
+.tdBorderLeft{border-left:1px solid #E9EDEE;}
+.tdBorderRight{border-right:1px solid #E9EDEE;}
+
+#providerEventList .contentText {
+color: #807e7e;
+font-family: Arial,Helvetica,sans-serif;
+font-weight: normal;
+font-size: 12px;
+border-bottom: 1px solid #e2eaec;
+height: 58px;
+}
+#providerEventList .blueText{
+    color:#4595AE;
+}
+#providerEventList .setPadLt {
+padding-left: 20px;
+}
+#providerEventList .setBg1 {
+background: #fff;
+}
+.pro_pagination {
+float: right;
+margin: 25px 0;
+color: #4595ae;
+font-family: Arial,Helvetica,sans-serif;
+font-size: 14px;
+}
+</style>
+
+<div class="clear"></div>
+<!-- form name="provider_event_list" id="provider_event_list" style="height:730px;" -->
+<div id="providerEventList" style="" onmouseover="hideDatepickerProviderEvent();hideSearch();">
+  <div class="topContainer">
+    <div class="blueText" align="left" style="padding-top: 10px;font-size:16px;"><b>Activity Name:</b> <font color="#6e6e6e"><%=@a_name if !@a_name.nil? && @a_name.present? %></font></div>
+    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+      <tr>
+        <td align="left" height="40" width="12%">
+          <div class="leftMenus" style="width:250px;">
+                <div class="clear"></div>
+              </div>
+        </td>
+        
+      <td align="right" height="40" width="12%">
+      </td>
+
+      </tr>
+    </table>
+  </div>
+  <div class="centerContainer" id="provider_partial_event_list" onmouseover="hideDatepickerProviderEvent();hideSearch();">
+
+    <%= render "attend_list"%>
+
+
+  </div>
+</div>
+<!--/form-- >
+
+<!-- ajax loader -->
+<div id='loadingmessage' style='display:none;margin-top:-424px' align="center">
+  <%=image_tag("/assets/ajax-loader.gif", :width=>"32", :height=>"32")%>
+</div>
+
+<link rel="stylesheet" type="text/css" href="/assets/bpopup/bpopup.css"/>
+<div id="popup_container">
+</div>
+
+

@@ -1,0 +1,27 @@
+<table cellpsacing="0" cellpadding="0">
+  <tr><td>
+      <table  cellpadding="0" cellspacing="0" border="0" style="background:#EDFBFE; border:1px solid #CDE0E6; padding:12px; width:98%; margin:12px;">
+        <tr>
+          <td align="left" style="border:1px #CDE0E6 solid;" width="194"><div style="float:left; display:inline-block;padding:3px;">
+              <!--<a href="#" title=""><img alt=""  src="<%#=$image_global_path+@activity.avatar.url(:medium) %>" style="border:none;" /></a>-->
+              <a href="#" title="">
+                <%= image_tag("#{@activity.avatar.url(:thumb) unless @activity.avatar.nil?}", style:"border:none;")%>
+              </a>
+          </td>
+          <td align="left" valign="top">
+            <div style="color:#4E5658; font-family:Arial, Helvetica, sans-serif; font-size:16px; padding:29px 14px 0px 18px;"><b><%= @activity.activity_name.capitalize %></b></div>
+            <div style="float:left; display:inline-block; color:#444444; font-family:Arial, Helvetica, sans-serif; font-size:13px; padding:12px 14px 14px 18px;text-transform:capitalize;"><%= @activity.description %></div>
+			<div style="float:left; display:inline-block; color:#444444; font-family:Arial, Helvetica, sans-serif; font-size:13px; padding:12px 14px 14px 18px;"><a href="http://www.famtivity.com:3000/activitydetail_new?click=clicked&det=<%=@activity.activity_id%>&v=0">http://www.famtivity.com:3000/activitydetail_new?click=clicked&det=<%=@activity.activity_id%>&v=0</a></div>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  <tr><td>
+      <table  cellpadding="0" cellspacing="0" border="0" style="padding:12px; width:98%; margin:12px;">
+        <tr>
+          <td colspan="2"><div style="color:#4E5658; font-family:Arial, Helvetica, sans-serif; font-size:14px;"><%=@msg %></div></td>
+        </tr>
+      </table>
+    </td></tr>
+</table>
+<p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;padding-top:20px;">Your Famtivity Team.</p>

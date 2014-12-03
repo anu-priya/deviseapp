@@ -1,0 +1,24 @@
+<table cellspacing="0" cellpadding="0" border="0" style="width:98%; margin:12px; font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;">
+  	<tr>
+    	<td align="left" valign="top" height="24" style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;">      	 
+    		<strong>Hi <%=@to_user.user_name if !@to_user.nil? %>,</strong> 
+    	</td>
+  	</tr>
+  	<tr>
+  		<td height="10"></td>
+  	</tr>
+  	<tr>
+  		<td style="color:#333333;" align="left" valign="top">
+		<%=@invited_user.user_name if !@invited_user.nil? && !@invited_user.user_name.nil?%>&rsquo;s manager invitation successfully accepted while you signup to famtivity.
+        </td>
+    </tr>
+  	<tr>
+  		<td height="20">&nbsp;</td>
+  	</tr>
+  	<tr>
+		<td height="24" align="left" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#444444;">Have fun!</td>
+	</tr>
+	<tr>
+		<td  align="left"  height="24" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;">Your Famtivity Team</td>
+	</tr>
+</table>

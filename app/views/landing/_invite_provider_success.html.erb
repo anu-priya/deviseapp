@@ -1,0 +1,31 @@
+<%= stylesheet_link_tag "global/pop_up.css" %>
+<%= stylesheet_link_tag "global/pop_up_success.css" %>
+<script language="javascript">
+  $(document).ready(function(){
+    $("html, body", window.parent.document).animate({ scrollTop: 0 }, 100);
+  }); 	
+ 
+	//~ function closepopup() {	
+	//~ var stateObj = { foo: "bar" }; 
+       //~ myURL = document.location;
+    //~ if(navigator.appName=="Microsoft Internet Explorer")
+    //~ {
+      //~ parent.window.location.hash='';
+    //~ }
+    //~ else
+    //~ {
+      //~ parent.history.replaceState(stateObj, "Activity Details", "/");
+    //~ }	
+		//~ parent.inviteproviderPage.hide();
+			
+	//~ }
+	
+</script>
+<div align="center" style="height:145px;">
+  <p class="successText" style="padding:28px 0;"><%=@msg_flag%></p>
+  <div class="clear"></div>
+  <a href="javascript:void(0)" onClick="closepopup()" title=""> <%= image_tag("/assets/register/ok_btn.png") %></a>
+</div>
+
+
+

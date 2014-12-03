@@ -1,0 +1,75 @@
+<%= stylesheet_link_tag "landing/how_it_works.css" %>
+<%= stylesheet_link_tag "contacts_users/contact_user.css" %>
+<%= stylesheet_link_tag "global/pop_up.css" %>
+<%= javascript_include_tag "contacts_users/contact_user.js" %>
+<script language="javascript">
+  function closepopup() {
+    parent.purchasepaymentpopupPage.hide();
+  }
+</script>
+
+
+
+<div id="contact_container">
+  <div class="popupContainer" style="width:896px;">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Purchasing Famtivity vouchers is fast and secure!</div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""><%= image_tag("/assets/global/pop_up/button_close.png",:width=>"15",:height=>"15" ) %></a>
+          </div>
+        </div>
+        <div class="centerCont contactNew">
+          <p class="top_all_text" align="center" style="font-size: 16px;">All you have to do is...</p>
+          <div class="setTopLeftDiscover">
+            <span class="lt dot" id="dot_menuText">&bull;</span>
+            <span class="lt register_famtivity">Include your provider banking information in your provider Profile/Billing menu</span>
+          </div>
+          <div class="clear"></div>
+          <div align="center" class="service_discover_div">
+            <img src="/assets/how_it_works/purchase_p_register.png" width="639" height=325" alt="">
+            <div style="height:20px;"></div>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+
+
+          <div class="setTopLeftDiscover" style=" margin: 10px 0 0 103px;">
+            <span class="lt dot" id="dot_menuText">&bull;</span>
+            <span class="lt register_famtivity" style="width:751px;">Upon sale of a Famtivity voucher for your activity, Famtivity will process payment and transfer payment into your merchant account</span>
+          </div>
+          <div class="clear"></div>
+          <div align="center" class="service_discover_div">
+            <%= image_tag("/assets/how_it_works/purchase_p_register_1.png",:width=>"639",:height=>"290" ) %>
+            <div style="height:20px;"></div>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+
+          <div class="setTopLeftDiscover" style=" margin: 10px 0 0 103px;">
+            <span class="lt dot" id="dot_menuText">&bull;</span>
+            <span class="lt register_famtivity">Payment is generally processed within 24 hours</span>
+          </div>
+          <div class="clear"></div>
+          <div align="center" class="service_discover_div" style="border-bottom:none">
+             <%= image_tag("/assets/how_it_works/purchase_p_register_2.png",:width=>"639",:height=>"290" ) %>
+            <div style="height:30px;"></div>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>
+
+

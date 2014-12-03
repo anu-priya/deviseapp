@@ -1,0 +1,375 @@
+<%@full_path="https://www.famtivity.com"%>
+<table cellpadding="0" cellpadding="0"><!--first table start-->
+  <tr>
+    <td style="padding:12px;">
+   <!--parent start-->
+	<%if !@user.nil? && !@user.user_type.nil? && @user.user_type.downcase=="u"%>
+	 <table cellpadding="0" cellpadding="0">
+	 	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="40"><b>Welcome <%= @user.user_name%>,</b></td>
+		</tr>
+	 	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="30">Welcome to Famtivity!  You&rsquo;ve received $5 Discount Dollars just for joining. Invite your friends to join and get an additional $1.00 credit per friend to spend on great kids activities in your area!
+      </td>
+		</tr>
+    
+    <tr><td height="5" colspan="2"></td></tr>
+
+    <tr>
+      <td align="left" valign="middle">
+        <a href="<%= @image_url%>/?wel_friend=<%=@user.user_id unless @user.nil? %>" title="" target="_blank" >
+          <%= image_tag("#{@full_path}/assets/contact/invitefriend_button.png", size: "202x35", alt: "Accept", border:"0")%>
+        </a>&nbsp;&nbsp;
+      </td>
+    </tr>
+
+		 	<tr>
+			<td height="30">Your login information is:</td>
+		</tr>
+		<tr>
+		 <td>
+		<table style="border: 1px solid #e5e9eb;" width="50%" cellspacing="0" cellpadding="0">
+	 	<tr>
+			<td style="border-bottom:1px solid #e5e9eb; padding-left:10px;" height="30">Your Email:</td>
+			<td style="border-bottom:1px solid #e5e9eb; color:#555555;"><%=@user.email_address if !@user.nil?%></td>
+		</tr>
+	 	<tr>
+			<td height="30" style="padding-left:10px;">Your Password:</td>
+			<td style="color:#555555;"><%=@user.user_password if !@user.nil?%></td>
+		</tr>
+		</table>
+     </td>
+    </tr>
+
+  <tr>
+      <td>
+        <div style="padding1: 15px 0px 15px 5px;">
+          <p style="color: #4495B0;font-size: 14px;font-family: Arial,Helvetica,sans-serif;">Take a Tour</p>
+          <div style="border: 1px solid #EFEFEF;background: #FBFBFB;margin: 7px 0px;padding: 10px 10px 10px 10px;display: inline-block;">
+              Here's a brief tutorial video to help get you started. <br>
+              <div style="float: left;width: 231px; height:146px;border: 1px solid #E2E2E2;background: #FFFFFF;padding: 7px;margin-right: 10px; margin-top:8px;">
+                <!--a href="http://youtu.be/XQj0hdpvdA8" title="" target="_blank"><img src="http://www.famtivity.com/assets/landing/lanVideo1.png" alt="" ></a-->
+	      <a href="http://youtu.be/d8C7a_Dr-TQ" title="" target="_blank">
+          <%= image_tag("http://www.famtivity.com/assets/landing/lanVideo1.png")%>
+        </a>
+	      </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+    <tr>
+      <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="70">If you have any questions or want support getting started, visit our <a href='http://<%=@image_url%>/faq' style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#2c8fae; text-decoration:none;">FAQ</a> page or contact us directly anytime at <a href='mailto:support@famtivity.com' style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#2c8fae;text-decoration:none;">support@famtivity.com</a>. We&rsquo;re here to help!</td>
+    </tr>
+    
+      <tr>
+        <td><span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;">Your Famtivity Team</span></td>
+      </tr>
+
+
+				<tr>
+			<td>
+			<%if @spmail.present?%>
+				<div style="border-top: 1px dashed #E2E2E2;padding: 5px 0px 5px 5px; margin-top: 17px;">
+					<p style="color: #4495B0;font-size: 14px;font-family: Arial,Helvetica,sans-serif;">Hot Discount Dollar Specials</p>
+					<div style="border: 1px solid #EFEFEF;background: #FBFBFB;margin: 2px 0px;padding: 10px 10px 10px 10px;display: inline-block;">
+            <table border="0" cellspacing="7" cellpadding="0" width="600" height="">
+  <tr>
+<!--loop start-->
+<%!@spmail.nil? && @spmail.each do |share|  %> 
+            <%act_det = ActivitySchedule.where("activity_id = ? AND expiration_date >= ?",share.id,Date.today ) if !share.id.nil?%>
+         <% shedule_count=act_det.count%>
+         <%@use_data = User.find_by_user_id(share.user_id) if !share.nil?%>
+
+    <% @val_date=[]
+       @discount_price = ActivityPrice.where("activity_id = ?", share.activity_id) if !share.activity_id.nil? && share.activity_id.present?
+            @discount_price.each do |dprice|
+            @dis_price=dprice.activity_discount_price
+            @dis_price.each do |dprice|
+            @early_bird_date = dprice.discount_valid.strftime("%Y-%m-%d") if !dprice.nil? && !dprice.discount_valid.nil?
+            @max_date = @early_bird_date if !@early_bird_date.nil? && @early_bird_date.present? && @early_bird_date!=""
+            @cday = Time.now.strftime("%Y-%m-%d")
+            if !@early_bird_date.nil? && @early_bird_date.present? && @early_bird_date >= @cday
+            @val_date << "test"
+            elsif !dprice.nil? && dprice.discount_valid.nil?
+            @val_date << "test" 
+            end
+            end
+        end %>
+    <td style="border:1px solid #dddfde;background-color:#f6f5f4;" valign="top">
+        <table border="0" cellspacing="0" cellpadding="0" width="200" height="30">
+          <tr>
+            <%if !share.nil? && !share.discount_eligible.nil? && !@val_date.nil? && !@val_date[0].nil?%>
+                  <td valign="middle" height="30" style="background-color:#FF3334;text-align:center;padding:5px;color:#ffffff;font-size: 15px;"><table width="100%"><tr><td valign="middle" height="22" width="60%"align="right"><b>Specials</b></td><td height="22" width="40%"valign="bottom" align="left">
+                  <%= image_tag("http://www.famtivity.com/assets/card_images/discount_dollar.png")%>
+                </td></tr></table></td>
+            <%elsif !share.nil? && !share.discount_eligible.nil?%>  
+                <td   height="30" style="background-color:#FF3334;text-align:center;padding:5px;color:#ffffff;font-size: 15px;">
+                  <%= image_tag("http://www.famtivity.com/assets/card_images/discount_dollar.png")%>
+                </td>
+            <%else%>
+                <td  height="30" style="background-color:#FF3334;text-align:center;padding:5px;color:#ffffff;font-size: 15px;"><b>Specials</b>
+                </td>
+            <%end%>
+          </tr>
+        </table>
+
+        <table border="0" cellspacing="0" cellpadding="0" width="200" style="background-color:#ffffff;" >
+        <tr>
+          <td colspan="2" valign="middle" align="center" height="200">
+            <%if !share.avatar_file_name.nil? && share.avatar.present?%>
+                          <div align="center" style="width:180px; overflow:hidden;"><a href="<%= @image_url%>/?mview=<%=share.activity_id unless share.nil? %>&v=0" title="">
+                            <%= image_tag("{share.avatar.url(:thumb) unless share.nil?}", style:"border:none;")%>
+                            </a></div>
+                        <%else%>
+                          <div align="center" style="width:180px; overflow:hidden; background-color:#F6F7F9;"><a href="<%= @image_url%>/?mview=<%=share.activity_id unless share.nil? %>&v=0" title="">
+                            <%= image_tag("{@full_path}/assets/no_image.png", style:"margin:3px 0px 3px 0px", alt:"Loading...")%>
+                            </a></div>
+                        <%end%>
+            <!--div align="center" style=" overflow:hidden;"><a href="<%= @image_url%>/?mview=<%=share.activity_id unless share.nil? %>&v=0" title=""><img alt=""  src="http://10.37.4.176:3000/system/cards/585/profile/sv.jpg " style="border:none;" />
+            </div-->
+          </td>
+        </tr>
+
+        <tr>
+          <td colspan="2" valign="middle" height="30">
+            <a style="font-size:14px; color:#77b2cc;font-family:arial;padding-left: 10px;font-weight: bold;"><%=truncate(share.activity_name, :length =>20, :omission => '...')%>
+            </a>
+          </td>
+        </tr>
+
+        <tr>
+                      <% if share.schedule_mode.downcase!='any time' && !shedule_count.nil? && shedule_count>1%>
+                            <td colspan="2" valign="middle" height="30" style="padding-left: 10px;color:#77b2cc; font-family:arial;" align="left"><span style="font-size:13px;">$ </span><span style="font-size:14px;">Price Details</span></td>
+                        <%elsif !share.price_type.nil? && share.price_type == "1"  || share.price_type == "2"%>
+                            <!--get the data from activities helper by rajkumar-->
+                            <%@price_det = get_activity(share.activity_id) if !share.nil? && !share.activity_id.nil?%>
+                            <%if !@price_det.nil? && @price_det.present? && @price_det.length>1%>
+                              <td colspan="2" height="30" valign="middle" style="padding-left: 10px;color:#77b2cc; font-family:arial;" align="left"><span style="font-size:13px;">$ </span><span style="font-size:13px;">Price Details</span></td>
+                                    <%elsif !@price_det.nil? && @price_det.present? && @price_det.length==1 %>
+                                      <td colspan="2" height="30" valign="middle" style="padding-left: 10px;font-size:13px; color:#77b2cc; font-family:arial;" align="left">$ <%=number_with_precision @price_det[0].price , :precision => 2  if !@price_det.nil?%></td>
+                                    <%end%>
+                                  <%elsif !share.price_type.nil? && share.price_type == "2"%>
+                                    <td colspan="2" height="30" valign="middle" style="padding-left: 10px;font-size:13px; color:#77b2cc; font-family:arial;" align="left">$ <%= number_with_precision share.price, :precision => 2 %></td>
+                                  <%elsif !share.price_type.nil? && share.price_type == "3" || share.filter_id == "3" || share.created_by.downcase == "parent"%>
+                                    <td colspan="2" height="30" valign="middle" style="padding-left: 10px;color:#77b2cc; font-family:arial;" align="left"><span style="font-size:13px;">$ </span><span style="font-size:13px;"> Free</span></td>
+                                  <%elsif !share.price_type.nil? && share.price_type == "4"%>
+                                    <td colspan="2" height="30" valign="middle" style="padding-left: 10px;color:#77b2cc; font-family:arial;" align="left"><span style="font-size:13px;">$ </span><span style="font-size:13px;"> Contact Provider</span></td>
+                                  <% elsif share.price.present? && !share.price.nil?  && share.price!=0%>
+                                    <td colspan="2" height="30" valign="middle" style="padding-left: 10px;font-size:13px; color:#77b2cc; font-family:arial;" align="left">$ <%= number_with_precision share.price, :precision => 2 %></td>
+                                  <%end%>
+                </tr>
+                <tr>
+                    <td height="30" width="100" valign="middle" style="padding-left: 10px;">
+                    <a style="font-size:13px; color:#77b2cc ; font-family:arial;text-transform:capitalize"><%if share.schedule_mode == 'Any Where'%>Anywhere<%else%><%=truncate(share.city.strip, :length =>15, :omission => '... ')%><%end%></a>
+                    </td>
+                    <td height="30" width="100" valign="middle" align="left">
+                      <table>
+                        <tr>
+                          <%if (!share.min_age_range.nil? && share.min_age_range.present?) && (!share.max_age_range.nil? && share.max_age_range.present?) %>
+                            <td  valign="top" class="price_text" nowrap="nowrap"><span style="color: #77b2cc;">
+                              <%= image_tag("{@full_path}/assets/card_images/age_range_icon.png", alt:"Loading..." style:"top:1px; position:relative;")%>
+                             &nbsp;Age&nbsp;<%=age_range_cal(share.min_age_range,share.max_age_range)%></span>
+                            </td>                                             
+                          <%end%>
+                        </tr>
+                      </table>
+                    </td>
+                </tr>
+                                <% @share = ActivitySchedule.where("activity_id = ?",share.activity_id).last %>
+                                  <!--week days display start-->
+                                  <% if !shedule_count.nil? && shedule_count>1%>
+                                  <% else%>
+                                  <tr>
+                                    <td colspan="2" valign="middle" align="left"  >
+                                      <%= render :partial =>"user_mailer/activity_weekday" %>
+                                    </td>
+                                  </tr>
+
+                                  <%end%>
+                                  <!--week days display end-->
+                                  <%@repeat_days=""%>
+                                  <% @repeat_days = any_time_activity(share.activity_id) %>
+                                  <!--Week days display for any time activity start-->
+                                  <%if !@repeat_days.nil? && @repeat_days.present? && @repeat_days!=""%>
+                                  <tr>
+                                    <td colspan="2" valign="middle" align="left"  >
+                                     <%= render :partial =>"user_mailer/activity_day_selection" %>
+                                    </td>
+                                  </tr>
+                                  <%end%>
+
+<tr>
+                    
+                    <td height="30"  valign="middle" style="padding-left: 10px;font-size: 12px;" colspan="2">
+                      <table><tr><td valign="middle" width="22">
+                      <span>
+                        <%= image_tag("{@full_path}/assets/card_images/calener_icon.png", alt:"Loading..." style:"margin:3px 0px -4px 0px;")%>
+                        </span>
+</td><td valign="middle" width="190">
+                    <% if share.created_by.downcase=='parent' && !share.schedule_mode.nil? && share.schedule_mode.present? && share.schedule_mode.downcase=='any time' %>
+                         <span style="color: #77b2cc;">AnyTime</span>
+                    <% elsif share.created_by.downcase=='parent' && !share.schedule_mode.nil? && share.schedule_mode.present? && share.schedule_mode.downcase != 'any time'%>
+                            <% if !@share.nil? && @share.present?%>
+                             <span><%= render :partial =>"user_mailer/schedule_new_format" %></span>
+                            <%end%>
+                    <% elsif (!share.nil? && !share.schedule_mode.nil? && share.schedule_mode == "By Appointment")%>
+                            <span style="color: #77b2cc;">&nbsp;By Appointment</span>
+                    <%else%>
+                              <% if !@share.nil? && @share.present?%>
+                                   <% if @share.schedule_mode=="Schedule" && !shedule_count.nil? && shedule_count>1%>
+                                   <span style="color: #77b2cc;">&nbsp;Schedule details</span>
+                                    <%elsif @share.schedule_mode=="Schedule"%>
+                                    <span style="color: #77b2cc;"><%= render :partial =>"user_mailer/schedule_new_format" %></span>
+                                    <%end%>
+                                    <% if @share.schedule_mode=="Whole Day" && !shedule_count.nil? && shedule_count>1%>
+                                    <span style="color: #77b2cc;">&nbsp;Schedule details</span>
+                                    <% elsif @share.schedule_mode=="Whole Day"%>
+                                        <%= render :partial =>"user_mailer/wholeday_new_format" %>
+                                    <%end%>
+                                    <% if @share.schedule_mode=="By Appointment"%>
+                                    <span style="color: #77b2cc;">&nbsp;By Appointment</span>
+                                    <%end%>
+                                    <% if @share.schedule_mode=="Any Time"%>
+                                    <span style="color: #77b2cc;">&nbsp;AnyTime</span>
+                                    <%end%>
+                                    <% if @share.schedule_mode=="Any Where"%>
+                                    <span style="color: #77b2cc;">&nbsp;AnyTime</span>
+                                    <%end%>
+                              <%end%>
+                        <%end%>
+                      </td></tr></table>
+                    </td>
+                    
+                </tr>
+            <tr><td height="15" colspan="2"></td></tr>
+           </table>
+
+    </td>
+<%end%><!--loop end-->
+</tr>
+</table><!--table loop end-->
+
+					</div>
+				</div>
+			<%end%>
+
+		 </td>
+		</tr>
+		
+ </table>
+
+<%end%><!--parent end-->
+
+<!--provider start-->
+<%if !@user.nil? && !@user.user_type.nil? && @user.user_type.downcase=="p" %>
+<table cellpadding="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+
+   <table cellpadding="0" cellpadding="0">
+    <tr>
+      <td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="40"><b>Welcome <%= @user.user_name%>,</b></td>
+    </tr>
+    <tr>
+      <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="30">
+      <!--soren feedback updated here-->
+	<%if !@user.nil? && !@user.manage_plan.nil? && @user.manage_plan.present?%>
+		<%if @user.manage_plan.downcase == "school"%>
+		We&rsquo;re delighted you&rsquo;ve joined Famtivity, the Family Activity Network!
+		<%else%>
+		We&rsquo;re delighted you&rsquo;ve joined Famtivity, the Family Activity Network that helps you to:
+		<%end%>
+	<%end%>
+       <!--soren feedback updated ending here-->
+     </td>
+    </tr>
+    <%if !@user.nil? && !@user.manage_plan.nil? && @user.manage_plan.present?%>
+	<%if @user.manage_plan.downcase != "school"%>
+	    <tr>
+	    <td>
+	    <table cellpadding="0" cellpadding="0" style="margin-left:10px;">
+	    <tr>
+	      <td height="30">
+          <%= image_tag("http://www.famtivity.com/assets/landing_banner/selection.png", size:"12x12")%>
+        </td>
+	      <td style="padding-left:6px;">Get noticed by local families</td>
+	    </tr>
+	    <tr>
+	      <td height="30">
+          <%= image_tag("http://www.famtivity.com/assets/landing_banner/selection.png", size:"12x12")%>
+        </td>
+	      <td style="padding-left:6px;">Get new customers</td>
+	    </tr>
+	    <tr>
+	      <td height="30">
+          <%= image_tag("http://www.famtivity.com/assets/landing_banner/selection.png", size:"12x12")%>
+        </td>
+	      <td style="padding-left:6px;">Get parents engaged through simple social media tools</td>
+	    </tr>
+	    </table>
+	    </td>
+	    </tr>
+	<%end%>
+     <%end%>
+    
+    <tr>
+      <td height="30">Your login information is:</td>
+    </tr>
+    <tr>
+    <td>
+    <table style="border: 1px solid #e5e9eb;" width="50%" cellspacing="0" cellpadding="0">
+    <tr>
+      <td style="border-bottom:1px solid #e5e9eb; padding-left:10px;" height="30">Your Email:</td>
+      <td style="border-bottom:1px solid #e5e9eb; color:#555555;"><%=@user.email_address if !@user.nil?%></td>
+    </tr>
+    <tr>
+      <td height="30" style="padding-left:10px;">Your Password:</td>
+      <td style="color:#555555;"><%=@user.user_password if !@user.nil?%></td>
+    </tr>
+    </table>
+    </td>
+    </tr>
+  <!--  <tr>
+      <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="70">With the <%if !@user.nil? && !@user.manage_plan.nil? && @user.manage_plan.present?%><%if @user.manage_plan == "market_sell"%>Market &amp; Sell Plan<%elsif @user.manage_plan == "market_sell_manage" %>Market, Sell &amp; Manage Plan<%elsif @user.manage_plan == "market_sell_manage_plus" %>Market, Sell, Manage Plus Plan<%else%>Sell-Through Plan<%end%><%end%>, all of your activities are listed for free, you get premium placement of activities and you only pay a small fee when people actually sign-up and pay real money to register for your activities.</td>
+    </tr> -->
+
+    <tr>
+      <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="70">Here&rsquo;s a brief tutorial to help you get started:</td>
+    </tr>
+    <tr>
+      <td height="40"><a href="http://youtu.be/a4eYo_dYTEI" style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#2c8fae;" target="_blank"><a href="http://www.youtube.com/watch?v=iuP3hL4625k" target="_blank" style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#2c8fae;">http://www.youtube.com/watch?v=iuP3hL4625k</a></td>
+    </tr>
+    <tr>
+      <td>
+        <div style="padding1: 15px 0px 15px 5px;">
+          <p style="color: #4495B0;font-size: 14px;font-family: Arial,Helvetica,sans-serif;">Take a Tour</p>
+            <div style="border: 1px solid #EFEFEF;background: #FBFBFB;margin: 7px 0px;padding: 10px 0px 10px 10px;display: inline-block;">
+              Here's a brief tutorial video to help get you started. <br>
+              <div style="float: left;width: 231px; height:146px;border: 1px solid #E2E2E2;background: #FFFFFF;padding: 7px;margin-right: 10px; margin-top:8px;">
+                <a href="http://youtu.be/a4eYo_dYTEI" title="" target="_blank">
+                  <%= image_tag("http://www.famtivity.com/assets/landing/lanVideo2.png")%>
+                </a>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    <tr>
+      <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="50">If you have any questions or want support getting started, visit our <a href='http://<%=@image_url%>/faq' style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#2c8fae; text-decoration:none;">FAQ</a> page or contact us directly anytime at <a href='mailto:support@famtivity.com' style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#2c8fae;text-decoration:none;">support@famtivity.com</a>. We&rsquo;re here to help!</td>
+    </tr>
+    
+      <tr>
+         <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;">Your Famtivity Team</td>
+      </tr>
+    
+    
+   </table>
+   </td>
+  </tr>
+</table>
+	 
+<%end%><!--provider end-->
+   </td>
+  </tr>
+</table><!--first table end-->

@@ -1,0 +1,6 @@
+<%- headers = ["Name", "Email", "Mobile Number"] -%>
+<%= CSV.generate_line(headers).strip %>
+<%- row = "friend_name","friend_email","friend_mobile" -%>
+<%= CSV.generate_line(row).html_safe.strip%>
+
+

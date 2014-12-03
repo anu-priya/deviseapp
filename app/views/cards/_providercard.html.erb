@@ -1,0 +1,61 @@
+<%get_city = @a.city.downcase.gsub(/\s/,'-') if @a.city && !@a.city.nil? && @a.city.present?%>
+<%providerlink = (!@a.nil? && get_city && !get_city.nil? && !@a.nil? && !@a.slug.nil?) ? ( ((check_for_state(@a.city)) ? get_city+url_state_value : get_city)+"/"+@a.slug) : ('')%>
+
+
+<div class="card_width">
+	<div style="position:relative;">
+		<div align="center" class="image_act_usr">
+			<table border="0" cellpadding="0" cellspacing="0" width="285" align="center">
+			<tr><td align="center" valign="middle" height="203">
+			  <a href="/<%= providerlink %>" title="" onclick="" >
+			    <%if !@a.nil? && !@a.card_file_name.nil? && !@a.card.nil? && is_file_exists(@a.card.path(:pro_card))%>
+			      <%= image_tag @a.card.url(:pro_card), :alt=>"#{@a.business_name if @a && @a.business_name}, #{@a.city if @a && @a.city}, CA"  if !@a.card.url(:pro_card).nil?%>
+			 <%else%>
+			      <%= image_tag "/assets/card/no_image.png", :alt=>"#{@a.business_name if @a && @a.business_name}, #{@a.city if @a && @a.city}, CA"%>
+			    <%end%>
+			 </a>
+			</td></tr>
+			</table>	  
+		</div>
+		<div class="card_logo">
+			<div align="left" class="lt logo_left" >
+				<div class="card_logo_inner">
+				<table border="0" cellpadding="0" cellspacing="0" align="center" width="100%">
+				<tr>
+				  <td align="center" valign="middle" width="100%" height="52">
+				    <%if !@a.nil? && !@a.profile_file_name.nil? && !@a.profile.nil?%>
+				      <%= image_tag @a.profile.url(:medium), :alt=>"#{@a.business_name if @a && @a.business_name}, #{@a.city if @a && @a.city}, CA", :align=>"absbottom", :style=>"max-height:100%; max-width:100%;" if !@a.profile.url(:medium).nil?%>
+				    <%else%>
+				      <%= image_tag "/assets/profile/default_logo.png", :alt=>"#{@a.business_name if @a && @a.business_name}, #{@a.city if @a && @a.city}, CA", :align=>"absbottom"%>
+				    <%end%>
+				  </td>
+				</tr>
+				</table>
+				</div>
+			</div>
+			<div align="right" class="rt">
+			<a href="/<%= providerlink %>" class="card_link" title="" onclick="_gaq.push(['_trackEvent','Parent Module', 'Provider Card', <%= @a.business_name if @a && @a.business_name%>]);"><div class="card_pay">View More</div></a>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="card_content">
+		<div class="lt card_content_inner">
+			<div class="lt card_space">&nbsp;
+			</div>
+			<div align="right" class="lt card_content_city cardtext_wrap">
+				<% if (@a && @a.address_1 !="" && !@a.address_1.nil?) && (@a && @a.address_2 !="" && !@a.address_2.nil?)%>
+				<%address1=@a.address_1+', '+@a.address_2%>
+				<%elsif (@a && @a.address_1 !="" && !@a.address_1.nil?) %>
+				<%address1=@a.address_1%>
+				<%end%>
+				<a class="card_link" title="<%= @a.city %>" target="_blank" href="https://maps.google.com/maps?q=<%=address1+', ' if address1 && address1!=''%><%= @a.city if (@a && @a.city !="" && !@a.city.nil?) %><%=', '+@a.state if (@a && @a.state !="" && !@a.state.nil?)%><%=', '+@a.zip_code if (@a && @a.zip_code !="" && !@a.zip_code.nil?)%>&t=m&z=12"><span class="city_icon" >&nbsp;</span><span><%= @a.city %></span></a>
+			</div>
+			<div class="clear"></div>
+			<div class="lt card_bus_name">
+				<h2><div class="cardtext_wrap"><a href="/<%= providerlink %>" class="card_link" title="<%=@a.business_name%>"><%= @a.business_name %></a></div></h2>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>

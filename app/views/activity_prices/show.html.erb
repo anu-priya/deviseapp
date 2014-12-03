@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Price:</b>
+  <%= @activity_price.price %>
+</p>
+
+<p>
+  <b>Payment period:</b>
+  <%= @activity_price.payment_period %>
+</p>
+
+<p>
+  <b>Class:</b>
+  <%= @activity_price.class %>
+</p>
+
+<p>
+  <b>Discount:</b>
+  <%= @activity_price.discount %>
+</p>
+
+
+<%= link_to 'Edit', edit_activity_price_path(@activity_price) %> |
+<%= link_to 'Back', activity_prices_path %>

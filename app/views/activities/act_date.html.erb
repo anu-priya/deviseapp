@@ -1,0 +1,18 @@
+<h3 align="center">Total Count</h3>
+<div class="Setlt"><input type="text" id="act_a" name="act" class="event_search"/></div>
+<div class="GoButton"><%=image_tag("/assets/event_index/go_button.png", :width=>"33", :height=>"26", :onclick=>"filter_by_act_date()")%></div>
+
+<div id="data_entry">
+
+</div>
+<script type="text/javascript" >
+
+  function filter_by_act_date(){
+    var act_email = document.getElementById("act_a").value;
+    $.get("/activities/data_entry",{
+      "act_email":act_email
+    }, null, "script");
+  }
+
+</script>
+

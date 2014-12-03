@@ -1,0 +1,34 @@
+<table>
+	<tr>
+		<td>Provider Name</td>
+		<td>Email Address</td>
+		<td>Website</td>
+		<td>Address </td>
+		<td>City</td>
+		<td>Zipcode</td>
+		<td>Phone No</td>
+		<!--td>Plan</td-->
+		<td>Added On</td>
+		<td>Added By</td>
+	</tr>
+  <%if !@curator_provider.nil? && @curator_provider.length > 0 %>
+    <% @curator_provider.each do |uval|%>
+      <tr>
+	<td><%=uval.business_name if !uval.nil? && !uval.business_name.nil? && uval.business_name != ''%></td>
+	<td><%=uval.email_address if !uval.nil? && !uval.email_address.nil? && uval.email_address != ''%></td>
+	<td><%=uval.website if !uval.nil? && !uval.website.nil? && uval.website != ''%></td>
+	<td><%if !uval.nil? && !uval.address_1.nil? && uval.address_1 != '' %><%=uval.address_1%> <%=','+uval.address_2 if !uval.nil? && !uval.address_2.nil? && uval.address_2 != '' %><%end%></td>
+	<td><%if !uval.nil? && !uval.city.nil? && uval.city != '' %><%=uval.city%><%end%></td>
+	<td><%if !uval.nil? && !uval.zip_code.nil? && uval.zip_code != '' %><%=uval.zip_code%><%end%></td>
+	<td><%if !uval.nil? && !uval.phone.nil? && uval.phone != '' %><%=uval.phone%><%end%></td>
+	<!--td><%#if !uval.nil? && !uval.user_plan.nil? && uval.user_plan != '' %><%#=uval.user_plan%><%#end%></td-->
+	<td><%if !uval.nil? && !uval.user_created_date.nil? && uval.user_created_date != '' %><%=uval.user_created_date.strftime("%b %d, %Y") %><%end%></td>
+	<td><%if !uval.nil? && !uval.added_by.nil? && uval.added_by != '' %><%=uval.added_by%><%end%></td>
+      </tr>
+    <% end %> 
+  <%else%>
+      <tr>
+          Sorry we found no results
+      </tr>
+  <%end%>
+  </table>

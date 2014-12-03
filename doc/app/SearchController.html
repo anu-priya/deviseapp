@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+<title>class SearchController - Rails Application Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>app/controllers/search_controller.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="ApplicationController.html">ApplicationController</a>
+  
+</nav>
+
+    <!-- Included Modules -->
+<nav id="includes-section" class="section">
+  <h3 class="section-header">Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><span class="include">ActionView::Helpers::TextHelper</span>
+  
+  
+  
+    <li><a class="include" href="SearchHelper.html">SearchHelper</a>
+  
+  
+  
+    <li><a class="include" href="ActivitiesHelper.html">ActivitiesHelper</a>
+  
+  
+  
+    <li><a class="include" href="LandingHelper.html">LandingHelper</a>
+  
+  
+  </ul>
+</nav>
+
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-basic_search_count">#basic_search_count</a>
+    
+    <li><a href="#method-i-data_entry">#data_entry</a>
+    
+    <li><a href="#method-i-search_advance_curator">#search_advance_curator</a>
+    
+    <li><a href="#method-i-search_curator">#search_curator</a>
+    
+    <li><a href="#method-i-search_new_search">#search_new_search</a>
+    
+    <li><a href="#method-i-search_old">#search_old</a>
+    
+    <li><a href="#method-i-user_setting">#user_setting</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./doc/README_FOR_APP.html">README_FOR_APP</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./ActivitiesController.html">ActivitiesController</a>
+  
+    <li><a href="./ActivitiesHelper.html">ActivitiesHelper</a>
+  
+    <li><a href="./Activity.html">Activity</a>
+  
+    <li><a href="./ActivityAttendDetail.html">ActivityAttendDetail</a>
+  
+    <li><a href="./ActivityAttendDetailsController.html">ActivityAttendDetailsController</a>
+  
+    <li><a href="./ActivityAttendDetailsHelper.html">ActivityAttendDetailsHelper</a>
+  
+    <li><a href="./ActivityBid.html">ActivityBid</a>
+  
+    <li><a href="./ActivityBidsController.html">ActivityBidsController</a>
+  
+    <li><a href="./ActivityBidsHelper.html">ActivityBidsHelper</a>
+  
+    <li><a href="./ActivityCategoriesController.html">ActivityCategoriesController</a>
+  
+    <li><a href="./ActivityCategoriesHelper.html">ActivityCategoriesHelper</a>
+  
+    <li><a href="./ActivityCategory.html">ActivityCategory</a>
+  
+    <li><a href="./ActivityClick.html">ActivityClick</a>
+  
+    <li><a href="./ActivityComment.html">ActivityComment</a>
+  
+    <li><a href="./ActivityCommentsController.html">ActivityCommentsController</a>
+  
+    <li><a href="./ActivityCommentsHelper.html">ActivityCommentsHelper</a>
+  
+    <li><a href="./ActivityCount.html">ActivityCount</a>
+  
+    <li><a href="./ActivityDetailController.html">ActivityDetailController</a>
+  
+    <li><a href="./ActivityDetailHelper.html">ActivityDetailHelper</a>
+  
+    <li><a href="./ActivityDiscountPrice.html">ActivityDiscountPrice</a>
+  
+    <li><a href="./ActivityFavorite.html">ActivityFavorite</a>
+  
+    <li><a href="./ActivityFavoritesController.html">ActivityFavoritesController</a>
+  
+    <li><a href="./ActivityFavoritesHelper.html">ActivityFavoritesHelper</a>
+  
+    <li><a href="./ActivityForm.html">ActivityForm</a>
+  
+    <li><a href="./ActivityNetworkController.html">ActivityNetworkController</a>
+  
+    <li><a href="./ActivityNetworkHelper.html">ActivityNetworkHelper</a>
+  
+    <li><a href="./ActivityNetworkPermission.html">ActivityNetworkPermission</a>
+  
+    <li><a href="./ActivityPrice.html">ActivityPrice</a>
+  
+    <li><a href="./ActivityPricesController.html">ActivityPricesController</a>
+  
+    <li><a href="./ActivityPricesHelper.html">ActivityPricesHelper</a>
+  
+    <li><a href="./ActivityRating.html">ActivityRating</a>
+  
+    <li><a href="./ActivityRatingsController.html">ActivityRatingsController</a>
+  
+    <li><a href="./ActivityRatingsHelper.html">ActivityRatingsHelper</a>
+  
+    <li><a href="./ActivityRepeat.html">ActivityRepeat</a>
+  
+    <li><a href="./ActivityRepeatsController.html">ActivityRepeatsController</a>
+  
+    <li><a href="./ActivityRepeatsHelper.html">ActivityRepeatsHelper</a>
+  
+    <li><a href="./ActivityRow.html">ActivityRow</a>
+  
+    <li><a href="./ActivityRowsController.html">ActivityRowsController</a>
+  
+    <li><a href="./ActivityRowsHelper.html">ActivityRowsHelper</a>
+  
+    <li><a href="./ActivitySchedule.html">ActivitySchedule</a>
+  
+    <li><a href="./ActivitySchedulesController.html">ActivitySchedulesController</a>
+  
+    <li><a href="./ActivitySchedulesHelper.html">ActivitySchedulesHelper</a>
+  
+    <li><a href="./ActivitySetting.html">ActivitySetting</a>
+  
+    <li><a href="./ActivitySettingsDetail.html">ActivitySettingsDetail</a>
+  
+    <li><a href="./ActivitySettingsType.html">ActivitySettingsType</a>
+  
+    <li><a href="./ActivityShared.html">ActivityShared</a>
+  
+    <li><a href="./ActivitySharedsController.html">ActivitySharedsController</a>
+  
+    <li><a href="./ActivitySharedsHelper.html">ActivitySharedsHelper</a>
+  
+    <li><a href="./ActivitySubcategoriesController.html">ActivitySubcategoriesController</a>
+  
+    <li><a href="./ActivitySubcategoriesHelper.html">ActivitySubcategoriesHelper</a>
+  
+    <li><a href="./ActivitySubcategory.html">ActivitySubcategory</a>
+  
+    <li><a href="./ActivityTotalCount.html">ActivityTotalCount</a>
+  
+    <li><a href="./ActivityTrack.html">ActivityTrack</a>
+  
+    <li><a href="./AdminController.html">AdminController</a>
+  
+    <li><a href="./AdminDiscountCode.html">AdminDiscountCode</a>
+  
+    <li><a href="./AdminDiscountCodesController.html">AdminDiscountCodesController</a>
+  
+    <li><a href="./AdminDiscountCodesHelper.html">AdminDiscountCodesHelper</a>
+  
+    <li><a href="./AdminHelper.html">AdminHelper</a>
+  
+    <li><a href="./AgeRangeColorsController.html">AgeRangeColorsController</a>
+  
+    <li><a href="./AgeRangeColorsHelper.html">AgeRangeColorsHelper</a>
+  
+    <li><a href="./AgerangeColor.html">AgerangeColor</a>
+  
+    <li><a href="./AgerangeColorsController.html">AgerangeColorsController</a>
+  
+    <li><a href="./AgerangeColorsHelper.html">AgerangeColorsHelper</a>
+  
+    <li><a href="./ApplicationController.html">ApplicationController</a>
+  
+    <li><a href="./ApplicationHelper.html">ApplicationHelper</a>
+  
+    <li><a href="./Authentication.html">Authentication</a>
+  
+    <li><a href="./AuthenticationsController.html">AuthenticationsController</a>
+  
+    <li><a href="./BlockUser.html">BlockUser</a>
+  
+    <li><a href="./CheckoutController.html">CheckoutController</a>
+  
+    <li><a href="./City.html">City</a>
+  
+    <li><a href="./CityGroup.html">CityGroup</a>
+  
+    <li><a href="./ContactGroup.html">ContactGroup</a>
+  
+    <li><a href="./ContactGroupsController.html">ContactGroupsController</a>
+  
+    <li><a href="./ContactGroupsHelper.html">ContactGroupsHelper</a>
+  
+    <li><a href="./ContactUser.html">ContactUser</a>
+  
+    <li><a href="./ContactUserGroup.html">ContactUserGroup</a>
+  
+    <li><a href="./ContactUsersController.html">ContactUsersController</a>
+  
+    <li><a href="./ContactUsersHelper.html">ContactUsersHelper</a>
+  
+    <li><a href="./Country.html">Country</a>
+  
+    <li><a href="./DefaultFilter.html">DefaultFilter</a>
+  
+    <li><a href="./DefaultFiltersController.html">DefaultFiltersController</a>
+  
+    <li><a href="./DefaultFiltersHelper.html">DefaultFiltersHelper</a>
+  
+    <li><a href="./DeletedSchedule.html">DeletedSchedule</a>
+  
+    <li><a href="./DetailPageIdentityHelper.html">DetailPageIdentityHelper</a>
+  
+    <li><a href="./DetailsPageController.html">DetailsPageController</a>
+  
+    <li><a href="./DetailsPageHelper.html">DetailsPageHelper</a>
+  
+    <li><a href="./DiscountDollarsController.html">DiscountDollarsController</a>
+  
+    <li><a href="./DiscountDollarsHelper.html">DiscountDollarsHelper</a>
+  
+    <li><a href="./EmbedController.html">EmbedController</a>
+  
+    <li><a href="./ErrorsController.html">ErrorsController</a>
+  
+    <li><a href="./FamFeeDetail.html">FamFeeDetail</a>
+  
+    <li><a href="./FamNetwork.html">FamNetwork</a>
+  
+    <li><a href="./FamNetworkGroup.html">FamNetworkGroup</a>
+  
+    <li><a href="./FamNetworkGroupsController.html">FamNetworkGroupsController</a>
+  
+    <li><a href="./FamNetworkGroupsHelper.html">FamNetworkGroupsHelper</a>
+  
+    <li><a href="./FamNetworkPost.html">FamNetworkPost</a>
+  
+    <li><a href="./FamNetworkPostsController.html">FamNetworkPostsController</a>
+  
+    <li><a href="./FamNetworkPostsHelper.html">FamNetworkPostsHelper</a>
+  
+    <li><a href="./FamNetworkRow.html">FamNetworkRow</a>
+  
+    <li><a href="./FamNetworksController.html">FamNetworksController</a>
+  
+    <li><a href="./FamNetworksHelper.html">FamNetworksHelper</a>
+  
+    <li><a href="./FamPost.html">FamPost</a>
+  
+    <li><a href="./FamPostsController.html">FamPostsController</a>
+  
+    <li><a href="./FamPostsHelper.html">FamPostsHelper</a>
+  
+    <li><a href="./FampassDetail.html">FampassDetail</a>
+  
+    <li><a href="./FamtivityNetworkMailer.html">FamtivityNetworkMailer</a>
+  
+    <li><a href="./FeaturedAuditLog.html">FeaturedAuditLog</a>
+  
+    <li><a href="./FeaturedAuditLogsController.html">FeaturedAuditLogsController</a>
+  
+    <li><a href="./FeaturedAuditLogsHelper.html">FeaturedAuditLogsHelper</a>
+  
+    <li><a href="./FollowingUser.html">FollowingUser</a>
+  
+    <li><a href="./Form.html">Form</a>
+  
+    <li><a href="./FormQuestion.html">FormQuestion</a>
+  
+    <li><a href="./FormResult.html">FormResult</a>
+  
+    <li><a href="./FormResultAnswer.html">FormResultAnswer</a>
+  
+    <li><a href="./FormsController.html">FormsController</a>
+  
+    <li><a href="./FormsHelper.html">FormsHelper</a>
+  
+    <li><a href="./GeneralTag.html">GeneralTag</a>
+  
+    <li><a href="./GuestDetail.html">GuestDetail</a>
+  
+    <li><a href="./HomeController.html">HomeController</a>
+  
+    <li><a href="./HomeHelper.html">HomeHelper</a>
+  
+    <li><a href="./InviteAttendees.html">InviteAttendees</a>
+  
+    <li><a href="./InvitesHelper.html">InvitesHelper</a>
+  
+    <li><a href="./InvitorList.html">InvitorList</a>
+  
+    <li><a href="./InvitorListHelper.html">InvitorListHelper</a>
+  
+    <li><a href="./LandingController.html">LandingController</a>
+  
+    <li><a href="./LandingHelper.html">LandingHelper</a>
+  
+    <li><a href="./LeadTransaction.html">LeadTransaction</a>
+  
+    <li><a href="./LoginController.html">LoginController</a>
+  
+    <li><a href="./LogoutController.html">LogoutController</a>
+  
+    <li><a href="./Manager.html">Manager</a>
+  
+    <li><a href="./Message.html">Message</a>
+  
+    <li><a href="./MessageFile.html">MessageFile</a>
+  
+    <li><a href="./MessageMailer.html">MessageMailer</a>
+  
+    <li><a href="./MessageThread.html">MessageThread</a>
+  
+    <li><a href="./MessageThreadViewer.html">MessageThreadViewer</a>
+  
+    <li><a href="./MessagesController.html">MessagesController</a>
+  
+    <li><a href="./MessagesHelper.html">MessagesHelper</a>
+  
+    <li><a href="./MonthlyBudget.html">MonthlyBudget</a>
+  
+    <li><a href="./MonthlyBudgetsController.html">MonthlyBudgetsController</a>
+  
+    <li><a href="./MonthlyBudgetsHelper.html">MonthlyBudgetsHelper</a>
+  
+    <li><a href="./NewsletterMailer.html">NewsletterMailer</a>
+  
+    <li><a href="./NewslettersController.html">NewslettersController</a>
+  
+    <li><a href="./NotificationDetail.html">NotificationDetail</a>
+  
+    <li><a href="./ParentNotification.html">ParentNotification</a>
+  
+    <li><a href="./ParentNotificationDetail.html">ParentNotificationDetail</a>
+  
+    <li><a href="./ParentSetting.html">ParentSetting</a>
+  
+    <li><a href="./ParentSettingDetail.html">ParentSettingDetail</a>
+  
+    <li><a href="./ParentSettingsController.html">ParentSettingsController</a>
+  
+    <li><a href="./Participant.html">Participant</a>
+  
+    <li><a href="./ParticipantsController.html">ParticipantsController</a>
+  
+    <li><a href="./ParticipantsHelper.html">ParticipantsHelper</a>
+  
+    <li><a href="./PaymentDetail.html">PaymentDetail</a>
+  
+    <li><a href="./PaymentDetailsController.html">PaymentDetailsController</a>
+  
+    <li><a href="./PaymentDetailsHelper.html">PaymentDetailsHelper</a>
+  
+    <li><a href="./PoliciesController.html">PoliciesController</a>
+  
+    <li><a href="./PoliciesHelper.html">PoliciesHelper</a>
+  
+    <li><a href="./Policy.html">Policy</a>
+  
+    <li><a href="./PolicyFile.html">PolicyFile</a>
+  
+    <li><a href="./PolicyType.html">PolicyType</a>
+  
+    <li><a href="./ProviderActivityFee.html">ProviderActivityFee</a>
+  
+    <li><a href="./ProviderActivityFeeType.html">ProviderActivityFeeType</a>
+  
+    <li><a href="./ProviderCount.html">ProviderCount</a>
+  
+    <li><a href="./ProviderDiscountCode.html">ProviderDiscountCode</a>
+  
+    <li><a href="./ProviderDiscountCodeType.html">ProviderDiscountCodeType</a>
+  
+    <li><a href="./ProviderDiscountType.html">ProviderDiscountType</a>
+  
+    <li><a href="./ProviderLead.html">ProviderLead</a>
+  
+    <li><a href="./ProviderListController.html">ProviderListController</a>
+  
+    <li><a href="./ProviderNotification.html">ProviderNotification</a>
+  
+    <li><a href="./ProviderNotificationDetail.html">ProviderNotificationDetail</a>
+  
+    <li><a href="./ProviderSetting.html">ProviderSetting</a>
+  
+    <li><a href="./ProviderSettingDetail.html">ProviderSettingDetail</a>
+  
+    <li><a href="./ProviderSettingsController.html">ProviderSettingsController</a>
+  
+    <li><a href="./ProviderSettingsHelper.html">ProviderSettingsHelper</a>
+  
+    <li><a href="./ProviderTransaction.html">ProviderTransaction</a>
+  
+    <li><a href="./ProviderTransactionLog.html">ProviderTransactionLog</a>
+  
+    <li><a href="./ProviderWebsiteTrack.html">ProviderWebsiteTrack</a>
+  
+    <li><a href="./Question.html">Question</a>
+  
+    <li><a href="./QuestionType.html">QuestionType</a>
+  
+    <li><a href="./QuestionValue.html">QuestionValue</a>
+  
+    <li><a href="./QuickLinksController.html">QuickLinksController</a>
+  
+    <li><a href="./QuickLinksHelper.html">QuickLinksHelper</a>
+  
+    <li><a href="./SchoolRepresentative.html">SchoolRepresentative</a>
+  
+    <li><a href="./SchoolRepresentativesController.html">SchoolRepresentativesController</a>
+  
+    <li><a href="./SearchController.html">SearchController</a>
+  
+    <li><a href="./SearchHelper.html">SearchHelper</a>
+  
+    <li><a href="./SendSMS.html">SendSMS</a>
+  
+    <li><a href="./Setting.html">Setting</a>
+  
+    <li><a href="./SettingsController.html">SettingsController</a>
+  
+    <li><a href="./SettingsHelper.html">SettingsHelper</a>
+  
+    <li><a href="./SmsStatus.html">SmsStatus</a>
+  
+    <li><a href="./SocialType.html">SocialType</a>
+  
+    <li><a href="./SponsorShip.html">SponsorShip</a>
+  
+    <li><a href="./SponsorShipsController.html">SponsorShipsController</a>
+  
+    <li><a href="./SponsorShipsHelper.html">SponsorShipsHelper</a>
+  
+    <li><a href="./State.html">State</a>
+  
+    <li><a href="./StaticController.html">StaticController</a>
+  
+    <li><a href="./Support.html">Support</a>
+  
+    <li><a href="./SupportsController.html">SupportsController</a>
+  
+    <li><a href="./SupportsHelper.html">SupportsHelper</a>
+  
+    <li><a href="./Ticket.html">Ticket</a>
+  
+    <li><a href="./TicketsController.html">TicketsController</a>
+  
+    <li><a href="./TicketsHelper.html">TicketsHelper</a>
+  
+    <li><a href="./TransactionDetail.html">TransactionDetail</a>
+  
+    <li><a href="./User.html">User</a>
+  
+    <li><a href="./UserBankDetail.html">UserBankDetail</a>
+  
+    <li><a href="./UserCalender.html">UserCalender</a>
+  
+    <li><a href="./UserCard.html">UserCard</a>
+  
+    <li><a href="./UserChild.html">UserChild</a>
+  
+    <li><a href="./UserChildrenController.html">UserChildrenController</a>
+  
+    <li><a href="./UserCredit.html">UserCredit</a>
+  
+    <li><a href="./UserDeactivateLog.html">UserDeactivateLog</a>
+  
+    <li><a href="./UserDebit.html">UserDebit</a>
+  
+    <li><a href="./UserDeletedAccount.html">UserDeletedAccount</a>
+  
+    <li><a href="./UserEmailChangeLog.html">UserEmailChangeLog</a>
+  
+    <li><a href="./UserMailer.html">UserMailer</a>
+  
+    <li><a href="./UserNotification.html">UserNotification</a>
+  
+    <li><a href="./UserProfile.html">UserProfile</a>
+  
+    <li><a href="./UserProfilesController.html">UserProfilesController</a>
+  
+    <li><a href="./UserProfilesHelper.html">UserProfilesHelper</a>
+  
+    <li><a href="./UserRow.html">UserRow</a>
+  
+    <li><a href="./UserSettingsHelper.html">UserSettingsHelper</a>
+  
+    <li><a href="./UserTransaction.html">UserTransaction</a>
+  
+    <li><a href="./UserTransactionsController.html">UserTransactionsController</a>
+  
+    <li><a href="./UserTransactionsHelper.html">UserTransactionsHelper</a>
+  
+    <li><a href="./UsersController.html">UsersController</a>
+  
+    <li><a href="./UsersHelper.html">UsersHelper</a>
+  
+    <li><a href="./WeekendActivity.html">WeekendActivity</a>
+  
+    <li><a href="./WeekendMailer.html">WeekendMailer</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class SearchController</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-basic_search_count" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">basic_search_count</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>get the count for basic search</p>
+          
+
+          
+          <div class="method-source-code" id="basic_search_count-source">
+            <pre><span class="ruby-comment"># File app/controllers/search_controller.rb, line 19</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">basic_search_count</span>
+  <span class="ruby-ivar">@search</span> = <span class="ruby-constant">Sunspot</span>.<span class="ruby-identifier">search</span>(<span class="ruby-constant">Activity</span>,<span class="ruby-constant">User</span>) <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">keywords</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] <span class="ruby-keyword">do</span>
+      <span class="ruby-comment">#query_phrase_slop 1</span>
+      <span class="ruby-identifier">minimum_match</span> <span class="ruby-value">1</span>
+      <span class="ruby-identifier">fields</span>(<span class="ruby-value">:city=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">10</span>,<span class="ruby-value">:user_profile_name=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">9</span>,<span class="ruby-value">:activity_name</span> =<span class="ruby-operator">&gt;</span><span class="ruby-value">8</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">with</span> <span class="ruby-value">:cleaned</span>,<span class="ruby-keyword">true</span>
+    <span class="ruby-identifier">with</span>(<span class="ruby-value">:active_status</span>, <span class="ruby-string">&quot;Active&quot;</span>)
+    <span class="ruby-identifier">order_by</span> <span class="ruby-value">:score</span>, <span class="ruby-value">:desc</span>
+    <span class="ruby-identifier">with</span> <span class="ruby-value">:show_card</span>,<span class="ruby-keyword">true</span>
+      
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:text=</span><span class="ruby-operator">&gt;</span><span class="ruby-ivar">@search</span>.<span class="ruby-identifier">total</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- basic_search_count-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- basic_search_count-method -->
+
+    
+      <div id="method-i-data_entry" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">data_entry</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="data_entry-source">
+            <pre><span class="ruby-comment"># File app/controllers/search_controller.rb, line 35</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">data_entry</span>
+  <span class="ruby-comment">#cookies[:search_city] = &quot;Walnut Creek&quot;</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+    <span class="ruby-identifier">city_se</span> = <span class="ruby-constant">City</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;city_name='#{cookies[:search_city].gsub(&quot;,ca&quot;,&quot;&quot;).gsub(&quot;,CA&quot;,&quot;&quot;)}'&quot;</span>).<span class="ruby-identifier">last</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">city_se</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] = <span class="ruby-identifier">city_se</span>.<span class="ruby-identifier">latitude</span>
+      <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>] = <span class="ruby-identifier">city_se</span>.<span class="ruby-identifier">longitude</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment">#a_coord = Geocoder.coordinates(&quot;#{city.titlecase}&quot;)</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">re_times</span> = <span class="ruby-value">5</span>
+    <span class="ruby-keyword">begin</span>
+      <span class="ruby-identifier">location</span> = <span class="ruby-constant">Geocoder</span>.<span class="ruby-identifier">search</span>(<span class="ruby-node">&quot;#{request.ip}&quot;</span>).<span class="ruby-identifier">first</span>
+      <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] = <span class="ruby-identifier">location</span>.<span class="ruby-identifier">latitude</span>
+      <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>] = <span class="ruby-identifier">location</span>.<span class="ruby-identifier">longitude</span>
+      <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>] = <span class="ruby-identifier">location</span>.<span class="ruby-identifier">city</span>
+      <span class="ruby-keyword">if</span> ((<span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] <span class="ruby-operator">==</span> <span class="ruby-value">0.0</span>) <span class="ruby-operator">||</span>(<span class="ruby-identifier">location</span>.<span class="ruby-identifier">country</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;India&quot;</span>))
+        <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] = <span class="ruby-value">37.9100783</span>
+        <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>] = <span class="ruby-value">-122.0651819</span>
+        <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>] = <span class="ruby-string">&quot;Walnut Creek&quot;</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+      <span class="ruby-identifier">re_times</span><span class="ruby-operator">-=</span><span class="ruby-value">1</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">re_times</span><span class="ruby-operator">&gt;</span><span class="ruby-value">0</span>
+        <span class="ruby-keyword">retry</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] = <span class="ruby-value">37.9100783</span>
+        <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>] = <span class="ruby-value">-122.0651819</span>
+        <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>] = <span class="ruby-string">&quot;Walnut Creek&quot;</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment">#    if params[:set_p].nil?</span>
+  <span class="ruby-comment">#      params[:set_p] = &quot;1&quot;</span>
+  <span class="ruby-comment">#    end</span>
+
+  <span class="ruby-comment">#a_coord = Geocoder.coordinates(&quot;#{}&quot;)</span>
+  <span class="ruby-ivar">@events</span> = []
+  <span class="ruby-identifier">search_curator</span>(<span class="ruby-string">&quot;1&quot;</span>)
+  <span class="ruby-comment">#    if (@search.total &lt;=30) || (@events.length &lt; 30 &amp;&amp; params[:set_p] == &quot;1&quot;)</span>
+  <span class="ruby-comment">#      params[:page] =1</span>
+  <span class="ruby-comment">#      params[:set_p] = &quot;2&quot;</span>
+  <span class="ruby-comment">#      search_curator(&quot;2&quot;)</span>
+  <span class="ruby-comment">#    end</span>
+  
+  <span class="ruby-identifier">total_pgae</span> = <span class="ruby-ivar">@search</span>.<span class="ruby-identifier">results</span>.<span class="ruby-identifier">total_pages</span>
+  <span class="ruby-ivar">@events</span>.<span class="ruby-identifier">unshift</span>({<span class="ruby-value">:data</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;all&quot;</span>,<span class="ruby-value">:value=</span><span class="ruby-operator">&gt;</span><span class="ruby-node">&quot;#{params[:query]}&quot;</span>,<span class="ruby-value">:act=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;Show All&quot;</span>,<span class="ruby-value">:cur_set</span> =<span class="ruby-operator">&gt;</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:set_p</span>],<span class="ruby-value">:cur_page=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:page</span>] <span class="ruby-operator">||</span> <span class="ruby-value">1</span>, <span class="ruby-value">:total_p=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">total_pgae</span>,<span class="ruby-value">:w_plan_name=</span><span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;2&quot;</span>})
+  <span class="ruby-comment"># plan =User.order(&quot;user_plan desc&quot;).find(:all,:conditions=&gt;[&quot;user_id = ?&quot;, cookies[:uid_usr]]).map(&amp;:user_plan)</span>
+  <span class="ruby-comment">#  @search.results.map {  |record| user = UserProfile.find_by_user_id(record.user_id);; events &lt;&lt; {:city=&gt; record.city, :user_id=&gt;record.user_id,:provider_name=&gt; user.business_name,  :activity_name=&gt; record.activity_name, :data=&gt; record.activity_id, :value=&gt; &quot;#{record.activity_name} &quot; + &quot;#{record.city}&quot;  +&quot; #{user.business_name}&quot; } }</span>
+
+  <span class="ruby-comment">#    @search.results.map { |record|</span>
+  <span class="ruby-comment">#      user = UserProfile.where(&quot;user_id = #{record.user_id}&quot;).last</span>
+  <span class="ruby-comment">#      events &lt;&lt; {:category=&gt;record.category,:sub_category=&gt;record.sub_category,:city=&gt; record.city,:w_activity_name=&gt; record.activity_name,:w_provider_name=&gt;user.business_name,:w_city=&gt;record.city,:user_id=&gt;record.user_id,:provider_name=&gt;truncate(user.business_name, :length =&gt;25),:pass_value=&gt;params[:query],:activity_name=&gt;truncate(record.activity_name, :length =&gt;25), :data=&gt; record.activity_id, :value=&gt; &quot;#{record.activity_name} &quot;  + &quot; #{user.business_name} &quot;+ &quot; #{record.city}&quot;  } if !user.business_name.nil? if !user.nil?</span>
+  <span class="ruby-comment">#    }</span>
+  <span class="ruby-comment">#events = events.sort_by { |k| k[:w_plan_name] }.reverse</span>
+  
+  <span class="ruby-ivar">@activities</span>  = {
+    <span class="ruby-identifier">query</span><span class="ruby-operator">:</span> <span class="ruby-string">&quot;Unit&quot;</span>,
+    <span class="ruby-identifier">suggestions</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@events</span> }
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@activities</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- data_entry-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- data_entry-method -->
+
+    
+      <div id="method-i-search_advance_curator" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">search_advance_curator</span><span
+            class="method-args">(second_set)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="search_advance_curator-source">
+            <pre><span class="ruby-comment"># File app/controllers/search_controller.rb, line 315</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">search_advance_curator</span>(<span class="ruby-identifier">second_set</span>)
+  <span class="ruby-identifier">categories</span> =[]
+  <span class="ruby-identifier">categories</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:ad_sub_category_1</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">&quot;,&quot;</span>).<span class="ruby-identifier">reject</span>(&amp;<span class="ruby-value">:empty?</span>) <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:ad_sub_category_1</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:ad_sub_category_1</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+  <span class="ruby-identifier">day_of_week</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:age_rangera</span>].<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&quot;,&quot;</span>).<span class="ruby-identifier">reject</span>(&amp;<span class="ruby-value">:empty?</span>) <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:age_rangera</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:age_rangera</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+  <span class="ruby-identifier">price_value</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:price_value</span>] <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:price_value</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:price_value</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:city_name</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:city_name</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+    <span class="ruby-identifier">params</span>[<span class="ruby-value">:city_search_ra</span>] = <span class="ruby-identifier">params</span>[<span class="ruby-value">:city_name</span>]
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:p_all</span>]<span class="ruby-operator">!=</span> <span class="ruby-string">&quot;p_all&quot;</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:a_f</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;free&quot;</span>
+      <span class="ruby-identifier">free</span> = <span class="ruby-keyword">true</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:paid</span>]<span class="ruby-operator">==</span> <span class="ruby-string">&quot;paid&quot;</span>
+      <span class="ruby-identifier">paid</span> = <span class="ruby-keyword">true</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment">#~ age_range = []</span>
+  <span class="ruby-comment">#~ if params[:aa_all] !=&quot;a_all&quot;</span>
+  <span class="ruby-comment">#~ if params[:aa_m1] == &quot;0-6&quot;</span>
+  <span class="ruby-comment">#~ age_range &lt;&lt; age_month_calc((0..6).to_a)</span>
+  <span class="ruby-comment">#~ end</span>
+  <span class="ruby-comment">#~ if params[:aa_m1] == &quot;6-12&quot;</span>
+  <span class="ruby-comment">#~ age_range &lt;&lt; age_month_calc((6..12).to_a)</span>
+  <span class="ruby-comment">#~ end</span>
+  <span class="ruby-comment">#~ if (params[:aa_r1] == &quot;0-3&quot;) || (params[:aa_r1] == &quot;2-3&quot;)</span>
+  <span class="ruby-comment">#~ age_r1 = (params[:aa_r1]==&quot;0-3&quot;) ? (0..3) : (2..3)</span>
+  <span class="ruby-comment">#~ age_range &lt;&lt; (age_r1).to_a</span>
+  <span class="ruby-comment">#~ end</span>
+  <span class="ruby-comment">#~ if params[:aa_r4] == &quot;4-7&quot;</span>
+  <span class="ruby-comment">#~ age_range &lt;&lt; (4..7).to_a</span>
+  <span class="ruby-comment">#~ end</span>
+  <span class="ruby-comment">#~ if params[:aa_r8] == &quot;8-15&quot;</span>
+  <span class="ruby-comment">#~ age_range &lt;&lt; (8..99).to_a</span>
+  <span class="ruby-comment">#~ end</span>
+  <span class="ruby-comment">#~ end</span>
+  
+  <span class="ruby-comment">#age range new changes</span>
+  <span class="ruby-identifier">agee_type</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:age_type</span>]
+  <span class="ruby-identifier">agee</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:age_range</span>]
+  <span class="ruby-identifier">sval</span> = <span class="ruby-identifier">agee</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&quot;-&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">agee</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">agee!</span>=<span class="ruby-string">&quot;all&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">agee!</span>=<span class="ruby-string">&quot;8+&quot;</span>
+  <span class="ruby-identifier">age_range</span> = []
+        <span class="ruby-keyword">if</span> (<span class="ruby-identifier">agee</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">agee</span>.<span class="ruby-identifier">downcase!</span>=<span class="ruby-string">&quot;all&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">agee!</span>=<span class="ruby-string">&quot;8+&quot;</span>)
+                <span class="ruby-keyword">if</span> <span class="ruby-identifier">agee_type</span>.<span class="ruby-identifier">downcase</span> <span class="ruby-operator">==</span> <span class="ruby-string">'month'</span>
+      <span class="ruby-identifier">age_range</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">age_month_calc</span>((<span class="ruby-identifier">sval</span>[<span class="ruby-value">0</span>]<span class="ruby-operator">..</span><span class="ruby-identifier">sval</span>[<span class="ruby-value">1</span>]).<span class="ruby-identifier">to_a</span>)
+                <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">agee_type</span>.<span class="ruby-identifier">downcase</span> <span class="ruby-operator">==</span> <span class="ruby-string">'year'</span>
+      <span class="ruby-identifier">age_range</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">sval</span>[<span class="ruby-value">0</span>]<span class="ruby-operator">..</span><span class="ruby-identifier">sval</span>[<span class="ruby-value">1</span>]).<span class="ruby-identifier">to_a</span>
+                <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">agee</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">agee</span><span class="ruby-operator">==</span><span class="ruby-string">&quot;8+&quot;</span>
+                <span class="ruby-identifier">age_range</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-value">8</span><span class="ruby-operator">..</span><span class="ruby-value">99</span>).<span class="ruby-identifier">to_a</span>
+        <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">camp</span> = <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:camp_range_1</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;camp&quot;</span>
+  <span class="ruby-identifier">special</span> = []
+  <span class="ruby-identifier">special</span> = <span class="ruby-ivar">@special</span>
+  <span class="ruby-identifier">start_date</span> =<span class="ruby-string">&quot;&quot;</span>
+  <span class="ruby-identifier">age_range_flat</span> = <span class="ruby-identifier">age_range</span>.<span class="ruby-identifier">flatten</span>
+  <span class="ruby-identifier">end_date</span> = <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>
+  <span class="ruby-identifier">start_date</span> =  <span class="ruby-identifier">params</span>[<span class="ruby-value">:start_dates</span>] <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:start_dates</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:start_dates</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+  <span class="ruby-identifier">end_date</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:end_dates</span>] <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:end_dates</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:end_dates</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+
+  <span class="ruby-ivar">@search</span> = <span class="ruby-constant">Sunspot</span>.<span class="ruby-identifier">search</span>(<span class="ruby-constant">Activity</span>,<span class="ruby-constant">User</span>) <span class="ruby-keyword">do</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>]<span class="ruby-operator">!=</span><span class="ruby-string">''</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>].<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>]<span class="ruby-operator">!=</span><span class="ruby-string">'Search 20,000   Local Activities &amp; Counting...'</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] <span class="ruby-operator">!=</span> <span class="ruby-string">'Search 20,000 + Local Activities &amp; Counting...'</span>)
+      <span class="ruby-identifier">fulltext</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">query_phrase_slop</span> <span class="ruby-value">1</span>
+        <span class="ruby-comment"># minimum_match 1</span>
+        <span class="ruby-identifier">phrase_fields</span> <span class="ruby-value">:city</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">10</span>,<span class="ruby-value">:user_profile_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">9</span>,<span class="ruby-value">:activity_name</span> =<span class="ruby-operator">&gt;</span><span class="ruby-value">8</span>
+        <span class="ruby-identifier">fields</span>(<span class="ruby-value">:city=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">9</span>,<span class="ruby-value">:user_profile_name=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">9</span>,<span class="ruby-value">:activity_name</span> =<span class="ruby-operator">&gt;</span><span class="ruby-value">8</span>,<span class="ruby-value">:category=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">8</span>,<span class="ruby-value">:sub_category=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">8</span>,<span class="ruby-value">:tags_txt=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">8</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">categories</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-identifier">any_of</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">categories</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">with</span>(<span class="ruby-value">:sub_category_lower</span>, <span class="ruby-identifier">c</span>.<span class="ruby-identifier">downcase</span>)
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">order_by_geodist</span>(<span class="ruby-value">:location</span>, <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>], <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>]) <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">!=</span> <span class="ruby-string">&quot;provider&quot;</span>
+    <span class="ruby-comment">#        if (cookies[:latitude].present? &amp;&amp; cookies[:longitude].present?)</span>
+    <span class="ruby-comment">#          with(:location).in_radius(cookies[:latitude], cookies[:longitude], 5, :bbox =&gt; false)</span>
+    <span class="ruby-comment">#        end</span>
+
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">free</span>
+      <span class="ruby-identifier">with</span>(<span class="ruby-value">:price_type</span>,<span class="ruby-value">3</span>)
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-comment">#calls on camp&amp;works shop search</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">camp</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">true</span>
+      <span class="ruby-identifier">without</span>(<span class="ruby-value">:schedule_mode</span>,<span class="ruby-string">'Schedule'</span>)
+      <span class="ruby-identifier">without</span>(<span class="ruby-value">:schedule_mode</span>,<span class="ruby-string">'Any Time'</span>)
+      <span class="ruby-identifier">without</span>(<span class="ruby-value">:schedule_mode</span>,<span class="ruby-string">'By Appointment'</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-comment">#calls on when</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">paid</span>
+      <span class="ruby-identifier">without</span>(<span class="ruby-value">:price_type</span>,<span class="ruby-value">3</span>)
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">special</span>
+      <span class="ruby-identifier">any_of</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">special</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">with</span>(<span class="ruby-value">:activity_id</span>, <span class="ruby-identifier">s</span>)
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:start_dates</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:start_dates</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:end_dates</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:end_dates</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+      <span class="ruby-identifier">all_of</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">with</span>(<span class="ruby-value">:start_date</span>).<span class="ruby-identifier">greater_than_or_equal_to</span> <span class="ruby-identifier">start_date</span>
+        <span class="ruby-identifier">with</span>(<span class="ruby-value">:expiration_date</span>).<span class="ruby-identifier">less_than_or_equal_to</span> <span class="ruby-identifier">end_date</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:start_dates</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:start_dates</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+      <span class="ruby-identifier">any_of</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">with</span> <span class="ruby-value">:start_date</span>, <span class="ruby-identifier">start_date</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:end_dates</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:end_dates</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+      <span class="ruby-identifier">any_of</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">with</span> <span class="ruby-value">:expiration_date</span>, <span class="ruby-identifier">end_date</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">any_of</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">with</span> <span class="ruby-value">:expiration_date</span>, <span class="ruby-keyword">nil</span>
+        <span class="ruby-identifier">all_of</span> <span class="ruby-keyword">do</span>
+          <span class="ruby-identifier">with</span>(<span class="ruby-value">:expiration_date</span>).<span class="ruby-identifier">greater_than_or_equal_to</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">day_of_week</span>
+      <span class="ruby-identifier">any_of</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">with</span>(<span class="ruby-value">:repeat_on</span>,<span class="ruby-string">'Daily'</span>)
+        <span class="ruby-identifier">day_of_week</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">d</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">with</span>(<span class="ruby-value">:repeat_on</span>,<span class="ruby-identifier">d</span>)
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">age_range_flat</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-comment"># with(:max_age_range,'Adults')</span>
+      <span class="ruby-comment">#with(:min_age_range,'Adults')</span>
+      <span class="ruby-identifier">with</span>(<span class="ruby-value">:max_age_range</span>).<span class="ruby-identifier">any_of</span>(<span class="ruby-identifier">age_range_flat</span>)
+      <span class="ruby-identifier">with</span>(<span class="ruby-value">:min_age_range</span>).<span class="ruby-identifier">any_of</span>(<span class="ruby-identifier">age_range_flat</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-comment">#check provider activities in search</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;provider&quot;</span>
+      <span class="ruby-identifier">any_of</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">with</span>(<span class="ruby-value">:created_by</span>, <span class="ruby-string">&quot;Provider&quot;</span>)
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">order_by</span> <span class="ruby-value">:recent_date</span>,<span class="ruby-value">:desc</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-comment">#      if second_set == &quot;1&quot;</span>
+    <span class="ruby-comment">#        with :user_plan,&quot;sell&quot;</span>
+    <span class="ruby-comment">#      end</span>
+    <span class="ruby-comment">#      if second_set == &quot;2&quot;</span>
+    <span class="ruby-comment">#        without :user_plan,&quot;sell&quot;</span>
+    <span class="ruby-comment">#      end</span>
+    <span class="ruby-comment">#  facet(:user_id)</span>
+    <span class="ruby-identifier">with</span> <span class="ruby-value">:city_lower</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:city_name</span>].<span class="ruby-identifier">downcase</span> <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:city_name</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:city_name</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+    <span class="ruby-identifier">with</span> <span class="ruby-value">:zip_code</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:zip_value_name</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:zip_value_name</span>] <span class="ruby-operator">!=</span><span class="ruby-string">&quot;Enter city (or) Zip code&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:zip_value_name</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:zip_value_name</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:zip_value_name</span>].<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/^[0-9]+$/</span>).<span class="ruby-identifier">blank?</span>
+    <span class="ruby-identifier">with</span> <span class="ruby-value">:gender</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:gender</span>] <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:gender</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:gender</span>]<span class="ruby-operator">!=</span><span class="ruby-string">''</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:gender</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;g_all&quot;</span>
+    <span class="ruby-identifier">with</span> <span class="ruby-value">:user_id</span>, <span class="ruby-identifier">params</span>[<span class="ruby-value">:user_id</span>]  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;provider&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:user_id</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:user_id</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+    <span class="ruby-identifier">with</span> <span class="ruby-value">:show_card</span>,<span class="ruby-keyword">true</span>
+    <span class="ruby-identifier">with</span> <span class="ruby-value">:cleaned</span>,<span class="ruby-keyword">true</span>
+    <span class="ruby-identifier">with</span> <span class="ruby-value">:active_status</span>, <span class="ruby-string">&quot;Active&quot;</span>
+    <span class="ruby-identifier">paginate</span> <span class="ruby-value">:page</span> =<span class="ruby-operator">&gt;</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:page</span>] <span class="ruby-operator">||</span> <span class="ruby-value">1</span>, <span class="ruby-value">:per_page</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">25</span>
+  
+    <span class="ruby-identifier">order_by</span> <span class="ruby-value">:user_plan</span>,<span class="ruby-value">:desc</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">!=</span> <span class="ruby-string">&quot;provider&quot;</span>
+    <span class="ruby-comment">#order_by :score, :desc</span>
+    <span class="ruby-comment">#order_by :activity_name, :asc</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- search_advance_curator-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- search_advance_curator-method -->
+
+    
+      <div id="method-i-search_curator" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">search_curator</span><span
+            class="method-args">(second_set)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="search_curator-source">
+            <pre><span class="ruby-comment"># File app/controllers/search_controller.rb, line 98</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">search_curator</span>(<span class="ruby-identifier">second_set</span>)
+  <span class="ruby-ivar">@search</span> = <span class="ruby-constant">Sunspot</span>.<span class="ruby-identifier">search</span>(<span class="ruby-constant">Activity</span>,<span class="ruby-constant">User</span>) <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">fulltext</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:query</span>] <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">query_phrase_slop</span> <span class="ruby-value">1</span>
+      <span class="ruby-comment"># minimum_match 1</span>
+      <span class="ruby-identifier">phrase_fields</span> <span class="ruby-value">:city</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">10</span>,<span class="ruby-value">:user_profile_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">9</span>,<span class="ruby-value">:activity_name</span> =<span class="ruby-operator">&gt;</span><span class="ruby-value">8</span>
+      <span class="ruby-identifier">fields</span>(<span class="ruby-value">:city=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">9</span>,<span class="ruby-value">:user_profile_name=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">9</span>,<span class="ruby-value">:activity_name</span> =<span class="ruby-operator">&gt;</span><span class="ruby-value">8</span>,<span class="ruby-value">:category=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">8</span>,<span class="ruby-value">:sub_category=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">8</span>,<span class="ruby-value">:tags_txt=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">8</span>)
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">order_by_geodist</span>(<span class="ruby-value">:location</span>, <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>], <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>])
+    <span class="ruby-comment">#with(:location).near(37,-122,:boost =&gt; 2, :precision =&gt; 6)</span>
+    <span class="ruby-comment">#with(:location).in_radius(37, -122, 100, :bbox =&gt; true)</span>
+    <span class="ruby-comment"># with(:location).in_radius(cookies[:latitude], cookies[:longitude], 500)</span>
+    <span class="ruby-identifier">any_of</span> <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">with</span> <span class="ruby-value">:expiration_date</span>, <span class="ruby-keyword">nil</span>
+      <span class="ruby-identifier">all_of</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-comment">#          #with(:start_date).greater_than_or_equal_to Date.today</span>
+        <span class="ruby-identifier">with</span>(<span class="ruby-value">:expiration_date</span>).<span class="ruby-identifier">greater_than_or_equal_to</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-comment">#      if second_set == &quot;1&quot;</span>
+    <span class="ruby-comment">#        with :user_plan,&quot;sell&quot;</span>
+    <span class="ruby-comment">#      end</span>
+    <span class="ruby-comment">#      if second_set == &quot;2&quot;</span>
+    <span class="ruby-comment">#        without :user_plan,&quot;sell&quot;</span>
+    <span class="ruby-comment">#      end</span>
+    <span class="ruby-comment">#without :user_plan,&quot;free&quot;</span>
+    <span class="ruby-identifier">with</span> <span class="ruby-value">:show_card</span>,<span class="ruby-keyword">true</span>
+    <span class="ruby-identifier">with</span> <span class="ruby-value">:cleaned</span>,<span class="ruby-keyword">true</span>
+    <span class="ruby-identifier">with</span> <span class="ruby-value">:active_status</span>, <span class="ruby-string">&quot;Active&quot;</span>
+    <span class="ruby-identifier">paginate</span> <span class="ruby-value">:page</span> =<span class="ruby-operator">&gt;</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:page</span>] <span class="ruby-operator">||</span> <span class="ruby-value">1</span>, <span class="ruby-value">:per_page</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">30</span>
+    <span class="ruby-comment">#order_by :score, :desc</span>
+    <span class="ruby-comment"># order_by_geodist(:location, cookies[:latitude], cookies[:longitude])</span>
+    <span class="ruby-identifier">order_by</span> <span class="ruby-value">:user_plan</span>,<span class="ruby-value">:desc</span>
+    <span class="ruby-comment"># adjust_solr_params { |p| p[:defType] = 'edismax' }</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-ivar">@search</span>.<span class="ruby-identifier">results</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">record</span><span class="ruby-operator">|</span>
+    <span class="ruby-ivar">@flag</span>=<span class="ruby-keyword">true</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">class</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Activity</span>
+      <span class="ruby-identifier">user</span> = <span class="ruby-constant">UserProfile</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;user_id = #{record.user_id}&quot;</span>).<span class="ruby-identifier">last</span>
+      <span class="ruby-identifier">user_p</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;user_id = #{record.user_id}&quot;</span>).<span class="ruby-identifier">last</span>
+      <span class="ruby-identifier">anywhere_result</span> = (<span class="ruby-identifier">record</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">schedule_mode</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">schedule_mode</span>.<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">record</span>.<span class="ruby-identifier">schedule_mode</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">schedule_mode</span>.<span class="ruby-identifier">downcase</span><span class="ruby-operator">==</span><span class="ruby-string">'any where'</span>) <span class="ruby-operator">?</span> <span class="ruby-string">'anywhere'</span><span class="ruby-operator">:</span> ((<span class="ruby-identifier">record</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">city</span>.<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">record</span>.<span class="ruby-identifier">city</span>.<span class="ruby-identifier">nil?</span>) <span class="ruby-operator">?</span> ((<span class="ruby-identifier">check_for_state</span>(<span class="ruby-identifier">record</span>.<span class="ruby-identifier">city</span>)) <span class="ruby-operator">?</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">city</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/\s/</span>,<span class="ruby-string">'-'</span>).<span class="ruby-identifier">downcase</span><span class="ruby-operator">+</span><span class="ruby-identifier">url_state_value</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">city</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/\s/</span>,<span class="ruby-string">'-'</span>).<span class="ruby-identifier">downcase</span>) <span class="ruby-operator">:</span> <span class="ruby-string">''</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-ivar">@flag</span>
+        <span class="ruby-ivar">@events</span> <span class="ruby-operator">&lt;&lt;</span> {<span class="ruby-value">:w_class=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;activity&quot;</span>,<span class="ruby-value">:category=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">record</span>.<span class="ruby-identifier">category</span>,<span class="ruby-value">:sub_category=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">record</span>.<span class="ruby-identifier">sub_category</span>,<span class="ruby-value">:city=</span><span class="ruby-operator">&gt;</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">city</span>,<span class="ruby-value">:w_activity_name=</span><span class="ruby-operator">&gt;</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">activity_name</span>,<span class="ruby-value">:w_provider_name=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">user</span>.<span class="ruby-identifier">business_name</span>,<span class="ruby-value">:w_city=</span><span class="ruby-operator">&gt;</span> <span class="ruby-identifier">anywhere_result</span>,<span class="ruby-value">:user_id=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">record</span>.<span class="ruby-identifier">user_id</span>,<span class="ruby-value">:provider_name=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">truncate</span>(<span class="ruby-identifier">user</span>.<span class="ruby-identifier">business_name</span>, <span class="ruby-value">:length</span> =<span class="ruby-operator">&gt;</span><span class="ruby-value">25</span>),<span class="ruby-value">:pass_value=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:query</span>],<span class="ruby-value">:activity_name=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">truncate</span>(<span class="ruby-identifier">record</span>.<span class="ruby-identifier">activity_name</span>, <span class="ruby-value">:length</span> =<span class="ruby-operator">&gt;</span><span class="ruby-value">25</span>),<span class="ruby-value">:w_plan_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user_p</span>.<span class="ruby-identifier">user_plan</span> , <span class="ruby-value">:data=</span><span class="ruby-operator">&gt;</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">activity_id</span>, <span class="ruby-value">:value=</span><span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{record.activity_name} &quot;</span>  <span class="ruby-operator">+</span> <span class="ruby-node">&quot; #{user.business_name} &quot;</span><span class="ruby-operator">+</span> <span class="ruby-node">&quot; #{record.city}&quot;</span>,<span class="ruby-value">:w_slug</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">slug</span>, <span class="ruby-value">:up_slug</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">slug</span>} <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">user</span>.<span class="ruby-identifier">slug</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">user</span>.<span class="ruby-identifier">business_name</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">user</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">user</span> = <span class="ruby-constant">UserProfile</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;user_id = #{record.user_id}&quot;</span>).<span class="ruby-identifier">last</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-ivar">@flag</span>
+        <span class="ruby-ivar">@events</span> <span class="ruby-operator">&lt;&lt;</span> {<span class="ruby-value">:w_class=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;user&quot;</span>,<span class="ruby-value">:w_provider_name=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">user</span>.<span class="ruby-identifier">business_name</span>,<span class="ruby-value">:user_id=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">record</span>.<span class="ruby-identifier">user_id</span>,<span class="ruby-value">:provider_name=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">truncate</span>(<span class="ruby-identifier">user</span>.<span class="ruby-identifier">business_name</span>, <span class="ruby-value">:length</span> =<span class="ruby-operator">&gt;</span><span class="ruby-value">25</span>),<span class="ruby-value">:w_plan_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">user_plan</span> , <span class="ruby-value">:pass_value=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:query</span>],<span class="ruby-value">:city</span> =<span class="ruby-operator">&gt;</span><span class="ruby-node">&quot;#{user.city}&quot;</span>,<span class="ruby-value">:w_city=</span><span class="ruby-operator">&gt;</span><span class="ruby-node">&quot;#{user.city}&quot;</span>, <span class="ruby-value">:data=</span><span class="ruby-operator">&gt;</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">user_id</span>, <span class="ruby-value">:value=</span><span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot; #{user.business_name}&quot;</span> } <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">user</span>.<span class="ruby-identifier">business_name</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">user</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  }
+
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- search_curator-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- search_curator-method -->
+
+    
+      <div id="method-i-search_new_search" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">search_new_search</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="search_new_search-source">
+            <pre><span class="ruby-comment"># File app/controllers/search_controller.rb, line 521</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">search_new_search</span>
+  <span class="ruby-ivar">@fam_city</span> = <span class="ruby-constant">City</span>.<span class="ruby-identifier">order</span>(<span class="ruby-value">:city_name</span>)
+  <span class="ruby-ivar">@events</span> = []
+  <span class="ruby-keyword">if</span> (<span class="ruby-identifier">params</span>[<span class="ruby-value">:zip_value_name</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:zip_value_name</span>]<span class="ruby-operator">!=</span><span class="ruby-string">''</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:x</span>]
+    <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">delete</span> <span class="ruby-value">:search_city</span>
+          <span class="ruby-ivar">@z_city</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:zip_value_name</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">'-'</span>)[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">-2</span>].<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot; &quot;</span>)
+          <span class="ruby-ivar">@zcity</span> = <span class="ruby-ivar">@z_city</span>.<span class="ruby-identifier">titlecase</span>.<span class="ruby-identifier">to_s</span>
+          <span class="ruby-identifier">cstatev</span> = <span class="ruby-identifier">check_for_state_value</span>(<span class="ruby-ivar">@zcity</span>)        
+          <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>] = (<span class="ruby-identifier">cstatev</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">cstatev</span>.<span class="ruby-identifier">present?</span>) <span class="ruby-operator">?</span> (<span class="ruby-node">&quot;#{@zcity},CA&quot;</span>) <span class="ruby-operator">:</span> (<span class="ruby-ivar">@zcity</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment">#~ else</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:find_loc</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:find_loc</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:find_loc</span>] <span class="ruby-operator">!=</span><span class="ruby-string">&quot;Enter city (or) Zip code&quot;</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:page</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:page</span>]<span class="ruby-operator">==</span> <span class="ruby-string">&quot;1&quot;</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:page_load</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;yes&quot;</span>
+      <span class="ruby-identifier">re_times</span> = <span class="ruby-value">5</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:find_loc</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:find_loc</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+        <span class="ruby-identifier">city_se</span> = <span class="ruby-constant">City</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;city_name='#{params[:find_loc].gsub(&quot;,ca&quot;,&quot;&quot;).gsub(&quot;,CA&quot;,&quot;&quot;).gsub(&quot;, CA&quot;,&quot;&quot;).gsub(&quot;, CA&quot;,&quot;&quot;)}'&quot;</span>).<span class="ruby-identifier">last</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">city_se</span>.<span class="ruby-identifier">nil?</span>
+          <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] = <span class="ruby-identifier">city_se</span>.<span class="ruby-identifier">latitude</span>
+          <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>] = <span class="ruby-identifier">city_se</span>.<span class="ruby-identifier">longitude</span>
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-keyword">begin</span>
+            <span class="ruby-identifier">location</span> = <span class="ruby-constant">Geocoder</span>.<span class="ruby-identifier">search</span>(<span class="ruby-node">&quot;#{params[:find_loc]}&quot;</span>).<span class="ruby-identifier">first</span>
+            <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] = <span class="ruby-identifier">location</span>.<span class="ruby-identifier">latitude</span>
+            <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>] = <span class="ruby-identifier">location</span>.<span class="ruby-identifier">longitude</span>
+            <span class="ruby-keyword">if</span> <span class="ruby-identifier">location</span>.<span class="ruby-identifier">country_code</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;IN&quot;</span>
+              <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>] = <span class="ruby-identifier">location</span>.<span class="ruby-identifier">city</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;,&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">location</span>.<span class="ruby-identifier">state_code</span>
+            <span class="ruby-keyword">else</span>
+              <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>] = <span class="ruby-identifier">location</span>.<span class="ruby-identifier">city</span>
+            <span class="ruby-keyword">end</span>
+            <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>] = <span class="ruby-identifier">location</span>.<span class="ruby-identifier">city</span>
+            <span class="ruby-keyword">if</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] <span class="ruby-operator">==</span> <span class="ruby-value">0.0</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>]<span class="ruby-operator">==</span><span class="ruby-string">&quot;&quot;</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>].<span class="ruby-identifier">nil?</span>
+              <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] = <span class="ruby-value">37.9100783</span>
+              <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>] = <span class="ruby-value">-122.0651819</span>
+              <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>] = <span class="ruby-string">&quot;Walnut Creek&quot;</span>
+            <span class="ruby-keyword">end</span>
+            <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">location</span>.<span class="ruby-identifier">city</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">location</span>.<span class="ruby-identifier">city!</span>=<span class="ruby-string">&quot;&quot;</span>
+              <span class="ruby-identifier">ci_se</span> = <span class="ruby-constant">City</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;lower(city_name) like '%#{cookies[:search_city].downcase}%'&quot;</span>).<span class="ruby-identifier">last</span>
+              <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">ci_se</span>.<span class="ruby-identifier">nil?</span>
+                <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] = <span class="ruby-identifier">ci_se</span>.<span class="ruby-identifier">latitude</span>
+                <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>] = <span class="ruby-identifier">ci_se</span>.<span class="ruby-identifier">longitude</span>
+              <span class="ruby-keyword">end</span>
+            <span class="ruby-keyword">end</span>
+          <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+            <span class="ruby-identifier">re_times</span><span class="ruby-operator">-=</span><span class="ruby-value">1</span>
+            <span class="ruby-keyword">if</span> <span class="ruby-identifier">re_times</span><span class="ruby-operator">&gt;</span><span class="ruby-value">0</span>
+              <span class="ruby-keyword">retry</span>
+            <span class="ruby-keyword">else</span>
+              <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] = <span class="ruby-value">37.9100783</span>
+              <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>] = <span class="ruby-value">-122.0651819</span>
+              <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>] = <span class="ruby-string">&quot;Walnut Creek&quot;</span>
+            <span class="ruby-keyword">end</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] <span class="ruby-operator">==</span> <span class="ruby-value">0.0</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>]<span class="ruby-operator">==</span><span class="ruby-string">&quot;&quot;</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] = <span class="ruby-value">37.9100783</span>
+    <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>] = <span class="ruby-value">-122.0651819</span>
+    <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>] = <span class="ruby-string">&quot;Walnut Creek&quot;</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-ivar">@category</span> = []
+  <span class="ruby-ivar">@city</span> = []
+  <span class="ruby-ivar">@city</span> = <span class="ruby-identifier">city</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:city</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">&quot;,&quot;</span>).<span class="ruby-identifier">reject</span>(&amp;<span class="ruby-value">:empty?</span>) <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:city</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:city</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+  <span class="ruby-ivar">@day_of_Week</span> = <span class="ruby-identifier">day_of_week</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:day_range</span>].<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&quot;,&quot;</span>).<span class="ruby-identifier">reject</span>(&amp;<span class="ruby-value">:empty?</span>) <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:day_range</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:day_range</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:day_all</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;all&quot;</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:category</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:category</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+    <span class="ruby-ivar">@category</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:category</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">&quot;,&quot;</span>).<span class="ruby-identifier">reject</span>(&amp;<span class="ruby-value">:empty?</span>)
+    <span class="ruby-identifier">categories</span> =<span class="ruby-constant">ActivityCategory</span>.<span class="ruby-identifier">includes</span>(<span class="ruby-value">:activity_subcategory</span>).<span class="ruby-identifier">where</span>(<span class="ruby-value">:category_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@category</span> ) <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:cat_all</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;all&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">params</span>[<span class="ruby-value">:city_search_ra</span>] = <span class="ruby-identifier">params</span>[<span class="ruby-value">:city_name</span>] <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:city_name</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:city_name</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:p_all</span>]<span class="ruby-operator">!=</span> <span class="ruby-string">&quot;p_all&quot;</span>
+    <span class="ruby-identifier">free</span> = <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:a_f</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;free&quot;</span>
+    <span class="ruby-identifier">paid</span> = <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:paid</span>]<span class="ruby-operator">==</span> <span class="ruby-string">&quot;paid&quot;</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">age_range</span> = []
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:age_all</span>] <span class="ruby-operator">!=</span><span class="ruby-string">&quot;all&quot;</span>
+    <span class="ruby-identifier">age_range</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">age_month_calc</span>((<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">6</span>).<span class="ruby-identifier">to_a</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:age_six_mn</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;0-6&quot;</span>
+    <span class="ruby-identifier">age_range</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">age_month_calc</span>((<span class="ruby-value">6</span><span class="ruby-operator">..</span><span class="ruby-value">12</span>).<span class="ruby-identifier">to_a</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:age_twel_mn</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;6-12&quot;</span>
+    <span class="ruby-identifier">age_range</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value">1</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:age_twel_mn</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;6-12&quot;</span>
+    <span class="ruby-identifier">age_range</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-value">2</span><span class="ruby-operator">..</span><span class="ruby-value">3</span>).<span class="ruby-identifier">to_a</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:age_three_yr</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;2-3&quot;</span>
+    <span class="ruby-identifier">age_range</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-value">4</span><span class="ruby-operator">..</span><span class="ruby-value">7</span>).<span class="ruby-identifier">to_a</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:age_seven_yr</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;4-7&quot;</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:age_eight_yr</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;8-15&quot;</span>
+      <span class="ruby-identifier">age_range</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-value">8</span><span class="ruby-operator">..</span><span class="ruby-value">99</span>).<span class="ruby-identifier">to_a</span> 
+      <span class="ruby-identifier">age_range</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">'Adults'</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment">#age range new changes</span>
+  <span class="ruby-identifier">agee_type</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:age_type</span>]
+  <span class="ruby-identifier">agee</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:age_range</span>]
+  <span class="ruby-identifier">sval</span> = <span class="ruby-identifier">agee</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&quot;-&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">agee</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">agee!</span>=<span class="ruby-string">&quot;all&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">agee!</span>=<span class="ruby-string">&quot;8+&quot;</span>
+        <span class="ruby-keyword">if</span> (<span class="ruby-identifier">agee</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">agee</span>.<span class="ruby-identifier">downcase!</span>=<span class="ruby-string">&quot;all&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">agee!</span>=<span class="ruby-string">&quot;8+&quot;</span>)
+                <span class="ruby-keyword">if</span> <span class="ruby-identifier">agee_type</span>.<span class="ruby-identifier">downcase</span> <span class="ruby-operator">==</span> <span class="ruby-string">'month'</span>
+      <span class="ruby-identifier">age_range</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">age_month_calc</span>((<span class="ruby-identifier">sval</span>[<span class="ruby-value">0</span>]<span class="ruby-operator">..</span><span class="ruby-identifier">sval</span>[<span class="ruby-value">1</span>]).<span class="ruby-identifier">to_a</span>)
+      <span class="ruby-identifier">age_range</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value">1</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:age_range</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;6-12&quot;</span>
+                <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">agee_type</span>.<span class="ruby-identifier">downcase</span> <span class="ruby-operator">==</span> <span class="ruby-string">'year'</span>
+      <span class="ruby-identifier">age_range</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">sval</span>[<span class="ruby-value">0</span>]<span class="ruby-operator">..</span><span class="ruby-identifier">sval</span>[<span class="ruby-value">1</span>]).<span class="ruby-identifier">to_a</span>
+                <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">agee</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">agee</span><span class="ruby-operator">==</span><span class="ruby-string">&quot;8+&quot;</span>
+                <span class="ruby-identifier">age_range</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-value">8</span><span class="ruby-operator">..</span><span class="ruby-value">99</span>).<span class="ruby-identifier">to_a</span>
+    <span class="ruby-identifier">age_range</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">'Adults'</span>
+        <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] = <span class="ruby-string">&quot;&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;city&quot;</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;provider&quot;</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] <span class="ruby-operator">==</span><span class="ruby-string">&quot;dance lessons, painting, class, etc&quot;</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] <span class="ruby-operator">==</span><span class="ruby-string">&quot;dance lessons, painting...&quot;</span>
+  <span class="ruby-identifier">camp</span> = <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:camp_range_1</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;camp&quot;</span>
+  <span class="ruby-identifier">special</span> = []
+  <span class="ruby-identifier">special</span> = <span class="ruby-ivar">@special</span>
+  <span class="ruby-identifier">start_date</span> =<span class="ruby-string">&quot;&quot;</span>
+  <span class="ruby-identifier">age_range_flat</span> = <span class="ruby-identifier">age_range</span>.<span class="ruby-identifier">flatten</span>
+  <span class="ruby-identifier">end_date</span> = <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:page_load</span>]<span class="ruby-operator">==</span><span class="ruby-string">'yes'</span>
+    <span class="ruby-identifier">params</span>[<span class="ruby-value">:page_no</span>] = <span class="ruby-identifier">params</span>[<span class="ruby-value">:page</span>]
+    <span class="ruby-identifier">params</span>[<span class="ruby-value">:page</span>] = <span class="ruby-value">1</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:date_all</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;all&quot;</span>
+    <span class="ruby-identifier">params</span>[<span class="ruby-value">:start_dates</span>] = <span class="ruby-identifier">start_date</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:date_start_alt</span>] <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:date_start_alt</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:date_start_alt</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+    <span class="ruby-identifier">params</span>[<span class="ruby-value">:end_dates</span>] = <span class="ruby-identifier">end_date</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:date_end_alt</span>] <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:date_end_alt</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:date_end_alt</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@search</span> = <span class="ruby-constant">Sunspot</span>.<span class="ruby-identifier">search</span>(<span class="ruby-constant">Activity</span>,<span class="ruby-constant">User</span>) <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">fulltext</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">query_phrase_slop</span> <span class="ruby-value">1</span>
+      <span class="ruby-comment"># minimum_match 1</span>
+      <span class="ruby-identifier">phrase_fields</span> <span class="ruby-value">:city</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">10</span>,<span class="ruby-value">:user_profile_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">9</span>,<span class="ruby-value">:activity_name</span> =<span class="ruby-operator">&gt;</span><span class="ruby-value">8</span>
+      <span class="ruby-identifier">fields</span>(<span class="ruby-value">:city=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">9</span>,<span class="ruby-value">:user_profile_name=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">9</span>,<span class="ruby-value">:activity_name</span> =<span class="ruby-operator">&gt;</span><span class="ruby-value">8</span>,<span class="ruby-value">:category=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">8</span>,<span class="ruby-value">:sub_category=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">8</span>,<span class="ruby-value">:tags_txt=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">8</span>)
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">city</span>
+      <span class="ruby-identifier">any_of</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">city</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">with</span>(<span class="ruby-value">:city_lower</span>, <span class="ruby-identifier">c</span>.<span class="ruby-identifier">downcase</span>)
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">order_by_geodist</span>(<span class="ruby-value">:location</span>, <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>], <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>]) <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">!=</span> <span class="ruby-string">&quot;provider&quot;</span>
+
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">free</span>
+      <span class="ruby-identifier">with</span>(<span class="ruby-value">:price_type</span>,<span class="ruby-value">3</span>)
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">categories</span>
+      <span class="ruby-identifier">any_of</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">categories</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">c</span>.<span class="ruby-identifier">activity_subcategory</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span>
+            <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:&quot;sub_cat_#{c.category_id}&quot;</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">&quot;,&quot;</span>).<span class="ruby-identifier">reject</span>(&amp;<span class="ruby-value">:empty?</span>).<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">s</span>.<span class="ruby-identifier">subcateg_id</span>.<span class="ruby-identifier">to_s</span>)
+              <span class="ruby-identifier">with</span>(<span class="ruby-value">:sub_category_id</span>, <span class="ruby-identifier">s</span>.<span class="ruby-identifier">subcateg_id</span>)
+            <span class="ruby-keyword">end</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-comment">#calls on camp&amp;works shop search</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">camp</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">true</span>
+      <span class="ruby-identifier">without</span>(<span class="ruby-value">:schedule_mode</span>,<span class="ruby-string">'Schedule'</span>)
+      <span class="ruby-identifier">without</span>(<span class="ruby-value">:schedule_mode</span>,<span class="ruby-string">'Any Time'</span>)
+      <span class="ruby-identifier">without</span>(<span class="ruby-value">:schedule_mode</span>,<span class="ruby-string">'By Appointment'</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-comment">#calls on when</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">paid</span>
+      <span class="ruby-identifier">without</span>(<span class="ruby-value">:price_type</span>,<span class="ruby-value">3</span>)
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">special</span>
+      <span class="ruby-identifier">any_of</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">special</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">with</span>(<span class="ruby-value">:activity_id</span>, <span class="ruby-identifier">s</span>)
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:start_dates</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:start_dates</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:end_dates</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:end_dates</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+      <span class="ruby-identifier">all_of</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">with</span>(<span class="ruby-value">:start_date</span>).<span class="ruby-identifier">greater_than_or_equal_to</span> <span class="ruby-identifier">start_date</span>
+        <span class="ruby-identifier">with</span>(<span class="ruby-value">:expiration_date</span>).<span class="ruby-identifier">less_than_or_equal_to</span> <span class="ruby-identifier">end_date</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:start_dates</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:start_dates</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+      <span class="ruby-identifier">any_of</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">with</span> <span class="ruby-value">:start_date</span>, <span class="ruby-identifier">start_date</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:end_dates</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:end_dates</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+      <span class="ruby-identifier">any_of</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">with</span> <span class="ruby-value">:expiration_date</span>, <span class="ruby-identifier">end_date</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">any_of</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">with</span> <span class="ruby-value">:expiration_date</span>, <span class="ruby-keyword">nil</span>
+        <span class="ruby-identifier">all_of</span> <span class="ruby-keyword">do</span>
+          <span class="ruby-identifier">with</span>(<span class="ruby-value">:expiration_date</span>).<span class="ruby-identifier">greater_than_or_equal_to</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">day_of_week</span>
+      <span class="ruby-identifier">any_of</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">with</span>(<span class="ruby-value">:repeat_on</span>,<span class="ruby-string">'Daily'</span>)
+        <span class="ruby-identifier">day_of_week</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">d</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">with</span>(<span class="ruby-value">:repeat_on</span>,<span class="ruby-identifier">d</span>)
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">age_range_flat</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-identifier">any_of</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">age_range_flat</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">d</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">with</span>(<span class="ruby-value">:max_age_range</span>,<span class="ruby-identifier">d</span>)
+          <span class="ruby-identifier">with</span>(<span class="ruby-value">:min_age_range</span>,<span class="ruby-identifier">d</span>)
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-comment">#      if !age_range_flat.empty?</span>
+    <span class="ruby-comment">#        with(:max_age_range).any_of(age_range_flat)</span>
+    <span class="ruby-comment">#        with(:min_age_range).any_of(age_range_flat)</span>
+    <span class="ruby-comment">#      end</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;provider&quot;</span>
+      <span class="ruby-comment">#        any_of do</span>
+      <span class="ruby-comment">#          with(:created_by, &quot;Provider&quot;)</span>
+      <span class="ruby-comment">#        end</span>
+      <span class="ruby-identifier">order_by</span> <span class="ruby-value">:recent_date</span>,<span class="ruby-value">:desc</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">with</span> <span class="ruby-value">:city_lower</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:city_name</span>].<span class="ruby-identifier">downcase</span> <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:city_name</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:city_name</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+    <span class="ruby-identifier">with</span> <span class="ruby-value">:zip_code</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:zip_value_name</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:zip_value_name</span>] <span class="ruby-operator">!=</span><span class="ruby-string">&quot;Enter city (or) Zip code&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:zip_value_name</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:zip_value_name</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:zip_value_name</span>].<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/^[0-9]+$/</span>).<span class="ruby-identifier">blank?</span>
+    <span class="ruby-identifier">with</span> <span class="ruby-value">:gender</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:gender</span>] <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:gender</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:gender</span>]<span class="ruby-operator">!=</span><span class="ruby-string">''</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:gender</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;g_all&quot;</span>
+    <span class="ruby-identifier">with</span> <span class="ruby-value">:user_id</span>, <span class="ruby-identifier">params</span>[<span class="ruby-value">:user_id</span>]  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;provider&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:user_id</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:user_id</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+    <span class="ruby-identifier">with</span> <span class="ruby-value">:show_card</span>,<span class="ruby-keyword">true</span>
+    <span class="ruby-identifier">with</span> <span class="ruby-value">:cleaned</span>,<span class="ruby-keyword">true</span>
+    <span class="ruby-identifier">with</span> <span class="ruby-value">:active_status</span>, <span class="ruby-string">&quot;Active&quot;</span>
+    <span class="ruby-identifier">paginate</span> <span class="ruby-value">:page</span> =<span class="ruby-operator">&gt;</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:page</span>] <span class="ruby-operator">||</span> <span class="ruby-value">1</span>, <span class="ruby-value">:per_page</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">24</span>
+    <span class="ruby-identifier">order_by</span> <span class="ruby-value">:user_plan</span>,<span class="ruby-value">:desc</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">!=</span> <span class="ruby-string">&quot;provider&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@search_count</span> = <span class="ruby-ivar">@search</span>.<span class="ruby-identifier">total</span>
+  <span class="ruby-ivar">@keyword</span> =  <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>]<span class="ruby-operator">!=</span><span class="ruby-string">''</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>].<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>]<span class="ruby-operator">!=</span><span class="ruby-string">'Search 20,000   Local Activities &amp; Counting...'</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] <span class="ruby-operator">!=</span> <span class="ruby-string">'Search 20,000 + Local Activities &amp; Counting...'</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;city&quot;</span>
+    <span class="ruby-ivar">@keyword</span> = <span class="ruby-node">&quot;#{params[:city_name]}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;city&quot;</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@keyword</span> = <span class="ruby-node">&quot;#{params[:event_search].html_safe if !params[:event_search].nil? }&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot; &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-node">&quot;#{params[:city_name]}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;city&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;provider&quot;</span>
+    <span class="ruby-ivar">@keyword</span> =  <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] = <span class="ruby-identifier">params</span>[<span class="ruby-value">:pro_name</span>]
+    <span class="ruby-ivar">@search_count</span> = <span class="ruby-ivar">@search_count</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span> <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@user_curated</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@search</span>.<span class="ruby-identifier">results</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">record</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">class</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Activity</span>
+      <span class="ruby-identifier">status</span> = <span class="ruby-constant">City</span>.<span class="ruby-identifier">get_activity_card_purchase_status</span>(<span class="ruby-identifier">record</span>)
+      <span class="ruby-identifier">discount_price_1</span> = <span class="ruby-keyword">nil</span>
+      <span class="ruby-identifier">discount_price_1</span> = <span class="ruby-constant">ActivityPrice</span>.<span class="ruby-identifier">get_price_details</span>(<span class="ruby-identifier">record</span>.<span class="ruby-identifier">activity_id</span>) <span class="ruby-keyword">if</span> (<span class="ruby-identifier">record</span>.<span class="ruby-identifier">activity_price</span>)
+      <span class="ruby-ivar">@events</span> <span class="ruby-operator">&lt;&lt;</span> {<span class="ruby-value">:id=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">'activity'</span>,<span class="ruby-value">:act=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">record</span>,<span class="ruby-value">:status=</span><span class="ruby-operator">&gt;</span> <span class="ruby-identifier">status</span>,<span class="ruby-value">:sched=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">record</span>.<span class="ruby-identifier">activity_schedule</span>,<span class="ruby-value">:act_usr=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">record</span>.<span class="ruby-identifier">user</span>,<span class="ruby-value">:price=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">record</span>.<span class="ruby-identifier">activity_price</span>,<span class="ruby-value">:discount_price=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">discount_price_1</span>} <span class="ruby-comment">#display 1st 2 records and card</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-ivar">@events</span> <span class="ruby-operator">&lt;&lt;</span> {<span class="ruby-value">:id=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">'user'</span>,<span class="ruby-value">:usr</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">record</span>,<span class="ruby-value">:user_pro</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">user_profile</span>} <span class="ruby-keyword">if</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">show_card</span>
+    <span class="ruby-keyword">end</span>
+  }
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">request</span>.<span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-PJAX'</span>]
+    <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">js</span>{ <span class="ruby-identifier">render</span> <span class="ruby-value">:layout</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>}
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span>{ <span class="ruby-identifier">render</span> <span class="ruby-value">:layout</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>}
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">js</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment">#these cookies for breadcrumb usage</span>
+  <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_content</span>] = <span class="ruby-identifier">request</span>.<span class="ruby-identifier">fullpath</span>
+
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- search_new_search-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- search_new_search-method -->
+
+    
+      <div id="method-i-search_old" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">search_old</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="search_old-source">
+            <pre><span class="ruby-comment"># File app/controllers/search_controller.rb, line 154</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">search_old</span>
+  <span class="ruby-ivar">@fam_city</span> = <span class="ruby-constant">City</span>.<span class="ruby-identifier">order</span>(<span class="ruby-value">:city_name</span>)
+  <span class="ruby-keyword">if</span> (<span class="ruby-identifier">params</span>[<span class="ruby-value">:zip_value_name</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:zip_value_name</span>]<span class="ruby-operator">!=</span><span class="ruby-string">''</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:x</span>]
+    <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">delete</span> <span class="ruby-value">:search_city</span>
+          <span class="ruby-ivar">@z_city</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:zip_value_name</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">'-'</span>)[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">-2</span>].<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot; &quot;</span>)
+          <span class="ruby-ivar">@zcity</span> = <span class="ruby-ivar">@z_city</span>.<span class="ruby-identifier">titlecase</span>.<span class="ruby-identifier">to_s</span>
+          <span class="ruby-identifier">cstatev</span> = <span class="ruby-identifier">check_for_state_value</span>(<span class="ruby-ivar">@zcity</span>)        
+          <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>] = (<span class="ruby-identifier">cstatev</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">cstatev</span>.<span class="ruby-identifier">present?</span>) <span class="ruby-operator">?</span> (<span class="ruby-node">&quot;#{@zcity},CA&quot;</span>) <span class="ruby-operator">:</span> (<span class="ruby-ivar">@zcity</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment">#~ else</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+    <span class="ruby-identifier">city_se</span> = <span class="ruby-constant">City</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;city_name='#{cookies[:search_city].gsub(&quot;,ca&quot;,&quot;&quot;).gsub(&quot;,CA&quot;,&quot;&quot;)}'&quot;</span>).<span class="ruby-identifier">last</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">city_se</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] = <span class="ruby-identifier">city_se</span>.<span class="ruby-identifier">latitude</span>
+      <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>] = <span class="ruby-identifier">city_se</span>.<span class="ruby-identifier">longitude</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:zip_value</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:zip_value</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:zip_value</span>] <span class="ruby-operator">!=</span><span class="ruby-string">&quot;Enter city (or) Zip code&quot;</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:page</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:page</span>]<span class="ruby-operator">==</span> <span class="ruby-string">&quot;1&quot;</span>
+      <span class="ruby-identifier">re_times</span> = <span class="ruby-value">5</span>
+      <span class="ruby-keyword">begin</span>
+        <span class="ruby-identifier">location</span> = <span class="ruby-constant">Geocoder</span>.<span class="ruby-identifier">search</span>(<span class="ruby-node">&quot;#{params[:zip_value]}&quot;</span>).<span class="ruby-identifier">first</span>
+        <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] = <span class="ruby-identifier">location</span>.<span class="ruby-identifier">latitude</span>
+        <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>] = <span class="ruby-identifier">location</span>.<span class="ruby-identifier">longitude</span>
+        <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>] = <span class="ruby-identifier">location</span>.<span class="ruby-identifier">city</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] <span class="ruby-operator">==</span> <span class="ruby-value">0.0</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>]<span class="ruby-operator">==</span><span class="ruby-string">&quot;&quot;</span>
+          <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] = <span class="ruby-value">37.9100783</span>
+          <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>] = <span class="ruby-value">-122.0651819</span>
+          <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>] = <span class="ruby-string">&quot;Walnut Creek&quot;</span>
+        <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">location</span>.<span class="ruby-identifier">city</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">location</span>.<span class="ruby-identifier">city!</span>=<span class="ruby-string">&quot;&quot;</span>
+          <span class="ruby-identifier">ci_se</span> = <span class="ruby-constant">City</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;lower(city_name) like '%#{cookies[:search_city].downcase}%'&quot;</span>).<span class="ruby-identifier">last</span>
+          <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">ci_se</span>.<span class="ruby-identifier">nil?</span>
+            <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] = <span class="ruby-identifier">ci_se</span>.<span class="ruby-identifier">latitude</span>
+            <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>] = <span class="ruby-identifier">ci_se</span>.<span class="ruby-identifier">longitude</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+        <span class="ruby-identifier">re_times</span><span class="ruby-operator">-=</span><span class="ruby-value">1</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">re_times</span><span class="ruby-operator">&gt;</span><span class="ruby-value">0</span>
+          <span class="ruby-keyword">retry</span>
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] = <span class="ruby-value">37.9100783</span>
+          <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>] = <span class="ruby-value">-122.0651819</span>
+          <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>] = <span class="ruby-string">&quot;Walnut Creek&quot;</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] <span class="ruby-operator">==</span> <span class="ruby-value">0.0</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>]<span class="ruby-operator">==</span><span class="ruby-string">&quot;&quot;</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:latitude</span>] = <span class="ruby-value">37.9100783</span>
+    <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:longitude</span>] = <span class="ruby-value">-122.0651819</span>
+    <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:search_city</span>] = <span class="ruby-string">&quot;Walnut Creek&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment">#~ end</span>
+  <span class="ruby-identifier">special</span> = []
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:camp_range_1</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;specials&quot;</span>
+    <span class="ruby-identifier">acc_special</span> = <span class="ruby-constant">Activity</span>.<span class="ruby-identifier">find_by_sql</span>(<span class="ruby-node">&quot; select distinct a.* from activities a
+  left join activity_prices p on a.activity_id=p.activity_id
+  right join activity_discount_prices d on d.activity_price_id=p.activity_price_id
+  where cleaned=true and lower(active_status)='active' and
+  (lower(d.discount_type)='early bird discount' and d.discount_valid &gt;= '#{Date.today}') or (lower(d.discount_type)!='early bird discount' )&quot;</span>)
+    <span class="ruby-ivar">@special</span> = <span class="ruby-identifier">acc_special</span>.<span class="ruby-identifier">map</span>(&amp;<span class="ruby-value">:activity_id</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:specials</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:specials</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:specials</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-ivar">@f_specials</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:specials</span>]
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@parent_keyword</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:specials</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:specials</span>].<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">act_free</span> = <span class="ruby-constant">Activity</span>.<span class="ruby-identifier">find_by_sql</span>(<span class="ruby-node">&quot;select distinct act.* from activities act left join activity_prices p on act.activity_id=p.activity_id left join activity_discount_prices d on d.activity_price_id=p.activity_price_id where #{search_city} and cleaned=true and lower(active_status)='active' and act.price_type='1' and(lower(d.discount_type)='early bird discount' and date(d.discount_valid) &gt;= '#{@sp_date}') or (lower(d.discount_type)!='early bird discount') and (lower(act.activity_name) like '%#{@parent_keyword}%' or lower(act.category) like '%#{@parent_keyword}%' or lower(act.sub_category) like '%#{@parent_keyword}%' or lower(act.description) like '%#{@parent_keyword}%' or lower(act.city) like '%#{@parent_keyword}%') order by act.activity_id desc&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:specials</span>]<span class="ruby-operator">!=</span><span class="ruby-keyword">nil</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:specials</span>]<span class="ruby-operator">!=</span><span class="ruby-string">''</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@parent_keyword</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">act_free</span> = <span class="ruby-constant">Activity</span>.<span class="ruby-identifier">find_by_sql</span>(<span class="ruby-node">&quot;select distinct act.* from activities act left join activity_prices p on act.activity_id=p.activity_id left join activity_discount_prices d on d.activity_price_id=p.activity_price_id where #{search_city} and cleaned=true and lower(active_status)='active' and act.price_type='1' and(lower(d.discount_type)='early bird discount' and date(d.discount_valid) &gt;= '#{@sp_date}') or (lower(d.discount_type)!='early bird discount') order by act.activity_id desc&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@sp_date</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:ad_search_value</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:ad_search_value</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+    <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] = <span class="ruby-identifier">params</span>[<span class="ruby-value">:ad_search_value</span>]
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:week</span>]<span class="ruby-operator">==</span><span class="ruby-string">&quot;1&quot;</span>
+    <span class="ruby-identifier">week</span> = []
+    <span class="ruby-identifier">week</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>.<span class="ruby-identifier">end_of_week</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>.<span class="ruby-identifier">day</span>
+    <span class="ruby-identifier">week</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>.<span class="ruby-identifier">end_of_week</span>
+    <span class="ruby-ivar">@search</span> = <span class="ruby-constant">Activity</span>.<span class="ruby-identifier">search</span> <span class="ruby-keyword">do</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>]<span class="ruby-operator">!=</span><span class="ruby-string">''</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>].<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>]<span class="ruby-operator">!=</span><span class="ruby-string">'Search 20,000   Local Activities &amp; Counting...'</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] <span class="ruby-operator">!=</span> <span class="ruby-string">'Search 20,000 + Local Activities &amp; Counting...'</span>)
+        <span class="ruby-identifier">keywords</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] <span class="ruby-keyword">do</span>
+          <span class="ruby-comment">#query_phrase_slop 1</span>
+          <span class="ruby-identifier">minimum_match</span> <span class="ruby-value">1</span>
+          <span class="ruby-identifier">phrase_fields</span> <span class="ruby-value">:user_profile_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">9</span>,<span class="ruby-value">:activity_name</span> =<span class="ruby-operator">&gt;</span><span class="ruby-value">8</span>
+          <span class="ruby-identifier">fields</span>(<span class="ruby-value">:city=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">10</span>,<span class="ruby-value">:user_profile_name=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">9</span>,<span class="ruby-value">:activity_name</span> =<span class="ruby-operator">&gt;</span><span class="ruby-value">8</span>,<span class="ruby-value">:category=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">1</span>,<span class="ruby-value">:sub_category=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">1</span>)
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">any_of</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">with</span>(<span class="ruby-value">:start_date</span>, <span class="ruby-keyword">nil</span>)
+        <span class="ruby-identifier">all_of</span> <span class="ruby-keyword">do</span>
+          <span class="ruby-identifier">week</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">w</span><span class="ruby-operator">|</span>
+            <span class="ruby-identifier">with</span>(<span class="ruby-value">:start_date</span>, <span class="ruby-identifier">w</span>)
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+
+      <span class="ruby-identifier">paginate</span> <span class="ruby-value">:page</span> =<span class="ruby-operator">&gt;</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:page</span>] <span class="ruby-operator">||</span> <span class="ruby-value">1</span>, <span class="ruby-value">:per_page</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">25</span>
+      <span class="ruby-identifier">with</span> <span class="ruby-value">:cleaned</span>,<span class="ruby-keyword">true</span>
+      <span class="ruby-identifier">with</span> <span class="ruby-value">:active_status</span>, <span class="ruby-string">&quot;Active&quot;</span>
+      <span class="ruby-identifier">order_by</span> <span class="ruby-value">:score</span>, <span class="ruby-value">:desc</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:search_set_p</span>].<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">params</span>[<span class="ruby-value">:search_set_p</span>] = <span class="ruby-string">&quot;1&quot;</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-ivar">@search_sell</span> = []
+    <span class="ruby-comment">#      if params[:page].nil?</span>
+    <span class="ruby-comment">#        search_advance_curator(&quot;0&quot;)</span>
+    <span class="ruby-comment">#        @search_count = @search.total</span>
+    <span class="ruby-comment">#        @search_cu = &quot;yes&quot;</span>
+    <span class="ruby-comment">#      end</span>
+    <span class="ruby-comment">#</span>
+    <span class="ruby-comment">#      search_advance_curator(params[:search_set_p])</span>
+    <span class="ruby-comment">#      @activity_free = @search.results</span>
+    <span class="ruby-comment">#      if (@search.total &lt;=25) || (@activity_free.length &lt; 25 &amp;&amp; params[:search_set_p] == &quot;1&quot;)</span>
+    <span class="ruby-comment">#        params[:page] = 1</span>
+    <span class="ruby-comment">#        params[:search_set_p] = &quot;2&quot;</span>
+    <span class="ruby-identifier">search_advance_curator</span>(<span class="ruby-string">&quot;2&quot;</span>)
+    <span class="ruby-ivar">@act_cur</span> = <span class="ruby-ivar">@search</span>.<span class="ruby-identifier">results</span>
+    <span class="ruby-ivar">@activity_free</span> = <span class="ruby-ivar">@search</span>.<span class="ruby-identifier">results</span>
+    <span class="ruby-ivar">@tpage</span> = <span class="ruby-ivar">@search</span>.<span class="ruby-identifier">results</span>.<span class="ruby-identifier">total_pages</span>
+    <span class="ruby-comment">#      else</span>
+    <span class="ruby-comment">#        @tpage = @activity_free.total_pages</span>
+    <span class="ruby-comment">#      end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@search_tu</span> = <span class="ruby-string">&quot;yes&quot;</span>
+  <span class="ruby-ivar">@search_count</span> = <span class="ruby-ivar">@search</span>.<span class="ruby-identifier">total</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;provider&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:user_id</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:user_id</span>]<span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+    <span class="ruby-ivar">@user_curated</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;user_id=#{params[:user_id]} and show_card=true&quot;</span>).<span class="ruby-identifier">last</span>
+    <span class="ruby-ivar">@user_profile_curated</span> = <span class="ruby-constant">UserProfile</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;user_id=#{params[:user_id]}&quot;</span>).<span class="ruby-identifier">last</span> <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@user_curated</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@keyword</span> =  <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>]<span class="ruby-operator">!=</span><span class="ruby-string">''</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>].<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>]<span class="ruby-operator">!=</span><span class="ruby-string">'Search 20,000   Local Activities &amp; Counting...'</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] <span class="ruby-operator">!=</span> <span class="ruby-string">'Search 20,000 + Local Activities &amp; Counting...'</span>) 
+  <span class="ruby-ivar">@accordion</span> = <span class="ruby-constant">Activity</span>.<span class="ruby-identifier">getcategories</span>(<span class="ruby-identifier">type</span>=<span class="ruby-value">1</span>,<span class="ruby-string">''</span>) <span class="ruby-comment">#get the categories for accordion, type=1 means get list of active activity category</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;city&quot;</span>
+    <span class="ruby-ivar">@keyword</span> = <span class="ruby-node">&quot;#{params[:city_name]}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;city&quot;</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@keyword</span> = <span class="ruby-node">&quot;#{params[:event_search].html_safe if !params[:event_search].nil? }&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot; &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-node">&quot;#{params[:city_name]}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;city&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment">#@keyword =  params[:event_search] = &quot;#{params[:event_search].html_safe if !params[:event_search].nil?}&quot; + &quot; &quot; + &quot;#{params[:pro_name]}&quot; if params[:type] == &quot;provider&quot;</span>
+  <span class="ruby-comment"># @keyword =  params[:event_search] = &quot;#{params[:city_name]}&quot; if params[:type] == &quot;city&quot;</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;provider&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@search_tu</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;yes&quot;</span>
+    <span class="ruby-ivar">@keyword</span> =  <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] = <span class="ruby-node">&quot;#{params[:pro_name]}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>]<span class="ruby-operator">!=</span><span class="ruby-string">''</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>].<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>]<span class="ruby-operator">!=</span><span class="ruby-string">'Search 20,000   Local Activities &amp; Counting...'</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_search</span>] <span class="ruby-operator">!=</span> <span class="ruby-string">'Search 20,000 + Local Activities &amp; Counting...'</span>) 
+    <span class="ruby-ivar">@search_count</span> = <span class="ruby-ivar">@search_count</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span> <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@user_curated</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">request</span>.<span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-PJAX'</span>]
+    <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">js</span>{ <span class="ruby-identifier">render</span> <span class="ruby-value">:layout</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>}
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span>{ <span class="ruby-identifier">render</span> <span class="ruby-value">:layout</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>}
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">js</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>    
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- search_old-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- search_old-method -->
+
+    
+      <div id="method-i-user_setting" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">user_setting</span><span
+            class="method-args">(user_id)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>settings for provider</p>
+          
+
+          
+          <div class="method-source-code" id="user_setting-source">
+            <pre><span class="ruby-comment"># File app/controllers/search_controller.rb, line 487</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">user_setting</span>(<span class="ruby-identifier">user_id</span>)
+  <span class="ruby-ivar">@flag</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-ivar">@created_setting</span> = <span class="ruby-constant">ProviderSettingDetail</span>.<span class="ruby-identifier">find_by_sql</span>(<span class="ruby-node">&quot;select p.* from provider_setting_details s left join provider_settings p on s.provider_setting_id=p.provider_setting_id where s.setting_action='created' and p.user_id=#{user_id}&quot;</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@created_setting</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@created_setting</span><span class="ruby-operator">!=</span><span class="ruby-string">''</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@created_setting</span>.<span class="ruby-identifier">present?</span>
+    <span class="ruby-comment">#setting_option 1, show to famtiivty everyone</span>
+    <span class="ruby-ivar">@created_setting</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">set_val</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">set_val</span>[<span class="ruby-string">&quot;setting_option&quot;</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;1&quot;</span>
+        <span class="ruby-ivar">@flag</span>=<span class="ruby-keyword">true</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">if</span>  <span class="ruby-identifier">current_user</span>
+        <span class="ruby-comment"># setting_option 2, famtivity contact user only</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">set_val</span>[<span class="ruby-string">&quot;setting_option&quot;</span>]<span class="ruby-operator">==</span><span class="ruby-string">&quot;2&quot;</span>
+          <span class="ruby-ivar">@con_user</span> = <span class="ruby-identifier">set_val</span>[<span class="ruby-string">&quot;contact_user&quot;</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">&quot;,&quot;</span>)
+          <span class="ruby-keyword">if</span> <span class="ruby-ivar">@con_user</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-node">&quot;#{current_user.user_id.to_i}&quot;</span>)
+            <span class="ruby-ivar">@flag</span>=<span class="ruby-keyword">true</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+        <span class="ruby-comment"># setting_option 3, just me activity only show to that person only</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">set_val</span>[<span class="ruby-string">&quot;setting_option&quot;</span>]<span class="ruby-operator">==</span><span class="ruby-string">&quot;3&quot;</span>
+          <span class="ruby-keyword">if</span> <span class="ruby-identifier">user_id</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">user_id</span>.<span class="ruby-identifier">to_i</span>
+            <span class="ruby-ivar">@flag</span>=<span class="ruby-keyword">true</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span> <span class="ruby-comment">#each loop end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment"># Default setting ,show to famtivity everyone</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@created_setting</span> <span class="ruby-operator">==</span> []
+    <span class="ruby-ivar">@flag</span>=<span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- user_setting-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- user_setting-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

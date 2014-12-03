@@ -1,0 +1,292 @@
+<%=stylesheet_link_tag "event_index/event_scroll","contacts_users/jquery-ui","contacts_users/smooth-theme-jquery-ui", :media => "all"%>
+<%=javascript_include_tag "auto_complete/jquery-ui","pagination"%>
+
+<div class="after_login_top">
+	<div class="wraper_inner_container">
+		<div class="content_title lt" style="margin-bottom:15px;">
+			<div class="lt">
+				<!--form name="frm_plan" method="post" action="" onsubmit="return search_planuser()"-->
+				<table border="0" cellspacing="0" cellpadding="0" width="692">
+					<tr>
+						<!--filter starting here-->
+						<td align="left" valign="middle" width="150">
+						<div class="transDivMenu1" id="menu1" style="left:16px;top:4px;width:100px;">
+							<ul>
+							<li><a class="price_filter_wth" style="width:40px;display:block;height:20px;" class="transDiv1" href="#" ><span class="menuText"><b id="setActivity" style="color:#959292;font-size:13px;">All</b></span><span class="actImg"><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4", :id=>"arrow1", :style=>"position: relative; top: -1px;margin-left:5px;")%></span></a>
+								<ul style="width:80px;height:87px;margin-left:-1px;margin-top:-2px;z-index:100000;" class="sub-menu dispProvidertransDiv1">
+								<li><a href="javascript:void(0)" title="" id="select" onClick="search_planall()" >All</a></li>
+								<li><a href="javascript:void(0)" title="" id="select" onClick="curatorcard_cityfilter('By City');" >By City</a></li>
+								<li><a href="javascript:void(0)" title="" id="select" onClick="curatorcard_cityfilter('Added By');" >Added By</a></li>
+								</ul>
+							</li>
+							</ul>
+						<div class="clear"></div>
+						</div>
+						</td>
+						<!--filter ending here-->
+						<!--city filter started-->
+						<td width="70" align="left" valign="middle">
+							<div id="byCityDiv" style="display:none;margin-left:5px;">
+							<select onchange="curator_city_filter()" style="opacity:1;padding:5px;position: relative;width:195px;border:1px solid #CDE0E6;color: #999999;cursor:pointer;" id="curator_list_view" name="curator_list_view">
+							<option value="">-- Select City Name--</option>
+							<%@cities = city_detail_list%>			
+							<%@cities.each do |cit_name|%>
+							<option value="<%=cit_name.city_name if cit_name && cit_name !='' && cit_name.present? && cit_name.city_name.present?%>"><%=cit_name.city_name if cit_name && cit_name !='' && cit_name.present? && cit_name.city_name.present?%></option>
+							<%end%>
+							</select>
+							</div>
+						</td>
+						<!--city filter ended-->
+						
+						<!--city filter started-->
+						<td width="70" align="left" valign="middle">
+							<div id="byAddedDiv" style="display:none;margin-left:5px;">
+							<select onchange="curator_city_filter()" style="opacity:1;padding:5px;position: relative;width:195px;border:1px solid #CDE0E6;color: #999999;cursor:pointer;" id="curator_added_view" name="curator_added_view">
+							<option value="">-- Select Added By--</option>
+							<%@added=["Jancy","Praveena","Sofia","Surya","Thangam"]%>			
+							<%@added.each do |ad|%>
+							<option value="<%= ad %>"><%= ad %></option>
+							<%end%>
+							</select>
+							</div>
+						</td>
+						<!--city filter ended-->
+						
+						
+						<td width="4">&nbsp;</td>
+						<td align="left" valign="middle" width="117">
+							<div class="curatorcard_w" style="width:117px;">
+							Provider Cards
+							</div>
+						</td>
+						<td width="4">&nbsp;</td>
+						<td align="left"  valign="middle" width="185">
+							<input type="text" name="search_plan" id="search_plan" onkeypress="curator_filter_pro();" autocomplete='on'  style="width:205px;color:#999999; border:1px solid #BDD6DD;height:26px;" value="Search by email" onfocus="if(this.value == 'Search by email'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onBlur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Search by email'}">
+							
+						</td>
+						<td width="4">&nbsp;</td>
+						<td align="left" valign="middle" width="50">
+							<input type="button" name="plan_search" id="plan_search" onclick="curator_filter_pro();" value="Go" style="cursor:pointer;">
+						</td>
+						<td width="4">&nbsp;</td>
+						<td align="left" valign="middle" width="140">
+							<div class="curatorcard_count" style="width:125px;">
+							<span class="pipeSymbol num_Act">No.of Users&nbsp;:&nbsp;<span id="total_no_counts"><%=@curator_provider.length if @curator_provider%></span></span>
+							</div>
+						</td>
+						<td align="left" valign="middle" width="146">
+							<!--a href="javascript:void(0);" title="Show All" onclick="return search_planall()">Show All</a-->
+							<!--loading image started here-->
+							<div class='loading_page_price' style="text-align: center; display:none;margin-left:-55px;margin-top: 2px;">
+							<span class="load-new1"><%=image_tag("/assets/loading_small.gif", :width=>"16", :height=>"16")%></span>
+							</div>
+						<!--loading image ending here-->
+						</td>
+						
+					</tr>
+				</table>
+				<!--/form-->
+			</div>
+			<div class="rt">
+				<div id="ExcelHide">
+					<div style="color: #2b91af; font-size: 14px;padding:7px 0px;"><%=image_tag("/assets/policies/dwniconnormal.png", :width=>"9", :height=>"14")%>
+						<%if !@curator_provider_usr.nil? && @curator_provider_usr.length > 0 %>
+						<a  href="/admin/providercard_listview.xls" title="">Excel</a>
+						<%else%>
+						<a  href="javascript:void(0)" title="">Excel</a>
+						<%end%>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="tbl_containner" id="curator_provider_report">			
+			<%= render :partial => "/admin/providercard_list" %>
+		</div>  <!-- tbl_containner end -->
+	</div>
+</div>
+<style>
+.ui-autocomplete { width: 200px; height: 100px; overflow-y: scroll; overflow-x: hidden;}
+
+.transDivMenu1 ul li:hover {
+  background: #F6F8F7;
+  border:1px solid #A9D3E1;
+}
+.transDivMenu1 ul li ul li:hover {
+  background: #F6F8F7;
+  color: #fff;
+  border:none;
+  border:1px solid #F7F9F8;
+}
+.transDivMenu1 ul li {
+  background: #F6F8F7;
+  border:1px solid #F7F9F8;
+}
+
+ /*transaction hover fixes */
+  .dispProvidertransDiv1{
+    display:none;
+    font-size:13px;
+    background:#F6F8F7;
+    color:#959292;
+    border:1px solid #C2DDE4;
+    width:70px;
+    height:238px;
+	margin-left:-9px;
+	position: absolute;
+	z-index: 10000;
+}
+.dispProvidertransDiv1 li a{	
+    color:#959292;
+    display:block;
+    text-decoration:none;
+    padding:5px 0px 5px 8px;
+	width:70px;
+}
+.dispProvidertransDiv1 li a:hover{
+	color:#F97C0E;
+    display:block;
+    text-decoration:none;
+    padding:5px 0px 5px 8px;
+	width:70px;
+}
+</style>
+<script>
+//onclick function for curator report filter
+function curator_city_filter(){
+    $("#search_plan").val('Search by email');
+    $("#search_plan").css('border','1px solid #BDD6DD').css('color','#999999');
+     $('.loading_page_price').show();
+    if ($("#byCityDiv").is(':visible'))
+    {
+        var curator_cname = $("#curator_list_view").val();
+		$.ajax({
+		url:'/admin/providercard_listview',
+		type:"get",
+		dataType: 'script',
+		data: {"curator_city":curator_cname}
+		});
+	
+    }
+     if ($("#byAddedDiv").is(':visible'))
+    {
+        var curator_cname = $("#curator_added_view").val();
+		$.ajax({
+		url:'/admin/providercard_listview',
+		type:"get",
+		dataType: 'script',
+		data: {"added_by":curator_cname}
+		});
+    }
+}
+
+function curatorcard_cityfilter(fval){
+	$("#search_plan").val('Search by email');
+	$("#search_plan").css('border','1px solid #BDD6DD').css('color','#999999');
+	
+	if(fval == "By City")
+	{
+		$("#setActivity").html(fval);
+		$('.price_filter_wth').css("width","80px");
+		$('#byAddedDiv').css("display","none");
+		$('#byCityDiv').css("display","block");
+		$('.curatorcard_w').css("margin-left","0px");
+		$('.loading_page_price').css("margin-left","-3px");
+	}
+	if(fval == "Added By")
+	{
+		$("#setActivity").html(fval);
+		$('.price_filter_wth').css("width","80px");
+		$('#byCityDiv').css("display","none");
+		$('#byAddedDiv').css("display","block");
+		$('.curatorcard_w').css("margin-left","0px");
+		$('.loading_page_price').css("margin-left","-3px");
+	}
+	
+}
+
+function curator_filter_pro(){
+	s_val=$("#search_plan").val();
+	errflag=false;
+	$("#search_plan").css('border','1px solid #BDD6DD');	
+	if(s_val=='' || s_val=='Search by email')
+	{
+		$("#search_plan").focus();
+		$("#search_plan").css('border','1px solid #ff0000');		
+		errflag=true;
+	}
+	if(errflag)
+	{
+		return false;
+	}
+	else
+	{
+		$('.loading_page_price').show();
+		//~ $('.loading_page_price').css("margin-left","-133px");
+		//~ $('#ExcelHide').hide();
+		$.ajax({
+		url:'/admin/providercard_listview',
+		type:"get",
+		dataType: 'script',
+		data: {"search_plan":s_val}
+		});
+	}
+	return false;
+}
+
+function search_planall()
+{
+	$("#search_plan").val('Search by email');
+	$("#search_plan").css('border','1px solid #BDD6DD').css('color','#999999');
+	//~ $('#ExcelHide').show();
+	$('.loading_page_price').show();
+	$("#setActivity").html("All");
+	$('.price_filter_wth').css("width","40px");
+	$('.curatorcard_w').css("margin-left","-25px");
+	$('#byCityDiv').css("display","none");
+	$('#byAddedDiv').css("display","none");
+	$.ajax({
+		url:'/admin/providercard_listview',
+		type:"get",
+		dataType: 'script',
+		data: {"all":"all"}
+		});
+		return false;
+}
+
+var auto_emails=new Array();
+	<%if !@user_email_val.nil? && @user_email_val.length > 0%>
+		<% @user_email_val.each do |auto_complete|%>
+			<%if auto_complete!='' && auto_complete!=nil %>
+			auto_emails.push("<%= auto_complete%>");
+			<% end %>
+		<%end%>
+		
+	<%end%>
+
+	function split( val ) {
+		return val.split( /,\s*/ );
+	}
+	function extractLast( term ) {
+		return split( term ).pop();
+	}
+	$( "#search_plan" ).autocomplete({
+		minLength: 1,
+		source: function(request, response) {
+		var results = $.ui.autocomplete.filter(auto_emails, extractLast( request.term ));
+		response(results.slice(0, 8));        
+	},
+	focus: function() {
+          return false;
+        },
+	select: function( event, ui ) {
+	  var terms = split( this.value );
+	  // remove the current input
+	  terms.pop();
+	  // add the selected item
+	  terms.push( ui.item.value );	  
+	  this.value = terms;
+	  return false;
+	}
+	});
+</script>

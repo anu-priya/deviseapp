@@ -1,0 +1,130 @@
+<%=javascript_include_tag "global/checkbox"%>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    initARC('provider_event_list','altCheckboxOn','altCheckboxOff');
+    selectAny();
+  });
+
+  function before_delete(a){
+    var a;
+
+    pop_delete_activity('/activities/delete_activity?id='+a)
+  }
+
+  function before_status(a){
+    var page =$(".pagination .current").html();
+    var a;
+    pop_delete_activity("/admin/delete_activity?prop=status&id="+a+"&page="+page)
+  }
+
+  //get mutiple check box id and store to hidden field
+  function getchk_actid(curr_actid,span_)
+  {
+    span_index=$(".checkboxImg").index(span_);
+
+    chk_staus=$(".checkboxImg:eq("+span_index+") label").attr('class');
+    if(chk_staus=="altCheckboxOn")
+    {
+      //add selected checkbox id
+      txt_id=$("#actid_chk").val();
+      if(txt_id=="")
+      { selected_ids=curr_actid; 	}
+      else{ selected_ids=txt_id+","+curr_actid; 	}
+      $("#actid_chk").val(selected_ids);
+
+    }
+    else
+    {
+      //remove the id
+      txt_id=$("#actid_chk").val();
+      selected_ids=txt_id.replace(curr_actid,'');
+      $("#actid_chk").val(selected_ids);
+      $('#select').css('display','none');
+      $('#not_select').css('display','inline-block');
+      $('#pe').val(0);
+    }
+  }
+</script>
+<input type="hidden" id="actid_chk" name="actid_chk" value="" />
+<input type="hidden" id="page" name="page" value="<% if !params[:page].nil? && params[:page].present? %><%=params[:page]%><%else%>1<%end%>" />
+
+<div class="pro_pagination">
+
+  <%= will_paginate @admin_discount_codes%>
+
+</div>
+<div class="clear"></div>
+<table cellspacing="0" cellspadding="0" border="0" width="100%">
+  <tr>
+    <td align="left" width="25%" class="headText setPadLt">Discount Code Name</td>
+    <td align="left" width="11%" class="headText">Discount Code</td>
+    <td align="left" width="11%" class="headText">Discount Amount</td>
+    <td align="left" width="11%" class="headText">Maximum Sign-ups</td>
+    <td align="left" width="7%" class="headText">Sign-ups</td>
+    <td align="left" width="15%" class="headText">Valid upto</td>
+    <td align="left" width="11%"class="headText">Status</td>
+    <td align="left" width="11%"class="headText">Action</td>
+  </tr>
+</table>
+<table id="prepend_discount_code" cellspacing="0" cellspadding="0" border="0" width="100%">
+  <%if !@admin_discount_codes.nil? && @admin_discount_codes !="" %>
+
+    <%i = 0%>
+    <%if @admin_discount_codes.length > 0 %>
+      <%@admin_discount_codes && @admin_discount_codes.each do |act|%>
+        <%i = i + 1%>
+        <%if i.even? %>
+          <tr class="setBg2" id="act-list-<%=act.admin_discount_id%>">
+          <%else%>
+          <tr class="setBg1" id="act-list-<%=act.admin_discount_id%>">
+          <%end%>
+          <td align="left" width="25%" class="contentText setPadLt activityName">
+            <span class="blueText fts14 checkboxText" onclick="pop_Activity_Detail('/activitydetail_new?det=<%= act.admin_discount_id %>')"><%= act.discount_name %></span></td>
+          <td align="left" width="11%" class="contentText fts14"><span><%= act.discount_code %></span></td>
+          <td align="left" width="11%" class="contentText fts14"><span>$<%= number_with_precision act.discount_amount, :precision => 2 %></span></td>
+          <td align="left" width="11%" class="contentText fts14"><span><%= act.discount_max %></span></td>
+          <td align="left" width="7%" class="contentText fts14"><span><%= act.discount_sign %>/<%= act.discount_max %></span></td>
+          <td align="left" width="15%" class="contentText fts14"><span>
+              <%if !act.discount_start_date.nil? && !act.discount_end_date.nil?%>
+                <%= act.discount_start_date.strftime("%b %d, %Y") %> to <%= act.discount_end_date.strftime("%b %d, %Y") %>
+              <%else%> Never Expires
+              <%end%>
+            </span></td>
+          <td align="left" width="11%" class="contentText">
+            <input type="hidden" id="gender_<%=act.admin_discount_id%>" name="gender" value="" />
+            <div id="menu_active" class="lt ActiveDivMenu">
+              <ul>
+                <li><a  href="#" class="active_Div ActiveDiv"><span id="gender_setVal_<%=act.admin_discount_id%>"><%=act.discount_status if !act.discount_status.nil?%></span><span><%=image_tag("/assets/event_index/dropdown_arrow.png", :style=>"position: relative; top: -1px; left:5px;", :height=>"4", :width=>"7")%></span></a><ul class="sub-menu dispActiveDiv">
+                    <li><a href="javascript:void(0)" onclick="setdiscountVal('Active',<%=act.admin_discount_id%>)">Active</a></li>
+                    <li><a href="javascript:void(0)" onclick="setdiscountVal('Inactive',<%=act.admin_discount_id%>)">Inactive</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <div class="clear"></div>
+            </div>
+          </td>
+          <td align="left" width="14%" class="contentText">
+            <a href="javascript:void(0)" title="Edit discount code" onclick="pop_edit_discount('/edit_discount?discount_id=<%=act.admin_discount_id%>&cat=<%= params[:cat] %>&cat_zc=<%= params[:cat_zc] %>&page=<% if !params[:page].nil? && params[:page].present? %><%=params[:page]%><%else%>1<%end%>&edit_from=admin_list_event&set_color=<%=i%>')"  class="lt setRt"><%=image_tag("/assets/provider_event_list/edit_icon.png", :width=>"29", :height=>"26")%></a>
+            <a href="javascript:void(0)" title="Delete discount code" onclick="before_discount_delete('/admin_delete_discount?discount_id=<%=act.admin_discount_id %>&page=<% if !params[:page].nil? && params[:page].present? %><%=params[:page]%><%else%>1<%end%>&del_action=admin_list')" class="lt"><%=image_tag("/assets/provider_event_list/delete_icon.png", :width=>"29", :height=>"26")%></a>
+          </td>
+        </tr>
+      <%end%>
+
+    <%else%>
+      <tr class="setBg1">
+        <td width="40%" colspan="7" class="no_activities" style="text-align:center;height: 500px;">Sorry we found no discount codes.</td>
+      </tr>
+    <%end%>
+  <%else%>
+    <tr class="setBg1">
+      <td width="40%" colspan="7" class="no_activities" style="text-align:center;height: 500px;">Sorry we found no discount codes.</td>
+    </tr>
+  <%end%>
+
+</table>
+<div class="pro_pagination">
+
+  <%= will_paginate @admin_discount_codes%>
+
+</div>

@@ -1,0 +1,57 @@
+	<%if !@msg_list.present?%>
+		<div class="disableMenus"></div>
+	<%end%>
+   <div id="heaer_section" style="width:100%">
+	<div id="create_section" >
+				  <input type="hidden" value="0" id="pe" name="pe"/>
+				  <span class="chk_img chkspn" >
+					  <a style="display: none" onclick="selectAnyMessage('select',0)" id="select" title="" href="javascript:void(0)"><img alt="" src="/assets/contact/selected_checkbox.png"></a>
+					  <a onclick="selectAnyMessage('not_select',1)" id="not_select" title="" href="javascript:void(0)"><img alt="" src="/assets/contact/normal_checkbox.png"></a>
+				  </span>
+				<span >
+					  <span class="menuText setLt seltext" >Select All</span>
+				</span>
+				<span class="pipeSymbol" style="top: 7px;">|</span>
+				<span style="cursor:pointer;" onclick="message_delete(); _gaq.push(['_trackEvent','<%=params[:mode].capitalize if !params[:mode].nil?%> Module', 'clickMessages','Delete Message']);">
+				<span class="plusImg delimg contact_del" >
+              <!--img id="arrow1" src="/assets/contact/delete_icon.png" alt=""  /-->
+            </span>
+            <span  class="leftMenus delspan">
+              <a href="javascript:void(0)" style="text-decoration:none;" class="menuText addText">Delete</a>
+              </span></span>
+              <span class="pipeSymbol" style="margin-left: -5px;top: 17px;position: absolute;">|</span>
+			  <span class="contact_alla fam_buttona" style="cursor:pointer;" onclick="fam_pop_network('/fam_network'); _gaq.push(['_trackEvent','Parent Module', 'clickFriending','Create Fam Network']);" >
+
+			  <span style="display: inline-block;margin-left: 10px;position: relative;width: 170px;" class="leftMenus contact_all fam-msg">
+              	 <span class="menuText famText ">Create FamNetwork</span>
+          	  </span>
+            	
+             </span>
+              <a href="/messages/new?mode=<%=params[:mode]%>" id="postmsg" >
+             <!--span id="postmsg" onclick="pop_create_message_form('/messages/new?mode=<%=params[:mode]%>','<%=params[:mode]%>'); _gaq.push(['_trackEvent','<%=params[:mode].capitalize if !params[:mode].nil?%> Module', 'clickMessages','Create New Message']);"-->
+                <span class="plusImg postext" >
+                  <img id="arrow1" src="/assets/contact/postmessage_icon.png" alt=""  />
+                </span>
+                <span class="post_word"  >Post a Message</span>
+            </a>
+	</div>
+
+	<div class="msg_search">
+	<!-- <form id="parent_search" action="/search_contact_user" name="parent_search" method="get"> -->
+	        <input type="hidden" id="uid" value="<%=cookies[:uid_usr]%>"/>
+	        <input type="hidden" id="s_key" value="all"/>
+	        <input type="hidden" name="represented" id="represented" value="general" />
+	        <div id="advanceSearchDiv" style="left:3px; margin-bottom:11px; z-index:99; margin-top:0px; margin-right:20px;position:relative;">
+	         <div class="ad_textbox" style="width:220px;height: 24px;background-color:white;cursor: default;">
+	            <div class="lt_search">
+	            	<input type="text" id="event_search" name="event_search" value="Search for famtivity people"  style="width:190px;outline:none;background-color:white; font-family: 'open_sansregular';" class="textbox new_font" autocomplete='on' onfocus="if(this.value == 'Search for famtivity people'){this.value=''; this.style.color='#444444';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.value='Search for famtivity people'}" />
+	            </div>
+	            <div class="lt_search set_search_icon contact_all msg_search" style="margin-top: 4px;cursor: default;">
+	            	<!--img src="/assets/contact/contac_search_icon.png" alt="" /-->
+	            </div>
+	            <div class="clear"></div>
+	          </div>
+	        </div>
+	      <!-- </form> -->
+	</div>
+</div>

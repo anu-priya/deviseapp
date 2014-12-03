@@ -1,0 +1,23 @@
+    <table>
+      <tr>
+        <td>Name</td>
+        <td>Email</td>
+        <td>Mobile_number</td>
+        <td>Friends_type</td>
+      </tr>
+
+  <%if !@contact_users.nil? && @contact_users.length > 0 %>
+    <% @contact_users.each do |con|%>
+      <tr>
+        <td><%=con.contact_name if !con.contact_name.nil? && con.contact_name.present?%></td>
+        <td><%=con.contact_email if !con.contact_email.nil? && con.contact_email.present?%></td>
+        <td><%=con.contact_mobile if !con.contact_mobile.nil? && con.contact_mobile.present?%></td>
+        <td><%=con.contact_user_type if !con.contact_user_type.nil? && con.contact_user_type.present?%></td>
+      </Row>
+    <% end %> contact_user_type
+  <%else%>
+      <tr>
+          Sorry we found no results
+      </tr>
+  <%end%>
+  </table>

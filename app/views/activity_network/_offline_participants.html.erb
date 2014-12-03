@@ -1,0 +1,335 @@
+<style>
+	.add_attendee{
+		width:650px;
+		padding: 10px;
+		margin: 0 auto;
+		overflow-y:auto;
+		min-height: 100px;
+		max-height: 300px
+		
+	}
+	.p_details_img{
+		float: left;
+		width: 65px;
+		padding: 0px 10px 10px 20px;
+	}
+	.p_details_gender{
+		float: left;
+		width: 120px;
+		padding: 10px
+	}
+	.p_details_name{
+		float: left;
+		width: 200px;
+		padding: 10px
+	}
+	.p_details_age{
+		float: left;
+		width: 100px;
+		padding: 10px
+	}
+	
+	.p_details_borde{
+		border-top:  1px solid #E2EAEC;
+		border-right:  1px solid #E2EAEC;
+		border-left:  1px solid #E2EAEC;
+	}
+	.p_details_borde_1{
+		border: 1px solid #E2EAEC;
+	}
+	.p_details_name .textbox{
+		border: 1px solid #CDE0E6;
+		color: #999999;
+		display: inline-block;
+		font-size: 13px;
+		padding: 1px 4px 0;
+		height: 29px;
+		width: 190px;
+		
+	}
+	.p_details_age .post_text{
+			color: #444444 !important;
+	}
+	.p_details_name .post_text{
+			color: #444444 !important;
+	}
+	.p_details_age .textbox{
+		border: 1px solid #CDE0E6;
+		color: #999999;
+		display: inline-block;
+		font-size: 13px;
+		padding: 1px 4px 0;
+		height: 29px;
+		width: 90px;
+		
+		
+	}
+	.p_details_gender .drop_down_lef{
+		border: 1px solid #CDE0E6;
+		color: #444444;
+		display: inline-block;
+		font-size: 13px;
+		padding: 5px 0 4px 2px;
+		height: 32px;
+		width: 100px;
+	}
+	.participant_error{
+		color: #ff0000;
+		margin-left: 20px;
+	}
+	.delete_add_attendees{
+		margin-left: 5px;
+		width: 30px;
+		float: right;
+		height: 20px;
+	}
+	
+	
+</style>
+<script type="text/javascript">
+	var add_arr_<%=invite_id%>=new Array();
+	add_arr_<%=invite_id%>[0]=1;
+	// set the browse button
+	
+	function selectFile(y,incVal){
+	    $('#photo_'+y+'_'+incVal).click();
+	}
+	// show the selected image
+	function readURL_dy(input,y,value) {
+		if (input.files && input.files[0]) {
+		    var reader = new FileReader();
+		    reader.onload = function (e) {
+			$('#filediv_'+y+'_'+value).hide();
+			$('#imagediv_'+y+'_'+value).show();
+			$('#blah_'+y+'_'+value)
+			.attr('src', e.target.result)
+			.width(65)
+			.height(65);
+		    };
+		    reader.readAsDataURL(input.files[0]);
+		}
+	}
+	
+	
+	// validate the participant details
+	function validate_add_participant(y,x,opt){
+		var msg='';
+		var id=y+'_'+x;
+		
+		var photo=$("#photo_"+id).val();
+		var name=$("#part_name_"+id).val();
+		var age=$("#participant_age_"+id).val();
+		var gender=$("#participant_gender_"+id).val();
+		
+		name=name.replace(/(\s+)+/g," ");
+		var path=$("#blah_"+id).attr("src");
+		
+		if(name==""||name=="Enter Participant Name"){
+			
+			if(msg=="")
+			msg="Please enter name";
+			else
+			msg+=" , name";
+		}
+		if(age==""||age=="Enter Age"){
+			
+			if(msg=="")
+			msg="Please enter age";
+			else
+			msg+=" , age";
+		}
+		if(gender=="choose"){
+			
+			if(msg=="")
+			msg="Please enter gender";
+			else
+			msg+=" , gender";
+		}
+		if(msg!=""){
+			
+			$('#error_row_participant_'+y).show();
+			$('#participant_error_'+y).text(msg);
+			return 0;
+		}
+		else{
+			if(opt!="validate"){
+				$('#error_row_participant_'+y).hide();
+				$('#participant_error_'+y).text('');
+				/*$("#photo_"+id).val('');
+				$("#part_name_"+id).val('');
+				$("#participant_age_"+id).val('');
+				$("#participant_gender_"+id).val('');
+				
+				$("#imagediv_"+id).css('display','none');
+				$("#blah_"+id).val('');
+				$("#filediv_"+id).css('display','block');*/
+				add_another_row(y);// adding another row
+			}
+				return 1;
+
+		}
+	}
+	// only input numeric 
+	function allow_numeric_only(e){
+		
+		if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
+			     // Allow: Ctrl+A
+			    (e.keyCode == 65 && e.ctrlKey === true) || 
+			     // Allow: home, end, left, right
+			    (e.keyCode >= 35 && e.keyCode <= 39)) {
+				 // let it happen, don't do anything
+				 return;
+			}
+			// Ensure that it is a number and stop the keypress
+			if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+			    e.preventDefault();
+			}
+	}
+	
+	
+	var ids=1;
+	// this is adding the rows of attendees
+	function add_another_row(y){
+		// before adding row set the symbols
+		$(".add_attendees_"+y).css("display","none");
+		$(".delete_attendees_"+y).css("display","block");
+		ids++;
+		var saved=$('#single_raw'+y).val();// get the row id-s
+		saved=saved.split(",");
+		saved.push(ids);
+		$('#single_raw'+y).val(saved);
+				
+		var html="";
+		html+='<tr id="added_attendee_'+y+'_'+ids+'"><td valign="middle" class=" p_details_borde">';
+		html+='<table><tr>';
+		html+='<td valign="middle"><div class="p_details_img"><span class="lt" style="width:24px;">&nbsp;</span>';
+			
+		html+='<span class="browse" id="filediv_'+y+'_'+ids+'" style="display:block;">';
+			
+		html+='<a href="javascript:void(0)" onclick="selectFile('+y+','+ids+')" class="lt"><img src="/assets/create_new_activity/browse_image.png" height="67" width="65"></a>';
+		html+='</span><input onchange="readURL_dy(this,'+y+','+ids+');" size="21" id="photo_'+y+'_'+ids+'" name="photo_'+y+'_'+ids+'" value="" style="display:none" type="file">';
+		
+		
+		html+='<div id="imagediv_'+y+'_'+ids+'" class="browse1" style="display:none;">';	
+	
+		html+='<a href="javascript:void(0)" onclick="selectFile('+ids+')" class="lt"><img id="blah_'+y+'_'+ids+'" src="" alt="" height="65" width="65"></a></div>';
+		html+='<div class="clear"></div></div></td>';
+		html+='<td valign="middle"><div class="p_details_name"><input class="lt textbox post_text" type="text" value="" name="part_name_'+y+'_'+ids+'" id="part_name_'+y+'_'+ids+'"></div></td>';
+		//html+='onblur="if (this.value==\'\'){ this.value = \'Enter Participant Name\';$(this).css(\'color\',\'#999999\');}" onfocus="if (this.value=='Enter Participant Name') { this.value = '';$(this).css('color','#444444');}'
+		html+='<td valign="middle"><div class="p_details_age"><input class="lt textbox post_text" maxlength="3" onkeydown="allow_numeric_only(event)" type="text" value="" name="participant_age_'+y+'_'+ids+'" id="participant_age_'+y+'_'+ids+'"></div></td>';
+		html+='<td valign="middle"><div class="p_details_gender">';
+		html+='<select name="participant_gender_'+y+'_'+ids+'" id="participant_gender_'+y+'_'+ids+'" class="lt drop_down_lef"><option value="choose">--Choose--</option><option value="male" >Male</option><option value="female">Female</option></select>';
+		html+='</div></td></tr></table>';
+		html+='<td valign="bottom"><div class="delete_add_attendees">';
+		html+='<a id="add_attendees_'+y+'_'+ids+'" class="add_attendees_'+y+'"   onclick="validate_add_participant('+y+','+ids+')" href="javascript:void(0);"><img width="20" height="20" alt="" src="/assets/create_new_activity/add_button.png" class="lt addButton"></a>';
+		
+		html+='<a style="display:none;" class="delete_attendees_'+y+'" id="delete_attendees_'+y+''+ids+'" onclick="delete_add_participant('+y+','+ids+')" href="javascript:void(0);">';
+		html+='<img width="20" height="20" alt="" src="/assets/create_new_activity/delete_icon.png" class="lt addButton"></a></div></td>';
+		html+='</td></tr>';
+		$('#added_attendee_'+y).append(html);
+		
+			
+	}
+	
+	function save_added_attendee(y){
+		var saved=$('#single_raw'+y).val();
+		saved=saved.split(",");
+		var flag
+		for(var i=0;i<saved.length;i++){// validate row by row 
+			flag=validate_add_participant(y,saved[i],"validate");
+		}
+			if(flag!=0){
+				$('#participants_add_'+y).ajaxSubmit({
+				       success: function(data) {
+					       if (data=='true'){
+							$('#offlinePartiSuccess').bPopup({fadeSpeed:100,followSpeed:100,opacity:0.8,position: [241, 100], positionStyle: 'absolute',modalClose: false });
+					       }
+					}
+				});
+			}
+	}
+	
+	// delete row function
+	function delete_add_participant(y,x){
+		var saved=$('#single_raw'+y).val();
+		saved=saved.split(",");
+		for(var i=0;i<saved.length;i++){
+			if(saved[i]==x){
+				saved.splice(i,1);
+			}
+		}
+		$('#single_raw'+y).val(saved);
+		$('#added_attendee_'+y+'_'+x).remove();
+		
+	}
+	// close the showing added div
+	function close_added_attendee(i){
+		$('#partiicai_attend_'+i).slideUp();
+	}
+</script>
+<form id="participants_add_<%=invite_id%>" name="participants_add" target="_parent" action="offline_participant_add" method="post" enctype="multipart/form-data">
+<input type="hidden" name="single_raw" id="single_raw<%=invite_id%>" value="1">
+<input type="hidden" name="invitee_attnd_id" id="invitee_attnd_id" value="<%=invite_id%>">
+<input type="hidden" name="activ_id" id="activ_id" value="<%=activity_id%>">
+<input type="hidden" name="sched_id" id="sched_id" value="<%=schedule_id%>">
+<div id="add_attendee_<%=invite_id%>_1" class="add_attendee">
+	
+	<table id="added_attendee_<%=invite_id%>" cellpadding="0" cellspacing="0" border="0">
+		<tr id="added_attendee_<%=invite_id%>_1">
+			<td valign="middle" class="p_details_borde_1 p_details_borde">
+				<table cellpadding="0" cellspacing="0" border="0">
+					<tr>
+						<td valign="middle">
+							<div class="p_details_img">
+								<span class="lt" style="width:24px;">&nbsp;</span>
+								<span class="browse" id="filediv_<%=invite_id%>_1">
+									<a href="javascript:void(0)" onclick="selectFile('<%=invite_id%>',1)" class="lt">
+										<%=image_tag("/assets/create_new_activity/browse_image.png", :width=>"67", :height=>"65")%>
+									</a>
+								</span>
+								<input type="file" accept="image/*" onchange="readURL_dy(this,'<%=invite_id%>',1);" size="21" id="photo_<%=invite_id%>_1" name="photo_<%=invite_id%>_1" value="" style="display:none">
+								
+								<div id="imagediv_<%=invite_id%>_1" class="browse1" style="display:none;">
+									<a href="javascript:void(0)" onclick="selectFile('<%=invite_id%>',1)" class="lt">
+										<%=image_tag("", :width=>"", :height=>"", :id=>"blah_#{invite_id}_1")%>
+									</a>
+								</div>
+								<div class="clear"></div>
+							</div>
+						</td>
+						<td valign="middle">
+							<div class="p_details_name">
+								<input class="lt textbox" type="text" value="Enter Participant Name" name="part_name_<%=invite_id%>_1" id="part_name_<%=invite_id%>_1" onblur="if (this.value==''){ this.value = 'Enter Participant Name';$(this).css('color','#999999');}" onfocus="if (this.value=='Enter Participant Name') { this.value = '';$(this).css('color','#444444');}">
+							</div>
+						</td>
+						<td valign="middle">
+							<div class="p_details_age"><input class="lt textbox" maxlength="3" type="text" value="Enter Age" name="participant_age_<%=invite_id%>_1" id="participant_age_<%=invite_id%>_1" onkeydown="allow_numeric_only(event)" onblur="if (this.value==''){ this.value = 'Enter Age';$(this).css('color','#999999');}" onfocus="if (this.value=='Enter Age') { this.value = '';$(this).css('color','#444444');}"></div>
+						</td>
+						<td valign="middle">
+							<div class="p_details_gender">
+								<select name="participant_gender_<%=invite_id%>_1" id="participant_gender_<%=invite_id%>_1" class="lt drop_down_lef">
+									<option value="choose">--Choose--</option>
+									<option value="male">Male</option>
+									<option value="female">Female</option>
+								</select>
+							</div>
+						</td>
+					</tr>
+					<tr id="error_row_participant_<%=invite_id%>" style="display:none;" class="error_row_participant"><td colspan="4"><div id="participant_error_<%=invite_id%>" class="participant_error"></div></td></tr>
+				</table>
+			</td>
+			<td valign="bottom"><div class="delete_add_attendees">
+			<a class="add_attendees_<%=invite_id%>" id="add_attendees_<%=invite_id%>_1"  onclick="validate_add_participant('<%=invite_id%>',1); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Add Participant','<%=invite_id%>']);" href="javascript:void(0);"><%=image_tag("/assets/create_new_activity/add_button.png", :width=>"20", :height=>"20", :class=>"lt addButton")%></a>
+			<a style="display:none;" class="delete_attendees_<%=invite_id%>" id="delete_attendees__<%=invite_id%>_1" onclick="delete_add_participant('<%=invite_id%>',1); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Delete Participant','<%=invite_id%>']);" href="javascript:void(0);"><%=image_tag("/assets/create_new_activity/delete_icon.png", :width=>"20", :height=>"20", :class=>"lt addButton")%></div>
+			</td>
+		</tr>
+	</table>
+	<table>
+		<tr>
+			<td colspan="5" height="80" valign="middle">
+				&nbsp;<a onclick="save_added_attendee('<%=invite_id%>'); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Save Attendee','<%=invite_id%>']);"><%=image_tag("/assets/event/attnd_save_button.png", :width=>"91", :height=>"34", :alt=>"save")%></a>&nbsp;&nbsp;<a onclick="close_added_attendee('<%=invite_id%>'); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Close Attendee','<%=invite_id%>']);"><%=image_tag("/assets/event/invite_close.png", :width=>"91", :height=>"34")%></a>
+			</td>
+		</tr>
+	</table>
+</div>
+</form>

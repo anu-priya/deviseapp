@@ -1,0 +1,70 @@
+<%=javascript_include_tag "landing/landing"%>
+<link rel="stylesheet" type="text/css" href="/assets/landing/landing.css" />
+
+<div class="container">
+  <div class="header" align="center">
+    <%= link_to image_tag("/assets/landing/logo.png", :width=>395,:height=>130), :controller => 'landing' %>
+  </div>
+  <div align="center">
+    <%=image_tag("/assets/landing/frame.png", :width=>"682", :height=>"387", :alt=>"", :style=>"position:relative; z-index:10000;")%>
+  </div>
+
+  <div class="how_worksDiv">
+  <%=image_tag("/assets/landing/curve_arrow.png", :width=>"50", :height=>"133", :alt=>"")%>
+    <div>
+      <a href="/how_it_works" onclick="_gaq.push(['_trackEvent', 'Tutorial', 'clickHowitWorks']);" title="" style="display: inline-block; width:136px; height:26px; margin:-4px 0 0 -72px;" tabindex="19"><%=image_tag("/assets/landing/how_it_works.png", :width=>"136", :height=>"26", :alt=>"")%></a>
+    </div>
+  </div>
+
+  <div class="bottomDiv">
+    <div class="cityDiv">
+      <form name="landingForm" action="/landing/submit" method="post">
+        <input type="hidden" name="action_new_usr" id="action_new_usr" value="" />
+        <div class="confirmText" style="color:#186171;">Confirm Your City</div>
+        <div class="customCity">
+          <div class="selectBoxCity" onkeydown="selectCityKeyDown(event)" onmouseover="flag=true;" onmouseout="flag=false;">
+            <%if @city_new_usr%>
+              <input type="hidden" id="city" name="city_new_usr_val" value="<%=@city_new_usr%>"/>
+              <div id="cityfield" class="selectDiv" style="line-height:23px;" tabindex="1"><%=@city_new_usr%></div>
+            <%else%>
+              <input type="hidden" id="city" name="city_new_usr_val" value="<%=@default_city%>"/>
+              <div id="cityfield" class="selectDiv" style="line-height:23px;" tabindex="1"><%=@default_city%></div>
+            <%end%>
+          </div>
+
+          <div class="dropDownDivCity" id="dropDownDiv" style="display:none;">
+            <%@rel = 1 %>
+            <% @cities.each do |city|%>
+              <%if(@rel!=@cities.length)%>
+                <a href="javascript:void(0)"  rel="<%=@rel%>" title="" onclick="setDropDownValue('<%=city%>',this); _gaq.push(['_trackEvent', 'Landing', 'clickCityDropdownList','<%=city%>']);" tabindex="<%=@rel+1%>"><%=city%></a>
+              <%else%>
+                <a href="javascript:void(0)"  rel="<%=@rel%>" title="" onclick="setDropDownValue('<%=city%>',this);_gaq.push(['_trackEvent', 'Landing', 'clickCityDropdownList','<%=city%>']);" tabindex="<%=@rel+1%>" onkeydown="detectTab(event)"><%=city%></a>
+              <%end%>
+              <%@rel += 1%>
+            <%end %>
+          </div>
+        </div>
+        <div class="clear"></div>
+        <div class="loginTextDiv" align="center">
+          <input type="hidden" id="cok_id" name="city_new_usr"/>
+          <span class="loginText"><a href="javascript:void(0)" onclick="doFormSubmit('login');_gaq.push(['_trackEvent', 'Login', 'clickLogin']);" title="" style="font-weight:normal;">Login</a><span class="regBlueText setDivider">|</span> Register as<%=image_tag("/assets/landing/arrow.png", :width=>"6", :height=>"10", :alt=>"", :class=>"setArrow")%></span>
+          <a  href="/user" onclick="doFormSubmit('parent')" onkeydown="registerKeyDown(event)" class="regBlueText" tabindex="14" style="padding:0px 3px 0px 5px;"> Parent </a>
+          <span  class="regBlueText setDivider" > | </span>
+          <a  onclick="doFormSubmit('provider'); _gaq.push(['_trackEvent', 'Registration', 'clickParentRegistration'])
+" href="provider_register" onkeydown="registerKeyDown(event);_gaq.push(['_trackEvent', 'Registration', 'clickProviderRegistration']);" class="regBlueText" tabindex="15" style="padding:0px 3px 0px 3px;"> Provider </a>
+        </div>
+        <div class="outer" align="center">
+	<div style="padding-top:24px;">
+            <div>
+	</div>
+          </div>
+
+          <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="clear"></div>
+      </form>
+    </div>
+  </div>
+</div>

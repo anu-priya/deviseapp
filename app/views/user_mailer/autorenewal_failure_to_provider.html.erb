@@ -1,0 +1,33 @@
+<table cellpadding="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+	  <table cellpadding="0" cellpadding="0">
+	  	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="50">Hello <%= @user.user_name.titlecase if !@user.nil? && !@user.user_name.nil?%>,</td>
+		</tr>
+		<!--displayed the content for auto renewal and deactivate amount detection-->
+		<%if !@user.nil? && !@user.user_status.nil? && @user.user_status.present? && @user.user_status == "deactivate" %>
+			<tr>
+				<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="40">Your monthly maintenance fee of <span style="color:red">$<%=@uamount if !@uamount.nil?%></span> was not billed because the credit card on file is invalid or expired.</td>
+			</tr>
+		<%else%>
+			<tr>
+				<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="40">Your monthly subscription fee of <span style="color:red">$<%=@uamount if !@uamount.nil?%></span> was not billed because the credit card on file is invalid or expired. To keep your Famtivity listings active, please login and update your credit card information.</td>
+			</tr>
+		<%end%>
+		<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="40">We&rsquo;re here to help, so please contact us anytime at <a href='mailto:support@famtivity.com' style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#196076;">support@famtivity.com</a>.</td>
+		</tr>
+		<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="60"><%if !@user.nil? && !@user.user_status.nil? && @user.user_status.present? && @user.user_status == "deactivate" %>Thank you<%else%>Thanks!<%end%></td>
+		</tr>
+		<tr>
+			<td><span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;">The Famtivity Team</span></td>
+		</tr>
+		
+	  </table>
+      
+
+  </td>
+  </tr>
+</table>

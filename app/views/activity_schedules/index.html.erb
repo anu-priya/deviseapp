@@ -1,0 +1,53 @@
+<h1>Listing activity_schedules</h1>
+
+<table>
+  <tr>
+    <th>Schedule</th>
+    <th>Schedule mode</th>
+    <th>Start date</th>
+    <th>End date</th>
+    <th>Start time</th>
+    <th>Without</th>
+    <th>Timezone</th>
+    <th>End time</th>
+    <th>Without</th>
+    <th>Timezone</th>
+    <th>Repeat</th>
+    <th>Activity</th>
+    <th>Hours operation</th>
+    <th>Modified date</th>
+    <th>Without</th>
+    <th>Timezone</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @activity_schedules.each do |activity_schedule| %>
+  <tr>
+    <td><%= activity_schedule.schedule_id %></td>
+    <td><%= activity_schedule.schedule_mode %></td>
+    <td><%= activity_schedule.start_date %></td>
+    <td><%= activity_schedule.end_date %></td>
+    <td><%= activity_schedule.start_time %></td>
+    <td><%= activity_schedule.without %></td>
+    <td><%= activity_schedule.timezone %></td>
+    <td><%= activity_schedule.end_time %></td>
+    <td><%= activity_schedule.without %></td>
+    <td><%= activity_schedule.timezone %></td>
+    <td><%= activity_schedule.repeat %></td>
+    <td><%= activity_schedule.activity_id %></td>
+    <td><%= activity_schedule.hours_operation %></td>
+    <td><%= activity_schedule.modified_date %></td>
+    <td><%= activity_schedule.without %></td>
+    <td><%= activity_schedule.timezone %></td>
+    <td><%= link_to 'Show', activity_schedule %></td>
+    <td><%= link_to 'Edit', edit_activity_schedule_path(activity_schedule) %></td>
+    <td><%= link_to 'Destroy', activity_schedule, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Activity schedule', new_activity_schedule_path %>

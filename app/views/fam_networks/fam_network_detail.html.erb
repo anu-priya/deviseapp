@@ -1,0 +1,126 @@
+<%=stylesheet_link_tag "fam_network/smoothDivScroll", :media => "all"%>
+<%=javascript_include_tag "fam_network/jquery-ui-1.8.23.custom.min","fam_network/jquery.mousewheel.min","fam_network/jquery.smoothdivscroll-1.3-min"%>
+
+<div class="fampostdetail">
+  <div class="fam_detail_post_header">
+    <div class="fam_post_header_head">
+      fam network post
+
+    </div>
+    <div class="close_close">
+      <a href="#" onclick="close_pop_create('<%=@group_name.downcase.gsub(/[^a-zA-Z0-9]/,"_") if !@group_name.nil?%>')"><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%></a>
+    </div>
+  </div>
+  <div class="spacerdiv_20"></div>
+  <div class="title_bar">
+    <div class="title_bar_img" style="overflow: hidden; height: 70px; margin: 3px 0px 0px 3px;">
+      <%@user = user = ((@first_msg_thread && @first_msg_thread.present?) ? User.where("user_id = '#{@first_msg_thread.posted_by}'").last : current_user)%>
+      <%@first_mess = @first_msg_thread.message if @first_msg_thread && @first_msg_thread.present? && !@first_msg_thread.nil?%>
+      <%if @first_mess && @first_mess.present? && @first_mess.message_card && @first_mess.message_card.present? && !@first_mess.message_card.nil? %>
+        <% chk_size = FastImage.size(@first_mess.message_card.path(:small))%>
+	<% fix_ht = (chk_size[0] > 60) ? '62' : chk_size[0]%>
+        <%= image_tag @first_mess.message_card.url(:small), :class=>"lazy", :alt => 'Loading...', :height => fix_ht%>
+      <%else%>
+        <%= image_tag "/assets/default/Message_Card_Default_small.png", :style=>"width:69px;height:63px;"%>
+      <%end%>
+
+    </div>
+    <div class="title_bar_head">
+      <table width="770" height="70">
+        <tr>
+          <td  width="600" height="70" valign="middle">
+      <%if !user.nil? && !user.nil? %>
+        <%=user.user_name.titlecase if !user.nil? && !user.user_name.nil?%>
+      <%end%>
+      </td><%if @fam_network && @fam_network.present? && @fam_network.created_at && @fam_network.created_at.present? && !@fam_network.created_at.nil?%><td  width="170" height="70" valign="top"><div class="posted_time">posted on:<%=@fam_network.created_at.in_time_zone(@time_zone).strftime("%b %d, %I:%M%P") %></div></td><%end%>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="spacerdiv_20"></div>
+  
+  
+  <!-------------------- message chat section start------------------------------>
+  <div class="replay_message" id="fam_post_details">
+          <%=render :partial => 'fam_network_thread_details',:locals => { :message_threads => @message_threads, :fam_network => @fam_network, :curr_user => @user }%>
+  </div>
+  <div class="clear"></div>
+        <div class="spacerdiv_10"></div>
+        <div class="clear"></div>
+ 
+<!------------------------message chat section end-------------------------->
+
+<!--<div class="all_attachments">all attachments</div>-->
+  <!--div class="create_new_posts_detail">
+    <div class="post_inner_detail ">
+      <div id="photo_border" class="single_img selct_borders" onclick="change_invite_detail_tabs('photo')">
+      <div id="photo_border" class="single_img selct_borders">
+        <div class=" common photo photo_normal_select"></div>
+        <div class=" common_txt photo_txt text_span_select">photos/videos/files</div>
+      </div-->
+      <!--<div id="document_border" class="single_img " onclick="change_invite_detail_tabs('document')">
+        <div class=" common document document_normal"></div>
+        <div class=" common_txt document_txt text_span">documents</div>
+      </div>
+    </div>
+  </div>-->
+  <%image = ["image/jpeg","image/png"]%>
+  <!--<div class="create_new_posts_detail_pages">
+    <div class="spacerdiv_20"></div>
+    <div class="div_slider_down" id= "photo">
+      <div class="div_slider_post">
+        <%dis_im = false%>
+        <% @fam_image && @fam_image.each do |f| %>
+          <div class="slides_images">
+            <table height="120" width="120"><tr><td valign="middle" align="center">
+                  <% if image.include?(f.fam_net_post_content_type)%>
+                    <a href="<%=f.fam_net_post%>" target="_blank"> <%= image_tag f.fam_net_post, :class=>"lazy", :alt => 'Loading...',:height=>"120",:width=>"120", :style=> "margin:0px 0px 0px 0px;"%></a>
+                  <%else%>
+                    <%format_result = FamPost.formatFileSupports(f.fam_net_post_content_type)%>
+                    <a href="<%=f.fam_net_post%>" target="_blank"><img src=<%=format_result%> title="<%=f.fam_net_post%>" width="80" height="80" alt="loading.."></a>
+                  <%end%>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <%dis_im = true%>
+        <%end%>
+
+      </div>
+
+      <%if dis_im == true%>
+        <a class="rt" style="padding-right: 50px;" href="/download_network_post_files?id=<%=@fam_network.fam_post_id%>&mode=I" title="Download">
+          <img style="position:relative;top:3px;" src="/assets/policies/download_arrow.png" width="9" height="14" alt="" />
+          Download All
+        </a>
+      <%end%>
+    </div>
+    <div class="div_slider_down" style="display: none;" id="document">
+      <div class="div_slider_post" >
+        <%dis_doc = false%>
+        <%  @fam_documents && @fam_documents.each do |f| %>
+          <div class="slides_images">
+            <table height="120" width="120"><tr><td valign="middle" align="center">
+            <% if image.include?(f.fam_net_post_content_type)%>
+              <%= image_tag f.fam_net_post.url(:thumb), :class=>"lazy", :alt => 'Loading...',:height=>"120", :style=> "margin:0px 0px 0px 0px;" if !f.fam_net_post.nil?%>
+            <%else%>
+              <%format_result = FamPost.formatFileSupports(f.fam_net_post_content_type)%>
+              <a href="<%=f.fam_net_post%>" target="_blank"><img src=<%=format_result%> title="<%=f.fam_net_post%>" width="80" height="80" alt="loading.."></a>
+            <%end%>
+               </td>
+              </tr>
+            </table>
+          </div>
+          <%dis_doc = true%>
+        <%end%>
+      </div>
+
+      <%if dis_doc == true%>
+        <a class="rt" style="padding-right: 50px;" href="/download_network_post_files?id=<%=@fam_network.fam_post_id%>&mode=D" title="Download">
+          <img style="position:relative;top:3px;" src="/assets/policies/download_arrow.png" width="9" height="14" alt="" /> Download All
+        </a>
+      <%end%>
+    </div>
+  </div>-->
+</div>
+

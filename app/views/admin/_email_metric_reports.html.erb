@@ -1,0 +1,128 @@
+<%=javascript_include_tag "global/checkbox"%>
+<input type="hidden" id="actid_chk" name="actid_chk" value="" />
+<input type="hidden" id="page" name="page" value="<% if !params[:page].nil? && params[:page].present? %><%=params[:page]%><%else%>1<%end%>" />
+ 
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+	<%if !@activities.nil? && @activities !="" %>
+	<%slcount = 1%>
+	<%i = 0%>
+	<%if @activities.length > 0 %>
+	
+      <%@activities && @activities.each do |act|%>
+        <%i = i + 1%>
+        <%if i.even? %>
+          <tr class="setBg2">
+          <%else%>
+          <tr class="setBg1">
+          <%end%>
+	          
+		<td align="left" width="80" class="contentText setPadLt activityName">
+		<%if @pva==1%>
+		<%=slcount %>
+		<%else%>
+		<%=((@pva.to_i-1)*15)+slcount%>
+		<%end%>
+		<%#if act && !act.nil? && !act.user_id.nil?%><%#=act.user_id %><%#end%>
+		</td>
+		<td align="left" width="180" class="contentText"><%if act && !act.nil? && !act.business_name.nil?%><%=act.business_name %><%else%><%=act.user_name.titlecase if act && !act.nil? && !act.user_name.nil? %><%end%></td>
+
+		<td align="left" width="200" class="contentText"><%if act && !act.nil? && !act.email_address.nil?%><%=act.email_address %><%end%></td>
+
+		<td align="left" width="140" class="contentText"><%if act && !act.nil? && !act.user_id.nil?%><%=user_active_act(act.user_id) %><%end%></td>
+		
+		<td align="left" width="140" class="contentText"><%if act && !act.nil? && !act.user_id.nil?%><%=user_inactive_act(act.user_id) %><%end%></td>
+		
+		<td align="left" width="140" class="contentText"><%if act && !act.nil? && !act.user_id.nil?%><%=user_expired_act(act.user_id) %><%end%></td>
+		
+		<td align="left" width="140" class="contentText"><%if act && !act.nil? && !act.user_id.nil?%><%=user_discount_dollar_act(act.user_id) %><%end%></td>
+
+		<td align="left" width="140" class="contentText">
+			 <%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			<%else%>
+			     <%@week_s = ""%>
+			     <%@week_e = ""%>
+			<%end%>
+			<%if act && !act.nil? && !act.user_id.nil?%>
+				<%=user_tot_viewscount_list(act.user_id,@week_s,@week_e)%>
+			<%end%>
+		</td>
+		
+		<td align="left" width="140" class="contentText">
+			 <%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			<%else%>
+			     <%@week_s = ""%>
+			     <%@week_e = ""%>
+			<%end%>
+			<%if act && !act.nil? && !act.user_id.nil?%>
+				<%=user_tot_count_list(act.user_id,@week_s,@week_e) %>
+			<%end%>
+		</td>
+
+		<td align="left" width="200" class="contentText">
+			 <%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			<%else%>
+			     <%@week_s = ""%>
+			     <%@week_e = ""%>
+			<%end%>
+			<%if act && !act.nil? && !act.user_id.nil?%>
+				<%=user_top_view_act(act.user_id,@week_s,@week_e) %>
+			<%end%>
+		</td>
+
+		<td align="left" width="200" class="contentText">
+			<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			<%else%>
+			     <%@week_s = ""%>
+			     <%@week_e = ""%>
+			<%end%>
+			<%if act && !act.nil? && !act.user_id.nil?%>
+				<%=user_top_shareview_act(act.user_id,@week_s,@week_e) %>
+			<%end%>
+		</td>
+		<td align="left" width="200" class="contentText">
+		<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			<%else%>
+			     <%@week_s = ""%>
+			     <%@week_e = ""%>
+			<%end%>
+			<%if act && !act.nil? && !act.user_id.nil?%>
+				<%cnt=user_website_count(act.user_id,@week_s,@week_e) %>
+				<%if !cnt.nil? && cnt==0%>
+				<%=cnt%>
+				<%else%>
+				<%=cnt.sum%>
+				<%end%>
+			<%end%>
+		</td>
+		<td align="left" width="200" class="contentText"><%if act && !act.nil? && !act.user_id.nil?%><%=provider_current_status(act.user_id)%><%end%></td>
+        </tr>
+	<%slcount = slcount+1%>
+      <%end%><!--do ending here-->
+
+    <%else%>
+      <tr class="setBg1">
+        <td width="40%" colspan="7" class="no_activities" style="text-align:center;height: 500px;">Sorry we found no results for your search.</td>
+      </tr>
+    <%end%>
+  <%else%>
+    <tr class="setBg1">
+      <td width="40%" colspan="7" class="no_activities" style="text-align:center;height: 500px;">Sorry we found no results for your search.</td>
+    </tr>
+  <%end%>
+</table>
+
+<div class="pro_pagination">
+	<%= will_paginate @activities  if !@activities.nil? &&  @activities!='' &&  @activities.present?%>
+</div>
+ <br><br><br><br>
+ <div style="padding-bottom:20px;">&nbsp;</div>

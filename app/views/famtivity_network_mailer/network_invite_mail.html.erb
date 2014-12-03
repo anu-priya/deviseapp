@@ -1,0 +1,29 @@
+<table cellspacing="0" cellpadding="0" border="0" style="width:98%; margin:12px; font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;">
+    <tr>
+        <td align="left" valign="top" height="24" style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;">
+            <b>Hi</b>,
+        </td>
+    </tr>
+    <tr>
+        <td height="10"></td>
+    </tr>
+    <tr>
+        <td style="color:#333333;" align="left" valign="top">
+            <b><%=@user.user_name.capitalize %></b>, </b> has invited you to join his network "<%=@network.group_name.capitalize unless @network.nil? && @network.group_name.nil?%>" in Famtivity. Accept his invitation by <br /> Signing up with Famtivity
+        </td>
+    </tr>
+    <tr>
+        <td height="10"></td>
+    </tr>
+    <tr>
+        <td>
+            <a href="javascript:void(0);" title="" href="<%= @url%>" class="disInblo"><%=image_tag("https://www.famtivity.com//assets/landing/famtivity_sign_up_button.png")%></a>
+        </td>
+    </tr>
+    <tr>
+        <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#444444;" height="30" align="left" valign="middle">Thanks,</td>
+    </tr>
+    <tr>
+        <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;" height="20" align="left" valign="middle">Your Famtivity Team</td>
+    </tr>
+</table>

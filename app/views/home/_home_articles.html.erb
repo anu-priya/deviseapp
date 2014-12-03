@@ -1,0 +1,38 @@
+<style>
+*{margin:0px;padding:0px;}
+
+</style>
+<div class="maincontent">
+		<div class="page_head">		
+			<div class="head_line"></div>
+			<h1 class="search_head">Featured Articles&nbsp;</h1>
+		</div>
+		<div class="clear"></div>
+	
+	<div style="display:inline-block;">
+		<%b_i = 0%>
+		<% @blog_value && @blog_value.each do |blval|%>
+		<!--blog image div starting-->
+		<div class="imagecont" <%if b_i != 0%>style="margin-left:15px; margin-right:0;"<%end%>>
+		<div class="article_box">
+			<table border="0" cellpadding="0" cellspacing="0" width="580" height="327">
+			<tr><td align="center" valign="middle"><a href="<%=blval["link"]%>" target="_blank" class="imgparenttag"><%=image_tag("#{blval['img']}", :style=>"max-width:100%; max-height:100%;", :alt=>"#{blval['title']}")%></a>
+			</td></tr>
+			</table>
+		 </div>
+		 <div class="paramaindiv1">
+		  <p class="desctext fontval blgtitle"><%=blval["title"]%></p>
+		  <p class="desctext fontval blgtxt"><%=blval["description"]%>
+		  </p>
+		  <a href="<%=blval["link"]%>" target="_blank" title="" class="button_box rt">Read More</a> 
+		  </div>
+		</div>
+		<!--blog image div starting-->
+		<%b_i = b_i + 1%>
+		 <%end%>
+		 <div style="clear:both;"></div>
+	      <!--span class="moreart fontval"><a href="http://blog.famtivity.com" target="_blank" title="" class="mrearttxt">More Articles</a></span-->
+	</div>
+	<div style="clear:both;"></div>
+</div>
+

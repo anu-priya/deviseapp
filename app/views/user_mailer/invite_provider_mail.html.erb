@@ -1,0 +1,40 @@
+<table cellpadding="0" cellpadding="0">
+            <tr>
+              <td style="padding:12px;">
+                <strong>Hello <%=@provider_name.capitalize if !@provider_name.nil?%>,</strong>
+		
+	      <!--if user type parent-->	
+	      <%if @utype_parent%>
+	      <p>This Email is to let you know that <%=@parent_name.capitalize%> has invited you to join Famtivity as a provider. Famtivityis a service that helps providers like you unlock your networks to reach a wider audience for your activities.Famtivity has a huge database of families and parents, ensuring that you will always find an audience for your activity!</p>
+                <%else%><!--if user type provider-->	
+	      
+		      <p><%=@parent_name.capitalize%> just invited you to join Famtivity! If you accept, we&rsquo;ll give them $<%=$dollar%> so they can purchase one of your activities.</p>
+		      <p>By singing up with Famtivity you get:</p>
+		      
+		      <table cellpadding="0" cellpadding="0" style="margin-left:10px;">
+			<tr>
+				<td height="30"><%= image_tag("http://www.famtivity.com/assets/landing_banner/selection.png", size:"12x12")%>
+				</td>
+				<td style="padding-left:6px;">FREE listings for all your activities</td>
+			</tr>
+			<tr>
+				<td height="30"><%= image_tag("http://www.famtivity.com/assets/landing_banner/selection.png", size:"12x12")%></td>
+				<td style="padding-left:6px;">FREE marketing and registration management tools</td>
+			</tr>
+			<tr>
+				<td height="30"><%= image_tag("http://www.famtivity.com/assets/landing_banner/selection.png", size:"12x12")%></td>
+				<td style="padding-left:6px;">SEEN by 1000&rsquo;s of local families</td>
+			</tr>
+		      </table>
+	       <%end%>
+	      
+	      <%if @utype_parent%>
+	      <p>Click on the link below to accept your invitation &amp; begin to become a provider for Famtivity</p>
+	      <%else%>
+                <p>Click the link below to accept your invitation and become a featured provider in our growing network.</p>
+	      <%end%>
+                <p><a href=<%=@i_url %> onclick= "_gaq.push(['_trackEvent', 'Parent Module', 'clickAttendActivity','Accept']);" ><%=@i_url  if !@i_url.nil?%></a></p>
+              </td>
+            </tr>
+</table>
+     <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;padding-top:20px;">Your Famtivity Team</p>

@@ -1,0 +1,35 @@
+<h1>Listing activity_comments</h1>
+
+<table>
+  <tr>
+    <th>Comment</th>
+    <th>Comment desc</th>
+    <th>Comment date</th>
+    <th>Activity</th>
+    <th>User</th>
+    <th>Inserted date</th>
+    <th>Modified date</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @activity_comments.each do |activity_comment| %>
+  <tr>
+    <td><%= activity_comment.comment_id %></td>
+    <td><%= activity_comment.comment_desc %></td>
+    <td><%= activity_comment.comment_date %></td>
+    <td><%= activity_comment.activity_id %></td>
+    <td><%= activity_comment.user_id %></td>
+    <td><%= activity_comment.inserted_date %></td>
+    <td><%= activity_comment.modified_date %></td>
+    <td><%= link_to 'Show', activity_comment %></td>
+    <td><%= link_to 'Edit', edit_activity_comment_path(activity_comment) %></td>
+    <td><%= link_to 'Destroy', activity_comment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Activity comment', new_activity_comment_path %>

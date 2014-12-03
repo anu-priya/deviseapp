@@ -1,0 +1,52 @@
+<table cellpadding="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+      <table cellpadding="0" cellpadding="0">
+        <tr>
+          <td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="50">Hi <%=@from_user.user_name%>,</td>
+        </tr>
+        <tr>
+          <!--td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="40">The Famtivity Network called "<%#=@network%>" and all of its content has been deleted. Please contact the original organizer of this network if you have any questions.</td-->
+	<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="40">This is to inform you that the Famtivity Network "<%=@network%>" has been deleted. Please contact the person who originally created it for further details. You can create your own network and invite friends to join anytime.</td>
+	</tr>
+        <tr>
+          <td height="10"></td>
+        </tr>
+	 <!--tr>
+          <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="40"> To create a new network, just click the link below!</td>
+        </tr>
+	<tr>
+          <td height="15"></td>
+        </tr-->
+        <tr>
+          <td align="left" valign="middle">
+            <a href="<%=@url%>" alt="loading..." title="" target="_blank" ><img src="<%=@image_path%>/assets/contact/create_fam_network_btn.png" width="193" height="34" alt="Accept" border="0"></a>&nbsp;&nbsp;
+          </td>
+        </tr>
+	
+	 <tr>
+	<td height="10"></td>
+	</tr>
+	<tr>
+		<td align="left">
+		 <img src="<%=@image_path%>/assets/fam_networks/sms_settings_icon.png" alt=""/> 
+			Go to <a href="<%=@image_path%>/parent_settings?mode=parent" title="" target="_blank" class="disInblo" style="color:#2B91AF;cursor:pointer;">Settings</a> to get these emails as SMS text messages!
+		 </td>
+	</tr>
+	     <tr>
+		<td height="10"></td>
+	    </tr>
+	
+        <tr>
+          <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="40">Have fun!</td>
+        </tr>
+        <tr>
+          <td><span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;">The Famtivity Team</span></td>
+        </tr>
+
+      </table>
+
+
+    </td>
+  </tr>
+</table>

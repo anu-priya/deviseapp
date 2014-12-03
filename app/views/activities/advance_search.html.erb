@@ -1,0 +1,449 @@
+<%=javascript_include_tag "event/event","event_index/menu","pagination"%>
+<style type="text/css">
+  body{
+    background:#f6f7f7;
+  }
+  .ui-datepicker {
+    display: none;
+    margin-top: -1px;
+    padding: 0.2em 0.2em 0;
+    width: 17em;
+  }
+</style>
+<script type="text/javascript">  
+  //filter by zipcode
+  function filter_user_zipcode(){
+    var zip_code = document.getElementById("zp").value;
+    window.location.href ="/event/event_index_update?cat_zc=zip&zip_code="+zip_code;  
+  }
+  
+ 
+  //this function called while click the enter button for search the data..
+  function enter_key_press_for_search(evt) {
+    var evt = (evt) ? evt : ((event) ? event : null);
+    var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+    if ((evt.keyCode == 13)  &&  (node.id=="advace_search"))  {
+      search_ajax_call();
+      // clearAutoCompleteInput();
+      return false;
+    }
+  }
+  document.onkeypress =  enter_key_press_for_search; //calling the function while press the enter key...
+  var count = 2;
+  var total = $("#total_length").val();
+  $(window).scroll(function(){
+    if  ($(window).scrollTop() == $(document).height() - $(window).height()){
+      if (count > total){
+        return false;
+      }else{
+        $("#load_more").css('display','block');
+        loadActivity(count);
+      }
+      count++;
+    }
+  });  
+  //calling for basic search while enter the text in search box.
+  function search_ajax_call()
+  {
+    var advace_search = $("#advace_search").val();
+	
+    $(".ad_textbox").css("border","1px solid #CDE0E6");
+	
+    var errorFlag = false;
+	
+    if(advace_search == "" || advace_search == "Search")
+    {
+      $(".ad_textbox").css("border","1px solid #fc8989");
+      var errorFlag = true;
+		
+    }
+    if(errorFlag){
+      return false;
+    }
+    else{
+      var event_search= $("#advace_search").val();
+      window.location.href ="/search?event_search="+event_search;
+      return true;
+    }
+
+  }
+  
+  //advanced search submit form
+  function submit_form()
+  {
+    document.forms['advanced_search_form'].submit();
+  }
+  
+  
+  //ajax advance search submit form
+     
+  //~ $('#advanced_search_form').submit(function (){
+  //~ alert('testtest');
+  //~ $.get($(this).attr('action'), $(this).serialize(), null, "script");
+  //~ return false;
+  //~ });
+	
+  function showCategory()
+  {
+    $(".advance_ChooseCategory").addClass("chooseCategorySelected");
+    $("#adv_category_detail").show();
+  }
+  function hideCategory()
+  {
+    $(".advance_ChooseCategory").removeClass("chooseCategorySelected");
+    $("#adv_category_detail").hide();
+  }
+  function showCity()
+  {
+    $(".adv_chooseCityMenu").addClass("cityselected");
+    $("#adv_city_detail").show();
+  }
+  function hideCity()
+  {
+    $(".adv_chooseCityMenu").removeClass("cityselected");
+    $("#adv_city_detail").hide();
+  }
+	
+  //advance search location on select color changed
+  function ddLocationColor(){
+    val_loc=$("#city_1").val();
+    if(val_loc=='')
+    {
+      $("#city_1").css('color','#999999');
+    }
+    else
+    {
+      $("#city_1").css('color','#444444');
+    }
+  }
+
+
+</script>
+
+
+
+<div class="clear"></div>
+<!--search result content form started-->
+<div id="search_result" style="margin-top:53px;">
+  <input type="hidden" id="url_ref_id">
+  <input type="hidden" id="passing_page" value="<%=request.fullpath%>">
+
+
+  <%= render "common/top_banner"%>
+
+  <%if !current_user.nil?%>
+    <%@available = "present" %>
+  <%else%>
+    <%@available = "p" %>
+  <%end%>
+
+
+  <!--////////////////////////////////Start new search  ////////////////////////////////////////////-->
+  <form id="advanced_search_update" action="/advance_search" name="advanced_search_update" method="get">
+    <div id="basic_Search">
+
+      <div id="search_outer" align="center">
+        <div id="bS_outer">
+
+          <div id="category" class="bS_menus">
+			category
+            <div class="drop_dwon" id="adv_category_detail">
+              <div style="height:275px; width:529px; overflow-y:scroll;overflow-x:hidden;">
+                <%sub=1%>
+                <input type="hidden" id="ad_sub_category_1" name="ad_sub_category" value=""/>
+                <%@accordion.each do |s|%>
+                  <%if !s.category.nil? && !s.nil? && s.category!=""%>
+                    <div class="Adv_categoryText"><%=s.category.capitalize if !s.category.nil?%></div>
+                  <%end%>
+                  <div class="clear"></div>
+                  <%@ac_sub = Activity.find(:all,:conditions=>["lower(category) = ?",s.category.downcase],:select =>"DISTINCT lower(trim(sub_category)) as sub_category").uniq if !s.nil? && !s.category.nil?%>
+                  <%if @ac_sub.present? && @ac_sub!="" && !@ac_sub.nil?%>
+                    <div class="Adv_CategoryStyle">
+                      <%@ac_sub.each do |st|%>
+                        <%if !st.sub_category.nil? && !st.nil? && st.sub_category!=""%>
+                          <div class="Adv_sub_category"><span><input type="checkbox" name="ad_cate_<%=sub%>" id="subCat_<%=sub%>" value="" class="checkbox" onClick="get_subCat_id('<%=sub%>','<%=  st.sub_category.capitalize if !st.sub_category.nil? && !st.nil? && st.sub_category!=""%>')"></span><span class="inner_text"><%=  st.sub_category.capitalize if !st.sub_category.nil? && !st.nil? && st.sub_category!=""%></span></div>
+                          <%sub=sub+1%>
+                        <%end%>
+                      <%end%>
+                    </div>
+                  <%end%>
+                <%end%>
+              </div>
+            </div>
+          </div>
+          <div id="age_range" class="bS_menus">
+            age range
+            <div class="drop_dwon" id="range_age">
+              <table width="270" border="0" align="left" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="86"  align="left" valign="top">
+                    <input type="hidden" value="" id="age_range7"/>
+                    <input type="hidden" value="" id="age_all"/>
+                    <input type="hidden" value="" id="age_r1"/>
+                    <input type="hidden" value="" id="age_r4"/>
+                    <input type="hidden" value="" id="age_r8"/>
+                    <span><input type="checkbox" name="aa_all" value="a_all" id="aa_all" class="checkbox" onClick="daterange_all_changes1()"/></span><span class="inner_text">All</span>
+                  </td>
+                </tr>
+                <td width="88"  align="left" valign="top">
+                  <span><input type="checkbox" name="aa_r1" value="0-3" id="aa_r1" class="checkbox1" onClick="date_range_changes1(1,this.value)"/></span><span class="inner_text">0 - 3</span>
+                </td>
+                <tr>
+                  <td width="96"  align="left" valign="top">
+                    <span><input type="checkbox" name="aa_r4" value="4-7" id="aa_r4" class="checkbox1" onClick="date_range_changes1(4,this.value)"/></span><span class="inner_text">4 - 7</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td  align="left" valign="top">
+                    <span><input type="checkbox" name="aa_r8" value="8-15" id="aa_r8" class="checkbox1" onClick="date_range_changes1(8,this.value)"/></span><span class="inner_text">8 +</span>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div id="start_D"class="bS_menus">
+			start date <input type="hidden" name="start_dates" id="start_dates" value=""/>
+			<input type="text" name="start_anand" id="start_anand" value=""/>
+            <div class="drop_dwon " id="date_start" >
+            </div>
+          </div>
+          <div id="end_D" class="bS_menus">
+			end date <input type="hidden" name="end_dates" id="end_dates" value=""/>
+            <div class="drop_dwon  " id="date_end" >
+            </div>
+          </div>
+          <div  id="day_W"class="bS_menus">
+			day of week
+            <div class="drop_dwon" id="d_week">
+              <input type="hidden" name="age_rangera" id="age_rangera" value=""/>
+              <table cellpadding="0" cellspacing="0" border="0" width="270">
+                <tr>
+                  <td width="83"  align="left" valign="top">
+                    <span><input type="checkbox" name="day_of_week_1" value="Mon" id="activity_all" class="checkbox2"/></span><span class="inner_text">Monday</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="74"  align="left" valign="top">
+                    <span><input type="checkbox" name="day_of_week_2" value="Tue" id="a_schedule" class="checkbox2"/></span><span class="inner_text">Tuesday</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="113"  align="left" valign="top">
+                    <span><input type="checkbox" name="day_of_week_3" value="Wed" id="activity_all" class="checkbox2"/></span><span class="inner_text">Wednesday</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td  align="left" valign="top">
+                    <span><input type="checkbox" name="day_of_week_4" value="Thu" id="a_schedule" class="checkbox2"/></span><span class="inner_text">Thursday</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td  align="left" valign="top">
+                    <span><input type="checkbox" name="day_of_week_5" value="Fri" id="activity_all" class="checkbox2"/></span><span class="inner_text">Friday</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td  align="left" valign="top">
+                    <span><input type="checkbox" name="day_of_week_6" value="Sat" id="a_schedule" class="checkbox2"/></span><span class="inner_text">Saturday</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td  align="left" valign="top">
+                    <span><input type="checkbox" name="day_of_week_7" value="Sun" id="activity_all" class="checkbox2"/></span><span class="inner_text">Sunday</span>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div id="gend_r" class="bS_menus">
+			gender
+            <div class="drop_dwon" id="gender">
+              <table border="0" cellpadding="0" cellspacing="0" width="129">
+                <tr>
+                  <td  align="left" valign="top">
+                    <span><input type="radio" name="gender" id="sex_all" value="g_all" class="checkbox"/></span><span class="inner_text">All</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td  align="left" valign="top">
+                    <span><input type="radio" name="gender" id="sex_male" value="Male" class="checkbox"/></span><span class="inner_text">Male</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td  align="left" valign="top">
+                    <span><input type="radio" name="gender" id="sex_female" value="Female" class="checkbox"/></span><span class="inner_text">Female</span>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="bS_menu" id="zip_code"  >
+            <!--<span id="zip_enter">Enter Zipcode</span>--><span id="zip_value" style="display: inline-block;"> <input type="text" id="zip_values" value="Enter Zip Code" name="zip_value" size="10" style = "color:#999999;"></span>&nbsp;(or)
+          </div>
+          <input type="hidden" id="city_search" value="" name="city_search"/>
+          <div class="bS_menus" id="city_choose">
+			Choose city
+            <div class="drop_dwon" id="chose_city">
+              <div style="width:500px;"><% @fam_city = City.order(:city_name)%><% if !@fam_city.nil? && @fam_city!='' && @fam_city.present? %><%@ci = 1 %><%@fam_city.each do |cit|%><div class="cityText" onclick="city_search('<%=cit.city_name%>')"><%=cit.city_name%></div><%@ci = @ci+1 %><%end%><%end%></div>
+
+            </div>
+          </div>
+          <div id="Price"class="bS_menus">
+	price
+            <input type="hidden" name="age_range71_8"  id="age_range71_8" value=""/>
+            <div class="drop_dwon" id="chose_price">
+              <table border="0" cellpadding="0" cellspacing="0" width="129">
+                <tr>
+                  <td  align="left" valign="top">
+                    <input type="hidden" value="" id="price_range"/>
+                    <span><input type="checkbox" name="p_all" value="p_all" id="price_all" class="checkbox" onClick="price_all_changes()"/></span><span class="inner_text">All</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td  align="left" valign="top">
+                    <span><input type="checkbox" name="a_f" value="free" id="price_free" class="checkbox3" onClick="price_range_changes()"/></span><span class="inner_text">Free</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td  align="left" valign="top">
+                    <span><input type="checkbox" name="paid" value="paid" id="price_paid" class="checkbox3" onClick="price_range_changes()"/></span><span class="inner_text">Paid</span>
+                  </td>
+                </tr>
+              </table>
+
+            </div>
+
+            <!--  <span id="price_enter">price</span><span id="price_value" style="display: none"> <input type="text" id="price_values" value="" name="price_value" size="10"></span>-->
+          </div>
+          <div id="submit"class="bS_menu">
+            <input type="button" name="search" id="search_button" value="search" onClick="advance_search_update()" />
+          </div>
+        </div>
+      </div>
+      <div id="close_search">
+        <%=image_tag("/assets/search/close_icon.png", :width=>"14", :height=>"14")%>
+      </div>
+    </div>
+  </form>
+
+
+  <!--////////////////////////////////End of new search  ////////////////////////////////////////////-->
+</div>
+<div>
+  <div class="dottedDiv" style="position:relative;"></div>
+  <div class="lt">
+    <table cellspacing="0" cellpadding="0" border="0" class="search_result_text">
+      <tr>
+        <td align="left" valign="top">
+          <%=image_tag("/assets/landing/search_results_icon.png", :width=>"20", :height=>"18", :alt=>"Search Results")%>
+        </td>
+        <td  align="left" valign="top">
+          <div class="Title_head" ><b>Search Results</b> <span id="fsearch_count">(<% if !@search_count.nil? && @search_count.present?%><%=@search_count%><%else%>0<%end%>)</span><span id="fadvance_search_count"></span></div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="right_container" style="margin-top: 15px;">
+  <%= render "basic_search"%>
+
+</div>
+
+<div id="load_more" style="height:50px;background: #fff;bottom:30px;width: 100%;position: fixed; display: none;opacity: 0.6;" align="center">
+  <div><%=image_tag("/assets/loading_new.gif", :width=>"52", :height=>"52")%></div>
+
+</div>
+
+
+<!-- login feature popup start -->
+<div id="login_use_feature">
+  <div class="content_popup" style="display:block;"><br>You need to login to use this feature<br><br>
+    <span class="b-close" id="loginFeature"><a href="javascript:void(0)" title=""><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38", :style=>"border:0px;")%></a></span>
+    <a href="javascript:void(0);" title=""><span class="b-close"><%=image_tag("/assets/landing/cancel_button.png", :width=>"101", :height=>"35", :style=>"border:0px;")%></span></a>
+  </div>
+</div>
+<!-- login feature popup end -->
+
+<div class="clear"></div>
+<div id="popup_container" style="top: 20px !important;"></div>
+<input type="hidden" id="total_length" value="<%= @tpage %>"/>
+
+
+<script type="text/javascript">
+<% if !@s_index.nil? && @s_index.present? %>
+    $(document).ready( function(){
+      parent_advancesearch();
+    });
+<%end%>
+  $("#search_value").val('<%= params[:ad_search_value] %>');
+<%if params[:ad_sub_category_id]%>
+  <%sub_cat_id = params[:ad_sub_category_id].split(",")%>
+  <%sub_cat_id.each do |s|%>
+      $("#subCat_"+"<%=  s%>").attr('checked', true);
+  <%end%>
+<%end%>
+
+<%if params[:camp_range7] == "specials"%>
+    $("#camp_range7").val("specials");
+    $('input[name=a_r1]').attr('checked', true);
+<%end%>
+<%if params[:camp_range7] == "camp"%>
+    $("#camp_range7").val("camp");
+    $('input[name=a_r4]').attr('checked', true);
+<%end%>
+<%if params[:camp_range7] == "All"%>
+    $('input[name=a_r1]').attr('checked', true);
+    $('input[name=a_r4]').attr('checked', true);
+    $('input[name=a_all]').attr('checked', true);
+    $("#camp_range7").val("All");
+<%end%>
+<%  if params[:p_all]== "p_all"%>
+    $('input[name=a_f]').attr('checked', true);
+    $('input[name=paid]').attr('checked', true);
+    $("#price_range").val("All");
+<%else%>
+  <%if params[:a_f] == "free"%>
+      $('input[name=a_f]').attr('checked', true);
+  <%end%>
+  <%if params[:paid]== "paid"%>
+      $('input[name=paid]').attr('checked', true);
+  <%end%>
+<%end%>
+<%if params[:aa_all] =="a_all"%>
+    $('input[name=aa_r1]').attr('checked', true);
+    $('input[name=aa_r4]').attr('checked', true);
+    $('input[name=aa_r8]').attr('checked', true);
+    $('input[name=aa_all]').attr('checked', true);
+    $("#age_range7").val("All");
+<%else%>
+  <%if params[:aa_r1] == "0-3"%>
+      $('input[name=aa_r1]').attr('checked', true);
+  <%end%>
+  <% if params[:aa_r4] == "4-7"%>
+      $('input[name=aa_r4]').attr('checked', true);
+  <%end%>
+  <%if params[:aa_r8] == "8-15"%>
+      $('input[name=aa_r8]').attr('checked', true);
+  <%end%>
+<%end%>
+<%if params[:gender] == "g_all"%>
+    $('#sex_all').attr('checked', true);
+<%end%>
+<%if params[:gender] == "Male"%>
+    $('#sex_male').attr('checked', true);
+<%end%>
+<%if params[:gender] == "Female"%>
+    $('#sex_female').attr('checked', true);
+<%end%>
+<%if params[:zip_value]%>
+    $("#zip_values").val('<%= params[:zip_value] %>');
+<%end%>
+
+
+
+</script>
+<style type="" >
+  .autocomplete-suggestions { top:154px;}
+
+</style>

@@ -1,0 +1,631 @@
+<%=stylesheet_link_tag "register_new/provider_register_pop","global/pop_up","register_new/register_pop","checkout/checkout","create_new_activity_new/create_new_activity", :media => "all"%>
+<%=javascript_include_tag "checkout/proceed_checkout", "create_new_activity_new/validate","checkout/jquery.selectbox-0.6.1","jquery.form"%>
+
+<script type="text/javascript">
+
+//var flag=1;
+//  $(parent.window.document).click(function(){
+//    if(flag==1){
+//      parent.ProvidersellPage.hide();
+//      flag=2;
+//    }
+//  });
+//  function closepopup() {
+//    parent.ProvidersellPage.hide();
+//    flag=2;
+//  }
+
+$(document).ready(function(){
+
+  dispYear(1);
+
+
+});
+
+$('body').click(function(){
+    //dropDown_new();
+    //dropDown_repeat();
+
+});
+
+
+function close_popup()
+{
+     $("#checkout_provider").css("display","none");
+     $("#sponsorBankDiv").show();
+
+}
+
+
+
+ //set automatically go to next textbox 
+ 
+function movetoNext(current, nextFieldID) {
+	if (current.value.length >= current.maxLength) {
+	document.getElementById(nextFieldID).focus();
+	}
+}
+
+
+//set year for payment dropdowm
+
+function dispYear(value){
+    var y='';
+    var i=0;
+    var curTime=new Date();
+    var year = curTime.getFullYear();
+  //alert(year);
+    var cyear = parseInt(year);
+  var eyear=parseInt(year)+10;
+    for(i=cyear;i<eyear;i++){
+        y+='<a href="#" onclick="setYearValPay('+i+','+value+')" title="">'+i+'</a>';
+    }
+    $(".dropDownDiv_small_"+value).html(y);
+}
+
+function setYearValPay(yvalue,value){
+    $('#year_card_'+value).val(yvalue);
+    $('#field2_'+value).html(yvalue);
+  $('#field2_'+value).css("color","#444444");
+}
+
+
+
+</script>
+
+
+<div id="new_act_container">
+  <div class="ProviderCenterContent1" style="margin: 0 auto; margin-top:20px;" id ="sell_plan">
+      <!--form id="card_checkout" name="card_checkout" action="/user_profiles/up_sell" method="post"  onsubmit="return validateCardActivity();"-->
+      <form id="card_checkout" name="card_checkout" action="/upgradePlan" method="post"  onsubmit="return validateCardActivity();">
+	<%if !current_user.nil? && current_user.user_transaction.nil?%>
+		<!--credit card details started-->
+		<div id="sellcreditcardDiv">
+		<%= render :partial =>'upgrade_credit_card_info' %>
+		<div class="clear"></div>
+		</div>
+		<!--credit card details ended-->
+	<%end%>
+	
+	<div id="sponsorBankDiv" <%if !current_user.nil? && !current_user.user_transaction.nil?%>style="display:block;"<%else%>style="display:none;"<%end%>>
+	 <%if !current_user.nil? && current_user.user_bank_detail.nil?%>  
+	<!--bank details started-->
+	
+	<%= render :partial =>'pop_provider_sell_payment_details' %>
+
+	<!--bank details ended-->
+	<%end%>
+	<div class="clear"></div>
+	</div>
+    </form>
+  </div>
+ </div>
+
+
+<script type="text/javascript">
+
+  /** Validating checkout Card form **/
+  function validateCardActivity(){
+
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+
+      
+    var first_name = $("#first_name").val();
+    var last_name = $("#last_name").val();
+    var date_card= $("#date_card").val();
+    var year_card= $("#year_card").val();
+    var add_1 = $("#add_1").val();
+    var add_2 = $("#add_2").val();
+    var city = $("#chkout_city").val();
+    var zip_code = $("#zip_code_chkout").val();
+    var state = $("#chkout_state").val();
+    var country = $("#chkout_country").val();
+    var phone_no=$("#phone_no").val();
+    //var email = $("#email").val();
+    var cardnumber_1 = $("#cardnumber_1").val();
+    var cardnumber_2 = $("#cardnumber_2").val();
+    var cardnumber_3 = $("#cardnumber_3").val();
+    var cardnumber_4 = $("#cardnumber_4").val();
+    var cardnumber_5 = $("#cardnumber_5").val();
+
+    $("#add_1").css("border","1px solid #CDE0E6");
+    $("#add_2").css("border","1px solid #CDE0E6");
+    $("#chkout_city").css("border","1px solid #CDE0E6");
+    $("#zip_code_chkout").css("border","1px solid #CDE0E6");
+    $(".selectBoxMedium").css("border","none");
+    $("#phone_no").css("border","1px solid #CDE0E6");
+    $("#email").css("border","1px solid #CDE0E6");
+    $("#cardnumber_1").css("border","1px solid #CDE0E6");
+    $("#cardnumber_2").css("border","1px solid #CDE0E6");
+    $("#cardnumber_3").css("border","1px solid #CDE0E6");
+    $("#cardnumber_4").css("border","1px solid #CDE0E6");
+    $("#cardnumber_5").css("border","1px solid #CDE0E6");
+    $("#Country_border").css("border","none");
+    $("#State_border").css("border","none");
+    $("#City_border").css("border","none");
+    $("#date_border").css("border","none");
+    $("#year_border").css("border","none");
+    $("#selectpayment").css("border","none");
+
+    first_name = first_name.replace(/^\s+|\s+$/g, "");
+    last_name = last_name.replace(/^\s+|\s+$/g, "");
+    phone_no = phone_no.replace(/^\s+|\s+$/g, "");
+   // email = email.replace(/^\s+|\s+$/g, "");
+    cardnumber_1 = cardnumber_1.replace(/^\s+|\s+$/g, "");
+    cardnumber_2 = cardnumber_2.replace(/^\s+|\s+$/g, "");
+    cardnumber_3 = cardnumber_3.replace(/^\s+|\s+$/g, "");
+    cardnumber_4 = cardnumber_4.replace(/^\s+|\s+$/g, "");
+    cardnumber_5 = cardnumber_5.replace(/^\s+|\s+$/g, "");
+
+
+
+
+
+    $("#first_name_card_error").html("");
+    $("#last_name_card_error").html("");
+    $("#year_date_error").html("");
+    $("#venue_error").html("");
+    $("#city_error_spo").html("");
+    $("#zip_code_error").html("");
+    $("#state_error").html("");
+    $("#country_error").html("");
+    $("#phone_error").html("");
+    $("#email_error").html("");
+    $("#card_number_error").html("");
+    $("#cvc_error").html("");
+
+
+    $("#first_name_card_error").parent().parent().css("display","none");
+    $("#last_name_card_error").parent().parent().css("display","none");
+    $("#venue_error").parent().css("display","none");
+    $("#phone_error").parent().css("display","none");
+    $("#email_error").parent().css("display","none");
+	$("#card_number_error").parent().css("display","none");
+    $("#card_number_error").parent().parent().css("display","none");
+	//$("#card_number_error").parent().parent().parent().css("display","none");
+    $("#year_date_error").parent().parent().css("display","none");
+    $("#cvc_error").parent().parent().css("display","none");
+    $("#cvc_error").parent().css("display","none");
+    $("#city_error_spo").parent().css("display","none");
+    $("#city_error_spo").parent().parent().css("display","none");
+    $("#zipcode_error").parent().css("display","none");
+    $("#zipcode_error").parent().parent().css("display","none");
+    $("#country_error").parent().parent().css("display","none");
+    $("#state_error_spo").parent().parent().css("display","none");
+
+    var errorFlag = false;
+
+
+
+    if (first_name =="First Name" || first_name == "" ){
+      $("#first_name").css("border","1px solid #fc8989");
+      $("#first_name_card_error").html("Please enter first name");
+      $("#first_last_error").css("display","block");
+      errorFlag = true;
+    }
+   else if(!validateName(first_name)){
+      $("#first_name").css("border","1px solid #fc8989");
+      $("#first_name_card_error").html("Please Use Only Alphabets");
+      $("#first_last_error").css("display","block");
+      errorFlag = true;
+    }
+   if (last_name =="Last Name" || last_name == "" ){
+      $("#last_name").css("border","1px solid #fc8989");
+      $("#last_name_card_error").html("Please enter last name");
+      $("#last_name_card_error").parent().parent().css("display","block");
+      errorFlag = true;
+    }
+  else if (!validateName(last_name)){
+      $("#last_name").css("border","1px solid #fc8989");
+      $("#last_name_card_error").html("Please Use Only Alphabets");
+      $("#last_name_card_error").parent().parent().css("display","block");
+      errorFlag = true;
+    }
+    if (cardnumber_1 ==""){
+      $("#cardnumber_1").css("border","1px solid #fc8989");
+      $("#card_number_error").html("Please enter card number");
+	   $("#card_number_error").parent().css("display","block");
+      $("#card_number_error").parent().parent().css("display","block");
+	  $("#card_number_error").parent().parent().parent().css("display","block");
+      $("#card_number_error").css("display","block");
+      errorFlag = true;
+    }
+
+    else if (isNaN(cardnumber_1)){
+      $("#cardnumber_1").css("border","1px solid #fc8989");
+      $("#card_number_error").html("Please enter card number");
+      $("#card_number_error").parent().css("display","block");
+      $("#card_number_error").parent().parent().css("display","block");
+	  $("#card_number_error").parent().parent().parent().css("display","block");
+      $("#card_number_error").css("display","block");
+      errorFlag = true;
+    }
+
+     if (cardnumber_2 =="" ){
+      $("#cardnumber_2").css("border","1px solid #fc8989");
+      $("#card_number_error").html("Please enter card number");
+      $("#card_number_error").parent().css("display","block");
+      $("#card_number_error").parent().parent().css("display","block");
+	  $("#card_number_error").parent().parent().parent().css("display","block");
+      $("#card_number_error").css("display","block");
+      errorFlag = true;
+    }
+    else if (isNaN(cardnumber_2)){
+      $("#cardnumber_2").css("border","1px solid #fc8989");
+      $("#card_number_error").html("Please enter card number");
+      $("#card_number_error").parent().css("display","block");
+      $("#card_number_error").parent().parent().css("display","block");
+	  $("#card_number_error").parent().parent().parent().css("display","block");
+      $("#card_number_error").css("display","block");
+      errorFlag = true;
+    }
+
+    if (cardnumber_3 =="" ){
+      $("#cardnumber_3").css("border","1px solid #fc8989");
+      $("#card_number_error").html("Please enter card number");
+      $("#card_number_error").parent().parent().css("display","block");
+	  $("#card_number_error").parent().parent().parent().css("display","block");
+      $("#card_number_error").parent().css("display","block");
+      $("#card_number_error").css("display","block");
+      errorFlag = true;
+    }
+    else if (isNaN(cardnumber_3)){
+      $("#cardnumber_3").css("border","1px solid #fc8989");
+      $("#card_number_error").html("Please enter card number");
+      $("#card_number_error").parent().parent().css("display","block");
+	  $("#card_number_error").parent().parent().parent().css("display","block");
+      $("#card_number_error").parent().css("display","block");
+      $("#card_number_error").css("display","block");
+      errorFlag = true;
+    }
+    if (cardnumber_4 ==""){
+      $("#cardnumber_4").css("border","1px solid #fc8989");
+      $("#card_number_error").html("Please enter card number");
+      $("#card_number_error").parent().parent().css("display","block");
+	  $("#card_number_error").parent().parent().parent().css("display","block");
+      $("#card_number_error").parent().css("display","block");
+      $("#card_number_error").css("display","block");
+      errorFlag = true;
+    }
+    else if (isNaN(cardnumber_4)){
+      $("#cardnumber_4").css("border","1px solid #fc8989");
+      $("#card_number_error").html("Please enter card number");
+      $("#card_number_error").parent().parent().css("display","block");
+	  $("#card_number_error").parent().parent().parent().css("display","block");
+      $("#card_number_error").parent().css("display","block");
+      $("#card_number_error").css("display","block");
+      errorFlag = true;
+    }
+    if (cardnumber_5 ==""){
+      $("#cardnumber_5").css("border","1px solid #fc8989");
+      $("#cvc_error").html("Please enter number");
+      $("#cvc_error").parent().css("display","block");
+      $("#cvc_error").parent().parent().css("display","block");
+      $("#date_year").css("display","block");
+      $("#cvc_error").css("display","block");
+      errorFlag = true;
+    }
+    else if (isNaN(cardnumber_5)){
+      $("#cardnumber_5").css("border","1px solid #fc8989");
+      $("#cvc_error").html("Please enter number");
+      $("#cvc_error").parent().css("display","block");
+      $("#cvc_error").parent().parent().css("display","block");
+      $("#date_year").css("display","block");
+      $("#cvc_error").css("display","block");
+      errorFlag = true;
+    }
+	
+    if (date_card =="Select" || date_card ==""|| year_card =="Select" || year_card ==""){
+      $("#date_border").css("border","1px solid #fc8989");
+      $("#year_border").css("border","1px solid #fc8989");
+      $("#year_date_error").html("Please select date and year");
+      $("#year_date_error").parent().css("display","block");
+      $("#year_date_error").css("display","block");
+      errorFlag = true;
+    }	
+	
+   add_1 = add_1.replace(/^\s+|\s+$/g, "");
+    if(add_1 == "" || add_1 == "Address Line1"){
+      $("#add_1").css("border","1px solid #fc8989");
+      $("#venue_error").html("Please enter the venue details");
+      $("#venue_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    add_2 = add_2.replace(/^\s+|\s+$/g, "");
+    if(add_2 == "" || add_2 == "Address Line2"){
+      $("#add_2").css("border","1px solid #fc8989");
+      $("#venue_error").html("Please enter the billing address details");
+      $("#venue_error").parent().css("display","block");
+      errorFlag = true;
+    }
+	
+   if(country == "--Choose Country--" || country == "" ){
+      $("#Country_border").css("border","1px solid #fc8989");
+      $("#country_error").html("Please select the country");
+      $("#country_state").css("display","block");
+      errorFlag = true;
+    }
+
+    if(state == "--Choose State--" || state == "" ){
+      $("#State_border").css("border","1px solid #fc8989");
+      $("#state_error_spo").html("Please select the state");
+      $("#state_error_spo").parent().parent().css("display","block");
+      errorFlag = true;
+    }	
+	
+    if(city == "--Choose City--" || city == "" ){
+      $("#City_border").css("border","1px solid #fc8989");
+      $("#city_error_spo").html("Please select the city");
+      $("#city_error_spo").parent().css("display","block");
+      $("#city_error_spo").parent().parent().css("display","block");
+      $("#city_error_spo").css("display","block");
+      errorFlag = true;
+    }
+	
+	zip_code = zip_code.replace(/^\s+|\s+$/g, "");
+    if(zip_code == "" || zip_code == "Enter Zip Code" ){
+
+      $("#zip_code_chkout").css("border","1px solid #fc8989");
+      $("#zipcode_error").html("Please enter the Zipcode");
+      $("#zipcode_error").parent().css("display","block");
+      $("#zipcode_error").parent().parent().css("display","block");
+      $("#zipcode_error").css("display","block");
+      errorFlag = true;
+    }
+
+    else if(isNaN(zip_code)){
+      $("#zip_code_chkout").css("border","1px solid #fc8989");
+      $("#zipcode_error").html("Please enter number");
+      $("#zipcode_error").parent().css("display","block");
+      $("#zipcode_error").parent().parent().css("display","block");
+      $("#zipcode_error").css("display","block");
+      errorFlag = true;
+    }
+
+
+    if(phone_no == "" || phone_no == "Enter Phone Number"){
+      $("#phone_no").css("border","1px solid #fc8989");
+      $("#phone_error").html("Please enter the contact number");
+      $("#phone_error").parent().css("display","block");
+      errorFlag = true;
+    }
+
+    else if(isNaN(phone_no)){
+      $("#phone_no").css("border","1px solid #fc8989");
+      $("#phone_error").html("Please enter the number");
+      $("#phone_error").parent().css("display","block");
+      errorFlag = true;
+    }
+
+   /* if(email == ""){
+      $("#email").css("border","1px solid #fc8989");
+      $("#email_error").html("Please enter your email address");
+      $("#email_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    else if(email){
+      if(email.length<10){
+        $("#email").css("border","1px solid #fc8989");
+        $("#email_error").html("Please enter the email address having minimum of 10 characters");
+        $("#email_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(!validateCorrectEmail(email)){
+        $("#email").css("border","1px solid #fc8989");
+        $("#email_error").html("Please enter a valid email address");
+        $("#email_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(!validateDot(email)){
+        $("#email").css("border","1px solid #fc8989");
+        $("#email_error").html("Please enter a valid email address");
+        $("#email_error").parent().css("display","block");
+        errorFlag = true;
+      }
+    }	*/
+    if(errorFlag){
+      var body = document.body,
+      html = document.documentElement;
+      var height = Math.max( body.scrollHeight, body.offsetHeight,
+      html.clientHeight, html.scrollHeight, html.offsetHeight );
+      $('.drag-contentarea', window.parent.document).css("height",height+"px");
+
+      return false;
+    }
+    else{
+    //$('.loading_image').show();
+   // $("#card_checkout").ajaxSubmit({ 
+   //    target: '#sell_plan',
+    //   success: afterSuccess
+   //   });
+
+      $('.loadingmessage').hide();
+      $("#checkout_provider").css("display","none");
+      $("#sponsorBankDiv").show();
+         /*   $("#Img3").attr("src","/assets/provider_register/step_3inactive.png");
+            $("#payment_text").css("font-weight","bold");
+            $("#Img3").attr("src","/assets/provider_register/step_2active.png");
+            $("#plan_text").css("font-weight","normal");  */
+      return false;
+
+      //return true;
+    }
+
+  }
+  function validateDot(elementValue) {
+    var emailSplitat = elementValue.split("@");
+    var emailSplitdotf = emailSplitat[0].split(".");
+    var emailSplitdotl = emailSplitat[1].split(".");
+
+    if(emailSplitat[0].length<4){
+      return false;
+    }
+
+    if(emailSplitdotf.length>3){
+      return false;
+    }
+    if(emailSplitdotf.length<3){
+      var filter = /[^a-z/g]+/gi;
+      var filter1 = /^[0-9]+$/;
+      if(filter.test( emailSplitdotf) && filter1.test( emailSplitdotf)){
+        return false;
+      }
+    }
+    if(emailSplitdotl.length>1){
+      var prev = emailSplitdotl[0];
+      var curr = emailSplitdotl[1];
+      for(var i=1;i<emailSplitdotl.length;i++){
+        if(prev == curr ){
+          return false;
+        }
+        prev = curr;
+        curr = 	emailSplitdotl[i+1];
+      }
+    }
+    if(emailSplitdotl.length>3){
+      return false;
+    }
+    return true;
+  }
+
+function validateName(elementValue){
+    var alphaExp = /^[a-zA-Z ]*$/;
+    return alphaExp.test(elementValue);
+}
+
+
+  function CancelSponsorKeyDown(){
+
+    $("#payment_method").val('Select');
+    $("#CardholderName").val('Enter Cardhoder Name');
+    $("#first_name").val('First Name');
+	$("#first_name").css("color","#999999");
+    $("#last_name").val('Last Name');
+	$("#last_name").css("color","#999999");
+    $("#date_card").val('Select');
+	$("#date_card").css("color","#999999");
+    $("#field_date").html('Select');
+	$("#field_date").css("color","#999999");
+    $("#field2").html('Select');
+	$("#field2").css("color","#999999");
+    $("#field3").html('--Choose City--');
+	$("#field3").css("color","#999999");
+    $("#field4").html('--Choose Country--');
+	$("#field4").css("color","#999999");
+    $("#field5").html('--Choose State--');
+	$("#field5").css("color","#999999");
+    $("#year_card_1").val('Select');
+	$("#year_card_1").css("color","#999999");
+	$('#field2_1').html('Select');
+	$('#field2_1').css("color","#999999");
+    $("#add_1").val('Address Line1');
+    $("#add_2").val('Address Line2');
+	$("#add_1").css("color","#999999");
+	$("#add_2").css("color","#999999");
+    $("#chkout_city").val('--Choose City--');
+    $("#zip_code_chkout").val('Enter Zip Code');
+	$("#zip_code_chkout").css("color","#999999");
+    $("#chkout_state").val('--Choose State--');
+    $("#chkout_state").html('')
+    $("#chkout_country").val('--Choose Country--');
+    $("#phone_no").val('Enter Phone Number');
+	$("#phone_no").css("color","#999999");
+    $("#email").val('');
+    $("#cardnumber_1").val('');
+    $("#cardnumber_2").val('');
+    $("#cardnumber_3").val('');
+    $("#cardnumber_4").val('');
+    $("#cardnumber_5").val('');
+
+    $(".selectBoxCity1").css("border","none");
+    $("#CardholderName").css("border","1px solid #CDE0E6");
+    $("#first_name").css("border","1px solid #CDE0E6");
+    $("#last_name").css("border","1px solid #CDE0E6");
+    $("#CardholderName").css("border","1px solid #CDE0E6");
+    $("#add_1").css("border","1px solid #CDE0E6");
+    $("#add_2").css("border","1px solid #CDE0E6");
+    $("#chkout_city").css("border","1px solid #CDE0E6");
+    $("#zip_code_chkout").css("border","1px solid #CDE0E6");
+    $(".selectBoxMedium").css("border","none");
+    $("#phone_no").css("border","1px solid #CDE0E6");
+    $("#email").css("border","1px solid #CDE0E6");
+    $("#cardnumber_1").css("border","1px solid #CDE0E6");
+    $("#cardnumber_2").css("border","1px solid #CDE0E6");
+    $("#cardnumber_3").css("border","1px solid #CDE0E6");
+    $("#cardnumber_4").css("border","1px solid #CDE0E6");
+    $("#cardnumber_5").css("border","1px solid #CDE0E6");
+    $("#Country_border").css("border","none");
+    $("#State_border").css("border","none");
+    $("#City_border").css("border","none");
+    $("#date_border").css("border","none");
+    $("#year_border").css("border","none");
+
+    $("#payment_method_error").html("");
+    $("#card_holder_error").html("");
+    $("#first_name_card_error").html("");
+    $("#last_name_card_error").html("");
+    $("#year_date_error").html("");
+    $("#venue_error").html("");
+    $("#city_error_spo").html("");
+    $("#zipcode_error").html("");
+    $("#state_error_spo").html("");
+    $("#country_error").html("");
+    $("#phone_error").html("");
+    $("#email_error").html("");
+    $("#card_number_error").html("");
+    $("#cvc_error").html("");
+
+
+    $("#payment_method_error").parent().css("display","none");
+    $("#card_holder_error").parent().css("display","none");
+    $("#first_name_card_error").parent().parent().css("display","none");
+    $("#last_name_card_error").parent().parent().css("display","none");
+    $("#venue_error").parent().css("display","none");
+    $("#phone_error").parent().css("display","none");
+    $("#email_error").parent().css("display","none");
+    $("#card_number_error").parent().parent().css("display","none");
+    $("#year_date_error").parent().parent().css("display","none");
+    $("#cvc_error").parent().parent().css("display","none");
+    $("#cvc_error").parent().css("display","none");
+    $("#city_error").parent().css("display","none");
+    $("#city_error_spo").parent().parent().css("display","none");
+    $("#zipcode_error").parent().css("display","none");
+    $("#zipcode_error").parent().parent().css("display","none");
+    $("#country_error").parent().parent().css("display","none");
+    $("#state_error_spo").parent().parent().css("display","none");
+
+  }
+  /***********display Popup***********/
+
+  function dispCheck_pop(){
+    //alert("test");
+    $('#repeatPOPUPDiv_1').css('display','block');
+		
+    //cancelRepeatDiv();
+  }
+
+  function closeRepeatDiv(){
+    $('#repeatPOPUPDiv_1').css('display','none');
+  }
+
+</script>
+
+<!--ajax loader -->
+<div class='loading_image' style='display:none;' align="center">
+  <%= image_tag("/assets/loading.gif")%>
+</div>
+<style>
+  .loading_image{
+    height: 50px;
+    width: 50px;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 25%;
+    margin: -25px 0 0 -25px;
+  }
+</style>

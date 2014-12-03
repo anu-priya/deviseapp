@@ -1,0 +1,699 @@
+<%=stylesheet_link_tag "admin/admin","event_index/event_index","event/event","event_index/menu","global/overlay/windowfiles/dhtmlwindow","global/overlay/modalfiles/modal", :media => "all"%>
+<%=javascript_include_tag "global/checkbox","event_more/event_more", "event_index/event_index","event_index/menu","event/provider_list_update","global/overlay/windowfiles/dhtmlwindow","global/overlay/modalfiles/modal","pagination","admin/admin"%>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    selectAny();
+  });
+   $(window).load(function(){
+    var w_height=$( window ).height();
+    var list_height=w_height-375;
+     $("#provider_partial_event_list").css("height",list_height+"px");
+ });
+</script>
+<script type="text/javascript">
+
+  var editdiscountPage;
+  var deletediscountPage;
+
+
+
+
+  function pop_edit_discount(url){
+    editdiscountPage = dhtmlmodal.open("Edit discount","iframe",url," ", "width=950px,height=500px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+  
+  function clear_date(id){
+    //$.datepicker._myClearDate('#date_start');
+    var currentDate = new Date();
+    $("#"+id).datepicker("setDate",currentDate);
+    if(id=='date_start')
+    {
+      $("#start_dates_formate").text("Start date");
+      $("#date_start").val('');
+    }
+    else if(id=='date_end')
+    {
+      $("#end_dates_formate").text("End date");
+      $("#end_dates").val('');
+    }
+  }
+ 
+
+  function before_discount_delete(url){
+    deletediscountPage = dhtmlmodal.open("Delete discount code","iframe",url," ", "width=900px,height=500px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+
+  function ndisp_provider(){
+    $("#providers").css('display','none');
+  }
+
+  //show raise flag popup
+  function showPop(num,val){
+    if(val == num){
+      $('#raise_popup_'+val).css("display","block");
+    }
+    else{
+      $('#raise_popup_'+val).css("display","none");
+    }
+  }
+
+  function keypress(e) {
+    var evt = (evt) ? evt : ((event) ? event : null);
+    var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+    if ((evt.keyCode == 13)  &&  (node.id=="event_search"))  {
+      admin_search_ajax_call();
+      return false;
+    }
+    // other stuff
+  }
+  //this function called while click the enter button for search the data..
+  function enter_key_press_for_search(evt) {
+    var evt = (evt) ? evt : ((event) ? event : null);
+    var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+    if ((evt.keyCode == 13)  &&  (node.id=="event_search"))  {
+      admin_search_ajax_call();
+      return false;
+    }
+  }
+  document.onkeypress =  enter_key_press_for_search; //calling the function while press the enter key...
+
+</script>
+<style>
+  #providerEventList{
+    background:#F6F8F7;
+  }
+  #providerEventList .topContainer .leftMenus{
+    /* width:100%;*/
+  }
+  #providerEventList .topContainer span.num_Act{
+    color: #807E7E;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    position: relative;
+    top: 0px;
+    left:6px;
+    .top: 2px;
+  }
+  @media \0screen{
+    #providerEventList .topContainer span.num_Act{
+      top: 0px;
+    }
+  }
+  #providerEventList .topContainer .pipeSymbol{
+    position:static;
+    vertical-align:inherit;
+    .position:relative;
+    .top:-1px;
+    vertical-align:inherit;
+  }
+  #menu {
+    display: inline-block;
+    position: relative;
+    top: 4px;
+    .top: -3px;
+    left:10px;
+  }
+  .dateDiv{
+    display: inline-block;
+    position:relative;
+    width:100px;
+    height:29px;
+    padding:0px 5px 0px 5px;
+    border:1px solid #CDE0E6;
+    background:#F6F8F7;
+  }
+  .dateTextbox{
+    display: inline-block;
+    float:left;
+    width:70px;
+    .width:67px;
+    height:16px;
+    color:#959292;
+    font-size:13px;
+    margin-top:5px;
+    outline:none;
+    overflow: hidden;
+    border:1px solid #F6F8F7;
+    background:#F6F8F7;
+  }
+  .StrtDte{
+    float: left;
+    display: inline-block;
+    height:31px;
+  }
+  .StrtTxt{
+    float: left;
+    display: inline-block;
+    font-size: 13px;
+    color: #959292;
+    margin-top: 7px;
+  }
+  .ToTxt{
+    font-size: 15px;
+    color: #626262;
+    display:inline-block;
+    padding:0 5px 0 5px;
+  }
+  .CalenderDiv{
+    width: 297px;
+    float: left;
+    display:inline-block;
+    .margin-top:6px;
+  }
+  @media \0screen{
+    .CalenderDiv{
+      margin-top:3px;
+    }
+    #field{
+      float:none;
+    }
+  }
+
+  .setColor{
+    color:#4c92b4;
+  }
+  #filter_admin_category{
+    .margin-top:8px;
+  }
+  #filter_by_provider{
+    .margin-top:8px;
+  }
+  #providerEventList .topContainer .event_search{
+    width:190px;
+  }
+  #providerEventList .topContainer .searchDiv{
+    width:280px;
+  }
+  #providerEventList .topContainer .checkboxImg{
+    top:5px;
+    .top:7px;
+  }
+  .dispProviderCatDiv{
+    width: 700px;
+  }
+  .eventmoreContainer .centerContainer{
+    width: 700px;
+  }
+  .eventmoreContainer .innerContainer{
+    width: 700px;
+  }
+  #acc #nested .accDiv{
+    width: 688px;
+  }
+  #acc #nested .accDiv h3{
+    width: 680px;
+  }
+  #acc #nested .acc-content{
+    width: 661px;
+  }
+  #acc #nested .acc-content .inner_acc-content{
+    width:203px;
+  }
+  #providerEventList .topContainer .menuText{
+    font-weight:bold;
+  }
+  #acc #nested .acc-content{
+    height: 96px;
+  }
+  #acc #nested .acc-content .inner_acc-content{
+    height:26px;
+    margin:0;
+  }
+  #event_index_container .Setlt{
+    height:auto;
+    margin:0;
+  }
+  #event_index_container .grayColorText{
+    color: #807E7E;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight:normal;
+  }
+  #event_index_container .setSportsText{
+    cursor:pointer;
+    width:auto;
+    margin: 15px 0;
+  }
+  #event_index_container .setSportsText:hover{
+    cursor:pointer;
+    width:auto;
+    margin: 15px 0;
+  }
+  #event_index_container .errorDiv{
+    margin:5px 0 0 3px;
+    color:#fc8989;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+  }
+  #event_index_container .provider_menu{
+    float:left;
+    height:240px;
+    overflow-y:auto;
+    margin: -27px 0 0 140px;
+    font-size:13px;
+    background:#F6F8F7;
+    color:#959292;
+    border:1px solid #C2DDE4;
+    padding: 10px 10px 0 0;
+  }
+  #event_index_container .provider_menu a{
+    color:#959292;
+    display:block;
+    white-space: nowrap;
+    text-decoration:none;
+    padding:5px 10px 5px 8px;
+  }
+  #event_index_container .provider_menu a:hover{
+    display:block;
+    white-space: nowrap;
+    text-decoration:none;
+    padding:5px 10px 5px 8px;
+    color:#F97C0E;
+  }
+  @media \0screen{
+    #menu {
+      top: 4px;
+    }
+  }
+  #event_index_container .status_menu{
+    float:left;
+    height:240px;
+    overflow-y:auto;
+    margin: -27px 0 0 140px;
+    font-size:13px;
+    background:#F6F8F7;
+    color:#959292;
+    border:1px solid #C2DDE4;
+    padding: 10px 10px 0 0;
+  }
+  #event_index_container .status_menu a{
+    color:#959292;
+    display:block;
+    white-space: nowrap;
+    text-decoration:none;
+    padding:5px 10px 5px 8px;
+  }
+  #event_index_container .status_menu a:hover{
+    display:block;
+    white-space: nowrap;
+    text-decoration:none;
+    padding:5px 10px 5px 8px;
+    color:#F97C0E;
+  }
+  #providerEventList .topContainer{
+    width:100%;
+    height:40px;
+    background:#F6F8F7;
+    padding-top:10px;
+    .margin-top:0px;
+  }
+
+  #menu li:hover ul.sub-menu {
+    display: block;
+    z-index: 2147483647;
+    position: absolute;
+    left: 0;
+    width: auto;
+  }
+  #event_index_container .GoButton{
+    left: 7px;
+    top: 2px;
+  }
+  .actionDiv{
+    margin: 0px !important;
+  }
+  #menu ul.sub-menu{
+    margin: 0 !important;
+  }
+  .pipeSymbol ul li a.actDiv{
+    margin: 0 !important;
+  }
+  .trans_link
+  {
+    color:#4AA3B6;
+    font-size:14px;
+    font-weight:bold;
+  }
+  .trans_link a
+  {
+    color:#4AA3B6;
+    text-decoration:none;
+  }
+  .discounttable td{padding: 3px;}
+  .discount_input{height: 25px;width: 210px;padding: 0 4px;border: 1px solid #E1E1E1;color: #999999;}
+  .inputdate{display: inline-block;position: relative;width: 170px;height: 28px;padding: 1px 3px 0;border: 1px solid #E1E1E1;background: #fff;}
+  .inputdate input{color: #999999;display: inline-block;float: left;width: 130px;height: 16px;margin-top: 5px;outline: none;overflow: hidden;border: 1px solid #ffffff;}
+  .to_text{margin: 0 10px;position: relative;top: 8px;}.error_row td{padding: 0;}
+</style>
+
+<!--autocomplete-->
+ <%=javascript_include_tag "auto_complete/jquery-1.8.3", "auto_complete/jquery-ui"%>
+<!--thils style for search box width fixed-->
+<style>
+  #ui-id-1 {
+    width:200px;
+    overflow: hidden;
+  }
+</style>
+<script>
+  //this funtion for autocomplete while entered the text by the user dont remove this by rajkumar
+  //clear autocomplete input..
+  function clearAutoCompleteInput() {
+    $("#event_search").val('');
+  }
+
+
+
+  function discount_code_create(){
+    var discount_name = $("#discount_name").val();
+    var discount_code = $("#discount_code").val();
+    var discount_max = $("#discount_max").val();
+    var discount_amt = $("#discount_amt").val();
+    var discount_start_date = $("#valid_from_alt").val();
+    var discount_end_date = $("#valid_to_alt").val();
+    var discount_expire =  $("#discount_expire").val();
+    var error_flag =false;
+    $("#discount_name").css("border","1px solid #E1E1E1");
+    $("#discount_code").css("border","1px solid #E1E1E1");
+    $("#discount_amt").css("border","1px solid #E1E1E1");
+    $("#discount_max").css("border","1px solid #E1E1E1");
+    
+    $("#discount_name_error").html("");
+    $("#discount_code_error").html("");
+    $("#discount_max_error").html("");
+    $("#discount_amt_error").html("");
+            
+    $("#discount_name_error").parent().css("display","none");
+    $("#discount_code_error").parent().css("display","none");
+    $("#discount_max_error").parent().css("display","none");
+    $("#discount_amt_error").parent().css("display","none");
+
+    if (discount_name =="" || discount_name == "Enter Name"){
+      $("#discount_name").css("border","1px solid #fc8989");
+      $("#discount_name_error").html("Please enter discount code name");
+      $("#discount_name_error").parent().css("display","block");
+      error_flag=true;
+    }
+    if (discount_code =="" || discount_code == "Enter Code" ){
+      $("#discount_code").css("border","1px solid #fc8989");
+      $("#discount_code_error").html("Please enter a discount code");
+      $("#discount_code_error").parent().css("display","block");
+      error_flag=true;
+    }
+    if (discount_max =="" || discount_max == "Enter Max-signup"){
+      $("#discount_max").css("border","1px solid #fc8989");
+      $("#discount_max_error").html("Please enter the max.signup limit");
+      $("#discount_max_error").parent().css("display","block");
+      error_flag=true;
+    }
+    if (discount_amt =="" || discount_amt == "Eg: $" ){
+      $("#discount_amt").css("border","1px solid #fc8989");
+      $("#discount_amt_error").html("Please enter the discount value");
+      $("#discount_amt_error").parent().css("display","block");
+      error_flag=true;
+    }
+    
+    if (discount_amt !="" && discount_amt != "Eg: $" ){
+      if (discount_amt < 1){
+        $("#discount_amt").css("border","1px solid #fc8989");
+        $("#discount_amt_error").html("Please enter a discount value greater than 0");
+        $("#discount_amt_error").parent().css("display","block");
+        error_flag=true;
+      }
+      
+    }
+
+    if (discount_max !="" && discount_max != "Enter Max-signup"){
+      if (discount_max < 1){
+        $("#discount_max").css("border","1px solid #fc8989");
+        $("#discount_max_error").html("You have entered an invalid signup limit");
+        $("#discount_max_error").parent().css("display","block");
+        error_flag=true;
+      }
+    }
+
+    if(discount_expire == 0){
+      if (discount_start_date==""){
+        $("#valid_from").css("border","1px solid #fc8989");
+        $("#valid_from_error").html("Please select a start date");
+        $("#valid_from_error").parent().css("display","block");
+        error_flag=true;
+      }
+      if (discount_end_date==""){
+        $("#valid_to").css("border","1px solid #fc8989");
+        $("#valid_to_error").html("Please select an end date");
+        $("#valid_to_error").parent().css("display","block");
+        error_flag=true;
+      }
+      if ((discount_start_date!="" )&&(discount_end_date!="" )) {
+        var date1 = Date.parse(discount_start_date);
+        var date2 = Date.parse(discount_end_date);
+        if (date1 > date2) {
+          $("#valid_to").css("border","1px solid #fc8989");
+          $("#valid_to_error").html("Please select valid end date");
+          $("#valid_to_error").parent().css("display","block");
+        }
+      }
+
+    }
+    if(error_flag){
+      return false;
+    }else{
+      $.ajax({
+        type: "POST",
+        url: "admin_discount_codes/create_discount_codes",
+        data:{
+          "discount_name":discount_name,
+          "discount_code":discount_code,
+          "discount_max":discount_max,
+          "discount_amt":discount_amt,
+          "discount_start_date":discount_start_date,
+          "discount_end_date":discount_end_date,
+          "discount_expire":discount_expire
+        }
+      });
+      return false;
+    }
+
+    
+  }
+
+  function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57 ) && (charCode != 46 ) ) {
+      return false;
+    }
+    return true;
+  }
+  function iskeynumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57 )) {
+      return false;
+    }
+    return true;
+  }
+
+</script>
+<%=stylesheet_link_tag "global/jquery.ui.datepicker","global/jquery.ui.theme", :media => "all"%>
+ <%=javascript_include_tag "global/jquery-1.8.3.min", "global/jquery.ui.core","global/jquery.ui.datepicker","event_index/macfix","event_index/jquery.dropdownPlain","event_more/menu"%>
+
+<body id="CategoriesBarPage">
+
+  <div id="event_index_container"><input type="hidden" id="view_det" value="view">
+    <!--form id="event_more" name="event_more" action="#"-->
+    <form name="provider_event_list" id="provider_event_list" style="margin-top:70px; .width:99.3%;">
+      <div style="border-bottom:1px solid #CEE1E8;padding: 6px 0;text-align: center;color: #4495AE;margin-bottom: 10px;" class="fts18"><b>Create a New Discount Code</b></div>
+      
+      <div id="providerEventList">
+        <div class="topContainer" width="50%" style="height:auto;z-index:1;">
+          <div id="success_code" style="display:none;width:50%;margin:0 auto;color:#FC8989;"></div>
+          <table class="discounttable" cellspacing="0" cellpadding="0" border="0" width="50%" align="center" style="height:auto;z-index:1;width:50%;background:white;margin: 0px auto;border: 1px solid #DBEEF4;padding:5px 10px;">
+            <tr>
+              <td class="fts15 ftwt" style="color:#585858;"> Discount Code Name</td>
+              <td class="fts15 ftwt" style="color:#585858;"> Discount Code</td>
+              <td class="fts15 ftwt" style="color:#585858;"> Discount Amount</td>
+              <td class="fts15 ftwt" style="color:#585858;"> Maximum Sign-ups</td>
+            </tr>
+            <tr>
+              <td>
+                <input class="fts13 discount_input" type="text" name="discount_name" id="discount_name" value="Enter Name" onFocus="if(this.value == 'Enter Name') { this.style.color='#444444'; this.style.border='1px solid #E1E1E1';this.value=''}" onBlur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #E1E1E1';this.value='Enter Name'}"/>
+              </td>
+              <td>
+                <input class="fts13 discount_input" type="text" name="discount_code" id="discount_code" value="Enter Code" onFocus="if(this.value == 'Enter Code') { this.style.color='#444444'; this.style.border='1px solid #E1E1E1';this.value=''}" onBlur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #E1E1E1';this.value='Enter Code'}"/>
+              </td>
+              <td>
+                <input class="fts13 discount_input" type="text" name="discount_amt" id="discount_amt" value="Eg: $" onkeypress="return isNumber(event)" maxlength="6" onFocus="if(this.value == 'Eg: $') { this.style.color='#444444'; this.style.border='1px solid #E1E1E1';this.value=''}" onBlur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #E1E1E1';this.value='Eg: $'}"/>
+              </td>
+              <td>
+                <input class="fts13 discount_input" type="text" name="discount_max" id="discount_max" value="Enter Max-signup" onkeypress="return iskeynumber(event)" maxlength="6" onFocus="if(this.value == 'Enter Max-signup') { this.style.color='#444444'; this.style.border='1px solid #E1E1E1';this.value=''}" onBlur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #E1E1E1';this.value='Enter Max-signup'}"/>
+              </td>
+            </tr>
+            <tr class="error_row">
+              <td>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="discount_name_error"></div>
+                </div>
+              </td>
+              <td>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="discount_code_error"></div>
+                </div>
+              </td>
+              <td>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="discount_amt_error"></div>
+                </div>
+              </td>
+              <td>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="discount_max_error"></div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="fts15 ftwt" style="color:#585858;padding-top: 10px;">Valid up to</td>
+            </tr>
+            <tr>
+              <td colspan="4">
+                <div class="inputdate lt">
+                  <input class="fts13 discount_input" type="text"  id="valid_from" name="valid_from"  value="25/1/2013" readonly="readonly" />
+                  <input type="hidden" id="valid_from_alt" name="valid_from_alt" value=""/>
+                  <div class="errorDiv" style="display:none">
+                    <div class="lt leftSideField">&nbsp;</div>
+                    <div class="lt" id="valid_from_error"></div>
+                  </div>
+                </div>
+                <span class="to_text lt">To</span>
+                <div class="inputdate lt">
+                  <input class="fts13 discount_input" type="text"  id="valid_to" name="valid_to"  value="31/1/2013" readonly="readonly" />
+                  <input type="hidden" id="valid_to_alt" name="valid_to_alt" value=""/>
+                  <div class="errorDiv" style="display:none">
+                    <div class="lt leftSideField">&nbsp;</div>
+                    <div class="lt" id="valid_to_error"></div>
+                  </div>
+                </div>
+                <span class="to_text lt">Or</span>
+                <div class="col1 lt" style="width:105px;position: relative;top: 3px;" >  
+                  <input type="hidden" id="discount_expire" value="" name="discount_expire" />
+                  <%=image_tag("/assets/provider_event_list/pro_checkbox_normal.png", :width=>"19", :height=>"21", :id=>"class_link_1", :onclick=>"checkbox('class_link_2');")%>
+                  <%=image_tag("/assets/provider_event_list/pro_checkbox_selected.png", :width=>"19", :height=>"21", :id=>"class_link_2", :onclick=>"checkbox('class_link_1');", :style=>"display:none;")%>
+                  <span style="bottom: 5px;position: relative;color: #4794AE;">Never Expires</span>
+                </div>
+              </td>
+            </tr>
+            <tr><td style="padding-top: 10px;"><%=image_tag("/assets/admin/generate_code.png", :width=>"145", :height=>"35", :onclick=>"discount_code_create();")%></td></tr>
+          </table>
+        </div>
+        <div class="centerContainer" id="provider_partial_event_list" style="overflow-y: scroll;" >
+          <%= render :partial=>"discount_codes" %>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!--ajax loader -->
+
+
+  <div class="clear"></div>
+</body>
+<script type="text/javascript">
+  var nestedAccordion=new TINY.accordion.slider("nestedAccordion");
+  nestedAccordion.init("nested","h3",1,0,"acc-selected");
+</script>
+<script language="javascript">
+  $(function() {
+    $( "#valid_from" ).datepicker({
+      showOn : "button",
+      buttonImage : "/assets/create_new_activity/date_icon.png",
+      buttonImageOnly : true,
+      minDate: 0,
+      dateFormat : "m/d/yy",
+      altField : "#valid_from_alt",
+      altFormat : "yy-m-d",
+      onClose: function( selectedDate ) {
+        $( "#valid_to" ).datepicker( "option", "minDate", selectedDate );
+      }
+    });
+    $( "#valid_to" ).datepicker({
+      showOn : "button",
+      buttonImage : "/assets/create_new_activity/date_icon.png",
+      buttonImageOnly : true,
+      minDate: 0,
+      dateFormat : "m/d/yy",
+      altField : "#valid_to_alt",
+      altFormat : "yy-m-d",
+      onClose: function( selectedDate ) {
+        $( "#valid_from" ).datepicker( "option", "maxDate", selectedDate );
+      }
+    });
+  });
+                    
+  var curTime = new Date();
+  var cdate = curTime.getDate();
+  var cmonth = curTime.getMonth();
+  var cyear = curTime.getFullYear();
+  cmonth = parseInt(cmonth) + 1;
+  var weekday = new Array(7);
+  weekday[0] = "Sun";
+  weekday[1] = "Mon";
+  weekday[2] = "Tue";
+  weekday[3] = "Wed";
+  weekday[4] = "Thu";
+  weekday[5] = "Fri";
+  weekday[6] = "Sat";
+  var cday = curTime.getDay();
+  var incval = parseInt(cday) + 1;
+  var cday = weekday[cday];
+  
+  //var cuday = cday + " " + cmonth + "/" + cdate + "/" + cyear;
+  var cuday = cmonth + "/" + cdate + "/" + cyear;
+  var date_value = cdate + "-" + cmonth + "-" + cyear;
+
+
+  $('#valid_from').val(cuday);
+  $('#valid_from_alt').val(date_value);
+  $('#valid_to').val(cuday);
+  $('#valid_to_alt').val(date_value);
+
+  function checkbox(id){
+    if (id=="class_link_2")
+    {
+      $("#class_link_1").hide();
+      $("#class_link_2").show();
+      $("#discount_expire").val(1);
+    }
+    else
+    {
+      $("#class_link_2").hide();
+      $("#class_link_1").show();
+      $("#discount_expire").val(0);
+    }
+  }
+
+</script>

@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Email address:</b>
+  <%= @support.email_address %>
+</p>
+
+<p>
+  <b>Support type:</b>
+  <%= @support.support_type %>
+</p>
+
+<p>
+  <b>Labels:</b>
+  <%= @support.labels %>
+</p>
+
+<p>
+  <b>Comments:</b>
+  <%= @support.comments %>
+</p>
+
+<p>
+  <b>Support content type:</b>
+  <%= @support.support_content_type %>
+</p>
+
+<p>
+  <b>Support file size:</b>
+  <%= @support.support_file_size %>
+</p>
+
+<p>
+  <b>Support updated at:</b>
+  <%= @support.support_updated_at %>
+</p>
+
+<p>
+  <b>Inserted at:</b>
+  <%= @support.inserted_at %>
+</p>
+
+<p>
+  <b>Modified at:</b>
+  <%= @support.modified_at %>
+</p>
+
+
+<%= link_to 'Edit', edit_support_path(@support) %> |
+<%= link_to 'Back', supports_path %>

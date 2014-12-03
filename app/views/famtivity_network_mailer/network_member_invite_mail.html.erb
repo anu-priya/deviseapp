@@ -1,0 +1,76 @@
+<table cellspacing="0" cellpadding="0" border="0" style="width:98%; margin:12px; font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;border:1px solid #ccc;">
+  <!--new changes starting here-->
+  <tr>
+    <td align="left" valign="top" height="24" style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;width:87px;">
+      <% if !@from_user.nil? && !@from_user.user_profile.nil? && !@from_user.user_profile.profile.blank? %>
+        <img alt=""  src="<%=@image_path%>/<%= @from_user.user_profile.profile.url(:small) unless @from_user.user_profile.nil? && @from_user.user_profile.profile.nil? %>" style="border:none;padding:10px;" />
+      <%elsif !@from_user.nil? && !@from_user.user_profile.nil? && !@from_user.user_profile.user_photo.blank?%>
+        <img alt=""  src="<%=@image_path%>/<%= @from_user.user_profile.user_photo.url(:small) unless @from_user.user_profile.nil? && @from_user.user_profile.user_photo.nil? %>" style="border:none;padding:10px;" />
+      <% else %>
+        <img src="<%=@image_path%>/assets/profile/user_icon.png" height="75" width="87"  align="middle" style="padding:10px;"/>
+      <%end%>
+    </td>
+
+    <td align="left" valign="top" height="24" style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;">
+
+      <table cellspacing="0" cellpadding="0" style="padding:5px;">
+        <tr>
+          <td align="left" valign="top" height="24" style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;">
+            <strong>Hi <%=@to_user.capitalize%>,</strong>
+          </td>
+        </tr>
+        <tr>
+          <td height="10"></td>
+        </tr>
+        <tr>
+          <td style="color:#444444;font-family:Arial, Helvetica, sans-serif; font-size:15px;" align="left" valign="top">
+            <b><%=@from_user.user_name%></b> just invited you to become friends and join the network "<%= @network.group_name %>".
+          </td>
+        </tr>
+        <%if @message && @message.present? && !@message.nil?%>
+          <tr>
+            <td height="20" style="border-bottom:1px dashed #999;"></td>
+          </tr>
+          <tr>
+            <td height="15"></td>
+          </tr>
+          <tr>
+            <td style="color:#444444;font-family:Arial, Helvetica, sans-serif; font-size:15px;" align="left" valign="top">
+              <%=raw @message if @message && @message.present? && !@message.nil?%>
+            </td>
+          </tr>
+          <tr>
+            <td height="20" style="border-bottom:1px dashed #999;"></td>
+          </tr>
+        <%end%>
+        <tr>
+          <td height="15"></td>
+        </tr>
+
+        <tr>
+          <td align="left" valign="middle">
+            <a href="<%=URI::decode(@url) if !@url.nil? && @url.present? && @url!=''%>" alt="<%=URI::decode(@url) if !@url.nil? && @url.present? && @url!=''%>" title="" target="_blank" ><img src="<%=@image_path%>/assets/contact/join_network.png" width="193" height="34" alt="Accept" border="0"></a>&nbsp;&nbsp;
+          </td>
+        </tr>
+
+      </table>
+
+    </td>
+  </tr>
+</table>
+<table cellspacing="0" cellpadding="0" border="0" style="width:98%; margin:12px; font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;">
+  <tr>
+    <td height="10"></td>
+  </tr>
+
+  <!--new changes ending here-->
+  <tr>
+    <td height="35" align="left" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#444444;">Once you join this network, the network feed will be added to your home page.</td>
+  </tr>
+  <tr>
+    <td height="35" align="left" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#444444;">Have fun!</td>
+  </tr>
+  <tr>
+    <td  align="left"  height="24" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;">Your Famtivity Team</td>
+  </tr>
+</table>

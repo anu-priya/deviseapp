@@ -1,0 +1,245 @@
+<%=stylesheet_link_tag "search/new_frm_search", :media => "all"%>
+<style>
+  .autocomplete-suggestion{
+    text-align:left;
+    background-color:#F6F8F7;
+    font-family:'open_sansregular';
+    font-size:14px;
+    color:#676565;
+  }
+</style>
+<!--Age drop down list-->
+<link rel="stylesheet" href="/assets/dropdown/dropdown-dot.css">
+<!--Age drop down list end-->
+<%
+if current_user.nil?
+  if (params[:controller] == 'home' && params[:action] == 'index') || (params[:controller] == 'quick_links' && params[:action] == 'quick_links')
+    chk_curent_user = false
+  else
+    chk_curent_user = true
+  end
+else
+  chk_curent_user = (!current_user.nil? && current_user.present?)
+end
+
+%>
+<input type="hidden" id="autocompleteappender_length"/>
+<input type="hidden" id="autocompleteappender_cur_set"/>
+
+<div class="<% if chk_curent_user%>search_wrapper<%else%>search_wrapper_beflog<%end%>">
+  <% if chk_curent_user%>
+    <%if !cookies[:search_city].nil? && cookies[:search_city]!=""%>
+      <% @cityvalue = cookies[:search_city]%>
+    <%elsif !session[:city].nil?%>
+      <% @cityvalue= session[:city]%>
+    <%else%>
+      <% @cityvalue= cookies[:city_new_usr]%>
+    <%end%>
+  <%elsif !cookies[:search_city].nil? && cookies[:search_city]!=""%><% @cityvalue= cookies[:search_city]%>
+  <%elsif !session[:city].nil? && session[:city]!=""%>
+  <% @cityvalue= session[:city]%>
+  <% cookies[:search_city] = session[:city]%>
+  <%end%>
+  <form name="advanced_search_update" id="advanced_search_update" action="/search" method="get">
+
+    <div id="searchInnerform">
+      <div class="search-container-inline <% if chk_curent_user%>search-text-inline<%else%>search-text-inline-beflog<%end%>">
+        <div class="<% if chk_curent_user%>search-label<%else%>search-label-beflog<%end%>">Search</div>
+        <div class="flex-box <% if chk_curent_user%>input-holder<%else%>input-holder-beflog<%end%>">
+          <%if @keyword.nil? || @keyword==""%>
+            <% if chk_curent_user%>
+              <%@keyword = "dance lessons, painting, class, etc"%>
+            <%else%>
+              <%@keyword = "dance lessons, painting..."%>
+            <%end%>
+          <%end%>
+          <input autocomplete="on" id="search_value" class="search-tag" maxlength="64" name="event_search" onfocus="if(this.value == '<% if chk_curent_user%>dance lessons, painting, class, etc<%else%>dance lessons, painting...<%end%>'){this.value=''; this.style.color='#444444';}" onblur="if (this.value == '') {this.style.color='#999999'; this.value='<% if chk_curent_user%>dance lessons, painting, class, etc<%else%>dance lessons, painting...<%end%>'} else {this.style.color='#444';}"  tabindex="1" value="<%= @keyword %>" onclick="test_saf();" onKeyPress="content_checking_new('search','<%= current_user%>',event);"/>
+        </div>
+        <div style="position:absolute;margin-left:-3px;"><blockquote></blockquote></div>
+      </div>
+
+      <!--Custom drop down starting here-->
+      <!--section {{=it.selected.label}}-->
+      <div class="search-container-inline <% if chk_curent_user%>age-text-inline<%else%>age-text-inline-beflog<%end%>">
+        <span class="<% if chk_curent_user%>search-label<%else%>search-label-beflog age_txt<%end%>">Age</span>
+        <script id="dropdown-selected" type="text/x-dot-template">
+			{{=it.label}}
+        </script>
+        <script id="dropdown" type="text/x-dot-template">
+          <div class="dropdown" style="<% if chk_curent_user%>width:60px;font-size:14px;<%end%>" tabindex="1">
+            <div class="selected" style="<% if chk_curent_user%>padding:7px 13px;font-size:14px;<%end%>"><%if !params[:age_range].nil? && params[:age_range]!="" %><%= params[:age_range] %><%else%>All<%end%></div>
+            <ul style="<% if chk_curent_user%>width:112px;left:-46px;top:35px;<%end%>">
+				{{~it.items :item:index}}
+              <li data-index="{{=index}}">{{=item.label}}</li>
+				{{~}}
+            </ul>
+          </div>
+        </script>
+
+        <select id="age_drop" data-template="#dropdown" style="display:none;">
+          <option value="All">All</option>
+          <option value="0-6">0 - 6 Month</option>
+          <option value="6-12">6 - 12 Month</option>
+          <option value="2-3">2 - 3 Year</option>
+          <option value="4-7">4 - 7 Year</option>
+          <option value="8+">8+ Year</option>
+        </select>
+      </div>
+      <input type="hidden" value="" id="age_type" name="age_type"/>
+      <input type="hidden" value="" id="age_range" name="age_range"/>
+      <!--/section-->
+      <!--Custom drop down ending here-->
+
+      <div class="search-container-inline <% if chk_curent_user%>city-text-inline<%else%>city-text-inline-beflog<%end%>">
+        <div class="<% if chk_curent_user%>search-label<%else%>search-label-beflog<%end%>">Near</div>
+        <div class="cityvalue flex-box <% if chk_curent_user%>input-holder cityvaluebe<%else%>input-holder-beflog<%end%>">
+          <% if cookies[:search_city]!='' && cookies[:search_city].present?%>
+            <% final_city = cookies[:search_city] %>
+          <%else%>
+            <% final_city = @cityvalue %>
+          <%end%>
+          <input autocomplete="on" id="zip_values" class="search-city" maxlength="80" name="find_loc"  tabindex="2" placeholder="<%= final_city %><%if check_for_state_value(final_city)%><%= check_for_state_value(final_city).gsub(/-/, ', ').upcase %><%end%>" value="<%= final_city %><%if check_for_state_value(final_city)%><%= check_for_state_value(final_city).gsub(/-/, ', ').upcase %><%end%>" onfocus=this.value="";$("#age_range_pop").hide(); onKeyPress="content_checking('zip','',event);" onblur="zip_code_geo('<%=check_for_state_value(final_city)%>');"/>
+          <input type="hidden" id="city_search" value="" name="city_search_ra"/>
+        </div>
+        <div id="zip_values_autocomplete" style="position: absolute; opacity: 1; text-align: left; width: 235px; z-index: 1;" onKeyPress="content_checking('zip','',event);"></div>
+      </div>
+
+
+      <div class="button-container">
+        <% if chk_curent_user%>
+          <input type="image" class="searchbrdr" src="/assets/search/new_search_aft_login.png"  width="47" height="38" alt="" id="search_button" onclick="advance_search_navigate();">
+        <%else%>
+          <input type="image" class="searchbrdr" src="/assets/search/new_search_bef_login.png"  width="80" height="65" alt="" id="search_button" onclick="advance_search_navigate();">
+        <%end%>
+      </div>
+
+      <div class="clear"></div>
+      <!-- serach inner end -->
+    </div>
+  </form>
+</div>
+
+<%=javascript_include_tag "search/frm_search","search/search_autocomplete","dropdown/drop-dot","dropdown/jquery-dropdown-dot"%>
+
+<script type="text/javascript">
+<%if !params[:zip_value_name].nil? && params[:zip_value_name] !=""%>
+    // $("#zip_enter").hide();
+    $("#zip_value").show();
+    $("#zip_values").val('<%= params[:zip_value_name] %>');
+<%end%>
+
+<%if cookies[:search_city].nil?%>
+if (typeof geoip_city != 'undefined') {
+    $("#zip_values").val(geoip_city());
+    if (geoip_country_code() == "IN"){
+      $("#zip_values").val(geoip_city() + ", TN");
+    }
+    }
+<%end%>
+  var city_values = new Array();
+<% !@fam_city.nil? && @fam_city.each do |autocomplete| %>
+    city_values.push({"value": "<%= autocomplete.city_name%><%if check_for_state_value(autocomplete.city_name)%><%= (check_for_state_value(autocomplete.city_name).gsub(/-/, ', ').upcase) %><%end%>","data": "<%= autocomplete.city_id%>"});
+<%end%>
+
+  function test_saf(){
+    document.getElementById('autocomplete_appender1').innerHTML=' ';
+    $('#age_range_pop').hide();
+  }
+
+  $(document).ready(function(){
+<%if !params[:age_range].nil? && params[:age_range]!="" %>
+      var myvar = setInterval(function(){
+        if ((".dropdown").length >=1){
+          var selectedIndex = 0
+  <%if params[:age_range] == "0-6"%>
+            selectedIndex = 1
+  <%elsif params[:age_range] == "6-12"%>
+            selectedIndex = 2
+  <%elsif params[:age_range] == "2-3"%>
+            selectedIndex = 3
+  <%elsif params[:age_range] == "4-7"%>
+            selectedIndex = 4
+  <%elsif params[:age_range] == "8+"%>
+            selectedIndex = 5
+  <%end%>
+          $(".dropdown").find("ul").find('[data-index=' + selectedIndex + ']').addClass('hover selected');
+          clearInterval(myvar);
+        }
+      }, 3000);
+      
+      $('#age_range').val('<%=params[:age_range]%>');
+      $('#age_drop').val('<%=params[:age_type]%>');
+
+<%end%>
+    $('select').dropdown();
+  })
+  
+  
+  
+  $("#zip_values").autocomplete({
+    paramName: 'city',
+    minLength: 1,
+    lookup: city_values,
+    appendTo: $("#zip_values_autocomplete"),
+    onSelect: function(suggestion)
+    {
+      var get_cont = '<%=params[:controller]%>';
+      var get_act = '<%=params[:action]%>';
+      var sub_cag = '<%=@chk_subcateg%>';
+      var old_city = '<%=@chk_city%>';
+      this.value = suggestion.value;
+      $("#city_search").val(suggestion.value);
+      var expires = new Date();
+      expires = new Date(new Date().getTime() + parseInt(expires) * 1000 * 60 * 60 * 24);
+      document.cookie = "search_city="+suggestion.value+ ";expires="+expires.toGMTString()+ ";path=/";
+      $("#search_value").focus();
+      var select_new_city=suggestion.value;
+      //var new_city=(select_new_city.length<12)?select_new_city:(select_new_city.substring(0,9))+'...';
+      var new_city = select_new_city;
+      $('#zip_values').val(new_city);
+      var url = window.location.toString();
+      var repl_url = replaceQueryString(url,'find_loc',suggestion.value);
+      window.history.replaceState("object or string", "Title",repl_url);
+      //~ if(window.location.href.indexOf("/categories") > -1) {
+      //~ window.location.href=window.location.href;
+      //~ }
+      //~ else
+      //~ {
+      //~ event.preventDefault();
+      //~ }
+      if (get_cont=='quick_links' && get_act=='browse_category'){
+        window.location.href=window.location.href;
+      }
+      else if(get_cont=='details_page' && get_act=='index' && sub_cag=='true'){
+        var get_sub = replaceSubCateg(url,suggestion.value,old_city);
+        //~ window.location.href=window.location.href;
+        window.location.href=get_sub;
+        //~ history.pushState(null, "", get_sub);
+      }
+      else{
+        //~ event.preventDefault();
+      }
+	    
+    }
+  });
+    
+    
+  function replaceQueryString(url,param,value) {
+    var re = new RegExp("([?|&])" + param + "=.*?(&|$)","i");
+    if (url.match(re))
+    {
+      var test = url.replace(re,'$1' + param + "=" + value + '$2');
+      return test;
+    }
+    else{
+      return url;
+    }
+  }
+    
+  function replaceSubCateg(url,value,old_value){
+    var n_city = value.toLowerCase().replace(', ','-').replace(/\s+/g, '-');
+    var o_city = old_value.toLowerCase().replace(/\s+/g, '-');
+    var p_url = url.replace(o_city,n_city);
+    return p_url;
+  }
+</script>

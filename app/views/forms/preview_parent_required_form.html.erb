@@ -1,0 +1,117 @@
+<%=stylesheet_link_tag "form_builder/form_builder", :media => "all"%>
+<%=javascript_include_tag "global/jquery-1.8.3.min"%>
+
+<div class="" style="width:900px;  margin:0 auto;">
+	<div style="margin-top:70px; margin-bottom:20px; border:1px solid #ccc; background:#fff;">
+		<div class="clear">&nbsp;</div>
+		<div id="createformContainer" style="pointer-events: none;">
+			<form id="frmrequired" name="frmrequired" method="get"  action="">
+		<%if !@question.nil? && @question.present? && @question!='' && @question.length > 0 && !@activity.nil? && @activity.present?%>			
+			<%if !@form.nil? && @form!=''%>
+				<div class="previewformTop">
+					<div class="fntSize20 kidsTxt"><%=@form["title"]%></div>						
+					<div class="txtKidinfo"><%=@form["description"]%></div>					
+				</div>
+				<div id="err_div" style="display:none; margin-left:210px; font-size:14px; color:red; font-weight:bold;">			
+				</div>
+				<div id="thankyou_pop" style="display:none;" class="thank_blue" align="center">					
+				</div>
+				<input type="hidden" name="frm_view" id="frm_view" value="<%=@fview%>" />
+				<input type="hidden" name="form_id" id="form_id" value="<%=@form["form_id"]%>" />
+				<input type="hidden" name="activity_id" id="form_id" value="<%=@activity["activity_id"]%>" />
+				<input type="hidden" name="activity_name" id="form_id" value="<%=@activity["activity_name"]%>" />
+				<input type="hidden" name="part_id" id="part_id" value="<%=@part_id%>"/>
+				<input type="hidden" name="part_name" id="part_name" value="<%if !@participant_chk.nil? && @participant_chk.present?%><%=@participant_chk.participant_name%><%else%><%=@participant.participant_name if !@participant.nil? && @participant.present?%><%end%>"/>
+				<input type="hidden" name="schedule_id" id="schedule_id" value="<%=params[:scheid]%>"/>
+			<%end%>	
+			<%@i=1%>
+			<div id="form_field">
+			<%@question.each do |qval|%>
+				<div class="createformField">
+					<div class="lt createformFieldLeft"><b><%=qval["field_name"]%><%if qval["is_required"]%><span class="require">*</span><%end%></b></div>
+					<div class="creatformFieldRight">
+					<!-- edit mode get the answer for provider only -->
+					<% if !@fview.nil? && @fview == 'u'%>
+						<%@ans_val_h=get_ques_answer(@form["form_id"],@activity["activity_id"],@activity["schedule_mode"],params[:scheid],@part_id,qval["question_id"],current_user.user_id,false)%>
+					<%end%>
+						<!--  get question type details -->
+						<%@type=get_type_details(qval["question_type_id"])%>
+						<%if !@type.nil? && @type.present? && @type!=''%>
+							<%if !@type["type_value"].nil? && @type["type_value"]!='' && @type["type_value"].downcase == 'textbox'%>
+								<input type="text" class="lt textbox" name="frm_<%=qval["question_id"]%>" id="frm_<%=qval["question_id"]%>"  style="<%if !@ans_val_h.nil?%>color:#000;<%end%>" value="<%if !@ans_val_h.nil?%><%=@ans_val_h["question_value"]%><%else%><%=qval["help_text"]%><%end%>" tabindex="<%=@i%>" onfocus="if(this.value == '<%=qval["help_text"]%>') { this.value = ''; this.style.color = '#000000'; }" onblur="if(this.value == '') { this.value = '<%=qval["help_text"]%>'; this.style.color = '#9e9e9e'; }"  disabled="disabled" />								
+							<%elsif !@type["type_value"].nil? && @type["type_value"]!='' && @type["type_value"].downcase == 'paragraph'%>
+								<textarea rows="6" cols="30"  tabindex="<%=@i%>" name="frm_<%=qval["question_id"]%>" id="frm_<%=qval["question_id"]%>" style="<%if !@ans_val_h.nil?%>color:#000;<%end%>" onfocus="if(this.value == '<%=qval["help_text"]%>') { this.value = ''; this.style.color = '#000000'; }" onblur="if(this.value == '') { this.value = '<%=qval["help_text"]%>'; this.style.color = '#9e9e9e'; }"  disabled="disabled"><%if !@ans_val_h.nil?%><%=@ans_val_h["question_value"]%><%else%><%=qval["help_text"]%><%end%></textarea>								
+							<%elsif !@type["type_value"].nil? && @type["type_value"]!='' && @type["type_value"].downcase == 'radio'%>
+								<!--  get option details -->
+								<%@option = get_question_option(qval["question_id"])%>
+								<% if !@option.nil? && @option.present? && @option!=''%>
+									<%@option.each do |pval|%>
+									<div class="requireRadio">
+										<div class='radiobutton_wrapper mTop10'>
+											<input type="radio" name="frm_<%=qval["question_id"]%>" id="frm_<%=qval["question_id"]%>"  tabindex="<%=@i%>" value="<%=pval["field_value"]%>" <%if !@ans_val_h.nil? && pval["field_value"]!='' && pval["field_value"].downcase == @ans_val_h["question_value"].downcase%>checked<%end%>  disabled="disabled" />										
+											<span class="radioTxt"><%=pval["field_value"]%></span>
+										</div>									
+									 </div>
+									 <%@i=@i+1%>
+									 <%end%>
+								 <%end%>
+							<%elsif !@type["type_value"].nil? && @type["type_value"]!='' && @type["type_value"].downcase == 'checkbox'%>
+								<%@option = get_question_option(qval["question_id"])%>
+								<% if !@option.nil? && @option.present? && @option!=''%>
+								<%if !@ans_val_h.nil? %>
+									<%@ans_str=@ans_val_h["question_value"].split(',')%>
+								<%end%>								
+									<%@option.each do |pval|%>									
+									<div class='checkbox_wrapper'>
+										<input type="checkbox" name="frm_<%=qval["question_id"]%>[]" id="frm_<%=qval["question_id"]%>" tabindex="<%=@i%>"  value="<%=pval["field_value"]%>"  <%if !@ans_val_h.nil? && (@ans_str.include?pval["field_value"])%>checked<%end%>   disabled="disabled"/>										
+										<span class="radioTxt"><%=pval["field_value"]%></span>
+									</div>
+									<%@i=@i+1%>
+									 <%end%>
+								 <%end%>
+							<%elsif !@type["type_value"].nil? && @type["type_value"]!='' && @type["type_value"].downcase == 'list'%>
+								<select class="dropdown" size="1" name="frm_<%=qval["question_id"]%>" id="frm_<%=qval["question_id"]%>" tabindex="<%=@i%>" onchange="changeFont(this)" style="<%if !@ans_val_h.nil?%>color:#000;<%end%>"  disabled="disabled">
+									<option selected="selected" value="">--<%=qval["help_text"]%>--</option>
+									<%@option = get_question_option(qval["question_id"])%>
+									<% if !@option.nil? && @option.present? && @option!=''%>
+									<%@option.each do |pval|%>
+										<option value="<%=pval["field_value"]%>"  <%if !@ans_val_h.nil? && pval["field_value"]!='' && pval["field_value"].downcase == @ans_val_h["question_value"].downcase%>selected<%end%> ><%=pval["field_value"]%></option>
+									<%end%>
+									<%end%>
+								</select>								
+							<%end%>
+						<%end%>						
+					</div>	
+					<div class="clear">&nbsp;</div>		
+				</div>
+				<%@i=@i+1%>
+			<%end if !@question.nil? && @question.present? && @question!=''%>
+			<!-- each loop end -->			
+			<!--<div class="createFormbottom">
+				<div class="lt createformFieldLeft">&nbsp;</div>			
+				<div>
+					<input type="image"  src="/assets/form_builder/button_submit.png" id="btnsubmit" tabindex="<%=@i=@i+1%>" />
+					<img alt="cancel" src="/assets/form_builder/cancel_button.png" id="" tabindex="<%=@i=@i+1%>" onclick="formReset();"/>
+				</div>
+			</div>-->
+			</div>
+		<%else%>
+		<br>
+			Form not available		
+		<%end%>	    		
+		<br><br>
+		</form>
+		<div align="center" style="border-top:1px solid #eaeaea; padding-top:10px; color:#FC8989;">
+			<b>The form has been submitted and now can only be edited by the provider</b>
+		</div>
+		<br>
+		</div> <!--createformContainer end -->
+	
+	</div>
+	<br><br><br>
+</div>
+
+
+
+	
+	

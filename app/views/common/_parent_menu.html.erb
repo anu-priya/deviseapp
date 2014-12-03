@@ -1,0 +1,166 @@
+        <div id="top_menu_contact">
+              <ul>
+                <li>
+                  <div  class="browser_meu" onclick="javascript:window.location.href='/contact_users?mode=parent'">
+                    <div class="top_menu_icon" align="center">
+                      <%=image_tag("/assets/header/contact_img_blue.png", :width=>"34", :height=>"23", :alt=>"Contacts", :border=>"0", :id=>"menu_friend", :style=>"margin-top: 6px;")%>
+                    </div>
+		    <div class="lt" align="center">
+                      <div class="lt">Contacts</div>
+                      <div class="lt">
+		       <%=image_tag("/assets/header/drop_arrow.png", :width=>"4", :height=>"4", :alt=>"", :border=>"0", :class=>"top_menu_arrow")%>
+                      </div>
+                      <div class="clear"></div>
+                    </div>
+                  </div>
+                  <ul>
+                    <div align="right" class="ddmenu"><%=image_tag("/assets/event/schedule_top_arrow.png", :width=>"18", :height=>"12", :style=>"border:0px;")%></div>
+                    <li><a href="/contact_users?mode=parent" title="" onclick="_gaq.push(['_trackEvent','Parent Module', 'clickServices','Go To Friends']);">Go to Contacts</a></li>
+                    <li><a href="javascript:void(0)" title="" onClick="pop_new_contact('/contact_users/new?fam_last=<%=request.fullpath%>'); _gaq.push(['_trackEvent','Parent Module', 'clickServices','Create New Friend']);">Add New Contact</a></li>
+                    <li><a href="javascript:void(0)" onclick="pop_invite_friend_check('/invite_friend_famtivity?check_invite=invite&mode=parent&fam_last=<%=request.fullpath%>'); _gaq.push(['_trackEvent','Parent Module', 'clickServices','Invite a Friend']);" title="">Invite a Friend</a></li>
+                    <li><a href="javascript:void(0)" onClick="pop_invite_friend_check('/invite_friend_famtivity?check_invite=find&mode=parent&fam_last=<%=request.fullpath%>'); _gaq.push(['_trackEvent','Parent Module', 'clickServices','Find Famtivity Members']);" title="">Find Famtivity Members</a></li>
+                    <li style="border-bottom: 3px solid #EF322E; "><a href="javascript:void(0)" title="" onClick="pop_invite_provider('/invite_provider?aclick=parent'); _gaq.push(['_trackEvent','Parent Module', 'clickServices','Invite your provider']);" >Invite Your Provider</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Message Icon -->
+            <div class="browser_meu">
+	      <%@unread = MessageThreadViewer.find_unread_count(current_user.user_id)%> <!-- from messagethread model - scope-->
+              <div id="top_menu_message" style="margin-left: 5px;">
+                <ul>
+                  <li>
+                    <div onclick="javascript:window.location.href='/messages?mode=parent'">
+                      <div class="top_menu_icon" align="center" onclick="_gaq.push(['_trackEvent','Parent Module', 'clickMessages','Messages']);" >
+                        <%=image_tag("/assets/header/message_icon.png", :style=>"border:0px;margin-top: 9px;", :alt=>"Messages", :id=>"menu_message")%>
+			<%if !@unread.nil? && @unread.count != 0%><div class="message_count">
+				<span id="msg" class="message_count_in"><% if @unread.count > 9%>9+<%else%><%= @unread.count%><%end%></span>	
+			</div>
+			<%end%>				
+                      </div>
+                      <div class="lt" align="center">
+                        <div class="lt" style="top: 1px;position: relative;">Messages</div>
+                        <div class="lt">
+                           <%=image_tag("/assets/header/drop_arrow.png", :width=>"4", :height=>"4", :alt=>"", :border=>"0", :class=>"top_menu_arrow")%>
+                        </div>
+                        <div class="clear"></div>
+                      </div>
+                    </div>
+                    <ul style="width: 145px;">
+                      <div align="right" class="ddmenu" style="left: 100px;"><%=image_tag("/assets/event/schedule_top_arrow.png", :width=>"18", :height=>"12", :style=>"border:0px;")%></div>
+                      <li><a href="/messages/new?mode=<%=params[:mode]%>" onclick="_gaq.push(['_trackEvent','Parent Module', 'clickMessages','Post a Message']);" title="">Post a Message</a></li>
+                      <li style="border-bottom: 3px solid #EF322E; "><a href="/messages?mode=parent" onClick="_gaq.push(['_trackEvent','Parent Module', 'clickMessages','Go to Messages']);" title="">Go to Messages</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- Message Icon -->
+            <div id="top_menu_user" style="margin-left: 3px;">
+              <ul>
+                <li>
+                  <div class="top_menu_icon" align="center">
+                    <%if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.user_photo.blank?%>
+                      <%= image_tag(current_user.user_profile.user_photo.url(:small), :width => '21', :height => '21', :align=>'middle', :alt=>'', :class => "img_menu") %>
+                    <% else %>
+                     <%=image_tag("/assets/profile/user_icon.png", :width=>"21", :height=>"21", :align=>"middle")%>
+                    <% end %>
+                  </div>
+                  <div class="lt" align="center">
+                    <div class="lt text-trunc" style="width:60px;">
+                      <%if !current_user.nil? && !current_user.user_name.nil?%>
+                        <%if !current_user.nil? && current_user.user_name.length<= 8%>
+                          <%= current_user.user_name[0..6] if !current_user.nil? %>&hellip;
+                        <%else%>
+                          <%= current_user.user_name[0..6] if !current_user.nil? %>&hellip;
+                        <%end%>
+                      <%end%>
+                    </div>
+                    <div class="lt">
+                      <%=image_tag("/assets/header/drop_arrow.png", :width=>"4", :height=>"4", :alt=>"", :border=>"0", :class=>"top_menu_arrow")%>
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+                  <ul>
+                    <div align="right" class="ddmenu"><%=image_tag("/assets/event/schedule_top_arrow.png", :width=>"18", :height=>"12", :style=>"border:0px;")%></div>
+                    <li style="background-color:#EDF2F5;border-bottom:1px solid #B1D7E3; color:#E24C4B; font-weight:bold;" >
+                      <%if current_user.user_type.downcase=='u'%>
+                        <a href="javascript:void(0)"  onClick="pop_become_provider('/become_provider');" id="switch_parent" style="color:#E24C4B; text-decoration:none;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#E24C4B'"><b>
+                          Become a Provider</b>
+                        </a>
+                      <%else%>
+                        <a href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?%>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?%>" onClick="_gaq.push(['_trackEvent','Parent Module', 'clickMyAccounts','Switch to Provider']);" id="switch_parent" style="color:#E24C4B; text-decoration:none;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#E24C4B'"><b>
+                          Switch to Provider View</b>
+                        </a>
+                      <%end%>
+                    </li>
+                    <!--switch to admin view starting-->
+                    <%if current_user && current_user.present? && !current_user.user_type.nil? && current_user.user_type.downcase == "a"%>
+                      <li style="background-color:#EDF2F5;border-bottom:1px solid #B1D7E3; color:#E24C4B; font-weight:bold;">
+                        <a href="/admin" onClick="_gaq.push(['_trackEvent','Parent Module', 'clickMyAccounts','Switch to Admin']);" id="switch_parent" style="color:#E24C4B; text-decoration:none;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#E24C4B'"><b>
+                          Switch to Admin View</b>
+                        </a>
+                      </li>
+                    <%end%>
+                    <!--switch to admin view ending here-->
+                    <div style="max-height:200px;overflow-x:auto;"><!--scroll div start-->
+                      <%if !params[:action].nil? && params[:action] == "landing_new" || (params[:controller]=='activities' && params[:action] == "index") %><!--display only for activity list page-->
+                        <%@pusers= get_assigned_provider_val(current_user.user_id) if !current_user.nil? && !current_user.user_id.nil? %>
+                        <%if !@pusers.nil? && @pusers.present? && @pusers!=""%>
+                          <%if params[:provider_id] && !params[:provider_id].nil?%>
+                            <li style="background-color:#EDF2F5;border-bottom:1px solid #B1D7E3; color:#E24C4B; font-weight:bold;">
+                              <a href="/" onClick="_gaq.push(['_trackEvent','Parent Module', 'clickMyAccounts','Switch to Provider']);" id="switch_parent" style="color:#E24C4B; text-decoration:none;">
+                                Switch to Parent View
+                              </a>
+                            </li>
+                          <%end%>
+                          <%!@pusers.nil? && @pusers.present? && @pusers.each do |puser|%>
+
+                            <li><a href="/provider?provider_id=<%=puser.user_id if !puser.nil? && !puser.user_id.nil?%>" title="">
+                                <%@puser_v=getprovider_val(puser.user_id) if !puser.nil? && !puser.user_id.nil?%>
+
+                                <!--display provider logo image for manger start-->
+                                <% if !@puser_v.nil? && !@puser_v.user_profile.nil? && !@puser_v.user_profile.profile.blank? %>
+                                  <%= image_tag(@puser_v.user_profile.profile.url(:small), :width => '21', :height => '21', :align=>'middle', :alt=>"") %>
+                                <% else %>
+                                 <%=image_tag("/assets/profile/user_icon.png", :width=>"21", :height=>"21", :align=>"middle")%>
+                                <% end %>
+                                <!--display provider logo image for manger end-->
+                                <span style="display: inline-block;position: relative;top: 5px;">
+                                  <!--display provider username start-->
+                                  <%if !@puser_v.nil? && !@puser_v.user_profile.nil? && !@puser_v.user_profile.business_name.nil?%>
+                                    <%if @puser_v.user_profile.business_name.length<= 8%>
+                                      <%= @puser_v.user_profile.business_name.capitalize if !@puser_v.nil? && !@puser_v.user_profile.business_name.nil? && !@puser_v.user_profile.nil? %> (Provider)
+                                    <%else%>
+                                      <%= @puser_v.user_profile.business_name[0..6].capitalize if !@puser_v.nil? && !@puser_v.user_profile.business_name.nil?%>&hellip; (Provider)
+                                    <%end%>
+                                  <%else%>
+                                    <%if !@puser_v.nil? && @puser_v.user_name.length<= 8%>
+                                      <%= @puser_v.user_name.capitalize if !@puser_v.nil? %> (Provider)
+                                    <%else%>
+                                      <%= @puser_v.user_name[0..6].capitalize if !@puser_v.nil? %>&hellip; (Provider)
+                                    <%end%>
+                                  <%end%>
+                                </span>
+                                <!--display provider username end-->
+                              </a></li>
+                          <%end%><!--do loop for managers end-->
+                        <%end%><!--if end-->
+                      <%end%>
+                      <!--<li><a href="javascript:void(0)" onClick="pop_new_activity('/activity_parent?mode=parent');_gaq.push(['_trackEvent','Parent Module', 'clickMyAccounts','Add My New Activity']);">Create New Activity</a></li>-->
+                      <%if current_user && current_user.present? && !current_user.user_type.nil? && current_user.user_type.downcase == "a"%>
+                        <li><a href="/discount_codes" title="">Discount Codes</a></li>
+                      <%end%>
+                      <li style="border-bottom:1px #B1D7E3 solid;"><a href="/activity_parent_schedule?mode=parent" onClick="_gaq.push(['_trackEvent','Parent Module', 'clickMyAccounts','My Scheduled'])" >My Schedule</a></li>
+                      <li><a href="/parent_profile?mode=parent" onClick="_gaq.push(['_trackEvent','Parent Module', 'clickMyAccounts','Profile'])">Profile</a></li>
+                      <li><a href="/parent_settings?mode=parent" onClick="_gaq.push(['_trackEvent','Parent Module', 'clickMyAccounts','Settings'])">Settings</a></li>
+                      <li><a href="/discount_dollars?mode=parent" title="" onClick="_gaq.push(['_trackEvent','Parent Module', 'clickMyAccounts','Discount Dollars'])">Discount Dollars</a></li>
+                      <li><a href="/change_password?mode=parent" title="" onClick="_gaq.push(['_trackEvent','Parent Module', 'clickMyAccounts','Discount Dollars'])">Password</a></li>
+                    </div><!--scroll div ending-->
+                    <li style="border-bottom: 3px solid #EF322E;"><a href="/logout" onClick="_gaq.push(['_trackEvent','Parent Module', 'clickMyAccounts','Logout'])">Logout</a></li>
+
+                  </ul>
+                </li>
+              </ul>
+            </div>

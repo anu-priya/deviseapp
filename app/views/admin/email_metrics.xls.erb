@@ -1,0 +1,106 @@
+<table>
+	<tr>
+		<td>S.No</td>
+		<td>Business Name</td>
+		<td>Email Address</td>
+		<td>Active activities</td>
+		<td>Inactive activities</td>
+		<td>Expired activities</td>
+		<td>DD Activitie</td>
+		<td>Activities Views</td>
+		<td>Activities Clicks</td>
+		<td>Top 3 Viewed Activities</td>
+		<td>Top 3 Shared Activities</td>
+		<td>Website count</td>
+		<td>Provider Status</td>
+	</tr>
+  <%slcount = 1%>
+  <%if !@users.nil? && @users.length > 0 %>
+    <% @users.each do |act|%>
+      <tr>
+	<td>
+		<%=slcount %>
+	</td>
+	<td><%=act.business_name if act && !act.nil? && !act.business_name.nil? && act.business_name!=''%></td>
+	<td><%=act.email_address if act && !act.nil? && !act.email_address.nil? && act.email_address!=''%></td>
+	<td><%if act && !act.nil? && !act.user_id.nil?%><%=user_active_act(act.user_id) %><%end%></td>
+	<td><%if act && !act.nil? && !act.user_id.nil?%><%=user_inactive_act(act.user_id) %><%end%></td>
+	<td><%if act && !act.nil? && !act.user_id.nil?%><%=user_expired_act(act.user_id) %><%end%></td>
+	<td><%if act && !act.nil? && !act.user_id.nil?%><%=user_discount_dollar_act(act.user_id) %><%end%></td>
+	<td>
+		<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			<%else%>
+			     <%@week_s = ""%>
+			     <%@week_e = ""%>
+			<%end%>
+			<%if act && !act.nil? && !act.user_id.nil?%>
+				<%=user_tot_viewscount_list(act.user_id,@week_s,@week_e)%>
+		<%end%>
+	</td>
+	<td>
+		<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			<%else%>
+			     <%@week_s = ""%>
+			     <%@week_e = ""%>
+			<%end%>
+			<%if act && !act.nil? && !act.user_id.nil?%>
+				<%=user_tot_count_list(act.user_id,@week_s,@week_e) %>
+		<%end%>
+	</td>
+	<td>
+		 <%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			<%else%>
+			     <%@week_s = ""%>
+			     <%@week_e = ""%>
+			<%end%>
+			<%if act && !act.nil? && !act.user_id.nil?%>
+				<%=user_top_view_act(act.user_id,@week_s,@week_e) %>
+		<%end%>
+	</td>
+	<td>
+		<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			<%else%>
+			     <%@week_s = ""%>
+			     <%@week_e = ""%>
+			<%end%>
+			<%if act && !act.nil? && !act.user_id.nil?%>
+				<%=user_top_shareview_act(act.user_id,@week_s,@week_e) %>
+		<%end%>
+	</td>
+	<td>
+		<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+		     <%@week_s = @start_date%>
+		     <%@week_e = @end_date%>
+		<%else%>
+		     <%@week_s = ""%>
+		     <%@week_e = ""%>
+		<%end%>
+		<%if act && !act.nil? && !act.user_id.nil?%>
+			<%cnt=user_website_count(act.user_id,@week_s,@week_e) %>
+			<%if !cnt.nil? && cnt==0%>
+			<%=cnt%>
+			<%else%>
+			<%=cnt.sum%>
+			<%end%>
+		<%end%>
+	</td>
+	<td>
+	<%if act && !act.nil? && !act.user_id.nil?%><%=provider_current_status(act.user_id)%><%end%>
+	</td>
+      </tr>
+      <%slcount = slcount+1%>
+    <% end %> <!--do ending here-->
+  <%else%>
+      <tr>
+          Sorry we found no results
+      </tr>
+  <%end%>
+  </table>

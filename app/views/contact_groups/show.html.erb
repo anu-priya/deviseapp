@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Group:</b>
+  <%= @contact_group.group_id %>
+</p>
+
+<p>
+  <b>Group name:</b>
+  <%= @contact_group.group_name %>
+</p>
+
+<p>
+  <b>Inserted date:</b>
+  <%= @contact_group.inserted_date %>
+</p>
+
+<p>
+  <b>Modified date:</b>
+  <%= @contact_group.modified_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_contact_group_path(@contact_group) %> |
+<%= link_to 'Back', contact_groups_path %>

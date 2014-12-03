@@ -1,0 +1,116 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+    if ($('.randombanner').css('display') == 'block') {
+      var number = Math.floor(Math.random() * 3) + 1;
+       $('.randombanner').css('background','url("/assets/landing/newbanner'+number+'.jpg") no-repeat center center');
+	 
+    }
+  });
+</script>
+<div class="randombanner" style="background:url(/assets/landing/newbanner1.jpg) no-repeat center center;">  
+	<div class="banner_inner">
+		<table border="0"  cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+			  <td width="15%" align="center" valign="middle"></td>
+			<td width="70%" height="120" align="center" valign="middle"></td>
+			<td width="15%" align="center" valign="middle"></td>
+		         </tr>
+		    <tr>
+		      <td align="center" valign="middle">&nbsp;</td>
+			<td align="center" valign="middle">
+				<!--displayed the h1 content from the quick link helper-->
+				<%if params[:search_type] && params[:search_type]!="" && !params[:search_type].nil?
+						htag = quicklink_htags(params[:search_type])
+				end%>
+				<%@htagval = (htag && !htag.nil? && htag!='' && htag.present?) ? (htag) : ("Find, share & manage kids activities with friends!")%>
+				<h1 class="slogon">
+				<%=@htagval%>
+				</h1>
+			</td>
+			<td align="center" valign="middle">&nbsp;</td>
+		    </tr>
+		    <tr>
+		      <td align="center" valign="middle">&nbsp;</td>
+		      <td height="38" align="center" valign="middle">&nbsp;</td>
+		      <td align="center" valign="middle">&nbsp;</td>
+		  </tr>
+		    <tr>
+		      <td align="center" valign="middle">&nbsp;</td>
+			<td align="center" valign="middle">
+				<!--- search -->
+			    <%= render :partial => '/banner/search' %>
+			    <!-- search end -->
+			</td>
+			<td align="center" valign="middle">&nbsp;</td>
+		    </tr>
+		    <tr>
+		      <td align="center" valign="middle">&nbsp;</td>
+		      <td height="48" align="center" valign="middle">&nbsp;</td>
+		      <td align="center" valign="middle">&nbsp;</td>
+		    </tr>
+		    <tr>
+		     <td align="center" valign="middle">&nbsp;</td>
+		      <td align="center" valign="middle">
+			<div style="text-align:center; margin:0 auto;display:inline-block;">
+			  <div class="quick_link">
+					<a href="/locations"  title="Browse by Location" onclick="_gaq.push(['_trackEvent', 'Browse by Location', 'clickQucikLinks']);"><b>Browse by Location</b></a>
+			    </div>
+			    <div class="quick_link_dot">&nbsp;.&nbsp;</div>
+			   <div class="quick_link">
+					<a href="/categories"  title="Browse by Category" onclick="_gaq.push(['_trackEvent', 'Browse by Category', 'clickQucikLinks']);"><b>Browse by Category</b></a>
+			    </div>
+			    <div class="quick_link_dot">&nbsp;.&nbsp;</div>
+			  <div class="quick_link">
+					<a href="/special-activities"  title="Specials" onclick="search_qlink('special'); _gaq.push(['_trackEvent', 'Specials', 'clickQucikLinks']);"><b>Specials</b></a>
+			    </div>
+			    <div class="quick_link_dot">&nbsp;.&nbsp;</div>
+			    <div class="quick_link">
+				<a href="/discount-dollar-activities" title="Discount Dollars" onclick="search_qlink('discount-dollar');  _gaq.push(['_trackEvent', 'Discount Dollars', 'clickQucikLinks']);"><b>Discount Dollars</b></a>
+			    </div>
+			    <div class="quick_link_dot">&nbsp;.&nbsp;</div>
+			    <div class="quick_link">
+					<a href="/free-activities" onclick="search_qlink('free'); _gaq.push(['_trackEvent', 'Free', 'clickQucikLinks']);" title="Free"><b>Free<b></b></b></a>
+			    </div>
+			    <div class="quick_link_dot">&nbsp;.&nbsp;</div>
+			    <div class="quick_link">  
+					<a href="/camp-activities" onclick="search_qlink('camp'); _gaq.push(['_trackEvent', 'Camps', 'clickQucikLinks']);" title="Camps"><b>Camps</b></a>
+			    </div>
+			    <div class="quick_link_dot">&nbsp;.&nbsp;</div>
+			    <!--
+			    <div class="quick_link">  
+					<a href="/special-needs-activities" onclick="search_qlink('special-needs'); _gaq.push(['_trackEvent', 'Special Needs', 'clickQucikLinks']);" title="Special Needs"><b>Special Needs</b></a>
+			    </div>
+			    <div class="quick_link_dot">&nbsp;.&nbsp;</div>
+			    -->
+			    <div class="quick_link"> 
+					<a href="javascript:void(0)" onclick="week_click_new(); _gaq.push(['_trackEvent', 'This Weekend', 'clickQucikLinks']);" title="Newsletter"><b>This Weekend</b></a>
+			    </div>
+			</div>
+			      
+		      </td>
+		       <td align="center" valign="middle">&nbsp;</td>
+		    </tr>
+		    <tr>
+		      <td align="center" valign="middle"></td>
+		      <td align="center" valign="middle">
+		      
+		      </td>
+		      <td align="center" valign="middle"></td>
+		    </tr>
+		</table>
+          </div>
+</div>  
+<!--weed end newsletter starting-->
+<%=render :partial => 'common/week_end_newsletter'%>
+<!--weed end newsletter ending-->
+<%=javascript_include_tag "search/search_autocomplete"%>
+<script type="text/javascript">
+//quick link onclick functions called
+function search_qlink(qtype)
+{
+	var search_word = $("#search_value").val('Search 20,000 + Local Activities & Counting...');
+}
+</script>
+
+
+

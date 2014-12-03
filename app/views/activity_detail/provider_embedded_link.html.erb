@@ -1,0 +1,87 @@
+<%=javascript_include_tag "global/to_mail","global/checkbox","share_activity/share_activity","share_activity/validate","global/overlay/windowfiles/dhtmlwindow","global/overlay/modalfiles/modal", :media => "all"%>
+<%=stylesheet_link_tag "global/pop_up", "share_activity/share_acitivity_detail","share_activity/share_activity"%>
+<script language="javascript">
+ 
+  function closepopuppreview(){
+    parent.embedPage2.hide();
+  }
+</script>
+
+<div id="new_act_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter" id="provider_embed_list">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Embedded Link</div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopuppreview()" title="">
+              <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%>
+            </a>
+          </div>
+        </div>
+        <div class="centerCont">
+          <div class="paddingTop10" style="padding:20px 0 40px 0;">
+	<div class="lt leftSideField">&nbsp;</div>
+	<div class="lt"><p style="font-family:arial;background-color:#EDF1F2;font-size:14px; text-align:center;width: 458px;margin: 0px 0px 15px 0px;padding:10px 0px;" >To view your own website, copy and paste this link in the website</p></div><br>
+          <div class="lt leftSideField">Embedded Link</div>
+	  <% if get_embed_data.present? %>
+	  <% if !current_user.nil?
+		user_date = current_user.user_created_date.strftime("%Y-%m-%d")		
+		token =Base64.encode64("#{current_user.user_id}$#{user_date}")	
+		end		
+	%>
+	<textarea class="textArea" name="message" id="message" value="" onchange="removeunwantedSpace('message',this.value)" onfocus="focusChangeBorderColor('message')" onblur="blurChangeBorderColor('message')" style="height:192px;"><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Famtivity</title>
+ <script type="text/javascript">var provider_token="<%= token.gsub("\n", '').squeeze('')%>";</script> 
+<script src="<%= $image_global_path %>embed_famtivity.js" type="text/javascript"></script> 
+</head>
+<body>
+	<div id="embed_activity">
+	
+	</div>
+
+<script src="<%= $image_global_path %>activity_embed/jquery-1.8.3.min.js" type="text/javascript"></script>
+<script type="text/javascript"  src="<%= $image_global_path %>activity_embed/jquery-ui-1.8.23.custom.min.js"></script>
+<script  type="text/javascript" src="<%= $image_global_path %>activity_embed/jquery.mousewheel.min.js"></script>
+<script  type="text/javascript" src="<%= $image_global_path %>activity_embed/jquery.smoothdivscroll-1.3-min.js"></script>
+<script type="text/javascript">
+// Initialize the plugin with no custom options
+$(document).ready(function () {
+	$("div#scrollable_activity").smoothDivScroll({});
+});
+</script>
+</body>
+</html></textarea>
+	<% else%>
+	<textarea class="textArea" name="message" id="message" value="" onchange="removeunwantedSpace('message',this.value)" onfocus="focusChangeBorderColor('message')" onblur="blurChangeBorderColor('message')" style="height:192px;">No Activity Found</textarea>
+	<% end%>
+         <!-- <iframe width="100%" height="630" src='<%=$app_url%>/embed_popup?pu=<%=current_user.user_id%>' target='_blank' frameborder="0" allowfullscreen></iframe> -->
+	 <div class="lt leftSideField">&nbsp;</div><br><br>
+	<div class="lt">
+		<!--<a href="javascript:void(0)" tabindex="25" onClick="cancelRepeatDiv()" onkeydown="cancelKeyDown(event)"><img src="/assets/tickets/save_a_copy_button.png" alt="" ></a>-->
+		<% if get_embed_data.present? %>
+		<a href="javascript:void(0);" onClick="pop_provider_preview_embed_Detail('/preview_embed_popup?pu=<%=current_user.user_id%>')"  tabindex="24" ><%=image_tag("/assets/tickets/preview.png", :width=>"113", :height=>"41", :style=>"border:0px;")%></a>
+		<% else%>
+		<a href="javascript:void(0);" tabindex="24" ><%=image_tag("/assets/tickets/preview.png", :width=>"113", :height=>"41", :style=>"border:0px;")%></a>
+		<% end %>
+		<a href="javascript:void(0)" tabindex="23" onclick="closepopuppreview()" style="position:relative;">
+		<%=image_tag("/assets/tickets/cancel.png", :width=>"103", :height=>"42", :style=>"border:0px;")%></a>
+          </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+      <div class="clear"></div>
+  </div>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+</div>

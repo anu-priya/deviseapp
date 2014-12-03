@@ -1,0 +1,36 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up_success.css" />
+<style>
+#delete_actvity .popupContainer .headTab {
+    width: 421px;
+}
+#delete_actvity .popupContainer .successText {
+    color: #000000;
+    font-size: 17px;
+    margin: 15px 0 45px;
+}
+</style>
+<script language="javascript">
+  function closepopup() {
+    parent.scheduleCheckPage.hide();
+  }  
+</script>
+<div id="delete_actvity">
+  <div class="popupContainer">
+    <div class="headTab" style="border:none;">      
+		<div class="rt closeButton">
+		  <a href="javascript:void(0)" onClick="closepopup()"  title="" class="lt">
+			<img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" />
+		  </a>
+		</div>
+		<div class="clear"></div>
+    </div>
+    <div align="center">      
+      <p class="successText">Please check the current schedule, <br/>schedule changed by the provider <br/>from 22/12/12, 04:30 PM to 23/12/12, 05:00 PM</p>
+      <div class="clear"></div>
+      <div>
+        <a href="javascript:void(0)" style='position:relative;'><img src="/assets/activity_schedule/accept.png" alt="" width="111" height="37"/></a>
+        <a href="#" onClick="parent.scheduleCheckPage.hide();parent.schedule_contact()" style='position:relative;'><img src="/assets/activity_schedule/contact_now.png" alt="" width="144" height="37" /></a>
+      </div>
+    </div>
+  </div>
+</div>

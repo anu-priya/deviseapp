@@ -1,0 +1,37 @@
+<%if !@debit_list.nil? && @debit_list!="" && @debit_list.present? && @dbt_tot > 0  %>
+<table width="100%" cellspacing="0" border="0" cellpadding="0">
+      <tr>
+        <td class="headText setPadLt" width="20%" valign="middle" align="left"><div  style="margin-right:10px;">Purchased Activity</div></td>
+        <td class="headText" width="20%" valign="middle" align="left"><div  style="margin-right:10px;">Date & Time</div></td>
+        <td class="headText" width="20%" valign="middle" align="left"><div  style="margin-right:10px;">Provider</div></td>
+        <td class="headText" width="20%" valign="middle" align="left"><div  style="margin-right:10px;">Amount</div></td>
+        <td class="headText" width="19%" valign="middle" align="left"><div  style="margin-right:10px;">Status</div></td>
+        <td class="headText td_hide" width="1%" valign="middle" align="left"><div  style="margin-right:10px;">&nbsp;</div></td>
+      </tr>
+      <%i = 0%>
+      <%@debit_list && @debit_list.each do |debit|%>
+        <%i = i + 1%>
+        <%if i.even? %>
+          <tr class="setBg2"></tr>
+        <%else%>
+          <tr class="setBg1"></tr>
+        <%end%>
+        <tr>
+          <%provider = detail_user(debit,'deb')%>
+          <%activity = find_activity(debit.activity_id)%>
+	  <%dotted_class=(i==@dbt_tot) ? "contentBorderNone" : "contentText"%> 
+	  
+          <td align="left" class="<%=dotted_class%>"  ><div  style="margin-right:10px;padding-left:20px;"><%=(activity && !activity.activity_name.nil? && activity.activity_name.present?) ? activity.activity_name : ""%></div></td>
+          <td align="left" class="<%=dotted_class%>"  ><div  style="margin-right:10px;"></div><%=(!debit.purchased_date.nil?) ? debit.purchased_date.strftime("%a, %b %d, %Y, %l:%M %p") : ""%></td>
+          <td align="left" class="<%=dotted_class%>"  ><div  style="margin-right:10px;"><%=provider_user_name(provider)%></div></td>
+          <td align="left" class="<%=dotted_class%>"  ><div  style="margin-right:10px;">$<%=(!debit.debited_amount.nil? && debit.debited_amount.present?) ? (number_with_precision debit.debited_amount, :precision => 2) : ""%></div></td>
+          <td align="left" class="<%=dotted_class%>" ><div  style="margin-right:10px;"></div>Done</td>
+        </tr>
+      <%end%>
+</table>
+<%else%>
+<div align="center" width="100%">
+         <img src="/assets/discount_dollar/no_debit.png" alt="Search_cn_icon">
+	<br><span  class="no-debit-text" >No debits for your account.</span>
+</div>
+<%end%>

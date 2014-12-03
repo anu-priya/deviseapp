@@ -1,0 +1,13 @@
+<%if !@type.nil? && @type.present? && @type=="Provider"%>
+		var xx = <%=@xx=@provider_user.total_pages %>
+		var yy = <%=@yy=@provider_user.current_page%>
+		
+		<%if @provider_user.total_pages >= @provider_user.current_page %>
+			$('.scroll-pane-provider').append("<%=escape_javascript(render 'provider')%>");
+			 $("#loading").hide();
+			<%else%>
+			 $("#loading").hide();
+		<%end %>
+<%end%>
+
+

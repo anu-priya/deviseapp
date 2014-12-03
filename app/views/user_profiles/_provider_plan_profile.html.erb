@@ -1,0 +1,489 @@
+<%=javascript_include_tag "provider_plan/popup_div"%>
+<%=stylesheet_link_tag "user_settings/provider_plan", :media => "all"%>
+
+<%if !current_user.manage_plan.nil?%>
+	<%@currentPlan=current_user.user_plan%>
+	<%else%>
+	<%@currentPlan=current_user.user_plan%>
+	<%end%>
+
+	<div class="choosePlanOuter">
+		<table border="0" cellpadding="0" cellspacing="0" width="100%" class="tbl_brd plan_content_txt">    	
+  <tr class="plan_headbg">
+    <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+    <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+    <td height="60" colspan="2" align="left" valign="middle" class="tbl_brdright">
+    	<%= image_tag("/assets/plan/famtivity_plan.png", size:"187x43", align:"middle", alt: "famtivity_plan")%>
+    </td>
+    <td align="center" valign="middle" class="tbl_brdbtm">
+    <table border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td align="left" valign="middle"><span class="plan_price"><% if !current_user.nil?%>
+						<%if !current_user.user_plan.nil? && current_user.user_plan.downcase == 'curator' %>
+							$29.95
+						<% elsif !current_user.user_plan.nil? && current_user.user_plan.downcase == 'sell'  && (current_user.manage_plan.nil? || current_user.manage_plan.empty?)%>
+							$29.95
+						<% elsif !current_user.user_plan.nil? && current_user.user_plan.downcase == 'sell'  && !current_user.manage_plan.nil? && current_user.manage_plan!='' && current_user.manage_plan.downcase == 'market_sell_manage' %>
+							$49.95
+						<% elsif !current_user.user_plan.nil? && current_user.user_plan.downcase == 'sell'  && !current_user.manage_plan.nil? && current_user.manage_plan!='' && current_user.manage_plan.downcase == 'market_sell_manage_plus' %>
+							$99.95
+						<%else %>
+							$29.95
+						<%end%>					
+					<%end %></span></td>
+		<td align="left" valign="middle"><span class="plan_price_head">&nbsp;Per Month... That simple&nbsp;</span></td>
+		<td align="left" valign="middle"><%= image_tag("/assets/plan/smiley.png")%></td>
+	</tr>
+	</table>    
+    </td>
+  </tr>
+  <tr class="">
+    <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+    <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+    <td height="60" colspan="2" align="center" valign="middle" class="tbl_brdright"><div class="videoOuter" style="width:394px;">
+      <div class="providerTourHead">
+      	<%= image_tag("/assets/plan/provider_tour_icon.png", size:"23x22")%>
+     <span class="market_plan_desc providerTourText"><b>Provider Tour</b></span> </div>
+      <div align="center" class="providerTourImg"> <a href="javascript:void(0)" title="" onclick="show_video_url_plan('1','QDDPdsFTx88')">
+      	<%= image_tag("/assets/plan/provider_tour.jpg", size:"314x196", class: "image_url_plan", style: "border:1px solid  #E5E5E5;")%>
+        <div id="vidFrame_1"></div>
+      </a> </div>
+    </div>
+    	
+    </td>
+    <td align="left" valign="middle" class="">
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="market_plan_desc">
+      <tr>
+        <td width="4%" align="left" valign="middle" class="plan_btmbrd"></td>
+        <td width="16%" align="center" valign="middle" class="plan_btmbrd"><div style="background:url(/assets/plan/plan_icons.png) no-repeat; background-position: 0px 0px; width:50px; height:36px;">&nbsp;</div></td>
+        <td width="80%" height="50" align="left" valign="middle" class="plan_btmbrd"> Get New Customers </td>
+      </tr>
+      <tr>
+        <td align="left" valign="middle" class="plan_btmbrd"></td>
+        <td align="center" valign="middle" class="plan_btmbrd"><div style="background:url(/assets/plan/plan_icons.png) no-repeat; background-position: -48px 0px; width:42px; height:50px;">&nbsp;</div></td>
+        <td height="80" align="left" valign="middle" class="plan_btmbrd"> Save Hundreds on Registration/Management </td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="plan_btmbrd"></td>
+        <td align="center" valign="middle" class="plan_btmbrd"><div style="background:url(/assets/plan/plan_icons.png) no-repeat; background-position: -90px 0px; width:50px; height:50px;">&nbsp;</div></td>
+        <td height="80" align="left" valign="middle" class="plan_btmbrd"> Engage with Private Social Networks </td>
+      </tr>
+      <tr>
+        <td align="left" valign="top"></td>
+        <td height="90" colspan="2" align="center" valign="middle">
+	<% if !current_user.nil? 
+			@manage_pro = ProviderTransaction.find_by_sql("select end_date,grace_period_date,sales_limit,purchase_limit from provider_transactions where user_id =#{current_user.user_id} order by id desc limit 1")
+		end %>
+			   <% if (!current_user.nil? && !current_user.manage_plan.nil? && current_user.manage_plan == "market_sell") && current_user.is_partner == false %>
+						<!--Renewal button condition started here-->
+						<%@usr_mge_p=provider_signup_amount(current_user.user_id) if !current_user.nil? && !current_user.user_id.nil?%><!--attend details end date permonth-->
+							<!--provider transaction table end date and attend count checked for the provider based on month end-->
+							<%if !@usr_mge_p.nil? && @usr_mge_p.present? && !@usr_mge_p[0].nil? && @usr_mge_p[0] != "" && !@usr_mge_p[0].manage_plan.nil? && @usr_mge_p[0].manage_plan.present?%>
+								 <%@usr_buy_p=provider_buy_amount(current_user.user_id) if !current_user.nil? && !current_user.user_id.nil?%>
+								<!--provider transaction table end date checked for the provider based on month-->
+								<%if !@usr_buy_p.nil? && @usr_buy_p!="" && @usr_buy_p.present?%>
+									<!--attend details count checked per month for the provider-->
+									<%if @usr_mge_p && !@usr_mge_p[1].nil? && @usr_mge_p[1].present?%>
+										<%if @usr_mge_p[0].manage_plan=="market_sell"%><!--market plan users-->
+											<%#@user_renew_pro = provider_renew_limit(current_user.user_id) if !current_user.nil? && !current_user.user_id.nil?%>
+											<%#if (!@user_renew_pro.nil? && !@user_renew_pro[0].nil? && @user_renew_pro[0]!="" && !@user_renew_pro[0].purchase_limit.nil? && @user_renew_pro[0].purchase_limit >= 25)%><!--for 25 attendees for renewal count-->											
+											 <!--<a href="#sell_planChange6" class="plan_down" title="" onclick="_gaq.push(['_trackEvent', 'Plan',  'clickRenew','Market Sell']);"><img src="/assets/plan/renew.png"></a>											-->
+											<%#else%>
+											<a href="javascript:void(0)" title=""><span class="feature_clr yourplantext"><b>Your Plan</b></span></a>
+											<%#end%>
+										<%end%><!--market plan users end-->
+									<%else%>
+									<a href="javascript:void(0)" title=""><span class="feature_clr yourplantext"><b>Your Plan</b></span></a>
+									<%end%><!--attend details count checked per month for the provider-->
+								<%else%>								
+								<a href="#sell_planChange6" class="plan_down save-button" title="" onclick="_gaq.push(['_trackEvent', 'Plan',  'clickRenew','Market Sell']);">
+									Renew
+								</a>
+								<%end%><!--provider transaction table end date checked for the provider based on month end-->
+							<%else%><!--once expired the date displayed the renew button for the provider-->							
+							<a href="#sell_planChange6" class="plan_down save-button" title="" onclick="_gaq.push(['_trackEvent', 'Plan',  'clickRenew','Market Sell']);">Renew</a>
+							<%end%><!--provider transaction table end date and attend count checked for the provider based on month end-->
+						<!--Renewal button condition ending here-->
+			<% elsif (!current_user.nil? && !current_user.manage_plan.nil? && current_user.manage_plan == "market_sell_manage") && current_user.is_partner == false%> 
+					<%							
+						if !@manage_pro.nil? && @manage_pro.present? && @manage_pro.length > 0							
+								if !@manage_pro[0].grace_period_date.nil? && @manage_pro[0].grace_period_date.strftime("%Y-%m-%d") >= Time.now.strftime("%Y-%m-%d")
+									#if !@manage_pro[0].nil? && !@manage_pro[0].purchase_limit.nil? &&  @manage_pro[0].purchase_limit  <= 75
+									%>
+									<a href="javascript:void(0)" title=""><span class="feature_clr yourplantext"><b>Your Plan</b></span></a>
+									<%
+									#else
+									%>
+										<!--<a href="#sell_planChange6" class="plan_down" title="" onclick="_gaq.push(['_trackEvent', 'Plan',  'clickRenew','Market Sell']);"><img src="/assets/plan/renew.png"></a>-->
+									<%
+									#end									
+								else
+									%>
+									<a href="#sell_planChange6" class="plan_down save-button" title="" onclick="_gaq.push(['_trackEvent', 'Plan',  'clickRenew','Market Sell']);">Renew</a>
+									<%
+								end
+							
+						else
+						%>
+							<a href="#sell_planChange6" class="plan_down save-button" title="" onclick="_gaq.push(['_trackEvent', 'Plan',  'clickRenew','Market Sell']);">Renew</a>
+						<%
+						end
+					%>					
+					
+			<% elsif (!current_user.nil? && !current_user.manage_plan.nil? && current_user.manage_plan == "market_sell_manage_plus") && current_user.is_partner == false%>
+					<% if !@manage_pro.nil? && @manage_pro.present? && @manage_pro.length > 0							
+								if !@manage_pro[0].grace_period_date.nil? && @manage_pro[0].grace_period_date.strftime("%Y-%m-%d") >= Time.now.strftime("%Y-%m-%d")
+									#if !@manage_pro[0].nil? && !@manage_pro[0].purchase_limit.nil? &&  @manage_pro[0].purchase_limit  <= 150
+									%>
+									<a href="javascript:void(0)" title=""><span class="feature_clr yourplantext"><b>Your Plan</b></span></a>
+									<%
+									#else
+									%>
+										<!--<a href="#sell_planChange6" class="plan_down" title="" onclick="_gaq.push(['_trackEvent', 'Plan',  'clickRenew','Market Sell']);"><img src="/assets/plan/renew.png"></a>-->
+									<%
+									#end									
+								else
+									%>
+									<a href="#sell_planChange6" class="plan_down save-button" title="" onclick="_gaq.push(['_trackEvent', 'Plan',  'clickRenew','Market Sell']);">Renew</a>
+									<%
+								end
+							
+						else
+						%>
+							<a href="#sell_planChange6" class="plan_down save-button" title="" onclick="_gaq.push(['_trackEvent', 'Plan',  'clickRenew','Market Sell']);">Renew</a>
+						<%
+						end
+						%>			   
+			<%else%>
+								
+				<% if current_user.user_transaction.nil? && !current_user.user_bank_detail.nil? %>
+				<a href="javascript:void(0)" title="" class="save-button" onclick="changeUserPlan('market_sell','tran_upgrade'); _gaq.push(['_trackEvent', 'Plan',  'clickUpgrade','Market Sell']);">Upgrade</a>
+				<% elsif current_user.user_bank_detail.nil?%>
+				<a href="javascript:void(0)" title="" class="save-button" onclick="changeUserPlan('market_sell','upgrade'); _gaq.push(['_trackEvent', 'Plan',  'clickUpgrade','Market Sell']);">Upgrade</a>
+				<% else%>
+				<a href="#sell_planChange3" title="" class="plan_down save-button" onclick="_gaq.push(['_trackEvent', 'Plan',  'clickUpgrade','Market Sell']);">Upgrade</a>
+				<% end%>
+				
+			<% end %>	
+	</td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+  <tr class="plan_headbg">
+    	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+    	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+    	  <td height="40" colspan="2" align="left" valign="middle" class="tbl_brdbtm feature_clr ">Features</td>
+    	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+   	  </tr>
+    	<tr class="plan_sub_head">
+    	  <td width="11" align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+    	  <td width="9" align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+    	  <td height="55" colspan="2" align="left" valign="middle" class="tbl_brdbtm plan_price_head">
+           	  Get New Customers          </td>
+        	<td width="361" align="left" valign="middle" class="tbl_brdbtm">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td align="left" valign="middle"><%= image_tag("/assets/plan/school.png", size:"85x36")%>
+				</td>
+				<td align="left" valign="middle">
+				<a class="plan_link" href="javascript:void(0)" title=""><b>Are you a  School?&nbsp;&nbsp;Get Famtivity for Free!</b></a>
+				</a>
+			</tr>
+		</table>
+		
+	</td>
+        </tr>
+        <tr class="plan_tdbg tbl_brdbtm">
+          <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+          <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+          <td align="center" valign="middle" class="tbl_brdbtm">
+          	<%= image_tag("/assets/plan/feature4.png", size:"37x27")%>
+	  </td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Expose Activity Listings to thousands of families
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+        	<%= image_tag("/assets/plan/tick.png", size:"35x35")%>
+	</td>
+        </tr>
+        <tr class="plan_tdbg">
+          <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+          <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+          <td align="center" valign="middle" class="tbl_brdbtm">
+          	<%= image_tag("/assets/plan/feature3.png", size:"35x38")%>
+	  </td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Promote your activities to the Top of Famtivity Search Results
+
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+        		<%= image_tag("/assets/plan/tick.png", size:"35x35")%>
+	</td>
+        </tr><tr class="plan_tdbg">
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<%= image_tag("/assets/plan/feature1.png", size:"46x49",alt:"feature")%>
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Obtain real-time-leads from interested customers
+
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+        		<%= image_tag("/assets/plan/tick.png", size:"35x35")%>
+			</td>
+            </tr>
+        <tr class="plan_tdbg">
+          <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+          <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+          <td align="center" valign="middle" class="tbl_brdbtm">
+          	<%= image_tag("/assets/plan/feature5.png", size:"53x54", align:"middle")%>
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Convert interest to sales and Sell Activities Instantly on Famtivity
+
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+        	<%= image_tag("/assets/plan/tick.png", size:"35x35")%>
+			</td>
+        </tr><tr class="plan_tdbg">
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+        	<%= image_tag("/assets/plan/feature9.png", size:"36x37")%>
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Sell On Your Web Site with Easy Embed Link
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+        		<%= image_tag("/assets/plan/tick.png", size:"35x35")%>
+	</td>
+            </tr>
+        <tr class="plan_sub_head">
+          <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+          <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+          <td height="55" colspan="2" align="left" valign="middle" class="tbl_brdbtm plan_price_head">
+           	  Save Hundreds on Sign-up Mgmt.          </td>
+        	<td align="left" valign="middle" class="tbl_brdbtm"></td>
+        </tr><tr class="plan_tdbg">
+        	<td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+            <%= image_tag("/assets/plan/feature8.png", size:"40x41", align:"center")%>
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Easily Manage All Attendees, Schedules personnel & locations
+
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+        		<%= image_tag("/assets/plan/tick.png", size:"35x35")%>
+	</td>
+            </tr><tr class="plan_tdbg">
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+        	<%= image_tag("/assets/plan/feature6.png", size:"40x39")%>
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Save time and staff costs with Payments Collection & Reporting
+
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+        		<%= image_tag("/assets/plan/tick.png", size:"35x35")%>
+	</td>
+            </tr><tr class="plan_tdbg">
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+        	<%= image_tag("/assets/plan/feature10.png", size:"36x36")%>
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Eliminate the paperwork hassle with Online Forms Workflow
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+        		<%= image_tag("/assets/plan/tick.png", size:"35x35")%>
+	</td>
+            </tr><tr class="plan_tdbg">
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+        		<%= image_tag("/assets/plan/feature7.png", size:"36x38")%>
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Seamlessly export (.csv) and Exchange Data with Existing Systems
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<%= image_tag("/assets/plan/tick.png", size:"35x35")%>
+	</td>
+            </tr>
+        <tr class="plan_sub_head">
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td height="55" colspan="2" align="left" valign="middle" class="tbl_brdbtm plan_price_head">
+            	Engage with Private Social Networks
+            </td>
+        	<td align="left" valign="middle" class="tbl_brdbtm"></td>
+        </tr><tr class="plan_tdbg">
+        	<td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+			<%= image_tag("/assets/plan/feature11.png", size:"49x43")%>
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Engage clients through One Button Social Media Publishing
+
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<%= image_tag("/assets/plan/tick.png", size:"35x35")%>
+	</td>
+            </tr>
+        <tr class="plan_tdbg">
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<%= image_tag("/assets/plan/feature12.png", size:"43x37")%>
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright"> 
+            Enable your customer to securely share photos/videos/Files, Sign-up sheets, Rideshares, invites, etc.
+
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<%= image_tag("/assets/plan/tick.png", size:"35x35")%>
+	</td>
+        </tr>
+	<tr class="plan_tdbg">
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">	
+        	<%= image_tag("/assets/plan/feature12.png", size:"43x37")%>	
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright"> 
+            Keep everyone informed with Group and Auto-Messaging
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<%= image_tag("/assets/plan/tick.png", size:"35x35")%>
+	</td>
+        </tr>
+         <tr class="plan_tdbg">
+       	   <td align="left" valign="middle">&nbsp;</td>
+        	<td height="60" align="left" valign="middle" colspan="3" class="plan_desc_line">
+		<div class="plan_margin"><span class="plan_require">*</span>Leads = An e-mail lead sent to you from your activity page form or a click to your web site from famtivity
+		<br /><span class="plan_require">*</span>Attendees = An Attendee of an activity, whether sold through famtivity or not
+		<br /><span class="plan_require">*</span>Excludes <span class="plan_require">3%</span> credit card transaction fees or sales through after school and other 3rd party programs 
+		</div>
+	</td>
+        	<td align="right" valign="middle">
+            	Please <a class="plan_link" href="/contact_us" title="Contact Us" target="_blank">Contact Us</a> for larger plans&nbsp;&nbsp;<br />
+                <a href="javascript:void(0)" title="" class="plan_link"><b>See After School & Program pricing Here</b></a>&nbsp;&nbsp;
+            </td>
+        </tr>
+        <tr>
+        	<td align="left" valign="middle"></td>
+        	<td align="left" valign="middle"></td>
+        	<td align="left" valign="middle"></td>
+        	<td align="left" valign="middle">
+            	
+            </td>
+        	<td align="left" valign="middle"></td>
+        </tr>
+    </table>
+	</div>
+	
+	<!--renewal div started for market sell mange-->
+<div id="sell_planChange6" class="plan_popup">
+    <div class="closeButton">
+	 <a class="delimg imageall" id="close_1" onclick="closepopup_plan('6')" title=""></a>
+  </div>
+  <br>
+<p align="center" class="txtfamily"><b>Are you sure you want to renew your plan?</b></p>
+<div align="center" class="mtop">
+    <input type="hidden" value="40" id="to_delete">
+    <table>
+    <tr>
+    <td><a href="javascript:void(0)" class="save-button" title="" onclick="autorenewal_sell('market_sell');" >OK</a></td>
+     <td><a id="close_1" onclick="closepopup_plan('6')" href="javascript:void(0)" title="" class="cancel cancel-button">Cancel</a></td>
+     <td><a class='loadingmessage' style='display:none;'><%= image_tag("/assets/loading.gif")%></a></td>
+   </tr>
+  </table>
+
+  </div>
+    <!--ajax loader -->
+</div>
+<!--renewal div ending here-->
+
+<div id="sell_planChange3" class="plan_popup">
+    <div class="closeButton">
+	  <a class="delimg imageall" id="close_1" onclick="closepopup_plan('3')" title=""></a>
+  </div>
+  <br>
+  <br>
+<p align="center" class="txtfamily">Do you want to proceed with the upgrade?</p>
+<div align="center" class="mtop">
+    <input type="hidden" value="40" id="to_delete">
+    <table>
+    <tr>
+    <td><a href="javascript:void(0)" title="" class="save-button" onclick="upgrade_sell('market_sell');" >OK</a></td>
+     <td><a id="close_1" onclick="closepopup_plan('3')" href="javascript:void(0)" class="cancel cancel-button">Cancel</a></td>
+     <td><a class='loadingmessage' style='display:none;'><%= image_tag("/assets/loading.gif")%></a></td>
+   </tr>
+  </table>
+
+  </div>
+    <!--ajax loader -->
+</div>
+
+	
+	
+<script type="text/javascript">
+//show video url start
+var StartVal=1;
+function show_video_url_plan(getid,url){
+		$('.image_url_plan').hide();
+		if(StartVal==getid){
+			autoPlayVideo(url,'314','196');
+		}
+	}
+
+	function autoPlayVideo(vcode, width, height){ 		
+		$("#vidFrame_1").html('<iframe width="'+width+'" height="'+height+'" src="https://www.youtube.com/embed/'+vcode+'?autoplay=1&loop=1&rel=0&wmode=transparent" style="margin:0;" frameborder="0" allowfullscreen wmode="Opaque"></iframe>');		
+	}
+// show video url ending here
+
+//auto renewal function called after limitation crossed for the provider users.
+   function autorenewal_sell(plan)
+  {
+         $('.loadingmessage').show();
+                 $.ajax({  
+                      url: "/provider_plan_renewaling",  
+                      type: "POST",
+                      data: {"np": plan},
+                      dataType: "json",   
+                      success: function(data){  
+			    $("#sell_planChange6").hide(); 
+                           $('#mask').remove(); 
+                           pop_success_plan('/plan_success_message?act='+data);
+                      }  
+                  });  
+           return false;              
+  }
+  
+  function upgrade_sell(plan)
+  {
+         $('.loadingmessage').show();
+                 $.ajax({  
+                      url: "/provider_plan_upgrade",  
+                      type: "POST",
+                      data: {"np": plan},
+                      dataType: "json",   
+                      success: function(data){  
+                           $("#sell_planChange3").hide(); 
+                           $('#mask').remove(); 
+                           pop_success_plan('/plan_success_message?act='+data);
+                        
+                      }  
+                  });  
+           return false;              
+
+  }
+</script>

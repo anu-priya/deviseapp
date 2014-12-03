@@ -1,0 +1,117 @@
+<%=stylesheet_link_tag "transaction/transaction","contacts_users/contact_user","global/pop_up", :media => "all"%>
+<%=javascript_include_tag "contacts_users/contact_user" %>
+
+
+<!-- transaction css-->
+<script class="jsbin" src="/assets/event/jquery.min.js"></script>
+<script class="jsbin" src="/assets/event/jquery-ui.min.js"></script>
+<script language="javascript">
+
+  function closepopup() {
+    parent.transactionPage.hide();
+    //parent.parent.location.reload(true);
+    
+  }
+
+</script>
+
+
+<div id="contact_container" class="transaction">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Transaction Details</div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title="">
+              <%= image_tag("/assets/global/pop_up/button_close.png", size:"15x15")%>
+            </a>
+          </div>
+        </div>
+
+
+
+        <div class="centerCont contactNew">
+          <div class="transactionDiv">
+            <p class="order_text"><b>Order Details</b></p>
+            <div class="order_outerDiv">
+              <table cellpadding="0" width="520" cellspacing="0" border="0">
+                <tr>
+                  <td width="244" class="lt_con" height="46px"><b>Transaction ID</b></td>
+                  <td width="244" class="rt_con"><%= @transaction_detail.transaction_id %></td>
+                </tr>
+                <tr>
+                  <td width="244" class="lt_con" height="11px"><b>Billing Type</b></td>
+                  <td width="244" class="rt_con"><%= @activity.schedule_mode %></td>
+                </tr>
+                <tr>
+                  <td width="244" class="lt_con border_bottom" height="44px"><b>Purchase Activity</b></td>
+                  <td width="244" class="rt_con border_bottom"><%= @activity.activity_name %></td>
+                </tr>
+                <tr>
+                  <td width="244" class="lt_con" height="46px"><b>Payment Options</b></td>
+                  <td width="244" class="rt_con">Credit Card</td>
+                </tr>
+                <tr>
+                  <td width="244" class="lt_con" height="11px"><b>FamPass Code</b></td>
+                  <td width="244" class="rt_con">1602T123D534</td>
+                </tr>
+                <tr>
+                  <td width="244" class="lt_con" height="44px"><b>Status</b></td>
+                  <td width="244" class="rt_con"><%=  @transaction_detail.payment_status%></td>
+                </tr>
+                <tr>
+                  <td width="244" class="lt_con" height="14px"><b>Pay Time</b></td>
+                  <td width="244" class="rt_con"><%=  @transaction_detail.payment_date.strftime("%Y-%m-%d  %I:%M %p")  if !@transaction_detail.payment_date.nil?%></td>
+                </tr>
+                <tr>
+                  <td width="244" class="lt_con" height="14px">&nbsp;</td>
+                  <td width="244" class="rt_con">&nbsp;</td>
+                </tr>
+              </table>
+            </div>
+
+            <p class="order_text"><b>Billing Details</b></p>
+            <div class="order_outerDiv">
+              <table cellpadding="0" width="520" cellspacing="0" border="0">
+                <tr>
+                  <td width="244" class="lt_con" height="46px"><b>Name</b></td>
+                  <td width="244" class="rt_con">Smith Kumar</td>
+                </tr>
+                <tr>
+                  <td width="244" class="lt_con" height="11px"><b>Address</b></td>
+                  <td width="244" class="rt_con">Event Academy, San Francisco</td>
+                </tr>
+                <tr>
+                  <td width="244" class="lt_con border_bottom" height="44px"><b>Email</b></td>
+                  <td width="244" class="rt_con border_bottom">smith kumar@gmail.com</td>
+                </tr>
+                <tr>
+                  <td width="244" class="lt_con" height="46px"><b>Price</b></td>
+                  <td width="244" class="rt_con"><%=  @activity.price%></td>
+                </tr>
+                <tr>
+                  <td width="244" class="lt_con" height="11px"><b>Quantity</b></td>
+                  <td width="244" class="rt_con">2</td>
+                </tr>
+                <tr>
+                  <td width="244" class="lt_con" height="44px"><b>Total</b></td>
+                  <td width="244" class="rt_con"><%=  @transaction_detail.amount%></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>
+

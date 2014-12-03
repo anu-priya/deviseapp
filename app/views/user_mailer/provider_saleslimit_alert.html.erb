@@ -1,0 +1,32 @@
+<table cellpadding="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+	  <table cellpadding="0" cellpadding="0">
+	  	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="50">Hello <%= @user.user_name if !@user.nil?%>,</td>
+		</tr>
+	  	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="40">This is to inform you that as per the <%if !@user.nil? && !@user.manage_plan.nil? && @user.manage_plan.present?%><%if @user.manage_plan == "market_sell"%>Market &amp; Sell plan<%elsif @user.manage_plan == "market_sell_manage" %>Market Sell &amp; Manage plan<%elsif @user.manage_plan == "market_sell_manage_plus" %>Market Sell &amp; Manage Plus plan<%end%><%end%> you are signed up for, you have reached your limit of  <%if !@user.nil? && !@user.manage_plan.nil? && @user.manage_plan.present?%><%if @user.manage_plan == "market_sell"%>25<%elsif @user.manage_plan == "market_sell_manage" %>75<%elsif @user.manage_plan == "market_sell_manage_plus" %>150<%end%><%end%> activity sales for this month. For the rest of the month, parents will not be able to buy your activities, but only get more information.</td>
+		</tr>
+		<tr>
+		<td height="10"></td>
+		</tr>
+		<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="40">If you would like, you could renew your plan to start selling activities immediately.Click on the link below to renew your plan.</td>
+		</tr>
+		<tr>
+		<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="20"> <a href="https://www.famtivity.com/provider_plan" title="" target="_blank" style="color:#5099AC;text-decoration:none;">https://www.famtivity.com/provider_plan</a>
+		</td>
+		<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="60">Thanks!</td>
+		</tr>
+		<tr>
+			<td><span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;">Your Famtivity Team</span></td>
+		</tr>
+		
+	  </table>
+      
+
+  </td>
+  </tr>
+</table>

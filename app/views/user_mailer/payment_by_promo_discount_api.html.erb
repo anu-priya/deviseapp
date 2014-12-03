@@ -1,0 +1,49 @@
+<table cellpadding="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+ <p>Hi <%= @user.user_name%>,</p>
+      <p>This Email is to confirm that you have joined the <%if @activity.present?%> <%=@activity.activity_name %>!<% end %></p>
+      <%if @dis_amt && @promo && @dis_amt!=0 && @promo!=0%>
+	<p>You have used a promo code and discount dollars to buy this activity. Here is a summary of the discount dollars used.</p>
+      <%elsif (@dis_amt && @dis_amt!=0) && (!@promo || @promo==0)%>
+	<p>You have used your discount dollars to buy this activity. Here is a summary of the discount dollars used.</p>
+      <%elsif (@promo && @promo!=0) && (!@dis_amt || @dis_amt==0)%>
+	<p>You have used the following promo code to buy this activity.</p>
+      <%end%>
+      
+	<table cellspacing="0" cellpadding="0" width="566"  border="0" style="border:1px solid #CED6D9;">
+	<tr><td  width="133" height="25" align="left" valign="middle" style="border-bottom:1px solid #f1f1f1;padding-left:10px;color:#999999;font-family:Arial,Helvetica,sans-serif"><strong>Activity Price</strong></td>
+		<td  width="425" align="left" valign="middle" style="border-bottom:1px solid #f1f1f1;color:#3e8fa4;font-family:Arial,Helvetica,sans-serif">
+			<%=@amount if @amount && !@amount.nil?%>	
+		</td>
+	</tr>
+  <%if @dis_amt && !@dis_amt.nil? && @dis_amt!=0%>
+	<tr>
+		<td align="left" height="25"  valign="middle" style="border-bottom:1px solid #f1f1f1;padding-left:10px;color:#999999;font-family:Arial,Helvetica,sans-serif"><strong>Discount Dollar</strong></td>
+		<td align="left" valign="middle" style="border-bottom:1px solid #f1f1f1;color:#3e8fa4;font-family:Arial,Helvetica,sans-serif"><%=@dis_amt if @dis_amt && !@dis_amt.nil? && @dis_amt!=0%></td>
+	</tr>
+  <%end%>
+  <%if @promo && !@promo.nil? && @promo!=0%>
+	<tr>
+		<td align="left" height="25"  valign="middle" style="border-bottom:1px solid #f1f1f1;padding-left:10px;color:#999999;font-family:Arial,Helvetica,sans-serif"><strong>Promo Code Discount</strong></td>
+		<td align="left" valign="middle" style="border-bottom:1px solid #f1f1f1;color:#3e8fa4;font-family:Arial,Helvetica,sans-serif"><%=@promo if @promo && !@promo.nil? && @promo!=0%></td>				
+	</tr>
+  <%end%>
+<%if @dis_amt && !@dis_amt.nil? && @dis_amt!=0 && @current_bal && @current_bal!=0%>
+	<tr>
+		<td align="left" height="25"  valign="middle" style="border-bottom:1px solid #f1f1f1;padding-left:10px;color:#999999;font-family:Arial,Helvetica,sans-serif"><strong>Discount Dollar Balance</strong></td>
+		<td align="left" valign="middle" style="border-bottom:1px solid #f1f1f1;color:#3e8fa4;font-family:Arial,Helvetica,sans-serif"><%=@current_bal if @current_bal && !@current_bal.nil? && @current_bal!=0%></td>
+	</tr>
+  <%end%>
+	<tr>
+		<td align="left" height="25"  valign="middle" style="border-bottom:1px solid #f1f1f1;padding-left:10px;color:#999999;font-family:Arial,Helvetica,sans-serif"><strong>FamPasses No</strong></td>
+		<td align="left" valign="middle" style="border-bottom:1px solid #f1f1f1;color:#3e8fa4;font-family:Arial,Helvetica,sans-serif"><%=@ticket_number if @ticket_number && !@ticket_number.nil? && @ticket_number.present? && @ticket_number!=''%></td>
+	</tr>
+	</table>
+	<p>&nbsp;</p>
+	<p>Enjoy the activity!</p>
+<p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;">Your Famtivity Team</p>
+   </td>
+  </tr>
+
+</table>

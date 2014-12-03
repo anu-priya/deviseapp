@@ -1,0 +1,2 @@
+module AdminDiscountCodesHelper
+end

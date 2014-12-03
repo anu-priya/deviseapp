@@ -1,0 +1,99 @@
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+<!--      <table cellpadding="0" cellpadding="0">
+        <tr>
+          <td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="50">Hi <%= @user.user_name%>,</td>
+        </tr>
+        <tr>
+          <td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="50">Your direct account Username:<%=@user.email_address %></td>
+        </tr>
+        <tr>
+          <td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="50">Your direct account Password:<%= Base.decode64("#{@user.user_password}") %></td>
+        </tr>
+
+        <tr>
+          <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="80">Have fun!</td>
+        </tr>
+        <tr>
+          <td><span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;">Your Famtivity Team</span></td>
+        </tr>
+
+      </table>
+-->
+
+
+
+
+	<table cellpadding="0" cellpadding="0">
+	 	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="40"><b>Welcome <%= @user.user_name%>,</b></td>
+		</tr>
+	 	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="30">We&rsquo;re delighted you&rsquo;ve joined Famtivity, the Family Activity Network that helps you to:</td>
+		</tr>
+		<tr>
+		<td>
+		<table cellpadding="0" cellpadding="0" style="margin-left:10px;">
+	 	<tr>
+			<td height="30">
+				<%= image_tag("http://www.famtivity.com/assets/landing_banner/selection.png", size:"12x12")%>
+			</td>
+			<td style="padding-left:6px;">Find awesome activities and sign-up instantly</td>
+		</tr>
+	 	<tr>
+			<td height="30">
+				<%= image_tag("http://www.famtivity.com/assets/landing_banner/selection.png", size:"12x12")%>
+			</td>
+			<td style="padding-left:6px;">Get discounts from local providers</td>
+		</tr>
+	 	<tr>
+			<td height="30">
+				<%= image_tag("http://www.famtivity.com/assets/landing_banner/selection.png", size:"12x12")%>
+			</td>
+			<td style="padding-left:6px;">Share favorite activities and more</td>
+		</tr>
+		</table>
+		</td>
+		</tr>
+		<tr>
+		  <td height="30">Sign into Famtivity with the following log in information. You can also log in to Famtivity through your Facebook account:</td>
+		</tr>
+		<tr>
+		<td>
+		<table style="border: 1px solid #e5e9eb;" width="50%" cellspacing="0" cellpadding="0">
+	 	<tr>
+			<td style="border-bottom:1px solid #e5e9eb; padding-left:10px;" height="30">User ID:</td>
+			<td style="border-bottom:1px solid #e5e9eb; color:#555555;"><%=@user.email_address if !@user.nil?%></td>
+		</tr>
+	 	<tr>
+			<td height="30" style="padding-left:10px;">Password:</td>
+			<td style="color:#555555;"><%= Base.decode64("#{@user.user_password}") if !@user.nil?%></td>
+		</tr>
+		</table>
+		</td>
+		</tr>
+	 	
+		
+	 	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="30">Here&rsquo;s a brief tutorial to help you get started:</td>
+		</tr>
+	 	<tr>
+			<td height="40"><a href="http://www.youtube.com/watch?v=1BZqkeyMyDA" style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#2c8fae;" target="_blank"><a href="http://www.youtube.com/watch?v=48TSfRjaSR0" target="_blank" style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#2c8fae;">http://www.youtube.com/watch?v=48TSfRjaSR0</a></td>
+		</tr>
+		
+	 	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="50">If you have any questions or want support getting started, visit our <a href='http://<%=@image_url%>/faq' style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#2c8fae; text-decoration:none;">FAQ</a> page or contact us directly anytime at <a href='mailto:support@famtivity.com' style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#2c8fae;text-decoration:none;">support@famtivity.com</a>. We&rsquo;re here to help!</td>
+		</tr>
+		
+      <tr>
+         <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;">Your Famtivity Team</td>
+      </tr>
+		
+		
+	 </table>
+	 
+    </td>
+  </tr>
+</table>
+

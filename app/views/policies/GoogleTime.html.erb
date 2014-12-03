@@ -1,0 +1,25 @@
+
+<div><%=@chk%></div>
+
+
+<script>
+$(document).ready(function(){
+	var a = '<%=@chk%>';
+	var date1 = new Date(parseInt(a)); 
+	var s_date = setHoursTest(date1,10,30);
+	alert('orig_date'+" "+'<%=@original_d%>');
+	alert('orig_time'+" "+'<%=@original_t%>');
+	var resul = new Date(s_date);
+	alert('result'+" "+s_date);	
+	console.log(s_date);
+ });
+ 
+  function setHoursTest(date,updatehr,updatemin)
+ {
+	var update_hour = date.setHours(date.getHours()-parseInt(updatehr));
+	var te_date = new Date(update_hour); 
+	var update_min = te_date.setMinutes(te_date.getMinutes()-parseInt(updatemin));
+	var up_date = new Date(update_min);
+	return up_date
+ }
+</script>

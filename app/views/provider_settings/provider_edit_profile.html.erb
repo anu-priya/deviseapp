@@ -1,0 +1,1290 @@
+<%=stylesheet_link_tag "contacts_users/jquery-ui","contacts_users/smooth-theme-jquery-ui","profile/profile","contacts_users/contact_user","event/add_participant",  :media => "all"%>
+<%=javascript_include_tag "auto_complete/jquery-ui","create_new_activity_new/edit_create_new_activity","event/add_participant"%>
+
+<style type="text/css">
+  BODY {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  INPUT {
+    vertical-align: middle;
+    font-size: 13px;
+  }
+  
+  .setHyphen
+  {
+  padding: 0 10px;
+  }
+  
+  .ui-autocomplete { width: 258px;max-height: 150px; overflow-y: auto; overflow-x: hidden;}
+
+.vO {
+text-align: left;
+height: 20px!important;
+overflow: hidden;
+padding: 6px 3px;
+resize: none;
+width: 40px;
+}
+.vR {
+font-size: 13px;
+display: inline-block;
+padding: 3px;
+vertical-align: top;
+}
+
+.vN {
+background-color: #f5f5f5;
+border: 1px solid #d9d9d9;
+cursor: default;
+display: block;
+height: 20px;
+white-space: nowrap;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+}
+
+.vT {
+display: inline-block;
+color: #222;
+margin: 2px 5px;
+max-width: 325px;
+max-height: 17px;
+overflow: hidden;
+text-overflow: ellipsis;
+direction: ltr;
+cursor: move;
+}
+
+.vM {
+display: inline-block;
+width: 14px;
+height: 20px;
+background: no-repeat url(/assets/create_new_activity/contactarea_sprite_2.gif) -4px 0;
+opacity: .6;
+vertical-align: top;
+cursor: pointer;
+}
+
+.ui-menu-item a
+    {
+        max-width:100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css" />
+<script type="text/javascript">
+  //Tags concept  
+	var i = 0;
+	$(document).ready(function(){
+	  if($("#tag-end-value") && $("#tag-end-value").val() != "" && $("#tag-end-value").val() != "undefined")
+	  {
+	    i = parseInt($("#tag-end-value").val());
+		if(isNaN(i))
+		{
+		  i=0;
+		}
+	  }
+	});
+	$("#tag-txt").live("keydown",function(event){
+	  $("#tag_error").html("");
+	  $(".errorDiv").css("display","none");
+	  if(event.keyCode == 13)
+	  {
+		event.preventDefault();
+		var txt_tag = this.value.trim();
+		check_tag_value(txt_tag);
+	  }
+	});
+
+	$("#tag-txt").live("blur",function(event){
+		$("#tag_error").html("");
+		$(".errorDiv").css("display","none");
+		var txt_tag = this.value.trim();
+		check_tag_value(txt_tag);
+	});
+
+$(document).ready(function(){
+$("#tag-txt").autocomplete({
+source: "/user_tags",
+select: function( event, ui ) {
+if(event.keyCode != 13)
+{
+var txt_tag = ui.item.value.trim();
+check_tag_value(txt_tag);
+}
+return false;
+}
+}).keyup(function (e) {
+if(e.which == 13) {
+  $(".ui-menu").hide();
+} 
+});
+});
+
+function cls_tag(id){
+$('#tagdiv_'+id).remove();
+assign_tag_value();
+}
+
+function assign_tag_value(){
+var arr=new Array();
+$(".taginput").each(function( index ) {
+  arr.push(this.value);
+});
+$("#provider-tag-txt").val(arr);
+$("#tag-txt").focus();
+}
+
+function check_tag_value(txt_tag)
+{
+var txt_tag_value = txt_tag;
+if(txt_tag != "" && txt_tag != "undefined" && (/^\d*[a-zA-Z-]{1,}\d*/.test(txt_tag)))
+{
+	var chk_arr = new Array();
+	$(".taginput").each(function( index ) {
+	  chk_arr.push(this.value);
+	});
+        var lowerCaseItems = $.map(chk_arr, function(n,i){return n.toLowerCase();});
+        if(lowerCaseItems.indexOf(txt_tag.toLowerCase()) != -1)
+	{
+	$("#tag_error").html("You can't add the same tag more than once");
+	$(".errorDiv").css("display","block");
+	}
+	else
+	{
+	i = parseInt(i) + 1;
+	$("<div class='vR' id='tagdiv_"+i+"'><span class='vN vP'><div class='vT'>"+txt_tag+"</div><div class='vM cls' onclick=cls_tag("+i+") title='Remove Tag'></div></span><input name='to' type='hidden' value='"+txt_tag_value+"' id='taginput_"+i+"' class='taginput' /></div>").appendTo($( "#tag-keyword" ));
+	$("#tag-txt").val("");
+	assign_tag_value();
+	}
+}
+}
+
+$(document).ready(function(){
+  $("#city_edit_profile").autocomplete({
+    minLength: 1,
+    source: "/fetch_city?state_value=true",
+    select: function( event, ui ) {
+     this.value = ui.item.value;
+     return false;
+    }
+  });
+  });
+</script>
+<script language="javascript"> 
+  //set automatically go to next textbox
+  function movetoNext(current, nextFieldID) {
+    if (current.value.length >= current.maxLength) {
+      document.getElementById(nextFieldID).focus();
+    }
+  }
+  
+function number(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57 ) && (charCode != 46 ) ){
+        //alert("Allow only Numbers");
+        return false;			
+    }
+    return true;
+}
+
+  function closepopup() {
+    parent.EditproviderprofilePage.hide();   
+  }
+
+  function checkValidation(){
+
+    var lengthDiv = $('.createDynamicDivsActivityColor font').length;
+    var incDiv = lengthDiv + 1;
+    var cDiv = 1;
+    var msg='';
+    for(var i=cDiv;i<=incDiv;i++){
+      var room = $('#profile_activity_room_'+i).val();
+      if(room == ''){
+        msg+='activity room';
+      }
+      msg1='Please enter ';
+      
+      if(msg!=''){
+        $('#profile_activity_room_'+i).css("border","1px solid #fc8989");
+        $('#profile_activity_room_error_'+i).parent().css("display","block");
+        $('#profile_activity_room_error_'+i).show();
+        $('#profile_activity_room_error_'+i).html(msg1+msg);
+        $('#profile_activity_room_error_'+i).parent().css("display","block");
+        
+      }
+    }
+    var flag=1;
+    for(var i=cDiv;i<=incDiv;i++){
+      if(room!=''){
+        $('#profile_activity_room_'+i).css("border","1px solid #BDD6DD");
+        $('#profile_activity_room_error_'+i).parent().css("display","none");
+        $('#profile_activity_room_error_'+i).hide();
+        $('#profile_activity_room_error_'+i).html('');
+        $('#profile_activity_room_error_'+i).parent().css("display","none");
+        flag = 2;
+      }
+    }
+    if(flag==2){
+      addedColorDiv();
+    }
+    return false;
+  }
+
+
+  function addedColorDiv()
+  {
+
+    var lengthDiv = $('.createDynamicDivsActivityColor font').length;
+
+    if(lengthDiv<11){
+      var currentDiv = lengthDiv+2;
+      var cDiv = 2;
+    
+    
+      //alert(currentDiv);
+      var value = currentDiv;
+      //count increment
+      count=$("#part_count").val();
+      count_inc=count+","+value;
+      $("#part_count").val(count_inc);
+    
+      str_color='<font><div class="paddingTop10" id="row_'+value+'"><div class="lt leftSideField">Activity Rooms</div><input type="text" name="profile_activity_room_'+value+'" id="profile_activity_room_'+value+'"  class="lt textbox" style="color:#444;" maxlength="15" tabindex="2"/><div class="lt" style="margin-top:5px;"><a href="javascript:void(0)" onclick="deleteColorDiv('+value+')"><img src="/assets/provider_event_list/delete_icon.png" width="29" height="26" alt="" style="padding-left:5px;" /></a></div><div class="clear"></div></div></font>'
+    
+      $('.createDynamicDivsActivityColor').append(str_color);
+    
+    }
+  }
+
+  function deleteColorDiv(incVal){
+    $('#row_'+incVal).html('');
+    $('#row_'+incVal).hide();
+    $('#row_'+incVal).css('display','none');
+    $('#errorDiv_'+incVal).css("display","none");
+    $('#profile_activity_room_error_'+incVal).hide();
+    $('#profile_activity_room_error_'+incVal).html(msg1+msg);
+    $('#profile_activity_room_error_'+incVal).parent().css("display","none");
+  }
+
+
+</script>
+
+
+<div id="edit_profie_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Edit Profile</div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title="">
+              <%= image_tag("/assets/global/pop_up/button_close.png", size:"15x15")%> </a>
+          </div>
+        </div>
+    <div align="center" class="setfeedbackDiv" style="margin: 20px auto 0;width: 325px; font-weight:bold;"><span class="required">*</span>&nbsp;Please fill out required fields.</div>
+        <div class="centerCont ">
+          <form id="provider_edit_profile" name="provider_edit_profile" target="_parent" action="provider_update_profile" method="post"enctype="multipart/form-data">
+            <div class="paddingTop10" style=".padding-top:5px;"></div>
+            <div class="edit_personal_text paddingTop10" style=".padding-top:0px;">Business Details</div>
+	    
+	    <!--Contact Name added-->
+	<div class="paddingTop10">
+		<div class="lt leftSideField">Contact Name<span class="required">*</span></div>
+		<input type="text" <% if !current_user.nil? && !current_user.user_name.nil? && current_user.user_name.present?%>style="color:#444444;"<% else %>style="color:#999999;"<% end %> name="contact_name" id="contact_name" value="<%if !current_user.nil? && !current_user.user_name.nil? && current_user.user_name.present?%><%=current_user.user_name%><%else%>Enter Contact Name<%end%>"  class="lt textbox"  tabindex="1" onfocus="if(this.value == 'Enter Contact Name'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter Contact Name'}" />
+		<div class="clear"></div>
+	</div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+		<div class="lt leftSideField">&nbsp;</div>
+		<div class="lt" id="contactname_profile_error"></div>
+		<div class="clear"></div>
+              </div>
+	<div class="clear"></div>
+	    <!--Contact Name added ending-->
+	    <div class="paddingTop10">
+                <div class="lt leftSideField">Business Name<span class="required">*</span></div>
+                <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?  && current_user.user_profile.business_name.present?%>style="color:#444444;"<% else %>style="color:#999999;"<% end %> name="business_name" id="business_name" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil? %><%=current_user.user_profile.business_name%><%else%>Enter Business Name<%end%>"  class="lt textbox"  tabindex="1" onfocus="if(this.value == 'Enter Business Name'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter Business Name'}" />
+
+               <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="bname_profile_error"></div>
+                <div class="clear"></div>
+              </div>
+	      <div class="clear"></div>
+            <div class="paddingTop10">
+              <div class="lt leftSideField setMarginTop">Business Logo<span class="required">*</span></div>
+              <div class="lt">
+                  <div class="lt setImgBorder" style="overflow:hidden;width:69px;height:69px;">
+                    <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.profile.blank? %>
+                      <%= image_tag current_user.user_profile.profile.url(:small),:style=>"width:69px;height:69px;" if !current_user.user_profile.profile.url(:original).nil? %>
+                    <% else %>
+                       <%= image_tag("/assets/profile/user_icon_69.png", size:"69x69")%>
+                    <%end%>
+                  </div>
+                  <div class="lt">
+                    <div class="lt FileUpload">
+                      <input type="file" accept="image/*" onchange="document.getElementById('photo').value =this.value;fakepath(this.value,'photo');" size="21" id="photo1" class="BrowserHidden" name="my_image" style=".width:100px;"/>
+                      <div class="BrowserVisible" style="border:none;">
+                        <input type="text" name="photo" id="photo" class="FileField"  readonly="readonly" />
+
+                      </div>
+                      <a class="browse_profile" style="cursor:pointer; position:relative; display:inline-block;" href="javascript:void(0)" title="" tabindex="2"><b>Change Picture</b></a>
+                      <div class="clear"></div>
+                    </div>
+                  </div>
+                  <% #end %>
+                  <div class="clear"></div>
+                </div>
+                </div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="photo_profile_error"></div>
+                <div class="clear"></div>
+              </div>
+	   <div class="clear"></div>  
+	   
+	   <div class="lt leftSideField setMarginTop">Provider Image<span class="required">*</span></div>
+              <div class="lt">
+
+                  <div class="lt setImgBorder" style="overflow:hidden;width:69px;height:69px;">
+                    
+                    <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.card.blank? %>
+                      <%= image_tag current_user.user_profile.card.url(:small),:style=>"width:69px;height:69px;" if !current_user.user_profile.card.url(:original).nil? %>
+                    <% else %>
+                       <%= image_tag("/assets/profile/user_icon_69.png", size:"69x69")%>
+                    <%end%>
+                  </div>
+                  <div class="lt">
+                    <div class="lt FileUpload">
+                      <input type="file" accept="image/*" onchange="document.getElementById('card_image_name').value =this.value;fakepath(this.value,'card_image_name');" size="21" id="card_image" class="BrowserHidden" name="card_image" style=".width:100px;"/>
+                      <div class="BrowserVisible" style="border:none;">
+                        <input type="text" name="card_image_name" id="card_image_name" class="FileField"  readonly="readonly" />
+
+                      </div>
+                      <a class="browse_profile" style="cursor:pointer; position:relative; display:inline-block;" href="javascript:void(0)" title="" tabindex="3"><b>Change Picture</b></a>
+                      <div class="clear"></div>
+                    </div>
+                  </div>
+                  <% #end %>
+                  <div class="clear"></div>
+                </div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="photo_profile_error"></div>
+                <div class="clear"></div>
+              </div>
+	   <div class="clear"></div>  
+	    
+	     <div class="clear"></div>
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Tell About Provider<span class="required">*</span></div>
+
+                <textarea name="p_description" id="p_description" class="lt textbox descTextbox"  style="height:55px;padding-top:5px;" tabindex="2" onblur="if(this.value==''){this.value='Description should not exceed 1000 characters';this.style.color='#999999'}" onfocus="if(this.value=='Description should not exceed 1000 characters'){this.value='';this.style.color='#444444'}"><% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.description.nil? %><%= current_user.user_profile.description %><%else%>Description should not exceed 1000 characters<%end%></textarea>
+				
+               <div class="clear"></div>
+              </div>
+	    <div class="errorDiv" style="display:none">
+                   <div class="lt leftSideField">
+                      &nbsp;
+                    </div>
+                    <div id="p_description_error" class="lt"></div>
+		<div class="clear"></div>
+	    </div>
+              <div class="clear"></div>
+
+              <!--div class="paddingTop10">
+                <div class="lt leftSideField">Owner</div>
+                <div class="lt">
+                  <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.owner_first_name.nil?  && current_user.user_profile.owner_first_name.present?%>style="color:#444444;"<% else %>style="color:#999999;"<% end %> name="owner_first_name" id="owner_first_name"  style="color:#444444;" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.owner_first_name.nil? && current_user.user_profile.owner_first_name.present?%><%=current_user.user_profile.owner_first_name%><%else%>First Name<% end %>"  class="lt textbox_username" maxlength="15" tabindex="2" onfocus="if(this.value == 'First Name'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='First Name'}"/>
+                </div>
+                <div class="lt">
+                  <input type="text"  <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.owner_last_name.nil?  && current_user.user_profile.owner_last_name.present?%>style="margin-left:9px; color:#444444;"<% else %>style="margin-left:9px; color:#999999;"<% end %>  name="owner_last_name" id="owner_last_name" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.owner_last_name.nil? && current_user.user_profile.owner_last_name.present?%><%=current_user.user_profile.owner_last_name%><%else%>Last Name<% end %>"  class="lt textbox_username" maxlength="15" tabindex="3" onfocus="if(this.value == 'Last Name'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Last Name'}"/>
+                </div>
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="owner_firstname_error" style="width:278px; border:1px solid #fff;"></div>
+                <div class="lt" id="owner_lastname_error"></div>
+                <div class="clear"></div>
+              </div-->
+              <div class="clear"></div>
+			  <!-- Category and Sub Category start -->
+                <div class="paddingTop10">
+                  <div class="lt leftSideField">
+                    Choose Category
+                  </div>
+                  <div class="lt">
+                    <div class="lt col1">
+                      <select  id="category" name="user_profile[category]" size="1" tabindex="3" class="drop_down_left width_set2"  style="color:#444444;" onkeyup="find_category_events(this.value)" onchange="set_category(this.value)">
+					    <option value="">--Select Category--</option>
+                        <% @activities_category = ActivityCategory.order(:category_name).where("lower(category_name)!= ?","default")%>
+                        <% @activities_category.each do |cat|%>
+                          <option value="<%= cat.category_name.html_safe %>" <%if "#{cat.category_name}" == "#{@user_profile.category}" %>selected="selected"<%end%>><%= cat.category_name.html_safe %></option>
+                        <%end%>
+                      </select>
+                    </div>
+                    <div class="lt col2">
+                      <div class="lt sub_category">
+                        <select id="sub_category" name="user_profile[sub_category]" size="1" tabindex="3" class="drop_down_left width_set2" style="color:#444444;" onChange="$(this).css('color','#444444')">
+                          <% category = ActivityCategory.where(:category_name=>@user_profile.category).last unless @user_profile.category.blank?%>
+                          <% @sub_category = ActivitySubcategory.where(:category_id=>category.id).order(:subcateg_name) unless category.blank?%>
+                          <% if !@sub_category.nil? %>
+						    <option value="">--Select Sub Category--</option>
+                            <% @sub_category.each do |sub|%>
+                              <option value="<%= sub.subcateg_name.html_safe %>" <%if "#{sub.subcateg_name}" == "#{@user_profile.sub_category}" %>selected="selected"<%end%>><%= sub.subcateg_name.html_safe %></option>
+                            <%end%>
+                          <%else%>
+						    <option value="" selected="selected">--Select Sub Category--</option>
+						  <%end%>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+	      <div class="clear"></div>
+	      <div class="errorDiv" style="display:none">
+                   <div class="lt leftSideField">
+                      &nbsp;
+                    </div>
+                    <div id="sub_category_error" class="lt" style="float:right;margin-right: 185px;"></div>
+		<div class="clear"></div>
+	      </div>
+			  <!-- Category and Sub Category end -->
+              <div class="clear"></div>
+				<!-- Tags concept start -->
+              <div class="paddingTop10">
+                <div class="lt leftSideField">
+					<div style="float: left;">Tags</div>
+					<div id="provider_event_list" style="float: left;width: 25px;padding-left: 7px;">
+					  <div class="lt ActiveDivMenu" id="menu_active">
+						<ul>
+						  <li>
+                <%= image_tag("/assets/provider_register/help.png", style:"cursor: pointer;")%>
+							<ul class="sub-menu dispParticipantToll" style="width: 358px;">
+							  <li style="font-weight: normal;">Please enter keywords separated by commas that will help parents find you when they search for provider cards.</li>
+							</ul>
+						  </li>
+						</ul>
+						<div class="clear"></div>
+					  </div>
+					</div>
+				</div>
+				<div class="lt textbox" style="min-height: 60px;width:534px;height:auto;">
+				  <div id="tag-keyword">
+				  <%if !@user_profile.nil? && !@user_profile.tags_txt.nil?%>
+				  <%n=1%>
+				  <%!@tags_text.blank? && @tags_text.each do |tag|%>
+				  <div class="vR" id="tagdiv_<%=n%>">
+				   <span class="vN vP" email="<%=tag%>">
+				     <div class="vT"><%=tag%></div>
+				     <div class="vM cls" onclick="cls_tag(<%=n%>)" title="Remove Tag"></div>
+				   </span><input name="to" type="hidden" value="<%=tag%>" id="taginput_<%=n%>" class="taginput">
+				  </div>
+				  <%n=n+1%>
+				  <%end%>
+				  <input type="hidden" id="tag-end-value" value="<%=@tags_text.length%>" />
+				  <%end%>
+				</div>
+                <textarea rows="1" class="vO lt textbox" name="tag_txt" id="tag-txt" tabindex="4" style="border:none;width:525px;float:left;padding-top: 7px;"></textarea>
+				<input type="hidden" id="provider-tag-txt" value="<%=@user_profile.tags_txt%>" name="provider-tag-txt" />
+                <div class="clear"></div>
+              </div>
+              </div>
+			  <div class="clear"></div>
+			  <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="tag_error" style="font-weight: bold;"></div>
+                <div class="clear"></div>
+              </div>
+			  <!-- Tags concept end -->
+			  <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Administrator</div>
+                <div class="lt">
+                  <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.first_name.nil?  && current_user.user_profile.first_name.present?%>style="color:#444444;"<% else %>style="color:#999999;"<% end %> name="admin_first_name" id="admin_first_name" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.first_name.nil? && current_user.user_profile.first_name.present?%><%=current_user.user_profile.first_name%><%else%>First Name<% end %>"  class="lt textbox_username" maxlength="15" tabindex="5" onfocus="if(this.value == 'First Name'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='First Name'}"/>
+                </div>
+                <div class="lt">
+                  <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.first_name.nil?  && current_user.user_profile.first_name.present?%>style="margin-left:9px; color:#444444;"<% else %>style="margin-left:9px; color:#999999;"<% end %>  name="admin_last_name" id="admin_last_name"  value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.last_name.nil? && current_user.user_profile.last_name.present?%><%=current_user.user_profile.last_name%><%else%>Last Name<% end %>" class="lt textbox_username" maxlength="15" tabindex="6" onfocus="if(this.value == 'Last Name'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Last Name'}"/>
+                </div>
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="admin_firstname_error" style="width:278px; border:1px solid #fff;"></div>
+                <div class="lt" id="admin_lastname_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+               
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Email<span class="required">*</span>&nbsp;&amp;&nbsp;Fax</div>
+                
+		<div class="lt">
+               <input type="text" name="profile_email" disabled="disabled" id="profile_email" style="color:#444444;width:258px;" value="<% if !current_user.email_address.nil? %><%=current_user.email_address%><% else %>Eg:john@gmail.com<% end %>" class="lt textbox" tabindex="7" onfocus="if(this.value == 'Eg:john@gmail.com'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Eg:john@gmail.com'}"/>
+                </div>
+		
+	        <div class="lt">
+                  <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.fax.nil?  && current_user.user_profile.fax.present?%>style="margin-left:9px; color:#444444;width:258px;"<% else %>style="margin-left:9px; color:#999999;width:258px;"<% end %> name="profile_fax" id="profile_fax" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.fax.nil?  && current_user.user_profile.fax.present?%><%=current_user.user_profile.fax%><% else %>Enter Fax Number<% end %>"  class="lt mobile_textbox" maxlength="15" tabindex="8" onfocus="if(this.value == 'Enter Fax Number'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter Fax Number'}" onKeyPress="return number(event);" />
+                </div>
+		
+                <div class="clear"></div>
+              </div>
+
+             
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Phone<span class="required">*</span> </div>
+                <div class="lt">
+                 <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.phone.nil?  && current_user.user_profile.phone.present?%>style="color:#444444;"<% else %>style="color:#999999;"<% end %> name="profile_phone_1" id="profile_phone_1" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.phone.nil? && current_user.user_profile.phone.present?%><%=current_user.user_profile.phone.first(3)%><% else %>xxx<% end %>" class="lt textbox_card" style="outline:none; margin-right:10px; color:#444444;" onfocus="if(this.value == 'xxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxx'}" tabindex="9" maxlength="3"  onkeyup="movetoNext(this, 'profile_phone_2')" onKeyPress="return number(event);"> 
+         
+                  <div class="lt setHyphen">-</div>
+
+                  <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.phone.nil?  && current_user.user_profile.phone.present?%>style="color:#444444;"<% else %>style="color:#999999;"<% end %> name="profile_phone_2" id="profile_phone_2" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.phone.nil? && current_user.user_profile.phone.present? %><%=current_user.user_profile.phone[4,3]%><% else %>xxx<% end %>" class="lt textbox_card" style="outline:none; margin:0px 10px 0px 10px; color:#444444;" onfocus="if(this.value == 'xxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxx'}" tabindex="10" maxlength="3"  onkeyup="movetoNext(this, 'profile_phone_3')" onKeyPress="return number(event);"> 
+
+                  <div class="lt setHyphen">-</div>
+
+                  <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.phone.nil?  && current_user.user_profile.phone.present?%>style="color:#444444;"<% else %>style="color:#999999;"<% end %> name="profile_phone_3" id="profile_phone_3" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.phone.nil? && current_user.user_profile.phone.present?%><%=current_user.user_profile.phone.last(4)%><% else %>xxxx<% end %>" class="lt textbox_card" style="outline:none; margin-left:10px; color:#444444;" onfocus="if(this.value == 'xxxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxxx'}" tabindex="11" maxlength="4" onkeyup="movetoNext(this, 'sell_phone_4')" onKeyPress="return number(event);">
+
+                </div>
+                <div class="lt">
+                  <input type="text" style="display:none; margin-left:9px; color:#444444;" name="profile_mobile" id="profile_mobile" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.mobile.nil? %><%=current_user.user_profile.mobile%><% else %>Enter Mobile Number<% end %>"  class="lt mobile_textbox" maxlength="15" tabindex="12" onfocus="if(this.value == 'Enter Mobile Number'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter Mobile Number'}" onKeyPress="return number(event);"/>
+                </div>
+               
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_phone_error" style="width:200px; border:1px solid #fff;"></div>
+                <div class="lt" id="profile_mobile_error" style="width:183px; border:1px solid #fff;"></div>                
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10" style="padding-top:0px;.padding-top:5px;"></div>
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Mobile</div>
+
+                  <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.mobile.nil?  && current_user.user_profile.mobile.present?%>style="color:#444444;"<% else %>style="color:#999999;"<% end %> name="profile_contact_1" id="profile_contact_1" value="<% if !current_user.user_profile.mobile.nil? && current_user.user_profile.mobile.present? %><%=current_user.user_profile.mobile.first(3)%><% else %>xxx<% end %>" class="lt textbox_card" style="outline:none; margin-right:10px; color:#444444;" onfocus="if(this.value == 'xxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxx'}" tabindex="13" maxlength="3"  onkeyup="movetoNext(this, 'profile_contact_2')" onKeyPress="return number(event);">
+
+                  <div class="lt setHyphen">-</div>
+
+                  <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.mobile.nil?  && current_user.user_profile.mobile.present?%>style="color:#444444;"<% else %>style="color:#999999;"<% end %> name="profile_contact_2" id="profile_contact_2" value="<% if !current_user.user_profile.mobile.nil? && current_user.user_profile.mobile.present? %><%=current_user.user_profile.mobile[4,3]%><% else %>xxx<% end %>" class="lt textbox_card" style="outline:none; margin:0px 10px 0px 10px; color:#444444;" onfocus="if(this.value == 'xxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxx'}" tabindex="14" maxlength="3" onkeyup="movetoNext(this, 'profile_contact_3')" onKeyPress="return number(event);">
+
+                  <div class="lt setHyphen">-</div>
+
+                  <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.mobile.nil?  && current_user.user_profile.mobile.present?%>style="color:#444444;"<% else %>style="color:#999999;"<% end %> name="profile_contact_3" id="profile_contact_3" value="<% if !current_user.user_profile.mobile.nil? && current_user.user_profile.mobile.present? %><%=current_user.user_profile.mobile.last(4)%><% else %>xxxx<% end %>" class="lt textbox_card" style="outline:none; margin-left:10px; color:#444444;" onfocus="if(this.value == 'xxxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxxx'}" tabindex="15" maxlength="4">
+
+                  <div class="clear"></div>
+      
+               <div class="clear"></div>
+               </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_contact_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Billing Address<span class="required">*</span></div>
+                <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.address_1.nil?  && current_user.user_profile.address_1.present?%>style="color:#444444;"<% else %>style="color:#999999;"<% end %> name="profile_Add1" id="profile_Add1"  value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.address_1.nil? && current_user.user_profile.address_1.present?%><%=current_user.user_profile.address_1%><% else %>Enter Your Address<% end %>" class="lt textbox" tabindex="16" onfocus="if(this.value == 'Enter Your Address'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter Your Address'}"/>
+                <div class="clear"></div>
+              </div>
+              <div style="margin-top:3px;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.address_2.nil?  && current_user.user_profile.address_2.present?%>style="color:#444444;"<% else %>style="color:#999999;"<% end %> name="profile_Add2" id="profile_Add2" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.address_2.nil? && current_user.user_profile.address_2.present?%><%=current_user.user_profile.address_2%><% else %>Enter Your Address<% end %>"  class="lt textbox" tabindex="17" onfocus="if(this.value == 'Enter Your Address'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter Your Address'}"/>
+                <div class="clear"></div>
+              </div>
+
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_address_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" style="width:275px;">
+                   <select name="state_edit_profile" class="editProfileSelect" tabindex="18">
+                    <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.country.nil? && current_user.user_profile.country.present?%>
+                      <option selected="selected" value="<%=current_user.user_profile.country%>"><%=current_user.user_profile.country%></option>
+                      <% else %>
+                        <option value="United States">United States</option>
+                        <% end %>
+                   </select>                 
+                </div>
+
+                <div class="lt">
+                 <select name="state_edit_profile" class="editProfileSelect" tabindex="19">
+                    <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.state.nil? %>
+                      <option value="<%=current_user.user_profile.state if current_user.user_profile.state.present?%>"><%=current_user.user_profile.state if current_user.user_profile.state.present?%></option>
+                      <% else %>
+                      <option value="California">California</option>
+                      <% end %>
+                  </select>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" style="width:275px; border:1px solid #fff;" id="profile_country_error"></div>
+                <div class="lt" id="profile_state_error"></div>
+              </div>
+
+
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" style="width:275px;">
+                  <!--<select name="city_edit_profile" class="editProfileSelect" tabindex="20">
+                    <%# if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.city.nil? %>
+                    <option selected="selected" value="<%#=current_user.user_profile.city%>"><%#=current_user.user_profile.city%></option>
+                    <%#else %><%# end %>
+                    <%#@cities = City.where("state_id = 1 and country_id = 1").order("city_name Asc")%>
+                    <%#@cities.each do |cit|%>
+                        <option value="<%#= cit.city_name %>"><%#= cit.city_name %></option>
+                   <%#end%>
+                  </select>-->
+		  <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.city.nil?  && current_user.user_profile.city.present?%>style="margin-left:1px; color:#444444;"<% else %>style="margin-left:1px; color:#999999;"<% end %> name="city_edit_profile"  value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.city.nil? && current_user.user_profile.city.present?%><%=current_user.user_profile.city%><% else %>Enter City<% end %>"  id="city_edit_profile"  class="lt textbox_username" maxlength="16" tabindex="20" onfocus="if(this.value == 'Enter City'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter City'}"/>
+	     </div>
+                <div class="lt" style="width:275px;">
+                  <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.zip_code.nil?  && current_user.user_profile.zip_code.present?%>style="margin-left:1px; color:#444444;"<% else %>style="margin-left:1px; color:#999999;"<% end %> name="profile_zipcode"  value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.zip_code.nil? && current_user.user_profile.zip_code.present?%><%=current_user.user_profile.zip_code%><% else %>Enter Zip Code<% end %>"  id="profile_zipcode"  class="lt textbox_username" maxlength="16" tabindex="21" onfocus="if(this.value == 'Enter Zip Code'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter Zip Code'}"/>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" style="width:275px; border:1px solid #fff;" id="profile_city_error"></div>
+                <div class="lt" id="profile_zipcode_error"></div>
+              </div>
+
+              <div class="clear"></div>
+
+
+              <div class="paddingTop10" style="padding-top:10px;">
+                <div class="lt leftSideField">Web Address</div>
+                <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.website.nil?  && current_user.user_profile.website.present?%>style="color:#444444;"<% else %>style="color:#999999;"<% end %> name="profile_web" id="profile_web" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.website.nil? && current_user.user_profile.website.present? %><%=current_user.user_profile.website%><% else %>Enter The URL Of Your Website<% end %>"  class="lt textbox" tabindex="22" onfocus="if(this.value == 'Enter The URL Of Your Website'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter The URL Of Your Website'}"/>
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_web_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="clear"></div>
+
+
+              <div class="buttonDiv" style="margin:18px 0 10px;">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+                <div class="lt">
+                  <input type="image" src="/assets/settings/save_button.png" alt="" tabindex="23" style="vertical-align:top;" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickMyAccounts','Save Profile'])"/>
+                  <a href="javascript:void(0)" onClick="closepopup(); _gaq.push(['_trackEvent','Provider Module', 'clickMyAccounts','Cancel Profile']) " onkeydown="cancelActivityClearData(event)">
+                    <%= image_tag("/assets/settings/cancel_button.png", tabindex:"24")%>
+                  </a>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>
+
+<script type="text/javascript" language="javascript">
+function find_category_events(val)
+{
+  if(e.which != 9)
+  {
+    set_category(val);
+  }
+}
+function fakepath(filepath,id)
+{
+	inputNode = filepath.replace('C:\\fakepath\\', '');	
+	var pos = filepath.lastIndexOf( filepath.charAt( filepath.indexOf(":")+1) );
+	var filename = filepath.substring( pos+1);
+	
+	var ua=navigator.userAgent;
+	if(ua.indexOf("Firefox")!=-1){ 
+		$("#"+id).val(filepath); 
+	} 
+	else {
+		$("#"+id).val(filename);
+	}
+}
+  $(document).ready(function (){   
+	$("#contact_name").focus();  
+  
+    $('#provider_edit_profile').submit(function (){
+      var body = document.body,
+      html = document.documentElement;
+      var height = Math.max( body.scrollHeight, body.offsetHeight,
+      html.clientHeight, html.scrollHeight, html.offsetHeight );
+      $(".drag-contentarea").css("height",height+"px");
+      //return false;
+  
+      var edit_photo = $("#photo").val();
+      var business_name = $("#business_name").val();
+      var contact_name = $("#contact_name").val();
+      var profile_activity_room_1= $("#profile_activity_room_1").val();
+      var b_category = $("#b_category").val();
+      var owner_first_name = $("#owner_first_name").val();
+      var owner_last_name = $("#owner_last_name").val();
+      var admin_first_name = $("#admin_first_name").val();
+      var admin_last_name = $("#admin_last_name").val();
+      var profile_email = $("#profile_email").val();
+      var profile_phone =  $("#profile_phone").val();
+      var profile_phone_1 =  $("#profile_phone_1").val();
+      var profile_phone_2 =  $("#profile_phone_2").val();
+      var profile_phone_3 =  $("#profile_phone_3").val();
+      var profile_contact_1 =  $("#profile_contact_1").val();
+      var profile_contact_2 =  $("#profile_contact_2").val();
+      var profile_contact_3 =  $("#profile_contact_3").val();
+      var profile_mobile =  $("#profile_mobile").val();
+      var profile_fax =  $("#profile_fax").val();
+      var profile_Add1= $("#profile_Add1").val();
+      var profile_Add2= $("#profile_Add2").val();
+      var country_edit_profile = $("#country_edit_profile").val();
+      var state_edit_profile = $("#state_edit_profile").val();
+      var city_edit_profile = $("#city_edit_profile").val();
+      var profile_zipcode = $("#profile_zipcode").val();
+      var language_edit = $("#language_edit").val();
+      var Time_zone_edit= $("#Time_zone_edit").val();
+      var profile_date_edit= $("#profile_date_edit").val();
+      var b_currency= $("#b_currency").val();
+      var profile_web = $("#profile_web").val();
+      var category_value = $("#category").val();
+      var sub_category_value = $("#sub_category").val();
+      var p_description_value = $("#p_description").val();
+  
+  
+      $("#profile_contact_error").html("");
+      $("#setBrowseBorder").css("border","none");
+      $("#business_name").css("border","1px solid #BDD6DD");
+      $("#contact_name").css("border","1px solid #BDD6DD");
+      //$("#profile_activity_room_1").css("border","1px solid #BDD6DD");
+      $("#p_description").css("border","1px solid #BDD6DD");
+      $("#profile_email").css("border","1px solid #BDD6DD");
+      $("#owner_first_name").css("border","1px solid #BDD6DD");
+      $("#owner_last_name").css("border","1px solid #BDD6DD");
+      $("#admin_first_name").css("border","1px solid #BDD6DD");
+      $("#admin_last_name").css("border","1px solid #BDD6DD");
+      $("#profile_phone_1").css("border","1px solid #BDD6DD");
+      $("#profile_phone_2").css("border","1px solid #BDD6DD");
+      $("#profile_phone_3").css("border","1px solid #BDD6DD");
+
+      $("#profile_contact_1").css("border","1px solid #BDD6DD");
+      $("#profile_contact_2").css("border","1px solid #BDD6DD");
+      $("#profile_contact_3").css("border","1px solid #BDD6DD");    
+      $("#profile_mobile").css("border","1px solid #BDD6DD");
+      $("#profile_fax").css("border","1px solid #BDD6DD");
+      $("#profile_first_name").css("border","1px solid #BDD6DD");
+      $("#profile_last_name").css("border","1px solid #BDD6DD");
+      $("#profile_web").css("border","1px solid #BDD6DD");
+      $("#profile_insti").css("border","1px solid #BDD6DD");
+      $("#profile_contact").css("border","1px solid #BDD6DD");
+      $("#profile_Add1").css("border","1px solid #BDD6DD");
+      $("#profile_Add2").css("border","1px solid #BDD6DD");
+      $("#setdayBorder").css("border","none");
+      $("#setSearchBorder").css("border","none");
+      $(".selectBoxEditProfileCity").css("border","none");
+      $(".selectBoxEditProfileCity").css("border","none");
+      $("#setCountryBorder").css("border","none");
+      $("#setStateBorder").css("border","none");
+      $("#setCityBorder").css("border","none");
+      $("#setLanguageBorder").css("border","none");
+      $("#setTimezoneBorder").css("border","none");
+      $("#setCurrencyBorder").css("border","none");
+      $("#edit_profie_container .editProfileSelectBox").css("border","none");
+      $("#profile_zipcode").css("border","1px solid #BDD6DD");
+      $("#setAgeBorder").css("border","none");
+      $(".editProfileGenderSelectBox").css("border","none");
+  
+      //business_name = business_name.replace(/^\s+|\s+$/g, "");
+      //profile_activity_room_1 = profile_activity_room_1.replace(/^\s+|\s+$/g, "");
+      //owner_first_name = owner_first_name.replace(/^\s+|\s+$/g, "");
+      //owner_last_name = owner_last_name.replace(/^\s+|\s+$/g, "");
+     // admin_first_name = admin_first_name.replace(/^\s+|\s+$/g, "");
+      admin_last_name = admin_last_name.replace(/^\s+|\s+$/g, "");
+      profile_email = profile_email.replace(/^\s+|\s+$/g, "");
+      profile_phone_1 = profile_phone_1.replace(/^\s+|\s+$/g, "");
+      profile_phone_2 = profile_phone_2.replace(/^\s+|\s+$/g, "");
+      profile_phone_3 = profile_phone_3.replace(/^\s+|\s+$/g, "");
+      profile_contact_1 = profile_contact_1.replace(/^\s+|\s+$/g, "");
+      profile_contact_2 = profile_contact_2.replace(/^\s+|\s+$/g, "");
+      profile_contact_3 = profile_contact_3.replace(/^\s+|\s+$/g, "");
+      profile_mobile = profile_mobile.replace(/^\s+|\s+$/g, "");
+      profile_fax = profile_fax.replace(/^\s+|\s+$/g, "");
+      profile_Add1 = profile_Add1.replace(/^\s+|\s+$/g, "");
+      profile_Add2 = profile_Add2.replace(/^\s+|\s+$/g, "");
+      profile_zipcode = profile_zipcode.replace(/^\s+|\s+$/g, "");
+  
+      $("#photo_profile_error").html("");
+      $("#bname_profile_error").html("");
+      $("#sub_category_error").html("");
+      $("#p_description_error").html("");
+      //$("#profile_activity_room_error_1").html("");
+      $("#profile_category_error").html("");
+      $("#owner_firstname_error").html("");
+      $("#owner_lastname_error").html("");
+      $("#admin_firstname_error").html("");
+      $("#admin_lastname_error").html("");
+      $("#email_profile_error").html("");
+      $("#profile_phone_error").html("");
+      $("#profile_mobile_error").html("");
+      $("#email_fax_error").html("");
+      $("#email_fax_error").html("");
+      $("#profile_country_error").html("");
+      $("#profile_state_error").html("");
+      $("#profile_city_error").html("");
+      $("#profile_zipcode_error").html("");
+      $("#profile_language_error").html("");
+      $("#profile_timezone_error").html("");
+      $("#profile_date_error").html("");
+      $("#profile_currency_error").html("");
+      $("#profile_web_error").html("");
+  
+      $("#profile_contact_error").parent().css("display","none");
+
+      $("#photo_profile_error").parent().css("display","none");
+      $("#bname_profile_error").parent().css("display","none");
+      $("#sub_category_error").parent().css("display","none");
+      $("#photo_profile_error").parent().css("display","none");
+      //$("#profile_activity_room_error_1").parent().css("display","none");
+      $("#profile_category_error").parent().css("display","none");
+      $("#owner_firstname_error").parent().css("display","none");
+      $("#owner_lastname_error").parent().css("display","none");
+      $("#admin_firstname_error").parent().css("display","none");
+      $("#admin_lastname_error").parent().css("display","none");
+      $("#email_profile_error").parent().css("display","none");
+      $("#profile_phone_error").parent().css("display","none");
+      $("#profile_mobile_error").parent().css("display","none");
+      $("#email_fax_error").parent().css("display","none");
+      $("#profile_address_error").parent().css("display","none");
+      $("#profile_country_error").parent().css("display","none");
+      $("#profile_state_error").parent().css("display","none");
+      $("#profile_city_error").parent().css("display","none");
+      $("#profile_zipcode_error").parent().css("display","none");
+      $("#profile_language_error").parent().css("display","none");
+      $("#profile_timezone_error").parent().css("display","none");
+      $("#profile_date_error").parent().css("display","none");
+      $("#profile_currency_error").parent().css("display","none");
+      $("#profile_web_error").parent().css("display","none");
+      $("#sub_category_error").parent().css("display","none");
+      $("#p_description_error").parent().css("display","none");
+  
+	var errorFlag = false;
+  
+	if(edit_photo != ""){
+	val=validateBrowse();
+	if(!val){
+	  $('#photo_profile_error').html('Please Check The Format Of Your Logo');
+	  errorFlag = true;
+	}
+	}
+
+	if(business_name == "" || business_name == "Enter Business Name"){
+	$("#business_name").css("border","1px solid #fc8989");
+	$("#bname_profile_error").html("Please enter business name");
+	$("#bname_profile_error").parent().css("display","block");
+	errorFlag = true;
+	}
+	
+	if(contact_name == "" || contact_name == "Enter Contact Name"){
+	$("#contact_name").css("border","1px solid #fc8989");
+	$("#contactname_profile_error").html("Please enter contact name");
+	$("#contactname_profile_error").parent().css("display","block");
+	errorFlag = true;
+	}
+	  
+	if(category_value != "" && sub_category_value == "")
+	{
+	$("#sub_category").css("border","1px solid #fc8989");
+	$("#sub_category_error").html("Please select the sub category");
+	$("#sub_category_error").parent().css("display","block");
+	errorFlag = true;
+	}
+	  
+	if(p_description_value == "" || p_description_value == 'Description should not exceed 1000 characters')
+	{
+	$("#p_description").css("border","1px solid #fc8989");
+	$("#p_description_error").html("Please enter the description");
+	$("#p_description_error").parent().css("display","block");
+	errorFlag = true;
+	}
+  
+       	var atpos=profile_email.indexOf("@");
+	var dotpos=profile_email.lastIndexOf(".");
+      if(profile_email == "" || profile_email == "smith@gmail.com"){
+        $("#profile_email").css("border","1px solid #fc8989");
+        $("#email_profile_error").html("Please enter the mail");
+        $("#email_profile_error").parent().css("display","block");
+        errorFlag = true;
+      }
+    
+     /* else if(!validateCorrectEmail(profile_email)){
+        $("#profile_email").css("border","1px solid #fc8989");
+        $("#email_profile_error").html("Please Check The Email Address Entered");
+        $("#email_profile_error").parent().css("display","block");
+        errorFlag = true;
+      }*/
+	else if (atpos<1 || dotpos<atpos+2 || dotpos+2>=profile_email.length)
+	{
+		$("#profile_email").css("border","1px solid #fc8989");
+		$("#email_profile_error").html("Please Check The Email Address Entered");
+		$("#email_profile_error").parent().css("display","block");
+		errorFlag = true;
+	}
+
+     /* else if(!validateDot(profile_email)){
+        $("#profile_email").css("border","1px solid #fc8989");
+        $("#email_profile_error").html("Please enter the mail");
+        $("#email_profile_error").parent().css("display","block");
+        errorFlag = true;
+      }*/
+
+  if(profile_phone_1=="xxx" && profile_phone_2=="xxx" && profile_phone_3=="xxxx"){  
+      $("#profile_phone_1").css("border","1px solid #fc8989");
+      $("#profile_phone_2").css("border","1px solid #fc8989");
+      $("#profile_phone_3").css("border","1px solid #fc8989");
+      $("#profile_phone_error").parent().css("display","block");
+      $("#profile_phone_error").html("Please enter your phone number");
+      errorFlag = true;
+    }
+
+if(profile_phone_1!="xxx" && profile_phone_2=="xxx" && profile_phone_3=="xxxx"){  
+      $("#profile_phone_2").css("border","1px solid #fc8989");
+      $("#profile_phone_3").css("border","1px solid #fc8989");
+      $("#profile_phone_error").parent().css("display","block");
+      $("#profile_phone_error").html("Please enter a valid phone number");
+      errorFlag = true;
+    }
+
+    if(profile_phone_1!="xxx" && profile_phone_2!="xxx" && profile_phone_3=="xxxx"){  
+      $("#profile_phone_3").css("border","1px solid #fc8989");
+      $("#profile_phone_error").parent().css("display","block");
+      $("#profile_phone_error").html("Please enter a valid phone number");
+      errorFlag = true;
+    }
+
+if(profile_phone_1!="xxx" && profile_phone_2=="xxx" && profile_phone_3!="xxxx"){  
+      $("#profile_phone_2").css("border","1px solid #fc8989");
+      $("#profile_phone_error").parent().css("display","block");
+      $("#profile_phone_error").html("Please enter a valid phone number");
+      errorFlag = true;
+    }
+
+  if(profile_phone_1=="xxx" && profile_phone_2=="xxx" && profile_phone_3!="xxxx"){  
+      $("#profile_phone_1").css("border","1px solid #fc8989");
+      $("#profile_phone_2").css("border","1px solid #fc8989");
+      $("#profile_phone_error").parent().css("display","block");
+      $("#profile_phone_error").html("Please enter your phone number");
+      errorFlag = true;
+    }
+
+
+    if(profile_phone_1=="Enter your phone number" || profile_phone_1=="" || profile_phone_1=="000"){ 	
+      $("#profile_phone_1").css("border","1px solid #fc8989");
+      $("#profile_phone_error").parent().css("display","block");
+      $("#profile_phone_error").html("Please enter your phone number");
+      errorFlag = true;
+    }
+	else if(profile_phone_1.length<3){
+      $("#profile_phone_1").css("border","1px solid #fc8989");
+      $("#profile_phone_error").parent().css("display","block");
+      $("#profile_phone_error").html("Please enter a valid phone number");
+      errorFlag = true;
+	}
+	
+    if(profile_phone_2=="Enter your phone number" || profile_phone_2=="" || profile_phone_2=="000"){
+      $("#profile_phone_2").css("border","1px solid #fc8989");
+      $("#profile_phone_error").parent().css("display","block");
+      $("#profile_phone_error").html("Please enter your phone number");
+      errorFlag = true;
+    }
+	else if(profile_phone_2.length<3){
+      $("#profile_phone_2").css("border","1px solid #fc8989");
+      $("#profile_phone_error").parent().css("display","block");
+      $("#profile_phone_error").html("Please enter a valid phone number");
+      errorFlag = true;
+	}
+	
+    if(profile_phone_3=="Enter your phone number" || profile_phone_3=="" || profile_phone_3=="0000"){
+      $("#profile_phone_3").css("border","1px solid #fc8989");
+      $("#profile_phone_error").parent().css("display","block");
+      $("#profile_phone_error").html("Please enter your phone number");
+      errorFlag = true;
+    }
+	else if(profile_phone_3.length<4){
+      $("#profile_phone_3").css("border","1px solid #fc8989");
+      $("#profile_phone_error").parent().css("display","block");
+      $("#profile_phone_error").html("Please enter a valid phone number");
+      errorFlag = true;
+	}
+  
+  
+      if(profile_Add1== "" || profile_Add1== "Enter Your Address"){
+        $("#profile_Add1").css("border","1px solid #fc8989");
+        $("#profile_address_error").html("Please enter the address");
+        $("#profile_address_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      
+      if(city_edit_profile == "" || city_edit_profile == "Enter City"){
+        $("#city_edit_profile").css("border","1px solid #fc8989");
+        $("#profile_city_error").html("Please enter the city");
+        $("#profile_city_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      
+	if(city_edit_profile != "Enter City" || city_edit_profile != ""){
+	    if(!validateName(city_edit_profile)){
+		  $("#city_edit_profile").css("border","1px solid #fc8989");
+		  $("#profile_city_error").html("Please enter valid city");
+		  $("#profile_city_error").parent().css("display","block");
+		  errorFlag = true;
+	      }
+        }
+  
+      else if(isNaN(profile_zipcode)){
+        $("#profile_zipcode").css("border","1px solid #fc8989");
+        $("#profile_zipcode_error").html("Please enter the number");
+        $("#profile_zipcode_error").parent().css("display","block");
+        errorFlag = true;
+      }
+  
+
+
+if ( profile_contact_1 !="xxx" && profile_contact_2 != "xxx" && profile_contact_3 != "xxxx"){
+
+    if( profile_contact_1 !="" ){
+          if(profile_contact_1.length<3){
+      $("#profile_contact_1").css("border","1px solid #fc8989");
+      $("#profile_contact_error").html("Please enter the valid contact number");
+      $("#profile_contact_error").parent().css("display","block");
+      errorFlag = true;
+    }
+  }
+  
+    if( profile_contact_2 !="" ){
+     if(profile_contact_2.length<3){      
+      $("#profile_contact_2").css("border","1px solid #fc8989");
+      $("#profile_contact_error").html("Please enter the valid contact number");
+      $("#profile_contact_error").parent().css("display","block");
+      errorFlag = true;     
+    }
+  }
+
+    if( profile_contact_3 !="" ){
+     if(profile_contact_3.length<4){     
+      $("#profile_contact_3").css("border","1px solid #fc8989");
+      $("#profile_contact_error").html("Please enter the valid contact number");
+      $("#profile_contact_error").parent().css("display","block");
+      errorFlag = true;     
+    }
+  }
+     if( profile_contact_1 == "000" &&  profile_contact_2 == "000" && profile_contact_3 == "0000" ){
+    $("#profile_contact_1").css("border","1px solid #fc8989");  
+    $("#profile_contact_2").css("border","1px solid #fc8989");  
+    $("#profile_contact_3").css("border","1px solid #fc8989");
+    $("#profile_contact_error").html("Please enter the valid contact number");
+    $("#profile_contact_error").parent().css("display","block");
+    errorFlag = true;
+    }
+
+if( profile_contact_1 != "xxx" &&  profile_contact_2 == "xxx" && profile_contact_3 == "xxxx" ){
+    $("#profile_contact_2").css("border","1px solid #fc8989");  
+    $("#profile_contact_3").css("border","1px solid #fc8989");
+    $("#profile_contact_error").html("Please enter the valid contact number");
+    $("#profile_contact_error").parent().css("display","block");
+    errorFlag = true;
+    }
+
+}
+
+if( profile_contact_1 != "xxx" &&  profile_contact_2 == "xxx" && profile_contact_3 == "xxxx" ){
+    $("#profile_contact_2").css("border","1px solid #fc8989");  
+    $("#profile_contact_3").css("border","1px solid #fc8989");
+    $("#profile_contact_error").html("Please enter the valid contact number");
+    $("#profile_contact_error").parent().css("display","block");
+    errorFlag = true;
+    }
+
+if( profile_contact_1 == "xxx" &&  profile_contact_2 == "xxx" && profile_contact_3 != "xxxx" ){
+    $("#profile_contact_3").css("border","1px solid #fc8989");
+    $("#profile_contact_error").html("Please enter the valid contact number");
+    $("#profile_contact_error").parent().css("display","block");
+    errorFlag = true;
+    }
+
+
+if( profile_contact_1 == "xxx" &&  profile_contact_2 != "xxx" && profile_contact_3 == "xxxx" ){
+    $("#profile_contact_1").css("border","1px solid #fc8989");  
+    $("#profile_contact_3").css("border","1px solid #fc8989");
+    $("#profile_contact_error").html("Please enter the valid contact number");
+    $("#profile_contact_error").parent().css("display","block");
+    errorFlag = true;
+    }
+
+    if( profile_contact_1 != "xxx" &&  profile_contact_2 != "xxx" && profile_contact_3 == "xxxx" ){
+    $("#profile_contact_3").css("border","1px solid #fc8989");
+    $("#profile_contact_error").html("Please enter the valid contact number");
+    $("#profile_contact_error").parent().css("display","block");
+    errorFlag = true;
+    }
+    if( profile_contact_1 != "xxx" &&  profile_contact_2 == "xxx" && profile_contact_3 != "xxxx" ){
+    $("#profile_contact_2").css("border","1px solid #fc8989");
+    $("#profile_contact_error").html("Please enter the valid contact number");
+    $("#profile_contact_error").parent().css("display","block");
+    errorFlag = true;
+    }
+
+     //checkValidation();
+      if(errorFlag){
+        return false;
+      }
+      else{
+        return true;
+      }
+
+    });
+  
+  });    
+
+  function validateName(elementValue){
+    var alphaExp = /^[a-zA-Z ]*$/;
+    return alphaExp.test(elementValue);
+  }
+  function validateBrowse(){
+    var fup = document.getElementById('photo');
+  
+    var fileName = fup.value;
+    var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+    if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg" || ext == "JPG" || ext == "png" || ext == "PNG")
+    {
+      //errorFlag = false;
+      return true;
+    }
+    else
+    {        
+      $('#photo_profile_error').parent().css("display","block");
+      $("#photo").css("border","1px solid #fc8989");
+      $('#setBrowseBorder').html('Please Check The Format Of Your Logo');
+      return false;
+    }
+  }
+
+  function validatePhone(txtPhone) {
+    var filter = /^[0-9-+]+$/;
+    return filter.test(txtPhone);
+  }
+  function validateMobile(txtMobile) {
+    var filter1 = /^[0-9-+]+$/;
+    return filter1.test(txtMobile);
+  }
+
+  function ValidateWebsiteAddress() {
+    var url = document.getElementById('profile_web').value;
+    var urlIsValid =       ValidateWebAddress(url);      //alert("Website Address is valid?:" +urlIsValid );
+    return urlIsValid ;
+  }
+    
+
+  function ValidateWebAddress(url) {
+    var webSiteUrlExp = /^(([\w]+:)?\/\/)?(([\d\w]|%[a-fA-f\d]{2,2})+(:([\d\w]|%[a-fA-f\d]{2,2})+)?@)?([\d\w][-\d\w]{0,253}[\d\w]\.)+[\w]{2,4}(:[\d]+)?(\/([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)*(\?(&?([-+_~.\d\w]|%[a-fA-f\d]{2,2})=?)*)?(#([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)?$/;
+    if (webSiteUrlExp.test(url)) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  function validateDot(elementValue) {
+    var emailSplitat = elementValue.split("@");
+    var emailSplitdotf = emailSplitat[0].split(".");
+    var emailSplitdotl = emailSplitat[1].split(".");
+     
+    if(emailSplitat[0].length<4){
+      return false;
+    }
+        
+    if(emailSplitdotf.length>3){
+      return false;
+    }
+    if(emailSplitdotf.length<3){
+      var filter = /[^a-z/g]+/gi;
+      var filter1 = /^[0-9]+$/;
+      if(filter.test( emailSplitdotf) && filter1.test( emailSplitdotf)){
+        return false;
+      }
+    }
+    if(emailSplitdotl.length>1){
+      var prev = emailSplitdotl[0];
+      var curr = emailSplitdotl[1];
+      for(var i=1;i<emailSplitdotl.length;i++){
+        if(prev == curr ){
+          return false;
+        }
+        prev = curr;
+        curr =  emailSplitdotl[i+1];
+      }
+    }
+    if(emailSplitdotl.length>3){
+      return false;
+    }
+    return true;
+  }
+
+  function validateCorrectEmail(elementValue){
+    var emailPattern = /^([a-zA-Z0-9]+([~{|}`^?=+*'#$!%._-]{0,1}[a-zA-Z0-9]+)*)@(([a-zA-Z0-9]+([._-]{0,1}[a-zA-Z0-9]+)*)+(?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,3})?)$/;
+    return emailPattern.test(elementValue);
+  }
+
+</script>

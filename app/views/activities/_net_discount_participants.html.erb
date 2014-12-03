@@ -1,0 +1,65 @@
+
+	    <%if  @price_applicable &&  @price_applicable.present?%>
+	      <div class="rt listPriceDetails">
+		<table cellpadding="0" cellspacing="0" width="100%">
+			<tr class="listTotproceed"><td width="55%"><p class="ftcGreen3c listPriceDetailspad">Discount Type</p></td><td width="45%"><p class="ftcGreen3c listPriceDetailspad">Discount</p></td></tr>
+		</table>
+		<div style='overflow-y:auto;overflow-x:hidden;max-height:200px;'>
+		<table cellpadding="0" cellspacing="0" width="100%">
+			<%@price_applicable && @price_applicable.each do |ds|%>
+			<%test_show_dis = ShowDiscount(ds)%>
+			<%showRemainParticip = ActivityAttendDetail.attendeesCount(@activity_sched,ds.discount_id, ds.provider_discount_type_id)%>
+			<%rem_parti_result = ActivityAttendDetail.earlyBirdApp(ds.discount_number,showRemainParticip)%>
+			<input type='hidden' id='rem_parti_<%=ds.discount_id%>' value='<%=(rem_parti_result && rem_parti_result.present?) ? rem_parti_result : '0'%>'>
+			<tr class="listTotproceed"><td><p class="ftcGrayPr listPriceDetailspad"><input type="radio" name="net_discount" class="chk_comman bef_chk"  id="discount_<%=ds.discount_id%>"/> <%=test_show_dis[0] if test_show_dis && test_show_dis[0] && !test_show_dis[0].nil?%></p></td>
+			<input type="hidden" value="<%=ds.discount_price%>-<%=ds.discount_type.downcase%>-<%=ds.discount_id%>-<%=ds.discount_currency_type%>" id="net_discount_<%=ds.discount_id%>">
+			<input type="hidden" value="" id="prev_discount">
+			<td><p class="ftcGrayPr listPriceDetailspad"><span class="ftcGreen3c"><%=test_show_dis[1] if test_show_dis && test_show_dis[1] && !test_show_dis[1].nil?%></span><%=test_show_dis[2] if test_show_dis && test_show_dis[2] && !test_show_dis[2].nil?%></p></td></tr>
+			<%end%>
+		</table>
+		</div>
+	      </div>
+              <%end%>
+	      
+<script>
+
+
+function net_discounts_changes(dis_p,dis_t,dis_id,pay_curr_type)
+{
+var no_parti = '<%=@no_of_part%>';
+var act_price = '<%=@act_price%>'
+var rem_parti = $("#rem_parti_"+dis_id).val();
+var orig_no_parti = ((parseInt(rem_parti)==0 || (parseInt(no_parti) <= parseInt(rem_parti))) ? no_parti : rem_parti);
+//~ var tot_amt = '<%=@total_count%>';
+var tot_amt = parseInt($("#prc_dct_tot").html());
+//~ var fn_discount = ((dis_t == 'early bird discount') ? parseInt(no_parti) * parseInt(dis_p) : parseInt(dis_p));
+//~ var fn_discount = ((pay_curr_type=='%') ? ((dis_p*tot_amt)/100) : ((dis_t=='multiple participant discount') ? parseInt(dis_p) : (parseInt(orig_no_parti) * parseInt(dis_p))));
+var cal_discount = ((pay_curr_type=='%') ? ((dis_t=='early bird discount') ? (dis_p*act_price)/100 : (dis_p*tot_amt)/100) : (dis_p));
+var fn_discount =  ((dis_t=='multiple participant discount') ? parseInt(cal_discount) : (parseInt(orig_no_parti) * parseInt(cal_discount)));
+//~ var fn_discount =  (((dis_t=='multiple participant discount') || (dis_t=='early bird discount')) ? parseInt(cal_discount) : (parseInt(orig_no_parti) * parseInt(cal_discount)));
+var prev_dis = $("#prev_discount").val();
+if (prev_dis!=""){
+ tot_amt = tot_amt+parseInt(prev_dis);
+}
+var tt_amt = (tot_amt - fn_discount).toFixed(2);
+$("#prev_discount").val(fn_discount);
+$('.dct_prc').show();
+$('#prc_dct').html('$'+fn_discount);
+$('#prc_dct_tot').html(tt_amt);
+$("#netdiscount_id").val(dis_id);
+}
+
+$(".chk_comman").click(function(){
+var discount_id = $(this).attr('id');
+if (!$(this).hasClass( "aft_chk" )){
+$(".chk_comman").removeClass('aft_chk').addClass('bef_chk');
+}
+if ($(this).hasClass( "bef_chk" )){
+$(this).removeClass('bef_chk').addClass('aft_chk');
+var get_values = $("#net_discount_"+discount_id.split('_')[1]).val();
+var get_splt_val = get_values.split("-");
+net_discounts_changes(get_splt_val[0],get_splt_val[1],get_splt_val[2],get_splt_val[3])
+}
+
+});
+</script>

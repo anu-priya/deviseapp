@@ -1,0 +1,84 @@
+<%=stylesheet_link_tag "global/pop_up_success", :media => "all"%>
+
+<script language="javascript">
+   $(window).load(function(){
+    $('#dvLoading').fadeOut(100);
+  });
+     function closepopup() {
+    parent.dicountDeletePage.hide();
+
+  }
+  //delete the activity id while clicking the cross image button
+  function delete_activity(){
+    var delete_id = $('#to_delete').val();
+    var action_name = $('#last_action').val();
+    var list = $('#mul').val();
+    var page_no = $('#page').val();   
+    //loading image while delete the activity
+    $('#loading_img').show();
+    $.post("discount_destroy", {"id":delete_id,"last_action":action_name,"page":page_no,"list":list}, function(data){
+      $('#loading_img').hide();
+    }, "script");
+  }
+
+
+</script> 
+<div id="dvLoading"></div>
+
+
+
+
+<div id="delete_actvity">
+  <div class="popupContainer">
+    <div class="headTab" style="border:none; width:417px;">
+      <div class="heading">
+        <!--div class="headCont">Share Activity</div-->
+      </div>
+	  <div class="closeButton" style="float:right;">
+           <a href="javascript:void(0)" onClick="closepopup()" title=""> <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%> </a>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+    <%if !@dicount.nil? && @dicount!=""%>
+    <div align="center">
+      <!--to get the current activity id for delete the record from the db-->
+      <input type="hidden" id="to_delete" value="<%= @to_delete %>"/>
+       <input type="hidden" type="mul" id="mul" value="<%= @list %>"/>
+
+      
+      <input type="hidden" id="last_action" value="<%=params[:action] if !params[:action].nil?%>"/>
+      <input type="hidden" id="page" value="<%=params[:page] %>"/>
+      <!--modified by rajkumar-->
+      <p class="successText" style="margin:31px 0 33px;">Do you want to delete the Discount?</p>
+      <div class="clear"></div>
+
+      <div style="margin-top:2px;">
+        <a href="javascript:void(0)" onClick="delete_activity();_gaq.push(['_trackEvent', 'Provider Module', 'clickDeleteActivity','Delete Activity','<%= @to_delete %>']);"><%=image_tag("/assets/detailed_view/yes_button.png", :width=>"103", :height=>"41", :style=>"border:0px;")%></a>
+        <a href="#" onClick="closepopup()"><%=image_tag("/assets/detailed_view/no_button.png", :width=>"103", :height=>"41", :style=>"border:0px;")%></a>
+	<span id="loading_img" style="display:none;"><%=image_tag("/assets/ajax-loader.gif", :width=>"32", :height=>"32")%></span>
+      </div>
+
+    </div>
+    <%else%>
+    <div align="center">
+
+      <p class="successText" style="margin:31px 0 33px;">Please select atleast one Discount</p>
+      <div class="clear"></div>
+
+      <div style="margin-top:2px;">
+        <a href="#" onClick="closepopup()"><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38")%></a>
+      </div>
+
+    </div>
+    <%end%>
+  </div>
+
+
+</div>
+
+<script>
+  $(window).load(function(){
+    $('#dvLoading').fadeOut(1000);
+  });
+</script>

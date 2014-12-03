@@ -1,0 +1,152 @@
+    <table>
+      <tr>
+	<td>Transaction ID</td>
+	<td>Transaction Date</td>
+	<td>Product ID </td>
+	<td>Product Name </td>	
+	<td>Provider Name </td>
+	<td>Product Email </td>
+	
+	<td>Representative Name</td>
+	<td>Representative Email</td>
+	
+	<td>Customer Name</td>
+	<td>Customer Phone</td>
+	<td>Contact information</td>
+	<td>Participant(s) Name</td>
+	<td>Voucher</td>
+	<td>Sale Price($)</td>
+	<td>Discount</td>
+	<td>Amount Charged($)</td>
+	<td>Minus Credit Card Fees (processing fee) 3%</td>
+	<td>Famtivity Fee 2.5% or 0.99</td>
+	
+	<td>Famtivity&nbsp;Fee&nbsp;for Representative&nbsp; 2.5&nbsp;or&nbsp;0.99</td>  
+	<td>Provider Share%</td>	
+	<td>Representative Share%</td>
+	<td>Net&nbsp;Payable&nbsp;amount  for&nbsp;Provider($)</td>
+	<td>Net&nbsp;Payable&nbsp;amount  for&nbsp;Representative($)</td>
+	<td>Preferable mode of transfer</td>
+	<td>Bank Name</td>
+	<td>Account Name</td>
+	<td>Routing Numbers For Wire Transfer</td>
+	<td>Account Number</td>
+	<td>Billing Address</td>
+	<td>Country Name</td>
+	<td>State</td>
+	<td>City</td>
+	<td>Zipcode</td>
+	<td>Payee Name</td>
+	<td>Business Name</td>
+	<td>Billing Address</td>
+	<td>Country Name</td>
+	<td>State</td>
+	<td>City</td>
+	<td>Zipcode</td>
+      </tr>
+
+  <%if !@trans.nil? && @trans.length > 0 %>
+    <% @trans.each do |tran|%>
+      <tr>
+	<td><%=tran.transaction_id%></td>
+	<td><%=tran.payment_date.strftime("%b %d, %Y") if tran && tran.payment_date%></td>
+	<td><%=tran.activity_id%></td>
+	<td><%=tran.activity_name%></td>	
+	<td><%=tran.user_name if !tran.nil? && !tran.user_name.nil?%></td>
+	<td><%=tran.email_address if !tran.nil? && !tran.email_address.nil?%></td>
+	<td>
+		<!--  reprsentative details and share details-->
+		<%@rep_det=SchoolRepresentative.getrep_details(tran.activity_id) %>
+		<% if !@rep_det.nil? %>
+			<%@rep_flag=true%>
+			<%@rep_share=@rep_det[2]%>
+			<%@pro_share=@rep_det[3]%>
+		<%else%>
+			<%@rep_flag=false%>
+			<%@rep_share=0%>
+			<%@pro_share=100%>
+		<%end%>
+		<% if !@rep_det.nil? %>						
+			<%=truncate(@rep_det[0], :length=>20, :omission=>'...')%>
+		<%else%>
+		-
+		<%end%>
+	</td>
+	<td>
+		<% if !@rep_det.nil? %>
+			<%=@rep_det[1]%>
+		<%else%>
+		-
+		<%end%>
+	</td>
+	
+	<td><%=tran.customer_name%></td>
+	<td><%=tran.customer_phone%></td>
+	<td><%=tran.customer_address%></td>
+	<td><%=(!tran.participant_name.nil? && tran.participant_name[-1]==',') ? tran.participant_name.chop : tran.participant_name%></td>
+	<td><%=tran.ticket_code%></td>
+	<td><%=tran.sale_price%></td>
+	<td><%=tran.discount%></td>
+	<td><%=tran.amount%></td>
+	<% fam_fee_amt = calculate_share_fee_for_both(tran.amount,tran.activity_id,@rep_flag,@rep_share,@pro_share,tran.inserted_date)%>	
+	
+	<td><%=fam_fee_amt[1]%></td>
+	<td><%=fam_fee_amt[0] %></td>
+          <td><%if @rep_flag%>						
+						<%=(number_with_precision fam_fee_amt[3], :precision => 2)%>
+					<%else%>
+					-
+					<%end%>
+	</td>            
+	<td>
+		<%if @rep_flag%>
+						<%=fam_fee_amt[5].to_s+'%' %>
+					<%else%>
+					-
+					<%end%>
+	</td>
+	<td>
+	<%if @rep_flag%>
+						<%=fam_fee_amt[4].to_s+'%'%>
+					<%else%>
+					-
+					<%end%>
+	</td>
+	<td>
+		$<%=(number_with_precision fam_fee_amt[2], :precision => 2) %>
+	</td>
+	<td>
+		<%if @rep_flag%>
+			$<%=(number_with_precision fam_fee_amt[6], :precision => 2) %>
+		<%else%>
+		-
+		<%end%>
+	</td>
+	<td>
+		<% @user_bank=UserBankDetail.find_by_user_id(tran.user_id) %>
+		<%= @user_bank.prefered_mode if !@user_bank.nil? %>
+	</td>	
+	<td><%= @user_bank.bank_name if !@user_bank.nil? %></td>	
+	<td><%= @user_bank.bank_account_name if !@user_bank.nil? %></td>
+	<td ><%= @user_bank.bank_wire_transfer if !@user_bank.nil? %></td>
+	<td><%= @user_bank.bank_account_number if !@user_bank.nil? %></td>
+	<td><%= @user_bank.bank_street_address if !@user_bank.nil? %></td>
+	<td><%= @user_bank.bank_country if !@user_bank.nil? %></td>
+	<td><%= @user_bank.bank_state if !@user_bank.nil? %></td>
+	<td><%= @user_bank.bank_city if !@user_bank.nil? %></td>
+	<td><%= @user_bank.bank_zip_code if !@user_bank.nil? %></td>
+	<td><%= @user_bank.payee_name if !@user_bank.nil? %></td>
+	<td><%= @user_bank.business_name if !@user_bank.nil? %></td>
+	<td><%= @user_bank.check_street_address if !@user_bank.nil? %></td>
+	<td><%= @user_bank.check_country if !@user_bank.nil? %></td>
+	<td><%= @user_bank.check_state if !@user_bank.nil? %></td>
+	<td><%= @user_bank.check_city if !@user_bank.nil? %></td>
+	<td><%= @user_bank.check_zip_code if !@user_bank.nil? %></td>
+      </tr>
+    <% end %>
+  <%else%>
+      <tr>
+          Sorry we found no results
+      </tr>
+  <%end%>
+  </table>

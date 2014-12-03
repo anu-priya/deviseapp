@@ -1,0 +1,87 @@
+<link rel="stylesheet" type="text/css" href="/assets/register/provider_register.css" />
+<script type="text/javascript" src="/assets/register/register_payment.js"></script>
+<script>
+  function closepopup(){
+    parent.BidPopPage.hide();
+  }
+</script>
+<div class="bidpopup_container">
+  <div class="bidpopup_top"></div>
+  <div class="bidpopup_center">
+    <div class="bidheadtab">
+      <div class="bidpopup_head">
+        <div class="bidpopup_header" align="center">
+          Set Your Bid Amount
+        </div>
+      </div>
+      <div class="bidpopup_close">
+        <a href="#" title="" onclick="closepopup()"><img src="/assets/provider_register/close.png" width="15" height="15" border="0"></a>
+      </div>
+    </div>
+    <div class="clear"></div>
+    <div class="bidpopup_centerinner">
+      <div class="center_content">Famtivity's monthly budget is mentioned below, you own enter your bid amount per click for your activity. Its your choice, your bid amount can vary for your different activities.</div>
+      <div class="frm_container" align="center">
+        <form name="bidfrm" action="provider_sponsor" method="post" target="_parent" onSubmit="return bidamount_validate()">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+              <td width="33%" height="30" align="left" valign="middle" class="SetFtSz14">
+                <b>Monthly Budget</b></td>
+              <td width="64%" align="left" valign="middle">
+                <input type="text" name="budget" id="budget" tabindex="1" class="textbox">
+              </td>
+              <td width="3%">&nbsp;</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td align="left"><span id="error_budget" class="error_div_color"></span></td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td height="30" align="left" valign="middle" class="SetFtSz14">
+                <b>Bid Amount Per Click</b>
+              </td>
+              <td align="left" valign="middle">
+                <input type="text" name="bidamount" id="bidamount" tabindex="2" class="textbox">
+              </td>
+              <td align="center" valign="middle">
+                <a href="#" title="" onmouseover="showInfo()" onmouseout="hideInfo()"><img src="/assets/provider_register/help.png" alt="" width="17" height="17" style="margin:0 0 -9px 3px; .margin:0 0 -9px 0px;" border="0"></a>
+
+              </td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td align="left"><span id="error_bidamount" class="error_div_color"></span></td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td height="30">&nbsp;</td>
+              <td align="left" valign="middle">
+                <input type="submit" name="bid_submit" id="bid_amount" value="" tabindex="3" class="bidpopup_savebtn">
+                <input type="reset" name="bid_cancel" id="bid_cancel" value="" tabindex="4" onClick="clear_frmfield()" class="bidpopup_cancelbtn">
+              </td>
+
+              <td>&nbsp;</td>
+            </tr>
+          </table>
+          <div id="show_infoDiv" style="display:none;">
+            <p>The amount you specify here will be the amount you'll pay for each click on your activity page.</p>
+            <p style="margin-top:14px;">Your activity will be placed according to your bid amount on the activity page.</p>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="bidpopup_bottom"></div>
+</div>
+<script>
+  function showInfo(){
+    $("#show_infoDiv").css("display","block");
+    $("#show_infoDiv").css("position","absolute");
+  }
+  function hideInfo(){
+    $("#show_infoDiv").css("display","none");
+  }
+
+</script>

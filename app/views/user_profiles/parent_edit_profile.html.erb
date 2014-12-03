@@ -1,0 +1,1391 @@
+<%=stylesheet_link_tag "colorPicker/jquery.miniColors","global/jquery.ui.datepicker","global/jquery.ui.theme","profile/profile","contacts_users/contact_user","event/add_participant","contacts_users/jquery-ui","contacts_users/smooth-theme-jquery-ui", :media => "all"%>
+<%=javascript_include_tag "global/jquery-1.8.3.min", "colorPicker/jquery.miniColors", "global/jquery.ui.datepicker","jquery.form","profile/add_participant_profile","auto_complete/jquery-ui" %>
+
+<script type="text/javascript">
+$(function() {
+var count=$("#txt_count").val();
+for(i=0; i<=count; i++)
+{
+   $("#dateFormate_"+i).datepicker({
+     showOn : "button",
+     buttonImage : "/assets/create_new_activity/date_icon.png",
+     buttonImageOnly : true,
+     maxDate: 0,
+      dateFormat: "D, M d, yy",
+     altField : "#date_1",
+     altFormat : "yy-m-d"
+   });
+
+}
+ });
+
+
+function movetoNext(current, nextFieldID) {
+    if (current.value.length >= current.maxLength) {
+      document.getElementById(nextFieldID).focus();
+    }
+  }
+  
+function number(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57 ) && (charCode != 46 ) ){
+        //alert("Allow only Numbers");
+        return false;     
+    }
+    return true;
+}
+</script>
+<style type="text/css">
+  BODY {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  INPUT {
+    vertical-align: middle;
+    font-size: 13px;
+  }
+   .setHyphen
+  {
+  padding: 0 10px;
+  }
+  .ui-autocomplete { width: 258px;max-height: 150px; overflow-y: auto; overflow-x: hidden;}
+</style>
+
+<script type="text/javascript">
+  function readURL(input,fileid) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('#filediv_'+fileid).hide();
+        $('#imagediv_'+fileid).show();
+        $('#blah_'+fileid)
+        .attr('src', e.target.result)
+        .width(65)
+        .height(65);
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  $(document).ready( function() {
+    function init() {
+          
+      $('.color-picker').each( function() {
+          
+        $(this).miniColors({
+          opacity: $(this).hasClass('opacity'),
+          change: function(hex, rgba) {
+            $('#console').prepend('change: ' + hex + ', rgba(' + rgba.r + ', ' + rgba.g + ', ' + rgba.b + ', ' + rgba.a + ')<br>');
+          },
+          open: function(hex, rgba) {
+            $('#console').prepend('open: ' + hex + ', rgba(' + rgba.r + ', ' + rgba.g + ', ' + rgba.b + ', ' + rgba.a + ')<br>');
+          },
+          close: function(hex, rgba) {
+            $('#console').prepend('close: ' + hex + ', rgba(' + rgba.r + ', ' + rgba.g + ', ' + rgba.b + ', ' + rgba.a + ')<br>');
+          }
+        });
+            
+      });
+          
+    }
+        
+    init();
+        
+    $('#disable').click( function() {
+      $('#console').prepend('disable<br />');
+      $('.color-picker, .color-picker').miniColors('disabled', true);
+      $("#disable").prop('disabled', true);
+      $("#enable").prop('disabled', false);
+    });
+        
+    $('#enable').click( function() {
+      $('#console').prepend('enable<br />');
+      $('.color-picker, .color-picker').miniColors('disabled', false);
+      $("#disable").prop('disabled', false);
+      $("#enable").prop('disabled', true);
+    });
+        
+    $('#makeReadonly').click( function() {
+      $('#console').prepend('readonly = true<br />');
+      $('.color-picker').miniColors('readonly', true);
+      $("#unmakeReadonly").prop('disabled', false);
+      $("#makeReadonly").prop('disabled', true);
+    });
+        
+    $('#unmakeReadonly').click( function() {
+      $('#console').prepend('readonly = false<br />');
+      $('.color-picker').miniColors('readonly', false);
+      $("#unmakeReadonly").prop('disabled', true);
+      $("#makeReadonly").prop('disabled', false);
+    });
+        
+    $('#destroy').click( function() {
+      $('#console').prepend('destroy<br />');
+      $('.color-picker').miniColors('destroy');
+      $("INPUT[type=button]:not(#create)").prop('disabled', true);
+      $("#destroy").prop('disabled', true);
+      $("#create").prop('disabled', false);
+    });
+        
+    $('#create').click( function() {
+      $('#console').prepend('create<br />');
+      init();
+      $("#makeReadonly, #disable, #destroy, #randomize").prop('disabled', false);
+      $("#destroy").prop('disabled', false);
+      $("#create").prop('disabled', true);
+    });
+        
+    $('#randomize').click( function() {
+      $('.color-picker').miniColors('value', '#' + Math.floor(Math.random() * 16777215).toString(16));
+    });
+        
+  });
+  
+  $(document).ready(function(){
+  $("#city_edit_profile").autocomplete({
+    minLength: 1,
+    source: "/fetch_city?state_value=true",
+    select: function( event, ui ) {
+     this.value = ui.item.value;
+     return false;
+    }
+  });
+  });
+      
+</script>
+<%=stylesheet_link_tag "global/pop_up", :media => "all"%>
+<script language="javascript">
+    function closepopup() {
+      parent.EditparentprofilePage.hide();
+     }
+</script>
+
+<div id="parent_list">
+<div id="edit_profie_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Edit Profile</div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> 
+              <%= image_tag("/assets/global/pop_up/button_close.png", size:"15x15")%>
+            </a>
+          </div>
+        </div>
+        <div class="centerCont ">
+          <form id="parent_edit_profile" name="parent_edit_profile" target="_parent" action="parent_update_profile" method="post" enctype="multipart/form-data">
+            <div class="paddingTop10" style=".padding-top:5px;"></div>
+            <div class="edit_personal_text paddingTop10" style=".padding-top:0px;">Personal Details</div>
+	    <!--contact name added here-->
+	    <div class="paddingTop10">
+                <div class="lt leftSideField">Contact Name<span class="required">*</span></div>
+	      <input type="text" <% if !current_user.nil? && !current_user.user_name.nil? && current_user.user_name.present?%>style="outline:none;color:#444444;"<% else %>style="outline:none;color:#999999;"<% end %>  name="contact_name" id="contact_name"  value="<%if !current_user.nil? && !current_user.user_name.nil? && current_user.user_name.present?%><%=current_user.user_name%><% else %>Enter Contact Name<% end %>" class="lt textbox" tabindex="1" style="color:#444;" onfocus="if(this.value == 'Enter Contact Name'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter Contact Name'}"/>
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="contactname_profile_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+	  <!--contact name added here-->
+	    
+            <div class="paddingTop10">
+              <div class="lt leftSideField setMarginTop">Upload Image</div>
+              <div class="lt">
+                <div class="lt setImgBorder">     
+
+                 <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.user_photo.blank? %>
+                    <%= image_tag current_user.user_profile.user_photo.url(:small),:style=>"width:69px;height:69px;" if !current_user.user_profile.profile.url(:original).nil? %>
+                  <% else %>
+                    <%= image_tag("/assets/profile/user_icon_69.png", size:"69x69")%>
+                  <%end%>
+                </div>
+                <div class="lt">
+                  <div class="lt FileUpload">
+                    <input type="file" accept="image/*" onchange="document.getElementById('photo').value =this.value;fakepath(this.value,'photo');" size="21" id="photo1" class="BrowserHidden" name="profile_photo" style=".width:100px;"/>
+                    <div class="BrowserVisible" style="border:none;">
+                      <input type="text" name="photo" id="photo" class="FileField"  readonly="readonly" />
+                    </div>
+                    <span class="browse_profile"  style="cursor:pointer; position:relative; display:inline-block;"><b>Change Picture</b></span>
+                    <div class="clear"></div>
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+	</div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="photo_profile_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Email<span class="required">*</span></div>
+                <input type="text" name="profile_email" style="color:#444444;" disabled="disabled" id="profile_email" value="<% if !current_user.email_address.nil? %><%=current_user.email_address%><% else %><% end %>" class="lt textbox" tabindex="1"/>
+
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="email_profile_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Name<span class="required">*</span></div>
+                <div class="lt">
+                 <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.first_name.nil?  && current_user.user_profile.first_name.present?%>style="outline:none;color:#444444;"<% else %>style="outline:none;color:#999999;"<% end %>  name="profile_first_name" id="profile_first_name"  value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.first_name.nil? && current_user.user_profile.first_name.present?%><%=current_user.user_profile.first_name%><% else %>First Name<% end %>" class="lt textbox_username" maxlength="15" tabindex="2" style="color:#444;" onfocus="if(this.value == 'First Name'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='First Name'}"/>
+               </div>
+                <div class="lt">
+                 <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.last_name.nil?  && current_user.user_profile.last_name.present?%>style="margin-left:9px; outline:none;color:#444444;"<% else %>style="margin-left:9px; outline:none;color:#999999;"<% end %>  name="profile_last_name" id="profile_last_name" value="<% if !current_user.user_profile.last_name.nil? && current_user.user_profile.last_name.present?%><%=current_user.user_profile.last_name%><% else %>Last Name<% end %>"class="lt textbox_username" maxlength="15" tabindex="3" onfocus="if(this.value == 'Last Name'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Last Name'}"/>
+                </div>
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_firstname_error" style="width:278px; border:1px solid #fff;"></div>
+                <div class="lt" id="profile_lastname_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Date of Birth</div> <%#= @user_profile.date_of_birth.strftime("%d-%m-%Y ") %>
+                <div class="lt" style="width:95px;">
+                  <select name="month_edit" class="editProfileSelectDOB" tabindex="4">
+                     <option selected="selected" value="<% if current_user.user_profile.dob.blank? %>Month<% else %><%=current_user.user_profile.dob.strftime("%b")%><% end %>"><% if current_user.user_profile.dob.blank? %>Month<% else %><%=current_user.user_profile.dob.strftime("%b")%><% end %></option>
+                     <option value="Jan">January</option>
+                     <option value="Feb">February</option>
+                     <option value="Mar">March</option>
+                     <option value="Apr">April</option>
+                     <option value="May">May</option>
+                     <option value="Jun">June</option>
+                     <option value="Jul">July</option>
+                     <option value="Aug">August</option>
+                     <option value="Sep">September</option>
+                     <option value="Oct">October</option>
+                     <option value="Nov">November</option>
+                     <option value="Dec">December</option>
+                  </select>                  
+                </div>
+                <div class="lt" style="width:95px;">
+                  <select name="day_edit" class="editProfileSelectDOB" tabindex="5">
+		<option selected="selected" value="<% if current_user.user_profile.dob.blank? %>Day<% else %><%=current_user.user_profile.dob.strftime("%d")%><% end %>"><% if current_user.user_profile.dob.blank? %>Day<% else %><%=current_user.user_profile.dob.strftime("%d")%><% end %></option>
+                     <% (1..31) .each do |num| %>
+		          <option value="<%= num%>"><%= num%></option>
+		<%end%>
+                  </select>
+                </div>
+                <div class="lt" style="width:95px;">
+                  <select id="year_profile_1" name="year_profile_1" class="editProfileSelectDOB" tabindex="6">
+                  <% @year = Time.now.year %>
+                  <%i=0%>   
+                  <option value="Year" value="<% if current_user.user_profile.dob.blank? %>Year<% else %><%=current_user.user_profile.dob.strftime("%Y")%><% end %>" selected="selected"><% if current_user.user_profile.dob.blank? %>Year<% else %><%=current_user.user_profile.dob.strftime("%Y")%><% end %></option>
+                  <% (1..63).each do |num| %> 
+                    <%i= i + 1%>             
+                      <option value="<%if i==1%><%=@year%><%else%><%=@year - i%><%end%>"><%if i==1%><%=@year%><%else%><%=@year - i%><%end%></option>
+                    <%end%>
+                  </select> 
+                </div>
+                <div class="lt gender_text" style="width:80px; margin:8px 0 0 6px;">Gender</div>
+                <div class="lt" style="width:80px;">
+                  <select name="gender_edit" class="editProfileSelectSex" tabindex="7">
+                     <option selected="selected" value="<% if !current_user.user_profile.gender.nil? %><%=current_user.user_profile.gender%><% else %>Select<% end %>"><% if !current_user.user_profile.gender.nil? %><%=current_user.user_profile.gender%><% else %>Select<% end %></option>
+                     <option value="Male">Male</option>
+                     <option value="Female">Female</option>
+                  </select>                
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_dob_error" style='width:275px'></div>
+                <div class="lt" id="gender_error" style='margin-left:98px;'></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="paddingTop10" style=".padding-top:5px;"></div>
+              <div class="edit_personal_text paddingTop10" style=".padding-top:0px;">Contact Details</div>
+              <div class="paddingTop10" style="padding-top:18px;">
+                <div class="lt leftSideField">Website</div>
+                <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.website.nil?  && current_user.user_profile.website.present?%>style="outline:none;color:#444444;"<% else %>style="outline:none;color:#999999;"<% end %> name="profile_web"  id="profile_web" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.website.nil? && current_user.user_profile.website.present?%><%=current_user.user_profile.website%><% else %>Enter The URL Of Your Website<% end %>" class="lt textbox" tabindex="8" onfocus="if(this.value == 'Enter The URL Of Your Website'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter The URL Of Your Website'}"/>
+		<div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_web_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_insti_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Contact Number</div> 
+
+                <input type="text" name="profile_contact" style="display:none;" id="profile_contact" value="<% if !current_user.user_profile.mobile.nil? %><%=current_user.user_profile.mobile%><% else %><% end %>"class="lt textbox" tabindex="10"/>  
+
+                  <input type="text"<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.mobile.nil?  && current_user.user_profile.mobile.present?%>style="outline:none;color:#444444;"<% else %>style="outline:none;color:#999999;"<% end %> name="profile_contact_1" id="profile_contact_1"   value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.mobile.nil? && current_user.user_profile.mobile.present?%><%=current_user.user_profile.mobile.first(3)%><% else %>xxx<% end %>" class="lt textbox_card" style="outline:none; margin-right:10px; color:#444444;" onfocus="if(this.value == 'xxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxx'}" tabindex="9" maxlength="3"  onkeyup="movetoNext(this, 'profile_contact_2')" onKeyPress="return number(event);">
+
+                  <div class="lt setHyphen">-</div>
+
+                  <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.mobile.nil?  && current_user.user_profile.mobile.present?%>style="outline:none;color:#444444;"<% else %>style="outline:none;color:#999999;"<% end %> name="profile_contact_2" id="profile_contact_2" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.mobile.nil? && current_user.user_profile.mobile.present?%><%=current_user.user_profile.mobile[4,3]%><% else %>xxx<% end %>" class="lt textbox_card" style="outline:none; margin:0px 10px 0px 10px; color:#444444;" onfocus="if(this.value == 'xxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxx'}" tabindex="10" maxlength="3" onkeyup="movetoNext(this, 'profile_contact_3')" onKeyPress="return number(event);">
+
+                  <div class="lt setHyphen">-</div>
+
+                  <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.mobile.nil?  && current_user.user_profile.mobile.present?%>style="outline:none;color:#444444;"<% else %>style="outline:none;color:#999999;"<% end %> name="profile_contact_3" id="profile_contact_3"  value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.mobile.nil? && current_user.user_profile.mobile.present?%><%=current_user.user_profile.mobile.last(4)%><% else %>xxxx<% end %>" class="lt textbox_card" style="outline:none; margin-left:10px; color:#444444;" onfocus="if(this.value == 'xxxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxxx'}" tabindex="11" maxlength="4">
+
+                  <div class="clear"></div>
+
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_contact_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Address</div>
+                <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.address_1.nil?  && current_user.user_profile.address_1.present?%>style="outline:none;color:#444444;"<% else %>style="outline:none;color:#999999;"<% end %> name="profile_Add1" id="profile_Add1" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.address_1.nil? && current_user.user_profile.address_1.present?%><%=current_user.user_profile.address_1%><% else %>Enter Your Address<% end %>" class="lt textbox" tabindex="12"onfocus="if(this.value == 'Enter Your Address'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter Your Address'}"/>
+
+               <div class="clear"></div>
+              </div>
+              <div style="margin-top:3px;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.address_2.nil?  && current_user.user_profile.address_2.present?%>style="outline:none;color:#444444;"<% else %>style="outline:none;color:#999999;"<% end %> name="profile_Add2" id="profile_Add2"  value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.address_2.nil? && current_user.user_profile.address_2.present?%><%=current_user.user_profile.address_2%><% else %>Enter Your Address<% end %>" class="lt textbox" tabindex="13"onfocus="if(this.value == 'Enter Your Address'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter Your Address'}"/>
+                <div class="clear"></div>
+              </div>
+
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_address_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" style="width:275px;">
+                  <select name="state_edit_profile" class="editProfileSelect" tabindex="14">
+                    <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.country.nil? && current_user.user_profile.country.present?%>
+                      <option selected="selected" value="<%=current_user.user_profile.country%>"><%=current_user.user_profile.country%></option>
+                      <% else %>
+                        <option value="United States">United States</option>
+                        <% end %>
+                   </select>                 
+                </div>
+
+
+                <div class="lt">
+                  <select name="state_edit_profile" class="editProfileSelect" tabindex="15">
+                    <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.state.nil? && current_user.user_profile.state.present?%>
+                      <option value="<%=current_user.user_profile.state%>"><%=current_user.user_profile.state%></option>
+                      <% else %>
+                      <option value="California">California</option>
+                      <% end %>
+                  </select>                
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" style="width:275px; border:1px solid #fff;" id="profile_country_error"></div>
+                <div class="lt" id="profile_state_error"></div>
+              </div>
+
+
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+
+                <div class="lt leftSideField">&nbsp;</div> 
+
+                <div class="lt" style="width:275px;">
+                  <!--<select name="city_edit_profile" class="editProfileSelect" tabindex="16">
+                    <%#if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.city.nil? && current_user.user_profile.city.present?%>
+                    <option selected="selected" value="<%#=current_user.user_profile.city%>"><%#=current_user.user_profile.city%></option>
+                    <%#else %><option value="select">Select</option><%# end %>
+                    <%#@cities = City.where("state_id = 1 and country_id = 1").order("city_name Asc")%>      
+                    <%#@cities.each do |cit|%>
+                        <option value="<%#= cit.city_name %>"><%#= cit.city_name %></option>
+                 <%#end%>
+                  </select>-->
+                  <input type="text" <%  if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.city.nil? && current_user.user_profile.city.present?%>style="outline:none;color:#444444;"<% else %>style="outline:none;color:#999999;"<% end %>  name="city_edit_profile" id="city_edit_profile"  value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.city.nil? && current_user.user_profile.city.present?%><%=current_user.user_profile.city%><% else %>Enter City<% end %>" class="lt textbox_username" maxlength="15" tabindex="16" style="color:#444;" onfocus="if(this.value == 'Enter City'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter City'}"/>		  
+                </div>
+                <div class="lt" style="width:275px;margin-left:1px;">
+                  <input type="text" <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.zip_code.nil?  && current_user.user_profile.zip_code.present?%>style="outline:none;color:#444444;"<% else %>style="outline:none;color:#999999;"<% end %> name="profile_zipcode"  id="profile_zipcode" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.zip_code.nil? && current_user.user_profile.zip_code.present? %><%=current_user.user_profile.zip_code%><% else %>Enter zip code<% end %>" class="lt textbox_username" maxlength="15" tabindex="17" onfocus="if(this.value == 'Enter zip code'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter zip code'}"/>
+
+
+                </div>
+
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" style="width:275px; border:1px solid #fff;" id="profile_city_error"></div>
+                <div class="lt" id="profile_zipcode_error"></div>
+              </div>
+
+              <div class="clear"></div>
+
+              <div class="paddingTop10" style=".padding-top:5px;"></div>
+              <div class="edit_personal_text paddingTop10" style=".padding-top:0px;">Account Details</div>
+              <div class="paddingTop10" style="padding-top:18px;">
+                <div class="lt leftSideField">Language</div>
+                <div class="lt">
+                  <select name="language_edit" class="editProfileSelectBig" tabindex="18">
+                     <% if !current_user.nil? && !current_user.user_profile.business_language.nil? && current_user.user_profile.business_language.present?%>
+                        <option selected="selected" value="<%=current_user.user_profile.business_language%>"><%=current_user.user_profile.business_language%></option>
+                     <% else %>
+                        <option value="English">English</option>
+                        <% end %>
+                  </select>                  
+                  <div class="clear"></div>
+                </div>
+              </div>
+
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_language_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="paddingTop10" style="padding-top:18px;">
+                <div class="lt leftSideField">Set Participant Age Range</div>
+                <div class="lt">
+                  <input type="hidden" name="age_edit_arr_1"   id="add_color1" />
+                  <input type="hidden" name="age_edit_arr_2"   id="add_color2"  />
+                      <input type="hidden" name="age_edit_arr_3"   id="add_color3"  />
+                      <input type="hidden" name="age_edit_arr_4"   id="add_color4" />
+                      <input type="hidden" name="age_edit_arr_5"   id="add_color5"  />
+                      <input type="hidden" name="age_edit_arr_6"   id="add_color6"  /> 
+
+                      <input type="hidden" name="color_arr_1"   id="color_arr1"/>
+                      <input type="hidden" name="color_arr_2"   id="color_arr2"/>
+                      <input type="hidden" name="color_arr_3"   id="color_arr3"/>
+                      <input type="hidden" name="color_arr_4"   id="color_arr4"/>
+                      <input type="hidden" name="color_arr_5"   id="color_arr5"/>
+                      <input type="hidden" name="color_arr_6"   id="color_arr6"/>
+                  <select id="age_edit" name="age_edit" class="editProfileSelectBig" tabindex="19">
+                     
+                     <option selected="selected">Select</option>
+                     <option value="1-3">1-3</option>
+                     <option value="4-6">4-6</option>
+                     <option value="7-9">7-9</option>
+                     <option value="10-12">10-12</option>
+                     <option value="13-15">13-15</option>
+                     <option value="16-18">16-18</option>
+                     <option value="Adults">Adults</option>
+                  </select>
+                  <div class="clear"></div>
+                </div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_age_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Set Color</div>
+                <div class="set_linked_bg lt">
+                  <div class="lt"  style="margin-top:10px;"><div class='lt setborder'><span id="setbg" class="lt setbg" style='background:#2f6304'></span></div><span><a href="javascript:void(0)" onclick="profile_div()" class="fb_text"  style="top:0px; color: #5099AC;">Add</a></span></div>
+                  <div style="float:right; display:inline-block;">
+                    <input type="hidden" name="color1" class="color-picker" size="7" autocomplete="on" value="#2f6304" id="colorPicker"/>
+                  </div>
+                </div>
+                <div class="clear"></div> 
+              </div>
+
+            <% if !@agerangecolors.nil? && @agerangecolors.count > 0  %> 
+
+             <div class="paddingTop10" id="defaultColorDiv">
+              <div class="lt leftSideField">&nbsp;</div>
+                    <div class="set_linked_bg lt">
+                      <div class="lt setwidth_add_color">
+                        <span><b>Participant</b></span>
+                      </div>
+                      <div class="lt setwidth_add_color">
+                        <span><b>Age Range</b></span>
+                      </div>
+                      <div class="lt setwidth_add_color">
+                        <span><b>Color</b></span>
+                      </div>
+                      <div class="lt setwidth_add_color">
+                        <span><b>Action</b></span>
+                      </div>
+
+                      <% i = 0 %>
+                      <% @agerangecolors.each do |ageclr| %>
+                        <div id="partclr_<%= ageclr.id %>">
+                          <div class="lt setwidth_add_color" ><b><%= i= i+1 %>
+                          </div>
+                          <div class="lt setwidth_add_color"><b><%= ageclr.age_range if !ageclr.age_range.nil?%>
+                          </div>
+                          <div class="lt setwidth_add_color">
+                            <div class="setborder">
+                              <div id="set_bgcolor_1" class="setbg" style="background:<%= ageclr.color if !ageclr.color.nil?%>">
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="lt setwidth_add_color"><a href="javascript:void(0)" title="" onclick="color_del('<%= ageclr.id %>');">
+                              <%= image_tag("/assets/provider_event_list/delete_icon.png", size:"29x26")%>
+                            </a>
+                          </div>
+                        </div>
+                      <% end %>
+                      </div>
+                    <div class="clear"></div>
+                  </div>
+               <input type="hidden" value="" id="pro_count" name="pro_count" />
+               <!-- add participant and color value-->
+                <div class="paddingTop10" id="colorDiv" style="display:none;">
+                  <div class="lt leftSideField">&nbsp;
+                  </div>
+                  <div class="set_linked_bg lt">
+                    <div class="lt setwidth_add_color">
+                      <span><b>Participant</b></span>
+                    </div>
+                    <div class="lt setwidth_add_color">
+                      <span><b>Age Range</b></span>
+                    </div>
+                    <div class="lt setwidth_add_color">
+                       <span><b>Color</b></span>
+                    </div>
+                    <div class="lt setwidth_add_color">
+                      <span><b>Action</b></span>
+                    </div>
+                    <span class="createDynamicDivsProfile"></span>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+          
+              <% else %>
+
+              <div class="paddingTop10" id="defaultColorDiv">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="set_linked_bg lt">
+                  <div class="lt" style="padding: 28px 99px; color:#999999;" align="center"> Selected Age Range and Color will be displayed here
+                  </div>
+                </div>
+
+                <div class="clear"></div>
+              </div>
+              <input type="hidden" value="" id="pro_count" name="pro_count" />
+              <!-- add participant and color value-->
+              <div class="paddingTop10" id="colorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="set_linked_bg lt">
+                  <div class="lt setwidth_add_color">
+                    <span><b>Participant</b></span>
+                  </div>
+                  <div class="lt setwidth_add_color">
+                    <span><b>Age Range</b></span>
+                  </div>
+                  <div class="lt setwidth_add_color">
+                    <span><b>Color</b></span>
+                  </div>
+                  <div class="lt setwidth_add_color">
+                    <span><b>Action</b></span>
+                  </div>
+     
+                  <span class="createDynamicDivsProfile"></span>
+
+                </div>
+                <div class="clear"></div>
+              </div>
+          <% end %>
+           <div class="paddingTop10"></div>
+
+            <!-- Add Participant Page-->
+              <input type="hidden" value="" id="part_count" name="part_count" />
+              <div id="add_participant" class="setPadd" style="margin:14px 0 0 55px; display: block; width: 777px;">
+                <!--<form id="add_participant2" name="add_participant" action="/checkout/add_participant_success" method="post" enctype="multipart/form-data">-->
+                <div class="edit_personal_text" style="margin-left:1px;">Participant Details</div>
+                <div class="centerArea">
+                  <table cellspacing="0" cellspadding="0" border="0" width="100%" id="participant_1">
+                    <tr height="35">
+                      <td width="70" class="thead thead1">Image</td>
+                      <td width="156" class="thead">Participant Name</td>
+                      <td width="155" class="thead"><span class="setLeft">Date of Birth</span></td>
+                      <td width="80" class="thead"><span class="setLeft">Age Range</span></td>
+                      <td width="63" class="thead"><span class="setLeft">Gender</span></td>
+                      <!--td width="232" class="thead"><span class="setLeft">Schedule</span></td-->
+                      <td width="50" class="thead">&nbsp;<!--span id="actionTitle" style="display:none;">Action</span--></td>
+                    </tr>
+                    
+        
+                 <input type="hidden" name ="total_value" value="<%= current_user.participant.collect {|r| r.participant_id if !r.participant_id.nil?} %>" />
+<% @k =1 
+@j= current_user.participant.length
+@m = @j.to_i + 1
+%>
+<input type="hidden" id="txt_count" name="txt_count" value="<%=@m%>" />
+                    <% current_user.participant.each do |part| %>
+
+                      <tr id="partiicai_<%= part.participant_id %>" height="80">
+
+                      <input type="hidden" name="aa<%= part.participant_id %>" class="lt textbox" value="<%= part.participant_id %>"/>
+
+                      <td class="contentText thead1 setBG1">
+                        <% if !part.participant_file_name.nil?%>
+                        <div style="position:relative;width: 20px;margin-top: 15px;margin-bottom: -15px;">
+                             <span class="browse" id="filediv_<%= part.participant_id %>" style="margin: 13px 0 7px 0;"><a href="javascript:void(0)" onClick="selectFile(<%= part.participant_id %>)" tabindex="1" class="lt">
+                              <%= image_tag("#{part.participant.url}", size:"65x69")%>
+                              </a></span>
+                        <input type="file" accept="image/*" onChange="readURL(this,<%= part.participant_id %>);" size="30" id="photo_<%= part.participant_id %>" name="photo_<%= part.participant_id %>" value="" style="display1:none;opacity: 0;position:absolute;"/>
+                      <div id="imagediv_<%= part.participant_id %>" class="browse1" style="display:none;">
+                          <a href="javascript:void(0)" onClick="selectFile(<%= part.participant_id %>)" class="lt" tabindex="1" >
+                            <img id="blah_<%= part.participant_id %>" src="#" alt="" /></a>
+                        </div></div></td>
+
+                      <% else %>
+                      <div style="position:relative;width: 20px;margin-top: 15px;margin-bottom: -15px;">
+                         <span class="browse" id="filediv_<%= part.participant_id %>" style="margin: 13px 0 -10px 0;"><a href="javascript:void(0)" onClick="selectFile(<%= part.participant_id %>)" tabindex="1" class="lt">
+                          <%= image_tag("/assets/create_new_activity/browse_image.png", size:"65x69")%>
+                        </a></span>
+                        <input type="file" accept="image/*" onChange="readURL(this,<%= part.participant_id %>);" size="30" id="photo_<%= part.participant_id %>" name="photo_<%= part.participant_id %>" value="" style="display1:none;opacity: 0;"/>
+                        <div id="imagediv_<%= part.participant_id %>" class="browse1" style="display:none;">
+                          <a href="javascript:void(0)" onClick="selectFile(<%= part.participant_id %>)" class="lt" tabindex="1" ><img id="blah_<%= part.participant_id %>" src="#" alt="" /></a>
+                        </div>
+                      </div>
+                      <% end %>
+                      <td value="<%= part.participant_id %>" class="contentText setBG1<%= part.participant_id %>"><input type="text" id="name_1" name="name_<%= part.participant_id %>" class="lt textbox" value="<%if !part.participant_name.nil?%><%= part.participant_name %><% else%> <%end%>" tabindex="1"/>
+                      </td>
+
+
+                    <!--  <td class="contentText setBG1"><span class="setLeft"><%= part.participant_birth_date if !part.participant_birth_date.nil?%></span></td>-->
+                      
+                      <td value="<%= part.participant_id %>" width="155" class="tdata setIEcen<%= part.participant_id %>">
+                      <input type="hidden" id="date_<%= part.participant_id %>" name="date_<%= part.participant_id %>" value="<% if part.participant_birth_date.blank? %><% else %><%=part.participant_birth_date.strftime("%d")%><% end %>" />
+                      <div class="dateDiv" style="margin: 0;height:30px;top: 4px;">
+                       <input type="text"  id="dateFormate_<%= @k %>" name="dateFormate_<%= @k %>" class="dateTextbox" value="<% if !part.participant_birth_date.blank? %><%=part.participant_birth_date.strftime("%a, %b %d, %Y")%><% end %>" readonly="readonly" style="outline: none;" tabindex="1"/>
+                       <input type="hidden" id="date_<%= @k %>" name="date_<%= @k %>" value="" />
+                      <%@k=@k+1 %>
+                      <div class="clear"></div>
+                      </div>
+
+                     
+                      
+                    </td>
+
+                    <!--<td class="contentText setBG1"><span class="setLeft"><%= part.participant_age if !part.participant_age.nil?%></span></td>-->
+                    <td value="<%= part.participant_id %>" width="80" class="tdata setIEcen<%= part.participant_id %>">
+                      <input type="hidden" id="age_<%= part.participant_id %>" name="age_<%= part.participant_id %>" value="<% if part.participant_age.blank? %><% else %><%=part.participant_age%><%end%>" />
+                      <div id="menu" class="lt ageDivMenu">
+                        <ul>
+                          <li value="<%= part.participant_id %>"><a href="javascript:void(0)" class="ageDiv" tabindex="1"><span id="age_setVal_<%= part.participant_id %>"><% if part.participant_age.blank? %>select<% else %><%=part.participant_age%><% end %></span><span>
+                            <%= image_tag("/assets/event_index/dropdown_arrow.png", size:"7x4", style:"position: relative; top: -1px; left:5px;")%>
+                            </span></a>         <ul class="sub-menu dispAgeDiv" style="height:107px;">
+                              <li><a href="javascript:void(0)" onClick="setAgeVal('1-3',<%= part.participant_id %>)">1-3</a></li>
+                              <li><a href="javascript:void(0)" onClick="setAgeVal('4-6',<%= part.participant_id %>)">4-6</a></li>
+                              <li><a href="javascript:void(0)" onClick="setAgeVal('7-9',<%= part.participant_id %>)">7-9</a></li>
+                              <li><a href="javascript:void(0)" onClick="setAgeVal('10-12',<%= part.participant_id %>)">10-12</a></li>
+                              <li><a href="javascript:void(0)" onClick="setAgeVal('13-15',<%= part.participant_id %>)">13-15</a></li>
+                              <li><a href="javascript:void(0)" onClick="setAgeVal('16-18',<%= part.participant_id %>)">16-18</a></li>
+                              <li><a href="javascript:void(0)" onClick="setAgeVal('Adults',<%= part.participant_id %>)">Adults</a></li>
+                            </ul>
+                          </li>
+                        </ul>
+                        <div class="clear"></div>
+                      </div>
+                    </td>
+         
+                    <!--<td class="contentText setBG1"><span class="setLeft"><%= part.participant_gender if !part.participant_gender.nil?%></span></td>-->
+                    <td value="<%= part.participant_id %>"  width="63" class="contentText setBG1<%= part.participant_id %>">
+                      <input type="hidden" id="gender_<%= part.participant_id %>" name="pnn_<%= part.participant_id %>" value="<% if part.participant_gender.blank? %><% else %><%=part.participant_gender%><% end %>" />
+                      <div id="menu" class="lt genderDivMenu">
+                        <ul>
+                          <li value="<%= part.participant_id %>" ><a href="javascript:void(0)" class="ageDiv genderDiv<%= part.participant_id %>" tabindex="1"><span id="gender_setVal_<%= part.participant_id %>"><% if part.participant_gender.blank? %>select<% else %><%=part.participant_gender%><% end %></span><span>
+                            <%= image_tag("/assets/event_index/dropdown_arrow.png", size:"7x4", style:"position: relative; top: -1px; left:5px;")%></span></a>          
+                            <ul class="sub-menu dispGenderDiv">
+                              <li ><a href="javascript:void(0)"  onClick="setGenderVal('Male',<%= part.participant_id %>)">Male</a></li>
+                              <li><a href="javascript:void(0)"  onClick="setGenderVal('Female',<%= part.participant_id %>)">Female</a></li>
+                           </ul>
+                          </li>
+                        </ul>
+                        <div class="clear"></div>
+                      </div>
+                    </td>
+
+
+                    <td class="contentText setBG1"><span class="setLeft">
+                          <a href="javascript:void(0)" title="" onclick="part_del('<%= part.participant_id %>');">
+                            <%= image_tag("/assets/provider_event_list/delete_icon.png", class: "lt addButton")%>
+                          </a>
+                       <!--   <input type="button" onclick="raja_sekar('<%= part.participant_id %>');">-->
+                      <%#= link_to image_tag('/assets/provider_event_list/delete_icon.png') , url_for({:controller => 'user_profiles', :action => 'participant_destroy', :id => part}), :class => 'quick', :title => "Delete!", :remote => true ,:confirm => "Are you sure you want to delete this image?"%>
+                        </span></td>
+                  
+
+                      </tr>
+                    <%end%>
+
+                      <tr>
+                        <td colspan="2">
+                          <div id="part_validation" style="display:none; color:#FC8989; font-size: 12px;">Please enter participant name</div>
+                        </td>
+                      </tr>
+
+                    <tr><td colspan="7" class="errorDiv" id="errorDiv_<%=@m%>" style="display:none;"></td></tr>
+                    <tr height="90">
+                      <td width="70" class="tdata tdata1">
+                        <span class="browse" id="filediv_<%=@m%>" style="top:3px;"><a href="javascript:void(0)" onClick="selectFile(<%=@m%>)" tabindex="20" class="lt">
+                          <%= image_tag("/assets/create_new_activity/browse_image.png", size: "65x69")%>
+                        </a></span>
+                        <input type="file" accept="image/*" onChange="readURL(this,<%=@m%>);" size="30" id="photo_<%=@m%>" name="photo_<%=@m%>" value="" style="display:none;"/>
+
+                        <div id="imagediv_<%=@m%>" class="browse1" style="display:none;">
+                          <a href="javascript:void(0)" onClick="selectFile(<%=@m%>)" class="lt" tabindex="21" ><img id="blah_<%=@m%>" src="#" alt="" /></a>
+                        </div>
+                      </td>
+                    <input type="hidden" id="activity_id" name="activity_id" class="lt textbox" value="<%= @activity.activity_id if !@activity.nil? %>"/>
+                    <td width="156" class="tdata">
+                      <input type="text" id="participant_name_<%=@m%>" name="participant_name_<%=@m%>" class="lt textbox" value="" tabindex="22"/>
+                    </td>
+                    <td width="155" class="tdata setIEcen">
+                      
+                      <div class="dateDiv" style="margin: 0;height:30px;">
+                       <input type="text"  id="dateFormate_<%=@m%>" name="dateFormate_<%=@m%>" class="dateTextbox" value="" readonly="readonly" style="outline: none;" tabindex="23"/>
+                       <input type="hidden" id="date_<%=@m%>" name="date_<%=@m%>" value="" />
+                      <div class="clear"></div>
+                      </div>
+
+                      <input type="hidden" id="part_value" name="part_value" value="<%=@m%>" />
+                      
+                    </td>
+                    <td width="80" class="tdata setIEcen">
+                      <input type="hidden" id="age_<%=@m%>" name="age_<%=@m%>" value="" />
+                      <div id="menu" class="lt ageDivMenu">
+                        <ul>
+                          <li><a href="javascript:void(0)" class="ageDiv" tabindex="24"><span id="age_setVal_<%=@m%>">Select</span><span><%= image_tag("/assets/event_index/dropdown_arrow.png", size:"7x4", style:"position: relative; top: -1px; left:5px;")%></span></a>         <ul class="sub-menu dispAgeDiv" style="height:107px;">
+                              <li><a href="javascript:void(0)" onClick="setAgeVal('1-3',<%=@m%>)">1-3</a></li>
+                              <li><a href="javascript:void(0)" onClick="setAgeVal('4-6',<%=@m%>)">4-6</a></li>
+                              <li><a href="javascript:void(0)" onClick="setAgeVal('7-9',<%=@m%>)">7-9</a></li>
+                              <li><a href="javascript:void(0)" onClick="setAgeVal('10-12',<%=@m%>)">10-12</a></li>
+                              <li><a href="javascript:void(0)" onClick="setAgeVal('13-15',<%=@m%>)">13-15</a></li>
+                              <li><a href="javascript:void(0)" onClick="setAgeVal('16-18',<%=@m%>)">16-18</a></li>
+                              <li><a href="javascript:void(0)" onClick="setAgeVal('Adults',<%=@m%>)">Adults</a></li>
+                            </ul>
+                          </li>
+                        </ul>
+                        <div class="clear"></div>
+                      </div>
+                    </td>
+                    <td width="63" class="tdata setIEcen">
+                      <input type="hidden" id="gender_<%=@m%>" name="gender_<%=@m%>" value="" />
+                      <div id="menu" class="lt genderDivMenu">
+                        <ul>
+                          <li><a href="javascript:void(0)" class="ageDiv genderDiv" tabindex="25"><span id="gender_setVal_<%=@m%>">Select</span><span><%= image_tag("/assets/event_index/dropdown_arrow.png", size:"7x4", style:"position: relative; top: -1px; left:5px;")%></span></a>          
+                            <ul class="sub-menu dispGenderDiv">
+                              <li><a href="javascript:void(0)" onClick="setGenderVal('Male',<%=@m%>)">Male</a></li>
+                              <li><a href="javascript:void(0)" onClick="setGenderVal('Female',<%=@m%>)">Female</a></li>
+                            </ul>
+
+                          </li>
+                        </ul>
+                        <div class="clear"></div>
+                      </div>
+                    </td>
+                    <td width="10" class="tdata setIEcen"></td>
+                    </tr>
+                  </table>
+                  <span class="createDynamicDivs"></span>
+                </div>
+                <div class="addButtonDiv">
+                  <div class="lt"><a href="javascript:void(0)" title="" onclick="checkValidation()">
+                    <%= image_tag("/assets/create_new_activity/add_button.png", size:"20x20", class: "lt addButton")%>
+                    <span class="lt addText">Add</span></a>
+                  </div>
+                </div>
+                <!--</form>-->
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+
+              <div class="buttonDiv">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+                <div class="lt">
+                  <input type="image" src="/assets/create_new_activity/save.png" alt="" tabindex="26" style="margin-top:-34px;"/>
+
+                  <a href="javascript:void(0)" onClick="closepopup()" onkeydown="cancelActivityClearData(event)">
+                    <%= image_tag("/assets/create_new_activity/cancel.png", tabindex: "26")%>
+                  </a>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+</div>
+</div>
+
+
+
+<script type="text/javascript" language="javascript">
+
+function fakepath(filepath,id)
+{
+  inputNode = filepath.replace('C:\\fakepath\\', ''); 
+  var pos = filepath.lastIndexOf( filepath.charAt( filepath.indexOf(":")+1) );
+  var filename = filepath.substring( pos+1);
+  
+  var ua=navigator.userAgent;
+  if(ua.indexOf("Firefox")!=-1){ 
+    $("#"+id).val(filepath); 
+  } 
+  else {
+    $("#"+id).val(filename);
+  }
+}
+
+    function part_del(id){
+      $("#partiicai_"+id).remove();
+     // $("#partiicai_"+id).reload();
+     // alert(id);
+      $.ajax({
+        type: "POST",
+        url: "participant_destroy",
+        data: {
+          "id": id
+        },
+        dataType : 'json',
+        success: function(data){
+
+        }
+      });
+      
+    }
+
+     function color_del(id){
+      $("#partclr_"+id).remove();
+      // alert(id);
+      $.ajax({
+        type: "POST",
+        url: "agecolor_destroy",
+        data: {
+          "id": id
+        },
+        dataType : 'json',
+        success: function(data){
+
+        }
+      });
+    }
+
+    $(document).ready(function (){
+      $("#contact_name").focus();  
+      $('#parent_edit_profile').submit(function (){
+     
+         var xx = $("#part_value").val();
+         var yy = "date_"+xx; 
+
+        var body = document.body,
+        html = document.documentElement;
+        var height = Math.max( body.scrollHeight, body.offsetHeight,
+        html.clientHeight, html.scrollHeight, html.offsetHeight );
+        $(".drag-contentarea").css("height",height+"px");
+        //return false;
+
+
+        var profile_email = $("#profile_email").val();
+	var contact_name = $("#contact_name").val();
+        var profile_first_name = $("#profile_first_name").val();
+        var profile_last_name = $("#profile_last_name").val();
+        var day_edit = $("#day_edit").val();
+        var month_edit = $("#month_edit").val();
+        var year_profile_1 = $("#year_profile_1").val();
+        var gender_edit = $("#gender_edit").val();
+        var profile_web = $("#profile_web").val();
+        //var profile_insti = $("#profile_insti").val();
+        //var profile_contact = $("#profile_contact").val();
+        var profile_Add1 = $("#profile_Add1").val();
+        var profile_Add2 = $("#profile_Add2").val();
+        var country_edit_profile = $("#country_edit_profile").val();
+        var state_edit_profile = $("#state_edit_profile").val();
+        var city_edit_profile = $("#city_edit_profile").val();
+        var profile_zipcode = $("#profile_zipcode").val();
+        var language_edit = $("#language_edit").val();
+        var Time_zone_edit = $("#Time_zone_edit").val();
+        var age_edit = $("#age_edit").val();
+        var edit_photo = $("#photo").val();
+        var profile_contact_1 =  $("#profile_contact_1").val();
+        var profile_contact_2 =  $("#profile_contact_2").val();
+        var profile_contact_3 =  $("#profile_contact_3").val();
+        var participant_name =  $("#participant_name_"+xx).val();
+        var participant_date =  $("#dateFormate_"+xx).val();
+        var participant_age =  $("#age_"+xx).val();
+        var participant_gender =  $("#gender_"+xx).val();
+
+
+
+        //alert(age_edit);
+        //alert(participant_date);
+        //alert(participant_age);
+        //alert(participant_gender);
+
+        profile_email = profile_email.replace(/^\s+|\s+$/g, "");
+	contact_name = contact_name.replace(/^\s+|\s+$/g, "");
+        profile_first_name = profile_first_name.replace(/^\s+|\s+$/g, "");
+        profile_last_name = profile_last_name.replace(/^\s+|\s+$/g, "");
+        profile_web = profile_web.replace(/^\s+|\s+$/g, "");
+        // profile_insti = profile_insti.replace(/^\s+|\s+$/g, "");
+        //profile_contact = profile_contact.replace(/^\s+|\s+$/g, "");
+        profile_Add1 = profile_Add1.replace(/^\s+|\s+$/g, "");
+        profile_Add2 = profile_Add2.replace(/^\s+|\s+$/g, "");
+        profile_zipcode = profile_zipcode.replace(/^\s+|\s+$/g, "");
+  
+        $("#setBrowseBorder").css("border","none");
+        $("#profile_email").css("border","1px solid #BDD6DD");
+	$("#contact_name").css("border","1px solid #BDD6DD");
+        $("#profile_first_name").css("border","1px solid #BDD6DD");
+        $("#profile_last_name").css("border","1px solid #BDD6DD");
+        $("#profile_web").css("border","1px solid #BDD6DD");
+        //$("#profile_insti").css("border","1px solid #BDD6DD");
+        //$("#profile_contact").css("border","1px solid #BDD6DD");
+        $("#profile_Add1").css("border","1px solid #BDD6DD");
+        $("#profile_Add2").css("border","1px solid #BDD6DD");
+        $("#setdayBorder").css("border","none");
+        $(".selectBoxEditProfileCity").css("border","none");
+        $("#setCountryBorder").css("border","none");
+        $("#setStateBorder").css("border","none");
+        $("#setCityBorder").css("border","none");
+        $("#setLanguageBorder").css("border","none");
+        $("#setTimezoneBorder").css("border","none");
+        $("#edit_profie_container .editProfileSelectBox").css("border","none");
+        $("#profile_zipcode").css("border","1px solid #BDD6DD");
+        $("#setAgeBorder").css("border","none");
+        $(".editProfileGenderSelectBox").css("border","none");
+        $("#profile_contact_1").css("border","1px solid #BDD6DD");
+        $("#profile_contact_2").css("border","1px solid #BDD6DD");
+        $("#profile_contact_3").css("border","1px solid #BDD6DD");  
+        $("#participant_name").css("border","1px solid #BDD6DD");  
+
+        $("#photo_profile_error").html("");
+        $("#email_profile_error").html("");
+        $("#profile_firstname_error").html("");
+        $("#profile_lastname_error").html("");
+        $("#profile_dob_error").html("&nbsp;");
+        $("#gender_error").html("");
+        $("#profile_web_error").html("");
+        //$("#profile_insti_error").html("");
+        $("#profile_contact_error").html("");
+        $("#profile_address_error").html("");
+        $("#profile_country_error").html("");
+        $("#profile_state_error").html("");
+        $("#profile_city_error").html("");
+        $("#profile_zipcode_error").html("");
+        $("#profile_language_error").html("");
+        $("#profile_timezone_error").html("");
+        $("#profile_age_error").html("");
+  
+        $("#photo_profile_error").parent().css("display","none");
+        $("#email_profile_error").parent().css("display","none");
+        $("#profile_firstname_error").parent().css("display","none");
+        $("#profile_lastname_error").parent().css("display","none");
+        $("#profile_dob_error").parent().css("display","none");
+        $("#profile_web_error").parent().css("display","none");
+        //$("#profile_insti_error").parent().css("display","none");
+        $("#profile_contact_error").parent().css("display","none");
+        $("#profile_address_error").parent().css("display","none");
+        $("#profile_country_error").parent().css("display","none");
+        $("#profile_state_error").parent().css("display","none");
+        $("#profile_city_error").parent().css("display","none");
+        $("#profile_zipcode_error").parent().css("display","none");
+        $("#profile_language_error").parent().css("display","none");
+        $("#profile_timezone_error").parent().css("display","none");
+        $("#profile_age_error").parent().css("display","none");
+
+      profile_contact_1 = profile_contact_1.replace(/^\s+|\s+$/g, "");
+      profile_contact_2 = profile_contact_2.replace(/^\s+|\s+$/g, "");
+      profile_contact_3 = profile_contact_3.replace(/^\s+|\s+$/g, "");
+
+        var errorFlag = false;
+
+        /*if(edit_photo == ""){
+          $("#setBrowseBorder").css("border","1px solid #fc8989");
+          $("#photo_profile_error").html("Please select the image");
+          $("#photo_profile_error").parent().css("display","block");
+          errorFlag = true;
+        }*/
+
+       
+
+        if((participant_name == "")&&(participant_date != "" || participant_age != "" || participant_gender != "")){
+         // alert("errorss");
+
+         $("#participant_name").css("border","1px solid #fc8989");
+          //$("#profile_dob_error").html("Please select day, month, year");
+          //$("#profile_dob_error").parent().css("display","block");
+          $("#part_validation").show();
+          errorFlag = true;
+        }
+  
+      /*  if(profile_email == ""){
+          $("#profile_email").css("border","1px solid #fc8989");
+          $("#email_profile_error").html("Please enter your email address");
+          $("#email_profile_error").parent().css("display","block");
+          errorFlag = true;
+        }
+        else if(!validateCorrectEmail(profile_email)){
+          $("#profile_email").css("border","1px solid #fc8989");
+          $("#email_profile_error").html("Please enter valid eamil address");
+          $("#email_profile_error").parent().css("display","block");
+          errorFlag = true;
+        }
+        else if(!validateDot(profile_email)){
+          $("#profile_email").css("border","1px solid #fc8989");
+          $("#email_profile_error").html("Please enter valid eamil address");
+          $("#email_profile_error").parent().css("display","block");
+          errorFlag = true;
+        } */
+        if(contact_name == "Enter Contact Name" || contact_name == ""){
+          $("#contact_name").css("border","1px solid #fc8989");
+          $("#contactname_profile_error").html("Please enter your contact name");
+          $("#contactname_profile_error").parent().css("display","block");
+          errorFlag = true;
+        }
+
+	 if(profile_first_name == "First Name" || profile_first_name == ""){
+          $("#profile_first_name").css("border","1px solid #fc8989");
+          $("#profile_firstname_error").html("Please enter your first name");
+          $("#profile_firstname_error").parent().css("display","block");
+          errorFlag = true;
+        }
+
+
+        if(profile_first_name != "First Name" || profile_first_name != ""){
+    if(!validateName(profile_first_name)){
+          $("#profile_first_name").css("border","1px solid #fc8989");
+          $("#profile_firstname_error").html("Please enter your first name");
+          $("#profile_firstname_error").parent().css("display","block");
+          errorFlag = true;
+      }
+        }
+
+        if(profile_last_name == "Last Name" || profile_last_name == ""){
+           $("#profile_last_name").css("border","1px solid #fc8989");
+          $("#profile_lastname_error").html("Please enter your last name");
+          $("#profile_lastname_error").parent().css("display","block");
+          errorFlag = true; 
+        }
+
+        if(profile_last_name != "Last Name" || profile_last_name != ""){
+    if(!validateName(profile_last_name)){
+          $("#profile_last_name").css("border","1px solid #fc8989");
+          $("#profile_lastname_error").html("Please enter your last name");
+          $("#profile_lastname_error").parent().css("display","block");
+          errorFlag = true;
+      }
+        }
+
+        if(city_edit_profile != "Enter City" || city_edit_profile != ""){
+	    if(!validateName(city_edit_profile)){
+		  $("#city_edit_profile").css("border","1px solid #fc8989");
+		  $("#profile_city_error").html("Please enter valid city");
+		  $("#profile_city_error").parent().css("display","block");
+		  errorFlag = true;
+	      }
+        }
+
+        if ( profile_contact_1 !="xxx" && profile_contact_2 != "xxx" && profile_contact_3 != "xxxx"){ 
+
+    if( profile_contact_1 !="" ){
+          if(profile_contact_1.length<3){
+      $("#profile_contact_1").css("border","1px solid #fc8989");
+      $("#profile_contact_error").html("Please enter the valid contact number");
+      $("#profile_contact_error").parent().css("display","block");
+      errorFlag = true;
+    }
+  }
+  
+    if( profile_contact_2 !="" ){
+     if(profile_contact_2.length<3){      
+      $("#profile_contact_2").css("border","1px solid #fc8989");
+      $("#profile_contact_error").html("Please enter the valid contact number");
+      $("#profile_contact_error").parent().css("display","block");
+      errorFlag = true;     
+    }
+  }
+
+    if( profile_contact_3 !="" ){
+     if(profile_contact_3.length<4){     
+      $("#profile_contact_3").css("border","1px solid #fc8989");
+      $("#profile_contact_error").html("Please enter the valid contact number");
+      $("#profile_contact_error").parent().css("display","block");
+      errorFlag = true;     
+    }
+  }
+     if( profile_contact_1 == "000" &&  profile_contact_2 == "000" && profile_contact_3 == "0000" ){
+    $("#profile_contact_1").css("border","1px solid #fc8989");  
+    $("#profile_contact_2").css("border","1px solid #fc8989");  
+    $("#profile_contact_3").css("border","1px solid #fc8989");
+    $("#profile_contact_error").html("Please enter the valid contact number");
+    $("#profile_contact_error").parent().css("display","block");
+    errorFlag = true;
+    }
+
+
+}
+
+        if(country_edit_profile == "" || country_edit_profile=="--Choose Country--"){
+          $("#setCountryBorder").css("border","1px solid #fc8989");
+          $("#profile_country_error").html("Please select the country");
+          $("#profile_country_error").parent().css("display","block");
+          errorFlag = true;
+        }
+  
+        if(state_edit_profile == "" || state_edit_profile=="--Choose State--"){
+          $("#setStateBorder").css("border","1px solid #fc8989");
+          $("#profile_state_error").html("Please select the state");
+          $("#profile_state_error").parent().css("display","block");
+          errorFlag = true;
+        }
+  
+        if(errorFlag){
+          return false;
+        }
+        else{
+          return true;
+        }
+      });
+    });
+
+    function validateName(elementValue){
+      var alphaExp = /^[a-zA-Z ]*$/;
+      return alphaExp.test(elementValue);
+    }
+
+    function ValidateWebsiteAddress() {
+      var url = document.getElementById('profile_web').value;
+      var urlIsValid = ValidateWebAddress(url);
+      //alert("Website Address is valid?:" +urlIsValid );
+      return urlIsValid ;
+    }
+
+    function ValidateWebAddress(url) {
+      var webSiteUrlExp = /^(([\w]+:)?\/\/)?(([\d\w]|%[a-fA-f\d]{2,2})+(:([\d\w]|%[a-fA-f\d]{2,2})+)?@)?([\d\w][-\d\w]{0,253}[\d\w]\.)+[\w]{2,4}(:[\d]+)?(\/([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)*(\?(&?([-+_~.\d\w]|%[a-fA-f\d]{2,2})=?)*)?(#([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)?$/;
+      if (webSiteUrlExp.test(url)) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+
+    function validateDot(elementValue) {
+      var emailSplitat = elementValue.split("@");
+      var emailSplitdotf = emailSplitat[0].split(".");
+      var emailSplitdotl = emailSplitat[1].split(".");
+     
+      if(emailSplitat[0].length<4){
+        return false;
+      }
+        
+      if(emailSplitdotf.length>3){
+        return false;
+      }
+      if(emailSplitdotf.length<3){
+        var filter = /[^a-z/g]+/gi;
+        var filter1 = /^[0-9]+$/;
+        if(filter.test( emailSplitdotf) && filter1.test( emailSplitdotf)){
+          return false;
+        }
+      }
+      if(emailSplitdotl.length>1){
+        var prev = emailSplitdotl[0];
+        var curr = emailSplitdotl[1];
+        for(var i=1;i<emailSplitdotl.length;i++){
+          if(prev == curr ){
+            return false;
+          }
+          prev = curr;
+          curr =  emailSplitdotl[i+1];
+        }
+      }
+      if(emailSplitdotl.length>3){
+        return false;
+      }
+      return true;
+    }
+
+   
+    function validateCorrectEmail(elementValue){
+      var emailPattern = /^([a-zA-Z0-9]+([~{|}`^?=+*'#$!%._-]{0,1}[a-zA-Z0-9]+)*)@(([a-zA-Z0-9]+([._-]{0,1}[a-zA-Z0-9]+)*)+(?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,3})?)$/;
+      return emailPattern.test(elementValue);
+    }
+    function profile_div(){
+      errorFlag = false;
+      var age_edit = $("#age_edit").val();
+      $("#profile_age_error").html("");
+      $("#setAgeBorder").css("border","none");
+     
+      if(age_edit == "" || age_edit=="Select"){
+        $("#setAgeBorder").css("border","1px solid #fc8989");
+        $("#profile_age_error").html("Please select the age range");
+        $("#profile_age_error").parent().css("display","block");
+        //deleteProfileDiv();
+        errorFlag = true;
+    
+      }
+  
+      else if(age_edit !="select"){
+        $("#setAgeBorder").css("border","none");
+        $("#profile_age_error").html("");
+        $("#profile_age_error").parent().css("display","none");
+        addedProfileDiv();
+        errorFlag = true;
+    
+      }
+
+
+    }
+  
+    function addedProfileDiv()
+    {
+      $("#defaultColorDiv").css("display","none");
+      $("#colorDiv").css("display","block");
+      var lengthDiv = $('.createDynamicDivsProfile label font').length;
+      var length = $('.createDynamicDivsProfile label').length;
+      var count='';
+      var count_inc='';
+      var currentDiv = length+1;
+      var value = currentDiv;
+      var flag=1;
+      var colorValue = $('#colorPicker').val();
+      var age_edit = $("#age_edit").val();
+      count=$("#pro_count").val();
+      if(lengthDiv<7){
+        //count increment
+      //alert(colorValue);
+        if(value==1){
+          $('#add_color'+value).val(age_edit);
+          $('#color_arr'+value).val(colorValue);
+          str_profile = '<label class="setBGColor_'+value+'"><font><div style="padding-top:30px;" id="add_color_'+value+'"> <div class="lt setwidth_add_color"> <span class="pno">'+value+'</span></div><div class="lt setwidth_add_color"><span id="set_agerange_'+value+'">'+age_edit+'</span></div><div class="lt setwidth_add_color"><div class="setborder"><div class="setbg" id="set_bgcolor_'+value+'" style="background:'+colorValue+'"></div></div></div><div class="lt setwidth_add_color"><span><a href="javascript:void(0)" onclick="deleteProfileDiv('+value+')"><img src="/assets/provider_event_list/delete_icon.png" width="29" height="26" alt="" /></a></span></div></div></font></label>';
+          $('.createDynamicDivsProfile').append(str_profile);
+          $("#pro_count").val(1);
+        }
+        else{
+          //prev=value-1;
+          for(var i=value;i>0;i--){
+            var ageRangePrev = $('#set_agerange_'+i).html();
+            if(ageRangePrev==age_edit){
+              $('#set_bgcolor_'+i).css('background-color',colorValue);
+              flag=2;
+            }
+          }
+        }
+        if(flag==1 && value!=1){
+          $('#add_color'+value).val(age_edit);
+          $('#color_arr'+value).val(colorValue);
+            str_profile = '<label class="setBGColor_'+value+'"><font><div style="padding-top:30px;" id="add_color_'+value+'"> <div class="lt setwidth_add_color"> <span class="pno">'+value+'</span></div><div class="lt setwidth_add_color"><span id="set_agerange_'+value+'">'+age_edit+'</span></div><div class="lt setwidth_add_color"><div class="setborder"><div class="setbg" id="set_bgcolor_'+value+'" style="background:'+colorValue+'"></div></div></div><div class="lt setwidth_add_color"><span><a href="javascript:void(0)" onclick="deleteProfileDiv('+value+')"><img src="/assets/provider_event_list/delete_icon.png" width="29" height="26" alt="" /></a></span></div></div></font></label>';
+            $('.createDynamicDivsProfile').append(str_profile);
+            
+          count_inc=count+","+value;
+          $("#pro_count").val(count_inc);
+        }
+      }
+      else{
+        for(var i=value;i>0;i--){
+          var ageRangePrev = $('#set_agerange_'+i).html();
+          if(ageRangePrev==age_edit){
+            $('#set_bgcolor_'+i).css('background-color',colorValue);
+            flag=2;
+          }
+        }
+      }
+      //SET Serial No
+      var snoLength= lengthDiv+1;
+      for(var i=0;i<snoLength;i++){
+        var setVal = i+1;
+        $("span.pno:eq("+i+")").html(setVal);
+      }
+    }
+    function deleteProfileDiv(incVal){
+      var count='';
+      var count_inc='';
+      var countLess='';
+      var countSplit='';
+      var lengthDiv='';
+  
+      var count=$("#pro_count").val();
+      var countSplit = count.split(",");
+      var countLess = countSplit.length-1;
+      var incValLess = incVal-1;
+  
+      remove_count=$("#pro_count").val();
+  
+      for(var i=0;i<countSplit.length;i++){
+        if(countSplit[i]==incVal){
+          removeVal = incVal+",";
+          r_count=remove_count.replace(removeVal,"");
+          r_count=r_count.replace(incVal,"");
+          $("#pro_count").val(r_count);
+        }
+      }
+  
+      lengthDiv = $('.createDynamicDivsProfile label font').length;
+      if(lengthDiv==1){
+        $("#defaultColorDiv").css("display","block");
+        $("#colorDiv").css("display","none");
+        $("#pro_count").val('');
+      }
+      $('.setBGColor_'+incVal).html('');
+  
+      //SET Serial No
+      var snoLength= lengthDiv+1;
+      for(var i=0;i<snoLength;i++){
+        var setVal = i+1;
+        $("span.pno:eq("+i+")").html(setVal);
+      }
+  
+    }
+
+</script>
+

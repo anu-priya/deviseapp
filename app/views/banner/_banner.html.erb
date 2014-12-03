@@ -1,0 +1,35 @@
+<%=javascript_include_tag "bxslider/jquery.bxslider"%>
+<%=stylesheet_link_tag "bxslider/jquery.bxslider", :media => "all"%>
+	<div style="position:relative; background-color:rgb(236, 247, 250);">
+	<div style="height:468px;overflow:hidden;">
+		<ul class="bxslider">
+			<%(1..3).each do |num|%>
+			<li><img style="background:url('/assets/landing/newbanner<%=num%>.jpg') no-repeat 50% 50%"  width="100%" height="470px" /></li>
+			<%end%>
+		</ul>
+	</div>
+	<div style="position:absolute;display:block;width:100%;top:170px;z-index:60">
+		<h1 class="banner_text">
+			<!--displayed the h1 content caption for quick links-->
+			<%if params[:search_type] && params[:search_type]!="" && !params[:search_type].nil?
+			htag = quicklink_htags(params[:search_type])
+			end%>
+			<%@htagval = (htag && !htag.nil? && htag!='' && htag.present?) ? (htag) : ("Find, share & manage kids activities with friends!")%>
+			<%=@htagval%>
+			<!--displayed the h1 content caption for quick links-->
+		</h1>
+		<div style="width:100%;z-index:20;margin-top:25px;"><%= render :partial => '/banner/new_search',:locals => {:def_age => '4 - 7'} %></div>
+	</div>
+	</div>
+	<script type="text/javascript">
+	  $(document).ready(function(){  
+		/*Slider in Banner Section start */
+		$('.bxslider').bxSlider({
+		mode: 'fade',
+		captions: true,
+		auto: false
+		});
+		});
+	/* Slider in Banner Section end */
+	
+  </script>

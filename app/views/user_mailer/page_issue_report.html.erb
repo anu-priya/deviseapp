@@ -1,0 +1,19 @@
+<table cellpadding="0" cellpadding="0">
+            <tr>
+              <td style="padding:12px;">
+                <p>Hi The following issues occurred while someone accessing our application</p>
+                <p>Host = <%=@host%></p>
+	      <p>User Agent = <%=@u_agent %></p>
+	       <p>Page path= <%=@path %></p>
+	       <%if !@info.nil?%>
+		       <%@info.each do |details|%>
+		       <p><%=details%></p>
+		       <%end%>
+	       <%end%>
+	       <p>We need to take care about the issues!</p>
+              </td>
+            </tr>
+</table>
+
+
+     

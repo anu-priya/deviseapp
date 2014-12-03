@@ -1,0 +1,181 @@
+<%= stylesheet_link_tag "sponsor_ships/billing_sponsorship" %>
+<%= stylesheet_link_tag "create_new_activity_new/create_new_activity" %>
+<%= stylesheet_link_tag "global/pop_up" %>
+<%= javascript_include_tag "sponsor_ships/billing_sponsorship" %>
+<script language="javascript">
+  function closepopup_bid() {
+    parent.parent.location.reload(true);
+  }
+  
+  $(document).ready(function() {
+    
+    $("html, body", window.parent.document).animate({ scrollTop: 0 }, 100);
+	
+    $('#bid_setup').submit(function (){
+      var errorFlag = false;
+      var bid_amount = $("#bid_amount").val();
+      var bid_amount_monthly = $("#bid_amount_monthly").val();
+      bid_amount = bid_amount.replace(/^\s+|\s+$/g, "");
+      var re_bid_amount = bid_amount.replace('$','');
+      bid_amount_monthly = bid_amount_monthly.replace(/^\s+|\s+$/g, "");
+      var re_bid_amount_monthly = bid_amount_monthly.replace('$','');
+      $("#bid_amount").css("border","1px solid #CDE0E6");
+      $("#bid_amount_monthly").css("border","1px solid #CDE0E6");
+
+      $("#bid_amount_error").html("");
+      $("#bid_amount_monthly_error").html("");
+
+      $("#bid_amount_error").parent().css("display","none");
+      $("#bid_amount_monthly_error").parent().css("display","none");
+
+      var firstVal_bid_amount = re_bid_amount.charAt(0);
+      var firstVal_bid_amount_monthly = re_bid_amount_monthly.charAt(0);
+      
+	
+	if(bid_amount == "" ||  bid_amount == "Minimum bid amount $1"){
+		$("#bid_amount").css("border","1px solid #fc8989");
+		$("#bid_amount_error").html("Please enter bid amount");
+		$("#bid_amount_error").parent().css("display","block");
+		errorFlag = true;
+	}
+	if(bid_amount != "" ){
+		if(firstVal_bid_amount == 0){
+			$("#bid_amount").css("border","1px solid #fc8989");
+			$("#bid_amount_error").html("Please do not use 0 as a first character");	
+			$("#bid_amount_error").parent().css("display","block");
+			errorFlag = true;
+		}
+		else if(!validatePrize(re_bid_amount)){
+			$("#bid_amount").css("border","1px solid #fc8989");
+			$("#bid_amount_error").html("Please enter valid bid amount ex: x.xx or x");
+			$("#bid_amount_error").parent().css("display","block");
+			errorFlag = true;
+		}
+		else if( parseFloat(re_bid_amount) < 1 ){
+			$("#bid_amount").css("border","1px solid #fc8989");
+			$("#bid_amount_error").html("Please enter minimum bid amount $1");
+			$("#bid_amount_error").parent().css("display","block");
+			errorFlag = true;
+		}
+	}
+	if(bid_amount_monthly == "" ||  bid_amount_monthly == "Minimum Monthly Budget $100 / Activity"){
+		$("#bid_amount_monthly").css("border","1px solid #fc8989");
+		$("#bid_amount_monthly_error").html("Please enter monthly budget");
+		$("#bid_amount_monthly_error").parent().css("display","block");
+		errorFlag = true;
+	}
+	if(bid_amount_monthly != "" ){
+		if(firstVal_bid_amount_monthly == 0){
+			$("#bid_amount_monthly").css("border","1px solid #fc8989");
+			$("#bid_amount_monthly_error").html("Please do not use 0 as a first character");	
+			$("#bid_amount_monthly_error").parent().css("display","block");
+			errorFlag = true;
+		}
+		else if(!validatePrize(re_bid_amount_monthly)){
+			$("#bid_amount_monthly").css("border","1px solid #fc8989");
+			$("#bid_amount_monthly_error").html("Please enter valid monthly budget ex: x.xx or x");
+			$("#bid_amount_monthly_error").parent().css("display","block");
+			errorFlag = true;
+		}
+		else if( parseFloat(re_bid_amount) > parseFloat(re_bid_amount_monthly)  &&  parseFloat(re_bid_amount) != parseFloat(re_bid_amount_monthly)  ){
+			$("#bid_amount_monthly").css("border","1px solid #fc8989");
+			$("#bid_amount_monthly_error").html("Please enter greater than bid amount");
+			$("#bid_amount_monthly_error").parent().css("display","block");
+			errorFlag = true;
+		}
+	}
+	if(errorFlag){
+		return false;
+	}
+	else{
+		$.post($(this).attr('action'), $(this).serialize(), null, "script");
+		return false;
+	}
+
+    })
+  })
+</script>
+
+<div id="new_act_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">
+							Bid Setup
+            </div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onclick="closepopup_bid()" title="">
+              <%= image_tag("/assets/global/pop_up/button_close.png", height: '15', width: '15')  %> </a>
+          </div>
+        </div>
+        <div id ="bid_setup_div">
+          <div  class="centerCont">
+            <form id="bid_setup" name="bid_setup" action="create_bid" method="post">
+              <div class="paddingTop10">
+
+                <div class="topText">
+                  <div>Famtivity provides premium placement for your activities. We decide the placement of your activity based on:</div>
+                  <p>1. The appropriateness for the user</p>
+                  <p>2. The bid price you settest</p>
+                </div>
+
+                <div class="paddingTop10">
+                  <div class="lt leftSideField">
+		Bid Amount Per Click
+                  </div>
+                  <input type="text" name="bid_amount" id="bid_amount" class="lt textbox" value="Minimum bid amount $1" onfocus="focusChangeBorderColor('bid_amount')" onblur="blurChangeBorderColor('bid_amount')" tabindex="1" maxlength="100"/>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">
+                    &nbsp;
+                  </div>
+                  <div class="lt" id="bid_amount_error"></div>
+                </div>
+                </div>
+                <div class="clear"></div>
+                <div style="padding-top:16px;">
+                  <div class="lt leftSideField">Monthly Budget</div>
+                <input type="text" name="bid_amount_monthly" id="bid_amount_monthly" class="lt textbox" value="Minimum Monthly Budget $100 / Activity" onfocus="focusChangeBorderColor('bid_amount_monthly')" onblur="blurChangeBorderColor('bid_amount_monthly')"  tabindex="2" maxlength="100"/>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">
+                    &nbsp;
+                  </div>
+                  <div class="lt" id="bid_amount_monthly_error"></div>
+                </div>
+
+                <div class="clear"></div>
+              <div class="row4">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt">
+                  <input type="image" class="" src="/assets/sponsorships/button_placebid.png" alt="" tabindex="5" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSponsorship','Add Bid Success'])" />
+                  <a href="javascript:void(0)" title="" onclick="closepopup_bid()" ><%= image_tag("/assets/sponsorships/button_cancel.png")  %></a>
+                </div>
+                <div class="clear"></div>
+
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+</div>
+<!--ajax loader -->
+<div id='loadingmessage' style='display:none;margin-top:-300px;float:left;margin-left:462px;' align="center">
+  <%= image_tag("/assets/ajax-loader.gif")  %>
+</div>

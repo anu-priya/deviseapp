@@ -1,0 +1,89 @@
+<%@user.each do |u|%>
+  <%user_profile = UserProfile.where("user_id = #{u.user_id}").last%>
+  <%if !user_profile.nil?%>
+    <div class="providerCategory" style="width: 228px;float:left;position:relative;margin-bottom: 10px;" id="field">
+      <div style="overflow: hidden;" id="borderFrame">
+        <div id="setHeightMac" class="center_bg_scroll" style="background:#F6F5F4;">
+	<div style="max-height:530px;overflow:hidden;background:#ffffff;padding-bottom: 4px;">
+          <%if !user_profile.nil? && !user_profile.card_file_name.nil? && !user_profile.card.nil?%>
+            <div align="center" style="width:209px; overflow:hidden; margin-left:9px;" id="getid1" ><a href="javascript:void(0)" title=""><%= image_tag user_profile.card.url(:small), :alt=>"#{user_profile.business_name if user_profile && user_profile.business_name}, #{user_profile.city if user_profile && user_profile.city}, CA", :onclick=>"pop_provider_Detail_dhtml('/provider_detail_iframe?det=#{u.user_id}&act=#{request.fullpath.split('/')[1]}','/provider-info/#{user_profile.business_name.parameterize if !user_profile.nil?}/#{u.user_id}');" if !user_profile.card.url(:small).nil?%></a></div>
+          <%elsif !user_profile.nil? && !user_profile.profile_file_name.nil? && !user_profile.profile.nil?%>
+            <div align="center" style="width:209px; overflow:hidden; margin-left:9px;" id="getid1" ><a href="javascript:void(0)" title=""><%= image_tag user_profile.profile.url(:medium), :alt=>"#{user_profile.business_name if user_profile && user_profile.business_name}, #{user_profile.city if user_profile && user_profile.city}, CA", :onclick=>"pop_provider_Detail_dhtml('/provider_detail_iframe?det=#{u.user_id}&act=#{request.fullpath.split('/')[1]}','/provider-info/#{user_profile.business_name.parameterize if !user_profile.nil?}/#{u.user_id}');" if !user_profile.profile.url(:medium).nil?%></a></div>
+          <%else%>
+            <div align="center" style="width:209px; overflow:hidden; margin-left:9px; background-color:#F6F7F9;"><a onclick="pop_Activity_Detail_dhtml('')" title="" href="javascript:void(0)">
+	    <%=image_tag("/assets/no_image.png", :width=>"190", :height=>"140", :alt=>"#{user_profile.business_name if user_profile && user_profile.business_name}, #{user_profile.city if user_profile && user_profile.city}, CA")%>
+	    </a></div>
+          <%end%>
+          <div style="margin:9px 0 9px 0;">
+            <span id="user_approve_<%=u.user_id%>">
+              <%if u.show_card ==true %>
+                <span>
+                  <a href="javascript:void(0)" title="" onclick="raise_a_flag_provider('<%= u.user_id %>','false')"><%=image_tag("/assets/admin/raise_a_flag_button.png", :width=>"91", :height=>"26")%></a>
+                </span>
+              <%else%>
+                <span>
+                  <a href="javascript:void(0)" title="" onclick="raise_a_flag_provider('<%= u.user_id %>','true')"><%=image_tag("/assets/admin/approve_button.png", :width=>"69", :height=>"27")%></a>
+                </span>
+              <%end%>
+            </span>
+          </div>
+          <table cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td width="10">&nbsp;</td>
+                <td width="205" align="left">
+                  <a class="Title" title="<%= u.user_name %>" onclick="pop_provider_Detail_dhtml('/provider_detail_iframe?det=#{u.user_id}&act=#{request.fullpath.split('/')[1]}','/provider_info/#{user_profile.business_name if !user_profile.nil?}/#{u.user_id}');" href="javascript:void(0)"><%= u.user_name %></a>
+                </td>
+                <td width="10">&nbsp;</td>
+              </tr>
+              <tr><td height="12"></td></tr>
+              <tr>
+                <td width="10">&nbsp;</td>
+                <td>
+                  <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                      <tr>
+                        <td width="20%" valign="bottom" class="price_text">
+                          <%if !user_profile.nil? && !user_profile.profile_file_name.nil? && !user_profile.profile.nil?%>
+                            <%= image_tag(user_profile.profile.url(:thumb), :width => '21', :height => '21', :alt=>"#{user_profile.business_name if user_profile && user_profile.business_name}, #{user_profile.city if user_profile && user_profile.city}, CA", :style =>"width:21px;height:21px;")%>
+                          <%else%>
+                            <%= image_tag("/assets/profile/user_icon.png", :width => '21', :height => '21', :alt=>"#{user_profile.business_name if user_profile && user_profile.business_name}, #{user_profile.city if user_profile && user_profile.city}, CA", :style =>"width:21px;height:21px;")%>
+                          <%end%>
+                          <%= user_profile.business_name if !user_profile.nil?%>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td width="10">&nbsp;</td>
+              </tr>
+              <tr><td height="8"></td></tr>
+              <tr>
+                <td width="10">&nbsp;</td>
+                <td>
+                  <table cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                      <tr>
+                        <td valign="bottom" class="price_text">
+                          <div style="overflow:hidden;max-height:310px;line-height: 17px;"><%= user_profile.description if !user_profile.nil?%></div></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td width="10">&nbsp;</td>
+              </tr>
+              <tr><td height="8"></td></tr>
+
+            </tbody>
+          </table>
+          
+        </div>
+	</div>
+	
+      </div>
+    </div>
+  <%end%>
+<%end%>
+<div class="pro_pagination">
+  <%= will_paginate @user%>
+</div>

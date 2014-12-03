@@ -1,0 +1,186 @@
+<script>
+$(function() {
+// Last thread to be open
+var to_act = '<%=@mess_threads.count if !@mess_threads.nil?%>';
+var accordOptions={
+    collapsible:true,
+    active:(to_act-1)
+};
+
+$( "#accordion" ).accordion(accordOptions);
+
+// Last thread to be open
+
+
+	var availableTags = [
+		"ActionScript",
+		"AppleScript",
+		"Asp",
+		"BASIC",
+		"C",
+		"C++",
+		"Clojure",
+		"COBOL",
+		"ColdFusion",
+		"Erlang",
+		"Fortran",
+		"Groovy",
+		"Haskell",
+		"Java",
+		"JavaScript",
+		"Lisp",
+		"Perl",
+		"PHP",
+		"Python",
+		"Ruby",
+		"Scala",
+		"Scheme"
+	];
+	$( "#text-name" ).autocomplete({
+		source: availableTags
+	});
+});
+</script>
+<%if @msg_list && @msg_list.present? && !@msg_list.nil?%>
+<form name="msg_list" id="msg_list">
+<input type="hidden" id="actid_chk" name="actid_chk" value="" />
+
+<div class="lt " style="border:1px solid #cee1e8; ">
+	<div style="height:532px  width:414px; background-color:#fff;" class="lt message_list">
+			<div class="listLt activityName" >			
+					<!-- Start -->
+					<%i=1%>
+					<%@msg_list && @msg_list.each do |list|%>
+					<%@same=list.message_threads.last if !list.message_threads.nil?%>
+					<%@reciver_str=@same.receivers_email if !@same.nil?%>
+					<%@post_str=@same.posted_email if !@same.nil?%>
+					<% if ((!list.nil? && !list.message_type.nil? && list.message_type =='fam_network' && !@reciver_str.nil? && !@post_str.nil? &&  @reciver_str.present? && @post_str.present? && @post_str!=@reciver_str)||(!list.nil? && !list.message_type.nil? && list.message_type =='message'))  %>
+					<%user = User.find_by_user_id(list.posted_by)%>
+					<%user_prof = user.user_profile if user && !user.nil? && user.present?%>
+					<%message = Message.find(list.message_id)%>
+					<%thrd_last = message.message_threads.last%>
+					<%msg_unread_count = getMsgUnreadCount(message.message_id,current_user)%>
+					<table cellspacing="0" cellpadding="0" border="0" class="msgShortList <%if i==1%>setDarkBg<%end%> borderBottom" style="cursor:pointer;height: 10%;" id="msgShortList_<%=message.message_id%>">
+						<tr onclick="show_msg_detail_list(<%=message.message_id%>,'<%=@mode%>','<%=list.message_type%>'); _gaq.push(['_trackEvent','<%=@mode.capitalize if !params[:mode].nil?%> Module', 'clickMessages','Message Detail','<%=message.message_id%>']);">
+							<td width="3" >&nbsp;</td>
+							<td width="57">&nbsp;</td>
+							<td width="67">&nbsp;</td>
+							<td width="257" valign="bottom"><div class="dateDiv ftcGray56 fts12 rt" style="display:none;"><%=message.created_at.strftime("%b" " %d")%></div></td>
+						</tr>
+						<tr>
+							<td width="3" >&nbsp;</td>
+							<td class="messageCheckBox" align="right" valign="middle">
+								<div style="position:relative;margin-top: -14px;">
+								<input type="checkbox" value="" name="pe1" id="pe<%=i%>" style="position: absolute; left: -1000px;" data="<%=message.message_id%>" />
+								<span onclick="getchk_actid(<%=i%>,this,<%=message.message_id%>); return false;" class="checkboxImg" id="chk_span_<%=message.message_id%>"><label for="pe1" class="altCheckboxOff" style="width:20px;">&nbsp;</label></span>
+							</div>
+							</td>
+							<td  align="left" valign="middle" onclick="show_msg_detail_list(<%=message.message_id%>,'<%=@mode%>','<%=list.message_type%>'); _gaq.push(['_trackEvent','<%=@mode.capitalize if !params[:mode].nil?%> Module', 'clickMessages','Message Detail','<%=message.message_id%>']);">
+								 
+      							<%@muser_card=user_prof.profile.path if user && !user.nil? && user_prof && user_prof.present? && user_prof.profile && user_prof.profile.present? && !user_prof.profile.nil?%> 
+      							<%@muser_photo=user_prof.user_photo.path if user && !user.nil? && user_prof && user_prof.present? && user_prof.user_photo && user_prof.user_photo.present? && !user_prof.user_photo.nil?%> 
+      							
+								<div style="position:relative;margin-top: -14px;">
+								<!--div class="messagePhotoBr "><div class="messagePhotoInner"></div></div-->
+								<img src="<%if user && !user.nil? && user_prof && user_prof.present? && user_prof.profile && user_prof.profile.present? && !user_prof.profile.nil? &&  File.exists?(@muser_card)%>
+								            	<%=user_prof.profile%> 
+								           <%elsif user && !user.nil? && user_prof && user_prof.present? && user_prof.user_photo && user_prof.user_photo.present? && !user_prof.user_photo.nil? &&  File.exists?(@muser_photo)  %>
+								           		<%=user_prof.user_photo%>
+								           <%else%>
+								                /assets/default/user_msg_default_Image.png
+								           <%end%>" alt="" width="45" height="45" style="margin-left: 1px;" />
+								<div class="image_circle <%if i==1%>blue_circleimage<%else%>normal_circleimage<%end%> " id="list_circle_<%=message.message_id%>" style="width:55px;height:50px;margin:0;top: -10px;right: 16px;"></div>
+							</div>
+							</td>
+							<td  align="left" valign="top" onclick="show_msg_detail_list(<%=message.message_id%>,'<%=@mode%>','<%=list.message_type%>'); _gaq.push(['_trackEvent','<%=@mode.capitalize if !params[:mode].nil?%> Module', 'clickMessages','Message Detail','<%=message.message_id%>']);">
+								<!--<p class="paddingTop7 ftcBlack fts16"><b><%#=message.subject.truncate(25)%></b></p>-->
+								<div class="msg_thread_head">
+								    <div class="msg_thread_name">
+								    	<%if list.message_type=='fam_network'%>
+									<% fam_net = ContactGroup.find_by_group_id(message.contact_group_id)%>
+										<%if fam_net && fam_net.present? && fam_net.group_name && fam_net.group_name.present?%>
+											<span class="paddingTop7 ftcBlack fts16 fam-net" title="<%=fam_net.group_name.titlecase%>">
+												<%=fam_net.group_name.titlecase.truncate(25)%>
+											</span>
+										<%end%>
+										<br>
+									<%end%>
+								    	
+									<a href="javascript:void(0)"  id="msg_subject_<%=message.message_id%>" class="paddingTop7 ftcBlack fts16 <%if msg_unread_count.first.read_count && msg_unread_count.first.read_count.present? && msg_unread_count.first.read_count.to_i!=0%>msgsubject"<%end%> title="<%=message.subject%>" <%if list.message_type=='fam_network'%>style="margin-top: -4px;position: absolute;"<%end%> >
+										<%=message.subject.truncate(25) if message.subject%><%if msg_unread_count.first.read_count && msg_unread_count.first.read_count.present? && msg_unread_count.first.read_count.to_i!=0%><div class="notification_count" id="notification_msg_count_<%=message.message_id%>"><%=msg_unread_count.first.read_count%></div><%end%>
+									</a>
+									 
+
+								    </div>
+								   
+								</div>
+								
+								<!--<a href="javascript:void(0)"  class="paddingTop7 ftcBlack fts16" title="<%#=message.subject%>"><b><%#=message.subject.truncate(25)%></b></a>-->
+								<!--<p class="paddingTop7 ftcGray9c fts13"><%#=ActionController::Base.helpers.strip_tags(message.message_threads.first.content).truncate(25)%></p>-->
+								<%snder_email = User.find_by_user_id(thrd_last.posted_by) if message && message.message_threads && message.message_threads.first%>
+								<%sender_email = (snder_email && !snder_email.nil?) ? snder_email.email_address : thrd_last.posted_email%>
+								<% if sender_email && !sender_email.nil?%><p class="paddingTop7 ftcGray9c fts13" <%if list.message_type=='fam_network'%>style="top: 11px;position: relative;color:#4495ae;"<%else%>style="color:#4495ae;"<%end%>><%=sender_email%></p><%end%>
+								<%= @thread_unread_count%>
+								<p class="paddingTop7 ftcGray9c fts13" style="float: right;margin-bottom: 6px;"><%=message.created_at.strftime("%b" " %d")%>&nbsp;&nbsp;</p>
+							</td>
+						</tr>
+						
+						<!--tr onclick="show_msg_detail_list(<%=message.message_id%>,'<%=@mode%>'); _gaq.push(['_trackEvent','<%=@mode.capitalize if !params[:mode].nil?%> Module', 'clickMessages','Message Detail','<%=message.message_id%>']);">
+							<td colspan="4" align="left">
+								<div class="bluebg typeContainer" align="center" style="width:60px;float: left;"><%=list.message_type.titlecase%></div>
+									<%if list.message_type=='fam_network'%>
+									<% fam_net = ContactGroup.find_by_group_id(message.contact_group_id)%>
+										<%if fam_net && fam_net.present? && fam_net.group_name && fam_net.group_name.present?%>
+											<div class="bluebg typeContainer" align="center" style="margin-left:47px;float: left;" title="<%=fam_net.group_name.titlecase%>"><%=fam_net.group_name.titlecase.truncate(25)%></div>
+										<%end%>
+									<%end%>
+							</td>
+						</tr-->
+
+					</table>
+					<%i+=1%>
+					<%end%>
+					<%end%>
+
+					<!-- end -->
+			</div>
+	</div>
+
+
+	<div class="lt" style="width:828px;  border-left: 1px solid #CEE1E8;">
+		<div id="msgThreadDetList">
+					<%=render :partial => 'message_thread_list'%>
+				</div>
+	</div>
+		
+
+
+
+
+
+		
+
+	</div>
+
+		
+</form>
+<%else%>
+<div class="crt_new" >
+	<table border="0" cellpadding="0" cellspacing="0" width="100%" align="center">
+		<tr>
+			<td width="100%" valign="top" style="text-align:center;"><strong style="font-size:30px; color:#585858">It's lonely in here! Start sending message to your friends now!</strong></td>
+		</tr>
+		<tr>
+			<td style="text-align:center;padding-top:30px;" >
+				<!-- <a title="" onclick="pop_create_message_form('/messages/new?mode=<%#=params[:mode]%>','<%#=params[:mode]%>'); _gaq.push(['_trackEvent','<%#=params[:mode].capitalize if !params[:mode].nil?%> Module', 'clickMessages','Create New Message']);" href="javascript:void(0);"><img src="/assets/message/create_new_message_button.png">
+				</a> -->
+				<a href="/messages/new?mode=<%=params[:mode]%>" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickMessages','Create New Message']);" href="javascript:void(0);" style="display:inline-block;padding: 10px 7px;background-color: #F82b2b;cursor: pointer;width: 190px;font-size: 16px;margin: 0px 10px;"><span style="display:inline-block;color:#ffffff">Create New Message</span></a>
+			</td>
+		</tr>
+	</table>
+</div>
+
+
+	  <%end%>
+	  <div class="clear"></div>
+

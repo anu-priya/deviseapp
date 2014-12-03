@@ -1,0 +1,48 @@
+    <table>
+      <tr>
+        <td>Transaction ID</td>
+        <td>Transaction Date</td>
+        <td>Product ID </td>
+	       <td>Product Name </td>
+        <td>Customer Name</td>
+        <td>Customer Phone</td>
+        <td>Contact information</td>
+        <td>Participant(s) Name</td>
+        <td>Voucher</td>
+        <td>Sale Price($)</td>
+        <td>Discount</td>
+        <td>Discount Dollar</td>
+        <td>Amount Charged($)</td>
+        <td>Minus Credit Card Fees (processing fee) 3%</td>
+        <td>Famtivity Fee 2.5% or 0.99</td>
+        <td>Net Amount Payable($)</td>
+      </tr>
+
+  <%if !@trans.nil? && @trans.length > 0 %>
+    <% @trans.each do |tran|%>
+      <tr>
+        <td><%=tran.transaction_id%></td>
+        <td><%=tran.payment_date.strftime("%b %d, %Y") if tran && tran.payment_date %></td>
+        <td><%=tran.activity_id%></td>
+	      <td><%=tran.activity_name%></td>
+        <td><%=tran.customer_name%></td>
+        <td><%=tran.customer_phone%></td>
+        <td><%=tran.customer_address%></td>
+        <td><%=(!tran.participant_name.nil? && tran.participant_name[-1]==',') ? tran.participant_name.chop : tran.participant_name%></td>
+        <td><%=tran.ticket_code%></td>
+        <td><%=tran.sale_price%></td>
+        <td><%=tran.discount%></td>
+        <td><%=(!tran.dd_price.nil? && tran.dd_price.present? ) ? tran.dd_price : '-'%></td>
+        <td><%=tran.amount%></td>
+	<% fam_fee_amt = calculate_fam_fee(tran.amount)%>
+	<td><%=(fam_fee_amt && fam_fee_amt[2] && fam_fee_amt[2] > 0) ? fam_fee_amt[2] : '-'%></td>
+	<td><%=(fam_fee_amt && fam_fee_amt[0] && fam_fee_amt[0] > 0) ? fam_fee_amt[0] : '-'%></td>
+          <td><%=(fam_fee_amt && fam_fee_amt[1]) ? (fam_fee_amt[1]!='free' ? fam_fee_amt[1].round(2) : fam_fee_amt[1]) : tran.amount%></td>          
+      </Row>
+    <% end %>
+  <%else%>
+      <tr>
+          Sorry we found no results
+      </tr>
+  <%end%>
+  </table>

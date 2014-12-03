@@ -1,0 +1,23 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up_success.css" />
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css"/>
+<script language="javascript">
+  $(document).ready(function(){
+    $("html, body", window.parent.document).animate({ scrollTop: 0 }, 100);
+  });
+  function closepopup() {
+    parent.newContactPage.hide();
+    //parent.parent.location.reload(true);
+    parent.parent.location.href += "";
+  }
+	
+</script>
+<div align="center" style="height:145px;">
+  <p class="successText" style="padding:28px 0; font-size: 16px;font-family: 'open_sansregular',Sans-Serif;"><%=@success_message if !@success_message.nil?%></p>
+  <div class="clear"></div>
+  <!--<a href="javascript:void(0)" onClick="closepopup()" title=""><img src="/assets/register/ok_btn.png" alt="" />Success! Your friend has been invited to join Famtivity and is now part of your friend's list.Success! Your friend has been added to your friends in Famtivity.</a>
+  <a href="contact_users" target="_parent"><img src="/assets/register/ok_btn.png" alt=""/></a>-->
+  <%= link_to image_tag("/assets/register/ok_btn.png", :border => 0), contact_users_path, :target => "_parent" %>
+</div>
+
+
+

@@ -1,0 +1,217 @@
+<%=stylesheet_link_tag "activity_schedule/act_schedule","full_calendar/sched_fullcalendar", :media => "all"%>
+<%=javascript_include_tag "activity_schedule/act_schedule","full_calendar/sched_fullcalendar"%>
+<script type="text/javascript">  
+  var scheduleCheckPage;  
+  function schedule_check(){
+    var url = "/schedule_check";
+    scheduleCheckPage = dhtmlmodal.open("Edit Activity","iframe",url," ", "width=910px,height=370px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  } 
+    
+</script>
+<style>
+  .errorDiv{
+    margin-top:3px;
+    color:#fc8989;
+    font-size:12px;
+  }
+</style>
+<%= render "provider_settings/provider_submenu"%>
+<input type='hidden' id='fav_val' value=''/>
+<input type='hidden' id='rem_fav_val' value=''/>
+<div style='margin-top:36px;'>
+      <% if flash[:notice] -%>
+        <div id = 'flash_notice'>
+          <%= flash[:notice] %>
+        </div>
+      <% end -%>
+      <% if flash[:error] -%>
+        <div id = 'flash_error'>
+          <%= flash[:error] %>
+        </div>
+      <%end -%>     
+	<div class="aplicationContent">
+
+        <script type="text/javascript" language="javascript">
+          $(document).ready(function(){
+            // page is now ready, initialize the calendar...
+            $('#calendar').fullCalendar({
+              editable: false,
+              header: {
+                left: 'prev,next',
+                center: 'title',
+                right: ''
+              },
+              firstHour:0,
+              defaultView: 'agendaWeek',
+              height: 500,
+              slotMinutes:15,
+              loading: function(bool){
+                if (bool)
+                  $('#loading').show();
+                else
+                  $('#loading').hide();
+              },
+              events: "activity_schedules/get_provider_cal",
+              timeFormat: 'h:mm t{ - h:mm t} ',
+              axisFormat: 'hh:mm tt{ - h:mm tt}',
+              dragOpacity: "0.5",
+              eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc){
+                //              if (confirm("Are you sure about this change?")) {
+                moveEvent(event, dayDelta, minuteDelta, allDay);
+                //              }
+                //              else {
+                //                  revertFunc();
+                //              }
+              },
+
+              eventResize: function(event, dayDelta, minuteDelta, revertFunc){
+                //              if (confirm("Are you sure about this change?")) {
+                resizeEvent(event, dayDelta, minuteDelta);
+                //              }
+                //              else {
+                //                  revertFunc();
+                //              }
+              },
+              eventRender: function(event,element,calEvent) {
+                element.find(".fc-event-title").before($("<div class=\"lt fc-event-top\"></div>")
+                .html("<a class=\"lt show_schedule_detail icon\" href=\"javascript:iconsAlert('"+this.id+"','"+this.uni_date+"')\" title='"+this.title+"' ><img src=\"/assets/activity_schedule/arrow_img.png\" class=\"icon\" /></a>"));
+                
+                //element.find(".fc-event-top").after($("<div class=\"clear\"></div>"));
+				
+                var leader = "";
+                leader = this.leader;		
+                if(leader!=null && leader!=""){
+                  leader =
+                    "<div class='setPadding icon'>"+
+                    "<div class='lt leftPart'>"+
+                    "<div class='lt leftCont'>Leader</div>"+
+                    "<div class='rt leftCont colon'>:</div>"+
+                    "<div class='clear'></div>"+
+                    "</div>"+
+                    "<div class='lt rightCont'>"+this.leader+"</div>"+
+                    "<div class='clear'></div>"+
+                    "</div>";
+                }
+                if(this.schedule_type=='Any Time')
+                {
+                  schedule="Time";
+                }
+                else{
+                  schedule="Date &amp; Time";
+                }
+		
+		if(this.school_accept_but && this.school_accept_but=='true')
+		  {
+		  test = "<a href=\"javascript:void(0)\" title=\"\" style=\"position:relative;margin-right:5px;display:inline-block;\" onclick=\"javascript:schoolRepresentativeAccept("+this.id+")\"  class=\"save-button icon lt\" >Accept</a>"
+		  }
+		  else
+		  {
+                 test = ((this.school_rep_present=='false' || (this.school_rep_present=='true' && this.school_edit_permi && this.school_edit_permi=='true')) ? ("<a href=\"javascript:void(0)\" title=\"\" style=\"position:relative;margin-right:5px;display:inline-block;\" onClick=\"javascript:pop_edit_activity('/edit_activity?activity_id="+this.id+"')\" class=\"save-button icon lt\">Edit</a>") : '')+((this.school_rep_present=='false' || (this.school_rep_present=='true' && this.school_del_permi && this.school_del_permi=='true')) ? ("<a href=\"javascript:void(0)\" title=\"\" style=\"position:relative;display:inline-block;\" onClick=\"javascript:pop_delete_activity('/activities/delete_activity?id="+this.id+"')\" class=\"cancel-button\" >Delete</a>") : '')
+		  }
+	 
+                element.find(".fc-event-inner").before($("<div class='fc-view-event'></div>")
+                .html(
+                "<div id='show_detail_"+this.id+"_"+this.uni_date+"' class='showActivityDetail icon' style='display:none'>"+
+                  "<div class='showtopArrow icon'><img src='/assets/activity_schedule/top_arrow.png' width='15' height='12' /></div>"+
+                  "<div class='showDetialView icon'>"+
+                  "<div class='closeButton icon' align='right'>"+
+                  "<a href=\"javascript:close_activity_detail('"+this.id+"','"+this.uni_date+"')\" title=\"\" style=\"position:relative;\"> <img src=\"/assets/global/pop_up/button_close.png\" alt=\"\" width=\"15\" height=\"15\" class=\"icon\"/> </a>"+
+                  "</div>"+
+                  "<div class='showInnerDiv icon'>"+
+                  "<p class='head icon'>"+this.title+"</p>"+
+                  leader+
+                  "<div class='setPadding icon'>"+
+                  "<div class='lt leftPart icon'>"+
+                  "<div class='lt leftCont icon'>Address</div>"+
+                  "<div class='rt leftCont colon icon'>:</div>"+
+                  "<div class='clear icon'></div>"+
+                  "</div>"+
+                  "<div class='lt rightCont icon'>"+this.address+"</div>"+
+                  "<div class='clear icon'></div>"+
+                  "</div>"+
+                  "<div class='setPadding icon'>"+
+                  "<div class='lt leftPart icon'>"+
+                  "<div class='lt leftCont icon'>"+schedule+"</div>"+
+                  "<div class='rt leftCont colon icon'>:</div>"+
+                  "<div class='clear icon'></div>"+
+                  "</div>"+
+                  "<div class='lt rightCont icon'>"+this.pop_change_date+" </div>"+
+                  "<div class='clear'></div>"+
+                  "</div>"+
+                  "<div class='setPadding icon activity_permissions_"+this.id+"' align='left'><div class='lt leftPart icon'>&nbsp;</div><div class='lt rightCont icon'>"+test+"</div></div>"+
+                  "<div class='clear icon'></div>"+
+                  "</div>"+
+                  "</div>"+
+                  "</div>"));
+              }   
+	      /*,
+	      
+             /* eventClick: function(event, jsEvent, view){
+                if(!$(jsEvent.target).hasClass("icon"))
+                {
+                }else{
+                  iconsAlert(event.id,event.uni_date)
+                }
+                
+              }*/
+            });
+          });
+          function iconsAlert(id,date){
+            var left = '';
+            var width = '';
+            var halfWidth ='';
+            open_activity_detail(id,date);
+            left = $('#show_detail_'+id+'_'+date).parent().parent().css('left');
+            left = left.replace("px", " ");
+            width = $("#calendar").width();
+            //alert(width);
+            var diff = parseInt(width) - parseInt(left);
+            if(width<1050) halfWidth = width/3.1;
+            if(width>1050 && width<1250) halfWidth = width/3.6;
+            if(width>1050 && width<1450) halfWidth = width/4.2;
+            if(width>1450 && width<1600) halfWidth = width/4.9;
+            if(width>1450 && width<1900) halfWidth = width/5;
+            if(width>1900) halfWidth = width/5.6;
+			
+            if(halfWidth>diff){
+              halfWidth=parseInt(halfWidth)-parseInt(diff) +"px";
+              $('#show_detail_'+id+'_'+date).css('marginLeft','-'+halfWidth);
+              $('#show_detail_'+id+'_'+date+' .showtopArrow').css('marginLeft',halfWidth);
+            }
+          }
+	  
+	  function schoolRepresentativeAccept(act_id){
+		$.post("/update_schoolrep_status", {
+		"act_id":act_id,
+		"schedule_page":'true'
+		}, null);
+	}
+        </script>
+
+		<div id='calendar'>
+			<div class="clearFix"></div>
+		</div>
+		<div id="desc_dialog" style="display:none;">
+			<div id="event_desc">
+			</div>
+			<div id="event_actions">
+				<span id="edit_event"></span>
+				<span id="delete_event"></span>
+			</div>
+		</div>
+		<div id="create_event_dialog" style ="display:none;">
+			<div id="create_event">
+			</div>
+		</div>
+
+	</div>
+</div>
+<div id="popup_container"></div>

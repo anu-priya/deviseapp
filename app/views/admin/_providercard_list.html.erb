@@ -1,0 +1,86 @@
+<table cellpadding="0" cellspacing="0" border="0" width="100%" class="tbl">
+				<tr>
+					<td width="175" align="left" valign="middle" class="tbl_headText">
+					Provider Name
+					</td>
+					<td width="175" align="left" valign="middle" class="tbl_headText">
+					Email Address
+					</td>
+					<td width="175" align="left" valign="middle" class="tbl_headText">
+					Website
+					</td>
+					<td width="120" align="left" valign="middle" class="tbl_headText">
+					Address
+					</td>
+					<td width="115" align="left" valign="middle" class="tbl_headText">
+					City
+					</td>
+					<td width="100" align="left" valign="middle" class="tbl_headText">
+					Zipcode
+					</td>
+					<td width="115" align="left" valign="middle" class="tbl_headText">
+					Phone No
+					</td>
+					<!--td width="115" align="left" valign="middle" class="tbl_headText">
+					Plan
+					</td-->
+					<td width="115" align="left" valign="middle" class="tbl_headText">
+					Added On
+					</td>
+					<td width="100" align="left" valign="middle" class="tbl_headText">
+					Added By
+					</td>
+					<td width="1" align="left" valign="middle" class="tbl_headText"></td>					
+				</tr>
+				<%if !@curator_provider_usr.nil? && @curator_provider_usr.length > 0 %>
+					<%i=0%>
+					<%@curator_provider_usr.each do |uval|%>
+					<%i = i + 1%>					
+					<tr class="<%if i.even? %>tbl_bg_gray<%else%>tbl_bg_white<%end%>">
+						<td align="left" valign="middle" height="30" class="tbl_tdbrd">
+							<span style="cursor:pointer;" title="<%=uval.business_name if !uval.nil? && !uval.business_name.nil? && uval.business_name != ''%>"><%if !uval.nil? && !uval.business_name.nil? && uval.business_name != '' %><%= truncate(uval.business_name,:length =>17, :omission => '... ')%><%else%>N/A<%end%></span>
+						</td>
+						<td align="left" valign="middle" class="tbl_tdbrd">
+							<span style="cursor:pointer;" title="<%=uval.email_address if !uval.nil? && !uval.email_address.nil? && uval.email_address != ''%>"><%if !uval.nil? && !uval.email_address.nil? && uval.email_address != '' %><%= truncate(uval.email_address,:length =>20, :omission => '... ')%><%else%>N/A<%end%></span>
+						</td>
+						<td align="left" valign="middle" class="tbl_tdbrd">
+							<span style="cursor:pointer;" title="<%=uval.website if !uval.nil? && !uval.website.nil? && uval.website != ''%>"><%if !uval.nil? && !uval.website.nil? && uval.website != '' %><%= truncate(uval.website,:length =>20, :omission => '... ')%><%else%>N/A<%end%></span>
+						</td>
+						<td align="left" valign="middle" class="tbl_tdbrd">
+							<%if !uval.nil? && !uval.address_1.nil? && uval.address_1 != '' %><%=uval.address_1%> <%=','+uval.address_2 if !uval.nil? && !uval.address_2.nil? && uval.address_2 != '' %><%else%>N/A<%end%>
+						</td>
+						<td align="left" valign="middle" class="tbl_tdbrd">
+							<%if !uval.nil? && !uval.city.nil? && uval.city != '' %><%=uval.city%><%else%>N/A<%end%>
+						</td>
+						<td align="left" valign="middle" class="tbl_tdbrd">
+							<%if !uval.nil? && !uval.zip_code.nil? && uval.zip_code != '' %><%=uval.zip_code%><%else%>N/A<%end%>
+						</td>						
+						<td align="left" valign="middle" class="tbl_tdbrd">
+							<%if !uval.nil? && !uval.phone.nil? && uval.phone != '' %><%=uval.phone%><%else%>N/A<%end%>
+						</td>
+						<!--td align="left" valign="middle" class="tbl_tdbrd">
+							<%#if !uval.nil? && !uval.user_plan.nil? && uval.user_plan != '' %><%=uval.user_plan%><%#else%>N/A<%#end%>
+						</td-->
+						<td align="left" valign="middle" class="tbl_tdbrd">
+							<%if !uval.nil? && !uval.user_created_date.nil? && uval.user_created_date != '' %><%=uval.user_created_date.strftime("%b %d, %Y") %><%else%>N/A<%end%>
+						</td>
+						<td align="left" valign="middle" class="tbl_tdbrd">
+							<%if !uval.nil? && !uval.added_by.nil? && uval.added_by != '' %><%=uval.added_by%><%else%>N/A<%end%>
+						</td>
+						<td align="left" valign="middle" class="tbl_tdbrd"></td>
+					</tr>
+					<%end%>
+				<%else%>						
+					<tr>
+						<td align="left" valign="middle" width="115"></td>
+						<td align="center" valign="middle" colspan="4" height="30">
+							Sorry we found no result
+						</td>
+						<td align="left" valign="middle" width="115"></td>
+					</tr>
+				<%end%>
+			</table>
+			
+			<div class="pro_pagination" style="margin-top:5px; margin-right: 3%;"> 
+				<%= will_paginate @curator_provider_usr  if ! @curator_provider_usr.nil? &&  @curator_provider_usr!='' &&  @curator_provider_usr.present?%>
+			</div>

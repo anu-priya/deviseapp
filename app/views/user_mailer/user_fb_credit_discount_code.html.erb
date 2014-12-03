@@ -1,0 +1,39 @@
+<%@full_path="https://www.famtivity.com"%>
+<table cellpadding="0" cellpadding="0"><!--first table start-->
+  <tr>
+    <td style="padding:12px;">
+
+      <table cellpadding="0" cellpadding="0">
+        <tr>
+          <td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="40"><b>Hi <%= @user.user_name%>,</b></td>
+        </tr>
+        <tr>
+          <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="30">You&rsquo;ve used the promo code '<%= @code %>' to get <span style="color:red;">$<%= number_with_precision(@amt, :precision => 2).gsub(/\.00$/, "")%></span> Discount Dollars.You also get a <span style="color:red;">$1</span> credit
+            every time a friend joins Famtivity through your invite! You can spend these Discount Dollars to
+            register for great kids activities in your area.
+          </td>
+        </tr>
+
+        <tr><td height="5" colspan="2"></td></tr>
+
+        <tr>
+          <td align="left" valign="middle">
+            <a href="<%= @image_url%>/?wel_friend=<%=@user.user_id unless @user.nil? %>" title="" target="_blank" >
+              <%= image_tag("#{@full_path}/assets/contact/invitefriend_button.png", size:"202x35", alt:"Accept", border:"0")%>
+            </a>&nbsp;&nbsp;
+          </td>
+        </tr>
+        <tr>
+          <td height="20">&nbsp;</td>
+        </tr>
+        <tr>
+          <td height="24" align="left" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#444444;">Have fun!</td>
+        </tr>
+        <tr>
+          <td  align="left"  height="24" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;">Your Famtivity Team</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+

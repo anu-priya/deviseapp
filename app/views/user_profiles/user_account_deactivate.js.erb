@@ -1,0 +1,15 @@
+<%if (!@user_status.nil? && @user_status=="deactivate")%>
+	 $('#deactivate_account_feature').hide();
+	 $('#loading_img_deact').hide();
+	 $('#user_deactivated').bPopup({fadeSpeed:100,followSpeed:100,opacity:0.8,positionStyle: 'absolute',modalClose: false});
+ <%elsif (!@user_status.nil? && @user_status=="activate")%>
+	<%if @rstatus && @rstatus == true%>
+		  $('#activate_account_feature').hide();
+		  $('#loading_img_act').hide();
+		  $('#user_activated_success').bPopup({fadeSpeed:100,followSpeed:100,opacity:0.8,positionStyle: 'absolute',modalClose: false});
+	<%else%>
+		$('#activate_account_feature').hide();
+		$('#loading_img_act').hide();
+		$('#user_activated_failure').bPopup({fadeSpeed:100,followSpeed:100,opacity:0.8,positionStyle: 'absolute',modalClose: false});
+	<%end%>
+ <%end%>

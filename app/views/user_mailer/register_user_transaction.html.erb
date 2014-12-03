@@ -1,0 +1,26 @@
+<table cellpadding="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+	  <table cellpadding="0" cellpadding="0">
+	  	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="50">Hello <%= @user.user_name%>,</td>
+		</tr>
+	  	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="40">This is to inform you that $<%= number_with_precision @uamount, :precision => 2 if !@uamount.nil?%> has been debited from your account and you are currently on the <%if !@user.nil? && !@user.manage_plan.nil? && @user.manage_plan.present?%><%if @user.manage_plan == "market_sell"%>Market &amp; Sell plan<%elsif @user.manage_plan == "market_sell_manage" %>Market, Sell &amp; Manage plan<%elsif @user.manage_plan == "market_sell_manage_plus" %>Market, Sell, Manage Plus plan<%end%><%end%>.</td>
+		</tr>
+		<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="40">If you have any questions, please contact Famtivity Support at <a href='mailto:support@famtivity.com' style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#196076;">support@famtivity.com</a></td>
+		</tr>
+		<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="60">Thanks!</td>
+		</tr>
+		<tr>
+			<td><span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;">The Famtivity Team</span></td>
+		</tr>
+		
+	  </table>
+      
+
+  </td>
+  </tr>
+</table>

@@ -1,0 +1,224 @@
+<form action="search" id="advanced_search_form" autocomplete="off">
+  <input type="hidden" id="show_fil" name="show_fil" value="<%= params[:show_fil] %>"/>
+  <div style="height:228px;">
+    <div id="chs_location" class="flt_lft" style="width:20%;">
+      <span class="adv_search_sub_head" style="padding-left:5px; margin-left:8px;">Choose Location</span>
+      <input type="hidden" id="city" name="city" value="<%= params[:city] %>"/>
+      <input type="hidden" id="city_exist" name="city_exist" value="<%if !params[:city].nil? && params[:city].present? && params[:city]!=''%>yes<%else%>no<%end%>"/>
+      <input type="hidden" id="category" name="category" value="<%= params[:category] %>"/>
+      <table border="0" align="left" width="100%"cellpadding="0" cellspacing="0" style="padding-left:8px;">
+        <%@fam_city.take(5).each do |c|%>
+          <tr>
+            <td align="center" valign="middle" class="squaredFour">
+              <input type="checkbox" id="city_<%=c.city_id%>" <%if @city.include?(c.city_name)%> checked="checked" <%end%> value="<%= c.city_name %>" class="city_select" />
+              <label for="city_<%=c.city_id%>"></label>
+            </td>
+            <td align="left" valign="middle" class="advance_city_text"><%= c.city_name %></td>
+          </tr>
+        <%end%>
+      </table>
+      <div class="clear"></div>
+      <div class="view_more" style="padding-left:41px;"><span class="dp" style="cursor: pointer;" onclick="$('.view_city').css('display','block');" > View More...</span></div>
+      <div class="view_city" style="position:absolute;display:none;margin-top: 8px;">
+        <div class="arrow_city"></div>
+        <a onclick="$('.view_city').css('display','none');" href="javascript:void(0);" class="cls_img"></a>
+        <div class="cust_scroll view_more_city" onmouseover="$('.view_city').css('display','block');">
+          <table border="0" align="center" cellpadding="0" width="100%" cellspacing="0">
+            <% @fam_city[5..-1].in_groups_of(3,false).each do |city_array| %>
+              <tr>
+                <% city_array.each do |c| %>
+                  <td align="left" valign="middle" class="city_tr">
+                    <div class="squaredFour dp" style="position:relative;">
+                      <input type="checkbox" id="city_<%=c.city_id%>" <%if @city.include?(c.city_name)%> checked="checked" <%end%> value="<%= c.city_name %>" class="city_select"/>
+                      <label for="city_<%=c.city_id%>"></label>
+                    </div>
+                    <span style="display:inline;" class="advance_city_text"><%= c.city_name %></span>
+                  </td>
+                <%end%>
+              </tr>
+            <%end%>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="chs_category" class="flt_lft" style="width:27%">
+      <span class="adv_search_sub_head">Choose Category</span>
+      <%category =ActivityCategory.includes(:activity_subcategory).where("lower(activity_categories.category_name)!='default'").order('activity_categories.category_name', 'activity_subcategories.subcateg_name')%>
+      <table border="0" align="left" width="84%" cellpadding="0" cellspacing="0">
+        <tr>
+        <input type="hidden" id="sub_cat_all" name="sub_cat_all"/>
+        <td align="center" valign="middle" class="squaredFour">
+          <input type="checkbox" name="cat_all" <%if params[:cat_all] == "all" %>checked="checked" <%end%>class="parent_category_check" value="all" id="cat_all"/>
+          <label for="cat_all"></label>
+        </td>
+        <td align="left" valign="middle" class="advance_city_text cat_text">All</td>
+        </tr>
+        <%category.take(4).each do |cat|%>
+          <tr onmouseover="category_mouse_over('<%=cat.category_id%>','on');" onmouseout="category_mouse_over('<%=cat.category_id%>','off');">
+            <%sub_cat = []%>
+            <%sub_cat = params[:"sub_cat_#{cat.category_id}"].split(",").reject(&:empty?) if params[:"sub_cat_#{cat.category_id}"] %>
+          <input type="hidden" id="sub_cat_<%= cat.category_id %>" name="sub_cat_<%= cat.category_id %>" value="<%= params[:"sub_cat_#{cat.category_id}"] %>"/>
+          <td align="center" valign="middle" class="squaredFour">
+            <input type="checkbox" class="category_check" value="<%=cat.category_id%>" <%if @category.include?(cat.category_id.to_s)%> checked="checked" <%end%> id="cat_<%=cat.category_id%>"/>
+            <label for="cat_<%=cat.category_id%>"></label>
+          </td>
+          <td align="left" valign="middle" id="cat_text_<%=cat.category_id%>" class="advance_city_text" ><%= cat.category_name %></td>
+          <td align="center" valign="middle" id="cat_arrow_<%=cat.category_id%>" class="cat_arrow"><span id="arrow_cat_<%=cat.category_id%>" class="arrow_cat" style="display:none;"></span></td>
+          <td class="cust_scroll" id="cat_sub_<%=cat.category_id%>" onmouseover="category_mouse_over('<%=cat.category_id%>','on');" onmouseout="category_mouse_over('<%=cat.category_id%>','off');" style="background:#ffffff;width:517px;border:1px solid #c6c6c6;border-bottom: 5px solid #fc4a4a;height:277px;overflow: auto;display:none;position:absolute;margin-left:23px;margin-top: -23px;z-index:999;">
+            <table border="0" align="center" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td colspan="2" align="left" valign="middle" class="sub_cat_tr">
+                  <div style="border-bottom: 1px dashed #ebebeb; width: 95%; display: inline-block;padding: 6px 0px;">
+                    <span style="display:inline;border:0px;"class="adv_search_sub_head" >Sub Category</span>
+                  </div>
+                </td>
+              </tr>
+              <%  %>
+              <% cat.activity_subcategory.in_groups_of(2,false).each do |sub_array| %>
+                <tr>
+                  <% sub_array.each do |sub| %>
+                    <td align="left" valign="middle" class="sub_cat_tr">
+                      <div class="squaredFour dp" style="position:relative;">
+                        <input type="checkbox" class="sub_category_check cat_<%=cat.category_id%>" <%if sub_cat.include?(sub.subcateg_id.to_s)%>checked="checked"<%end%> value="<%=sub.subcateg_id%>" id="sub_<%=sub.subcateg_id%>"/>
+                        <label for="sub_<%=sub.subcateg_id%>"></label>
+                      </div>
+                      <span style="display:inline;" class="advance_city_text" > <%= sub.subcateg_name %></span>
+                    </td>
+                  <%end%>
+                </tr>
+              <%end%>
+            </table>
+          </td>
+          </tr>
+        <%end%>
+      </table>
+      <div class="clear"></div>
+       <div onmouseover="$('.view_category').css('display','block');" onmouseout="$('.view_category').css('display','none');" >
+      <div class="view_more" style="padding-left:34px;"><span class="dp" style="cursor: pointer;">View More...</span></div>
+
+      <div class="view_category view_more_category" onmouseover="$('.view_category').css('display','block');" onmouseout="$('.view_category').css('display','none');">
+        <div class="arrow_city"></div>
+        <ul class="more_category view_more_category_ul" >
+          <%category[4..-1].each do |cat|%>
+            <%sub_cat = ""%>
+            <%sub_cat = params[:"sub_cat_#{cat.category_id}"].split(",").reject(&:empty?) if params[:"sub_cat_#{cat.category_id}"] %>
+            <input type="hidden" id="sub_cat_<%= cat.category_id %>" name="sub_cat_<%= cat.category_id %>" value="<%= params[:"sub_cat_#{cat.category_id}"] %>"/>
+            <li onmouseover="category_mouse_over('<%=cat.category_id%>','on');" onmouseout="category_mouse_over('<%=cat.category_id%>','off');">
+              <span class="squaredFour dp" style="position:relative;">
+                <input type="checkbox" id="cat_<%=cat.category_id%>" value="<%=cat.category_id%>" <%if @category.include?(cat.category_id.to_s)%> checked="checked" <%end%> class="category_check"/>
+                <label for="cat_<%=cat.category_id%>"></label>
+              </span>
+              <span class="advance_city_text cat_text rightview dp" id="cat_text_<%=cat.category_id%>"><%= cat.category_name %></span>
+              <span class="cat_arrow dp rt" id="cat_arrow_<%=cat.category_id%>" >&nbsp;</span>
+
+              <ul id="cat_sub_<%=cat.category_id%>" class="more_cat_ul cust_scroll" onmouseover="category_mouse_over('<%=cat.category_id%>','on');" onmouseout="category_mouse_over('<%=cat.category_id%>','off');">
+                <li class="sub_cat_tr" style="width:95%;">
+                  <div style="border-bottom: 1px dashed #ebebeb;padding-bottom:5px">
+                    <span class="adv_search_sub_head" style="display:inline;border:0px;">Sub Category</span></div>
+                </li>
+                <% cat.activity_subcategory.in_groups_of(2,false).each do |sub_array| %>
+                  <% sub_array.each do |sub| %>
+                    <li class="sub_cat_tr" style="width:43%;">
+                      <div class="squaredFour dp" style="position:relative;float:left;margin-left:1px;">
+                        <input type="checkbox" value="<%=sub.subcateg_id%>" class="sub_category_check cat_<%=cat.category_id%>" <%if sub_cat.include?(sub.subcateg_id.to_s)%>checked="checked"<%end%> id="sub_<%=sub.subcateg_id%>"/>
+                        <label for="sub_<%=sub.subcateg_id%>"></label>
+                      </div>
+                      <span style="display:inline;float: left;width: 170px;" class="advance_city_text" > <%= sub.subcateg_name %></span>
+                      <div class="clear"></div>
+                    </li>
+                  <%end%>
+                <%end%>
+              </ul>
+            </li>
+          <%end%>
+        </ul>
+      </div>
+
+      </div>
+    </div>
+    <div id="chs_age_range" class="flt_lft" style="width:15%">
+      <span class="adv_search_sub_head">Age Range</span>
+      <table border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr><td align="center" valign="middle" class="squaredFour"><input type="checkbox" name="age_all" value="all" <% if params[:age_all] =="all" || params[:age_range] == "All" || params[:age_range] == ""%>checked="checked" <%end%> class="age_check_parent" id="age_all"/><label for="age_all"></label></td>
+          <td align="left" valign="middle" class="advance_city_text">All</td></tr>
+        <tr><td align="center" valign="middle" class="squaredFour"><input type="checkbox" name="age_six_mn" value="0-6" <%if params[:age_six_mn] == "0-6" || params[:age_all] =="all" || params[:age_range] == "" || params[:age_range] == "All"  || params[:age_range] == "0-6"%>checked="checked" <%end%> class="age_check" id="age_six_mn"/><label for="age_six_mn"></label></td>
+          <td align="left" valign="middle" class="advance_city_text">0 - 6 Month</td></tr>
+        <tr><td align="center" valign="middle" class="squaredFour"><input type="checkbox" name="age_twel_mn"  value="6-12" <%if params[:age_twel_mn] == "6-12" || params[:age_all] =="all" || params[:age_range] == "" || params[:age_range] == "All" || params[:age_range] == "6-12"%>checked="checked" <%end%> class="age_check" id="age_twel_mn"/><label for="age_twel_mn"></label></td>
+          <td align="left" valign="middle" class="advance_city_text">6 - 12 Month</td></tr>
+        <tr><td align="center" valign="middle" class="squaredFour"><input type="checkbox" name="age_three_yr" value="2-3" <%if params[:age_three_yr] == "2-3" || params[:age_all] =="all" || params[:age_range] == "" || params[:age_range] == "All" || params[:age_range] == "2-3"%>checked="checked" <%end%> class="age_check" id="age_three_yr"/><label for="age_three_yr"></label></td>
+          <td align="left" valign="middle" class="advance_city_text">2 - 3 Year</td></tr>
+        <tr><td align="center" valign="middle" class="squaredFour"><input type="checkbox" name="age_seven_yr" value="4-7" <%if params[:age_seven_yr] == "4-7" || params[:age_all] =="all" || params[:age_range] == "" || params[:age_range] == "All" || params[:age_range] == "4-7"%>checked="checked" <%end%> class="age_check" id="age_seven_yr"/><label for="age_seven_yr"></label></td>
+          <td align="left" valign="middle" class="advance_city_text">4 - 7 Year</td></tr>
+        <tr><td align="center" valign="middle" class="squaredFour"><input type="checkbox" name="age_eight_yr" value="8-15" <%if params[:age_eight_yr] == "8-15" || params[:age_all] =="all" || params[:age_range] == "" || params[:age_range] == "All" || params[:age_range] == "8+"%>checked="checked" <%end%> class="age_check" id="age_eight_yr"/><label for="age_eight_yr"></label></td>
+          <td align="left" valign="middle" class="advance_city_text">8+ Year</td></tr>
+      </table>
+    </div>
+    <div id="chs_date_range" class="flt_lft" style="width:15%">
+      <span class="adv_search_sub_head">Date Range</span>
+      <table border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr><td align="left" valign="middle" >
+            <div class="squaredFour dp">
+              <input type="checkbox" name="date_all" value="all" <%if params[:date_all] == "all"%>checked="checked"<%end%> id="date_all"/><label for="date_all"></label>
+            </div>
+            <span class="advance_city_text dp" style="padding:3px;">All</span></td></tr>
+        <tr><td align="left" valign="middle">
+            <input type="hidden" id="date_start_alt" name="date_start_alt" readonly="readonly"/>
+            <div class="date_div">
+              <input type="text" id="date_start" name="date_start" style="background:#fff;border:none;width:80px;color:#676565;margin-top: 8px;"value="" readonly="readonly"/>
+            </div>
+          </td></tr>
+        <tr><td align="center" valign="middle">
+            <input type="hidden" id="date_end_alt" name="date_end_alt" readonly="readonly"/>
+            <div class="date_div">
+              <input type="text" id="date_end" name="date_end" style="background:#fff;border:none;width:80px;color:#676565;margin-top: 8px;"value="" readonly="readonly"/>
+            </div>
+          </td></tr>
+      </table>
+    </div>
+    <div id="chs_day_range" class="flt_lft" style="width:23%">
+      <span class="adv_search_sub_head" style="padding-right:5px; margin-right:10px;">Day of Week</span>
+      <input type="hidden" name="day_range" id="day_range" value="<%= @day_of_week if @day_of_week%>"/>
+
+      <table border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr><td align="center" valign="middle" class="squaredFour"><input type="checkbox" name="day_all" <%if params[:day_all] =="all"%>checked="checked" <%end%> class="day_check_parent" value="all" id="day_all"/><label for="day_all"></label></td>
+          <td align="left" valign="middle" class="advance_city_text">All</td>
+          <td align="center" valign="middle" class="squaredFour"><input type="checkbox" name="day_fri" class="day_check" <%if params[:day_fri] == "8-15" || params[:day_all] =="all"%>checked="checked" <%end%> value="fri" id="day_fri"/><label for="day_fri"></label></td>
+          <td align="left" valign="middle" class="advance_city_text">Fri</td>
+        </tr>
+        <tr><td align="center" valign="middle" class="squaredFour"><input type="checkbox" name="day_sun" class="day_check" <%if params[:day_sun] == "8-15" || params[:day_all] =="all"%>checked="checked" <%end%> value="sun" id="day_sun"/><label for="day_sun"></label></td>
+          <td align="left" valign="middle" class="advance_city_text">Sun</td>
+          <td align="center" valign="middle" class="squaredFour"><input type="checkbox" name="day_sat" class="day_check" <%if params[:day_sat] == "8-15" || params[:day_all] =="all"%>checked="checked" <%end%> value="sat" id="day_sat"/><label for="day_sat"></label></td>
+          <td align="left" valign="middle" class="advance_city_text">Sat</td>
+        </tr>
+        <tr><td align="center" valign="middle" class="squaredFour"><input type="checkbox" name="day_mon" class="day_check" <%if params[:day_mon] == "8-15" || params[:day_all] =="all"%>checked="checked" <%end%> value="mon" id="day_mon"/><label for="day_mon"></label></td>
+          <td align="left" valign="middle" class="advance_city_text">Mon</td></tr>
+        <tr><td align="center" valign="middle" class="squaredFour"><input type="checkbox" name="day_tue" class="day_check" <%if params[:day_tue] == "8-15" || params[:day_all] =="all"%>checked="checked" <%end%> value="tue" id="day_tue"/><label for="day_tue"></label></td>
+          <td align="left" valign="middle" class="advance_city_text">Tue</td></tr>
+        <tr><td align="center" valign="middle" class="squaredFour"><input type="checkbox" name="day_wed" class="day_check" <%if params[:day_wed] == "8-15" || params[:day_all] =="all"%>checked="checked" <%end%> value="wed" id="day_wed"/><label for="day_wed"></label></td>
+          <td align="left" valign="middle" class="advance_city_text">Wed</td></tr>
+        <tr><td align="center" valign="middle" class="squaredFour"><input type="checkbox" name="day_thu" class="day_check" <%if params[:day_thu] == "8-15" || params[:day_all] =="all"%>checked="checked" <%end%> value="thu" id="day_thu"/><label for="day_thu"></label></td>
+          <td align="left" valign="middle" class="advance_city_text">Thu</td></tr>
+      </table>
+    </div>
+  </div>
+</form>
+<div style="border-top: 1px solid #ebebeb;">
+  <div class="advance_update_outer">
+    <a onclick="search_advance_load();" href="javascript:void(0);" class="advance_update_inner">Update</a>
+  </div>
+</div>
+
+<script>
+  $('#search_load').show();
+
+<%if params[:page_load] == "yes"%>
+  <%if params[:page_no].to_i > 1 %>
+    <%page = (2..params[:page_no].to_i).to_a%>
+    <%page.each do |p|%>
+        var win_url = window.location.href + "page_load=no&page=" + <%=p%>;
+        $.getScript(win_url);
+    <%end%>
+  <%end%>
+<%end%>
+</script>

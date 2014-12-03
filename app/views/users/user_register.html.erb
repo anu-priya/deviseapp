@@ -1,0 +1,140 @@
+<link rel="stylesheet" type="text/css" href="/assets/register/register.css" />
+<script type="text/javascript" src="/assets/register/register.js"></script>
+<script type="text/javascript" src="/assets/register/validate.js"></script>
+<div id="register_outerContainer">
+  <div class="innerContainer">
+    <div class="header" align="center">
+      <%= link_to image_tag("/assets/register/logo.png", :border=>0,:width=>305,:height=>100,:align=>"center"), :controller => 'landing' %>
+
+    </div>
+    <div class="CenterContent">
+
+      <p class="head" style="color:#186171;">Register as Parent</p>
+      <%= form_for @user_usr, :url => { :action => "user_submit" } do |f| %>
+
+
+        <div class="marginTop14">
+          <div class="lt leftSideField">Name</div>
+          <%= f.text_field :user_name,:id=>"username_usr_reg",:value => "Eg:john",
+            :name=>"username_usr", :class=>"lt textbox",:maxlength => 50,:style=>"outline: none;",:onfocus=>"if(this.value == 'Eg:john'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}", :onblur=>"if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Eg:john'}",:onchange=>"removeunwantedSpace($(this).value)", :tabindex => '1'%>
+
+          <div class="clear"></div>
+        </div>
+
+        <div class="errorDiv" style="display:none">
+          <div class="lt leftSideField">&nbsp;</div>
+          <div class="lt" id="username_usr_error"></div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="marginTop15">
+          <div class="lt leftSideField">Email</div>
+          <%= f.text_field :email_address,:id=>"email_usr_reg",:name=>"email_usr",:value => "Eg:john@gmail.com",:class=>"lt textbox",:maxlength => 50,:style=>"outline: none;",:onfocus=>"if(this.value == 'Eg:john@gmail.com'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}", :onblur=>"if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Eg:john@gmail.com'}", :onchange=>"removeunwantedSpace(this.value)", :tabindex => '2'%>
+          <div class="clear"></div>
+        </div>
+        <% if @user_usr.errors.any? %>
+          <div id="error_explanation" class="errorDiv">
+            <div class="lt leftSideField">&nbsp;</div>
+            <% @user_usr.errors.each_with_index do |msg, i| %>
+              <div class ="setStyleEmail"><%= msg[1] %></div>
+            <% end %>
+          </div>
+        <% end %>
+
+        <div class="errorDiv" style="display:none">
+          <div class="lt leftSideField">&nbsp;</div>
+          <div class="lt" id="email_usr_error"></div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="marginTop15">
+          <div class="lt leftSideField">Password</div>
+          <%= f.password_field :password,:id=>"password_usr_reg",:name=>"password_usr_reg",:value => "password", :class=>"lt textbox",:maxlength => 20,:style=>"outline: none;",:onfocus=>"if(this.value == 'password'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}", :onblur=>"if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='password'}", :tabindex => '3'%>
+          <div class="clear"></div>
+        </div>
+        <div class="errorDiv" style="display:none">
+          <div class="lt leftSideField">&nbsp;</div>
+          <div class="lt" id="password_usr_error"></div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="marginTop15">
+          <div class="lt leftSideField">Confirm Password</div>
+          <%= f.password_field :password,:id=>"confirm_password_usr",:name=>"confirm_password_usr",:value => "password", :class=>"lt textbox",:maxlength => 20,:style=>"outline: none;",:onfocus=>"if(this.value == 'password'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}", :onblur=>"if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='password'}", :tabindex => '4'%>
+
+          <div class="clear"></div>
+        </div>
+        <div class="errorDiv" style="display:none">
+          <div class="lt leftSideField">&nbsp;</div>
+          <div class="lt" id="confirm_password_usr_error"></div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="errorDiv" style="display:none">
+          <div class="lt leftSideField">&nbsp;</div>
+          <div class="lt" id="reg_me_usr_error"></div>
+        </div>
+
+        <%if @register_error %>
+          <div class="errorDiv">
+            <div class="lt leftSideField">&nbsp;</div>
+            <div class="lt" id="email_password_usr_error"><%=@register_error[4]%></div>
+          </div>
+        <% end %>
+        <div class="clear"></div>
+        <div class="marginTop12">
+          <div class="lt leftSideField">&nbsp;</div>
+          <div class="lt">
+            <input type="hidden" name="agree_usr" id="agree_usr" value="" />
+            <span  class="checkbox">
+              <a href="javascript:void(0)" title="" id="checkbox_selected" onclick="dispCheckboxImg('checkbox_selected'); _gaq.push(['_trackEvent', 'Registration', 'Parent Registration', 'clickParentSignup']);" onkeydown="ag_cb_keydown(event,'checkbox_selected');  _gaq.push(['_trackEvent', 'Registration', 'Parent Registration', 'clickParentSignup']);" style="display: none" tabindex="10"><img src="/assets/register/checkbox_selected.png" alt=""/></a>
+              <a href="javascript:void(0)" title="" id="checkbox_normal" onclick="dispCheckboxImg('checkbox_normal')" onkeydown="ag_cb_keydown(event,'checkbox_normal')" tabindex="9"><img src="/assets/register/checkbox_normal.png" alt=""/></a>
+              <a href="javascript:void(0)" title="" id="checkbox_error" onclick="dispCheckboxImg('checkbox_error')" onkeydown="ag_cb_keydown(event,'checkbox_error')"  tabindex="11" style="display: none"><img src="/assets/register/checkbox_error.png" alt=""/></a>
+            </span>
+            <p class="lt checkboxCont">I agree to the <a href="javascript:void(0)" onkeydown="termsKeyDown(event)" title="" tabindex="12">Terms of Service, Privacy &amp; Refund Policies</a></p>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="errorDiv" style="display:none">
+          <div class="lt errorDivAgree" id="agree_usr_error"></div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="paddingTop20">
+          <div class="lt leftSideField">&nbsp;</div>
+          <div>
+            <input type="submit" id="register_button"  width="95" height="33" alt="" class="lt loginButton" tabindex="13" value="" onclick="return validateRegisterForm(); _gaq.push(['_trackEvent', 'Registration', 'clickParentRegistration'])"/>
+            <a href="javascript:clearData()" title="" tabindex="14" style="display:inline-block;" onkeydown="cancelKeyDown(event)"><img src="/assets/register/cancel.png" width="95" height="33" alt="" class="lt" /></a>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="marginTop14">
+          <div class="lt leftSideField">&nbsp;</div>
+          <p class="alreadyText">Already have an account?  <a href="/login" title="" tabindex="15" onkeydown="signinKeyDown(event); _gaq.push(['_trackEvent', 'Login', 'clickLogin']);">Login</a></p>
+          <div class="clear"></div>
+        </div>
+      <%end%>
+    </div>
+  </div>
+</div>
+
+<!-- Facebook Conversion Code for Registration Confirmation -->
+<script type="text/javascript">
+                                 var fb_param = {};
+                                  fb_param.pixel_id = '6010512409729';
+                                  fb_param.value = '0.00';
+                                  fb_param.currency = 'USD';
+                                  (function(){ var fpw =
+                                  document.createElement('script');
+                                  fpw.async = true;
+                                  fpw.src = '//connect.facebook.net/en_US/fp.js';
+                                  var ref =
+                                  document.getElementsByTagName('script')[0];
+                                  ref.parentNode.insertBefore(fpw,
+                                  ref);
+                                  })();
+</script>
+<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/offsite_event.php?id=6010512409729&amp;value=0&amp;currency=USD" /></noscript>

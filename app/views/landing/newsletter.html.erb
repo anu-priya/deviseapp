@@ -1,0 +1,150 @@
+<%
+meta :title => "Weekend Newsletter | Famtivity - Kids Activities, Events, Camps, Classes, Lessons",
+  :description => "Subscribe to the Grow Together newsletter for awesome stuff on kids activities, promotions, specials and weekend fun",
+  :keywords => "Latest Articles, Fun Weekend, Specials, Promotions, Kids Activities, Events, Camps, Classes, Lessons, Famtivity"
+%>
+<%= stylesheet_link_tag "activity_view_detail/paymentDetail.css" %>
+<%= stylesheet_link_tag "sudo/style_new.css" %>
+<%= javascript_include_tag "scroller/jquery-ui-1.8.23.custom.min.js" %>
+<%= javascript_include_tag "scroller/jquery.mousewheel.min.js" %>
+<%= javascript_include_tag "scroller/jquery.smoothdivscroll-1.3-min.js" %>
+<%= javascript_include_tag "acitivity_view_details/schedule_price.js" %>
+<div id="how_it_worksDiv" style="margin-top:44px; padding-top:2px; background:#F6F8F7;">
+  <table style="margin-top:75px;" width="100%"><tr>
+      <td align="center" valign="center"><div class="newsLetSub">Get Our Great Weekend Newsletter</div></td></tr>
+    <tr><td align="center" valign="center">
+        <span   class="newspopup_show" style="display:block;position:relative;left:0px;">
+          <div style="padding:20px 0 0 0px;">
+
+            <form onsubmit="return news_banner_validation_n()" method="post" id="banner_form" name="banner_form">
+              <div>
+                <div class="lt news_label">Email</div>
+                <div id="newsInputError" class="lt"><input type="text" tabindex="1" onblur="if (this.value == '') {this.style.color='#999999'; this.value='Email address'}" onfocus="if(this.value == 'Email address'){this.value=''; this.style.color='#444444'; }" style="color:#999999;" class="news_inputBox" value="Email address" id="email" name="email"></div>
+                <div class="clear"></div>
+              </div>
+              <div style="margin-top:10px;">
+                <div class="lt news_label">Location</div>
+                <div id="newsInputError" class="lt">
+                  <input type="hidden" value="" name="banner_location" id="banner_location">
+                  <select name="banner_location_2" id="banner_location_2" class="news_setLocationWidth" tabindex="2">
+
+                    <option value="" selected="selected">--Choose Location--</option>
+                    <option value="SF Bay Area">SF Bay Area</option>
+                    <option value="Los Angeles Area">Los Angeles Area</option>
+                  </select>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div style="height:8px;"></div>
+              <div style="margin-top:6px;">
+                <div class="lt news_label">&nbsp;</div>
+                <div class="lt"><input width="101" type="image" height="35" tabindex="3" class="sign_mright" src="/assets/landing/sign_up_button.png" value=""><a tabindex="4"  title="" href="javascript:void(0)"> <%= image_tag("/assets/landing/cancel_button.png",:width=>"101",:height=>"35") %></a></div>
+                <div class="clear"></div>
+              </div>
+              <!-- <div style="height:8px;"></div> -->
+              <div align="right" class="read_issue">
+                <a title="Read the current issue" target="_blank" href="http://famtivity.campaignonthecloud.com/page/web/weekend_newsletter">Read the current issue</a>
+                <a title="Read the current issue" target="_blank" href="http://famtivity.campaignonthecloud.com/page/web/weekend_newsletter"> <%= image_tag("/assets/landing/weekend_read.png",:width=>"71",:height=>"53",:border=>"0",:style=>"margin-top:-33px;") %></a>
+              </div>
+            </form>
+          </div>
+        </span>
+        </div>
+    </tr></td></table>
+  <div id="thankyou_newsletter"><!-- newsletter subscribe thankyou popup -->
+    <!--span class="button b-close"><span>X</span></span -->
+    <div class="content_popup" style="display:none;"><br>Thank you for subscribing!<br>you will receive a confirmation mail shortly<br><br><a href="javascript:void(0);" title=""><span class="b-close"> <%= image_tag("/assets/register/ok_btn.png",:border=>'0') %></span></a></div>
+    <div class="content_popup_error" style="display:none;"><br><div id="div_exist" style="display:none;">This Email is already in our newsletter mailing list.<br>Try using another Email.</div>
+      <div id="div_apierror" style="display:none;"></div><br><br><a href="javascript:void(0);" title=""><span class="b-close"> <%= image_tag("/assets/register/ok_btn.png",:border=>'0') %></span></a>
+    </div>
+  </div>
+  <%= javascript_include_tag "landing_banner_slide/location_select_option.js" %>
+  <script  type="text/javascript">
+
+    function news_banner_validation_n(){
+      var email= $("#email").val();
+      var banner_location_2= $("#banner_location_2").val();
+      $("#email").css("border","1px solid #cde0e6");
+      $("#banner_location_2").css("border","1px solid #cde0e6");
+	
+      errorFlag=false;
+      if(email =="" || email=="Email address")
+      {
+        $("#email").css("border","1px solid #fc8989");
+        errorFlag = true;
+      }
+      else if(!validateCorrectEmail(email)){
+        $("#email").css("border","1px solid #fc8989");
+        errorFlag = true;
+      }
+      else if(!validateDot(email)){
+        $("#email").css("border","1px solid #fc8989");
+        errorFlag = true;
+      }
+      if(banner_location_2 =="" || banner_location_2=="Location")
+      {
+        $("#banner_location_2").css("border","1px solid #fc8989");
+        errorFlag = true;
+      }
+      if(errorFlag)
+      {
+        return false;
+      }
+      else{
+        $('.content_popup').hide();
+	   
+        $('.content_popup_error').hide();
+        $('#thankyou_newsletter').bPopup();
+        $.ajax({
+          type: "GET",
+          url: "newsletter_subscripe",
+          data: "email=" + $('#email').val()+"&banner_location="+$('#banner_location_2').val(),
+          success: function(data){
+            $('#email').css('color','#999999');
+            $('#email').val('Email address');
+            $('#banner_location_2').val('Location').attr("selected","selected");
+            $('#banner_location_2').css('color','#999999');
+            if(data=="subscribed")
+            {
+              $('.content_popup').show();
+              $('.content_popup_error').hide();
+            }
+            else
+            {
+              if(data=="alreadysubscribed")
+              {
+                $('.content_popup_error').show();
+                $('.content_popup').hide();
+                $("#div_exist").show();
+                $("#div_apierror").hide();
+              }
+              else
+              {
+                if(data=="Problem on API")
+                {
+                  $('.content_popup_error').show();
+                  $('.content_popup').hide();
+                  $("#div_exist").hide();
+                  $("#div_apierror").html("Having problem on server!<br>Please try again later");
+                  $("#div_apierror").show();
+                }
+                else{
+                  $('.content_popup_error').show();
+                  $('.content_popup').hide();
+                  $("#div_exist").hide();
+                  $("#div_apierror").html(data);
+                  $("#div_apierror").show();
+                }
+              }
+
+            }
+          }
+        });
+        return false;
+      }
+    }
+  </script>
+  <%= javascript_include_tag "landing_banner_slide/searchjquery.js" %>
+  <%= javascript_include_tag "search/advanced_search.js" %>
+  <%= javascript_include_tag "global/jquery.ui.core.js" %>
+  <%= javascript_include_tag "global/jquery.ui.datepicker.js" %>

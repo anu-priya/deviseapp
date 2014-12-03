@@ -1,0 +1,256 @@
+<%=stylesheet_link_tag "activity_schedule/act_schedule","full_calendar/sched_fullcalendar", :media => "all"%>
+<%=javascript_include_tag "activity_schedule/act_schedule","full_calendar/sched_fullcalendar"%>
+<script type="text/javascript">  
+  var scheduleCheckPage;   
+
+  function schedule_check(){
+    var url = "/schedule_check";
+    scheduleCheckPage = dhtmlmodal.open("Edit Activity","iframe",url," ", "width=910px,height=370px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+</script>
+<input type='hidden' id='fav_val' value=''/>
+<input type='hidden' id='rem_fav_val' value=''/>
+<%= render "parent_settings/parent_header"%>
+
+
+    <div class="subPageContent" style='margin-top:36px;'>
+
+      <% if flash[:notice] -%>
+        <div id = 'flash_notice'>
+          <%= flash[:notice] %>
+        </div>
+      <% end -%>
+      <% if flash[:error] -%>
+        <div id = 'flash_error'>
+          <%= flash[:error] %>
+        </div>
+      <%end -%>
+      <!--div id = 'loading'> Loading...</div-->
+      <div class="aplicationContent">
+
+        <script type="text/javascript" language="javascript">
+          $(document).ready(function(){
+            // page is now ready, initialize the calendar...
+            $('#calendar').fullCalendar({
+              editable: false,
+              header: {
+                left: 'prev,next',
+                center: 'title',
+                right: ''
+              },
+              firstHour:0,
+              defaultView: 'agendaWeek',
+              height: 500,
+              slotMinutes: 15,
+              loading: function(bool){
+                if (bool)
+                  $('#loading').show();
+                else
+                  $('#loading').hide();
+              },
+              events: "activity_schedules/get_sched_cal",
+              timeFormat: 'h:mm t{ - h:mm t} ',
+              axisFormat: 'hh:mm tt{ - h:mm tt}',
+              dragOpacity: "0.5",
+              eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc){
+                //              if (confirm("Are you sure about this change?")) {
+                moveEvent(event, dayDelta, minuteDelta, allDay);
+                //              }
+                //              else {
+                //                  revertFunc();
+                //              }
+              },
+
+              eventResize: function(event, dayDelta, minuteDelta, revertFunc){
+                //              if (confirm("Are you sure about this change?")) {
+                resizeEvent(event, dayDelta, minuteDelta);
+                //              }
+                //              else {
+                //                  revertFunc();
+                //              }
+              },
+              eventRender: function(event,element,calEvent) {
+                if(event.allDay == 1){
+		  if (event.type_icon=="saved"){
+                    //~ element.find("#fc-event-icon-all-day").html("<a href=\"/activity_detail_page?det="+this.id+"&mode=parent&act=<%=params[:action]%>\"  title=\"\" style=\"position:relative;\" ><img src=\"/assets/activity_schedule/saved.png\"  class=\"icon\" /></a>");
+		     element.find("#fc-event-icon-all-day").html("<a href=\"javascript:void(0)\"  onclick = \"pop_Activity_Detail_dhtml('/activitydetail_new?det="+this.id+"&mode=parent&act=<%=params[:action]%>','/activity_share/"+this.id+"/parent/<%=params[:action]%>');\"  title=\"\" style=\"position:relative;\" ><img src=\"/assets/activity_schedule/saved.png\"  class=\"icon\" /></a>");
+                  }
+                  if (event.type_icon=="ucalender"){
+		     element.find("#fc-event-icon-all-day").html("<a href=\"javascript:void(0)\"  onclick = \"pop_Activity_Detail_dhtml('/activitydetail_new?det="+this.id+"&mode=parent&act=<%=params[:action]%>','/activity_share/"+this.id+"/parent/<%=params[:action]%>');\"  title=\"\" style=\"position:relative;\" ><img src=\"/assets/activity_schedule/add_to_calendar.png\"  class=\"icon\" /></a>");
+                  }
+                  if (event.type_icon=="created"){
+                    //~ element.find("#fc-event-icon-all-day").html("<a href=\"/activity_detail_page?det="+this.id+"&mode=parent&act=<%=params[:action]%>\" title=\"\" style=\"position:relative;\" ><img src=\"/assets/activity_schedule/edit.png\"  class=\"icon\" /></a>");
+                    element.find("#fc-event-icon-all-day").html("<a href=\"javascript:void(0)\" onclick = \"pop_Activity_Detail_dhtml('/activitydetail_new?det="+this.id+"&mode=parent&act=<%=params[:action]%>','/activity_share/"+this.id+"/parent/<%=params[:action]%>');\"  title=\"\" style=\"position:relative;\" ><img src=\"/assets/activity_schedule/edit.png\"  class=\"icon\" /></a>");
+                  }
+                  if (event.type_icon=="purchase"){
+                    element.find("#fc-event-icon-all-day").html("<a href=\"javascript:void(0)\" onclick = \"pop_Activity_Detail_dhtml('/activitydetail_new?det="+this.id+"&mode=parent&act=<%=params[:action]%>','activity_share/"+this.id+"/parent/<%=params[:action]%>');\"  title=\"\" style=\"position:relative;\" ><img src=\"/assets/activity_schedule/purchase.png\"  class=\"icon\" /></a>");
+                  }
+                  element.find("#fc-event-top-all-day").html("<div class=\"rt all-day-top-image\"><div class=\"colDivBorder\" style=\"padding:0px;\"><div class=\"colDiv\"></div></div></div>");
+                  if(event.info == true){
+                    element.find("#fc-info-icon-all-day").html("<a href=\"javascript:void(0)\" title=\"\" ><img src=\"/assets/activity_schedule/info_icon.png\" width=\"21\" height=\"21\" onClick=\"javascript:schedule_check()\" /></a>");
+                  }
+                }
+                else{
+                  element.find(".fc-event-title").before($("<div class=\"lt fc-event-icons\"></div>")
+                  .html("<a class=\"show_schedule_detail \" href=\"javascript:iconsAlert('"+this.id+"','"+this.uni_date+"')\" title='"+this.title+"' style=\"position:relative;\" ><img src=\"/assets/activity_schedule/arrow_img.png\" class=\"icon\" /></a>"))
+                  var remove_it = "" ;
+                  var edit_delete = "" ;
+				  
+                  var leader = "";
+                  leader = this.leader;
+                  if(leader!=null && leader!=""){
+                    leader =
+                      "<div class='setPadding icon'>"+
+                      "<div class='lt leftPart icon'>"+
+                      "<div class='lt leftCont icon'>Leader</div>"+
+                      "<div class='rt leftCont colon icon'>:</div>"+
+                      "<div class='clear icon'></div>"+
+                      "</div>"+
+                      "<div class='lt rightCont icon'>"+this.leader+"</div>"+
+                      "<div class='clear icon'></div>"+
+                      "</div>";
+                  }
+                  if(this.schedule_type=='Any Time')
+                  {
+                    schedule="Time";
+                  }
+                  else{
+                    schedule="Date &amp; Time";
+                  }
+                  if(event.type_icon=="saved"){
+                    remove_it =  "<a href=\"javascript:void(0)\"  onClick=\"javascript:pop_favorite_activity('/save_favorites?name=favorites&activity_id="+this.id+"')\" title=\"\" class=\"icon cancel-button lt\">Remove</a> "
+                  };
+                  if (event.type_icon=="created"){
+
+                    edit_delete = "<a href=\"javascript:void(0)\" onclick = \"pop_Activity_Detail_dhtml('/activitydetail_new?det="+this.id+"&mode=parent&act=<%=params[:action]%>','/activity_share/"+this.id+"/parent/<%=params[:action]%>');\"  title=\"\" class=\"icon remove lt\">Edit</a> "+
+                      "<span class='remove lt'>|</span> "+
+                     "<a href=\"javascript:void(0)\"  onClick=\"javascript:pop_delete_activity('/activities/delete_activity?id="+this.id+"');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','"+this.id+"','activity id'])\" title=\"\" class=\"icon save-button lt\">Delete</a> "
+                  }
+                  element.find(".fc-event-inner").before($("<div class='fc-view-event'></div>")
+                  .html(
+                  "<div id='show_detail_"+this.id+"_"+this.uni_date+"' class='showActivityDetail icon' style='display:none'>"+
+                    "<div class='showtopArrow icon'><img src='/assets/activity_schedule/top_arrow.png' width='15' height='12' /></div>"+
+                    "<div class='showDetialView icon'>"+
+                    "<div class='closeButton icon' align='right' >"+
+                    "<a href=\"javascript:close_activity_detail('"+this.id+"','"+this.uni_date+"')\" title=\"\" style=\"position:relative;\"> <img src=\"/assets/global/pop_up/button_close.png\" alt=\"\" width=\"15\" height=\"15\" class=\"icon\"/> </a>"+
+                    "</div>"+
+                    "<div class='showInnerDiv icon'>"+
+                    "<p class='head'>"+this.title+"</p>"+leader+
+                    "<div class='setPadding icon'>"+
+                    "<div class='lt leftPart icon'>"+
+                    "<div class='lt leftCont icon'>Address</div>"+
+                    "<div class='rt leftCont colon icon'>:</div>"+
+                    "<div class='clear icon'></div>"+
+                    "</div>"+
+                    "<div class='lt rightCont icon'>"+this.address+"</div>"+
+                    "<div class='clear icon'></div>"+
+                    "</div>"+
+                    "<div class='setPadding icon'>"+
+                    "<div class='lt leftPart icon'>"+
+                    "<div class='lt leftCont icon'>"+schedule+"</div>"+
+                    "<div class='rt leftCont colon icon'>:</div>"+
+                    "<div class='clear icon'></div>"+
+                    "</div>"+
+                    "<div class='lt rightCont icon'>"+this.pop_change_date+"</div>"+
+                    "<div class='clear icon'></div>"+
+                    "</div>"+
+                    "<div class='setPadding icon' align='center'>"+
+                    "<div class='lt leftPart icon'>&nbsp;</div>"+
+                    "<div class='lt icon'>"+
+                    "<a class=\"save-button icon lt\" href=\"javascript:void(0)\" onclick=\"pop_Activity_Detail_dhtml('/activitydetail_new?det="+this.id+"&mode=parent&act=<%=params[:action]%>','/activity_share/"+this.id+"/parent/<%=params[:action]%>');\">View</a>"+
+										
+                    edit_delete +
+                    remove_it+
+              
+                    "</div>"+
+                    "<div class='clear icon'></div>"+
+                    "</div>"+
+                    "</div>"+
+                    "</div>"+
+                    "</div>"));
+				
+                  
+		  if (event.type_icon=="saved"){
+                    //~ element.find("#fc-event-icon-time").html("<a href=\"/activity_detail_page?det="+this.id+"&mode=parent&act=<%=params[:action]%>\" title=\"\" style=\"position:relative;\" ><img src=\"/assets/activity_schedule/saved.png\" class=\"icon\" /></a>");
+                    element.find("#fc-event-icon-time").html("<a href=\"javascript:void(0)\" onclick = \"pop_Activity_Detail_dhtml('/activitydetail_new?det="+this.id+"&mode=parent&act=<%=params[:action]%>','/activity_share/"+this.id+"/parent/<%=params[:action]%>');\" title=\"\" style=\"position:relative;\" ><img src=\"/assets/activity_schedule/saved.png\" class=\"icon\" /></a>");
+                  }
+                   if (event.type_icon=="ucalender"){
+                    element.find("#fc-event-icon-time").html("<a href=\"javascript:void(0)\" onclick = \"pop_Activity_Detail_dhtml('/activitydetail_new?det="+this.id+"&mode=parent&act=<%=params[:action]%>','/activity_share/"+this.id+"/parent/<%=params[:action]%>');\" title=\"\" style=\"position:relative;\" ><img src=\"/assets/activity_schedule/add_to_calendar.png\" class=\"icon\" /></a>");
+                  }
+                  if (event.type_icon=="created"){
+                    //~ element.find("#fc-event-icon-time").html("<a href=\"/activity_detail_page?det="+this.id+"&mode=parent&act=<%=params[:action]%>\" title=\"\" style=\"position:relative;\" ><img src=\"/assets/activity_schedule/edit.png\" /></a>");
+                    element.find("#fc-event-icon-time").html("<a href=\"javascript:void(0)\" onclick = \"pop_Activity_Detail_dhtml('/activitydetail_new?det="+this.id+"&mode=parent&act=<%=params[:action]%>','/activity_share/"+this.id+"/parent/<%=params[:action]%>');\" title=\"\" style=\"position:relative;\" ><img src=\"/assets/activity_schedule/edit.png\" /></a>");
+                  }
+                  if (event.type_icon=="purchase"){
+                    //~ element.find("#fc-event-icon-time").html("<a href=\"/activity_detail_page?det="+this.id+"&mode=parent&act=<%=params[:action]%>\" title=\"\" style=\"position:relative;\" ><img  src=\"/assets/activity_schedule/purchase.png\" class=\"icon\" /></a>");
+                    element.find("#fc-event-icon-time").html("<a href=\"javascript:void(0)\" onclick = \"pop_Activity_Detail_dhtml('/activitydetail_new?det="+this.id+"&mode=parent&act=<%=params[:action]%>','/activity_share/"+this.id+"/parent/<%=params[:action]%>');\" title=\"\" style=\"position:relative;\" ><img  src=\"/assets/activity_schedule/purchase.png\" class=\"icon\" /></a>");
+                  }
+                  element.find(".fc-event-icons").after($("<div class=\"rt colDivBorder\"></div>")
+                  .html("<div class=\"all-day-top-image\"><div class=\"colDiv\" style=\"background:#FC4063;\"></div></div>"));
+                  if(event.info == true){
+                    element.find("#fc-info-icon-time").html("<a href=\"javascript:void(0)\" title=\"\" ><img src=\"/assets/activity_schedule/info_icon.png\" width=\"21\" height=\"21\" class=\"icon\" onClick=\"javascript:schedule_check()\"/></a>");
+                  }
+                }
+              }/*,
+              eventClick: function(event, jsEvent, view){
+         
+                if(!$(jsEvent.target).hasClass("icon"))
+                {
+                }
+                
+              }*/
+            });
+
+          });
+          function iconsAlert(id,date){
+            var left = '';
+            var width = '';
+            var halfWidth ='';
+            open_activity_detail(id,date);
+            left = $('#show_detail_'+id+'_'+date).parent().parent().css('left');
+            left = left.replace("px", " ");
+            width = $("#calendar").width();
+            //alert(width);
+            var diff = parseInt(width) - parseInt(left);
+            if(width<1050) halfWidth = width/3.1;
+            if(width>1050 && width<1250) halfWidth = width/3.6;
+            if(width>1050 && width<1450) halfWidth = width/4.2;
+            if(width>1450 && width<1600) halfWidth = width/4.9;
+            if(width>1450 && width<1900) halfWidth = width/5;
+            if(width>1900) halfWidth = width/5.6;
+			
+            if(halfWidth>diff){
+              halfWidth=parseInt(halfWidth)-parseInt(diff) +"px";
+              $('#show_detail_'+id+'_'+date).css('marginLeft','-'+halfWidth);
+              $('#show_detail_'+id+'_'+date+' .showtopArrow').css('marginLeft',halfWidth);
+            }
+          }
+        </script>
+
+		<div id='calendar'>
+			<div class="clearFix"></div>
+		</div>
+		<div id="desc_dialog" style="display:none;">
+			<div id="event_desc">
+			</div>
+			<div id="event_actions">
+			<span id="edit_event"></span>
+			<span id="delete_event"></span>
+			</div>
+		</div>
+		<div id="create_event_dialog" style ="display:none;">
+			<div id="create_event">
+			</div>
+		</div>
+      </div>
+    </div>
+  <div id="popup_container"></div>
+

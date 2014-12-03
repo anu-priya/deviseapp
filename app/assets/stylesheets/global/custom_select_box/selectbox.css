@@ -1,0 +1,68 @@
+/* Drop down styles*/
+div.selectbox-wrapper {
+  position:absolute;
+  z-index:10000;
+  width:545px;
+  /*height: 88px;  */
+  margin:0px;
+  margin-top:-11px;
+  padding:0px;
+  text-align:left;
+  overflow:auto;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px; 
+  background-color:white;
+  border:1px solid #CDE0E6;  
+  color:#999999;
+}
+
+/*Drop down list styles*/
+div.selectbox-wrapper ul {
+  list-style-type:none;
+  margin:0px;
+  padding:0px;
+}
+/* Selected item in dropdown list*/
+div.selectbox-wrapper ul li.selected {   
+    color:#999999;
+	font-weight:bold;
+}
+
+/* Hover state for dropdown list */
+div.selectbox-wrapper ul li.current { 
+  background:#73C3DD;
+  color:#ffffff;
+}
+
+/* Drop down list items style*/
+div.selectbox-wrapper ul li {
+  list-style-type:none;
+  display:block;
+  margin:0;
+  padding:2px;
+  cursor:pointer;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
+  padding:3px 0px 3px 3px;
+}
+
+/* Look and feel of select box */
+.selectbox 
+{
+  margin: 0px 5px 10px 0px;
+  padding-left:2px;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
+  width : 540px; /* Resize Width */
+  display : block;
+  text-align:left; 
+  background:#ffffff url('/assets/event_edit_activity/drop_arrow.png') no-repeat;
+  background-repeat: no-repeat;
+  background-position: 100% center;
+  border:1px solid #CDE0E6;
+  /*color:#999999;*/
+  padding: 7px 0 7px 4px;
+  cursor:default;
+}
+
+

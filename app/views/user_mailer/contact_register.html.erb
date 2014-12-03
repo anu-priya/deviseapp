@@ -1,0 +1,84 @@
+<table cellspacing="0" cellpadding="0" border="0" style="width:98%; margin:12px; font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;">
+  	<tr>
+    	<td align="left" valign="top" height="24" style="ont-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;">   
+    		<strong>Hi <%=@name.capitalize%>,</strong> 
+    	</td>
+  	</tr>
+  	<tr>
+  		<td height="10"></td>
+  	</tr>
+  	<tr>
+  		<td style="color:#333333;" align="left" valign="top">
+		<%= @user["user_name"].capitalize %> invites you to join Famtivity, the Family Activity Network. Get $20 credit just for joining.  Invite other friends to join and get $1 credit per friend to spend on great kids activities in your area! Our Family Activity Network helps you to:
+        </td>
+    </tr>
+    <tr>
+  		<td height="10"></td>
+  	</tr>
+    <tr>
+    	<td>
+    		<table cellpadding="0" cellpadding="0" style="margin-left:10px;">
+	 		<tr>
+				<td height="30">
+          <%= image_tag("#{@image_path}/assets/landing_banner/selection.png", size:"12x12")%>
+				</td>
+				<td style="padding-left:6px;">Find awesome activities and sign-up instantly</td>
+			</tr>
+			<tr>
+				<td height="30">
+					<%= image_tag("#{@image_path}/assets/landing_banner/selection.png", size:"12x12")%>
+				</td>
+				<td style="padding-left:6px;">Get discounts from local providers</td>
+			</tr>
+			<tr>
+				<td height="30">
+					<%= image_tag("#{@image_path}/assets/landing_banner/selection.png", size:"12x12")%>
+				</td>
+				<td style="padding-left:6px;">Share favorite activities and more</td>
+			</tr> 
+			</table>       
+   		</td>
+  	</tr>
+  	<tr>
+  		<td height="10"></td>
+  	</tr>
+	
+	<tr>
+  		<td height="10"></td>
+  	</tr>
+  	<!-- <tr>
+  		<td align="left" valign="top" height="24">
+        Here&rsquo;s a brief video overview:
+    	</td>
+  	</tr>
+  	<tr>
+  		<td align="left" valign="top" height="24">
+  		<a href="http://www.youtube.com/watch?v=VJ2PsaIKIlw" target="_blank" style="color:#5099AC; text-decoration:none;">http://www.youtube.com/watch?v=VJ2PsaIKIlw</a>
+  		</td>
+  	</tr>
+  	<tr>
+  		<td height="20">&nbsp;</td>
+  	</tr>-->
+  	<tr>
+  		<td align="left" valign="middle">
+  		<a href="<%= @url%>" title="" target="_blank" onclick= "_gaq.push(['_trackEvent', 'Parent Module', 'clickAttendActivity','Accept']);">
+        <%= image_tag("#{@image_path}/assets/contact/accept_invitation.png", size:"202x35", alt:"Accept", border:"0")%>
+      </a>&nbsp;&nbsp;
+        <!-- <a href="javascript:void(0)" title="" target="_blank" ><img src="<%=@image_path%>/assets/contact/ignore_button.png" height="33" width="67" alt="Ignore" border="0"></a>-->        	
+    	</td>
+  	</tr>
+  	<tr>
+  		<td align="left" valign="middle" height="24">
+  			<a href="<%= @url%>" title="" target="_blank" style="color:#5099AC;" onclick= "_gaq.push(['_trackEvent', 'Parent Module', 'clickAttendActivity','Accept']);"><%= @url%></a>
+  		</td>
+  	</tr>
+  	<tr>
+  		<td height="20">&nbsp;</td>
+  	</tr>
+  	<!--<tr>
+		<td height="24" align="left" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#444444;">Have fun!</td>
+	</tr>
+	<tr>
+		<td  align="left"  height="24" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;">Your Famtivity Team</td>
+	</tr>-->
+</table>

@@ -1,0 +1,652 @@
+
+<style type="text/css">
+  /*loading image */
+  #dvLoading
+  {
+    background: transparent url(/assets/ajax-loader.gif) no-repeat center center;
+    height: 50px;
+    width: 50px;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    margin: -25px 0 0 -25px;
+  }
+  /* 29 Aug 2013 ---- import contacts*/
+  .sIcons{
+    width: 522px;
+    margin:0 auto;
+  }
+  .sIcons .sIconsR1{
+    margin-top:50px;
+  }
+  .sIcons .sIconsR2{
+    margin-bottom:12px;
+  }
+  .sIcons .icons{
+    width:250px;
+    display:inline-block;
+  }
+  .blueText{
+    color:#5AA3B6;
+    font-weight:bold;
+  }
+  .line{
+    border-top:1px solid #eeeeee;
+    height:0px;
+    width:710px;
+    margin:0 auto;
+  }
+  .buttonsDiv{
+    margin-top:20px;
+    width: 500px;
+  }
+  .fb_list{
+    width:770px;
+    height:275px;
+    overflow-y:scroll;
+    
+  }
+  .fb_dialog{
+    z-index: 100001;
+  }
+
+
+</style>
+
+<!--import start-->
+
+<input type="hidden" name="from" id="from" value="">
+<div  id="gmail_logo" <%if !@reld.nil? && @reld !=""%>style="display: none;"<%else%>style="display: block;"<%end%> >
+  <div>
+
+    <div class="sIcons" align="center">
+      <div class="sIconsR1">
+        <div class="icons">
+          <table cellspacing="0" cellpadding="0" border="0">
+            <tr>
+              <td width="22">
+                <input type="radio" checked="checked" name="socialnetworks" class="networks" id="gmail" value="gmail" />
+              </td>
+              <td width="48">
+                <a href="javascript:void(0)" title=""><img src="/assets/contact/gmail_icon.png" width="39" height="40" alt="link" /></a>
+              </td>
+              <td>
+                <a href="javascript:void(0)" title=""><span class="blueText">Gmail</span></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+        
+        <% if cookies[:fam_network]=="" || cookies[:fam_network].nil?%>
+          <div class="icons" >
+            <table cellspacing="0" cellpadding="0" border="0">
+              <tr>
+                <td width="22">
+                  <input type="radio" name="socialnetworks" class="networks" id="facebook" value="facebook" />
+                </td>
+                <td width="48">
+                  <a href="javascript:void(0)" title=""><img src="/assets/contact/social_facebook_icon.png" width="39" height="40" alt="link" /></a>
+                </td>
+                <td>
+                  <a href="javascript:void(0)" title="" ><span class="blueText">Facebook</span></a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        <%end%>
+        <div class="icons"></div>
+      </div>
+      <div class="icons" id="csvdiv" style="margin-right: 264px;">
+          <table cellspacing="0" cellpadding="0" border="0">
+            <tr>
+              <td width="22">
+                <input type="radio" name="socialnetworks" class="networks" id="csv" value="csv" />
+              </td>
+              <td width="48">
+                <a href="javascript:void(0)" title="" ><img src="/assets/contact/CSV_Icon.png" width="40" height="41" alt="link" /></a>
+              </td>
+              <td>
+                <a href="javascript:void(0)" title=""><span class="blueText">CSV</span></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+      <div class="sIconsR2">
+        <div class="icons" style="width:267px;">
+          <table cellspacing="0" cellpadding="0" border="0" style="display:none;">
+            <tr>
+              <td width="22">
+                <input type="radio" name="socialnetworks" class="networks" id="yahoo" value="yahoo" />
+              </td>
+              <td width="48">
+                <a href="javascript:void(0)" title="" ><img src="/assets/contact/yahoo_icon.png" width="39" height="40" alt="link" /></a>
+              </td>
+              <td>
+                <a href="javascript:void(0)" title=""><span class="blueText">Yahoo</span></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="icons" style="display:none">
+          <table cellspacing="0" cellpadding="0" border="0" style="margin-left: -300px;">
+            <tr>
+              <td width="22">
+                <input type="radio" name="socialnetworks" class="networks" id="csv" value="csv" />
+              </td>
+              <td width="48">
+                <a href="javascript:void(0)" title="" ><img src="/assets/contact/CSV_Icon.png" width="40" height="41" alt="link" /></a>
+              </td>
+              <td>
+                <a href="javascript:void(0)" title=""><span class="blueText">CSV</span></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+      </div>
+      <div class="sIconsR1" style="display: none;">
+        <div class="icons" style="width:250px; padding-right: 10px;" >
+          <table cellspacing="0" cellpadding="0" border="0" width="105">
+            <tr>
+              <td width="22">
+                <input type="radio" name="socialnetworks" class="networks" id="csv" value="csv" />
+              </td>
+              <td width="48">
+                <a href="javascript:void(0)" title="" ><img src="/assets/contact/CSV_Icon.png" width="40" height="41" alt="link" /></a>
+              </td>
+              <td>
+                <a href="javascript:void(0)" title=""><span class="blueText">CSV</span></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="icons">
+          <table cellspacing="0" cellpadding="0" border="0"  style="display: none;">
+            <tr>
+              <td width="22">
+                <input type="radio" name="socialnetworks" class="networks" id="hotmail" value="hotmail" />
+              </td>
+              <td width="48">
+                <a href="javascript:void(0)" title="" ><img src="/assets/contact/live_hotmail_icon.png" width="39" height="40" alt="link" /></a>
+              </td>
+              <td>
+                <a href="javascript:void(0)" title=""><span class="blueText">Live/Hotmail</span></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="buttonsDiv">
+
+    </div>
+
+  </div>
+</div>
+
+<div class="clear"></div>
+
+
+<!--import end-->
+
+<!-- after import invite start-->
+<%if !@reld.nil? && @reld !="" && !@fb_val.nil? && @fb_val !=""%>
+<!--facebook import design started here-->
+ <div class="fb_list" style="display:block;">
+  <%= render :partial=>"fb_user_list" %>
+ </div>
+ <!--facebook import design end -->
+<%elsif !@reld.nil? && @reld !=""%>
+  <div id="existInivtefriend">
+
+  <div  id="test_error_div" style="display:none; color:#fc8989; margin:-10px 0px 8px 0px;font-size:15px;">Please select atleast one friend</div>
+
+
+  <div class="friendsList" id="friendsList" style="width:350px;display:inline-block;float:left;height: 385px;overflow-y: auto;margin:0 auto;">
+    <form id="cre_message" name="cre_message" target="_parent" action="multi_email" type="post" enctype="multipart/form-data">
+      <div class="selectAll"><div style="padding:10px;" ><input type="checkbox" name="checkbox_contact" id="parent_checkbox" onclick="importAll()" /><span onclick="importAll()">Select All</span></div></div>
+
+      <input type="hidden" name="from" id="from" value=""/>
+      <%i = 0%>
+      <%if !@contacts.nil? && @contacts.length>0 %>
+        <% @contacts.each do |con|%>
+          <%if i.even? %>
+            <div class="friendsListDivBg1" style="height: 65px;">
+            <%else%>
+              <div class="friendsListDivBg2" style="height: 65px;">
+              <%end%>
+
+              <div class="lfrdDiv" style="width:300px; padding-left: 10px;">
+                <table cellspacing="0" cellpadding="0" border="0" height="65">
+                  <tr>
+                    <td width="22">
+                      <%if !con.nil? && !con.contact_user_type.nil? && con.contact_user_type=="friend"%>
+
+                      <%if !cookies[:fam_network].nil? && cookies[:fam_network]!=""%>
+                      <% owner_status = check_owner(cookies[:fam_network],con.contact_email) if !cookies[:fam_network].nil? && cookies[:fam_network].present? && !con.nil? && !con.contact_email.nil?%>
+
+                      <%@fam_users = ContactUser.find_by_sql("select * FROM contact_users
+                                        INNER JOIN contact_user_groups as fam
+                                        ON contact_users.contact_id = fam.contact_user_id and fam.contact_group_id='#{cookies[:fam_network]}'") if !cookies[:fam_network].nil? && cookies[:fam_network]!=""%>
+                        <%@ss=[]%>
+                        <% @fam_users.each do |fu|%>
+                         <% olduser=fu.contact_email==con.contact_email if !con.nil? && !con.contact_email.nil?%>
+                         <% @ss<<fu if !olduser.nil? && olduser.present?%>
+                         
+                     <%end%>
+                     <% fam_net = ContactUserGroup.where("contact_user_id = '#{@ss[0].contact_id}' and contact_group_id='#{cookies[:fam_network]}'").last if !@ss.nil? && !@ss[0].nil?%>
+                     <%end%>
+                        <%if !cookies[:fam_network].nil? && cookies[:fam_network]!="" && ((!fam_net.nil? && fam_net.present? && fam_net.fam_accept_status ==true)||(owner_status))%>
+                        <%elsif  !cookies[:fam_network].nil? && cookies[:fam_network]!=""%>
+                          <input type="checkbox" class="import_contact_checkbox" name="subList[]" id='subList' value="<%= con.contact_email if !con.nil? && !con.contact_email.nil?%>" onchange="unselect()"/>
+                        <%end%>
+                        <!--img src="/assets/contact/check_image.png" -->
+                      <%else%>
+                        <input type="checkbox" class="import_contact_checkbox" name="subList[]" id='subList' value="<%= con.contact_email if !con.nil? && !con.contact_email.nil?%>" onchange="unselect()"/>
+                      <%end%>
+                    </td>
+                    <td>
+                      <img src="/assets/default/user_medium.png" width="38" height="38">
+                    </td>
+                    <td class="nameList">
+                      <div class="cont1" title="<%=con.contact_name if !con.nil? && !con.contact_name.nil?%>" style="cursor:default;">
+
+                        <%if !con.nil? && !con.contact_name.nil?%><%=truncate(con.contact_name, :length =>15, :omission => '... ')%><%elsif !con.nil? && !con.contact_email.nil?%><%name=con.contact_email.split("@")%><%=name[0]%><%end%></div>
+
+                      <div class="cont3" title="<%=con.contact_email if !con.nil? && !con.contact_email.nil?%>" style="cursor:default;margin-bottom: 3px;color: #2B91AF;">
+
+                        <%if !con.nil? && !con.contact_email.nil?%><%=truncate(con.contact_email, :length =>30, :omission => '... ')%><%end%></div>
+                      <div class="cont2" style="margin-bottom: 2px;">
+                        <%if owner_status%>
+                          Owner
+                        <%elsif !fam_net.nil? && fam_net.present? && fam_net.fam_accept_status ==true%>
+                          Already in Network
+                        <%elsif !con.nil? && !con.contact_user_type.nil? && con.contact_user_type=="friend"%>
+                          Friend
+                        <%elsif !con.nil? && !con.contact_user_type.nil? && con.contact_user_type=="member"%>
+                          Member
+                        <%else%>
+                          Non-Member
+                        <%end%>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+            </div>
+            <%i = i + 1%>
+          <%end%>
+        <%else%>
+          <div style="padding-top:170px; color: #807e7e;" align="center">We didn't find any Friends</div>
+        <%end%>
+        <div class="clear"></div>
+      </div>
+    </form>
+
+    <div style="display:inline-block;width:400px;float:left;margin-top:-3px;background: url('/assets/contact/bg_strip.png') repeat-y scroll 0 0 transparent;margin-left:10px;">
+
+      <input type="hidden"  name="pass_msg" id="pass_msg" value="ct_msg"/>
+      <span style="padding-left: 12px;font-weight: bold;  color: #5AA3B6;    font-family: Arial,Helvetica,sans-serif;    font-size: 14px;  white-space: nowrap; .padding-left:5px;" class="text_1" id="comment_test" >Send Invite</span>
+
+      <table width="400" height="34" border="0" style="margin-left: 12px;" cellpadding="0" cellspacing="0">
+        <tr>
+        <input type="hidden" name="msg" id="msg" value="" />
+        <td width="200"> 
+          <div id="page">
+            <div class="row" style="margin: 0px;">
+              <div class="threequarter centered" style="width: 400px;">       
+                <div id="redactor_content1" style="width: 388px; border-top: 1px solid #ddd; border-bottom: none;padding: 10px 5px 5px !important;height: 258px;"></div>                               
+              </div>
+            </div>
+          </div>
+          <div class="errorDiv " style="display:none;font-size: 15px">
+            <div class="lt" id="cre_message_error1"> </div>
+          </div>
+        </td>
+        </tr>
+      </table>
+
+      <div class="clear"></div>
+
+      <div class="buttonDiv" style="padding: 18px 0 10px 11px;width: 350px; position:relative;z-index:200">
+        <div class="lt">
+          <!--<input type="image"  id="send_message" src="/assets/login/send_button.png"  style="float:left; position: relative; display:inline-block; "/>-->
+          <a href="#"  id="send_message" style="float:left; position: relative; display:inline-block; "><img src="/assets/login/send_button.png"></a>
+          <a href="#" style="float:left; position: relative; padding-left: 3px; display:inline-block;" onclick="check_import();"><img src="/assets/login/cancel_button.png"  alt=""/></a>
+          <span id='loadingSave' style='display: none;padding-left: 10px;position: relative;top: 10px;' ><img src='/assets/loading.gif'/></span>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+<%end%>
+  <!-- after import invite end-->
+
+
+  <!-- email editor -->
+  <script src="<%=request.protocol%>connect.facebook.net/en_US/all.js">
+      </script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      //alert("<%=!@reld.nil? && @reld !="" && !@fb_val.nil? && @fb_val !=""%>");
+      //alert("<%=@fb_val.nil? && !@reld.nil? && @reld !=""%>")
+      $('#redactor_content1').redactor({
+        focus: true
+        //toolbarExternal: '#toolbarcontmenu'
+      });
+    });
+
+
+    function unselect(){
+      document.getElementById('parent_checkbox').checked =false;
+    }
+
+    //when the user onclicking the the price_all check box it will call this function.
+    function importAllold(){
+      if($('input[name=checkbox_contact]').is(':checked')){
+        $('input[id=subList]').attr('checked', true);
+      }
+      else{
+        $('input[id=subList]').attr('checked', false);
+      }
+    }
+
+
+    function importAll(){
+      if($('input[name=checkbox_contact]').is(':checked')){
+
+        //$('input:checkbox:not(:disabled)').attr('checked','checked');
+        $(':checkbox').prop('checked', true);
+      }
+      else{
+        $(':checkbox').prop('checked', false);
+      }
+    }
+
+    function pop_gmail_imports(){
+      popupWindow = window.open('../contacts/gmail','name','width=910,height=810,scrollbars=yes');
+      // popupWindow = window.open('../contacts/gmail','name','width=930,height=650,scrollbars=yes');
+      return false;
+    }
+
+
+    function pop_yahoo_import(){
+      popupWindow = window.open('../contacts/yahoo','name','width=910,height=810,scrollbars=yes');
+      return false;
+    }
+
+    function pop_facebook_import(){
+      popupWindow = window.open('../contacts/facebook','name','width=910,height=810,scrollbars=yes');
+      return false;
+    }
+
+    function pop_hotmail_import(){
+      popupWindow = window.open('../contacts/hotmail','name','width=910,height=810,scrollbars=yes');
+      return false;
+    }
+
+    function pop_import_facebook(){
+      popupWindow = window.open('../contacts/facebook','name','width=910,height=810,scrollbars=yes');
+      return false;
+    }
+
+    function invite_friend(){
+      parent.contactImportPage.hide();
+      parent.pop_invite_friend_check('/invite_friend_famtivity?check_invite=invite');
+    }
+    var csv_import;
+    function pop_csv_import(url) {
+  
+      csv_import = dhtmlmodal.open("csv_upload_container","iframe",url,"", "width=910px,height=500px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+      $("html, body").animate({
+        scrollTop: 0
+      }, 100);
+      return false;
+    }
+
+
+    function select_network() {
+      var val = $(".networks:checked").val();
+      if (val=='gmail')
+      {
+        pop_gmail_imports();
+      }
+      else if(val=='facebook')
+      {
+        pop_import_facebook();
+      }
+      else if(val=='yahoo')
+      {
+        pop_yahoo_import();
+      }
+      else if(val=='hotmail')
+      {
+        pop_hotmail_import();
+      }
+      else if(val=='csv')
+      {
+        pop_csv_import('/csv_import');
+      }
+    }
+   
+    function check_import(){
+      $('#gmail_logo').show();
+      $('#fb_cancel').hide();
+      $('.fb_list').hide();
+      $('.friendsList').hide();
+      $('#existInivtefriend').hide();
+      $("#yahoo_id").val("4");
+      $('#button_import').css('display','block');
+    }
+
+
+    $('input[name=subList]').attr('checked', false);
+    $('#send_message').click(function(){
+      var subList = $('#friendsList input[type=checkbox]:checked').serializeArray();
+      var invite_email=new Array();
+      if(subList.length>1)
+      {
+        for(var i=0;i<=subList.length-1;i++)
+        {
+          invite_email[i]=subList[i].value;
+        }
+      }
+      else
+      {
+        for(var i=0;i<subList.length;i++)
+        {
+          invite_email[i]=subList[i].value;
+        }
+      }
+      var cre_to_msg  = $("#subList").val();
+      var message = $("#redactor_content1").html();
+      var message1 = $("#redactor_content1").text();
+      $("#redactor_content1").css("border","none");
+      $("#cre_message_error1").parent().css("display","none");
+      $("#test_error_div").css("display","none");
+      var errorFlag = false;
+      if(cre_to_msg==undefined)
+      {
+        $("#test_error_div").css("display","block").html("Please add friends to the list");
+        errorFlag = true;
+      }
+      if(invite_email == "" ){
+        $("#test_error_div").css("display","block");
+        errorFlag = true;
+      }
+   
+      if(message1 == "" ){
+        $("#redactor_content1").css("border","1px solid #fc8989");
+        $("#cre_message_error1").css("display","block");
+        $("#cre_message_error1").parent().css("display","block");
+        $("#cre_message_error1").html("Please enter a message ");
+        errorFlag = true;
+      }
+      if(errorFlag){
+        return false;
+      }
+      else
+      {
+        $("#test_error_div").css("display","none");
+        $("#cre_to_msg .textboxDiv").css("border","1px solid #BDD6DD");
+        $("#cre_send_to_error").css("border","none");
+        $("#redactor_content1").css("border","1px solid #BDD6DD");
+        $("#cre_message_error1").css("border","none");
+
+        $('#loadingSave').css("display","inline-block");
+
+        $.ajax({
+          type: "POST",
+          data: {"cre_to_msg":invite_email ,"message":message},
+          url: "/multi_email",
+          //dataType: "html",
+          success: function(data){
+            $('#loadingSave').hide();
+            $("#invite_friend_container").bPopup().close();
+            <%if !cookies[:fam_network].nil? && cookies[:fam_network]!=""%>
+                        fam_pop_network('/fam_create_post?show=success');
+            <%else%>
+                    <%if !@reld.nil? %>
+                                      pop_success_invite('/invite_success_page?reld=success');
+                    <%elsif @click_mode == 'parent'%>
+                                      pop_success_invite('/invite_success_page?mode=parent');
+                    <%else%>
+                                      pop_success_invite('/invite_success_page');
+                    <%end%>
+            <%end%>
+
+        }
+      });
+
+      return false;
+    }
+  });
+
+
+function postonwall(id,cname,cuser,reciver_fam_id,user_type){
+  if (user_type=="member"){
+    var msg = cuser+" just invited you to become friends on Famtivity.  "
+    var fam_sub="Click here to accept Friend request"
+    }
+    else
+    {
+    var msg = "Join me on Famtivity, the family activity network! I think you'll really enjoy it.  Get $5 credit just for joining.  Invite other friends to join and get $1 credit per friend to spend on great kids activities in your area! "
+    var fam_sub="Click here to join famtivity"
+    }
+   FB.init({ 
+   appId:'<%= FB_APP_ID %>', cookie:true, 
+   status:true, xfbml:true 
+ });
+
+FB.getLoginStatus(function(response) {
+  if (response.status === 'connected') {
+    var uid = response.authResponse.userID;
+    var accessToken = response.authResponse.accessToken;
+    //alert('http://<%=@get_current_url %>?facebook_reg=yes&sent_user=<%=current_user.user_id%>&invited='+id)
+
+FB.ui(
+  {
+    method: 'feed',
+    from:uid,
+    to:id,
+    name: fam_sub,
+    link:'http://<%=@get_current_url %>?facebook_reg=yes&sent_user=<%=current_user.user_id%>&invited='+id,
+    description: 'Hi ' +cname+ ',  '+msg 
+  },          
+
+  function(response) {
+     if (response && response.post_id) {
+          $(".flash-message").html("Your invite has been sent successfully!");
+          var win=$(window).width();
+          var con=$(".flash_content").width();
+          var leftvalue=((win/2)-(con/2))
+          $(".flash_content").css("left",leftvalue+"px");
+          $(".flash_content").css("top","93px");
+          //$('.flash_content').show()
+          $('.flash_content').fadeIn().delay(10000).fadeOut();
+          $.ajax({
+          type: "POST",
+          data: {"reciver_id":reciver_fam_id },
+          url: "fb_invite",
+          dataType: "script"
+      });
+
+      
+      } else {
+          $(".flash-message").html("Oops something went wrong. Please invite again");
+          var win=$(window).width();
+          var con=$(".flash_content").width();
+          var leftvalue=((win/2)-(con/2))
+          $(".flash_content").css("left",leftvalue+"px");
+          $(".flash_content").css("top","93px");
+          $('.flash_content').fadeIn().delay(10000).fadeOut();
+      }
+    }
+  );
+  
+  } else if (response.status === 'not_authorized') {
+    // the user is logged in to Facebook, 
+    // but has not authenticated your app
+  } else {
+    
+FB.ui(
+  {
+    method: 'feed',
+    from:uid,
+    to:id,
+    name: fam_sub,
+    link:'http://<%=@get_current_url %>?facebook_reg=yes&sent_user=<%=current_user.user_id%>&invited='+id,
+    description: 'Hi ' +cname+ ',  '+msg  
+  }, 
+
+ function(response) 
+    {
+        if (response && response.post_id) {
+          $(".flash-message").html("Your invite has been sent successfully!");
+          var win=$(window).width();
+          var con=$(".flash_content").width();
+          var leftvalue=((win/2)-(con/2))
+          $(".flash_content").css("left",leftvalue+"px");
+          $(".flash_content").css("top","93px");
+          $('.flash_content').fadeIn().delay(10000).fadeOut();
+          $.ajax({
+          type: "POST",
+          data: {"reciver_id":reciver_fam_id },
+          url: "fb_invite",
+          dataType: "script"
+          });
+      
+        } else {
+          $(".flash-message").html("Oops something went wrong. Please invite again");
+          var win=$(window).width();
+          var con=$(".flash_content").width();
+          var leftvalue=((win/2)-(con/2))
+          $(".flash_content").css("top","93px");
+          $(".flash_content").css("left",leftvalue+"px");
+          $('.flash_content').fadeIn().delay(10000).fadeOut();
+      
+        }
+    });
+  }
+ });
+
+  FB.init({ 
+     appId:'<%= FB_APP_ID %>', cookie:true, 
+     status:true, xfbml:true 
+  });
+
+}
+  
+function warmup(){
+FB.init({ 
+       appId:'<%= FB_APP_ID %>', cookie:true, 
+       status:true, xfbml:true 
+     });
+}
+  </script>

@@ -1,0 +1,43 @@
+<%=javascript_include_tag "header/header","global/checkbox","event/event","event_index/event_index","event_index/jquery.dropdownPlain","pagination"%>
+<%=stylesheet_link_tag "global/jquery.ui.datepicker","global/jquery.ui.theme","header/header","event_index/event_index","event_index/menu","global/overlay/windowfiles/dhtmlwindow","global/overlay/modalfiles/modal","bpopup/bpopup", :media => "all"%>
+
+<!-- Datepicker -->
+<%#=javascript_include_tag "auto_complete/jquery-ui", "auto_complete/jquery-1.8.3", "global/jquery.ui.core","global/jquery.ui.datepicker","global/overlay/windowfiles/dhtmlwindow","global/overlay/modalfiles/modal","global/jquery.lazyload","pagination"%>
+
+<div class="clear"></div>
+<!-- form name="provider_event_list" id="provider_event_list" style="height:730px;" -->
+<div id="providerEventList" style="margin-top:46px; .margin-top:0px;" onmouseover="hideDatepickerProviderEvent();hideSearch();">
+  <div class="topContainer">
+    <div class="blueText" align="center" style="padding-top: 10px;"><b><%=@a_name if !@a_name.nil? && @a_name.present? %></b></div>
+    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+      <tr>
+        <td align="left" height="40" width="12%">
+          <div class="leftMenus" style="width:250px;">
+                <div class="clear"></div>
+              </div>
+        </td>
+        
+      <td align="right" height="40" width="12%">
+      </td>
+
+      </tr>
+    </table>
+  </div>
+  <div class="centerContainer" id="provider_partial_event_list" onmouseover="hideDatepickerProviderEvent();hideSearch();">
+
+    <%= render "attend_list"%>
+
+
+  </div>
+</div>
+<!--/form-- >
+
+<!-- ajax loader -->
+<div id='loadingmessage' style='display:none;margin-top:-424px' align="center">
+  <%=image_tag("/assets/ajax-loader.gif", :width=>"32", :height=>"32")%>
+</div>
+
+<div id="popup_container">
+</div>
+<!-- bpopup script -->
+<%#=javascript_include_tag "bpopup/jquery.bpopup-0.9.3.min","bpopup/jquery.easing.1.3","bpopup/scripting.min"%>

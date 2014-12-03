@@ -1,0 +1,206 @@
+<div id="header" class="provider_header" >
+  <div id="header_top">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+      <tr>
+        <td align="left" valign="top" width="350">
+          <div class="headerPart1" style="position:fixed;">
+
+
+            <div class="selectedCity1_123" id="location" style="float: left; display: inline-block;">
+              <div id="mydiv">
+                <ul class="dropdown">
+                  <li class="firstDiv"><a href="#" id="GoToDiv" class="Title" style="color:#5099AC;">
+                      <div>
+                        <%if params[:action] == 'admin_gallery' || params[:action] == 'index'%>
+                          <span id="city_value" style="float:left; display: inline-block;margin-top:	1px;">
+                            <%if !session[:city].nil?%><%= session[:city] %><%else%><%=cookies[:city_new_usr]%><%end%>
+                          </span>
+                          <span style="float:left; display: inline-block; margin-left: 5px;">
+                            <%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4", :style=>"border:0px;", :id=>"arrow1")%>
+                          </span>
+                        <%end%>
+                      </div>
+                      <div class="clear"></div>
+                    </a>
+                    <%if params[:action] == 'admin_gallery' || params[:action] == 'index'%>
+                      <ul class="sub_menu" style="">
+                        <li><a href="#" id="GoToDiv">
+                            <div style="margin-top:-16px; margin-left: -10px;" class="TotalDiv">
+                              <div>
+			      <%=image_tag("/assets/event_index/locotion_dropdown_box_top.png", :width=>"464", :height=>"2", :alt=>"", :border=>"0")%>
+                              </div>
+
+                              <div class="locationDivCenter" style=".margin-top: -3px;">
+                                <div style="width:439px; margin-top: 3px;">
+                                  <div class="ftSz14_discount" style="float: left; display: inline-block; cursor:default;">Choose City</div>
+                                  <div class="ftSz14_discount" style="float: right; display: inline-block; cursor:default;">United States <span style="display: inline-block; top: -1px; position: relative;">
+                                      <!-- <img id="arrow1" src="/assets/event_index/dropdown_arrow.png" height="4" width="7" alt="" />-->
+                                    </span></div>
+                                </div>
+                                <div><%=image_tag("/assets/event_index/horiz_line.png", :width=>"443", :height=>"3", :alt=>"", :border=>"0", :style=>"margin-top: 10px;")%></div>
+                                <div class="clear"></div>
+                                <table cellpadding="0" cellspacing="0" class="description" style="color: #313332; margin-top: 10px;">
+                                  <tr>
+                                    <td width="175" height="30"><span <%if session[:city]=="New York"%>class ="on"<%else%>  class="off"<%end%>id="st_1" onclick="filter_admin_state(this.innerHTML,1);">New York</span></td>
+                                    <td width="175" height="30"><span  <%if session[:city]=="Dallas"%>class ="on"<%else%>  class="off"<%end%> id="st_2" onclick="filter_admin_state(this.innerHTML,2);">Dallas</span></td>
+                                    <td width="175" height="30"><span  <%if session[:city]=="Seattle"%>class ="on"<%else%>  class="off"<%end%> id="st_3" onclick="filter_admin_state(this.innerHTML,3);">Seattle</span></td>
+                                  </tr>
+                                  <tr>
+                                    <td width="175" height="30"><span <%if session[:city]=="Los Angeles"%>class ="on"<%else%>  class="off"<%end%> id="st_4" onclick="filter_admin_state(this.innerHTML,4);" >Los Angeles</span></td>
+                                    <td width="175" height="30"><span <%if session[:city]=="San Jose"%>class ="on"<%else%>  class="off"<%end%> id="st_5" onclick="filter_admin_state(this.innerHTML,5);" >San Jose</span></td>
+                                    <td width="175" height="30"><span <%if session[:city]=="Chicago"%>class ="on"<%else%>  class="off"<%end%> id="st_6"  onclick="filter_admin_state(this.innerHTML,6);" >Chicago</span></td>
+                                  </tr>
+                                  <tr>
+                                    <td width="175" height="30"><span <%if session[:city]=="Detroit"%>class ="on"<%else%>  class="off"<%end%> id="st_7"  onclick="filter_admin_state(this.innerHTML,7);" >Detroit</span></td>
+                                    <td width="175" height="30"><span  <%if session[:city]=="Philadelphia"%>class ="on"<%else%>  class="off"<%end%> id="st_8"  onclick="filter_admin_state(this.innerHTML,8);" >Philadelphia</span></td>
+                                    <td width="175" height="30"><span  <%if session[:city]=="Houston"%>class ="on"<%else%>  class="off"<%end%> id="st_9"  onclick="filter_admin_state(this.innerHTML,9);" >Houston</span></td>
+                                  </tr>
+                                  <tr>
+                                    <td width="175" height="30"><span  <%if session[:city]=="San Antonio"%>class ="on"<%else%>  class="off"<%end%> id="st_10"  onclick="filter_admin_state(this.innerHTML,10);" >San Antonio</span></td>
+                                    <td width="175" height="30"><span  <%if session[:city]=="San Diego"%>class ="on"<%else%>  class="off"<%end%> id="st_11"  onclick="filter_admin_state(this.innerHTML,11);" >San Diego</span></td>
+                                    <td width="175" height="30"><span <%if session[:city]=="San Francisco"%>class ="on"<%else%>  class="off"<%end%> id="st_12"  onclick="filter_admin_state(this.innerHTML,12);" >San Francisco</span></td>
+                                  </tr>
+                                  <tr>
+                                    <td width="175" height="30"><span  <%if session[:city]=="Walnut Creek"%>class ="on"<%else%>  class="off"<%end%> id="st_13"  onclick="filter_admin_state(this.innerHTML,13);" >Walnut Creek</span></td>
+                                  </tr>
+                                  <tr>
+                                    <td colspan="3"><%=image_tag("/assets/event_index/horiz_line.png", :width=>"443", :height=>"3", :alt=>"", :border=>"0", :style=>"margin-top: 10px;")%></td>
+                                  </tr>
+                                  <tr>
+                                    <td width="175" height="30"><span    class="off" id="st_13"  onclick="filter_admin();" >All Cities</span></td>
+                                  </tr>
+                                </table>
+                                <div class="clear"></div>
+                              </div>
+
+                              <div><%=image_tag("/assets/event_index/locotion_dropdown_box_bottom.png", :width=>"464", :height=>"9", :style=>"top: -7px; .top:0px; position:relative;")%></div>
+                            </div>
+                          </a></li>
+
+                      </ul>
+                    <%end%>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+
+          </div>
+        </td>
+        <td align="center" valign="top">
+          <table cellpadding="0" cellspacing="0" border="0"  id="header_center">
+            <tr>
+              <td align="center" valign="middle" style="padding-right: 14px;">
+                <div>
+                  <a href="/home?mode=parent" title="Go Home">
+                    <%=image_tag("/assets/header/home.png", :alt=>"Go Home")%>
+                  </a></div>
+                <div>
+                  <span class="text_head_admin">Home</span>
+                </div>
+              </td>
+              <td class="logonew" align="center" valign="top">
+                <a href="/home?mode=parent" title="" ><%=image_tag("/assets/header/famtivity-logo.png", :width=>"122", :height=>"43", :alt=>"Famtivity")%></a>
+              </td>
+              <td align="center" valign="middle">
+                <div>
+                  <a onclick="howitworks('/how-it-works')" title="How it Works" style="cursor: pointer;">
+                     <%=image_tag("/assets/header/how_it_works_new.png", :alt=>"How it Works", :onclick=>"_gaq.push(['_trackEvent', 'Tutorial', 'clickHowitWorks']);")%>
+                  </a>
+                </div>
+                <div>
+                  <span class="text_head_admin">How it Works</span>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td align="right" valign="top" width="350">
+          <div id="top_menu_user" style="float:right;">
+            <ul>
+              <li style="padding: 4px;">
+                <div class="top_menu_icon" align="center">
+                  <% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.profile.blank? %>
+                    <%= image_tag(current_user.user_profile.profile.url(:small), :width => '21', :height => '21', :align=>'middle', :alt=>"") %>
+                  <% else %>
+                    <%=image_tag("/assets/profile/user_icon.png", :width=>"21", :height=>"21", :align=>"middle")%>
+                  <% end %>
+                </div>
+                <div class="lt" align="center">
+                  <div class="lt">
+                    <%if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?%>
+                      <%if current_user.user_profile.business_name.length<= 12%>
+                        <%= current_user.user_profile.business_name if !current_user.nil? && !current_user.user_profile.business_name.nil? && !current_user.user_profile.nil? %>
+                      <%else%>
+                        <%= current_user.user_profile.business_name[0..11] if !current_user.nil? && !current_user.user_profile.business_name.nil?%>..
+                      <%end%>
+                    <%else%>
+                      <%if !current_user.nil? && current_user.user_name.length<= 12%>
+                        <%= current_user.user_name if !current_user.nil? %>
+                      <%else%>
+                        <%= current_user.user_name[0..11] if !current_user.nil? %>..
+                      <%end%>
+                    <%end%>
+                  </div>
+                  <div class="lt">
+                    <%=image_tag("/assets/header/drop_arrow.png", :width=>"4", :height=>"4", :alt=>"", :border=>"0", :class=>"top_menu_arrow")%>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <ul>
+                  <%if @pusers.nil? || !@pusers.present? || @pusers==""%>
+                    <li style="background-color:#EDF2F5;border-bottom:1px solid #B1D7E3; color:#E24C4B; font-weight:bold;">
+                      <a href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?%>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?%>" onClick="_gaq.push(['_trackEvent','Parent Module', 'clickMyAccounts','Switch to Provider']);" id="switch_parent" style="color:#E24C4B; text-decoration:none;">
+                                                          Switch to Provider View
+                      </a>
+                    </li>
+                    <li><a href="javascript:void(0)" title="" id="select" onClick="activity_admin_view('list')">List View</a></li>
+                    <li><a href="javascript:void(0)" title="" id="select" onClick="activity_admin_view('gallery')">Thumbnail View</a></li>
+                    <li><a href="/discount_codes" title="">Discount Codes</a></li>
+                    <li><a href="/provider_transaction?mode=admin" title="">Transaction Reports</a></li>
+                    <li><a href="/provider_plan_report?mode=admin" title="">Pricing Plan</a></li>
+                    <!--li><a href="/famtivity_user_report?mode=admin" title="">User Reports</a></li-->
+                    <li><a href="/admin/user_reports?mode=admin" title="">User Reports</a></li>
+                    <li><a href="/admin/general_reports?mode=admin" title="">General Reports</a></li>
+                    <li><a href="/admin/email_metrics?mode=admin" title="">Email Metric Reports</a></li>
+                    <li><a href="/admin/category_reports?mode=admin" title="">Activity Category Reports</a></li>
+		<li><a href="/admin/providercard_listview?mode=admin" title="">Provider Card Reports</a></li>
+                  <%end%>
+                  <li><a href="/admin/email_metrics_report?mode=admin">Metric Report</a></li>
+                  <li><a href="/logout" onClick="_gaq.push(['_trackEvent','Provider Module', 'clickMyAccounts','Logout']);">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="clear"></div>
+  <%if current_user.nil? && !current_user.present?%>
+    <!--div id="header_bootom">
+                          <div id="header_lt">
+                                  <a onclick="show_pop_up(30); pop_Login('/login'); _gaq.push(['_trackEvent', 'Login', 'clickLogin'])" href="javascript:void(0)" class="lt">
+                                          <img src="/assets/header/login_button.png" width="62" height="27" border="0" alt="Login">
+                                  </a>
+                          </div>
+                          <div id="header_lt">
+                                  <a onclick="show_pop_up(30); pop_Parent_Login('/parent_register')" href="javascript:void(0)" class="lt">
+                                          <img src="/assets/header/register_button.png" width="73" height="27" border="0" alt="Register">
+                                  </a>
+                          </div>
+          </div-->
+  <%end%>
+  <div class="clear"></div>
+</div>
+<script>
+  function activity_admin_view(view){
+    if (view =="gallery"){
+      window.location.href ="/admin_gallery?mode=admin"
+    }else{
+      window.location.href ="/admin?mode=admin"
+    }
+  }
+	 
+</script>

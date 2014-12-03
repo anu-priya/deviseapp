@@ -1,0 +1,362 @@
+<%= stylesheet_link_tag "global/pop_up" %>
+<%= stylesheet_link_tag "create_new_activity_new/create_new_activity" %>
+<%= stylesheet_link_tag "represent_auto_complete/jquery-ui" %>
+<%= javascript_include_tag "represent_auto_complete/jquery-ui" %>
+
+<style>
+  .add_radio_autocomplete{
+    /*margin-bottom:-10px;*/
+  }
+  .ui-menu {
+    max-height: 150px;
+    overflow: hidden;
+    overflow-y: auto;
+    width: 518px !important;
+  }
+  .ffdiv{
+    border: 1px solid #CDE0E6;
+    width: 525px;
+    padding:10px;
+  }
+  .ffmem{
+    border: 1px solid #BDD6DD;
+    height: 25px;
+    width: 520px;
+    background:#f6f8f7;
+  }
+  .ffmemInTxt{
+    border: none medium;
+    color: #999999;
+    font-size: 13px;
+    vertical-align: text-top;
+    width: 490px;
+    padding: 0px 4px;
+    height: 26px;
+    font-family: Arial,Helvetica,sans-serif;
+    background:none;
+  }
+  .ffmemseaBt{
+    position: relative;
+    top: 3px;
+  }
+  .friendListff{
+    overflow: auto;
+    height: 290px;
+    margin: 20px;
+    width: 95%;
+  }
+  .ffifTxt{
+    margin: 100px auto auto;
+    width: 385px;
+    padding: 10px 20px;
+    background: #EDF1F2;
+    font-size: 13px;
+    color: #555557;
+    font-family: Arial,Helvetica,sans-serif;
+    text-align: center;
+  }
+  @media \0screen {
+    #text-name{
+      padding-top:4px;
+    }
+    .ffmemseaBt{
+      top:0;
+    }
+    .ffmemInTxt{
+      height:22px;
+    }
+  }
+</style>
+<div id="new_act_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter" >
+      <div class="innerContainer" >
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Represented Details</div>
+          </div>
+          <div class="closeButton"><a href="javascript:void(0)" onClick="closepopup()" title=""><%= image_tag("/assets/global/pop_up/button_close.png", height: '15', width: '15') %></a></div>
+        </div>
+        <div class="centerCont">
+          <form id="represented_details" name="represented_details" action="/school_representatives" method='post' >
+            <input type='hidden' name='activityid' id='activityid' value='<%=params[:act_id]%>'>
+            <div align="center" class="setfeedbackDiv fts14 ftcBlack">Set permissions for the provider who is representing you for this activity</div>
+            <div class="paddingTop10">
+              <div class="paddingTop15">
+                <div class="lt leftSideField setMarRt setMarTop1">Represented By<span class="required">*</span></div>
+                <div class="lt">
+                  <div class="ffdiv">
+                    <div class="ffmem">
+                      <table cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="500">
+                            <input type="text" name="school_represent"  id="text-name" autocomplete='on' value="Search" onfocus="if(this.value=='Search'){this.value='';}" onblur="if (this.value==''){ this.value = 'Search';$(this).css('color','#999999');}" class="ffmemInTxt" />
+                            <input type='hidden' name='represented_id' id='represented_id' value=''/>
+                          </td>
+                          <td>
+                            <%= image_tag("/assets/event_index/search_icon.png", :class=> 'ffmemseaBt') %>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="add_radio_autocomplete"></div>
+                  </div>
+
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField setMarRt ">&nbsp;</div>
+                <div class="lt" id="represent_by_error"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="paddingTop15">
+                <div class="lt leftSideField setMarRt setMarTop2">Set Permission<span class="required">*</span></div>
+                <div class="lt">
+                  <input class="lt" type="checkbox" name="view" id="view" onchange="checkstatus('view')" checked="checked" value="on" disabled="disabled" />
+                  <span class="lt ftcBlue fts14 checboxText">View</span>
+                </div>
+                <div class="lt">
+                  <input class="lt" type="checkbox" name="edit" id="edit"  onchange="checkstatus('edit')" checked="checked" value="on" />
+                  <span class="lt ftcBlue fts14 checboxText">Edit</span>
+                </div>
+                <div class="lt">
+                  <input class="lt" type="checkbox" name="delete" id="delete"  onchange="checkstatus('delete')"checked="checked" value="on" />
+                  <span class="lt ftcBlue fts14 checboxText">Delete</span>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField setMarRt ">&nbsp;</div>
+                <div class="lt" id="permission_error"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="paddingTop15">
+                <div class="lt leftSideField setMarRt setMarTop3">Commission<span class="required">*</span></div>
+                <div class="lt shareDiv">
+                  <div align="center" class="setfeedbackDiv setfeedbackDiv1 fts12 ftcBlack">Set up a commission amount for the representative of your activity</div>
+                  <div class="lt shareInnerDiv">
+                    <p class="lt ftcBlack fts13"><b>Representative Share</b></p>
+                    <input type="text" name="representative_share" id="representative_share" class="lt textbox ftcblack44" value="0.00"  style="width:85px;" onKeyup="share_fund()" maxlength="6" onKeyPress="return number(event);" /><span class="lt ftSz13Clr percenText">%</span>
+                  </div>
+                  <div class="lt shareInnerDiv">
+                    <p class="lt ftcBlack fts13"><b>Provider Share</b></p>
+                    <input type="text" readonly="readonly" name="provider_share" id="provider_share" class="lt textbox" value="100.00"  style="width:85px;border:1px solid #E4EEF0;color:#bebebe;"  /><span class="lt ftSz13Clr percenText">%</span>
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField setMarRt ">&nbsp;</div>
+                <div class="lt" id="commission_error"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="buttonDiv">
+                <div class="lt leftSideField setMarRt">&nbsp;</div>
+                <div class="lt">
+                  <input type="image" id="save_img"  src="/assets/create_new_activity/save.png" alt="" style="position:relative; display:inline-block;" onclick="return represent_save(); _gaq.push(['_trackEvent', 'Provider Module', 'clickRepresent','Save']);"/>
+                  <a href="javascript:void(0)" title="" onkeydown="cancelKeyDown(event)" onClick="closepopup(); _gaq.push(['_trackEvent', 'Provider Module', 'clickRepresent','Cancel']);" style="position:relative; display:inline-block;"><img src="/assets/create_new_activity/cancel.png" alt=""></a>
+                  <a id='loading' style='display:none;position:relative;top:-10px;' ><%= image_tag("/assets/loading.gif") %></a>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+            </div>
+          </form>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="popupContainerBottom"></div>
+  <div class="clear"></div>
+</div>
+
+<!--<div id="login_use_feature">
+<div class="content_popup" style="display:none;"><br>You have successfully set up 3rd party representation for this activity<br><br>
+	<div align="center" class="b-close" id="loginFeature"><a href="javascript:void(0)" title="" onclick="closepopup();"><img src="/assets/register/ok_btn.png" /></a></div>
+</div>
+</div>-->
+
+
+
+<script language="javascript">
+  $(function() {
+
+    var availableTags=new Array();
+<%if !@user.nil?%>
+  <% @user.each do |auto_complete|%>
+        availableTags.push({'label':'<%=auto_complete.user_profile.business_name if !auto_complete.user_profile.nil? && !auto_complete.user_profile.business_name.nil?%>,<%=auto_complete.user_name%>','data':'<%=auto_complete.user_id%>'});
+  <%end%>
+<%end%>
+	
+	
+    $( "#text-name" ).autocomplete({
+		
+      source: availableTags,
+      select: function( event, ui ) {
+        $( "#text-name" ).val( ui.item.label);
+        $("#represented_id").val(ui.item.data);
+        return false;
+      }
+    });
+	
+  });
+  function checkstatus(id){
+    if(document.getElementById(id).checked == true){
+      $("#"+id).val("on");
+    }
+    else{
+      $("#"+id).val("off");
+    }
+  }
+
+
+  //~ function CheckUserValidate()
+  //~ {
+  //~ var value = $("#text-name").val();
+  //~ $(".ffmem").css("border","1px solid #BDD6DD");
+  //~ $("#represent_by_error").parent().hide();
+  //~ $("#represent_by_error").html("");
+  //~ if(value==''){$("#text-name").val('Search');}
+  //~ else if (value!='')
+  //~ {
+  //~ $.ajax({
+  //~ url:'checkForBusinessName',
+  //~ data: {
+  //~ "name": value
+  //~ },
+  //~ success:function(data){
+  //~ if(data==''){
+  //~ $("#represented_id").val('');
+  //~ $(".ffmem").css("border","1px solid #FC8989");
+  //~ $("#represent_by_error").parent().show();
+  //~ $("#represent_by_error").html("Invalid! Please select any one provider");
+  //~ }
+  //~ else
+  //~ {
+  //~ $("#represented_id").val(data);
+  //~ }
+  //~ }
+  //~ });
+  //~ }
+  //~ return false;
+  //~ }
+
+
+  function share_fund(){
+    var representative_share = $("#representative_share").val();
+    if(representative_share != ''){
+      if(representative_share>100 ){
+        $("#representative_share").css("border","1px solid #FC8989");
+        $("#commission_error").parent().show();
+        $("#provider_share").val("");
+        $("#commission_error").html("Please enter share lessthan 100 or equal ");
+      }
+      else{
+        $("#representative_share").css("border","1px solid #CDE0E6");
+        $("#commission_error").parent().hide();
+        $("#commission_error").html("");
+		
+        var remain_share = 100 - parseFloat(representative_share).toFixed(2);
+        remain_share = remain_share.toFixed(2);
+        $("#provider_share").val(remain_share);
+      }
+    }
+    else{
+      $("#provider_share").val("100");
+    }
+  }
+
+
+
+
+
+  function closepopup(){
+    parent.representedDetailsPage.hide();
+  }
+
+
+  function represent_save(){
+    var school_represent = $("#text-name").val();
+    var school_represent_id = $("#represented_id").val();
+    $('#loading').css('display','inline-block');
+    $(".ffmem").css("border","1px solid #BDD6DD");
+    $("#represent_by_error").parent().hide();
+    $("#represent_by_error").html("");
+    var errorflag = false;
+    $("#permission_error").parent().hide();
+    $("#permission_error").html("");
+	
+    var representative_share = $("#representative_share").val();
+    $("#representative_share").css("border","1px solid #CDE0E6");
+    $("#commission_error").parent().hide();
+    $("#commission_error").html("");
+	
+    if(school_represent == '' || school_represent == 'Search' ){
+      $(".ffmem").css("border","1px solid #FC8989");
+      $("#represent_by_error").parent().show();
+      $("#represent_by_error").html("Please select any one provider");
+      errorflag = true;
+    }
+
+    if(document.getElementById("view").checked == false && document.getElementById("edit").checked == false){
+      $("#permission_error").parent().show();
+      $("#permission_error").html("Please choose view or edit and delete option");
+      errorflag = true;
+    }
+    if(document.getElementById("delete").checked == true && document.getElementById("edit").checked == false){
+      $("#permission_error").parent().show();
+      $("#permission_error").html("Please choose edit option also");
+      errorflag = true;
+    }
+    if(representative_share == '' ){
+      $("#representative_share").css("border","1px solid #FC8989");
+      $("#commission_error").parent().show();
+      $("#commission_error").html("Please enter share amount");
+      errorflag = true;
+    }
+    if(representative_share > 100 ){
+      $("#representative_share").css("border","1px solid #FC8989");
+      $("#commission_error").parent().show();
+      $("#commission_error").html("Please enter share lessthan 100 or equal ");
+      errorflag = true;
+    }
+    if(errorflag){
+      $('#loading').css('display','none');
+      return false;
+    }
+    else
+    {
+      $.ajax({
+        url:'checkForBusinessName',
+        data: {
+          "name": school_represent
+        },
+        success:function(data){
+          if(data == ''){
+            $("#represented_id").val('');
+            $(".ffmem").css("border","1px solid #FC8989");
+            $("#represent_by_error").parent().show();
+            $("#represent_by_error").html("Invalid! Please select any one provider");
+            $('#loading').css('display','none');
+          }
+          else
+          {
+            $('#loading').css('display','inline-block');
+            $("#represented_id").val(data);
+            $("#represented_details").submit();
+          }
+        }
+      });
+      return false;
+    }
+  }
+
+</script>
+

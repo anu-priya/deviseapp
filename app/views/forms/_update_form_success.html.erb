@@ -1,0 +1,24 @@
+<%=stylesheet_link_tag "form_builder/form_builder", :media => "all"%>
+<%=javascript_include_tag "global/jquery-1.8.3.min"%>
+<script>
+	function closepopup_success(){
+		parent.edit_form_builder.hide();
+	}
+</script>
+<div class="popupContainer_success">
+	<div class="popupHead">
+		<div class="headingLeft_success"><div class="headfont pleft31">Edit Form</div></div>
+		<div class="closeButton"><a href="javascript:void(0);" onclick="closepopup_success();" title=""><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%></a>
+		</div>
+		<div class="clear">&nbsp;</div>
+	</div>
+<!-- success div start -->
+	<div id="createformContainer_success" align="center">
+		<br>
+		Form has been updated successfully!
+		<br><br>
+		<a href="javascript:void(0);" onclick="closepopup_success();" title=""><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38", :style=>"border:0px;")%></a>
+		<br><br>
+	</div>
+	<!-- success div end -->
+</div>

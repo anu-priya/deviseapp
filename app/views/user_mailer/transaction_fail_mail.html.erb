@@ -1,0 +1,12 @@
+<table cellpadding="0" cellpadding="0">
+            <tr>
+              <td style="padding:12px;">
+	      <% user_name = ((@user.class.to_s=='User') ? @user.user_name : @user.guest_name)%>
+                <p>Hi <%=user_name if user_name.present? && !user_name.nil?%></p>
+                <p><%=@msg if !@msg.nil?%></p>
+              </td>
+            </tr>
+</table>
+<p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;padding-top:20px;">Your Famtivity Team.</p>
+
+     

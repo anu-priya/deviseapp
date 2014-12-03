@@ -1,0 +1,304 @@
+<%if (params[:zip_value_name] && params[:zip_value_name]!='') && !params[:x]%>
+  <%cityvalues = (cookies[:search_city]!='') ? (cookies[:search_city]) : (@cityvalue+', CA')%>
+<%else%>
+  <%cityvalues = (cookies[:search_city]!='') ? (cookies[:search_city]) : (@cityvalue+', CA')%>
+<%end%>
+	
+	<%searchkeywords = (@keyword && @keyword!='') ? (@keyword) : ('')%>
+	<%
+@key_city=cityvalues.gsub(', CA','') 
+if !searchkeywords.nil? && searchkeywords.present?
+  meta :title => "#{searchkeywords.titlecase} - #{cityvalues} | Famtivity", 
+	:description => "Activities for #{searchkeywords.titlecase}  #{cityvalues} - Browse through the latest activities and provider details",
+	:keywords => "#{@key_city} #{searchkeywords.titlecase}, #{searchkeywords.titlecase} in #{@key_city}, #{searchkeywords.titlecase} #{@key_city}"
+else
+ meta :title => "#{cityvalues} | Famtivity", 
+	:description => "Activities for #{searchkeywords.titlecase}  #{cityvalues} - Browse through the latest activities and provider details",
+	:keywords => "#{@key_city} #{searchkeywords.titlecase}, #{searchkeywords.titlecase} in #{@key_city}, #{searchkeywords.titlecase} #{@key_city}"
+end
+%>
+
+<%cookies[:set_bread] = ""%>
+<%cookies[:browse_city] = ""%>
+<%cookies[:browse_category] = ""%>
+<%cookies[:categv]=""%>
+<%cookies[:sub_categv]=""%>
+<%cookies[:ctyv] =""%>
+<%cookies.delete :category%>
+<%cookies.delete :subcategory%>
+<%= javascript_include_tag "event/event.js" %>
+<%= javascript_include_tag "event_index/menu.js" %>
+<%= javascript_include_tag "pagination.js" %>
+<%= javascript_include_tag "acitivity_view_details/search_drop_pjax.js" %>
+<script>
+     
+  $(document).on('pjax:start', function() {
+    $("#load_more").css('display','none');
+  });
+   
+  $(document).ready(function(){
+    var dateToday='<%= params[:start_dates]%>';
+    var selectToday='<%= params[:end_dates]%>';
+    dateToday=dateToday.split('-');
+    selectToday=selectToday.split('-');
+  
+    var sdates=dateToday[1]+'/'+dateToday[2]+'/'+dateToday[0];
+    var edates=selectToday[1]+'/'+selectToday[2]+'/'+selectToday[0];
+    
+    dateTodays= new Date(sdates);
+    edateTodays= new Date(edates);
+    //  $('#date_end').datepicker().datepicker('setDate', edateTodays);
+    //  var dateToday='3/15/2014';2014-03-20
+    //  $('#date_end').datepicker('option', 'minDate',dateTodays);
+    macos_fixes();
+   
+  });
+  function macos_fixes(){		
+
+    var ua=navigator.userAgent;
+    if(ua.indexOf("Mac")!=-1)
+    {
+      if(($.browser.safari)||($.browser.chrome)){
+        $('.search_bar_login').css('margin-top','-59px');
+      }
+    }
+    else{
+      if($.browser.safari){
+        $('.search_bar_login').css('margin-top','-59px');
+      }
+    }
+  }
+
+</script>
+<style type="text/css">
+  .ui-datepicker {
+    display: none;
+    margin-top: -1px;
+    padding: 0.2em 0.2em 0;
+    width: 17em;
+  }
+
+  .bS_menus
+  {
+    font-size: 12px !important;
+  }
+</style>
+<script type="text/javascript">  
+  //filter by zipcode
+  function filter_user_zipcode(){
+    var zip_code = document.getElementById("zp").value;
+    window.location.href ="/event/event_index_update?cat_zc=zip&zip_code="+zip_code;  
+  }
+  
+ 
+  //this function called while click the enter button for search the data..
+  function enter_key_press_for_search(evt) {
+    var evt = (evt) ? evt : ((event) ? event : null);
+    var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+    if ((evt.keyCode == 13)  &&  (node.id=="advace_search"))  {
+      search_ajax_call();
+      // clearAutoCompleteInput();
+      return false;
+    }
+  }
+  document.onkeypress =  enter_key_press_for_search; //calling the function while press the enter key... 
+  //calling for basic search while enter the text in search box.
+  function search_ajax_call()
+  {
+    var advace_search = $("#advace_search").val();
+	
+    $(".ad_textbox").css("border","1px solid #CDE0E6");
+	
+    var errorFlag = false;
+	
+    if(advace_search == "" || advace_search == "Search")
+    {
+      $(".ad_textbox").css("border","1px solid #fc8989");
+      var errorFlag = true;
+		
+    }
+    if(errorFlag){
+      return false;
+    }
+    else{
+      var event_search= $("#advace_search").val();
+      //~ window.location.href ="/search_event_index?event_search="+event_search;
+      window.location.href ="/search?event_search="+event_search;
+      return true;
+    }
+
+  }
+  
+  //advanced search submit form
+  function submit_form()
+  {
+    document.forms['advanced_search_form'].submit();
+  }
+  
+  
+  //ajax advance search submit form
+     
+  //~ $('#advanced_search_form').submit(function (){
+  //~ alert('testtest');
+  //~ $.get($(this).attr('action'), $(this).serialize(), null, "script");
+  //~ return false;
+  //~ });
+	
+  function showCategory()
+  {
+    $(".advance_ChooseCategory").addClass("chooseCategorySelected");
+    $("#adv_category_detail").show();
+  }
+  function hideCategory()
+  {
+    $(".advance_ChooseCategory").removeClass("chooseCategorySelected");
+    $("#adv_category_detail").hide();
+  }
+  function showCity()
+  {
+    $(".adv_chooseCityMenu").addClass("cityselected");
+    $("#adv_city_detail").show();
+  }
+  function hideCity()
+  {
+    $(".adv_chooseCityMenu").removeClass("cityselected");
+    $("#adv_city_detail").hide();
+  }
+	
+  //advance search location on select color changed
+  function ddLocationColor(){
+    val_loc=$("#city_1").val();
+    if(val_loc=='')
+    {
+      $("#city_1").css('color','#999999');
+    }
+    else
+    {
+      $("#city_1").css('color','#444444');
+    }
+  }
+  var count = 2;
+  processing = false;
+
+  $(window).scroll(function(){
+    if (processing)
+      return false;
+    if ($(window).scrollTop() + $(window).height() > $(document).height()-400){
+      processing = true;
+      var total_leng = $("#total_length_act").val();
+      if (count > total_leng){
+        processing = false;
+        return false;
+      }else{
+        if ($(".pagination a").length > 0) {
+          $('#loadDivjax').css("display","none");
+          $("#load_more").css('display','block');
+          loadActivity(count);
+          count++;
+        }
+      }
+    }
+
+  }); 
+
+
+</script>
+
+<div class="clear"></div>
+<!--search result content form started-->
+
+<div id="search_result" style="<%if !current_user.nil?%>margin-top:63px;<%else%>margin-top:50px;<%end%>position:relative;">
+
+  <input type="hidden" id="url_ref_id">
+  <input type="hidden" id="passing_page" value="<%=request.fullpath%>">
+
+  <%if current_user.nil? %>
+    <%= render :partial =>"banner/topbanner" %>
+  <% else %>
+    <%= render :partial =>"banner/user_topbanner" %>
+  <% end%>
+
+  <%if !current_user.nil?%>
+    <%@available = "present" %>
+  <%else%>
+    <%@available = "p" %>
+  <%end%>
+
+
+
+</div>
+<input type="hidden" id="curren_set" name="curren_set" value="<%= params[:search_set_p] %>"/>
+<div style="<%if current_user.nil?%>margin-top:0px;<%end%>" id="search_reset">
+  <input type="hidden" id="total_length_act" name="total_length_act" value="<%= @tpage %>"/>
+  <div class="dottedDiv" style="position:relative;"></div>
+  <div class="lt">
+    <table cellspacing="0" cellpadding="0" border="0" class="search_result_text">
+      <tr>
+        <td align="left" valign="top">
+           <%= image_tag("/assets/landing/search_results_icon.png",width: '20', height: '18') %>
+        </td>
+        <td  align="left" valign="top">
+          <div class="Title_head" ><b>Search Results</b> <span id="fsearch_count">(<% if !@search_count.nil? && @search_count.present?%><%=@search_count%><%else%>0<%end%>)</span></div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="right_container" id= "search_event_index" style="margin-top: 15px;margin-bottom:20px;">
+  <%= render "activities/basic_search"%>
+</div>
+<div id="load_more" style="height:50px; margin-bottom:50px;width: 100%;position: fixed;z-index:9999;display: none;opacity: 0.6;" align="center">
+  <div> <%= image_tag("/assets/loading.gif") %></div>
+</div>
+
+
+<!-- login feature popup start -->
+<div id="login_use_feature">
+  <div class="content_popup" style="display:block;"><br>You need to login to use this feature<br><br>
+    <span class="b-close" id="loginFeature"><a href="javascript:void(0)" title=""> <%= image_tag("/assets/register/ok_btn.png") %></a></span>
+    <a href="javascript:void(0);" title=""><span class="b-close"><%= image_tag("/assets/landing/cancel_button.png",:border=>'0') %></span></a>
+  </div>
+</div>
+<!-- login feature popup end -->
+
+<!-- GUEST POPUP-->
+<%=render :partial => '/landing/guest_feature'%>
+<!-- GUEST POPUP-->
+
+<div class="clear"></div>
+<div id="popup_container" style="top: 20px !important;"></div>
+
+
+
+<script type="text/javascript">
+  var dbstartDate ="";
+<%if !params[:start_dates].nil? && params[:start_dates]!=""%>
+    $("#start_dates").val('<%= params[:start_dates] %>');
+    $("#start_dates_formate").html('<%= Date.parse(params[:start_dates]).strftime("%b  %d, %Y") %>');
+    dbstartDate = new Date('<%= Date.parse(params[:start_dates]).strftime("%y,%m,%d") %>');
+    //$( "#date_start" ).datepicker({ defaultDate: dbstartDate });
+    $('#date_start').datepicker('option', 'defaultDate', dbstartDate);
+<%end%>
+<%if !params[:end_dates].nil? && params[:end_dates]!="" %>
+    $("#end_dates").val('<%= params[:end_dates] %>');
+    $("#end_dates_formate").html('<%= Date.parse(params[:end_dates]).strftime("%b  %d, %Y") %>');
+    var dbendDate = new Date('<%= Date.parse(params[:end_dates]).strftime("%y,%m,%d") %>');
+  <%if !params[:start_dates].nil? && params[:start_dates]!=""%>
+      dbstartDate1 = new Date('<%= Date.parse(params[:start_dates]).strftime("%y,%m,%d") %>');
+      //$( "#date_end" ).datepicker({  defaultDate: dbendDate, minDate: dbstartDate1 });
+      $('#date_end').datepicker('option', 'minDate', dbstartDate1);
+  <%end%>
+<%end%>
+<%if !params[:city_search_ra].nil? && params[:city_search_ra]!="" %>
+    $("#city_search").val('<%= params[:city_search_ra] %>');
+<%end%>
+<%if params[:advance_search] == "yes"%>
+    //  $("#basic_Search").css('display','block');
+<%end%>
+
+  var city_values = new Array();
+<% @fam_city.each do |autocomplete| %>
+    city_values.push({"value": "<%= autocomplete.city_name%>, CA","data": "<%= autocomplete.city_id%>"});
+<%end%>
+
+</script>

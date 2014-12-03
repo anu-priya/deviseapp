@@ -1,0 +1,106 @@
+<%if @prov_list_new && @prov_list_new.present? && !@prov_list_new.nil?%> 
+<%@prov_list_new.each do |user|%>
+<%if !user[:business_name].nil?%>
+<% list_link = "/search/provider/#{user[:id]}/#{user[:business_name]}" %>
+<a class="lt provider_name_scroll" href="javascript:void(0);" value="<%=user[:business_name]%>" title="" style="display:block;width1:205px;<%if Time.parse(user[:user_created_date]).utc >= 3.days.ago%>margin:0 5px 5px;<%else%>margin: 6px 5px 5px;<%end%>" onclick="add_provider_click('<%= user[:id] %>','<%= list_link %>')" >
+<table border="0" cellpadding="0" cellspacing="0" height="20px;">
+  <tbody>
+    <tr>
+      <td valign="middle">
+        <%if !user[:business_logo].nil? && user[:business_logo].scan("/assets/profile/user_icon_69.png").empty? %>
+	   <div style="width:21px; overflow:hidden;"><%= image_tag (user[:business_logo]),:alt=>""%></div>
+        <%else%>
+             <div style="width:21px; overflow:hidden;"><%=image_tag("/assets/profile/user_icon_69.png", :width=>"21", :height=>"21", :alt=>"")%></div>
+        <%end%>
+	&nbsp;
+      </td>
+      <td valign="middle" title="<%= user[:business_name]%>"><%= user[:business_name]%>&nbsp;</td>
+      <%if Time.parse(user[:user_created_date]).utc >= 3.days.ago%>
+      <td valign="top">
+         <div style="background: url('/assets/landing/new.png') no-repeat center top;height: 40px;width: 35px;">&nbsp;</div>
+      </td>
+      <%end%>
+    </tr>
+  </tbody>
+</table>
+</a>
+<%end%>
+<%end%>
+<%end%>
+<%if params[:page].to_i == 1%>
+<a class="lt provider_name_scroll" href="http://www.contracostatimes.com/lafayette/ci_24870316/matching-kids-activities-schedules-walnut-creek-based-famtivity" target="_blank" value="" title="" style="display:block;width1:205px;margin:0 5px 5px;">
+<table border="0" cellpadding="0" cellspacing="0" title="Matching Kids' Activities, Schedules:Famtivity Makes the Connection" height="20px;">
+  <tbody>
+    <tr>
+      <td valign="middle"><%=image_tag("/assets/landing/contra_cost_time.png", :width=>"135", :height=>"25", :alt=>"")%></td>
+      <td valign="top">
+      <div style="background: url('/assets/landing/press.png') no-repeat center top;height: 40px;width: 40px;">&nbsp;</div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</a>
+<a class="lt provider_name_scroll" href="http://www.pageturnpro.com/Alameda-Magazine/42160-Parents-Press-EB-January-2014/index.html#18"  target="_blank" value="" title="" style="display:block;width1:205px;margin:0 5px 5px;">
+<table border="0" cellpadding="0" cellspacing="0" title="Schedule Kids Activities with a Click" height="20px;">
+  <tbody>
+    <tr>
+      <td valign="middle"><%=image_tag("/assets/landing/parent_press.png", :width=>"119", :height=>"25", :alt=>"")%></td>
+      <td valign="top">
+      <div style="background: url('/assets/landing/press.png') no-repeat center top;height: 40px;width: 40px;">&nbsp;</div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</a>
+<a class="lt provider_name_scroll" href="http://www.diablomag.com/March-2014/Apps-for-Families/"  target="_blank"  value="" title="" style="display:block;width1:205px;margin:0 5px 5px;">
+<table border="0" cellpadding="0" cellspacing="0" title="Start streamlining your family's activities" height="20px;">
+  <tbody>
+    <tr>
+      <td valign="middle"><%=image_tag("/assets/landing/diablo.png", :width=>"70", :height=>"25", :alt=>"")%></td>
+      <td valign="top">
+      <div style="background: url('/assets/landing/press.png') no-repeat center top;height: 40px;width: 40px;">&nbsp;</div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</a>
+<%end%>
+<%if @prov_list_remain && @prov_list_remain.present? && !@prov_list_remain.nil?%> 
+<%@prov_list_remain.each do |user|%>
+<%if !user[:business_name].nil?%>
+<% list_link = "/search/provider/#{user[:id]}/#{user[:business_name]}" %>
+<a class="lt provider_name_scroll" href="javascript:void(0);" value="<%=user[:business_name]%>" title="" style="display:block;width1:205px;margin:6px 5px 5px;" onclick="add_provider_click('<%= user[:id] %>','<%= list_link %>')" >
+<table border="0" cellpadding="0" cellspacing="0">
+  <tbody>
+    <tr>
+      <td valign="middle">
+        <%if !user[:business_logo].nil? && user[:business_logo].scan("/assets/profile/user_icon_69.png").empty?%>
+	   <div style="width:21px; overflow:hidden;"><%= image_tag (user[:business_logo]),:alt=>""%></div>
+        <%else%>
+             <div style="width:21px; overflow:hidden;"><%=image_tag("/assets/profile/user_icon_69.png", :width=>"21", :height=>"21", :alt=>"")%></div>
+        <%end%>
+	&nbsp;
+      </td>
+      <td valign="middle" title="<%= user[:business_name]%>" height="27"><%= user[:business_name]%>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+</a>
+<%end%>
+<%end%>
+<%end%>
+<script>
+	function add_provider_click(pid,link)
+	{
+	    var user_id = pid
+		$.ajax({
+		url:'/provider_list_count_top',
+		type:"get",
+		data: {"userid":user_id},
+		success:function(data){
+		document.location = link;		
+		}
+		});
+		
+	}
+</script>

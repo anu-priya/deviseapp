@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Email address:</b>
+  <%= @ticket.email_address %>
+</p>
+
+<p>
+  <b>Support type:</b>
+  <%= @ticket.support_type %>
+</p>
+
+
+<%= link_to 'Edit', edit_ticket_path(@ticket) %> |
+<%= link_to 'Back', tickets_path %>

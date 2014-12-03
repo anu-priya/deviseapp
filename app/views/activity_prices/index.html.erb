@@ -1,0 +1,29 @@
+<h1>Listing activity_prices</h1>
+
+<table>
+  <tr>
+    <th>Price</th>
+    <th>Payment period</th>
+    <th>Class</th>
+    <th>Discount</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @activity_prices.each do |activity_price| %>
+  <tr>
+    <td><%= activity_price.price %></td>
+    <td><%= activity_price.payment_period %></td>
+    <td><%= activity_price.class %></td>
+    <td><%= activity_price.discount %></td>
+    <td><%= link_to 'Show', activity_price %></td>
+    <td><%= link_to 'Edit', edit_activity_price_path(activity_price) %></td>
+    <td><%= link_to 'Destroy', activity_price, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Activity price', new_activity_price_path %>

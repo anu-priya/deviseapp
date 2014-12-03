@@ -1,0 +1,61 @@
+<%= form_for(@activity_repeat) do |f| %>
+  <% if @activity_repeat.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@activity_repeat.errors.count, "error") %> prohibited this activity_repeat from being saved:</h2>
+
+      <ul>
+      <% @activity_repeat.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :repeat_id %><br />
+    <%= f.number_field :repeat_id %>
+  </div>
+  <div class="field">
+    <%= f.label :repeats %><br />
+    <%= f.text_area :repeats %>
+  </div>
+  <div class="field">
+    <%= f.label :repeat_every %><br />
+    <%= f.number_field :repeat_every %>
+  </div>
+  <div class="field">
+    <%= f.label :repeat_on %><br />
+    <%= f.text_area :repeat_on %>
+  </div>
+  <div class="field">
+    <%= f.label :starts_on %><br />
+    <%= f.date_select :starts_on %>
+  </div>
+  <div class="field">
+    <%= f.label :ends_never %><br />
+    <%= f.check_box :ends_never %>
+  </div>
+  <div class="field">
+    <%= f.label :ends_occurrences %><br />
+    <%= f.text_area :ends_occurrences %>
+  </div>
+  <div class="field">
+    <%= f.label :ends_on %><br />
+    <%= f.date_select :ends_on %>
+  </div>
+  <div class="field">
+    <%= f.label :activity_schedule_id %><br />
+    <%= f.number_field :activity_schedule_id %>
+  </div>
+  <div class="field">
+    <%= f.label :modified_date %><br />
+    <%= f.datetime_select :modified_date %>
+  </div>
+  <div class="field">
+    <%= f.label :repeated_by_month %><br />
+    <%= f.check_box :repeated_by_month %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

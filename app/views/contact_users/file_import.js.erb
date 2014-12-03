@@ -1,0 +1,29 @@
+$("#before_import").hide();
+<%if (@after==@before)&&@csvlist.count==0%>
+$("#loading").hide();
+$("#after_import").show();
+$("#error_reslt").show();
+<%elsif (@after==@before)&&@csvlist.count>0%>
+$("#after_import_success").show();
+$("#success_reslt").show();
+$("#success_reslt").html("Sorry <%=@csvlist.count if !@csvlist.nil? && !@csvlist.count.nil? && @csvlist.count>0%> friend(s) already exist!");
+<%else%>
+$("#after_import_success").show();
+$("#success_reslt").show();
+$("#success_reslt").html("You have successfully Imported <%=@now if !@now.nil? %> friend(s)  <%if !@fail.nil? && @fail.present? && @fail!="" && @fail!=0%> <%=@fail%> friend(s) already exist! <%end%> ");
+<%end%>
+
+/*parent.csv_import.hide();
+//parent.parent.contactImportPage.hide();
+//parent.$("#invite_friend_container").bPopup().close();
+//parent.parent.parent.$('#contact_list_member').html('<%= escape_javascript(render(:partial => 'contact_user')) %>');
+//parent.parent.parent.$('.cont_head').html('<%= escape_javascript(render(:partial => 'contact_header')) %>');
+<%if @after==@before%>
+//parent.parent.parent.$("#error_reslt").show();
+//parent.parent.parent.setTimeout("$('#error_reslt').hide();",4000)
+<%else%>
+//parent.parent.parent.$("#success_reslt").show();
+//parent.parent.parent.$("#success_reslt").html("You have successfully Imported <%=@now if !@now.nil? %> friends  <%if !@fail.nil? && @fail.present? && @fail!="" && @fail!=0%> <%=@fail%> friends not imported! <%end%> ");
+//parent.parent.parent.setTimeout("$('#success_reslt').hide();",4000)
+<%end%>*/
+

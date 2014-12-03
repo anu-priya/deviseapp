@@ -1,0 +1,49 @@
+<%if !@share.start_date.nil?%> 
+			<% @se_date = Time.now.strftime("%Y-%m-%d") %>
+				<% if @share.start_date.strftime("%Y-%m-%d") == @se_date %> 
+					<%@e_date = !@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d")%>
+					<%if (@share.start_date.strftime("%Y-%m-%d") == @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") > @share.start_date.strftime("%Y-%m-%d"))  %> 
+					<span class="ftSz12"><span class="city_text">Ongoing</span>, <%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%><br>
+					to <%=@share.end_date.strftime("%b %d") if !@share.end_date.nil? %>, <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span>
+					<%elsif (@share.start_date.strftime("%Y-%m-%d") == @se_date)  && (@share.start_date.strftime("%Y-%m-%d") == @e_date)  %> 
+					<span class="ftSz12"><span class="city_text">Ongoing</span>, <%#=@share.start_date.strftime("%b %d,") if !@share.start_date.nil? %><br>
+					<%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span>
+					<%elsif (@share.start_date.strftime("%Y-%m-%d") == @se_date)  %> 
+					<span class="ftSz12"><span class="city_text">Ongoing</span>, <%#=@share.start_date.strftime("%b %d,") if !@share.start_date.nil? %><br>
+					<%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span>
+					<%else%>
+					<span class="ftSz12"><%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span>
+					<%end%>
+				<%elsif @share.start_date.strftime("%Y-%m-%d") > @se_date %> 
+					<%if (@share.start_date.strftime("%Y-%m-%d") > @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") > @share.start_date.strftime("%Y-%m-%d") ) %>
+					<span class="ftSz12"><%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%><br>
+					to <%=@share.end_date.strftime("%b %d") if !@share.end_date.nil? %>, <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span>
+					<%elsif @share.start_date.strftime("%Y-%m-%d") == @e_date  %>
+					<span class="ftSz12"><%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span>
+					<%else%>
+					<span class="ftSz12"><%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span>
+					<%end%>
+				<%elsif @share.start_date.strftime("%Y-%m-%d") > @se_date %> 
+				<span class="ftSz12"><%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%><br>
+				to <%=@share.end_date.strftime("%b %d") if !@share.end_date.nil? %>, <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span>
+				<%elsif (@share.start_date.strftime("%Y-%m-%d")== @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d")!=@share.start_date.strftime("%Y-%m-%d"))  %> 
+				<span class="ftSz12"><span class="city_text">Ongoing</span>, <%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%><br>
+				to <%=@share.end_date.strftime("%b %d") if !@share.end_date.nil? %>, <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span>
+				<%elsif (@share.start_date.strftime("%Y-%m-%d") < @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") > @se_date )  %> 
+				<span class="ftSz12"><span class="city_text">Ongoing</span>, <%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%><br>
+				to <%=@share.end_date.strftime("%b %d") if !@share.end_date.nil? %>, <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span>
+				<%elsif (@share.start_date.strftime("%Y-%m-%d") < @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") == @se_date )  %> 
+				<span class="ftSz12"><span class="city_text">Ongoing</span>, <%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%><br>
+				to <%=@share.end_date.strftime("%b %d") if !@share.end_date.nil? %>, <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span>
+				<%elsif  (@share.start_date.strftime("%Y-%m-%d") == @se_date) && (@share.start_date.strftime("%Y-%m-%d") == !@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d"))  %> 
+				<span class="ftSz12"><span class="city_text">Ongoing</span>, <%#=@share.start_date.strftime("%b %d,") if !@share.start_date.nil? %><br>
+				<%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span>
+				<%elsif (@share.start_date.strftime("%Y-%m-%d") < @se_date) && (!@share.end_date.nil? && (@share.end_date.strftime("%Y-%m-%d") == @share.start_date.strftime("%Y-%m-%d"))) %> 
+				<span class="ftSz12"><%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span>
+				<%elsif (@share.start_date.strftime("%Y-%m-%d") < @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") < @se_date)  %> 
+				<span class="ftSz12"><%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%><br>
+				to <%=@share.end_date.strftime("%b %d") if !@share.end_date.nil? %>, <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span>
+				<%elsif (@share.start_date.strftime("%Y-%m-%d"))  %> 
+				<span class="ftSz12"><%=@share.start_date.strftime("%b %d") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%></span>
+				<%end%>
+			<%end%>

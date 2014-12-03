@@ -1,0 +1,536 @@
+<style>
+body{background:none;}
+</style>
+<%=stylesheet_link_tag "header/header","landing/home","full_calendar/sched_fullcalendar", :media => "all"%>
+<%=javascript_include_tag "full_calendar/sched_fullcalendar","ga_social_tracking","full_calendar/gcal"%>
+  <script src='<%=request.protocol%>connect.facebook.net/en_US/all.js'></script>
+  <!--Google Analytics for facebook like and unlike -->
+  <script src="<%=request.protocol%>connect.facebook.net/en_US/all.js#xfbml=1&appId=<%= FB_APP_ID %>"></script>
+  <script type="text/javascript">_ga.trackFacebook();</script>
+  <fb:like send="false" layout="button_count" id="detail_fb" width="150" show_faces="false"></fb:like>
+<div id='fb-root'></div>
+  <div id="new_act_container">
+    <div class="popupContainer" style="border:2px solid #D7DADB;background:#fff;">
+      <div class="popupContainerTop"></div>
+      <div class="popupContainerCenter">
+        <div class="innerContainer">
+          <div class="headTab">
+            <div class="heading">
+              <h1 class="headCont">Activity Details</h1>  <!--changed div to h1 tag>-->
+              <div id ="success" style="display:none; padding-top:10px; font-size:15px;">
+                <div class="clear"></div>
+                <div class="lt lt_checkout">&nbsp;</div>
+
+                <div align="center" class="setfeedbackDiv" style="margin: 20px auto 0 230px; font-weight:bold; width:415px;">Great! This activity has been shared with your Facebook friends!</div> 
+                <!--<div style="text-align:center; font-size: 20px; color:green;">You have successfully share this activity.</div>-->
+                </div>
+
+              <div id ="fail" style="display:none; padding-top:10px; font-size:15px;">
+                <div class="lt lt_checkout">&nbsp;</div>
+                <!--<div style="text-align:center; font-size: 20px; color:Red;">Sorry this activity was not shared.</div>-->
+                <div align="center" class="setfeedbackDiv" style="margin: 20px auto 0 220px; font-weight:bold; width:430px;">Oops something went wrong. Please try sharing this activity again.</div> 
+              </div>
+            </div>
+
+            <%if (params[:v])%>
+            <%else%>             
+                <%if !@before_login_value.nil? && @before_login_value.present?%> 
+                    <div class="closeButton" style="padding:0;">
+                        <a href="javascript:void(0);" title="" onclick="closepopupd(); _gaq.push(['_trackEvent', 'Provider Module', 'clickViewActivity','Close','<%=@activity.activity_id%>']);"><span class="b-close disInblo"><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15")%></span></a>
+                    </div>
+                <%else%>
+                    <div class="closeButton" style="padding:0;">
+                        <a href="javascript:void(0);" title="" onclick="closepopupd(); _gaq.push(['_trackEvent', 'Provider Module', 'clickViewActivity','Close','<%=@activity.activity_id%>']);"><span class="disInblo"><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15")%></span></a>
+                    </div>
+                <%end%>            
+            <%end%>
+          </div>
+          <div class="centerCont">
+            <div class="activityDetailView" style="padding:20px 15px;">
+               <div class="titNameActivitypop actTitwrap">
+                 <%if !@activity.nil? && !@activity.activity_name.nil?%>
+                <h1 class="actHedtxtpop"><%= @activity.activity_name %></h1> <!--changed p to h1 tag>-->
+                  <%end%>
+                  
+               <p class="fts14" style="font-weight: bold;">
+                 <% if @activity.created_by == "Provider"%>
+                  <!--<span class="proftz12"><b>Provider</b></span>-->
+                  <%@use = User.find_by_user_id(@activity.user_id) if !@activity.nil?%>
+                  <%if !@use.nil? && !@use.user_profile.nil? && @use.user_type=="P" %>
+                    <span class="ftcGray55"><%=@use.user_profile.business_name if !@use.nil? && !@use.user_profile.nil? && !@use.user_profile.business_name.nil?%></span>
+                  <%else%>
+                    <span class="ftcGray55"><%=@use.user_name if !@use.nil?%></span>
+                  <%end%>
+                <%else%>
+                  <!--<span class="proftz12"><b>Created by</b></span>-->
+                  <%@use = User.find_by_user_id(@activity.user_id) if !@activity.nil?%>
+                  <span class="ftcGray55"><%=@use.user_name if !@use.nil? %></span>
+                <%end%>
+                <!--span class="ftcBlue3c"><a href="mailto:<%#=@use.email_address%>" title="<%#=@use.email_address%>" class="flink"><nobr><%#=@use.email_address%></nobr></a></span><%# if @use.user_profile.present? && !@use.nil? && !@use.user_profile.phone.nil? && @use.user_profile.phone.present? && @use.user_profile.phone!=''%><%#if !@use.nil? && !@use.user_profile.nil? && !@use.user_profile.phone.nil? && @use.user_profile.phone.present?%><%#if @use.user_profile.phone.length==12%><span class="ftcGray55">, <%#=@use.user_profile.phone %></b></span><%#elsif @use.user_profile.phone.length==10%><span style="color:#959696;">, </span><span class="ftcGray55"><b><%#=@use.user_profile.phone.first(3) %>-<%#=@use.user_profile.phone[3,3] %>-<%#=@use.user_profile.phone.last(4) %></b></span><%#end%><%#end%>
+                <%#end%>-->
+               </p>
+               </div>
+         
+
+               
+               <%if (!@activity.nil? && !@activity.created_by.nil? && @activity.created_by == "Parent" && !@activity.user_id.nil? && @activity.user_id == cookies[:uid_usr].to_i)%>
+      <%elsif !@activity.nil? && @event_page!="event" && @provider_mode!="provider_mode" %> 
+      <!--  send message to contact the provider ----------------- start-------------------->
+                        <div class="providerMsgCont" style="padding: 10px 0px 0px;">
+      <table>
+        <tr>
+                                  <td colspan="2" class="providerMsgtext" style="color: #ff0000" ><b>For more information, contact the provider now!</b></td>
+                                  <!--td class="providerMsgtext success_send_msg" style="display:none;color:green;font-size:14px;"><b>&nbsp;&nbsp;Message has been sent successfully!</b></td-->
+                                </tr>
+      </table>
+                                 <form id="send_to-provider" action="/sendmsgtoprver" name="send_to-provider" method="get">
+        
+           <input type="hidden" name="user_id" value="<%=@activity.user_id if !@activity.nil?%>"/>
+           <input type="hidden" name="activity_id" value="<%=@activity.activity_id if !@activity.nil?%>"/>
+           
+          
+          <table cellspacing="0" cellpadding="0" border="0">
+            <% if current_user.present? && !current_user.user_id.nil?%>
+            <%else%>
+            <tr>
+              <td width="786" valign="top">
+                 <input type="text" name="provider_email" id="provider_email" value="Enter your Email"  class="lt providerInbutBox" onfocus="if(this.value == 'Enter your Email'){this.value='';$('#provider_email').css('color','#444444');}" onblur="if(this.value==''){this.value='Enter your Email';$('#provider_email').css('color','#999999');}" tabindex="1" />
+              </td>
+            </tr>
+            <tr>
+              <td width="786" valign="top">
+                <div class="sendEmailError" style="display:none"></div>
+              </td>
+            </tr>
+            <%end%>   
+            <tr>
+              <td width="786" valign="top">
+                <textarea style="width: 760px;" name="send_msg" id="send_msg" rows="10" cols="40"  class="lt providerMsgBox"  onfocus="if(this.value == 'Enter your message, the provider will get back to you shortly'){this.value='';$('#send_msg').css('color','#444444');}" onblur="if(this.value==''){this.value='Enter your message, the provider will get back to you shortly';$('#send_msg').css('color','#999999');}" tabindex="2">Enter your message, the provider will get back to you shortly</textarea>
+              </td>
+              <% if current_user.present? && !current_user.user_id.nil?%>
+                <td valign="bottom"><a href="javascript:void(0)" onclick="return validateSendMsgpro();" title=""><%=image_tag("/assets/activity_detail_view/send_button.png", :width=>"78", :height=>"32")%></a></td>
+              <%else%>
+                <!--<td valign="bottom"><a href="javascript:void(0)" onClick="closepopupd();parent.login_feature_detail('<%#=@activity.activity_id%>');" title=""><img src="/assets/activity_detail_view/send_button.png" alt=""></a></td>-->
+               <td valign="bottom"><a href="javascript:void(0)" onClick="return validateSendMsg();" title=""><%=image_tag("/assets/activity_detail_view/send_button.png", :width=>"78", :height=>"32")%></a></td>
+              <%end%>
+            </tr>
+            <tr>
+              <td width="786" valign="top">
+                <div class="sendMsgError" style="display:none"></div>
+              </td>
+            </tr>
+          </table>                                   
+          
+                                 </form>
+      </div>
+      <!-- send message to contact the provider ----------------- end-------------------->  
+      <%end%>
+
+               
+               
+              <!--<div class="details_wrap" style="width:870px;padding-top: 0px;">-->
+                
+                <div class="errorDiv" id ="nil_policy" style="display:none; padding-top:10px; font-size:15px;">
+                  <div class="lt lt_checkout">&nbsp;</div>
+                  <div class="lt rt_checkout" id="phone_error">Your have successfully shared this activity.</div>
+                  <div class="clear"></div>
+                </div>
+                
+                <div class="detailTopDiv">
+                  <div class="lt setWidthActivity">
+                    <div class="centerImage" align="center"> 
+      <div style="width: 190px; overflow: hidden;">
+            <%if !@activity.avatar_file_name.nil? && @activity.avatar.present?%>
+        <%= image_tag(@activity.avatar.url(:thumb), :alt=>"#{@activity.activity_name if @activity && @activity.activity_name}, #{@activity.category if @activity && @activity.category} Activities - #{@activity.sub_category if @activity && @activity.sub_category}")%>
+            <%else%>
+        <%= image_tag ('no_image.png'), :alt=>"#{@activity.activity_name if @activity && @activity.activity_name}, #{@activity.category if @activity && @activity.category} Activities - #{@activity.sub_category if @activity && @activity.sub_category}" %>
+            <%end%>
+      </div>          
+                      <div class='clear'></div>
+                    </div>
+                                </div>
+
+                                <!-- field value -->
+                                <div class="lt setWidthActivityLt" style="position:relative; z-index:1;width:500px;">
+                                  <div class="top_container">
+                                    <div id="top_dec" class="div_margin">
+                                      <%if !@activity.description.nil? && @activity.description!=""%>
+                                        <div class="proCon" style="margin-bottom:4px;" ><b>Description</b></div>
+                                        <div class="textarea"  id="textarea" readonly="readonly" value="" style="background: none;padding-left: 17px;word-wrap: break-word;"><%= raw (@activity.description)%></div>
+                                      <%end%>
+                                    </div>
+                                    <div class="clear"></div>
+                                    <div style="float:left; display:inline-block; width:456px; border-top:1px solid #E8E8E8; margin: 5px 0 -9px 0; ">&nbsp;</div>
+                                    <div class="div_margin">
+                                      <%if !@activity.nil? && !@activity.schedule_mode.nil? && @activity.schedule_mode=="By Appointment"%>
+                                        <div class="proCon" style="float:left; display:inline-block; width:160px;"><b>Type</b></div>
+                                        <div class="proCon" style="float:left; display:inline-block; width:160px; color: #5099AC;">By Appointment</div>
+                                      <%elsif !@activity.nil? && !@activity.activity_schedule.nil? && !@activity.activity_schedule.last.nil? %>
+                                        <% if !@activity.created_by.nil? && @activity.created_by.downcase=='parent' && !@activity.schedule_mode.nil? && @activity.schedule_mode.present? && @activity.schedule_mode.downcase=='any time' %>
+                                        <% elsif @activity.created_by.downcase=='parent' && !@activity.schedule_mode.nil? && @activity.schedule_mode.present? && @activity.schedule_mode.downcase!='any time' %>
+                                          <div class="proCon" style="float:left; display:inline-block; width:160px;"><b>Type</b></div>
+                                          <div class="proCon" style="float:left; display:inline-block; width:160px; color: #5099AC;">Scheduled</div>
+                                        <%else%>
+                                          <% if @activity.activity_schedule.last.schedule_mode=="Schedule"%>
+                                            <div class="proCon" style="float:left; display:inline-block; width:160px;"><b>Type</b></div>
+                                            <div class="proCon" style="float:left; display:inline-block; width:160px; color: #5099AC;">Scheduled</div>
+                                          <%elsif @activity.activity_schedule.last.schedule_mode=="Schedule" && @activity.activity_schedule.last.activity_repeat.nil?%>
+                                            <div class="proCon" style="float:left; display:inline-block; width:160px;"><b>Type</b></div>
+                                            <div class="proCon" style="float:left; display:inline-block; width:160px; color: #5099AC;">Scheduled</div>
+                                          <%elsif @activity.activity_schedule.last.schedule_mode=="By Appointment"%>
+                                            <div class="proCon" style="float:left; display:inline-block; width:160px;"><b>Type</b></div>
+                                            <div class="proCon" style="float:left; display:inline-block; width:160px; color: #5099AC;">By Appointment</div>
+                                          <%elsif @activity.activity_schedule.last.schedule_mode=="Camps/Workshop"%>
+                                            <div class="proCon" style="float:left; display:inline-block; width:160px;"><b>Type</b></div>
+                                            <div class="proCon" style="float:left; display:inline-block; width:160px; color: #5099AC;">Camps/Workshop</div>
+                                          <%elsif @activity.activity_schedule.last.schedule_mode=="Any Time" %>
+                                            <div class="proCon" style="float:left; display:inline-block; width:160px;"><b>Type</b></div>
+                                            <div class="proCon" style="float:left; display:inline-block; width:160px; color: #5099AC;">Any Time</div>
+                                          <%elsif @activity.activity_schedule.last.schedule_mode=="Whole Day" %>
+                                            <div class="proCon" style="float:left; display:inline-block; width:160px;"><b>Type</b></div>
+                                            <div class="proCon" style="float:left; display:inline-block; width:160px; color: #5099AC;">Whole Day</div>
+                                          <%end%>
+                                        <%end%>
+                                      <%end%>
+                                    </div>
+
+                                    <!--category & subcategory changes-->
+                                    <div class="clear"></div>                                    
+                                      <%if !@activity.category.nil? && !@activity.sub_category.nil? %>
+        <div style="position1:relative;" class="div_margin">
+          <div class="proCon" style="float:left; display:inline-block; width:160px;"><b>Category &amp; Sub Category</b></div>
+          <div class="proCon" style="float:left; display:inline-block; width:275px; color: #5099AC;"><%= @activity.category %> > <%= @activity.sub_category %></div>
+        </div>
+        <div class="clear"></div>
+                                      <%end%>                                  
+                                    
+            
+            
+           <%#if !@activity.no_participants.nil? && @activity.no_participants!="" && @activity.no_participants!=0%>
+                                        <!--div class="clear"></div>
+                                        <div style="top1:85px; position1:relative;" class="div_margin">
+                                          <div class="proCon" style="float:left; display:inline-block; width:160px;"><b>No Of Participants</b></div>
+                                          <div class="proCon" style="float:left; display:inline-block; width:160px; color: #5099AC;"><%#=@activity.no_participants %></div>
+                                        </div>
+
+                                        <div class="clear"></div>
+                                        <!--div style=" position1:relative;" class="div_margin">
+                                          <div style="float:left; display:inline-block; width:456px; border-top:1px solid #D7DADB; margin: 5px 0 -9px 0; ">&nbsp;</div>
+                                        </div-->
+                                      <%#else%>
+                                        <!--div class="clear"></div>
+                                        <!--div style=" position1:relative;" class="div_margin">
+                                          <div style="float:left; display:inline-block; width:456px; border-top:1px solid #D7DADB; margin: 5px 0 -9px 0; ">&nbsp;</div>
+                                        </div-->
+                                      <%#end%>
+                                      <!--<div class="clear"></div>
+                                      <div style=" position1:relative;" class="div_margin">
+                                        <div class="proCon" style="float:left; display:inline-block; width:230px;"><b>No Of Occupied</b></div>
+                                        <div class="proCon" style="float:left; display:inline-block; width:230px; color: #5099AC;">33</div>
+                                      </div>-->
+            
+            
+                                    
+                                      <%if !@activity.min_age_range.nil? && @activity.min_age_range!="" && !@activity.max_age_range.nil? && @activity.max_age_range!=""%>
+        <div style="position1:relative;" class="div_margin">
+                                        <div class="proCon" style="float:left; display:inline-block; width:160px;" ><b>Age Range</b></div>
+                                        <div class="proCon" style="float:left; display:inline-block; width:160px; color: #5099AC;"><%=age_range_cal(@activity.min_age_range,@activity.max_age_range)%></div>
+                                       </div>
+                                    <div class="clear"></div>
+              <%end%>
+                                   
+                                    <!-- <div style="position1:relative;" class="div_margin">
+                                       <div style="float:left; display:inline-block; width:456px; border-top:1px solid #D7DADB; margin: 5px 0 -9px 0; ">&nbsp;</div>
+                                     </div>-->
+                                    <!--<div class="clear"></div>
+                                    <div style="position1:relative;" class="div_margin">
+                                      <div class="proCon" style="float:left; display:inline-block; width:230px;" ><b>Views</b></div>
+                                      <div class="proCon" style="float:left; display:inline-block; width:230px; color: #5099AC;" ><b>3</b></div>
+                                    </div>-->
+                                    <%#if (!@activity.website.nil? && @activity.website!="") || (!@activity.skill_level.nil? && @activity.skill_level!="" && @activity.skill_level !="--Select--") %>
+                                      <!--<div class="clear"></div>
+                                      <div style=" position1:relative;" class="div_margin">-->
+                                        <!--div style="float:left; display:inline-block; width:456px; border-top:1px solid #D7DADB; margin: 5px 0 -9px 0; ">&nbsp;</div-->
+                                      <!--</div>-->
+                                    <%#end%>
+            
+            
+           
+                                        <%if !@activity.skill_level.nil? && @activity.skill_level!="" && @activity.skill_level !="--Select--"%>
+        <div style="position1:relative;" class="div_margin">  
+                                          <div class="proCon" style="float:left; display:inline-block; width:160px;"><b>Skill Level</b></div>
+                                          <div  class="proCon" style="float:left; display:inline-block; width:160px; color: #5099AC;"><%=@activity.skill_level%></div>
+        </div>
+         <div class="clear"></div>
+                                        <%end%>
+
+                                   
+            
+                                    <div id="ShowDivActivity" class="dispNone">
+                                    <div class="clear"></div>
+                                        <%if !@activity.nil? && !@activity.leader.nil? && @activity.leader!=""%>
+        <div style=" position1:relative;" class="div_margin">
+                                          <div class="proCon" style="float:left; display:inline-block; width:160px;"><b>Leader</b></div>
+                                          <div class="proCon" style="float:left; display:inline-block; width:160px; color: #5099AC;"><%=@activity.leader%></div>
+        </div>
+                                        <%end%>
+              
+                                      <div style=" position1:relative;" class="div_margin">
+
+                                        <%if (!@activity.email.nil? && @activity.email!="")%>
+                                          <div class="clear"></div>
+                                          <div style=" position1:relative;" class="div_margin">
+                                            <!--div style="float:left; display:inline-block; width:456px; border-top:1px solid #D7DADB; margin: 5px 0 -9px 0; ">&nbsp;</div-->
+                                          </div>
+                                        <%end%>
+
+                                        <%if !@activity.email.nil? && @activity.email!=""%>
+                                          <div class="proCon" style="float:left; display:inline-block; width:160px;"><b>Email</b></div>
+                                          <div class="proCon" style="float:left; display:inline-block; width:300px; color: #5099AC;">
+            <!--a href="mailto:<%#=@activity.email%>" title="<%#=@activity.email%>" class="flink"><%#=@activity.email%></a-->
+            <%=@activity.email%>
+        </div>
+                                        <%end%>
+                                      </div>
+                                      <div class="clear"></div>
+                                      
+                                        <%if !@activity.phone.nil? && @activity.phone!="" && @activity.phone!="xxx-xxx-xxxx" %>
+        <div style=" position1:relative;" class="div_margin">
+                                          <div class="proCon" style="float:left; display:inline-block; width:160px;"><b>Phone Number</b></div>
+                                          <div class="proCon" style="float:left; display:inline-block; width:160px; color: #5099AC;"><%=@activity.phone%><%if !@activity.phone_extension.nil? && @activity.phone_extension!="" && @activity.phone!="Ext" %> <span class="proCon">Extn.</span> <%=@activity.phone_extension%><%end%></div>
+        </div>
+                                        <%end%>
+          
+                                      <%if !@activity.website.nil? && @activity.website!="" %>
+                                        <div class="clear"></div>
+                                        <div style=" position1:relative;" class="div_margin">
+                                        <div class="proCon" style="float:left; display:inline-block; width:160px;"><b>Website</b></div>
+                                        <div class="proCon" style="float:left; display:inline-block; width:160px; color: #5099AC;">
+          <!--<%#if !@activity.nil? && !@activity.created_by.nil? && @activity.created_by == "Provider"%><a href="<%#=@activity.website%>" title="<%#=@activity.website%>" onclick="parent.web_click('<%#=@activity.activity_id if !@activity.nil? %>','<%#=@activity.user_id if !@activity.nil? && !@activity.user_id.nil?%>');" target="_blank" class="flink"><%#=truncate(@activity.website, :length =>44, :omission => '... ')%></a><%#else%><a href="<%#=@activity.website%>" title="<%#=@activity.website%>" target="_blank" class="flink"><%#=truncate(@activity.website, :length =>44, :omission => '... ')%></a><%#end%>-->
+          <%#=@activity.website%>
+        <a href="<%if !@activity.nil? && !@activity.website.nil? && @activity.website.first(4)=="http"%><%=@activity.website%><%else%>http://<%=@activity.website%><%end%>" title="<%=@activity.website%>" onclick="activity_web_count();" target="_blank" class="flink"><%=truncate(@activity.website, :length =>44, :omission => '... ')%></a>
+          </div>
+                                        </div>
+                                      <%end%>
+
+
+
+
+                                      <!--<div class="clear"></div>
+                                      <div style="position1:relative;" class="div_margin">
+                                        <%#if !@activity.inserted_date.nil? && @activity.inserted_date!=""%>
+                                          <div class="proCon" style="float:left; display:inline-block; width:160px;"><b>Created Date</b></div>
+                                          <div class="proCon" style="float:left; display:inline-block; width:160px; color: #5099AC;"><%#= @activity.inserted_date.strftime("%a, %b %d, %Y") if !@activity.inserted_date.nil?%></div>
+                                        <%#end%>
+                                      </div>-->
+                                      <div class="clear"></div>
+                                    </div>
+                                    <div class="clear"></div>
+                                  <%if (!@activity.email.nil? && @activity.email!="") || (!@activity.phone.nil? && @activity.phone!="") || (!@activity.website.nil? && @activity.website!="")%>  
+                                    <div class="more_details">
+                                      <div ><b><a href="javascript:void(0)" title="" tabindex="8" class="moreDetailsText" onClick="ShowReminder(); _gaq.push(['_trackEvent', 'Provider Module', 'clickActivityDetails','More Details',<%=@activity.activity_id if !@activity.nil? && !@activity.activity_id.nil? %>]);" id="MoreDetail" style="left:0px; position:relative;">More Details</a></b></div>
+
+                                      <div class="arrow_more"><%=image_tag("/assets/activity_detail_view/more_details_arrow.png", :width=>"36", :height=>"28", :id=>"activity_arrow", :class=>"setBottomValue", :style=>"left: 18px; position: relative;  top: 0px;")%></div>
+                                    </div>
+         <%else%>
+        <div><br/></div>  
+         <%end%>
+                                    <div class="clear"></div>
+
+                                  </div>
+                                  <div class="clear"></div>
+                                </div>
+                                <!-- field value end-->
+                            
+                                <div style="width:93px; float:right;" id="test-new">
+                                  <%if !current_user.nil? && current_user.present?%>
+                                    <%if !params[:mode].nil? && params[:mode].present? %>
+                                      <div style="margin:0px 0 10px 10px;"><a href="javascript:void(0)" title="" id="closeTab" tabindex="2" style="display:inline-block; position:relative; height:25px;" <%if current_user && current_user.present? && !current_user.user_status.nil? && current_user.user_status == "deactivate" %> onclick="closepopupd();parent.deactivate_user_added_act();"<%else%>onClick="closepopupd();parent.pop_share_activity('/share_activity?activity_id=<%=@activity.activity_id%>&mode=provider&act=<%=params[:act]%>');_gaq.push(['_trackEvent', 'Provider Module', 'clickActivityDetails','Famtivity Share',<%=@activity.activity_id%>]); _gaq.push(['_setCustomVar',1,'Famtivity Share','Yes',3]);"<%end%>><%=image_tag("/assets/activity_detail_view/share_and_icon_button.png", :width=>"72", :height=>"26")%></a></div>
+                                    <%elsif !params[:provider_mode].nil?%>
+                                      <div style="margin:0px 0 10px 10px;"><a href="javascript:void(0)" title="" id="closeTab" tabindex="2" style="display:inline-block; position:relative; height:25px;" <%if current_user && current_user.present? && !current_user.user_status.nil? && current_user.user_status == "deactivate" %> onclick="closepopupd();parent.deactivate_user_added_act();"<%else%>onClick="closepopupd();parent.pop_share_activity('/share_activity?activity_id=<%=@activity.activity_id%>&mode=provider&act=<%=params[:act]%>');_gaq.push(['_trackEvent', 'Provider Module', 'clickActivityDetails','Famtivity Share',<%=@activity.activity_id%>]); _gaq.push(['_setCustomVar',1,'Famtivity Share','Yes',3]);"<%end%>><%=image_tag("/assets/activity_detail_view/share_and_icon_button.png", :width=>"72", :height=>"26")%></a></div>
+                                    <%else%>
+                                      <div style="margin:0px 0 10px 10px;"><a href="javascript:void(0)" title="" id="closeTab" tabindex="2" style="display:inline-block; position:relative; height:25px;" <%if current_user && current_user.present? && !current_user.user_status.nil? && current_user.user_status == "deactivate" %> onclick="closepopupd();parent.deactivate_user_added_act();"<%else%>onClick="closepopupd();;parent.pop_share_activity('/share_activity?activity_id=<%=@activity.activity_id%>&mode=parent&act=<%=params[:act]%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Famtivity Share',<%=@activity.activity_id%>]); _gaq.push(['_setCustomVar',1,'Famtivity Share','Yes',3]);"<%end%>><%=image_tag("/assets/activity_detail_view/share_and_icon_button.png", :width=>"72", :height=>"26")%></a></div>
+                                    <%end%>
+                                  <%else%>
+                                    <div style="margin:0px 0 10px 10px;"><a href="javascript:void(0)" title="" id="closeTab" tabindex="2" style="display:inline-block; position:relative; height:25px;" <%if current_user && current_user.present? && !current_user.user_status.nil? && current_user.user_status == "deactivate" %> onclick="closepopupd();parent.deactivate_user_added_act();"<%else%>onClick="closepopupd();parent.login_feature_detail('<%=@activity.activity_id%>');"<%end%>><%=image_tag("/assets/activity_detail_view/share_and_icon_button.png", :width=>"72", :height=>"26")%></a></div>
+                                  <%end%>
+                                  
+      <!-- New Save Fav added -->
+                                   <div  tabindex="3" style="margin:0px 0 10px 10px;">
+                                    <a href="javascript:void(0);" onClick="closepopupd();<%if !current_user.nil?%>parent.pop_favorite_activity('/save_favorites?activity_id=<%=@activity.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');<%else%>parent.login_feature('<%=@activity.activity_id%>');<%end%>_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@activity.activity_id%>])" title=""><%=image_tag("/assets/activity_detail_view/Save_BTN.png", :width=>"72", :height=>"26")%></a>
+                                   </div>
+                                  
+                                  
+                                  <div  tabindex="3" style="margin:0px 0 10px 10px;">
+                                    <%if !current_user.nil? && current_user.present?%>
+                                      <iframe src="https://www.facebook.com/plugins/like.php?href=<%=$app_url  if !$app_url.nil? && $app_url!='' && $app_url.present? %>/activities/<%=@activity.activity_id%>&amp;layout=button_count&amp;show_faces=true&amp;width=80&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=21" style="border:none; overflow:hidden; width:80px; height:21px;" allowtransparency="true" frameborder="0" scrolling="no">
+                                      </iframe>
+                                    <%else%>
+                                      <a href="javascript:void(0)" onClick="closepopupd();parent.login_feature_detail('<%=@activity.activity_id%>');" style='width:80px; height:21px;'><%=image_tag("/assets/activity_detail_view/facebook_icon.png", :width=>"45", :height=>"20")%></a>
+                                    <%end%>                                    
+                                  </div>
+                                  <div class="centerImage" style="display:none;">
+                                    <%if !@activity.avatar_file_name.nil? && @activity.avatar.present?%>
+                                      <%= image_tag(@activity.avatar.url(:thumb), :alt=>"#{@activity.activity_name if @activity && @activity.activity_name}, #{@activity.category if @activity && @activity.category} Activities - #{@activity.sub_category if @activity && @activity.sub_category}")%>
+                                    <%else%>
+                                      <%= image_tag "activitydetailno-image.png", :alt=>"#{@activity.activity_name if @activity && @activity.activity_name}, #{@activity.category if @activity && @activity.category} Activities - #{@activity.sub_category if @activity && @activity.sub_category}"%>
+                                    <%end%>
+
+                                  </div>
+                                  <div  tabindex="3" style="margin:0px 0 10px 10px;">
+                                    <%if !current_user.nil? && current_user.present?%>
+                                      <p style="cursor:pointer;"><a target="_blank" onclick="postToFeed(); return false;_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Facebook Share',<%=@activity.activity_id%>])"><%=image_tag("/assets/detailed_view/fb_share.jpg", :width=>"74", :height=>"22")%></a></p>
+                                    <%else%>
+                                      <p style="cursor:pointer;"><a onclick="closepopupd();parent.login_feature_detail('<%=@activity.activity_id%>');"><%=image_tag("/assets/detailed_view/fb_share.jpg", :width=>"74", :height=>"22")%></a></p>
+                                    <%end%>
+                                    <p id='msg' style="cursor:pointer;"></p>
+                                    <script language="javascript">
+                                      FB.init({appId: "<%= FB_APP_ID %>", status: true, cookie: true});
+                                      function postToFeed() {
+                                        // calling the API ...
+                                       var des= "<%=@desc=ActiveSupport::Inflector.transliterate @activity.description.downcase.gsub(/\s/," ") if !@activity.nil? && !@activity.description.nil?%>"
+                                        var pcol = window.location.protocol;
+                                          if (pcol=="http:"){
+                                            var obj = {
+                                             method: 'feed',
+                                             redirect_uri: '<%=request.protocol%>www.facebook.com/',
+                                             link: '<%=$app_url  if !$app_url.nil? && $app_url!='' && $app_url.present? %>/?mview=<%=@activity.activity_id %>&v=0',
+                                             name: '<%= @activity.activity_name if !@activity.nil? && !@activity.activity_name.nil?%>',
+                                             caption: 'Famtivity - Family Activity Network',
+                                             description: '<%=strip_tags(@desc.gsub('&nbsp;',' '))[0..150] if !@desc.nil? && @desc.present?%>...'
+                                           };
+                                        }
+                                        else{
+                                           var obj = {
+                                             method: 'feed',
+                                             redirect_uri: '<%=request.protocol%>www.facebook.com/',
+                                             link: '<%=$app_url  if !$app_url.nil? && $app_url!='' && $app_url.present? %>/?mview=<%=@activity.activity_id %>&v=0',
+                                             picture: '<%= @activity.avatar.url(:thumb) if !@activity.nil? && !@activity.avatar.nil? %>',                                         
+                                             name: '<%= @activity.activity_name if !@activity.nil? && !@activity.activity_name.nil?%>',
+                                             caption: 'Famtivity - Family Activity Network',
+                                             description: '<%=strip_tags(@desc.gsub('&nbsp;',' '))[0..150] if !@desc.nil? && @desc.present?%>...'
+                                           };
+
+                                        }
+
+                                        function callback(response) {
+                                          if (response && response.post_id) {
+                                            //alert('Post was published.');
+                                            $("#success").show();
+                                            setTimeout("$('#success').hide();",6000)
+                                          } else {
+                                            //alert('Post was not published.');
+                                            $("#fail").show();
+                                            setTimeout("$('#fail').hide();",6000)
+                                          }
+ 
+                                          //  document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+                                        }
+
+                                        FB.ui(obj, callback);
+                                      }
+
+                                    </script>
+                                  </div>
+
+                                  <div class="pinterest" style="margin:0px 0 10px 10px;" onClick="_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Pinterest',<%=@activity.activity_id%>])">
+                                    <%if !current_user.nil? && current_user.present?%>
+                                    <%my_path=request.protocol+request.host_with_port%>
+                                     <%if !request.protocol.nil? && request.protocol=="http://"%>
+                                      <a target="_blank" tabindex="4" style="display:inline-block; position:relative;  height:20px;" href="<%=request.protocol%>pinterest.com/pin/create/button/?url=<%=request.protocol%>www.pinterest.com/&media=<%=my_path%><%= @activity.avatar.url(:thumb) if !@activity.nil? && !@activity.avatar.nil?%>&description=<%= @activity.activity_name[0..1000]%>. <%=$app_url  if !$app_url.nil? && $app_url!='' && $app_url.present? %>/?mview=<%=@activity.activity_id %>&v=0" class="pin-it-button" count-layout="horizontal"><%=image_tag("/assets/activity_detail_view/pin.png", :width=>"72", :height=>"20", :title=>"Pin It", :style=>"border:0px;")%></a>
+                                     <%else%>
+                                      <a target="_blank" tabindex="4" style="display:inline-block; position:relative;  height:20px;" href="<%=request.protocol%>pinterest.com/pin/create/button/?url=<%=request.protocol%>www.pinterest.com/&media=<%= @activity.avatar.url(:thumb) if !@activity.nil? && !@activity.avatar.nil?%>&description=<%= @activity.activity_name[0..1000]%>. <%=$app_url  if !$app_url.nil? && $app_url!='' && $app_url.present? %>/?mview=<%=@activity.activity_id %>&v=0" class="pin-it-button" count-layout="horizontal"><%=image_tag("/assets/activity_detail_view/pin.png", :width=>"72", :height=>"20", :title=>"Pin It", :style=>"border:0px;")%></a>
+                                     <%end%>
+                                    <%else%>
+                                      <a tabindex="4" style="display:inline-block; position:relative;  height:20px;" href="javascript:void(0)" onClick="closepopupd();parent.login_feature_detail('<%=@activity.activity_id%>');" class="pin-it-button" count-layout="horizontal"><%=image_tag("/assets/activity_detail_view/pin.png", :width=>"72", :height=>"20", :title=>"Pin It", :style=>"border:0px;")%></a>
+                                    <%end%>
+                                  </div>
+
+                                  <%if !current_user.nil? && current_user.present?%>
+                                    <div tabindex="5" style="margin:0px 0 10px 10px;height: 20px;" onClick="_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Twitter',<%=@activity.activity_id%>])">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="<%=$app_url  if !$app_url.nil? && $app_url!='' && $app_url.present? %>/?mview=<%=@activity.activity_id %>" data-via="Famtivity" data-lang="en"  data-text="<%= @activity.activity_name[0..97] %>..." data-count="horizontal" style="width:130px; height:50px;">Tweet</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                                   </div>
+                                  <%else%>
+                                    <div tabindex="5" style="margin:0px 0 10px 10px;height: 20px;" onClick="_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Twitter',<%=@activity.activity_id%>])">
+                                      <a href="javascript:void(0)" tabindex="5" onClick="closepopupd();parent.login_feature_detail('<%=@activity.activity_id%>');" style='width:130px; height:50px;'><%=image_tag("/assets/activity_detail_view/tweet_icon.png", :width=>"72", :height=>"20")%></a>
+                                    </div>
+                                  <%end%>
+
+                                  <div style="margin:0px 0 10px 10px;">
+                                    <%if !current_user.nil? && current_user.present?%>
+                                      <a href="#" tabindex="6" style="display:inline-block; position:relative; height:20px;" title="" onClick="closepopupd();parent.pop_embed_Detail('activity_detail/embedded_link?activity_id=<%=@activity.activity_id%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Embed',<%=@activity.activity_id%>])"><%=image_tag("/assets/activity_detail_view/embed.png", :width=>"72", :height=>"20")%></a>
+                                    <%else%>
+                                      <a href="javascript:void(0)" tabindex="6" style="display:inline-block; position:relative; height:20px;" title="" onClick="closepopupd();parent.login_feature_detail('<%=@activity.activity_id%>');"><%=image_tag("/assets/activity_detail_view/embed.png", :width=>"72", :height=>"20")%></a>
+                                    <%end%>
+                                  </div>
+          <input type="hidden" id="activity_id" value="<%=@activity.activity_id if !@activity.nil?%>">
+                                  <input type="hidden" id="user_id" value="<%=cookies[:uid_usr]%>">
+                                 
+                                  <div class="clear"></div>
+                                </div>
+
+                                <div class="clear"></div>
+                                <div>
+
+
+                             
+                                <div class="clear"></div>
+                                </div>
+                                <!--<div class="setComment">
+                                  <div class="clear"></div>
+                                </div>-->
+                                
+                                <%=render "activity_detail/multiple_schedule_detail"%>
+                                
+                                
+                                <!--div class="dispNone" id="pop_purchase"><img src="/assets/activity_detail_view/pop_up.png" width="73" height="137" border="0" usemap="#Map"><map name="Map"><area shape="rect" coords="6,18,71,73" href="#"><area shape="rect" coords="7,79,68,127" href="#"></map></div-->
+
+                                </div>
+        </div>
+        </div>                           
+                                
+                
+        </div>
+                                <div class="clear"></div>
+                                <!-- <img src="/assets/event_new_activity/box_bg_down.png" width="896px" height="18px"> -->
+                                </div>
+                                <div class="popupContainerBottom"></div>
+                                <div class="clear"></div>
+                                </div>
+                                <div class="clear"></div>
+                                </div>
+                
+
+    <!--<script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>--> 
+<script>
+function activity_web_count()
+{
+  var user_id ="<%=@activity.user_id%>"
+
+$.ajax({
+        type: "POST",
+        url: "/provider_web_count",
+        data: {"user_id": user_id,"type":"activity"},
+        dataType : 'json',
+        success: function(data)
+        {
+        }
+      });
+}
+function closepopupd()
+  {
+    var stateObj = { foo: "bar" };
+    var action_test = "<%=params[:act]%>"
+    myURL = document.location;
+    if(navigator.appName=="Microsoft Internet Explorer")
+    {
+      parent.window.location.hash='';
+    }
+    else
+    {
+      parent.history.replaceState(stateObj, "Activity Details", "/"+action_test);
+    }
+    parent.actDetailPage.hide();
+  }
+</script>

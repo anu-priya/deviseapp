@@ -1,0 +1,478 @@
+<!-- Track Attend Event for invite and message-->
+<script type="text/javascript">
+  $(document).ready(function() {
+    var check_attend = "<%= params[:attend_track]%>";
+    var msg_track = "<%= params[:msg_invite]%>"
+    var view_more_track ="<%= params[:view_more]%>"
+    if(check_attend == "true")
+    {
+      _gaq.push(['_trackEvent', 'Parent Module', 'clickAttendActivity','Accept']);
+    }
+    if(msg_track =="true")
+    {
+    _gaq.push(['_trackEvent', 'Parent Module', 'clickMessageInvite','Join Famtivity Now']);
+    } 
+    if(view_more_track =="true")
+    {
+    _gaq.push(['_trackEvent', 'Parent Module', 'clickMessage','View More']);
+    }
+  });
+</script>
+<link rel="stylesheet" href="/assets/activity_view_detail/paymentDetail.css" type="text/css"/>
+<script src="/assets/scroller/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
+<script src="/assets/scroller/jquery.mousewheel.min.js" type="text/javascript"></script>
+<script src="/assets/scroller/jquery.smoothdivscroll-1.3-min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/assets/acitivity_view_details/schedule_price.js"></script>
+<div class="clear"></div>
+<style>
+.bS_menus
+{
+  font-size: 12px !important;
+}
+</style>
+<div id="eventListContainer" class="eventListContainer" style="<% if !current_user.nil?%>margin-top:62px;<% else%>margin-top:80px;<%end%> margin-bottom: 36px;"><!-- Start Default Activities List --><!-- Top Banner Slide Start-->
+  <div class="setouterstyle"><!--slider start-->   
+
+
+     <%= render :partial =>"common/v2_top_banner" %>
+    <!--slider end--> <!--Header Slider-->
+    <%  @jump_to_scroll_first = []
+    #don't remove this. jump to drop down dynamically show
+    @jump_to_scroll_first.push("Featured")
+    #@jump_to_scroll_first.push("Free")
+  %>
+    <% if !current_user.nil?
+      act_categ = ActivityCategory.where("lower(category_name) = 'default'").last
+      sub_cat = ActivitySubcategory.where(:category_id=>act_categ.category_id ).map(&:subcateg_id)
+      @row_default = ActivityRow.where(:subcateg_id => sub_cat,:user_id => current_user.user_id)
+      @row_default.each do |s|
+        @jump_to_scroll_first.push("#{s.row_type}")
+      end
+
+    end
+    #@jump_to_scroll_first.push("Dance")
+    #@jump_to_scroll_first.push("Music")
+    #@jump_to_scroll_first.push("Sports")
+
+
+
+    @provider_activites.each do |s|
+      @jump_to_scroll_first.push(s) if !s.nil? && s.present? && s!=''
+    end if !@provider_activites.nil? && @provider_activites.present? && @provider_activites!=''
+    @follow_parent_user.each do |u|
+      @user = User.where("user_id = #{u}").last if !u.nil? && u.present? && u!=''
+      @jump_to_scroll_first.push(@user.user_name) if !@user.nil?
+    end if !@follow_parent_user.nil? && @follow_parent_user.present? && @follow_parent_user!=''
+    @follow_provider_user.each do |u|
+      @user = User.where("user_id = #{u}").last  if !u.nil? && u.present? && u!=''
+      @jump_to_scroll_first.push(@user.user_profile.business_name) if !@user.nil?
+    end if !@follow_provider_user.nil? && @follow_provider_user.present? && @follow_provider_user!=''
+    @jump_to_scroll = @jump_to_scroll_first.uniq
+  %>
+  
+    <div>
+      <a name="featured"></a>
+      <div id="featured" class="scrollSection" style="margin-top:10px;"><!-- Featured Row -->
+        <div class="dottedDiv" style="position:relative;"> <!-- dont remove the style properties in dottedDiv -->
+          <div class="lt"><table cellspacing="0" cellpadding="0" border="0" class="activityImage"><tr><td width="34" valign="middle"><img src="/assets/categories/featured.png" alt="" /></td><td class="Title_head" valign="middle" style="padding-right: 4px;"><b>Featured</b></td><td id="featured_count" class="Title_head" valign="middle" ></td></tr></table></div>
+           <% if !@jump_to_scroll.nil? && @jump_to_scroll.present? && @jump_to_scroll.length>1 %>
+	   <div class="rt" id="GotoFeatured">
+	   <div id="jump_menu" class="jumpDivMenu"><ul><li><a href="javascript:void(0);" class="jumpDiv" style="color: #4495AE;">Jump To</a>
+	   <ul class="sub-menu dispParentjumpDiv" style="margin-left:-62px;.margin-top:28px; .margin-left:-147px;"><% if !@jump_to_scroll.nil? && @jump_to_scroll.present?%><% @jump_to_scroll.each do |jval|%><%if !jval.nil? && jval.present? && jval!=""%><li><a class="test<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" href="javascript:void(0);" onclick="jumpto('<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>');  _gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>']);"><%=jval%></a></li><%end%><%end%><%end%></ul></li></ul>
+	   </div>
+	   </div>
+	   <%end%>
+        </div>
+        <div id="makeMeScrollablefeatured" style="margin-left:5px">
+          <div class="blogDesign">
+            <% @blog_value.each do |blval|%>
+              <div class="blogInnDesign blog" style="display: block;">
+                <p class="fts14 ftcGreen3c blogFeTxt lt" style="padding: 15px;background: #D6EDF3;width:380px;"><b><span class="ftcRedff">Blog</span> - <%=blval["title"]%></b></p>
+                <div class="clear"></div>
+		<div class="blogimgParabg" style="width:380px;">
+                <% if blval["img"].present? && !blval["img"].nil?%>
+                  <div class="blogImg" style="width:380px;"><center><img src="<%=blval["img"]%>" alt="" height="270"  /></center></div>
+                <%else%>
+                  <div class="blogImg" style="width:380px;"><img src="/assets/landing/event_image.jpg" alt=""/></div>
+                <%end%>
+                <div class="clear"></div>
+                <p class="fts13 ftcGray56 blogFeTxt lt " style="width:380px;"><%=blval["description"]%><span><a href="<%=blval["link"]%>" target="_blank" style="color:#ff0000;">Read More</a></span></p>
+		</div>
+              </div>
+            <%end%>
+            <div class="moreArticle">
+              <div class="lt">
+                <a href="javascript:void(0);" title="" onmouseover="pause()" onmouseout="resume()" onclick="play('0')" class="blueDot" style="border: 1px solid #76BDDB;background: #76BDDB;"></a>
+                <a href="javascript:void(0);" title="" onmouseover="pause()" onmouseout="resume()" onclick="play('1')" class="blueDot"></a>
+                <a href="javascript:void(0);" title="" onmouseover="pause()" onmouseout="resume()" onclick="play('2')" class="blueDot"></a>
+              </div>
+              <a href="http://blog.famtivity.com" target="_blank" title="" class="ftcGreen3c fts14">More articles</a>
+            </div>
+          </div>
+          <%= render :partial =>"featured_row" %>
+        </div>
+      </div>  
+      <%#if !current_user.nil?%><!-- Free Row -
+        <div id="free" class="scrollSection">
+          <div class="dottedDiv" style="position:relative;">
+            <div class="lt"><table cellspacing="0" cellpadding="0" border="0" class="activityImage"><tr><td width="34" valign="middle"><img src="/assets/categories/Free.png" alt="" /></td><td class="Title_head" valign="middle" style="padding-right: 4px;"><b>Free</b></td><td id="free_count" class="Title_head" valign="middle" ></td></tr></table></div>
+            <div class="rt" id="GotoFeatured"><div id="jump_menu" class="jumpDivMenu"><ul><li><a href="javascript:void(0);" class="jumpDiv" style="color: #4495AE;" >Jump To</a><ul class="sub-menu dispParentjumpDiv" style="margin-left:-62px;.margin-top:28px; .margin-left:-147px;"><%# if !@jump_to_scroll.nil? && @jump_to_scroll.present? %><%# @jump_to_scroll.each do |jval|%><%#if !jval.nil? && jval.present? && jval!=""%><li><a class="test<%#=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" href="javascript:void(0);" onclick="jumpto('<%#=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>');" class="test<%#=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>"><%#=jval%></a></li><%#end%><%#end%><%#end%></ul></li></ul></div></div>
+          </div>
+          <div id="makeMeScrollablefree">
+            <div id="field" style="width: 228px;margin: 0 auto;float: none;">
+              <table cellpadding="0" cellspacing="0" style="height: 450px;" align="center"><tr><td width="228" align="center" valign="middle"><img src='/assets/ajax-loader.gif' /></td></tr></table>
+            </div>
+          </div>
+        </div>-->
+      <%#end%>
+      <%if !current_user.nil?%>
+        <%@row_default.each do |defa|%>
+          <div id="<%=defa.row_type.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" class="scrollSection">
+            <div class="dottedDiv" style="position:relative;"> <!-- dont remove the style properties in dottedDiv -->
+              <div class="lt"><table cellspacing="0" cellpadding="0" border="0" class="activityImage"><tr><%if defa.row_type.downcase =="shared"%><td width="34" valign="middle"><img src="/assets/categories/shared.png" alt="" /></td><%elsif defa.row_type.downcase =="my favorites"%><td width="34" valign="middle"><img src="/assets/categories/my_favorites.png" alt="" /></td><%elsif defa.row_type.downcase =="my created"%><td width="34" valign="middle"><img src="/assets/categories/my_created.png" alt="" /></td><%end%><td class="Title_head" valign="middle" style="padding-right: 4px;"><b><%=defa.row_type%></b></td></tr></table></div>
+               <% if !@jump_to_scroll.nil? && @jump_to_scroll.present? && @jump_to_scroll.length>1 %><div class="rt" id="GotoFeatured"><div id="jump_menu" class="jumpDivMenu"><ul><li><a href="javascript:void(0);" class="jumpDiv" style="color: #4495AE;">Jump To</a><ul class="sub-menu dispParentjumpDiv" style="margin-left:-62px;.margin-top:28px; .margin-left:-147px;"><% if !@jump_to_scroll.nil? && @jump_to_scroll.present? %><% @jump_to_scroll.each do |jval|%><%if !jval.nil? && jval.present? && jval!= ""%><li><a class="test<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" href="javascript:void(0);" onclick="jumpto('<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>');  _gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>']);"><%=jval%></a></li><%end%><%end%><%end%></ul></li></ul></div></div><%end%>
+            </div>
+            <div id="makeMeScrollable<%=defa.row_type.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>">
+              <div id="field" style="width: 228px;margin: 0 auto;float: none;">
+                <table cellpadding="0" cellspacing="0" style="height: 450px;" align="center"><tr><td width="228" align="center" valign="middle"><img src='/assets/ajax-loader.gif' /></td></tr></table>
+              </div>
+            </div>
+          </div>
+          <script>
+    <%if defa.row_type.downcase =="shared"%>
+        $("#makeMeScrollableshared").smoothDivScroll({
+          mouseOverRightHotSpot: function () {
+            $("#makeMeScrollableshared").smoothDivScroll("getAjaxContent", "/landing/shared_activity", "addLast");
+          },mouseOverLeftHotSpot: function () {
+            $("#makeMeScrollableshared").smoothDivScroll("getAjaxContent", "/landing/shared_activity", "addLast");
+          },getContentOnLoad: {
+            method: "getAjaxContent",
+            content: "/landing/shared_activity?page=1",
+            manipulationMethod: "replace"
+          }
+        });        
+    <%end%>
+    <%if defa.row_type.downcase =="my favorites"%>
+        $("#makeMeScrollable<%=defa.row_type.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>").smoothDivScroll({
+          mouseOverRightHotSpot: function () {
+            $("#makeMeScrollable<%=defa.row_type.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>").smoothDivScroll("getAjaxContent", "/landing/favorite_activity", "addLast");
+          },mouseOverLeftHotSpot: function () {
+            $("#makeMeScrollable<%=defa.row_type.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>").smoothDivScroll("getAjaxContent", "/landing/favorite_activity", "addLast");
+          },getContentOnLoad: {
+            method: "getAjaxContent",
+            content: "/landing/favorite_activity?page=1",
+            manipulationMethod: "replace"
+          }
+        });        
+    <%end%>
+    <%if defa.row_type.downcase =="my created"%>
+        $("#makeMeScrollable<%=defa.row_type.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>").smoothDivScroll({
+          mouseOverRightHotSpot: function () {
+            $("#makeMeScrollable<%=defa.row_type.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>").smoothDivScroll("getAjaxContent", "/landing/my_activity", "addLast");
+          },mouseOverLeftHotSpot: function () {
+            $("#makeMeScrollable<%=defa.row_type.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>").smoothDivScroll("getAjaxContent", "/landing/my_activity", "addLast");
+          },getContentOnLoad: {
+            method: "getAjaxContent",
+            content: "/landing/my_activity?page=1",
+            manipulationMethod: "replace"
+          }
+        });       
+    <%end%>
+          </script>
+        <%end%>
+ <%end%><!--current user end-->
+        <%value_inc = 1%>
+        <%!@provider_activites.nil? && @provider_activites!="" && @provider_activites.present? && @provider_activites.each do |cat|%>
+          <%if !cat.nil? && cat.downcase!='default'%>
+            <div id="<%=cat.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" class="scrollSection">
+              <div class="dottedDiv" style="position:relative;"> <!-- dont remove the style properties in dottedDiv -->
+                <div class="lt"><table cellspacing="0" cellpadding="0" border="0" class="activityImage"><tr><%category_values=ActivityCategory.find_by_category_name("#{cat}") if !cat.nil?%><%if !category_values.nil? && !category_values.category_file_name.nil? && !category_values.category_file_name.blank? && category_values.category.present?%><td width="26" height="34" valign="middle"><%= image_tag(category_values.category.url(:small)) if !category_values.category.nil? && category_values.category.present?%></td><% else %><td width="26" height="34" valign="middle"><img src="/assets/categories/my_created.png"></td><% end %><td class="Title_head" valign="middle"><b><%=cat if !cat.nil? && cat.present? && cat!="" %>&nbsp;</b><input id="act_list" type="hidden" value="<%=@str_act_list%>" /></td></tr></table></div>
+                 <% if !@jump_to_scroll.nil? && @jump_to_scroll.present? && @jump_to_scroll.length>1 %><div class="rt" id="GotoFeatured"><div id="jump_menu" class="jumpDivMenu"><ul><li><a href="javascript:void(0);" class="jumpDiv" style="color: #4495AE;" >Jump To</a><ul class="sub-menu dispParentjumpDiv" style="margin-left:-62px;.margin-top:28px; .margin-left:-147px;"><% if !@jump_to_scroll.nil? && @jump_to_scroll.present? %><% @jump_to_scroll.each do |jval|%><%if !jval.nil? && jval.present? && jval!=''%><li><a class="test<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" href="javascript:void(0);" onclick="jumpto('<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>');  _gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>']);" class="test<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" ><%=jval%></a></li><%end%><%end%><%end%></ul></li></ul></div><%end%>
+                </div>
+              </div>
+              <div id="makeMeScrollable<%=value_inc%>" style="margin-top1:6px;">
+                <div id="field" style="width: 228px;margin: 0 auto;float: none;">
+                  <table cellpadding="0" cellspacing="0" style="height: 450px;" align="center"><tr><td width="228" align="center" valign="middle"><img src='/assets/ajax-loader.gif' /></td></tr></table>
+                </div>
+              </div>
+            </div>
+            <input id="parent_reg" type="hidden" value="<%=params[:parent_reg]%>" />
+            <input id="provider_reg" type="hidden" value="<%=params[:provider_reg]%>" />
+            <input id="sent_user" type="hidden" value="<%=params[:sent_user]%>" />
+            <input id="sent_user_email" type="hidden" value="<%=params[:sent_user_email]%>" />
+            <script>
+              $(document).ready(function () {
+                $("#makeMeScrollable<%= value_inc %>").smoothDivScroll({
+                  mouseOverRightHotSpot: function () {
+                    $("#makeMeScrollable<%= value_inc %>").smoothDivScroll("getAjaxContent", "/landing/cat_subcategory_row?cat=<%=cat.html_safe%>", "addLast");
+                  },mouseOverLeftHotSpot: function () {
+                    $("#makeMeScrollable<%= value_inc %>").smoothDivScroll("getAjaxContent", "/landing/cat_subcategory_row?cat=<%=cat.html_safe%>", "addLast");
+                  },getContentOnLoad: {
+                    method: "getAjaxContent",
+                    content: "/landing/cat_subcategory_row?page=1&cat=<%=cat.html_safe%>",
+                    manipulationMethod: "replace"
+                  }
+                });
+                //~ Provider and Parent Invite and discount dollars
+                var s_user = $("#sent_user").val();
+                var s_user_email = $("#sent_user_email").val();
+                var attendees_test = '<%=params[:act_type]%>'
+                var attendees_uid = '<%=params[:uid]%>'
+                var attendees_aid = '<%=params[:aid]%>'
+                if ($("#parent_reg").val() == 'true')
+                {
+                  pop_Parent_Login("/parent-registration?parent_reg=true&s_user_id="+s_user+"&s_user_email="+s_user_email);
+                }
+                else if ($("#provider_reg").val() == 'true')
+                {
+                  pop_Parent_Login("/parent-registration?provider_reg=true&s_user_id="+s_user+"&s_user_email="+s_user_email);
+                }
+                else if (attendees_test == 'attendies')
+                {
+                  pop_Login("/login?uid="+attendees_uid+"&aid="+attendees_aid+"&act_type="+attendees_test);
+                }                
+              })
+            </script>
+            <style type="text/css" >
+              #makeMeScrollable<%= value_inc %>{width:100%;height: auto;position: relative;.top:10px;z-index:0;.z-index:-1;}
+            </style>
+            <%value_inc = value_inc +1%>
+          <%end%>
+        <%end%>      
+      <%@follow_parent_user.each do |s|%>
+        <%@user = User.find_by_user_id(s)%>
+        <% if !@user.nil? && @user.present? && @user!="" && !@user.user_profile.nil? && !@user.user_profile.business_name.nil?%>
+          <div id="<%= @user.user_profile.business_name.downcase.gsub(/[^a-zA-Z0-9]/,"_") if !@user.nil? && @user.present? && @user!="" && !@user.user_profile.nil? && !@user.user_profile.business_name.nil? %>" class="scrollSection">
+          <%else%>
+            <div id="<%= @user.user_name.downcase.gsub(/[^a-zA-Z0-9]/,"_") if !@user.nil? && !@user.user_name.nil?%>" class="scrollSection">
+            <%end%>
+            <div class="dottedDiv" style="position:relative;"> <!-- dont remove the style properties in dottedDiv -->
+              <div class="lt"><table cellspacing="0" cellpadding="0" border="0" class="activityImage"><tr><%if !@user.nil? && @user.present? && !@user.user_profile.nil? && !@user.user_profile.user_photo.blank?%><td width="26" height="34" valign="middle"><%= image_tag @user.user_profile.user_photo, :width => '22', :height => '27', :alt=>'loading...', :style =>"width:22px;height:27px;"%></td><% else %><td width="26" height="34" valign="middle"><img src="/assets/profile/user_icon.png" height="21" width="21" /></td><% end %><td class="Title_head" valign="middle"><b><% if !@user.nil? && @user.present? && @user!=""%><%=@user.user_name.capitalize if !@user.nil? && !@user.user_name.nil? && !s.nil?%><%end%></b><input id="act_list" type="hidden" value="<%=@str_act_list%>" /></td></tr></table></div>
+               <% if !@jump_to_scroll.nil? && @jump_to_scroll.present? && @jump_to_scroll.length>1 %><div class="rt" id="GotoFeatured"><div id="jump_menu" class="jumpDivMenu"><ul><li><a href="javascript:void(0);" class="jumpDiv" style="color: #4495AE;">Jump To</a><ul class="sub-menu dispParentjumpDiv" style="margin-left:-62px;.margin-top:28px; .margin-left:-147px;"><% if !@jump_to_scroll.nil? && @jump_to_scroll.present? %><% @jump_to_scroll.each do |jval|%><%if !jval.nil? && jval.present? && jval!=''%><li><a class="test<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" href="javascript:void(0);" onclick="jumpto('<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>');  _gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>']);"><%=jval%></a></li><%end%><%end%><%end%></ul></li></ul></div></div><%end%>
+            </div>
+            <div id="makeMeScrollableparent<%=s%>" style="margin-top1:6px;">
+              <div id="field" style="width: 228px;margin: 0 auto;float: none;">
+                <table cellpadding="0" cellspacing="0" style="height: 450px;" align="center"><tr><td width="228" align="center" valign="middle"><img src='/assets/ajax-loader.gif' /></td></tr></table>
+              </div>
+            </div>
+          </div>
+          <script>
+            $(document).ready(function () {
+              $("#makeMeScrollableparent<%= s %>").smoothDivScroll({
+                mouseOverRightHotSpot: function () {
+                  $("#makeMeScrollableparent<%= s %>").smoothDivScroll("getAjaxContent", "/landing/get_parent_user?cat=<%=s%>", "addLast");
+                },mouseOverLeftHotSpot: function () {
+                  $("#makeMeScrollableparent<%= s %>").smoothDivScroll("getAjaxContent", "/landing/get_parent_user?cat=<%=s%>", "addLast");
+                },getContentOnLoad: {
+                  method: "getAjaxContent",
+                  content: "/landing/get_parent_user?page=1&cat=<%=s%>",
+                  manipulationMethod: "replace"
+                }
+              });
+            })
+          </script>
+          <style type="text/css" >
+            #makeMeScrollableparent<%= s %>{
+              width:100%;height: auto;position: relative;.top:10px;z-index:0;.z-index:-1;
+            }
+          </style>
+        <%end%>
+        <%!@follow_provider_user.nil? && @follow_provider_user!="" && @follow_provider_user.present? && @follow_provider_user.each do |cat|%>
+          <%@user = User.find_by_user_id(cat)%>
+          <% if !@user.nil? && @user.present? && @user!="" && !@user.user_profile.nil? && !@user.user_profile.business_name.nil?%>
+            <div id="<%= @user.user_profile.business_name.downcase.gsub(/[^a-zA-Z0-9]/,"_") if !@user.nil? && @user.present? && @user!="" && !@user.user_profile.nil? && !@user.user_profile.business_name.nil? %>" class="scrollSection">
+            <%else%>
+              <div id="<%= @user.user_name.downcase.gsub(/[^a-zA-Z0-9]/,"_") if !@user.nil? && !@user.user_name.nil?%>" class="scrollSection">
+              <%end%>
+              <div class="dottedDiv" style="position:relative;"> <!-- dont remove the style properties in dottedDiv -->
+                <div class="lt"><table cellspacing="0" cellpadding="0" border="0" class="activityImage"><tr><%if !@user.nil? && @user.present? && !@user.user_profile.nil? && !@user.user_profile.profile.blank?%><td width="26" height="34" valign="middle"><%= image_tag @user.user_profile.profile.url(:thumb), :width => '22', :height => '27', :alt=>'loading...', :style =>"width:22px;height:27px;"%></td><% else %><td width="26" height="34" valign="middle"><img src="/assets/profile/user_icon.png" height="21" width="21" /></td><% end %><td class="Title_head" valign="middle"><b><% if !@user.nil? && @user.present? && @user!="" && !@user.user_profile.nil? && !@user.user_profile.business_name.nil?%><%=@user.user_profile.business_name.capitalize if !@user.nil? && @user.present? && @user!="" && !@user.user_profile.nil? && !@user.user_profile.business_name.nil? %><%else%><%=@user.user_name.capitalize if !@user.nil? && !@user.user_name.nil? && !s.nil?%><%end%>&nbsp;</b><input id="act_list" type="hidden" value="<%=@str_act_list%>" /></td></tr></table></div>
+                 <% if !@jump_to_scroll.nil? && @jump_to_scroll.present? && @jump_to_scroll.length>1 %><div class="rt" id="GotoFeatured"><div id="jump_menu" class="jumpDivMenu"><ul><li><a href="javascript:void(0);" class="jumpDiv" style="color: #4495AE;">Jump To</a><ul class="sub-menu dispParentjumpDiv" style="margin-left:-62px;.margin-top:28px; .margin-left:-147px;"><% if !@jump_to_scroll.nil? && @jump_to_scroll.present? %><% @jump_to_scroll.each do |jval|%><%if !jval.nil? && jval.present? && jval!=''%><li><a class="test<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" href="javascript:void(0);" onclick="jumpto('<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>');  _gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>']);"><%=jval%></a></li><%end%><%end%><%end%></ul></li></ul></div></div><%end%>
+              </div>
+              <div id="makeMeScrollableprovider<%=cat%>" style="margin-top1:6px;">
+                <div id="field" style="width: 228px;margin: 0 auto;float: none;">
+                  <table cellpadding="0" cellspacing="0" style="height: 450px;" align="center"><tr><td width="228" align="center" valign="middle"><img src='/assets/ajax-loader.gif' /></td></tr></table>
+                </div>
+              </div>
+            </div>
+            <script>
+              $(document).ready(function () {
+                $("#makeMeScrollableprovider<%= cat %>").smoothDivScroll({
+                  mouseOverRightHotSpot: function () {
+                    $("#makeMeScrollableprovider<%= cat %>").smoothDivScroll("getAjaxContent", "/landing/get_provider_user?cat=<%=cat%>", "addLast");
+                  },mouseOverLeftHotSpot: function () {
+                    $("#makeMeScrollableprovider<%= cat %>").smoothDivScroll("getAjaxContent", "/landing/get_provider_user?cat='<%=cat%>'", "addLast");
+                  },getContentOnLoad: {
+                    method: "getAjaxContent",
+                    content: "/landing/get_provider_user?page=1&cat=<%=cat%>",
+                    manipulationMethod: "replace"
+                  }
+                });
+              })
+            </script>
+            <style type="text/css">
+              #makeMeScrollableprovider<%= cat %>{
+                width:100%;height: auto;position: relative;.top:10px;z-index:0;.z-index:-1;
+              }
+            </style>
+          <%end%>
+        </div>
+        <div id="popup_container" style="top: 20px !important;">      </div>
+      </div>
+      <div class="dottedDiv addFollowRow"> <!-- dont remove the style properties in dottedDiv -->
+        <!--<div align="center" width="100%"><table cellspacing="0" cellpadding="0" border="0" class="activityImage" style="position: relative;padding: 0px 10px;"><tbody><tr><td><img src="/assets/header/following_img_blue.png" alt="" /></td><td align="center"  class="Title_head">&nbsp;&nbsp;&nbsp;<a title="" href="javascript:void(0)" style="color: #5099AC; display: inline-block;float: left;" onclick="<%#if !current_user.nil?%>show_follow();<%#else%>login_feature_follow();<%#end%>"><b><u>Click here to Follow more Feeds</u></b></a></td></tr></tbody></table></div>-->
+	<div align="center" width="100%"><table cellspacing="0" cellpadding="0" border="0" class="activityImage" style="position: relative;padding: 0px 10px;"><tbody><tr><td><img src="/assets/header/following_img_blue.png" alt="" /></td><td align="center"  class="Title_head">&nbsp;&nbsp;&nbsp;<a title="" href="javascript:void(0)" style="color: #5099AC; display: inline-block;float: left;" onclick="show_follow(); _gaq.push(['_trackEvent', 'Follow', 'clickFollowMoreFeeds']);"><b><u>Click here to Follow more Feeds</u></b></a></td></tr></tbody></table></div>
+      </div>
+    <div class="dynamicLetdiv">Browse Your Locations: <% ('A'..'Z').each do |alpha| %><a href="javascript:void(0);" title=""><%=alpha%></a><%end%>  </div>      
+      <!--City alphabet search--->
+      <div class="cityvalueDisplay" id="cityvalueDisplay"> </div>
+      <!-- login feature popup start -->
+      <div id="login_use_feature">
+        <div class="content_popup" style="display:block;"><br>You need to login to use this feature.<br><br>
+          <span class="b-close" id="loginFeature"><a href="javascript:void(0)" title=""><img src="/assets/register/ok_btn.png" /></a></span>
+        </div>
+      </div><!-- login feature popup end -->
+      <div id="login_use_feature_without" class="bMulti" style="min-height: inherit;">
+        <div class="content_popup fts18" style="display:block;">Feeds will not be saved unless you login.<br><br>
+          <a href="javascript:void(0);" title="" style="position: inherit;" onclick="show_pop_up(30); pop_Parent_Login('/parent-registration'); _gaq.push(['_trackEvent', 'Registration', 'clickParentRegistration'])"><span class="b-close"><img src="/assets/landing/sign_up_button.png" alt="" border="0"/></span></a>
+	  <a href="javascript:void(0)" title="" style="position: inherit;"><span class="b-close" id="loginFeature1"><img src="/assets/landing/okay_button.png" /></span> </a>         
+        </div>
+      </div><!-- login feature popup end -->
+      <script>
+        //show following button in bottom link
+        function show_follow()
+        {
+          $(".selectedCity23244").show();
+          $('#top_menu ul li ul, #top_menu ul li ul li').css("display","block");
+        }	
+	 function login_feature_follow()
+        {
+          $('#login_use_feature_without').bPopup({
+            fadeSpeed:100,
+            followSpeed:100,
+            opacity:0.8,
+            positionStyle: 'absolute',
+            modalClose: false
+          },function(){
+            $( "#loginFeature1" ).click(function(){
+              pop_Login('/login?act='+act+'&activity_id='+actid);
+            });
+          });
+        }      
+        //login feature bpopup displayed
+        function login_feature(sav,actid)
+        {
+          var act=sav;
+            if (typeof(actid) == 'undefined' || actid == null)
+          {
+            var activity_id=act;
+           }
+          else
+            {
+              var activity_id=actid;
+            }
+	
+          $('#login_use_feature').bPopup({
+            fadeSpeed:100,
+            followSpeed:100,
+            opacity:0.8,
+            positionStyle: 'absolute',
+            modalClose: false
+          },function(){
+            $( "#loginFeature" ).click(function(){
+              pop_Login('/login?act='+act+'&activity_id='+activity_id);
+            });
+          });
+        }	
+        function login_feature_detail(act)
+        {
+          var activity_id=act;
+          $('#login_use_feature').bPopup({
+            fadeSpeed:100,
+            followSpeed:100,
+            opacity:0.8,
+            positionStyle: 'absolute',
+            modalClose: false
+          },function(){
+            $( "#loginFeature" ).click(function(){
+              pop_Login('/login?activity_id='+activity_id);
+            });
+          });
+        }
+        var array_fav = new Array();
+        var remove_fav = new Array();
+        var parent_add_fav = new Array();
+        var parent_remove_fav = new Array();
+        var provider_add_fav = new Array();
+        var provider_remove_fav = new Array();
+        var follow_add_fav = new Array();
+        var follow_remove_fav = new Array();
+        var followuser_add_fav = new Array();
+        var followuser_remove_fav = new Array();
+
+        function modifyText_ev(testVal){
+          if($("#subCat_"+testVal+" input").is(":checked")){
+            $(".add_favorite").css("display","block");
+            favorite_item = $("#subCat_"+testVal+" input").val();
+            array_fav.push(favorite_item);
+            $('#fav_val').val(array_fav);
+          }
+          else{
+            var remove_item = $("#subCat_"+testVal+" input").val();
+            var index = array_fav.indexOf(remove_item);
+            array_fav.splice(index, 1);
+            $('#fav_val').val(array_fav);
+            if (remove_fav.indexOf(remove_item) == -1){
+              remove_fav.push(remove_item);
+              $('#rem_fav_val').val(remove_fav);
+            }
+          }
+        }
+        function add_favorite(){
+          var cat_add_row = $('#fav_val').val();
+          var cat_rem_row = $('#rem_fav_val').val();
+	  var catsub_add_row = $('#providercatadd_val').val();
+          var catsub_rem_row = $('#providercatremove_val').val();
+          var provider_add_row = $('#provideradd_val').val();
+          var provider_rem_row = $('#providerremove_val').val();
+          var parent_add_row = $('#parentadd_val').val();
+          var parent_rem_row = $('#parentremove_val').val();
+          var follow_add_row = $('#followadd_val').val();
+          var follow_rem_row = $('#followremove_val').val();
+          var follow_you_add_row = $('#followuseradd_val').val();
+          var follow_you_rem_row = $('#followuserremove_val').val();
+	
+          $.ajax({
+            url:'/activity_subcategories/update_follow_row',
+            type:"get",
+            data: {"catsub_add_row":catsub_add_row,"catsub_rem_row":catsub_rem_row,"cat_add_row":cat_add_row,"cat_remove_row":cat_rem_row,"provider_add_row":provider_add_row,"provider_rem_row":provider_rem_row,"parent_add_row":parent_add_row,"parent_rem_row":parent_rem_row,"follow_add_row":follow_add_row,"follow_rem_row":follow_rem_row,"follow_you_add_row":follow_you_add_row,"follow_you_rem_row":follow_you_rem_row},
+            success:function(data){
+            }
+          });
+        }
+        document.getElementById('#eventListContainer').display='block';
+      </script>
+      <script type="text/javascript">
+        function show_pop_up(exdays){
+          var exdate=new Date();
+          exdate.setDate(exdate.getDate() + exdays);
+          var c_value=escape(1) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+          document.cookie="show_again=" + c_value;
+          if(window.sessionStorage==undefined)
+          {
+          }
+          else{
+            sessionStorage.setItem("mySplashPage", "opened");
+          }
+        }
+        $(document).ready(function () {
+          $("#makeMeScrollablefeatured").smoothDivScroll({
+            mouseOverRightHotSpot: function () {
+              $("#makeMeScrollablefeatured").smoothDivScroll("getAjaxContent", "/landing/featured_activity", "addLast");
+            },mouseOverLeftHotSpot: function () {
+              $("#makeMeScrollablefeatured").smoothDivScroll("getAjaxContent", "/landing/featured_activity", "addLast");
+            }
+          });	  
+        });
+      </script>
+
+   

@@ -1,0 +1,214 @@
+/* You can alter this CSS in order to give Smooth Div Scroll your own look'n'feel */
+
+/* Invisible left hotspot */
+div.scrollingHotSpotLeft
+{
+	/* The hotspots have a minimum width of 100 pixels and if there is room the will grow
+    and occupy 15% of the scrollable area (30% combined). Adjust it to your own taste. */
+	min-width: 75px;
+	width: 25%;
+	height: 150px;
+	/* There is a big background image and it's used to solve some problems I experienced
+    in Internet Explorer 6. */
+	/*background-image: url(../images/big_transparent.gif);*/
+	background-repeat: repeat;
+	background-position: center center;
+	position: absolute;
+	z-index: 1;
+	left: 0;
+	/*  The first url is for Firefox and other browsers, the second is for Internet Explorer 
+	cursor: url(../images/cursors/cursor_arrow_left.png), url(../images/cursors/cursor_arrow_left.cur),w-resize;*/
+	
+}
+
+/* Visible left hotspot */
+div.scrollingHotSpotLeftVisible
+{
+	background-image: url(/assets/event_index/arrow_left.gif);				
+	background-color: #fff;
+	background-repeat: no-repeat;
+	opacity: 0.35; /* Standard CSS3 opacity setting */
+	-moz-opacity: 0.35; /* Opacity for really old versions of Mozilla Firefox (0.9 or older) */
+	filter: alpha(opacity = 35); /* Opacity for Internet Explorer. */
+	zoom: 1; /* Trigger "hasLayout" in Internet Explorer 6 or older versions */
+}
+
+/* Invisible right hotspot */
+div.scrollingHotSpotRight
+{
+	min-width: 75px;
+	width: 25%;
+	height: 100%;
+	/*background-image: url(../images/big_transparent.gif);*/
+	background-repeat: repeat;
+	background-position: center center;
+	position: absolute;
+	z-index:1;
+	right: 0;
+/*	cursor: url(../images/cursors/cursor_arrow_right.png), url(../images/cursors/cursor_arrow_right.cur),e-resize;*/
+	height:150px;
+}
+
+/* Visible right hotspot */
+div.scrollingHotSpotRightVisible
+{
+	background-image:url(/assets/event_index/arrow_right.gif);
+	background-color: #fff;
+	background-repeat: no-repeat;
+	opacity: 0.35;
+	filter: alpha(opacity = 35);
+	-moz-opacity: 0.35;
+	zoom: 1;
+}
+
+/* The scroll wrapper is always the same width and height as the containing element (div).
+   Overflow is hidden because you don't want to show all of the scrollable area.
+*/
+div.scrollWrapper
+{
+	position:relative;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	padding: 0px 0px;
+}
+
+div.scrollableArea
+{
+	position:relative;
+	width: auto;
+	/*height: 96%;	*/
+	padding-top:none !important;
+	/*overflow: hidden;*/  /* show specials discount  */
+}
+div.center_bg_scroll{
+	/*background:url('/assets/event_index/box_middle.png') repeat-y;*/
+	width:100%;
+	/*top:-3px;
+	.top:0px;
+	height:485px;
+	.height:480px;
+	height:480px\0/IE9;*/
+	height:538px;
+	overflow:hidden;
+	
+}
+ #makeMeScrollable div.scrollableArea .imgDiv,#makeMeScrollable1 div.scrollableArea .imgDiv{
+ 	background:url('/assets/event_index/box_middle.png') no-repeat;
+	width:238px;
+	height:508px;
+ }
+#makeMeScrollable div.scrollableArea .Div_image{
+	background:url('/assets/event_index/box.png') no-repeat;
+	width:232px;
+	height:508px;
+}
+/*#makeMeScrollable div.scrollableArea .tobBg{
+    background:url('/assets/event_index/box_top.png') #edefee no-repeat;
+	width:227px;
+	height:5px;
+}*/
+ #makeMeScrollable div.scrollableArea .setPaddingImg1, #makeMeScrollable1 div.scrollableArea .setPaddingImg1,
+ #makeMeScrollable2 div.scrollableArea .setPaddingImg1, #makeMeScrollable3 div.scrollableArea .setPaddingImg1,
+ #makeMeScrollable4 div.scrollableArea .setPaddingImg1
+ {
+ 	/*padding: 2px 0 0 10px;*/
+ }
+ 
+#makeMeScrollable div.scrollableArea .ImgbottomDiv,#makeMeScrollable1 div.scrollableArea .ImgbottomDiv,
+#makeMeScrollable2 div.scrollableArea .ImgbottomDiv, #makeMeScrollable3 div.scrollableArea .ImgbottomDiv, 
+#makeMeScrollable4 div.scrollableArea .ImgbottomDiv{
+	padding:5px 0 0 0px;
+}
+#makeMeScrollable div.scrollableArea .ImgbottomDiv1,#makeMeScrollable1 div.scrollableArea .ImgbottomDiv1,
+#makeMeScrollable2 div.scrollableArea .ImgbottomDiv1, #makeMeScrollable3 div.scrollableArea .ImgbottomDiv1, 
+#makeMeScrollable4 div.scrollableArea .ImgbottomDiv1{
+	padding:5px 0 0 9px;
+}
+#makeMeScrollable div.scrollableArea .BottomContent,#makeMeScrollable1 div.scrollableArea .BottomContent, 
+#makeMeScrollable2 div.scrollableArea .BottomContent, #makeMeScrollable3 div.scrollableArea .BottomContent, 
+#makeMeScrollable4 div.scrollableArea .BottomContent{
+	margin1: 9px 0 5px 0;
+	padding-left:5px;
+	position:absolute;
+	top:4px;
+	.margin:0 0 0 -190px;
+}
+#makeMeScrollable div.scrollableArea .SetStarImg,#makeMeScrollable1 div.scrollableArea .SetStarImg,
+#makeMeScrollable2 div.scrollableArea .SetStarImg, #makeMeScrollable3 div.scrollableArea .SetStarImg, 
+#makeMeScrollable4 div.scrollableArea .SetStarImg
+{
+ vertical-align:top;
+ margin:2px 0 0 6px;
+}
+#makeMeScrollable div.scrollableArea .SetStarImg1,#makeMeScrollable1 div.scrollableArea .SetStarImg1, 
+#makeMeScrollable2 div.scrollableArea .SetStarImg1, #makeMeScrollable3 div.scrollableArea .SetStarImg1, 
+#makeMeScrollable4 div.scrollableArea .SetStarImg1{
+ vertical-align:top;
+ margin:2px 0 0 0px;
+}
+#makeMeScrollable div.scrollableArea .paddTop,#makeMeScrollable1 div.scrollableArea .paddTop,
+#makeMeScrollable2 div.scrollableArea .paddTop, #makeMeScrollable3 div.scrollableArea .paddTop,
+#makeMeScrollable4 div.scrollableArea .paddTop{
+ padding:9px 0 3px 0;
+ }
+#makeMeScrollable div.scrollableArea .paddTop_imgDiv2,#makeMeScrollable1 div.scrollableArea .paddTop_imgDiv2,
+#makeMeScrollable2 div.scrollableArea .paddTop_imgDiv2, #makeMeScrollable3 div.scrollableArea .paddTop_imgDiv2,
+#makeMeScrollable4 div.scrollableArea .paddTop_imgDiv2{
+	padding: 9px 0 8px 0px;
+}
+#makeMeScrollable div.scrollableArea .box_bottom_img,#makeMeScrollable1 div.scrollableArea .box_bottom_img,
+#makeMeScrollable2 div.scrollableArea .box_bottom_img, #makeMeScrollable3 div.scrollableArea .box_bottom_img,
+#makeMeScrollable4 div.scrollableArea .box_bottom_img{
+	top:-14px;
+	.top:0px;
+	position:relative;
+}
+#makeMeScrollable div.scrollableArea .CommentDiv,#makeMeScrollable1 div.scrollableArea .CommentDiv,
+#makeMeScrollable2 div.scrollableArea .CommentDiv, #makeMeScrollable3 div.scrollableArea .CommentDiv,
+#makeMeScrollable4 div.scrollableArea .CommentDiv{
+	margin:0;
+	padding:0;
+}
+#makeMeScrollable div.scrollableArea .SetBgColorDiv,#makeMeScrollable1 div.scrollableArea .SetBgColorDiv,
+#makeMeScrollable2 div.scrollableArea .SetBgColorDiv, #makeMeScrollable3 div.scrollableArea .SetBgColorDiv,
+#makeMeScrollable4 div.scrollableArea .SetBgColorDiv{
+    background: none repeat scroll 0 0 #ECF6F8;
+    border-bottom1: 2px solid #E6EBEE;
+    height: 45px;
+    margin: 0 0 0 2px;
+    padding:0 0 4px 0;
+    width: 223px;
+}
+#makeMeScrollable div.scrollableArea .ftSz12Photo,#makeMeScrollable1 div.scrollableArea .ftSz12Photo,
+#makeMeScrollable2 div.scrollableArea .ftSz12Photo, #makeMeScrollable3 div.scrollableArea .ftSz12Photo,
+#makeMeScrollable4 div.scrollableArea .ftSz12Photo{
+	font-size:12px;
+	color:#535050;
+}
+#makeMeScrollable div.scrollableArea .setTopImg, #makeMeScrollable1 div.scrollableArea .setTopImg,
+#makeMeScrollable2 div.scrollableArea .setTopImg, #makeMeScrollable3 div.scrollableArea .setTopImg,
+#makeMeScrollable4 div.scrollableArea .setTopImg
+{
+	width: 188px;
+	margin: 5px;
+}
+#makeMeScrollable div.scrollableArea #desc,#makeMeScrollable1 div.scrollableArea #desc,
+#makeMeScrollable2 div.scrollableArea #desc, #makeMeScrollable3 div.scrollableArea #desc,
+#makeMeScrollable4 div.scrollableArea #desc{
+	position:relative;
+	top:-6px; 
+	left:4px;
+	width: 160px;
+}
+#makeMeScrollable2 div.scrollableArea .EventAcadamy{
+	 padding: 5px 0 12px 0;
+}
+
+#makeMeScrollable div.scrollableArea #desc,#makeMeScrollable1 div.scrollableArea #desc,
+#makeMeScrollable2 div.scrollableArea #desc, #makeMeScrollable3 div.scrollableArea #desc,
+#makeMeScrollable4 div.scrollableArea #desc{
+}
+
+
+

@@ -1,0 +1,33 @@
+<table cellpadding="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+	  <table cellpadding="0" cellpadding="0">
+	  	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="50">Hello <%= @user.user_name%>,</td>
+		</tr>
+	  	<!--displayed the content for auto renewal and deactivate amount detection-->
+		<%if !@user.nil? && !@user.user_status.nil? && @user.user_status.present? && @user.user_status == "deactivate" %>
+			<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="40">Thank you for paying the $<%=@uamount if !@uamount.nil?%> maintenance fee. The amount has been debited from your credit card on file. Thank you for continuing <span style="color:red">to be part of the Famtivity network</span>.</td>
+			</tr>
+		<%else%>
+			<tr>
+				<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="40">Your provider account, <%= @user.user_name%>, has been automatically renewed and the monthly fee of <span style="color:red">$<%=@uamount if !@uamount.nil?%></span> was debited from the credit card on file.</td>
+			</tr>
+			<tr>
+				<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="40">Please contact us at <a href='mailto:support@famtivity.com' style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#196076;">support@famtivity.com</a> If you have any questions,</td>
+			</tr>
+		<%end%>
+		<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="60">Thanks!</td>
+		</tr>
+		<tr>
+			<td><span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;">The Famtivity Team</span></td>
+		</tr>
+		
+	  </table>
+      
+
+  </td>
+  </tr>
+</table>

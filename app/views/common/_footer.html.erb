@@ -1,0 +1,128 @@
+<%if (request.fullpath!="/contact_users?mode=parent")&&(request.fullpath!="/contact_users")&&(request.fullpath!="/messages?mode=parent")&&(request.fullpath!="/messages?mode=provider")%>
+<!--new social text starting here-->
+    <div align="center" class="socialtxt">
+    <div style="background-color: #fff; width: 1230px;">
+    <div class="socialtxt_inner">
+        <%=image_tag("https://www.famtivity.com/assets/landing/famtivity_network.png", :width=>"599", :height=>"155", :alt=>"Famtivity")%>
+        <br>
+        <br>
+        <div class="footersocialtxt" align="left">Famtivity is a social network for parents to find, share, buy and organize their kids' activities. Our provider directory includes special discounts on local kids' classes, lessons, camps, activities and events for all ages. We help simplify life while giving parents tools for their children's growth and development.</div>
+    </div>
+    </div>
+    <div class="clear"></div>
+      </div>
+    <!--new social text ending here-->
+    
+<div class="grey_dot"></div>
+        <div class="footer" align="center"> 
+            <!-- bobble bg --><div class="bobble_left"></div>
+            <div class="bobble_center"> <div class="kids_img"></div></div>
+            <div  class="bobble_right"></div><!-- bobble bg end-->
+            <div class="clear"></div>
+            <div class="footerBG">
+            <div class="footer-top-content">
+            <div class="footer_top" align="center">                 
+                    <div class="footer_left">
+                        <div class="section_inner">
+                                <span class="btm_head">Famtivity Offers</span><br>
+                                <span class="offer_subhead">Get ready for the Fall with great offers!</span>
+                                <div class="offer_cont">
+                                    Tell friends to use code "<b>Join25</b>" as they sign-up so they get an instant <b>$25</b> credit on qualifying classes, camps and lessons. Plus, you get <b>$1</b> credit for every friend that joins.                                 
+                                </div>
+                                <div align="center"><br>
+                                    <%if !current_user.nil? && current_user.present?%>
+                                    <a href="javascript:void(0)" title="Invite Friend" onclick="pop_invite_friend_check('/invite_friend_famtivity?check_invite=invite&amp;fam_last=/home'); _gaq.push(['_trackEvent','Parent Module', 'clickServices','Invite a Friend']);"><%=image_tag("/assets/new_landing/invite_friends.png", :width=>"184", :height=>"54", :alt=>"Invite Friend")%></a>
+                                    <%else%>
+                                    <a href="javascript:void(0)" title="Invite Friend" onclick="login_before('friend');_gaq.push(['_trackEvent','Parent Module', 'clickServices','Invite a Friend']);"><%=image_tag("/assets/new_landing/invite_friends.png", :width=>"214", :height=>"54", :alt=>"Invite Friend")%></a>
+                                    <%end%>
+                                </div>
+                        </div>
+                    </div>                    
+                    <div class="footer_center dotted_whitev" align="center">
+                        <div class="social_inner" align="left" style="margin-left:30px;">
+                                <span class="btm_head" align="center" >Share</span><br>
+                                <div class="social" align="center">                             
+                                    <a href="https://www.facebook.com/Famtivity" target="_blank" class="fb_bg" title="FB"></a>                                  
+                                    <a href="https://twitter.com/famtivity" target="_blank" class="twitter_bg" title="Twitter"></a>
+                                    <a href="http://pinterest.com/famtivity/" target="_blank" class="pin_bg" title="Pinterest"></a>
+                                    <a href="https://plus.google.com/105576957217163088887/posts" target="_blank" class="google_bg" title="Googleplus"></a>
+                                    <div class="clear"></div>
+                                    <div align="center" class="beta_sec">                                       
+                                        <a href="javascript:void(0)" title="Beta Feedback" onclick="pop_feedback_form('/feedback');" ><%=image_tag("/assets/new_landing/beta_feedback.png", :width=>"184", :height=>"54", :alt=>"Beta Feedback")%></a>                                                                             
+                                    </div>
+                                    <div align="center" class="ssl_sec">
+                <script type="text/javascript" src="https://seal.verisign.com/getseal?host_name=www.famtivity.com&size=L&use_flash=NO&use_transparent=NO&lang=en"></script>
+                
+                                    </div>  
+                                </div> 
+                            </div>
+                    </div>
+                    <div class="footer_right dotted_whitev">
+                        <div class="famon_inner" align="left" >
+                            <span class="btm_head" align="left" style="display: inherit;">Famtivity On</span><br>
+                            <div class="famon_cont">You can find, buy and share kid's activities from Famtivity on your desktop. We're also working on releasing the iOS Apps soon.</div>
+                            <br>  <br> 
+                            <center>    
+                            <span class="fam_onlink"><%=image_tag("/assets/new_landing/icon_web.png", :width=>"57", :height=>"50", :alt=>"Web", :border=>"0")%><br>Web</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="fam_onlink"><%=image_tag("/assets/new_landing/icon_iphone.png", :width=>"31", :height=>"54", :alt=>"iPhone", :border=>"0")%><br>iPhone</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="fam_onlink"><%=image_tag("/assets/new_landing/icon_ipad.png", :width=>"29", :height=>"52", :alt=>"iPad", :border=>"0")%><br>iPad</span>
+                            </center>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+            </div>              
+        </div>
+        </div>
+         </div>
+     <!-- bottom section end -->  
+     <%end%>
+         
+        <div class="footer_btm">
+	<div class="footer_sec">
+                <div class="footer_inner">
+                    <div class="lt" style="width1:40%" id="footer_copy">
+                        <ul><li>&copy; 2014 famtivity Inc.&nbsp;&nbsp;</li></ul>
+                    </div>
+                    <div id="footer_menu">
+                        <ul>     
+			<%if current_user.present?%><li><a href="javascript:void(0)" class="footer_how_it_works" title="How it works" onclick="howitworks('/how-it-works'); _gaq.push(['_trackEvent','Parent Module', 'clickServices','How it works']);"><%=image_tag("/assets/header/footer_how_works.png", :width=>"24", :height=>"23", :style=>"border:0px;", :alt=>"How it works")%></a><span class="pipeSymbol">|</span></li><%end%>
+                              <%if current_user.nil? || !current_user.present?%><li><a onclick="pop_Parent_Login('/pricing-plans/provider'); show_provider_plan(); _gaq.push(['_trackEvent', 'Parent Module', 'clickServices','Pricing']);" title="Pricing" href="javascript:void(0)">Pricing</a>|</li><%end%>
+                              <li><a  href="/categories" title="Browse by Category" <%if params[:action] == "browse_category"%>style="color:#E24C4B;"<%end%> onclick="_gaq.push(['_trackEvent', 'Browse by Category', 'clickServices']);">Browse By Category</a><span class="pipeSymbol">|</span></li>
+                              <!--<li><a  href="/locations" title="Browse by Location" onclick="_gaq.push(['_trackEvent', 'Browse by Location', 'clickServices']);">Browse By Location</a><span class="pipeSymbol">|</span></li>-->                     
+                              <li><a href="/terms-of-service" title="Terms of Service" <%if params[:action] == "terms_of_service"%>style="color:#E24C4B;"<%end%> onclick="_gaq.push(['_trackEvent','Parent Module', 'clickServices','Terms of Service'])">Terms of Service</a>|</li>
+                              <li><a href="/privacy-policy" title="Privacy Policy" <%if params[:action] == "privacy_policy"%>style="color:#E24C4B;"<%end%> onclick="_gaq.push(['_trackEvent','Parent Module', 'clickServices','Privacy Policy'])">Privacy Policy</a>|</li>
+                              <li><a href="/about-us" title="About Us" <%if params[:action] == "about_us"%>style="color:#E24C4B;"<%end%> onclick="_gaq.push(['_trackEvent','Parent Module', 'clickServices','Aboutus'])">About Us</a>|</li>
+                              <li><a href="/contact-us" title="Contact Us" <%if params[:action] == "contact_us"%>style="color:#E24C4B;"<%end%> onclick="_gaq.push(['_trackEvent','Parent Module', 'clickServices','Contactus'])">Contact Us</a>|</li>
+                              <li><a href="/frequently-asked-questions" title="FAQ" <%if params[:action] == "faq"%>style="color:#E24C4B;"<%end%> onclick="_gaq.push(['_trackEvent','Parent Module', 'clickServices','FAQ'])">FAQ</a>|</li>
+                              <li><a href="https://www.famtivity.com/blog" title="Blog" target="_blank" onclick="_gaq.push(['_trackEvent','Parent Module', 'clickServices','Blog'])">Blog</a>|</li>
+                              <li><a href="javascript:void(0);" title="Find us on Famtivity" onclick="find_us_on_famtivity('/find-us-on-famtivity'); _gaq.push(['_trackEvent','Parent Module', 'clickServices','Find us on Famtivity']);">Find us on Famtivity</a>|</li>
+                              <li><a href="#" title="Survey" onclick="showSurveyMonkey(); _gaq.push(['_trackEvent','Parent Module', 'clickServices','Survey']);" target="">Survey</a></li>
+                        </ul>
+                    </div>
+                </div>
+		 </div>
+        </div>
+<script type="text/javascript">
+var activityFeedbackPage;
+function pop_feedback_form(url){
+  var stateObj = {
+        foo: "bar"
+    };
+    if(navigator.appName=="Microsoft Internet Explorer")
+    {
+        window.location.hash='/';
+    }
+    else
+    {
+        history.replaceState(stateObj, "Feedback", url);
+    }
+    
+    activityFeedbackPage = dhtmlmodal.open("Feedback","iframe",url," ", "width=910px,height=780px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({
+        scrollTop: 0
+    }, 100);
+    return false;
+}  
+
+</script>

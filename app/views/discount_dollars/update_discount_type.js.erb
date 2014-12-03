@@ -1,0 +1,11 @@
+<%if @provider_discount_type.nil? %>
+$("#edit_discounttype_success").css("display","block").fadeOut(5000);
+parent.$("#edit_disc_creat_pop").css("display","none");
+parent.$("#edit_disc_creat_pop").css("opacity","0");
+parent.$(".wrapper_contianer_inner_login").css("opacity","1");
+parent.$(".menuSelection").css("opacity","1");
+parent.$(".page_header").css("opacity","1");  
+parent.$('#provider_partial_event_list').html("<%=escape_javascript(render 'provider_activity_discount_list')%>");
+<%else%>
+$("#edit_discounttype_failure").css("display","block").fadeOut(5000);
+<%end%>

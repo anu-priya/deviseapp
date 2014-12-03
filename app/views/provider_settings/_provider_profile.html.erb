@@ -1,0 +1,120 @@
+  
+<div class="top_info_text">
+  
+  <table cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+       <td width="69" valign="top">
+      	<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.profile_file_name.blank? %>
+          <%= image_tag(current_user.user_profile.profile.url(:medium), :width => 69 )%>   
+      	<% else %> 
+          <%= image_tag("/assets/profile/user_icon_69.png", size:"69x69", style:"border:1px solid #CEE1E8;")%>
+        <%end%>
+	   </td>
+  
+  <td  valign="top">
+    <div style="margin-left:10px;">
+    <div class="profileRt">
+      <table cellpadding="0" cellspacing="0" width="700">
+	      <% if !@user_profile.nil? && !@user_profile.business_name.nil? && @user_profile.business_name.present?%>
+            <tr>
+              <td class="profile_font_border profile_font_rtColor" style="color:#347d91;" colspan="2"><b>
+                <%=@user_profile.business_name if !@user_profile.nil? %></b>
+	           </td>             
+            </tr>
+	      <% end %> 
+        <% if !@user_profile.nil? && !@user_profile.owner_first_name.nil? && @user_profile.owner_first_name.present?%>
+          <tr>
+            <td class="profile_font" height="26" width="175"><b>Owner</b></td> 
+            <td class="profile_font_rtColor" width="330"><%=@user_profile.owner_first_name if !@user_profile.nil? %> <%=@user_profile.owner_last_name if !@user_profile.nil? %></td>
+          </tr>
+        <% end %>
+        <% if !@user_profile.nil? && !@user_profile.first_name.nil? && @user_profile.first_name.present?%>
+          <tr>  
+            <td class="profile_font" height="26" width="175">Administrator</td>
+            <td class="profile_font_rtColor" width="330"><%=@user_profile.first_name if !@user_profile.nil? %> <%=@user_profile.last_name if !@user_profile.nil? %></td>
+          </tr> 
+        <% end %>            
+        <% if !@user_profile.nil? && !@user_profile.website.nil? && @user_profile.website.present?%>
+          <tr>
+            <td class="profile_font" height="30" width="175">Website</td>
+            <td class="profile_font_rtColor" width="330"><u><%=@user_profile.website if !@user_profile.nil? %></u>
+            </td>
+          </tr>
+        <% end %>
+        <% if !@user_profile.nil? && !@user_profile.phone.nil? && @user_profile.phone.present?%>
+          <tr>
+            <td class="profile_font" height="26" width="175">Phone Number</td>
+            <td class="profile_font_rtColor" width="330"><%=@user_profile.phone if !@user_profile.nil? %></td>
+          </tr>
+        <% end %>
+        <% if !@user_profile.nil? &&!@user_profile.mobile.nil? && @user_profile.mobile.present?%>
+          <tr>
+            <td class="profile_font" height="26" width="175">Mobile Number</td>
+            <td class="profile_font_rtColor" width="330"><%=@user_profile.mobile if !@user_profile.nil? %></td>
+          </tr>
+        <% end %>
+        <% if !@user_profile.nil? && !@user_profile.fax.nil? && @user_profile.fax.present?%>
+          <tr>
+            <td class="profile_font_border" height="26" width="175">Fax Number</td>
+            <td class="profile_font_border profile_font_rtColor" style="color:#347d91;" width="330"><%=@user_profile.fax if !@user_profile.nil? %></td>
+          </tr>
+        <% end %>
+	      <% if !@user_profile.nil? && !@user_profile.category.nil? && !@user_profile.sub_category.nil? && @user_profile.category.present? && @user_profile.sub_category.present?%>
+	       <tr>
+          <td class="profile_font" height="30" width="175">Category &amp; Sub Category</td>
+          <td class="profile_font_rtColor" width="330"><%= @user_profile.category %> > <%= @user_profile.sub_category %></td>
+        </tr>
+        <% end %>
+	       <% if !@user_profile.nil? && !@user_profile.tags_txt.nil? && @user_profile.tags_txt.present?%>
+  		      <tr>
+              <td class="profile_font" height="30" width="175">Tags</td>
+              <td class="profile_font_rtColor" width="330" title="<%=@user_profile.tags_txt if !@user_profile.nil? %>"><%= truncate(@user_profile.tags_txt,length: 40) if !@user_profile.nil? %></td>
+            </tr>
+          <% end %>
+          <% if !@user_profile.nil? && !@user_profile.address_1.nil? && @user_profile.address_1.present?%>
+		      <tr>
+            <td class="profile_font" height="33" width="175">Provider Location</td>
+            <td class="profile_font_rtColor" width="330"><%=@user_profile.address_1 if !@user_profile.nil? %><% if ( !@user_profile.nil? && !@user_profile.address_2.blank?)%>,<%=@user_profile.address_2%><% end %><%=','+@user_profile.city if !@user_profile.nil? && @user_profile.city.present? %><%=','+@user_profile.state if !@user_profile.nil? && @user_profile.state.present? %></td>
+          </tr>
+          <% end %>
+
+          <% if !@user_profile.nil? && !@user_profile.business_language.nil? && @user_profile.business_language.present?%>
+		      <tr>
+            <td class="profile_font" height="30" width="175">Language</td>
+            <td class="profile_font_rtColor" width="330"><%=@user_profile.business_language if !@user_profile.nil? %></td>
+          </tr>
+          <% end %>
+          </table>
+       </div>
+	<br/>
+	<div class="profileRt">
+          <table cellpadding="0" cellspacing="0" width="700">           
+	  <tr>
+              <td class="profile_font" width="183" style="border:none;">Email</td>
+              <td class="profile_font_rtColor" width="215" style="color: #347d91;"><a class="profile_font_rtColor" style="word-break:break-all;display:inline-block;" href="mailto:<%=current_user.email_address if !current_user.email_address.nil? %>" title="<%=current_user.email_address if !current_user.email_address.nil? %>"><%=current_user.email_address if !current_user.email_address.nil? %></a></td>
+	    <td width="10"></td>
+	    <td width="20"><a onclick="pop_change_email('/change_email');" href="javascript:void(0);" title="Change Email">
+        <%= image_tag("/assets/form_builder/edit_icon.png", size:"15x15",alt:"Edit")%>
+        </a>&nbsp;</td>
+	    <td width="100"><a onclick="pop_change_email('/change_email');" href="javascript:void(0)" class="profile_font_rtColor" title="Change Email"><b>Change Email</b></p></td>
+            </tr> 
+	</table>
+	</div>
+      </td>
+      </div>
+    </tr>
+  </table>  
+  <div class="edtiDiv provider_clink" style="width:720px;">
+	<a class="save-button lt"  href="javascript:void(0)" onclick="pop_provider_edit_profile('/provider_edit_profile'); _gaq.push(['_trackEvent','Provider Module', 'clickMyAccounts','Edit Profile'])">Edit</a>
+	<%@tran_id = UserTransaction.find_by_user_id(current_user.user_id) if !current_user.nil?%>
+	  <a href="<%if !@tran_id.nil? && @tran_id.present?%>/payment_setup<%else%>/get_credit_card_info<%end%>" class="businness_font provider_cclink" title="" style="float:right;">
+		<b><%if !@tran_id.nil? && @tran_id.present?%>Click here to view Credit Card Information<%else%>Click here to update Credit Card Information<%end%></b>
+	  </a>
+	    <div class="clear"></div>
+	  <a href="/bank_info" class="businness_font editbnklink" title="" style="float:right;">
+		<b>Click here to edit Bank Information</b>
+	  </a>
+	  <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+</div>	

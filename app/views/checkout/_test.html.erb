@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Famtivity</title>
+    <meta content="authenticity_token" name="csrf-param" />
+    <meta content="QLJgq/4TaCYFsA4vXup4DabGerzgM9qJ35vDW98V8Rs=" name="csrf-token" />
+
+  </head>
+  <body>
+<%=stylesheet_link_tag "checkout/checkout","create_new_activity/create_new_activity","global/pop_up","create_new_activity/jquery.ui.datepicker","create_new_activity/jquery.ui.theme", :media => "all"%>
+<%=javascript_include_tag "create_new_activity/create_activity_select_option","checkout/proceed_checkout","create_new_activity/validate","create_new_activity/radio_checkbox","create_new_activity/jquery.ui.core","create_new_activity/jquery.ui.datepicker","global/jquery.limit-1.2.source"%>
+
+  <script language="javascript">
+    var proceedCheckoutPage;
+    var thankCheckoutPage;
+    function pop_proceed_checkout(url){
+      proceedCheckoutPage = dhtmlmodal.open("proceed_to_checkout","iframe",url," ", "width=903px,height=570px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+      var body = document.body,
+      html = document.documentElement;
+      var height = Math.max( body.scrollHeight, body.offsetHeight,
+      html.clientHeight, html.scrollHeight, html.offsetHeight );
+      $(".drag-contentarea").css("height",height+"px");
+      return false;
+      //parent.secureCheckoutPage.hide();
+      return false;
+
+    }
+
+    function closepopup(){
+      alert('raja');
+      parent.addparticipantpage.hide();
+      //parent.proceedCheckoutPage.hide();
+    }
+  </script>
+  <div id="new_act_container">
+    <div class="popupContainer" id="checkout">
+      <div class="popupContainerTop"></div>
+      <div class="popupContainerCenter">
+        <div class="innerContainer">
+          <div class="headTab">
+            <div class="heading">
+              <div class="headCont">Secure Checkout</div>
+            </div>
+            <div class="closeButton">
+              <a href="javascript:void(0)" onClick="closepopup()" title="">
+                <%= image_tag "/assets/global/pop_up/button_close.png", :alt=>"", :width=>"15", :height=>"15" %>
+              </a>
+            </div>
+          </div>
+          <div class="centerCont">
+            <form id="card_checkout" name="card_checkout" action="/checkout/checkout_thank" method="post"  onsubmit="return validateCardActivity();">
+              <div class="checkout_top">
+                <div class="set_style_1 checkoutLt" style="background:none;"><span class="number_1">1</span></div>
+                <div class="checkoutLt"><%= image_tag "/assets/checkout/line.png", :width=>"191", :height=>"1", :class=>"setLineImg" %></div>
+                <div class="set_style_2_visible checkoutLt"><span class="number_1">2</span></div>
+                <div class="checkoutLt"><%= image_tag "/assets/checkout/line.png", :width=>"191", :height=>"1", :class=>"setLineImg" %></div>
+                <div class="set_style_3 checkoutLt"><span class="number_1">3</span></div>
+              </div>
+              <div class="clear"></div>
+              <div class="checkout_top" style="margin-top:2px; .margin-top:7px;">
+                <div class="checkoutLt"><span class="number_1 chkout_clr_ftSz12" style="margin:4px 0 0 -12px; .margin:0px 0 0 -12px; position:relative; display:block; width:60px;">My Cart</span></div>
+                <div class="checkoutLt"><span class="number_1 chkout_ftSz12" style="margin-left:142px;">Place Order</span></div>
+                <div class="checkoutLt"><span class="number_1 chkout_clr_ftSz12" style="margin-left:125px;">Order Conformation</span></div>
+              </div>
+              <div class="clear"></div>
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Payment Method</div>
+                <div class="lt billing">
+                  <div class="selectBoxCity"  onmouseover="flag=true;" onmouseout="flag=false;" onkeydown="selectKeyDown(event)">
+                    <input type="hidden" id="payment_method" name="activity[billing_type]" value="Select" />
+                    <div id="field" class="selectDiv" style="line-height:23px;">--Select--</div>
+                  </div>
+                  <div class="dropDownDivCity" id="dropDownDiv" style="display:none; height:47px;">
+                    <a href="javascript:void(0)" onclick="setDropDownValue('Credit Card Account')" title="">Credit Card Account</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValue('PayPal')" title="">PayPal</a>
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="payment_method_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div>
+
+
+                <div id="paypal" style="display:none;">
+                  <div class="paddingTop10">
+                    <div class="lt leftSideField">&nbsp;</div>
+                    <div class="lt billing">
+                      <span class="FtSz14">Pay with PayPal</span>
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+                  <div class="paddingTop10">
+                    <div class="lt leftSideField">&nbsp;</div>
+                    <div class="lt billing">
+                      <span class="FtSz13"> Clicking "continue" will redirect you to PayPal's site to complete your purchase.</span>
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+                  <div class="buttonDiv_form">
+                    <div class="lt leftSideField">&nbsp;</div>
+                    <div class="lt">
+                      <a href="#"><input type="image" src="/assets/create_new_activity/continue.png" alt=""/></a>
+                      <a href="#" title=""><%= image_tag "/assets/create_new_activity/back.png", :alt=>"" %></a>
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+                </div>
+                <div id="card_payment">
+                  <div class="paddingTop10">
+                    <div class="lt leftSideField">Cardholder Name</div>
+                    <input type="text" name="CardholderName" id="CardholderName" class="lt textbox" value="Enter Cardholder Name" onfocus="focusChangeBorderColor('CardholderName')" onblur="blurChangeBorderColor('CardholderName')" maxlength="50" />
+                    <div class="clear"></div>
+                  </div>
+                  <div class="clear"></div>
+                  <div class="errorDiv" style="display:none">
+                    <div class="lt leftSideField">&nbsp;</div>
+                    <div class="lt" id="card_holder_error"></div>
+                  </div>
+
+                  <div class="clear"></div>
+                  <div class="paddingTop10" style="width:800px;">
+                    <div class="lt leftSideField">Card Number</div>
+                    <input type="text" id="cardnumber_1" name="cardnumber_1" class="lt textbox" value="" style="width:55px;margin-right:3px;" onfocus="focusChangeBorderColor('cardnumber_1')" onblur="blurChangeBorderColor('cardnumber_1')"/>
+                    <div class="lt">
+                      <input type="text" id="cardnumber_2" name="cardnumber_2" class="lt textbox" value="" style="width:55px;margin-right:3px;" onfocus="focusChangeBorderColor('cardnumber_2')" onblur="blurChangeBorderColor('cardnumber_2')"/>
+                    </div>
+                    <div class="lt">
+                      <input type="text" id="cardnumber_3" name="cardnumber_3" class="lt textbox" value="" style="width:55px;margin-right:3px;" onfocus="focusChangeBorderColor('cardnumber_3')" onblur="blurChangeBorderColor('cardnumber_3')"/>
+                    </div>
+                    <div class="lt">
+                      <input type="text" id="cardnumber_4" name="cardnumber_4" class="lt textbox" value="" style="width:55px;margin-right:3px;" onfocus="focusChangeBorderColor('cardnumber_4')" onblur="blurChangeBorderColor('cardnumber_4')"/>
+                    </div>
+                    <div class="lt">
+                      <div class="leftSideField" style="margin-left:26px; width:125px;">Payment Type</div>
+                    </div>
+                    <div class="lt">
+                      <%= image_tag "/assets/checkout/visa_card.png", :width=>"50", :height=>"31" %>
+                    </div>
+
+                    <div class="clear"></div>
+                  </div>
+                  <div class="errorDiv" style="display:none">
+                    <div class="lt leftSideField">&nbsp;</div>
+                    <div class="lt" id="card_number_error"></div>
+                  </div>
+                  <div class="clear"></div>
+                  <div class="paddingTop7">
+                    <div class="lt leftSideField">Expiration Date</div>
+                    <div class="lt category">
+                      <div class="lt col1" style="width:80px;">
+                        <div class="selectBoxCheckout"  onkeydown="selectRegUsrKeyDown_create(event)" onmouseover="flag1=true;" onmouseout="flag1=false;">
+                          <input type="hidden" id="Date" name="Date" value="Select" />
+                          <div id="field_date" class="selectDiv selectDivMedium" style="line-height:23px;">01</div>
+                        </div>
+
+                        <div class="dropDownDivSCountry dropDownDiv_small" id="dropDownDiv1" style="display:none;">
+                          <a href="javascript:void(0)" onclick="setDropDownValueChkout('01')" title="">01</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValueChkout('02')" title="">02</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValueChkout('03')" title="">03</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValueChkout('04')" title="">04</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValueChkout('05')" title="">05</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValueChkout('06')" title="">06</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValueChkout('07')" title="">07</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValueChkout('08')" title="">08</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValueChkout('09')" title="">09</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValueChkout('10')" title="">10</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValueChkout('11')" title="">11</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValueChkout('12')" title="">12</a>
+                        </div>
+                      </div>
+                      <div class="lt col2">
+                        <div class="lt sub_category">
+                          <div class="selectBoxCheckout"  onmouseover="flag2=true;" onmouseout="flag2=false;">
+                            <input type="hidden" id="year" name="year" value="Select" />
+                            <div id="field2" class="selectDiv selectDivMedium" style="line-height:23px;">2012</div>
+                          </div>
+                          <div class="dropDownDivSCountry dropDownDiv_small" id="dropDownDiv2" style="display:none; height:110px; overflow-y:scroll;">
+                            <a href="javascript:void(0)" onclick="setDropDownValuey('2012')" title="">2012</a>
+                            <a href="javascript:void(0)" onclick="setDropDownValuey('2011')" title="">2011</a>
+                            <a href="javascript:void(0)" onclick="setDropDownValuey('2010')" title="">2010</a>
+                            <a href="javascript:void(0)" onclick="setDropDownValuey('2009')" title="">2009</a>
+                            <a href="javascript:void(0)" onclick="setDropDownValuey('2008')" title="">2008</a>
+                            <a href="javascript:void(0)" onclick="setDropDownValuey('2007')" title="">2007</a>
+                            <a href="javascript:void(0)" onclick="setDropDownValuey('2006')" title="">2006</a>
+                            <a href="javascript:void(0)" onclick="setDropDownValuey('2005')" title="">2005</a>
+                            <a href="javascript:void(0)" onclick="setDropDownValuey('2004')" title="">2004</a>
+                            <a href="javascript:void(0)" onclick="setDropDownValuey('2003')" title="">2003</a>
+                            <a href="javascript:void(0)" onclick="setDropDownValuey('2002')" title="">2002</a>
+                            <a href="javascript:void(0)" onclick="setDropDownValuey('2001')" title="">2001</a>
+                            <a href="javascript:void(0)" onclick="setDropDownValuey('2000')" title="">2000</a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="lt leftSideField" style="margin-left:26px; width:50px;">CVC</div>
+                      <div class="lt">
+                        <input type="text" id="cardnumber_5" name="cardnumber_5" class="lt textbox" value="" style="width:75px;margin-right:3px;" onfocus="focusChangeBorderColor('cardnumber_5')" onblur="blurChangeBorderColor('cardnumber_5')"/>
+                      </div>
+                      <div class="lt" style="margin:3px 0 0 4px;">
+                        <a href="#" title="" class="chkout_ftSz12" onclick="dispCheck_pop();"><u>What's this?</u></a>
+                      </div>
+                      <div class="clear"></div>
+
+                      <div class="clear"></div>
+
+                      <div class="errorDiv" style="display:none">
+                        <div class="lt leftSideField">&nbsp;</div>
+                        <div class="lt" id="cvc_error" style="margin-left:10px;"></div>
+                      </div>
+                      <link rel="stylesheet" type="text/css" href="/assets/checkout/popup_chkout.css" />
+                      <script type="text/javascript" src="/assets/create_new_activity/repeat.js"></script>
+                      <div class="repeatContainer" id="repeatPOPUPDiv_1" style="display:none;">
+                        <div class="repeatContainerTop"></div>
+                        <div class="repeatContainerCenter">
+                          <div class="innerContainer">
+                            <div class="headTab">
+                              <div class="heading">
+                                <div class="headCont">Card Verification Code</div>
+                                <div class="closeButton">
+                                  <a href="javascript:void(0)" onClick="closeRepeatDiv()" title="">
+                                    <%= image_tag "/assets/global/pop_up/button_close.png", :alt=>"", :width=>"15", :height=>"15" %>
+                                  </a>
+                                </div>
+
+                              </div>
+                            </div>
+                            <div class="repeatFormContent">
+                              <%= image_tag "/assets/checkout/card.png", :alt=>"", :class=>"card_style" %>
+                              <p class="chkout_clr_ftSz12" style="padding:0 0 5px 20px;">Last 3 digits on the back to your credit card</p>
+                            </div>
+
+                          </div>
+                        </div>
+                        <div class="repeatContainerBottom"></div>
+                        <div class="clear"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                  <div id="category_errorDiv" class="errorDiv" style="display:none">
+                    <div class="lt leftSideField">&nbsp;</div>
+                    <div class="lt" id="category_error"></div>
+                    <div class="lt" id="sub_category_error"></div>
+                    <div class="clear"></div>
+                  </div>
+                  <div class="clear"></div>
+
+                  <div align="center" style="margin:10px 0 10px 0;"><%= image_tag "/assets/checkout/divider line.png", :alt=>'' %></div>
+
+                  <div class="paddingTop10">
+                    <div class="lt leftSideField">Billing Address</div>
+                    <input type="text" name="activity[address_1]" id="add_1" class="lt textbox" value="Address Line1" onfocus="focusChangeBorderColor('add_1')" onblur="blurChangeBorderColor('add_1')"/>
+                    <div class="clear"></div>
+                  </div>
+                  <div class="paddingTop2">
+                    <div class="lt leftSideField">&nbsp;</div>
+                    <input type="text" name="activity[address_2]" id="add_2" class="lt textbox" value="Address Line2"  onfocus="focusChangeBorderColor('add_2')" onblur="blurChangeBorderColor('add_2')"/>
+                    <div class="clear"></div>
+                  </div>
+                  <div class="clear"></div>
+                  <div class="errorDiv" style="display:none">
+                    <div class="lt leftSideField">&nbsp;</div>
+                    <div class="lt" id="venue_error"></div>
+                  </div>
+                  <div class="clear"></div>
+                  <div class="paddingTop10">
+                    <div class="lt leftSideField">City &amp; Zip Code</div>
+                    <div class="lt city">
+                      <div class="lt col1">
+                        <div class="selectBoxCity selectBoxMedium"  onmouseover="flag3=true;" onmouseout="flag3=false;">
+                          <input type="hidden" id="chkout_city" name="activity[city]" value="--Choose City--" />
+                          <div id="field3" class="selectDiv selectDivMedium" style="line-height:23px;" >--Choose City--</div>
+                        </div>
+
+                        <div class="dropDownDivCity dropDownDivMedium" id="dropDownDiv3" style="display:none; height:111px; overflow-y:scroll;">
+                          <a href="javascript:void(0)" onclick="setDropDownValue3('New York')" title="">New York</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue3('Los Angeles')" title="">Los Angeles</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue3('Chicago')" title="">Chicago</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue3('Philadelphia')" title="">Philadelphia</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue3('San Antonio')" title="">San Antonio</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue3('San Francisco')" title="">San Francisco</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue3('Dallas')" title="">Dallas</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue3('San Jose')" title="">San Jose</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue3('Detroit')" title="">Detroit</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue3('Seattle')" title="">Seattle</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue3('Las Vegas')" title="">Las Vegas</a>
+                        </div>
+                      </div>
+                      <div class="lt col2">
+                        <input type="text" name="zip_code_chkout" id="zip_code_chkout" class="lt textbox textboxMedium" value="Enter Zip Code" onchange="removeunwantedSpace('zip_code_chkout',this.value)" onfocus="focusChangeBorderColor('zip_code_chkout')" onblur="blurChangeBorderColor('zip_code_chkout')"/>
+                      </div>
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+                  <div class="clear"></div>
+                  <div id="cityZip_errorDiv" class="errorDiv" style="display:none">
+                    <div class="lt leftSideField">&nbsp;</div>
+                    <div class="lt dateTimeDiv city_zip">
+                      <div class="lt" id="city_error"></div>
+                      <div class="lt" id="zip_error"></div>
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+                  <div class="clear"></div>
+                  <div class="paddingTop10">
+                    <div class="lt leftSideField">State &amp; Country</div>
+                    <div class="lt state">
+                      <div class="lt col1">
+                        <div class="selectBoxCity selectBoxMedium"  onmouseover="flag4=true;" onmouseout="flag4=false;">
+                          <input type="hidden" id="chkout_state" name="chkout_state" value="Select" />
+                          <div id="field4" class="selectDiv selectDivMedium" style="line-height:23px;" >--Choose State--</div>
+                        </div>
+
+                        <div class="dropDownDivCity dropDownDivMedium" id="dropDownDiv4" style="display:none; height:111px; overflow-y:scroll;">
+                          <a href="javascript:void(0)" onclick="setDropDownValue4('New York')" title="">New York</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue4('Los Angeles')" title="">Los Angeles</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue4('Chicago')" title="">Chicago</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue4('Philadelphia')" title="">Philadelphia</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue4('San Antonio')" title="">San Antonio</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue4('San Francisco')" title="">San Francisco</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue4('Dallas')" title="">Dallas</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue4('San Jose')" title="">San Jose</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue4('Detroit')" title="">Detroit</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue4('Seattle')" title="">Seattle</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue5('Las Vegas')" title="">Las Vegas</a>
+                        </div>
+                      </div>
+                      <div class="lt col1" id="country">
+                        <div class="selectBoxCity selectBoxMedium"  onmouseover="flag5=true;" onmouseout="flag5=false;">
+                          <input type="hidden" id="chkout_country" name="activity[city]" value="Select" />
+                          <div id="field5" class="selectDiv selectDivMedium" style="line-height:23px;" >--Choose Country--</div>
+                        </div>
+
+                        <div class="dropDownDivCity dropDownDivMedium" id="dropDownDiv5" style="display:none;">
+                          <a href="javascript:void(0)" onclick="setDropDownValue5('New York')" title="">New York</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue5('Los Angeles')" title="">Los Angeles</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue5('Chicago')" title="">Chicago</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue5('Philadelphia')" title="">Philadelphia</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue5('San Antonio')" title="">San Antonio</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue5('San Francisco')" title="">San Francisco</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue5'Dallas')" title="">Dallas</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue5('San Jose')" title="">San Jose</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue5('Detroit')" title="">Detroit</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue5('Seattle')" title="">Seattle</a>
+                          <a href="javascript:void(0)" onclick="setDropDownValue5('Las Vegas')" title="">Las Vegas</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+                  <div id="stateCountry_errorDiv" class="errorDiv" style="display:none">
+                    <div class="lt leftSideField">&nbsp;</div>
+                    <div class="lt dateTimeDiv state_country">
+                      <div class="lt" id="state_error"></div>
+                      <div class="lt" id="country_error"></div>
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+                  <div class="paddingTop10">
+                    <div class="lt leftSideField">Contact Number</div>
+                    <input type="text" name="phone_no" id="phone_no" class="lt textbox" value="Enter Phone Number" onfocus="focusChangeBorderColor('phone_no')" onblur="blurChangeBorderColor('phone_no')" maxlength="50" />
+                    <div class="clear"></div>
+                  </div>
+                  <div class="errorDiv" style="display:none">
+                    <div class="lt leftSideField">&nbsp;</div>
+                    <div class="lt" id="phone_error"></div>
+                  </div>
+                  <div class="clear"></div>
+                  <div class="paddingTop10">
+                    <div class="lt leftSideField">Email</div>
+                    <input type="text" name="email" id="email" class="lt textbox" value=""  maxlength="50"/>
+                    <div class="clear"></div>
+                  </div>
+                  <div class="clear"></div>
+                  <div class="errorDiv" style="display:none">
+                    <div class="lt leftSideField">&nbsp;</div>
+                    <div class="lt" id="email_error"></div>
+                  </div>
+                  <div class="clear"></div>
+                  <div class="buttonDiv_form">
+                    <div class="lt leftSideField">&nbsp;</div>
+                    <div class="lt">
+                      <input type="image" src="/assets/checkout/pay.png" alt=""/></a>
+                      <a href="secure_checkout"><%= image_tag "/assets/checkout/back_button.png", :alt=>"" %></a>
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+
+                  </form>
+                </div>
+              </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="popupContainerBottom"></div>
+      <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</body>
+</html>

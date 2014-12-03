@@ -1,0 +1,288 @@
+<%=stylesheet_link_tag "event_index/event_scroll", :media => "all"%>
+<div class="after_login_top">
+<div class="wraper_inner_container">
+	<div class="content_title lt">
+		<div class="lt">User Transaction Report</div>
+		<div class="rt">
+			<div style="color: #2b91af; font-size: 14px;"><%= image_tag("/assets/policies/dwniconnormal.png")%>
+				<%if !@transactions.nil? && @transactions.length > 0 %>				
+				<a  href="/provider_transaction.xls" title="">Excel</a>
+				<%else%>				
+				<a  href="javascript:void(0)" title="">Excel</a>
+				<%end%>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<div class="tbl_containner">				
+		 <table  width="4456" border="0" cellpadding="0" cellspacing="0">			
+			<tr>
+				<td width="103" height="50" align="left"  valign="middle"class="tbl_headText">Transaction ID</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="96" align="left"  valign="middle" class="tbl_headText">Transaction Date</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="96" align="left"  valign="middle" class="tbl_headText">Product ID</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="96" align="left"  valign="middle" class="tbl_headText">Product Name</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="110" align="left"  valign="middle" class="tbl_headText">Provider Name</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="114" align="left" valign="middle" class="tbl_headText">Provider Email</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="122" align="left"  valign="middle" class="tbl_headText">Representative Name</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="131" align="left"  valign="middle" class="tbl_headText">Representative Email</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="101" align="left"  valign="middle" class="tbl_headText">Customer Name</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="78" align="left"  valign="middle" class="tbl_headText">Customer Phone</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="101" align="left"  valign="middle" class="tbl_headText">Contact information</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="108" align="left"  valign="middle" class="tbl_headText">Participant(s) Name</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="88" align="left"  valign="middle" class="tbl_headText">Voucher</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="98" align="left" valign="middle" class="tbl_headText">Sale Price($)</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="78" align="left" valign="middle" class="tbl_headText ">Discount</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="95" align="left"  valign="middle" class="tbl_headText ">Amount Charged($)</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="136" align="left"  valign="middle" class="tbl_headText ">Minus Credit Card Fees (processing fee) 3%</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="121" align="left"  valign="middle" class="tbl_headText ">Famtivity Fee 2.5% or 0.99</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="151" align="left"  valign="middle" class="tbl_headText">Famtivity&nbsp;Fee&nbsp;for Representative&nbsp; 2.5&nbsp;or&nbsp;0.99</td>  		
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="67" align="left"  valign="middle" class="tbl_headText">Provider Share%</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="107" align="left"  valign="middle" class="tbl_headText">Representative Share%</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="150" align="left" valign="middle" class="tbl_headText">Net&nbsp;Payable&nbsp;amount  for&nbsp;Provider($)</td>		 	  	
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="144" align="left"  valign="middle" class="tbl_headText">Net&nbsp;Payable&nbsp;amount  for&nbsp;Representative($)</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td width="105" align="left"  valign="middle" class="tbl_headText">Preferable mode of transfer</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td  width="154" align="left"  valign="middle"class="tbl_headText">Bank Name</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td  width="93" align="left"  valign="middle"class="tbl_headText">Account Name</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td  width="126" align="left"  valign="middle"class="tbl_headText">Routing Numbers For Wire Transfer</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td  width="126" align="left"  valign="middle"class="tbl_headText">Account Number</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td  width="119" align="left"  valign="middle"class="tbl_headText">Billing Address</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td  width="123" align="left"  valign="middle"class="tbl_headText">Country Name</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td  width="103" align="left"  valign="middle"class="tbl_headText">State</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td  width="80" align="left"  valign="middle"class="tbl_headText">City</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td  width="80" align="left"  valign="middle"class="tbl_headText">Zipcode</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td  width="107" align="left"  valign="middle"class="tbl_headText">Payee Name</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td  width="120" align="left"  valign="middle"class="tbl_headText">Business Name</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td  width="105" align="left"  valign="middle"class="tbl_headText">Billing Address</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td  width="110" align="left"  valign="middle"class="tbl_headText">Country Name</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td  width="117" align="left"  valign="middle"class="tbl_headText">State</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td  width="117" align="left"  valign="middle"class="tbl_headText">City</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+				<td  width="111" align="left"  valign="middle"class="tbl_headText">Zipcode</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_headText"></td>
+			</tr>
+			<%if !@transactions.nil? && @transactions!="" && @transactions.present? && @transactions.length > 0%>		 
+			<%i = 0%>			
+			<%@transactions && @transactions.each do |tran|%>
+			<%i = i + 1%>
+			<tr class="<%if i.even? %>tbl_bg_white<%else%>tbl_bg_gray<%end%>">
+				<td width="111"  align="left"  valign="middle" class="tbl_tdbrd" height="40">
+					<span onclick="pop_transaction_form('/transaction_detail?tran_id=<%=tran.trans_id%>')" class="blueText checkboxText"><%=tran.transaction_id%></span>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="106" align="left"  valign="middle" class="tbl_tdbrd">
+					<%=tran.payment_date.strftime("%b %d, %Y") if tran && tran.payment_date%>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="106" align="left"  valign="middle" class="tbl_tdbrd">
+					<%=tran.activity_id%>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="106" align="left"  valign="middle" class="tbl_tdbrd">
+					<%=tran.activity_name if !tran.nil? && !tran.activity_name.nil?%>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="122" align="left"  valign="middle" class="tbl_tdbrd">
+					<%=tran.user_name if !tran.nil? && !tran.user_name.nil?%>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="126" align="left" valign="middle" class="tbl_tdbrd">
+					<%=tran.email_address if !tran.nil? && !tran.email_address.nil?%>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="130" align="left"  valign="middle" class="tbl_tdbrd">
+				<!--  reprsentative details and share details-->
+					<%@rep_det=SchoolRepresentative.getrep_details(tran.activity_id) %>
+					<% if !@rep_det.nil? %>
+						<%@rep_flag=true%>
+						<%@rep_share=@rep_det[2]%>
+						<%@pro_share=@rep_det[3]%>
+					<%else%>
+						<%@rep_flag=false%>
+						<%@rep_share=0%>
+						<%@pro_share=100%>
+					<%end%>
+					<% if !@rep_det.nil? %>						
+						<%=truncate(@rep_det[0], :length=>20, :omission=>'...')%>
+					<%else%>
+					-
+					<%end%>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="140" align="left"  valign="middle" class="tbl_tdbrd">
+					<% if !@rep_det.nil? %>
+						<%=@rep_det[1]%>
+					<%else%>
+					-
+					<%end%>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="110" align="left"  valign="middle" class="tbl_tdbrd">
+					<div title="<%=tran.customer_name%>"><%=truncate(tran.customer_name, :length=>40, :omission=>'...')%></div>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="85" align="left"  valign="middle" class="tbl_tdbrd">
+					<%=tran.customer_phone%>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="110" align="left"  valign="middle" class="tbl_tdbrd">
+					<div  title="<%=tran.customer_address%>"><%=truncate(tran.customer_address, :length=>40, :omission=>'...')%></div>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="116" align="left"  valign="middle" class="tbl_tdbrd">
+					<%=(!tran.participant_name.nil? && tran.participant_name[-1]==',') ? truncate(tran.participant_name.chop,:length=>30, :omission=>'...')  : truncate(tran.participant_name,:length=>30, :omission=>'...')%>
+					
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="97" align="left"  valign="middle" class="tbl_tdbrd">
+					<%=tran.ticket_code%>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="110" align="left" valign="middle" class="tbl_tdbrd">
+					<%=tran.sale_price%>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="86" align="left" valign="middle" class="tbl_tdbrd">
+					<%=tran.discount%>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="103" align="left"  valign="middle" class="tbl_tdbrd">
+					<%=tran.amount%>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<% fam_fee_amt = calculate_share_fee_for_both(tran.amount,tran.activity_id,@rep_flag,@rep_share,@pro_share,tran.inserted_date)%>	
+				<td width="149" align="left"  valign="middle" class="tbl_tdbrd">
+					<%=fam_fee_amt[1]%>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="134" align="left"  valign="middle" class="tbl_tdbrd">
+					<%=fam_fee_amt[0] %>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="161" align="left"  valign="middle" class="tbl_tdbrd">
+					<%if @rep_flag%>						
+						<%=(number_with_precision fam_fee_amt[3], :precision => 2)%>
+					<%else%>
+					-
+					<%end%>
+				</td>  
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>				
+				<td width="73" align="left"  valign="middle" class="tbl_tdbrd">
+					<%if @rep_flag%>
+						<%=fam_fee_amt[5].to_s+'%' %>
+					<%else%>
+					-
+					<%end%>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="113" align="left"  valign="middle" class="tbl_tdbrd">
+					<%if @rep_flag%>
+						<%=fam_fee_amt[4].to_s+'%'%>
+					<%else%>
+					-
+					<%end%>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="158" align="left" valign="middle" class="tbl_tdbrd">
+					$<%=(number_with_precision fam_fee_amt[2], :precision => 2) %>
+				</td>	
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>				
+				<td width="151" align="left"  valign="middle" class="tbl_tdbrd">
+					<%if @rep_flag%>
+						$<%=(number_with_precision fam_fee_amt[6], :precision => 2) %>
+					<%else%>
+					-
+					<%end%>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td width="105" align="left"  valign="middle" class="tbl_tdbrd">
+					<% @user_bank=UserBankDetail.find_by_user_id(tran.user_id) %>
+					<%= @user_bank.prefered_mode if !@user_bank.nil? %>
+				</td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td  width="154" align="left"  valign="middle"class="tbl_tdbrd"><%= @user_bank.bank_name if !@user_bank.nil? %></td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td  width="93" align="left"  valign="middle"class="tbl_tdbrd"><%= @user_bank.bank_account_name if !@user_bank.nil? %></td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td  width="126" align="left"  valign="middle"class="tbl_tdbrd"><%= @user_bank.bank_wire_transfer if !@user_bank.nil? %></td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td  width="126" align="left"  valign="middle"class="tbl_tdbrd"><%= @user_bank.bank_account_number if !@user_bank.nil? %></td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td  width="119" align="left"  valign="middle"class="tbl_tdbrd"><%= @user_bank.bank_street_address if !@user_bank.nil? %></td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td  width="123" align="left"  valign="middle"class="tbl_tdbrd"><%= @user_bank.bank_country if !@user_bank.nil? %></td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td  width="103" align="left"  valign="middle"class="tbl_tdbrd"><%= @user_bank.bank_state if !@user_bank.nil? %></td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td  width="80" align="left"  valign="middle"class="tbl_tdbrd"><%= @user_bank.bank_city if !@user_bank.nil? %></td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td  width="80" align="left"  valign="middle"class="tbl_tdbrd"><%= @user_bank.bank_zip_code if !@user_bank.nil? %></td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td  width="107" align="left"  valign="middle"class="tbl_tdbrd"><%= @user_bank.payee_name if !@user_bank.nil? %></td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td  width="120" align="left"  valign="middle"class="tbl_tdbrd"><%= @user_bank.business_name if !@user_bank.nil? %></td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td  width="105" align="left"  valign="middle"class="tbl_tdbrd"><%= @user_bank.check_street_address if !@user_bank.nil? %></td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td  width="110" align="left"  valign="middle"class="tbl_tdbrd"><%= @user_bank.check_country if !@user_bank.nil? %></td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td  width="117" align="left"  valign="middle"class="tbl_tdbrd"><%= @user_bank.check_state if !@user_bank.nil? %></td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td  width="117" align="left"  valign="middle"class="tbl_tdbrd"><%= @user_bank.check_city if !@user_bank.nil? %></td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>
+				<td  width="111" align="left"  valign="middle"class="tbl_tdbrd"><%= @user_bank.check_zip_code if !@user_bank.nil? %></td>
+				<td  width="4" align="left"  valign="middle"class="tbl_tdbrd"></td>		
+			</tr>
+			<%end%>
+			<%else%>
+			<tr>
+				<td align="center"  valign="middle" colspan="41" height="24">
+					<div class="no_activities">No reports available for your activities. Click user transaction report for all the users</div>
+				</td>
+			</tr>
+			<%end%>
+		</table>		
+	</div>
+	<div class="pro_pagination" style="margin-right: 4%;">
+	<%= will_paginate @transactions if (!@transactions.nil? && !@transactions.empty?)%>
+	</div>
+	<div style="margin-bottom:40px;">&nbsp;</div><br><br><br><br>
+</div>
+</div>

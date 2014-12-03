@@ -1,0 +1,45 @@
+<%=stylesheet_link_tag "profile/profile", :media => "all"%>
+
+<script type="text/javascript">
+  var EditpasswordPage;
+  var EditproviderprofilePage;
+  var changeEmailPage;
+  function pop_edit_password(url){
+    EditpasswordPage = dhtmlmodal.open("Edit Password ","iframe",url,"", "width=896px,height=2000px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);   
+    return false;
+  }  
+  function pop_provider_edit_profile(url){
+    EditproviderprofilePage = dhtmlmodal.open("Provider Edit Profile","iframe",url,"", "width=995px,height=2000px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);    
+    return false;
+  }    
+  function pop_change_email(url){
+    changeEmailPage = dhtmlmodal.open("Edit Password ","iframe",url,"", "width=555px,height=400px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);   
+    return false;
+  }
+</script>
+
+		<!--provider submenu -->
+			<%= render :partial => '/provider_settings/provider_submenu'%>
+		<!--provider submenu -->
+
+<div class="wrapper_contianer_inner_login">
+	<div class="clear"></div>
+	 <div class="staic_inner">
+		<div class="page_head">   
+			<div class="head_line"></div>
+			<h1 class="search_head">Business Details&nbsp;</h1>
+		</div><br>
+		    
+		    <div class="boxContainer">
+			    <!--added partial file for profile in form view-->
+			    <div <%if @pro == "profile"%> style="display:none;"<%end%>>
+			      <%=render :partial=>"provider_profile"%>
+			    </div>
+		    </div>
+	</div>
+</div>
+
+

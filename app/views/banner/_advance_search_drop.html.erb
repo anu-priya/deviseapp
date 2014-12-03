@@ -1,0 +1,213 @@
+<%=stylesheet_link_tag "global/jquery.ui.datepicker","global/jquery.ui.theme", :media => "all"%>
+<div class="advanceSearch_drop" id="advanceSearch_drop">
+  <div class="advanceSearch_innser">
+    <div class="search_menus" id="search_category">
+			Category&nbsp;
+      <input type="hidden" id="ad_sub_category_1" name="ad_sub_category_1" value="<%= params[:ad_sub_category_1] if !params[:ad_sub_category_1].nil? && params[:ad_sub_category_1]!="" &&  params[:ad_sub_category_1].present?%>"/>
+      <input type="hidden" id="ad_sub_category_id_1" name="ad_sub_category_id_1" value="<%= params[:ad_sub_category_id_1] if !params[:ad_sub_category_id_1].nil? &&  params[:ad_sub_category_id_1]!="" && params[:ad_sub_category_id_1].present?%>"/>
+      <div id="search_category_pop" class="drop_down">
+        <table width="540" border="0" align="left" cellpadding="0" cellspacing="0">
+          <%@c_ja=1 %>
+          <%@sub_arr =[]%>
+          <%age_r = []%>
+          <% age_r = params[:age_rangera].split(",") if !params[:age_rangera].nil? && params[:age_rangera]!=""%>
+          <% @sub_arr= params[:ad_sub_category_1].split(',') if params[:ad_sub_category_1]%>
+          <%@accordion && @accordion.each do |s|%>
+            <tr>
+              <%if !s.category.nil? && !s.nil? && s.category!=""%>
+                <td height="24" align="left" valign="top">
+                  <b><%=s.category.capitalize if !s.category.nil?%></b>
+                </td>
+              <%end%>
+            </tr>
+            <tr>
+              <td align="left">
+                <table width="546" border="0" cellpadding="0" cellspacing="0">
+                  <%@ac_sub = Activity.find(:all,:conditions=>["lower(category) = ?",s.category.downcase],:select =>"DISTINCT lower(trim(sub_category)) as sub_category").map(&:sub_category) if !s.nil? && !s.category.nil?%>
+                  <%if !@ac_sub.nil? && @ac_sub!="" && @ac_sub.present?%>
+                    <% @categ_len = @ac_sub.length 	%>
+                    <% (0..@categ_len.to_i).step(2) do |st| %>
+                      <tr>
+                        <%if  !@ac_sub[st].nil? && @ac_sub[st]!="" && @ac_sub[st].present?%>
+                          <td width="25" height="30" align="left" valign="top">
+                            <input type="checkbox" name="ad_cate_<%= @c_ja%>" id="ad_cate_<%= @c_ja%>" value="" class="checkbox" onClick="get_subCat_id('<%= @c_ja%>','<%= @ac_sub[st]%>')" <%if @sub_arr.include?(@ac_sub[st])%> checked <%end%> >
+                          </td>
+                          <td width="255" align="left" valign="top">
+                            <%=  @ac_sub[st]%>
+                          </td>
+                        <%end%>
+                        <%if  !@ac_sub[st+1].nil? && @ac_sub[st+1]!="" && @ac_sub[st+1].present?%>
+                          <td width="25" height="30" align="left" valign="top">
+                            <input type="checkbox" name="ad_cate_<%= @c_ja+1%>" id="ad_cate_<%= @c_ja+1%>" value="" class="checkbox" onClick="get_subCat_id('<%= @c_ja+1%>','<%=  @ac_sub[st+1] %>')" <%if @sub_arr.include?(@ac_sub[st+1])%> checked <%end%> >
+                          </td>
+                          <td width="255" align="left" valign="top">
+                            <%=  @ac_sub[st+1] %>
+                          </td>
+
+                        <%end%>
+                      </tr>
+                      <%  @c_ja =  @c_ja+2%>
+                    <%end%>
+
+                  <% end%>
+                </table>
+              </td>
+            </tr>
+          <% end%>
+        </table>
+      </div>
+    </div>
+
+    <div class="search_menus" id="age_range">
+                                	Age Range&nbsp;                                
+      <div class="drop_down" id="age_range_pop">
+        <table width="100" border="0" align="left" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="28" align="center" valign="middle">
+              <input type="hidden" value="" id="age_range7">
+              <input type="hidden" value="" id="age_all">
+              <input type="hidden" value="" id="age_r1">
+              <input type="hidden" value="" id="age_r4">
+              <input type="hidden" value="" id="age_r8">
+              <input type="checkbox" name="aa_all" value="a_all" <%if params[:aa_all] =="a_all"%>checked<%end%> id="aa_all" class="checkbox" onclick="daterange_all_changes1()">
+            </td>
+            <td width="72" align="left" valign="middle">All</td>
+          </tr>
+          <tr>
+            <td width="28" align="center" valign="middle">
+              <input type="checkbox" name="aa_r1" <%if params[:aa_r1] == "0-3" || params[:aa_all] =="a_all"%>checked<%end%> value="0-3" id="aa_r1" class="checkbox1"  onclick="date_range_changes1(1,this.value)">
+            </td>
+            <td width="72" align="left" valign="middle">0 - 3</td>
+          </tr><tr>
+            <td width="28" align="center" valign="middle">
+              <input type="checkbox" name="aa_r4" <% if params[:aa_r4] == "4-7" || params[:aa_all] =="a_all"%>checked<%end%> value="4-7" id="aa_r4" class="checkbox1" onclick="date_range_changes1(4,this.value)">
+            </td>
+            <td width="72" align="left" valign="middle">4 - 7</td>
+          </tr>
+          <tr>
+            <td width="28" align="center" valign="middle">
+              <input type="checkbox" name="aa_r8" <%if params[:aa_r8] == "8-15" || params[:aa_all] =="a_all"%>checked<%end%> value="8-15" id="aa_r8" class="checkbox1" onclick="date_range_changes1(8,this.value)">
+            </td>
+            <td width="72" align="left" valign="middle">8 +</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="search_menus" id="sdate_start">
+      <span id="start_dates_formate">Start Date</span>&nbsp;<input type="hidden" name="start_dates" id="start_dates" value=""/>
+      <div class="drop_down" id="date_start" >
+
+      </div>
+    </div>
+    <div class="search_menus" id="sdate_end">
+      <span id="end_dates_formate">End Date</span>&nbsp;<input type="hidden" name="end_dates" id="end_dates" value=""/>
+      <div class="drop_down" id="date_end">
+
+      </div>
+    </div>
+    <div class="search_menus" id="day_week">
+                                	Date of&nbsp;Week&nbsp;
+      <div class="drop_down" id="day_week_pop" >
+        <input type="hidden" name="age_rangera" id="age_rangera" value="">
+        <table cellpadding="0" cellspacing="0" border="0" width="270">
+          <tr>
+            <td width="28" align="center" valign="middle">
+              <input type="checkbox" name="day_of_week_1" value="mon" id="day_of_week_1"  class="checkbox2"   <%if age_r.include?('mon')%> checked <%end%>>
+            </td>
+            <td width="242" align="left" valign="middle">Monday</td>
+          </tr>
+          <tr>
+            <td width="28" align="center" valign="middle">
+              <input type="checkbox" name="day_of_week_2" value="tue" id="day_of_week_2" class="checkbox2"   <%if age_r.include?('tue')%> checked <%end%>>
+            </td>
+            <td align="left" valign="middle">Tuesday</td>
+          </tr>
+          <tr>
+            <td width="28" align="center" valign="middle">
+              <input type="checkbox" name="day_of_week_3" value="wed" id="day_of_week_3" class="checkbox2"   <%if age_r.include?('wed')%> checked <%end%>>
+            </td>
+            <td align="left" valign="middle">Wednesday</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">
+              <input type="checkbox" name="day_of_week_4" value="thu" id="day_of_week_4" class="checkbox2"   <%if age_r.include?('thu')%> checked <%end%>>
+            </td>
+            <td align="left" valign="middle">Thursday</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">
+              <input type="checkbox" name="day_of_week_5" value="fri" id="day_of_week_5"  class="checkbox2"   <%if age_r.include?('fri')%> checked <%end%>>
+            </td>
+            <td align="left" valign="middle">Friday</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">
+              <input type="checkbox" name="day_of_week_6" value="sat" id="day_of_week_6" class="checkbox2"  <%if age_r.include?('sat')%> checked <%end%>>
+            </td>
+            <td align="left" valign="middle">Saturday</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">
+              <input type="checkbox" name="day_of_week_7" value="sun" id="day_of_week_7" class="checkbox2"  <%if age_r.include?('sun')%> checked <%end%>>
+            </td>
+            <td align="left" valign="middle">Sunday</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="search_menus" id="gender">
+                                	Gender&nbsp;
+      <div class="drop_down" id="gender_pop">
+        <table border="0" cellpadding="0" cellspacing="0" width="129">
+          <tr>
+            <td width="24" align="center" valign="middle">
+              <input type="radio" name="gender" id="sex_all" <%if params[:gender] == "g_all"%>checked<%end%> value="g_all" class="checkbox">
+            </td>
+            <td width="105" align="left" valign="middle">Both</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">
+              <input type="radio" name="gender" id="sex_male" <%if params[:gender] == "Male"%>checked<%end%> value="Male" class="checkbox">
+            </td>
+            <td align="left" valign="middle">Male</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">
+              <input type="radio" name="gender" id="sex_female" <%if params[:gender] == "Female"%>checked<%end%> value="Female" class="checkbox">
+            </td>
+            <td align="left" valign="middle">Female</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="search_menus" id="search_price">
+                                	Price&nbsp;
+      <div class="drop_down" id="search_price_pop">
+        <table border="0" cellpadding="0" cellspacing="0" width="129">
+          <tr>
+            <td width="24" align="center" valign="middle">
+              <input type="hidden" value="" id="price_range">
+              <input type="checkbox" name="p_all" <%if params[:p_all] == "p_all"%>checked<%end%> value="p_all" id="price_all" class="checkbox" onclick="price_all_changes()">
+            </td>
+            <td width="105" align="left" valign="middle">All</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">
+              <input type="checkbox" name="a_f" <%if params[:a_f] == "free" || params[:p_all] == "p_all"%>checked<%end%> value="free" id="price_free" class="checkbox3" onclick="price_range_changes()">
+            </td>
+            <td align="left" valign="middle">Free</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">
+              <input type="checkbox" name="paid" <%if params[:paid]== "paid" || params[:p_all] == "p_all"%>checked<%end%> value="paid" id="price_paid" class="checkbox3" onclick="price_range_changes()">
+            </td>
+            <td align="left" valign="middle">Paid</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="search_submit">
+    </div>
+  </div>
+</div>
+<%=javascript_include_tag "global/jquery.ui.core","global/jquery.ui.datepicker"%>

@@ -1,0 +1,211 @@
+<style>
+  .bordercol1{
+    border:2px solid #E2EAEC;
+  }
+  .bordercol2{
+    border:2px solid #E2EAEC;
+    border-left:none;
+  }
+  .borderTop{
+    border-top:none;
+  }
+  .fontStyle{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:14px;
+  }
+  .headingColor{
+    color:#4AA3B6;
+    padding-left:10px;
+  }
+  .dataColor{
+    color:#000000;
+    padding-left:10px;
+  }
+  .dataColor1{
+    color:#666666;
+    padding-left:10px;
+  }
+  .fontBold{
+    font-weight:bold;
+  }
+</style>
+
+<!--admin user--><!--get the selluser_list from landing helper by rajkumar --> 
+<table cellspacing="0" cellpadding="0" border="0" width="60%">
+  <tr height="30">
+    <td class="fontStyle headingColor fontBold bordercol1" width="25%">Admin</td>
+    <td class="fontStyle headingColor fontBold bordercol2" width="30%">Count</td>
+  </tr>
+  <tr height="30">
+    <td class="fontStyle dataColor bordercol1 borderTop" width="25%">Admin users</td>
+    <td class="fontStyle dataColor bordercol2 borderTop" width="30%">
+      <%if admin_user_lst !=0%>
+        <%=@sel=admin_user_lst.count%>
+      <%else%>
+        <%=@sel=0%>
+      <%end%>
+    </td>
+  </tr>
+</table><br><br>
+
+<!--provider user-->
+<table cellspacing="0" cellpadding="0" border="0" width="60%">
+  <tr height="30">
+    <td class="fontStyle headingColor fontBold bordercol1" width="25%">Providers</td>
+    <td class="fontStyle headingColor fontBold bordercol2" width="30%">Count</td>
+  </tr>
+  <tr height="30">
+    <td class="fontStyle dataColor bordercol1 borderTop" width="25%">Free</td>
+    <td class="fontStyle dataColor bordercol2 borderTop" width="30%">
+      <%if prouser_free !=0%>
+        <%=@pfre=prouser_free.count %>
+      <%else%>
+        <%=@pfre=0%>
+      <%end%>
+    </td>
+  </tr>
+  <tr height="30">
+    <td class="fontStyle dataColor bordercol1 borderTop" width="25%">Sponsor</td>
+    <td class="fontStyle dataColor bordercol2 borderTop" width="30%">
+      <%if spon_pro_list !=0%>
+        <%=@prspon=spon_pro_list.count %>
+      <%else%>
+        <%=@prspon=0%>
+      <%end%>
+    </td>
+  </tr>
+  <tr height="30">
+    <td class="fontStyle dataColor bordercol1 borderTop" width="25%">Sell-Through</td>
+    <td class="fontStyle dataColor bordercol2 borderTop" width="30%">
+      <%if selluser_list !=0%>
+        <%=@prsel=selluser_list.count %>
+      <%else%>
+        <%=@prsel=0%>
+      <%end%>
+    </td>
+  </tr>
+  <tr height="30">
+    <td class="fontStyle dataColor bordercol1 borderTop" width="25%">Market &amp; Sell ($29.95/mo)</td>
+    <td class="fontStyle dataColor bordercol2 borderTop" width="30%">
+      <%if market_and_sell_users !=0%>
+        <%=@mkt_sell_user=market_and_sell_users.count %>
+      <%else%>
+        <%=@mkt_sell_user=0%>
+      <%end%>
+    </td>
+  </tr>
+  <tr height="30">
+    <td class="fontStyle dataColor bordercol1 borderTop" width="25%">Market, Sell &amp; Manage ($49.95/mo)</td>
+    <td class="fontStyle dataColor bordercol2 borderTop" width="30%">
+      <%if marketsell_and_manage_users !=0%>
+        <%=@mktsell_mge_user=marketsell_and_manage_users.count %>
+      <%else%>
+        <%=@mktsell_mge_user=0%>
+      <%end%>
+    </td>
+  </tr>
+  <tr height="30">
+    <td class="fontStyle dataColor bordercol1 borderTop" width="25%">Market, Sell, Manage Plus+ ($99.95/mo)</td>
+    <td class="fontStyle dataColor bordercol2 borderTop" width="30%">
+      <%if marketsell_manageplus_users !=0%>
+        <%=@mktsell_mgeplus_user=marketsell_manageplus_users.count %>
+      <%else%>
+        <%=@mktsell_mgeplus_user=0%>
+      <%end%>
+    </td>
+  </tr>
+  <tr height="30">
+    <td class="fontStyle dataColor bordercol1 borderTop" width="25%">Curators added</td>
+    <td class="fontStyle dataColor bordercol2 borderTop" width="30%">
+      <%if curator_added !=0%>
+        <%=@crt_act=curator_added.count %>
+      <%else%>
+        <%=@crt_act=0 %>
+      <%end%>
+    </td>
+  </tr>
+  <tr height="30">
+    <td class="fontStyle dataColor1 fontBold bordercol1 borderTop" width="25%">Total</td>
+    <td class="fontStyle dataColor1 bordercol2 borderTop fontBold" width="30%"><%=@pfre+@prspon+@prsel+@mkt_sell_user+@mktsell_mge_user+@mktsell_mgeplus_user+@crt_act%></td>
+  </tr>
+  <tr height="30">
+    <td class="fontStyle dataColor1 fontBold bordercol1 borderTop" width="25%">Other Providers</td>
+    <td class="fontStyle dataColor1 bordercol2 borderTop fontBold" width="30%">&nbsp;</td>
+  </tr>
+  <!--<tr height="30">
+		<td class="fontStyle dataColor bordercol1 borderTop" width="20%">Users from i-waves</td>
+		<td class="fontStyle dataColor bordercol2 borderTop" width="30%"><%#=@piwve=provider_iwave%></td>
+	</tr>-->	
+  <!--<tr height="30">
+		<td class="fontStyle dataColor bordercol1 borderTop" width="25%">Facebook users</td>
+		<td class="fontStyle dataColor bordercol2 borderTop" width="30%"><%#=@fb_provider=facebook_provider%></td>
+	</tr>-->
+  <tr height="30">
+    <td class="fontStyle dataColor bordercol1 borderTop" width="25%">In-active accounts</td>
+    <td class="fontStyle dataColor bordercol2 borderTop" width="30%">
+      <%if pro_inactive !=0%>
+        <%=@prina=pro_inactive.count%>
+      <%else%>
+        <%=@prina=0%>
+      <%end%>
+    </td>
+  </tr>
+
+</table>
+
+<!--parent user--><br><br>
+<table cellspacing="0" cellpadding="0" border="0" width="60%">
+  <tr height="30">
+    <td class="fontStyle headingColor fontBold bordercol1" width="25%">Parents</td>
+    <td class="fontStyle headingColor fontBold bordercol2" width="30%">Count</td>
+  </tr>
+  <!--<tr height="30">
+		<td class="fontStyle dataColor bordercol1 borderTop" width="25%">Directly Registered</td>
+		<td class="fontStyle dataColor bordercol2 borderTop" width="30%"><%#=@uf=parent_free%></td>
+	</tr>-->
+  <tr height="30">
+    <td class="fontStyle dataColor bordercol1 borderTop" width="25%">Active Users</td>
+    <td class="fontStyle dataColor bordercol2 borderTop" width="30%">
+      <%if parent_active_usr !=0%>
+        <%=@b_act=parent_active_usr.count%>
+      <%else%>
+        <%=@b_act=0%>
+      <%end%>
+    </td>
+  </tr>
+  <tr height="30">
+    <td class="fontStyle dataColor1 fontBold bordercol1 borderTop" width="25%">Total</td>
+    <td class="fontStyle dataColor1 bordercol2 borderTop fontBold" width="30%"><%=@b_act%></td>
+  </tr>
+  <tr height="30">
+    <td class="fontStyle dataColor1 fontBold bordercol1 borderTop" width="25%">Other Parents</td>
+    <td class="fontStyle dataColor1 bordercol2 borderTop fontBold" width="30%">&nbsp;</td>
+  </tr>
+  <!--<tr height="30">
+		<td class="fontStyle dataColor bordercol1 borderTop" width="20%">Users from i-waves</td>
+		<td class="fontStyle dataColor bordercol2 borderTop" width="30%"><%#=@c_iwve=parent_iwave%></td>
+	</tr>-->
+  <tr height="30">
+    <td class="fontStyle dataColor bordercol1 borderTop" width="25%">Facebook users</td>
+    <td class="fontStyle dataColor bordercol2 borderTop" width="30%">
+      <%if facebook_parent !=0%>
+        <%=@fb_parent=facebook_parent.count%>
+      <%else%>
+        <%=@fb_parent=0%>
+      <%end%>
+    </td>
+  </tr>
+  <tr height="30">
+    <td class="fontStyle dataColor bordercol1 borderTop" width="25%">In-active accounts</td>
+    <td class="fontStyle dataColor bordercol2 borderTop" width="30%">
+      <%if parent_inactive !=0%>
+        <%=@b_ina=parent_inactive.count%>
+      <%else%>
+        <%=@b_ina=0%>
+      <%end%>
+    </td>
+  </tr>
+
+
+</table>
+

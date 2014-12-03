@@ -1,0 +1,5 @@
+$('#zip_values').css("display","none");
+$("#mouseover_effect").css("display","none");
+$('.dynamic_cities').show();
+$("#search_value").focus();
+$(".dynamic_cities").text('<%= truncate(cookies[:search_city],:length =>10, :omission => "...")%>');

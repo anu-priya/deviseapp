@@ -1,0 +1,538 @@
+
+
+<style type="text/css">
+  #register_outerContainer .checkboxCont a:focus{
+    outline:1px dotted #6a6a6a;
+  }
+  #register_outerContainer .checkbox a:focus{
+    outline:1px dotted #6a6a6a;
+  }
+  #register_outerContainer .cancel a:focus{
+    outline:1px dotted #6a6a6a;
+  }
+  #register_outerContainer .alreadyText a:focus{
+    outline:1px dotted #6a6a6a;
+  }
+  #ParentRegister .checkboxCont a:hover{
+    text-decoration:underline;
+    color:#307193;
+  }
+  .spacebtwinputs{padding-top: 10px !important;}
+  .helpimghover{position: relative;top:13px;left:2px;}
+  .helpimghover:hover p{display: block;}
+  .helpimghover p{width:360px;top:0;left:18px;font-weight: normal;display: none;position: absolute;color: #959292;border:1px solid #C2DDE4;z-index: 50000;font-size: 12px;padding: 10px;background: none repeat scroll 0 0 #F9F9F9;}
+</style>
+<script type="text/javascript">
+  $(document).ready(function(){
+    document.getElementById("username_usr_reg").focus();
+  });
+  
+
+</script>
+<div align="center" style="border-bottom:1px solid #ddebee;">
+  <div id="chose_mode"style="margin:10px 0 10px 0;">
+    <%if request.fullpath=="/provider-pricing-plan"%>
+      <a href="#" class="menuText" title="" id="parent_text" onclick="show_parent_register(); _gaq.push(['_trackEvent', 'Registration', 'clickParentRegistration']);"><b>Parent<b></a>
+            <span class="dot menuText">&bull;</span>
+            <a href="#" class="menuText" title="" id="provider_text" onclick="show_provider_plan(); _gaq.push(['_trackEvent', 'Registration', 'clickProviderSignup']);" style="color:#fe0003;">Provider</a>
+          <% else %>
+            <a href="#" class="menuText" title="" id="parent_text" onclick="show_parent_register(); _gaq.push(['_trackEvent', 'Registration', 'clickParentRegistration']);" style="color:#fe0003;"><b>Parent<b></a>
+                  <span class="dot menuText">&bull;</span>
+                  <a href="#" class="menuText" title="" id="provider_text" onclick="show_provider_plan(); _gaq.push(['_trackEvent', 'Registration', 'clickProviderSignup']);">Provider</a>
+                <% end %>
+                </div>
+                </div>
+
+                <div id="register_outerContainer">
+                  <div class="innerContainer" style="margin-top:4px;">
+                    <div id="ParentRegister" style="display:block;">
+                      <div id="user_name_wrong" style="display: none;color: #fc8989; padding-top:10px; font-size: 12px; .margin:10px 0 10px 16px;"></div>
+                      <!--<div align="center" class="setfeedbackDiv" style="width:325px;font-weight:bold;">Please fill out all the required fields.</div>-->
+                      <div class="CenterContent" style="margin-top: 15px;">
+                        <form name="parent_register" id="parent_register" action="parent_register" method="post">
+                          <div class="marginTop14">
+                            <div class="lt leftSideField">Name<span class="required">*</span></div>
+                            <input type="text" name="username_usr" id="username_usr_reg" value="Eg:john" class="lt textbox" onFocus="if(this.value == 'Eg:john') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onBlur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Eg:john'}" maxlength="50" style="outline:none;" tabindex="1"/>
+
+                            <div class="clear"></div>
+                          </div>
+                          <input type="hidden" name="cid" id="cid_val" value="<%= params[:cid] if params[:cid] %>"/>
+                          <input type="hidden" name="group" id="group_val" value="<%= params[:group] if params[:group] %>"/>
+                          <div class="errorDiv" style="display:none">
+                            <div class="lt leftSideField">&nbsp;</div>
+                            <div class="lt" id="username_usr_error"></div>
+                          </div>
+                          <div class="clear"></div>
+
+                          <div class="marginTop15 spacebtwinputs">
+                            <div class="lt leftSideField">Email<span class="required">*</span></div>
+                            <%if !@invitee_user_email.nil? && !@invitee_user_email.empty? %>
+                                <input type="text" name="email_usr" id="email_usr_reg" value="<%=@invitee_user_email%>" class="lt textbox" maxlength="50" style="outline:none;color:rgb(68, 68, 68);" tabindex="2" disabled>
+                            <%else%>
+                                <input type="text" name="email_usr" id="email_usr_reg" value="Eg:john@gmail.com" class="lt textbox" onFocus="if(this.value == 'Eg:john@gmail.com') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onBlur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Eg:john@gmail.com'}" maxlength="50" style="outline:none;" tabindex="2">
+                            <%end%>
+                            <div class="clear"></div>
+                          </div>
+                          <div id="error_explanation" class="errorDiv" style="display:none;">
+                            <div class="lt leftSideField">&nbsp;</div>
+                          </div>
+
+                          <div class="errorDiv" style="display:none">
+                            <div class="lt leftSideField">&nbsp;</div>
+                            <div class="lt" id="email_usr_error"></div>
+                          </div>
+                          <div class="clear"></div>
+
+                          <div class="marginTop15 spacebtwinputs">
+                            <div class="lt leftSideField">Password<span class="required">*</span></div>
+                            <input type="password" name="password_usr_reg" id="password_usr_reg" value="password" class="lt textbox" onFocus="if(this.value == 'password') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onBlur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='password'}" maxlength="20" style="outline:none;" tabindex="3">
+
+                            <div class="clear"></div>
+                          </div>
+                          <div class="errorDiv" style="display:none">
+                            <div class="lt leftSideField">&nbsp;</div>
+                            <div class="lt" id="password_usr_error"></div>
+                          </div>
+                          <div class="clear"></div>
+
+                          <div class="marginTop15 spacebtwinputs">
+                            <div class="lt leftSideField">Confirm Password<span class="required">*</span></div>
+                            <input type="password" name="confirm_password_usr" id="confirm_password_usr" value="password" class="lt textbox" onFocus="if(this.value == 'password') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onBlur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='password'}" maxlength="20" style="outline:none;" tabindex="4">
+
+                            <div class="clear"></div>
+                          </div>
+                          <div class="errorDiv" style="display:none">
+                            <div class="lt leftSideField">&nbsp;</div>
+                            <div class="lt" id="confirm_password_usr_error"></div>
+                          </div>
+                          <div class="clear"></div>
+
+                          <div class="errorDiv" style="display:none">
+                            <div class="lt leftSideField">&nbsp;</div>
+                            <div class="lt" id="reg_me_usr_error"></div>
+                          </div>
+
+                          <!--div class="marginTop15 spacebtwinputs">
+                            <div class="lt leftSideField">&nbsp;</div>
+                            <div class="ftnl fts12">Have a promo code for an offer? Use it here!</div>
+                            <div class="clear"></div>
+                          </div-->
+                          <div class="marginTop15 spacebtwinputs">
+                            <div class="lt leftSideField">&nbsp;</div>
+                            <input style="width: 125px;" type="text" name="discount_code" id="discount_code" value="Offer Code" class="lt textbox" onFocus="if(this.value == 'Offer Code') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onBlur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Offer Code'}" style="outline:none;" tabindex="5"/>
+                            <div class="lt helpimghover"><img style="cursor: pointer;" src="/assets/provider_register/help.png" alt="" />
+                              <p>If you have an offer or discount code, enter it here.</p>
+
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+                          
+                          <div class="errorDiv" style="display:none">
+                            <div class="lt leftSideField">&nbsp;</div>
+                            <div class="lt" id="discount_code_usr_error"></div>
+                          </div>
+
+                          <%if @register_error %>
+                            <div class="errorDiv">
+                              <div class="lt leftSideField">&nbsp;</div>
+                              <div class="lt" id="email_password_usr_error"><%=@register_error[4]%></div>
+                            </div>
+                          <% end %>
+                          <div class="clear"></div>
+
+                          <div class="marginTop12 spacebtwinputs">
+                            <div class="lt leftSideField">&nbsp;</div>
+                            <div class="lt">
+                              <!--input type="hidden" name="agree_usr" id="agree_usr" value="" /-->
+                              <!--span  class="checkbox" style="display:inline-block; position:relative;">
+                                <a href="javascript:void(0)" title="" id="checkbox_selected" onclick="dispCheckboxImg('checkbox_selected')" onkeydown="ag_cb_keydown(event,'checkbox_selected')" style="display: none" tabindex="5"><img src="/assets/register/checkbox_selected.png" alt=""/></a>
+                                <a href="javascript:void(0)" title="" id="checkbox_normal" onclick="dispCheckboxImg('checkbox_normal')" onkeydown="ag_cb_keydown(event,'checkbox_normal')" tabindex="5"><img src="/assets/register/checkbox_normal.png" alt=""/></a>
+                                <a href="javascript:void(0)" title="" id="checkbox_error" onclick="dispCheckboxImg('checkbox_error')" onkeydown="ag_cb_keydown(event,'checkbox_error')"  tabindex="5" style="display: none"><img src="/assets/register/checkbox_error.png" alt=""/></a>
+                              </span-->
+			      
+			  <span  class="squaredFour lt" style="display:inline-block; position:relative;">
+				     <input class="lt" id="terms_checkbox_selected" name="terms_checkbox_selected" type="checkbox" value=""/>
+				     <label id="terms_check" for="terms_checkbox_selected">&nbsp;</label>
+			  </span>
+			      
+                              <span  class="checkboxCont" style="display:inline-block; position:relative;">I agree to the <a href="parent-terms-of-service" onclick="_gaq.push(['_trackEvent',  'Registration', 'Parent Registration', 'clickCheckboxTerms&Policies']);" onkeydown="termsKeyDown(event);_gaq.push(['_trackEvent',  'Registration', 'Parent Registration', 'clickCheckboxTerms&Policies']);" title="" tabindex="6" target="_blank">Famtivity Terms of Service</a> <span style="color: #307193;">&amp;</span> <a href="parent-privacy-policy" onclick= "_gaq.push(['_trackEvent',  'Registration', 'Parent Registration', 'clickCheckboxTerms&Policies']);" onkeydown="termsKeyDown(event); _gaq.push(['_trackEvent',  'Registration', 'Parent Registration', 'clickCheckboxTerms&Policies']);" title="" tabindex="6" target="_blank"> Privacy Policies</a></span>
+                              <!-- <p class="lt checkboxCont" style="position:relative;display:inline-block;">I agree to the &nbsp;<span><a href="javascript:void(0)" onkeydown="termsKeyDown1(event)" title="" tabindex="6" style="position:relative;display:inline-block;"> Terms of Service, Privacy &amp; Refund Policies</a></span></p>-->
+                              <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+                          <div class="clear"></div>
+                          <div class="errorDiv" style="display:none">
+                            <div class="lt errorDivAgree" id="agree_usr_error"></div>
+                          </div>
+                          <div class="clear"></div>
+
+                          <div class="paddingTop20">
+                            <div class="lt leftSideField">&nbsp;</div>
+                            <div>
+                              <a href="javascript:void(0)" title="" class="lt save-button" id="register_button" onclick=" success_url(); _gaq.push(['_trackEvent', 'Registration', 'Parent Registration', 'clickParentSignup']);" style="text-decoration:none;position:relative; display:inline-block;margin-left: 0;">Sign-up</a>
+			<!--input type="submit" style="position:relative; display:inline-block;margin-left: 0;" id="register_button"  width="95" height="33" alt="" class="lt" tabindex="7" value="" onclick=" success_url(); _gaq.push(['_trackEvent', 'Registration', 'Parent Registration', 'clickParentSignup']);"/-->
+                              <%if !@log_value.nil? && @log_value.present? && @log_value=='reld'%>
+                                <%#= link_to image_tag("/assets/login/cancel_button.png", :border => 0), root_path, :target => "_parent" %>
+			<a href="/" title="" class="cancel-button"  style="text-decoration:none;" target="_parent" style="position:relative; display:inline-block;text-decoration:none;margin-top:-5px;">Cancel</a>
+                              <%else%>
+                                <div>
+                                  <table border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                      <td>
+                                        <a href="javascript:void(0)" title="" tabindex="8" class="lt cancel-button" style="position:relative; display:inline-block;text-decoration:none;margin-top:-5px;" onkeydown="cancelKeyDown(event)" onclick="closepopup()">Cancel</a>
+                                      </td>
+                                      <td>
+                                        <a style="margin-bottom: 10px;text-decoration:none;" class="ftnl fts12">&nbsp;&nbsp;Or&nbsp;&nbsp;&nbsp;</a>
+                                      </td>
+                                      <td>
+                                        <a onClick="facebook_login(); _gaq.push(['_trackEvent', 'Registration', 'clickFacebookRegistration']);" href="javascript:void(0);" title="" class="disInblo"><img src="/assets/header/large_fb_icon.png" alt="facebook" height="30"/></a>
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              <%end%>
+
+                              <div class="clear"></div>
+                              <input type="hidden" name="aten_mail" id="aten_mail" value="<%=@aten_mail%>" />
+                              <input type="hidden" name="invite_user_id" id="invitor_id" value="<%=@invited_user%>" />
+                              <input type="hidden" name="imanager" id="imanager" value="<%=@imanager if @imanager%>" />
+                              <input type="hidden" name="msg_value" id="msg_value" value="<%=@msg_invite if @msg_invite%>" />
+
+                              <%if cookies[:city_new_usr]%>
+                                <%@news_let_city = cookies[:city_new_usr]%>
+                              <%else%>
+                                <%@news_let_city = 'Walnut Creek'%>
+                              <%end%>
+                              <input type="hidden" name="news_let_city" id="news_let_city" value="<%=@news_let_city%>" />
+                              <input type="hidden" name="log_value" id="log_value" value="<%=@log_value if !@log_value.nil? && @log_value.present?%>" />
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+                          <div class="marginTop14 spacebtwinputs">
+                            <div class="lt leftSideField" style="width:156px;">&nbsp;</div>
+                            <p class="alreadyText">Already have an account?  <a href="javascript:void(0)" title="" tabindex="9" onclick="parent.parentLoginPage.hide(); parent.pop_Login('/login'); _gaq.push(['_trackEvent', 'Login', 'clickLogin']);" style="position:relative; display:inline-block; padding-left:5px;">Login</a></p>
+                            <div class="clear"></div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="thankyou_newsletter" style="display:none;"><!-- newsletter subscribe thankyou popup -->
+                  <!--span class="button b-close"><span>X</span></span -->
+                  <div class="content_popup"><br>
+                    Your email address is already in use. If you did not create an account<br> it is likely that Famtivity has added this email as a Provider account. <br>If you'd like to register as a provider and claim this account <br>please click the Provider Registration.
+                    <br><br><a href="javascript:void(0);" title=""><span class="b-close"><img src="/assets/register/ok_btn.png" alt="" border="0"/></span></a>
+                  </div>
+                </div>
+                <!--ajax loader -->
+                <div id='loadingmessage' style='display:none;margin-top:-80px;float:left;margin-left:610px;' align="center">
+                  <img src='assets/loading.gif'/>
+                </div>
+
+                <script type="text/javascript">
+		function show_provider_plan(){
+		$('#loadDivjax').show();
+		$('#loadDivjax').css("top","100px");
+		$.post("/provider_register", {
+		"view":"provider",
+		}, null);   
+	}
+	
+	function closepopup(){
+		var stateObj = {
+		foo: "bar"
+		};
+		myURL = document.location;
+		if(navigator.appName=="Microsoft Internet Explorer"){
+		window.location.hash="/";
+		}
+		else{
+		parent.history.replaceState(stateObj, "Login", "/");
+		}
+		parent.parentLoginPage.hide();
+		//~ window.location.href="/"
+	}
+		function success_url(){
+		    var stateObj = {
+		      foo: "bar"
+		    };
+		    myURL = document.location;
+		    if(navigator.appName=="Microsoft Internet Explorer"){
+		      window.location.hash="/";
+		    }
+		    else{
+		     parent.history.pushState(stateObj, "Login", "/parent_register_success");
+		    }
+		    _gaq.push(['_trackPageview', '/parent_register_success']);
+		}
+
+$("#register_button").click(function(){
+                  //~ $('#parent_register').submit(function (){
+                    var username_usr_reg = $("#username_usr_reg").val();
+                    var email_usr_reg = $("#email_usr_reg").val();
+                    var password_usr_reg = $("#password_usr_reg").val();
+                    var confirm_password_usr = $("#confirm_password_usr").val();
+                    //~ var agree_usr = $("#agree_usr").val();
+                    var agree_usr = $("#terms_checkbox_selected").is(':checked');
+                    var reg_me_usr = $("#reg_me_usr").val();
+                    var discount_code = $("#discount_code").val();
+                    //~ var invite_user_id = $("#parent-check").val();
+                    //~ var invite_chk = $("#reg-parent-check").val();
+                    var log_value = $("#log_value").val();
+                    var invitor = $("#invitor_id").val();
+                    var msg_value = $("#msg_value").val();
+                    var imanager = $("#imanager").val();
+                    var group_val = $("#group_val").val();
+                    var cid_val = $("#cid_val").val();
+                    var aten_mail = $("#aten_mail").val();
+                    var news_let_city = $("#news_let_city").val();
+                    $('#forgotpass').css('display','none');
+                    $('#forgotpassfail').css('display','none');
+                    $('#error_explanation').css('display','none');
+
+                    $("#username_usr_reg").css("border","1px solid #BDD6DD");
+                    $("#email_usr_reg").css("border","1px solid #BDD6DD");
+                    $("#password_usr_reg").css("border","1px solid #BDD6DD");
+                    $("#confirm_password_usr").css("border","1px solid #BDD6DD");
+                    $("#discount_code").css("border","1px solid #BDD6DD");
+                    
+                    $("#username_usr_error").html("");
+                    $("#email_usr_error").html("");
+                    $("#password_usr_error").html("");
+                    $("#confirm_password_usr_error").html("");
+                    $("#agree_usr_error").html("");
+                    $("#reg_me_usr_error").html("");
+                    $("#discount_code_usr_error").html("");
+
+
+                    $("#discount_code_usr_error").parent().css("display","none")
+                    $("#username_usr_error").parent().css("display","none");
+                    $("#email_usr_error").parent().css("display","none");
+                    $("#password_usr_error").parent().css("display","none");
+                    $("#confirm_password_usr_error").parent().css("display","none");
+                    $("#agree_usr_error").parent().css("display","none");
+                    $("#reg_me_usr_error").parent().css("display","none");
+
+                    var errorFlag = false;
+
+                    //  var username_usrLen = username_usr.trim().length;
+                    if(username_usr_reg == "" || username_usr_reg == "Eg:john" || username_usr_reg == "eg:john" /*|| username_usrLen < 1*/ ){
+                      $("#username_usr_reg").css("border","1px solid #fc8989");
+                      $("#username_usr_error").html("Please enter your name");
+                      $("#username_usr_error").parent().css("display","block");
+                      errorFlag = true;
+                    }
+
+                    if(email_usr_reg == "" || email_usr_reg =="Eg:john@gmail.com" || email_usr_reg =="eg:john@gmail.com" ){
+                      $("#email_usr_reg").css("border","1px solid #fc8989");
+                      $("#email_usr_error").html("Please enter your Email");
+                      $("#email_usr_error").parent().css("display","block");
+                      errorFlag = true;
+                    }
+                    else if(email_usr_reg){
+                      if(email_usr_reg.length<10){
+                        $("#email_usr_reg").css("border","1px solid #fc8989");
+                        $("#email_usr_error").html("Please enter a valid Email ");
+                        $("#email_usr_error").parent().css("display","block");
+                        errorFlag = true;
+                      }
+                      else if(!validateCorrectEmail(email_usr_reg)){
+                        $("#email_usr_reg").css("border","1px solid #fc8989");
+                        $("#email_usr_error").html("Please enter a valid Email");
+                        $("#email_usr_error").parent().css("display","block");
+                        errorFlag = true;
+                      }
+                    }
+                    if (password_usr_reg == "" ||  password_usr_reg == "password"){
+                      $("#password_usr_reg").css("border","1px solid #fc8989");
+                      $("#password_usr_error").html("Please enter your password");
+                      $("#password_usr_error").parent().css("display","block");
+                      errorFlag = true;
+                    }
+                    else if(password_usr_reg.length<8){
+                      $("#password_usr_reg").css("border","1px solid #fc8989");
+                      $("#password_usr_error").html("Please enter a password with a minimum of 8 characters");
+                      $("#password_usr_error").parent().css("display","block");
+                      errorFlag = true;
+                    }
+
+                    if(confirm_password_usr== "" || confirm_password_usr== "password") {
+                      $("#confirm_password_usr").css("border","1px solid #fc8989");
+                      $("#confirm_password_usr_error").html("Please confirm your password");
+                      $("#confirm_password_usr_error").parent().css("display","block");
+                      errorFlag = true;
+                    }
+
+                    if(confirm_password_usr != password_usr_reg){
+                      $("#confirm_password_usr").css("border","1px solid #fc8989");
+                      $("#confirm_password_usr_error").html("The passwords do not match. Please enter them again");
+                      $("#confirm_password_usr_error").parent().css("display","block");
+                      errorFlag = true;
+                    }
+                    if(reg_me_usr == "Select" || reg_me_usr == ""){
+                      $(".selectBoxCity").css("background","url('/assets/register/select_box_error.png') no-repeat");
+                      $("#reg_me_usr_error").parent().css("display","block");
+                      $("#reg_me_usr_error").html("Please select register me as");
+                      errorFlag = true;
+                    }
+
+                    if (agree_usr == false){
+                      $('#checkbox_error').css('display','block');
+                      $('#checkbox_normal').css('display','none');
+                      $("#agree_usr_error").html("Please check the terms of service box");
+                      $("#agree_usr_error").parent().css("display","block");
+                      errorFlag = true;
+                    }
+                    if(discount_code !="" && discount_code !="Offer Code"){
+                      if(discount_code.match(/['"]+/)){
+                        $("#discount_code").css("border","1px solid #fc8989");
+                        $("#discount_code_usr_error").html("Please enter valid code");
+                        $("#discount_code_usr_error").parent().css("display","block");
+                        errorFlag = true;
+                      }
+                    }
+                    if(errorFlag){
+                      $('#loadingmessage').hide();
+                      return false;
+                    }
+                    else{
+                      $('#loadingmessage').show();
+                      if(discount_code !="" && discount_code !="Offer Code"){
+                        $.ajax({
+                          url:"/users/check_discount_code",
+                          type:"post",
+                          dataType:"json",
+                          data:{
+                            "discount_code":discount_code
+                          },
+                          success:function(data){
+                            if (data=="success"){
+                              $.ajax({
+                                url:"/user_submit",
+                                type:"post",
+                                dataType:"json",
+                                data:{
+                                  "username_usr":username_usr_reg,
+                                  "password_usr_reg":password_usr_reg,
+                                  "email_usr":email_usr_reg,
+                                  "invite_user_id":invitor,
+                                  "msg_value":msg_value,
+                                  "imanager":imanager,
+                                  "news_let_city":news_let_city,
+                                  "aten_mail":aten_mail,
+                                  "log_value":log_value,
+                                  "group":group_val,
+                                  "cid":cid_val,
+                                  "discount_code":discount_code
+                                  //~ "invite_user_id":invite_user_id,
+                                  //~ "invite_chk":invite_chk
+                                },
+                                success:function(data){
+                                  //$('#loadingmessage').hide();
+                                  //$(".headCont").html("Registered as Parent");
+                                  var invite_friend=data
+                                  if (data=="success"){
+                                    $('#loadingmessage').hide();
+                                    pop_success_register('/register_status_message?reg_status=parent_success');
+                                  }
+                                  else if (data=="member"){
+                                    $('#user_name_wrong').html('This Email is already registered with Famtivity. Please enter a different Email address');
+                                    // $('#user_name_wrong').html("Your email address is already in use. If you've forgotten your password click 'Password Reset'");
+                                    $("#email_usr_reg").focus();
+                                    $('#loadingmessage').fadeOut(2000);
+                                    $('#user_name_wrong').css('display', 'block').fadeOut(10000);
+                                  }
+                                  else if (data=="curator"){
+                                    // $("#thankyou_newsletter").bPopup({modalClose:false});
+                                    // $("#thankyou_newsletter").css("top","100px");
+<%cookies[:f_path]="parent"%>
+                    $(".headCont").html("Registered as");
+                    $("#ParentRegister").hide();
+                    $("#curator_message").show();
+                    //$('#user_name_wrong').html("Your email address is already in use. If you did not create an account<br> it is likely that Famtivity has added this email as a Provider account. <br>If you'd like to register as a provider and claim this account <br>please click the Provider Registration.");
+                    // $('#user_name_wrong').css('display', 'block').fadeOut(10000);
+                  }
+                  else{
+                    $('#loadingmessage').hide();
+                    pop_success_register('/register_status_message?reg_status='+invite_friend);
+                  }
+
+                }
+              });
+              return false;
+            }else{
+              $('#loadingmessage').hide();
+              $("#discount_code").css("border","1px solid #fc8989");
+              $("#discount_code_usr_error").html("You have entered an invalid code");
+              $("#discount_code_usr_error").parent().css("display","block");
+              return false;
+            }
+          }
+        })
+      }
+      else{
+        $.ajax({
+          url:"/user_submit",
+          type:"post",
+          dataType:"json",
+          data:{
+            "username_usr":username_usr_reg,
+            "password_usr_reg":password_usr_reg,
+            "email_usr":email_usr_reg,
+            "invite_user_id":invitor,
+            "msg_value":msg_value,
+            "imanager":imanager,
+            "news_let_city":news_let_city,
+            "aten_mail":aten_mail,
+            "log_value":log_value,
+            "group":group_val,
+            "cid":cid_val
+            //~ "invite_user_id":invite_user_id,
+            //~ "invite_chk":invite_chk
+          },
+          success:function(data){
+            //$('#loadingmessage').hide();
+            //$(".headCont").html("Registered as Parent");
+            var invite_friend=data
+            if (data=="success"){
+              $('#loadingmessage').hide();
+              pop_success_register('/register_status_message?reg_status=parent_success');
+            }
+            else if (data=="member"){
+              $('#user_name_wrong').html('This Email is already registered with Famtivity. Please enter a different Email address');
+              // $('#user_name_wrong').html("Your email address is already in use. If you've forgotten your password click 'Password Reset'");
+              $('#email_usr_reg').focus();
+              $('#loadingmessage').fadeOut(2000);
+              $('#user_name_wrong').css('display', 'block').fadeOut(10000);
+
+            }
+            else if (data=="curator"){
+              // $("#thankyou_newsletter").bPopup({modalClose:false});
+              // $("#thankyou_newsletter").css("top","100px");
+<%cookies[:f_path]="parent"%>
+              $(".headCont").html("Registered as");
+              $("#ParentRegister").hide();
+              $("#curator_message").show();
+              //$('#user_name_wrong').html("Your email address is already in use. If you did not create an account<br> it is likely that Famtivity has added this email as a Provider account. <br>If you'd like to register as a provider and claim this account <br>please click the Provider Registration.");
+              // $('#user_name_wrong').css('display', 'block').fadeOut(10000);
+            }
+            else{
+              $('#loadingmessage').hide();
+              pop_success_register('/register_status_message?reg_status='+invite_friend);
+            }
+
+          }
+        });
+        return false;
+      }
+    }
+    return false;
+
+  //~ });          
+  });          
+</script>
+
+
+

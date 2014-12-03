@@ -1,0 +1,34 @@
+<div style="margin-top:120px; margin-left:100px;">
+<%= form_tag("/category_list", :method => "post",:html => { :multipart => true } ) do |form| %>
+	<select name="category" onchange="set_category(this.value)">
+	<% @category.each do |cval|%>
+		
+		<option value="<%= cval.category_name%>"><%= cval.category_name%></option>
+		
+	<%end%>
+	</select><br><br>
+	
+		<select name="sub_category" id="sub_category">
+		<%= render :partial => "activities/sub_category"  %>
+		</select>
+
+	<br><br>
+	Script Url : <input type="text" name="script_url" id="script_url"><br><br>
+	Href Url: <input type="text" name="href_url" id="href_url"><br><br>
+	<%= submit_tag %>
+<% end %>
+</div>
+<script>
+function set_category(category){
+
+    if(category == "");
+    $.get('/activities/edit_update_sub_category',{
+        "id":category
+    }, function(data){
+        $("#sub_category").html(data);
+    });
+    $("#category").css('color','#444444');
+    $("#sub_category").css('color','#444444');
+    return false;
+}
+</script>

@@ -1,0 +1,29 @@
+<% if @activities and not @activities.empty? %>
+  <table align="center" border="1" cellpadding="5" cellspacing="1">
+    <thead>
+      <tr>
+        <th><b>Date</b></th>
+        <th><b>count</b></th>
+      </tr>
+    </thead>
+    <%=@search.facet(:user_id)%>
+    <% for row in @search.facet(:user_id).rows %>
+      <li>
+        <% if params[:month].blank? %>
+          <%= link_to row.value, :month => row.value %> (<%= row.count %>)
+        <% else %>
+          <strong><%= row.value %></strong> (<%= link_to "remove", :month => nil %>)
+        <% end %>
+      </li>
+    <% end %>
+
+
+    <% @activities.each do |act| %>
+      <tr>
+        <td><%= act.inspect  %></td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  <h3 align="center">There are no records</h3>
+<% end %>

@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="/assets/contacts_users/contact_user.css" type="text/css" />
+<script type="text/javascript" src="/assets/contacts_users/contact_user.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css" />
+<script class="jsbin" src="/assets/event/jquery.min.js"></script>
+<script class="jsbin" src="/assets/event/jquery-ui.min.js"></script>
+<style type="text/css">
+.img_box{
+       font-family:'open_sansregular',Sans-Serif; font-size:14px; display:inline;
+       background:#f43737 ;height:20px; padding:5px; color:#fff; border:1px solid red;}
+
+.contact-ok{
+  display:inline-block;
+  position:relative;
+  top:-10px;
+  width:70px;
+  background:#f82b2b;
+  margin-right: 3px;
+  font-family: 'open_sansregular';
+}
+.contact-cancel{
+  display:inline-block;
+  position:relative;
+  top:-10px;
+  width:70px;
+  background:#5eb0c6;
+  border:1px solid #5eb0c6;
+  font-family: 'open_sansregular';
+}
+
+</style>
+<script language="javascript">
+  function closepopup_delete() {
+		parent.deleteContactPage.hide();
+  }
+
+  $(document).ready(function() {
+		var del = $('#to_delete').val();
+		var s = del.split(",")
+		$('#con_name').html($('#'+s[0]).html());
+  });
+  
+  function delete_contact(){
+    $('#loading').css("display","inline-block");
+		var delete_value = $('#to_delete').val();
+		var delete_group = $('#group_delete').val();		
+		$.post("destroy", {"id":delete_value,"groupid":delete_group}, function(){ parent.$("#text-type").text(""); }, "script");
+    // parent.$("#delete-msg").delay(4000).fadeOut();
+     //parent.$("#delete-group-msg").delay(4000).fadeOut();
+  }
+
+</script>
+
+<div class="deletePopupContainer">
+  <div class="p1 new_font" align="center">
+  <% if !@contact.nil? && !@group_id.nil?%>
+	<% if @group_delete.count > 0 && @contact.count > 0%>
+		Do you want to delete selected Network(s) and selected Contact(s)?
+	<%elsif @group_delete.count <= 0 && @contact.count > 0%>
+		Do you want to delete selected Contact(s)? 
+	<%elsif @group_delete.count > 0 && @contact.count <= 0%>
+		Do you want to delete selected Network(s)?
+	<%end%>
+  <%end%>
+  </div>
+  <div class="buttons" align="center">
+    <input type="hidden" id="to_delete" name="to_delete" value="<%= @to_delete %>">
+     <input type="hidden" id="group_delete" name="group_delete" value="<%= @group_id %>">
+    <a href="javascript:void(0)" onClick="delete_contact()"><div class="img_box contact-ok" >OK</div><!--img src="/assets/contact/yes_button.png" alt=""/--></a>
+    <a href="javascript:void(0)" onClick="closepopup_delete()" style="padding-left: 1%;"><div class="img_box contact-cancel">Cancel</div><!--img src="/assets/contact/no_button.png" alt=""/--></a>
+    <span id='loading' style="bottom: 4px;position: relative;width: 30px; position: relative;display:none;"><img src='/assets/loading.gif'/></span>
+  </div>
+</div>
+
+

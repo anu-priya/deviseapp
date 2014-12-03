@@ -1,0 +1,41 @@
+<table cellpadding="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+      <table cellpadding="0" cellpadding="0">
+        <tr>
+          <td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="40"><b>Hi</b>
+            <% if !@puser.user_profile.nil? && @puser.user_profile.present? && @puser.user_profile!=''%>
+              <% if !@puser.user_profile.business_name.nil? && @puser.user_profile.business_name.present? && @puser.user_profile.business_name!=''%>
+                <b><%=@puser.user_profile.business_name %></b>,
+              <%else%>
+                <b><%=@puser.user_name%></b>,
+              <%end%>
+            <%else%>
+              <b><%=@puser.user_name%></b>,
+            <%end%>
+          </td>
+        </tr>
+        <tr>
+          <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="30"><%= @cuser.user_name if !@cuser.nil? && !@cuser.user_name.nil?%> has requested information about Activities in Famtivity. </td>
+        </tr>
+        <tr>
+          <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="45">"<%=@msg if !@msg.nil?%>"</td>
+        </tr>
+        <tr>
+          <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="30">You can reply to <%= @cuser.user_name if !@cuser.nil? && !@cuser.user_name.nil?%> at their email address <%= @cuser.email_address if !@cuser.nil? && !@cuser.email_address.nil?%></td>
+        </tr>
+        <tr>
+          <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="30">Kindly,</td>
+        </tr>
+        <tr>
+          <td><span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;">Your Famtivity Team</span></td>
+        </tr>
+        <!--dont remove this-->
+        <!--tr>
+			<td>To change your email preferences, click here [LINK]</td>
+		</tr-->
+      </table>
+
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,572 @@
+<script type="text/javascript">
+  function closepopup(){
+  if ($("#partner_reg").val()=="partner_register")
+  {
+    window.location.href = "/";	
+  }
+  else{
+    var stateObj = {
+      foo: "bar"
+    };
+    myURL = document.location;
+    if(navigator.appName=="Microsoft Internet Explorer"){
+      window.location.hash="/";
+    }
+    else{
+      parent.history.replaceState(stateObj, "Login", "/");
+    }
+    parent.parentLoginPage.hide();
+    }
+  }
+  
+  //show video url for provider tour
+var StartVal=1;
+function show_video_url(getid,url){
+  var id=getid;
+		$('.image_url').hide();
+		if(StartVal==getid){
+		 
+			autoPlayVideo(url,'314','196',id);
+		}
+		else{
+		  
+		  autoPlayVideo(url,'460','290',id);
+		}
+	}
+
+function autoPlayVideo(vcode, width, height,id) {
+	$("#vidFrame_"+id).html('<iframe width="'+width+'" height="'+height+'" src="https://www.youtube.com/embed/'+vcode+'?autoplay=1&loop=1&rel=0&wmode=transparent" style="margin:0;" frameborder="0" allowfullscreen wmode="Opaque"></iframe>');
+}
+  //show video url for provider tour ending here
+  function are_you_a_School(){
+  
+  $("#new_act_container1 .headCont").text("");
+  $("#new_act_container1 .headCont").text("School & Program Pricing");
+  $("#provider_parent").css("display","none");
+   $("#Provider_innerContainer").css("display","none");
+  $("#school_register_outerContainer").css("display","block");
+}
+
+</script>
+<style type="text/css">
+  .setfeedbackDiv {
+    background: none repeat scroll 0 0 #EDF1F2;
+    color: #444444;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    margin: 15px auto 0;
+    padding: 15px;
+    width: 746px;
+    font-weight:normal;
+  }
+  .setColor{
+    color: #fe0003;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 18px;
+    margin-top:20px;
+  }
+</style>
+<!--
+Links : Refer
+      <a href="#" title="" onclick="show_market(); _gaq.push(['_trackEvent', 'Registration', 'clickProviderMarketSignup']);"><img src="/assets/provider_register/button_signup_sm.png"></a>
+      <a href="#" title="" onclick="show_sell(); _gaq.push(['_trackEvent', 'Registration', 'clickProviderMarketSignup']);"><img src="/assets/provider_register/button_signup_sm.png"></a>
+      
+-->
+<div id="provider_registr">
+<%test_rul = request.fullpath.split("?")[0].gsub("/","")%>
+
+<input type="hidden" id="partner_reg" value="<%=test_rul%>">
+<div id="provider_registr_sub">
+<div align="center" style="border-bottom:1px solid #ddebee;" id="provider_parent">
+  <div style="margin:10px 0 10px 0;">
+    <%if params[:b_provider].nil? && !params[:b_provider].present?%>
+      <a href="#" class="menuText" title="" onclick="show_parent_register(); _gaq.push(['_trackEvent', 'Registration', 'clickParentRegistration']);">Parent</a>
+      <span class="dot menuText">&bull;</span>
+    <%end%>
+    <a href="#" class="menuText" title="" style="color:#fe0003;cursor:default;"><b>Provider</b></a>
+  </div>
+</div>
+
+<div id="register_outerContainer">
+
+<div class="loadDiv" id="loadDivsell" style="display:block;margin:0 auto; position:fixed;width:98%;top:250px; z-index:1; " align="center">
+  <div class="loadDiv_img" style="display:block; margin:200px;"><%=image_tag("/assets/loading.gif", class: "spinner_gif")%></div>
+</div>
+
+<div id="Provider_innerContainer"class="Provider_innerContainer" style="width:1000px;">
+	<div id="signupDiv" style="padding-bottom:10px;">
+      <div class="setTopPosition">
+        <div class="lt" id="setImage"></div>
+        <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_1inactive.png" id="img1" align="top" class="circleNumber"></a></div>
+        <div class="lt" id="setImage1"></div>
+        <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_2active.png" id="img2" align="top" class="circleNumber"></a></div>
+        <div class="lt" id="setImage2"></div>
+        <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_3active.png" id="img3" align="top" class="circleNumber"></a></div>
+        <div class="lt" id="setImage"></div>
+        <div class="clear"></div>
+        <div style="margin-top:3px;">
+          <div class="lt setfont12" id="choose_text" style="font-weight:bold;">Choose Plan</div>
+          <div class="lt setfont12" id="plan_text" style="font-weight:normal;">Set up Profile</div>
+          <div class="lt setfont12" id="payment_text" style="font-weight:normal;">Add Payment Details</div>
+          <div class="clear"></div>
+        </div>
+      </div>
+	
+	<div class="choosePlanOuter">
+	<table border="0" cellpadding="0" cellspacing="0" width="980" class="tbl_brd plan_content_txt">
+    	
+  <tr class="plan_headbg">
+    <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+    <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+    <td height="60" colspan="2" align="left" valign="middle" class="tbl_brdright">
+    	<img src="/assets/plan/famtivity_plan.png" width="187" height="43" align="middle" alt="famtivity_plan">
+    </td>
+    <td align="center" valign="middle" class="tbl_brdbtm">
+	<table border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td align="left" valign="middle"><span class="plan_price">$29.95</span></td>
+		<td align="left" valign="middle"><span class="plan_price_head">&nbsp;Per Month... That simple&nbsp;</span></td>
+		<td align="left" valign="middle"> <img src="/assets/plan/smiley.png"></td>
+	</tr>
+	</table>
+     </td>
+  </tr>
+  <tr class="">
+    <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+    <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+    <td height="40" colspan="2" align="center" valign="middle" class="tbl_brdright"><div class="videoOuter" style="width:394px;">
+      <div class="providerTourHead"> <img src="/assets/plan/provider_tour_icon.png" alt="" width="23" height="22" /> <span class="ftcBlue1 fts17 providerTourText"><b>Provider Tour</b></span> </div>
+      <div align="center" class="providerTourImg"> <a href="javascript:void(0)" title="" onclick="show_video_url('1','QDDPdsFTx88')"><img src="/assets/plan/provider_tour.jpg" alt="" width="314" height="196" class="image_url" style="border:1px solid  #E5E5E5;" />
+        <div id="vidFrame_1"></div>
+      </a> </div>
+    </div>
+    	
+    </td>
+    <td align="left" valign="middle" class="">
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="market_plan_desc">
+      <tr>
+        <td width="4%" align="left" valign="middle" class="plan_btmbrd"></td>
+        <td width="16%" align="center" valign="middle" class="plan_btmbrd"><div style="background:url(/assets/plan/plan_icons.png) no-repeat; background-position: 0px 0px; width:50px; height:36px;">&nbsp;</div></td>
+        <td width="80%" height="50" align="left" valign="middle" class="plan_btmbrd"> Get New Customers </td>
+      </tr>
+      <tr>
+        <td align="left" valign="middle" class="plan_btmbrd"></td>
+        <td align="center" valign="middle" class="plan_btmbrd"><div style="background:url(/assets/plan/plan_icons.png) no-repeat; background-position: -48px 0px; width:42px; height:50px;">&nbsp;</div></td>
+        <td height="80" align="left" valign="middle" class="plan_btmbrd"> Save Hundreds on Registration/Management </td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="plan_btmbrd"></td>
+        <td align="center" valign="middle" class="plan_btmbrd"><div style="background:url(/assets/plan/plan_icons.png) no-repeat; background-position: -90px 0px; width:50px; height:50px;">&nbsp;</div></td>
+        <td height="80" align="left" valign="middle" class="plan_btmbrd"> Engage with Private Social Networks </td>
+      </tr>
+      <tr>
+        <td align="left" valign="top"></td>
+        <td height="90" colspan="2" align="center" valign="middle"><a href="javascript:void(0)" title="" onclick="show_sell('market_sell','parent_register');"> <img src="/assets/plan/signup.png" alt="" /></a></td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+  <tr class="plan_headbg">
+    	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+    	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+    	  <td height="40" colspan="2" align="left" valign="middle" class="tbl_brdbtm feature_clr ">Features</td>
+    	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+   	  </tr>
+    	<tr class="plan_sub_head">
+    	  <td width="11" align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+    	  <td width="9" align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+    	  <td height="55" colspan="2" align="left" valign="middle" class="tbl_brdbtm plan_price_head">
+           	  Get New Customers          </td>
+        	<td width="361" align="left" valign="middle" class="tbl_brdbtm">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td align="left" valign="middle"><img src="/assets/plan/school.png" width="85" height="36">
+				</td>
+				<td align="left" valign="middle">
+				<a class="plan_link" href="javascript:void(0)" title="" onclick="are_you_a_School()"><b>Are you a  School?&nbsp;&nbsp;Get Famtivity for Free!</b></a>
+				</a>
+			</tr>
+		</table>
+	</td>
+        </tr>
+        <tr class="plan_tdbg tbl_brdbtm">
+          <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+          <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+          <td align="center" valign="middle" class="tbl_brdbtm">
+	  <img src="/assets/plan/feature4.png" width="37" height="27">
+	  </td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Expose Activity Listings to thousands of families
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/tick.png" width="35" height="35">
+	</td>
+        </tr>
+        <tr class="plan_tdbg">
+          <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+          <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+          <td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/feature3.png" width="35" height="38">
+	  </td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Promote your activities to the Top of Famtivity Search Results
+
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/tick.png" width="35" height="35">
+	</td>
+        </tr><tr class="plan_tdbg">
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/feature1.png" width="46" height="49" alt="feature">
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Obtain real-time-leads from interested customers
+
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/tick.png" width="35" height="35">
+	</td>
+            </tr>
+        <tr class="plan_tdbg">
+          <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+          <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+          <td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/feature5.png" width="53" height="54" align="middle">
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Convert interest to sales and Sell Activities Instantly on Famtivity
+
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/tick.png" width="35" height="35">
+	</td>
+        </tr><tr class="plan_tdbg">
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/feature9.png" width="36" height="37">
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Sell On Your Web Site with Easy Embed Link
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/tick.png" width="35" height="35">
+	</td>
+            </tr>
+        <tr class="plan_sub_head">
+          <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+          <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+          <td height="55" colspan="2" align="left" valign="middle" class="tbl_brdbtm plan_price_head">
+           	  Save Hundreds on Sign-up Mgmt.          </td>
+        	<td align="left" valign="middle" class="tbl_brdbtm"></td>
+        </tr><tr class="plan_tdbg">
+        	<td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/feature8.png" width="40" height="41" align="center">
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Easily Manage All Attendees, Schedules personnel & locations
+
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/tick.png" width="35" height="35">
+	</td>
+            </tr><tr class="plan_tdbg">
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/feature6.png" width="40" height="39">
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Save time and staff costs with Payments Collection & Reporting
+
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/tick.png" width="35" height="35">
+	</td>
+            </tr><tr class="plan_tdbg">
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/feature10.png" width="36" height="36">
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Eliminate the paperwork hassle with Online Forms Workflow
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/tick.png" width="35" height="35">
+	</td>
+            </tr><tr class="plan_tdbg">
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/feature7.png" width="36" height="38">
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Seamlessly export (.csv) and Exchange Data with Existing Systems
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/tick.png" width="35" height="35">
+	</td>
+            </tr>
+        <tr class="plan_sub_head">
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td height="55" colspan="2" align="left" valign="middle" class="tbl_brdbtm plan_price_head">
+            	Engage with Private Social Networks
+            </td>
+        	<td align="left" valign="middle" class="tbl_brdbtm"></td>
+        </tr><tr class="plan_tdbg">
+        	<td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		
+		<img src="/assets/plan/feature11.png" width="49" height="43">
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright">
+            	Engage clients through One Button Social Media Publishing
+
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/tick.png" width="35" height="35">
+	</td>
+            </tr>
+        <tr class="plan_tdbg">
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		
+		<img src="/assets/plan/feature12.png" width="43" height="37">
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright"> 
+            Enable your customer to securely share photos/videos/Files, Sign-up sheets, Rideshares, invites, etc.
+
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/tick.png" width="35" height="35">
+	</td>
+        </tr>
+	<tr class="plan_tdbg">
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+       	  <td align="left" valign="middle" class="tbl_brdbtm">&nbsp;</td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">		
+		<img src="/assets/plan/feature12.png" width="43" height="37">
+	</td>
+        	<td height="60" align="left" valign="middle" class="tbl_brdbtm tbl_brdright"> 
+            Keep everyone informed with Group and Auto-Messaging
+            </td>
+        	<td align="center" valign="middle" class="tbl_brdbtm">
+		<img src="/assets/plan/tick.png" width="35" height="35">
+	</td>
+        </tr>
+         <tr class="plan_tdbg">
+       	   <td align="left" valign="middle">&nbsp;</td>
+        	<td height="60" align="left" valign="middle" colspan="3" class="plan_desc_line">
+		<div class="plan_margin"><span class="plan_require">*</span>Leads = An e-mail lead sent to you from your activity page form or a click to your web site from famtivity
+		<br /><span class="plan_require">*</span>Attendees = An Attendee of an activity, whether sold through famtivity or not
+		<br /><span class="plan_require">*</span>Excludes <span class="plan_require">3%</span> credit card transaction fees or sales through after school and other 3rd party programs 
+		</div>
+	</td>
+        	<td align="right" valign="middle">
+            	Please <a class="plan_link" href="/contact_us" title="Contact Us" target="_blank">Contact Us</a> for larger plans&nbsp;&nbsp;<br />
+                <a href="javascript:void(0)" title="" class="plan_link"><b>See After School & Program pricing Here</b></a>&nbsp;&nbsp;
+            </td>
+        </tr>
+        <tr>
+        	<td align="left" valign="middle"></td>
+        	<td align="left" valign="middle"></td>
+        	<td align="left" valign="middle"></td>
+        	<td align="left" valign="middle">
+            	
+            </td>
+        	<td align="left" valign="middle"></td>
+        </tr>
+    </table>
+	
+	</div>
+
+    </div>
+  </div>
+</div>
+
+<!-------------------------school code from here------------->
+
+<div id="school_register_outerContainer" style="display: none;">
+
+
+
+<div class="Provider_innerContainer" style="width:1000px;">
+	<div id="signupDiv" style="padding-bottom:10px;">
+      <div class="setTopPosition">
+        <div class="lt" id="setImage"></div>
+        <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_1inactive.png" id="img1" align="top" class="circleNumber"></a></div>
+        <div class="lt" id="setImage1"></div>
+        <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_2active.png" id="img2" align="top" class="circleNumber"></a></div>
+        <div class="lt" id="setImage2"></div>
+        <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_3active.png" id="img3" align="top" class="circleNumber"></a></div>
+        <div class="lt" id="setImage"></div>
+        <div class="clear"></div>
+        <div style="margin-top:3px;">
+          <div class="lt setfont12" id="choose_text" style="font-weight:bold;">Choose Plan</div>
+          <div class="lt setfont12" id="plan_text" style="font-weight:normal;">Set up Profile</div>
+          <div class="lt setfont12" id="payment_text" style="font-weight:normal;">Add Payment Details</div>
+          <div class="clear"></div>
+        </div>
+      </div>
+	
+	<div class="choosePlanOuter">
+		<table cellspacing="0" cellpadding="0" border="0" width="980">
+			<tr height="55">
+				<td class="blueBG paddingLeft borderBm"  colspan="3"  >
+					<img src="/assets/plan/famtivity_plan.png" width="187" height="43" align="middle" alt="famtivity_plan"/> 
+				</td>
+				
+				<td colspan="3"class="blueBG ftcDarkBlue borderLt borderBm"  align="center" style="color:#176174; font-size:16px;"><b>SCHOOLS &amp; PROGRAMS PLAN</b></td>
+				
+			</tr>
+			<tr>
+				<td valign="top" class="borderBm" colspan="3" width="500">
+					<div class="videoOuter">
+						<div class="providerTourHead">
+							<img src="/assets/plan/provider_tour_icon.png" width="23" height="22" />
+							<span class="ftcBlue1 fts17 providerTourText"><b>After School Program Tour</b></span>
+						</div>
+						<div align="center" class="providerTourImg" style="height: 290px;">
+							<a href="javascript:void(0)" title=""  onClick="show_video_url('2','IrH5f-sh-4U')"><img src="/assets/plan/school_video.png" class="image_url" width="460" height="290" /><div id="vidFrame_2"></div></a>
+						</div>
+					</div>
+					
+				</td>
+				<td class="borderLt borderBm" valign="top"colspan="3" width="480">
+					<div style="margin-top:48px;color:#4495ae; font-size:18px;" align="center">BEST FIT TO...</div>
+					<div style="margin-top:20px; color:#4495ae; font-size:18px;  margin-bottom:40px; " align="center">
+						Simply manages programes,<br/>payment,attendees & vendors <br/>while securely keeping everyone <br/>informed 
+					</div>
+					<div  style="margin-top:30px;color:#4495ae; font-size:18px;background-color:#EFF8FD; height:60px; margin-bottom:16px;" align="center">
+						<div style="padding-top:20px;"><b>FREE FOR SCHOOLS!</b></div>
+					</div>
+					 <div class="clear"></div>
+					<div class="chooseButton" align="center"><a class="save-button" href="javascript:void(0)" title="" onclick="show_sell('school','<%=@is_partner%>'); _gaq.push(['_trackPageview', '/register/school']);"><!--img src="/assets/plan/choose.png" width="112" height="37" /-->Choose</a></div>
+				</td>
+				
+							
+			</tr>
+			
+			<tr height="55">
+				<td class="blueBG ftcDarkBlue fts24 borderBm paddingLeft"  colspan="6"><b>Features</b></td>
+				
+			</tr>
+		
+			<!-- Under Features Row -->
+			<tr height="60" class="lightBlueBG">
+				<td class="borderBm paddingLeft" width="63"  valign="bottom"><img src="/assets/plan/feature1.png" width="46" height="49" alt="feature" /> </td>
+				<td colspan="2"class="borderBm ftcBlue3 fts14" width="437"  align="left">Obtain real-time leads from interested customers</td>
+				<td colspan="3" width="480"class="borderLt borderBm leftBorder ftcBlue3 fts14"  align="center">Unlimited Activity Listings</td>
+				
+			</tr>
+			<tr height="60" class="lightBlueBG">
+				<td class="borderBm paddingLeft" valign="bottom"><img src="/assets/plan/feature2.png" width="53" height="51" /></td>
+				<td colspan="2"class="borderBm ftcBlue3 fts14" align="left">Engage clients through One Button Social Media Publishing</td>
+				<td colspan="3" class="borderLt borderBm" align="center"><img src="/assets/plan/tick.png" width="35" height="35" /></td>
+				</tr>
+			<tr height="60" class="lightBlueBG">
+				<td class="borderBm paddingLeft" valign="middle"><img src="/assets/plan/feature3.png" width="35" height="38" /></td>
+				<td colspan="2"class="borderBm ftcBlue3 fts14" align="left">Promote your activities to the Top of Famtivity Search Results</td>
+				<td colspan="3"class="borderLt borderBm" align="center"><img src="/assets/plan/tick.png" width="35" height="35" /></td>
+				</tr>
+			<tr height="60" class="lightBlueBG">
+				<td class="borderBm paddingLeft" valign="middle"><img src="/assets/plan/feature4.png" width="37" height="27" /></td>
+				<td colspan="2"class="borderBm ftcBlue3 fts14" align="left">Expose Activity Listings to thousands of families</td>
+				<td colspan="3"class="borderLt borderBm ftcBlue3 fts14" align="center"><img src="/assets/plan/tick.png" width="35" height="35" /></td>
+				
+			</tr>
+			<tr height="60" class="lightBlueBG">
+				<td class="borderBm paddingLeft" valign="bottom"><img src="/assets/plan/feature5.png" width="53" height="54" align="middle" /></td>
+				<td colspan="2"class="borderBm ftcBlue3 fts14" align="left">Convert interest to sales and Sell Activities Instantly on Famtivity</td>
+				<td colspan="3"class="borderLt borderBm ftcBlue3 fts14" align="center"><img src="/assets/plan/tick.png" width="35" height="35" /></td>
+				
+			</tr>
+			<tr height="60" class="lightBlueBG">
+				<td class="borderBm paddingLeft" valign="middle"><img src="/assets/plan/feature6.png" width="40" height="39" /></td>
+				<td colspan="2"class="borderBm ftcBlue3 fts14" align="left">Save time and staff costs with Payments Collection &amp; Reporting</td>
+				<td colspan="3"class="borderLt borderBm" align="center"><img src="/assets/plan/tick.png" width="35" height="35" /></td>
+				
+			</tr>
+			<tr height="60" class="lightBlueBG">
+				<td class="borderBm paddingLeft" valign="middle"><img src="/assets/plan/feature7.png" width="36" height="38" /></td>
+				<td colspan="2"class="borderBm ftcBlue3 fts14" align="left">Seamlessly export (.csv) and Exchange Data With Existing Systems</td>
+				<td colspan="3"class="borderLt borderBm" align="center"><img src="/assets/plan/tick.png" width="35" height="35" /></td>
+		
+			</tr>
+			<tr height="60" class="lightBlueBG">
+				<td class="borderBm paddingLeft" valign="middle"><img src="/assets/plan/feature8.png" width="40" height="41" align="center" /></td>
+				<td colspan="2"class="borderBm ftcBlue3 fts14" align="left">Easily Manage All Attendees, Schedules personnel &amp; locations</td>
+				<td colspan="3"class="borderLt borderBm" align="center"><img src="/assets/plan/tick.png" width="35" height="35" /></td>
+			</tr>
+			<tr height="60" class="lightBlueBG"> 
+				<td class="borderBm paddingLeft" valign="middle"><img src="/assets/plan/feature9.png" width="36" height="37" /></td>
+				<td colspan="2"class="borderBm ftcBlue3 fts14" align="left">Sell On Your Web Site with Easy Embed Link</td>
+				<td class="borderLt borderBm" align="center"><img src="/assets/plan/tick.png" width="35" height="35" /></td>
+			</tr>
+			<tr height="60" class="lightBlueBG">
+				<td class="borderBm paddingLeft" valign="middle"><img src="/assets/plan/feature10.png" width="36" height="36" /></td>
+				<td colspan="2"class="borderBm ftcBlue3 fts14" align="left">Eliminate the paperwork hassle with Online Forms Workflow</td>
+				<td colspan="3"class="borderLt borderBm" align="center"><img src="/assets/plan/tick.png" width="35" height="35" /></td>
+			</tr>
+			<tr height="60" class="lightBlueBG">
+				<td class="borderBm paddingLeft" valign="middle"><img src="/assets/plan/feature11.png" width="49" height="43" /></td>
+				<td colspan="2"class="borderBm ftcBlue3 fts14" align="left">Simply Organize Contacts from client, staff, alumni &amp; groups</td>
+				<td colspan="3" class="borderLt borderBm" align="center"><img src="/assets/plan/tick.png" width="35" height="35" /></td>
+			</tr>	
+			<tr height="60" class="lightBlueBG">
+				<td class="borderBm paddingLeft" valign="middle"><img src="/assets/plan/feature12.png" width="43" height="37" /></td>
+				<td colspan="2"class="borderBm ftcBlue3 fts14" align="left">Keep everyone informed with Group and Auto-Messaging</td>
+				<td colspan="3"class="borderLt borderBm" align="center"><img src="/assets/plan/tick.png" width="35" height="35" /></td>
+			</tr>	
+			
+		</table>
+	</div>
+
+    </div>
+  </div>
+</div>
+<!-------------------------school code end here------------->
+</div>
+          <!-- Provider Register sell page -->
+          <div id="provider_sell" style="display:none;">
+            <%= render :partial =>'provider_sell' %>
+            <div class="clear"></div>
+          </div>
+
+</div>
+
+
+
+
+<script>
+	function show_parent_register(){
+	$('#loadDivjax').show();
+	$('#loadDivjax').css("top","100px");
+	$.post("/parent_register",null);   
+	}
+
+  function closepopup(){
+    var stateObj = {
+      foo: "bar"
+    };
+    myURL = document.location;
+    if(navigator.appName=="Microsoft Internet Explorer"){
+      window.location.hash="/";
+    }
+    else{
+      parent.history.replaceState(stateObj, "Login", "/");
+    }
+    parent.parentLoginPage.hide();
+    //~ window.location.href="/"
+  }
+
+
+</script>

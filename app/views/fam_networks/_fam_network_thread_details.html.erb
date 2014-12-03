@@ -1,0 +1,183 @@
+<link rel="stylesheet" href="/assets/fam_network/uploadfile.css" type="text/css" />
+<link rel="stylesheet" href="/assets/fam_network/fam_network_post.css" type="text/css" />
+<script type="text/javascript" src="/assets/fam_network/jquery.uploadfile.min.js"></script>
+<script type="text/javascript" src="/assets/fam_network/fam_post_network.js"></script>
+
+<div class="comments_section">
+
+<!----------MY MESSAGE loop------------>
+<%message_threads && message_threads.each do |msg_thrd|%>
+<%msg_files = msg_thrd.message_files%>
+<%user = User.locate_user(msg_thrd.posted_by).last%>
+<%user_det = user.user_profile%>
+                            <div class="my_message">
+                              <%if msg_thrd && msg_thrd.posted_by==current_user.user_id%>
+			      <div class="comments_owner_img">  </div>
+			<%else%>
+			          <div class="comments_owner_img">
+				<!--div class="user_image"-->
+				<div style="overflow:hidden;height:72px;">
+					<table cellpadding="0" cellspacing="0"  height="100%" >
+						<tr>
+							<td valign="middle" align="center">
+								<div id="owner_image" style="<%if user && user.user_profile.present? && (user.user_profile.card.present? ||  user.user_profile.user_photo.present?)%>width:65px;<%else%>width:69px;<%end%>">
+									<img style="width:auto;height:auto;max-width:100%;" src="<%if user && user.user_type.downcase=='p' && user_det && user_det.present? && user_det.card && user_det.card.present? && !user_det.card.nil?%><%=user_det.card.url(:user_profile)%><%elsif user && user.user_type.downcase=='u' && user_det && user_det.present? && user_det.user_photo && user_det.user_photo.present? && !user_det.user_photo.nil?%><%=user_det.user_photo.url(:small)%><%else%>/assets/default/user_msg_default_Image.png<%end%>">
+								</div><!---change the user image--->
+							</td>
+						</tr>
+					</table>
+				<div class="circleimage"></div></div>
+				<div class="clear"></div>
+				<div class="ftcBlue postedbyname"><%=user.user_name.truncate(9) if user && !user.nil? && user.user_name && user.user_name.present?%></div>
+				</div>
+			<%end%>
+                              <div class=<%=(msg_thrd && msg_thrd.posted_by==current_user.user_id) ? "message_owner" : "message_recepiant"%>>
+			      
+			       <div class="clear"></div>
+                                <div class=<%=(msg_thrd && msg_thrd.posted_by==current_user.user_id) ? "message_contents_me" : "message_recepiant_contents_re"%>>
+                                   <div class=<%=(msg_thrd && msg_thrd.posted_by==current_user.user_id) ? "message_contents_me_center" : "message_recepiant_contents_re_center"%>>
+                                    <div class="contents_message">
+				<table style="table-layout: fixed;width: 98%;word-wrap: break-word;">
+					<tr>
+						<td>
+							<%=raw msg_thrd.content%>
+						</td>
+					</tr>	
+				</table>
+                                    </div>
+                                   </div>
+			    <div class="clear"></div>
+                                    <div class="delete_attach" <%if msg_thrd && msg_thrd.posted_by!=current_user.user_id%>style="width:543px;"<%end%>>
+                                      <div class="align_rt" >
+                                      <%if msg_files && msg_files.present? && !msg_files.empty?%>
+				    <%a=0%>
+				    <%msg_files && msg_files.each do |thr_file|%>
+				           <%path = "#{thr_file.message_file.path}"%>
+					 <%if File.exist?(path)%>
+					    <%a=a+1%>
+					 <%end%>
+				  <%end%>
+				  <%if !a.nil? && a>0%>
+				      <div class="attachments attachments_open" id="attachments_<%=msg_thrd.thread_id%>"><%=msg_files.count%> <%=(msg_files.count==1) ? 'attachment' : 'attachments'%></div>
+				      <div class="separator_pi">|</div>
+				      <%end%>
+				<%end%>
+                                       <a href="javascript:void(0)" style="color:#3D83A3;float:right;" title="Delete" class="delete_msg" onclick="famPost_delete(<%=msg_thrd.thread_id%>); _gaq.push(['_trackEvent','Parent Module', 'clickFriending','Delete']);">delete</a>
+                                    </div>
+			     </div>
+			      <div class="clear"></div>
+			      <div id="open_div_<%=msg_thrd.thread_id%>" class="open_div" style="display: none;">
+			          <div class="dashed_div">
+				    <%msg_files && msg_files.each do |thr_file|%>
+				    <%path = "#{thr_file.message_file.path}"%>
+				    <%if File.exist?(path)%>
+				      <div class="attached_files">
+					<div class="unique_files_name"><a href="/download_message_files?id=<%=thr_file.message_file_id%>" title="Download"><%=image_tag("/assets/fam_networks/download_icon.png", :width=>"9", :height=>"14", :style=>"margin-right:5px;position:relative;top:3px;")%></a><%=thr_file.message_file_file_name.truncate(15)%></div>
+					<!--div class="unique_files">
+						<a href="<%if thr_file && thr_file.present? && thr_file.message_file && thr_file.message_file.present? && !thr_file.message_file.nil?%><%=thr_file.message_file%><%end%>" target="_blank"><img width="100%" src="<%if thr_file && thr_file.present? && thr_file.message_file && thr_file.message_file.present? && !thr_file.message_file.nil?%><%=formatFileSupports(thr_file,'thumb')%><%else%>/assets/profile/user_icon_69.png<%end%>" width="120" height="120"></a>
+					</div-->
+					
+					<div style="width:100px;height:70px;padding:5px;border:1px solid #e1e1e1;">
+						<div class="unique_files" style="width:100px;height:70px;overflow:hidden;">
+							<table cellpadding="0" cellspacing="0"><tbody><tr><td width="100" height="70" valign="middle">
+							<a href="<%if thr_file && thr_file.present? && thr_file.message_file && thr_file.message_file.present? && !thr_file.message_file.nil?%><%=thr_file.message_file%><%end%>" target="_blank"><center class="msg-attach" style="width:100px;"><img src="<%if thr_file && thr_file.present? && thr_file.message_file && thr_file.message_file.present? && !thr_file.message_file.nil?%><%=formatFileSupports(thr_file,'small')%><%else%>/assets/default/user_msg_default_Image.png<%end%>" ></center></a>
+							</td></tr></table>
+						</div>
+					</div>
+				
+				    </div>
+				    <%end%>
+				  <%end%>
+				    
+				 </div>
+				    <div class="clear"></div>
+				    <div class="spacerdiv_10"></div>
+				       <div class="clear"></div>
+			      </div>
+			         <div class="clear"></div>
+				  <div id="dwon-load-div-<%=msg_thrd.thread_id%>" class="dwon-load-div">
+                                       <!--div class="dwon-load-all"> download all
+                                        
+                                      </div-->
+				<div class="dwon-load-all"><a href="/download_message_files?id=<%=msg_files.map(&:message_file_id)%>" title="Download"><%=image_tag("/assets/fam_networks/download_icon.png", :width=>"9", :height=>"14", :style=>"margin-right:5px;position:relative;top:3px;")%><span class="ftcBlue fts12"><b>Download All</b></span></a></div>
+                             </div>
+                                    </div>
+				   
+				  		     
+                                   
+                                
+                             </div>
+			<%if msg_thrd && msg_thrd.posted_by==current_user.user_id%>
+                               <div class="comments_owner_img">
+                                <div style="overflow:hidden;height:72px;">
+					<table cellpadding="0" cellspacing="0" height="100%" >
+						<tr>
+							<td valign="middle" align="center">
+								<div id="owner_image" style="<%if user && user.user_profile.present? && (user.user_profile.card.present? ||  user.user_profile.user_photo.present?)%>width:65px;<%else%>width:69px;<%end%>">
+									<img style="width:auto;height:auto;max-width:100%;"  src="<%if user && user.user_type.downcase=='p' && user_det && user_det.present? && user_det.card && user_det.card.present? && !user_det.card.nil?%><%=user_det.card.url(:user_profile)%><%elsif user && user.user_type.downcase=='u' && user_det && user_det.present? && user_det.user_photo && user_det.user_photo.present? && !user_det.user_photo.nil?%><%=user_det.user_photo.url(:small)%><%else%>/assets/default/user_msg_default_Image.png<%end%>">
+								</div><!---change the user image--->
+							</td>
+						</tr>
+					</table>
+                               <div class="circleimage"></div></div>
+			 <div class="clear"></div>
+			 <div class="ftcBlue postedbyname"><%=user.user_name.truncate(9) if user && !user.nil? && user.user_name && user.user_name.present?%></div>
+                              </div>
+			<%else%>
+			<div class="comments_owner_img"></div>
+			<%end%>
+                            </div>
+       <div class="clear"></div>
+        <div class="spacerdiv_10"></div>
+        <div class="clear"></div>
+<%end%>
+        <!----------MY MESSAGE loop end------------>
+         <div class="clear"></div>
+        <div class="spacerdiv_10"></div>
+        <div class="clear"></div>
+              <div class="comments_text_area">
+                <div class="comments_owner_img">
+		<%current_u_profile = current_user.user_profile if current_user && !current_user.nil?%>
+                 <div style="overflow:hidden;height:72px;"> 
+		<table cellpadding="0" cellspacing="0"  height="100%" >
+			<tr>
+				<td valign="middle" align="center">
+					<div id="owner_image" style="<%if current_user && current_user.user_profile.present? && (current_user.user_profile.card.present? ||  current_user.user_profile.user_photo.present?)%>width:65px;<%else%>width:69px;<%end%>">
+						<img style="width:auto;height:auto;max-width:100%;" src="<%if current_user && current_user.user_type.downcase=='p' && !current_user.nil? && current_u_profile && current_u_profile.present? && current_u_profile.card && current_u_profile.card.present? && !current_u_profile.card.nil?%><%=current_u_profile.card.url(:user_profile)%><%elsif current_user && current_user.user_type.downcase=='u' && !current_user.nil? && current_u_profile && current_u_profile.present? && current_u_profile.user_photo && current_u_profile.user_photo.present? && !current_u_profile.user_photo.nil?%><%=current_u_profile.user_photo.url(:small)%><%else%>/assets/default/user_msg_default_Image.png<%end%>">
+					</div>
+				</td>
+			</tr>
+		</table>
+                 <div class="circleimage"></div></div>
+                </div>
+                <div class="comments_owner_text" style="width:550px">
+                <textarea name="reply_post" id="reply_post" style="width:480px;color: #9C9C9C;" onfocus="Msg_in();" onblur="Msg_out();" >Write your comments...</textarea><input type="button" name="attach" value="attach" id="attach" onclick="attach(); _gaq.push(['_trackEvent','Parent Module', 'clickFriending','Attach']);" ><input type="hidden" id="attach_post_files">
+                </div>
+                <div class="comments_text_button"><div id="replay_button" onclick="post_fam_comments('<%=fam_network.message_id%>'); _gaq.push(['_trackEvent','Parent Module', 'clickFriending','Reply']);" style="width:121px"></div></div>
+	       <div class="clear"></div>
+              </div>
+</div>
+ 
+
+ 
+ <!-- delete alert popup start -->
+<div id="fampost_delete_alert" style="display:none;color: #111111;padding:25px;border: 2px solid #D7DADB;background-color:#FFFFFF;opacity:2.0;width: 452px;">
+	<input type="hidden" name="post_delete_id" id="post_delete_id" value=""/>
+	<div class="content_popup" style="display:block;"><br>Would you like to delete this message?<br><br>
+		<span class="b-close"><a href="javascript:void(0)" onclick="deleteFamPost()" title=""><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38", :style=>"border:0px;")%></a></span>
+		<span class="b-close"><a href="javascript:void(0)" title=""><%=image_tag("/assets/landing/cancel_button.png", :width=>"101", :height=>"35", :style=>"border:0px;")%></a></span>
+	</div>
+</div>
+ 
+ <script>
+ $(document).ready(function () {
+var img = document.getElementById('owner_image').firstChild;
+img.onload = function() {
+    if(img.height > img.width) {
+        img.height = '100%';
+        img.width = 'auto';
+    }
+};
+});
+ </script>
+ 

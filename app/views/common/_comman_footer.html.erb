@@ -1,0 +1,47 @@
+  <!-- footer start -->
+  <style type="text/css">
+  .footer_pro{
+  padding:10px 10px 0px 10px;display:inline-block;
+  }
+  </style>
+    <div id="footer">
+      <% if (params[:controller]=="provider_settings" || params[:controller]=='activity_schedules') && (params[:action]=="index" || params[:action]=="provider_activites" || params[:action]=='transaction' || params[:action]=='plan_report' || params[:action]=='activity_provider_schedule')%>
+         <div id="footer_inner_provider">
+        <% else%>
+	<div style="text-align:center;">
+         <div id="footer_inner" class="footer_pro">
+        <% end %>
+        <div id="copyright" style="width:30%;margin-left:15px;">
+          <span class="footer_icon" style="padding-top:4px;">&copy; 2014 famtivity Inc.&nbsp;&nbsp;</span>
+          <!--<span class="footer_icon" style="padding-top:0px;margin:-10px 0px 0px -10px;">
+            <table width="90" height="40" border="0" cellpadding="2" cellspacing="0" title="Click to Verify - This site chose Symantec SSL for secure e-commerce and confidential communications.">
+              <tr><td width="135" align="center" valign="top"><script type="text/javascript" src="https://seal.verisign.com/getseal?host_name=www.famtivity.com&amp;size=XS&amp;use_flash=NO&amp;use_transparent=NO&amp;lang=en"></script><br /></tr>
+            </table>
+          </span>-->
+          <a href="https://www.facebook.com/Famtivity" target="_blank" title="" class="footer_icon"><%=image_tag("/assets/header/facebook_icon.png", :width=>"24", :height=>"23", :border=>"0")%></a>
+          <a href="https://twitter.com/famtivity" target="_blank" title="" class="footer_icon"><%=image_tag("/assets/header/t_icon.png", :width=>"24", :height=>"23", :border=>"0")%></a>
+          <a href="http://pinterest.com/famtivity/" target="_blank" title=""class="footer_icon"><%=image_tag("/assets/header/pin.png", :width=>"24", :height=>"23", :border=>"0")%></a>
+          <a href="https://plus.google.com/105576957217163088887/posts" target="_blank" title=""class="footer_icon"><%=image_tag("/assets/header/gplus_icon.png", :width=>"24", :height=>"23", :border=>"0")%></a>
+          <a href="javascript:void(0)" title="" onClick="pop_feedback_form('/feedback'); "><%=image_tag("/assets/header/beta_feedback_button.png", :width=>"118", :height=>"26", :border=>"0", :alt=>"Beta Feedback")%></a>
+        </div>
+        <div id="footer_menu" style="margin-right:5px;">
+          <ul>
+            <%if current_user.present?%><li><a href="javascript:void(0)" class="footer_how_it_works" title="How it works" onclick="howitworks('/how-it-works'); _gaq.push(['_trackEvent','Parent Module', 'clickServices','How it works']);"><%=image_tag("/assets/header/footer_how_works.png", :width=>"24", :height=>"23", :border=>"0", :alt=>"How it works")%></a><span class="pipeSymbol">|</span></li><%end%>
+            <%if current_user.nil? || !current_user.present?%><li><a onclick="show_pop_up(30); pop_Parent_Login('/pricing-plans/provider'); show_provider_plan(); _gaq.push(['_trackEvent', 'Parent Module', 'clickServices','Pricing']);" title="Pricing" href="javascript:void(0)">Pricing</a><span class="pipeSymbol">|</span></li><%end%>
+            <li><a  href="/categories" title="Browse by Category" <%if params[:action] == "browse_category" || (( !@user_profile || params[:city] && params[:categ] && params[:sub_categ] && !params[:busi_name] && !params[:activity_name] )) &&( !get_provider_and_parent_path)%>style="color:#E24C4B;"<%end%> onclick="_gaq.push(['_trackEvent', 'Browse by Category', 'clickServices']);">Browse By Category</a><span class="pipeSymbol">|</span></li>
+	          <!--<li><a  href="/locations" title="Browse by Location" onclick="_gaq.push(['_trackEvent', 'Browse by Location', 'clickServices']);">Browse By Location</a><span class="pipeSymbol">|</span></li> -->
+            <li><a href="/terms-of-service" title="Terms of Service" <%if params[:action] == "terms_of_service"%>style="color:#E24C4B;"<%end%> onclick= "_gaq.push(['_trackEvent','Parent Module', 'clickServices','Terms of Service'])">Terms of Service</a><span class="pipeSymbol">|</span></li>
+            <li><a href="/privacy-policy" title="Privacy Policy" <%if params[:action] == "privacy_policy"%>style="color:#E24C4B;"<%end%> onclick = "_gaq.push(['_trackEvent','Parent Module', 'clickServices','Privacy Policy'])">Privacy Policy</a><span class="pipeSymbol">|</span></li>
+            <li><a href="/about-us" title="About Us" <%if params[:action] == "about_us"%>style="color:#E24C4B;"<%end%> onclick ="_gaq.push(['_trackEvent','Parent Module', 'clickServices','Aboutus'])">About Us</a><span class="pipeSymbol">|</span></li>
+            <li><a href="/contact-us" title="Contact Us" <%if params[:action] == "contact_us"%>style="color:#E24C4B;"<%end%> onclick= "_gaq.push(['_trackEvent','Parent Module', 'clickServices','Contactus'])">Contact Us</a><span class="pipeSymbol">|</span></li>
+            <li><a href="/frequently-asked-questions" title="FAQ" <%if params[:action] == "faq"%>style="color:#E24C4B;"<%end%>  onclick= "_gaq.push(['_trackEvent','Parent Module', 'clickServices','FAQ'])">FAQ</a><span class="pipeSymbol">|</span></li>
+            <li><a href="https://www.famtivity.com/blog" title="Blog" target="_blank" onclick= "_gaq.push(['_trackEvent','Parent Module', 'clickServices','Blog'])">Blog</a></li><span class="pipeSymbol">|</span></li>
+            <li><a href="javascript:void(0);" title="Find us on Famtivity" onClick="find_us_on_famtivity('/find-us-on-famtivity'); _gaq.push(['_trackEvent','Parent Module', 'clickServices','Find us on Famtivity']);">Find us on Famtivity</a><span class="pipeSymbol">|</span></li>
+            <li><a href="#" title="Survey" onclick="showSurveyMonkey(); _gaq.push(['_trackEvent','Parent Module', 'clickServices','Survey']);" target="">Survey</a></li>
+          </ul>
+        </div>
+	</div>
+      </div>
+    </div>
+  
+  <!-- footer end -->

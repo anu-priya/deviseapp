@@ -1,0 +1,32 @@
+<table cellspacing="0" cellpadding="0" border="0" style="width:98%; margin:12px; font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;">
+  	<tr>
+    	<td align="left" valign="top" height="24" style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;">      	 
+    		<strong>Hi <%=@to_user.user_name if !@to_user.nil? && !@to_user.user_name.nil?%>,</strong> 
+    	</td>
+  	</tr>
+  	<tr>
+  		<td height="10"></td>
+  	</tr>
+  	<tr>
+  		<td style="color:#333333;" align="left" valign="top">
+		<b>Mr <%=@from_user.split('@')[0].capitalize if !@from_user.nil? %></b> has accepted your invite to be a manager. Click here to assign them the <b><%=@act.activity_name if !@act.nil? && !@act.activity_name.nil?%></b> activity and set permissions.
+        </td>
+    </tr>
+          <tr>
+  		<td height="10"></td>
+  	</tr>
+  	<tr>
+  		<td align="left" valign="middle" height="24">
+  			<a href="<%=@url if !@url.nil? && @url.present? && @url!=''%>" title="" target="_blank" style="color:#5099AC;" onclick= "_gaq.push(['_trackEvent', 'Parent Module', 'clickAttendActivity','Accept']);"><%=@url if !@url.nil? && @url.present? && @url!=''%></a>
+  		</td>
+  	</tr>
+  	<tr>
+  		<td height="20">&nbsp;</td>
+  	</tr>
+  	<tr>
+		<td height="24" align="left" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#444444;">Have fun!</td>
+	</tr>
+	<tr>
+		<td  align="left"  height="24" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;">Your Famtivity Team</td>
+	</tr>
+</table>

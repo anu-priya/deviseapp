@@ -1,0 +1,153 @@
+<link rel="stylesheet" href="/assets/contacts_users/contact_user.css" type="text/css" />
+<script language="javascript">
+
+  function register_success() {
+    var stateObj = {
+      foo: "bar"
+    };
+    myURL = document.location;
+    if(navigator.appName=="Microsoft Internet Explorer"){
+      window.location.hash="/";
+    }
+    else{
+<% if !cookies[:beta_ver].nil? && cookies[:beta_ver] != " "%>
+        parent.registerStautsPage.hide();
+        parent.history.pushState(stateObj, "Login", "/");
+        parent.$('.i_agree').removeClass('agree_uncheck ').addClass('agree_check');
+<% else%>
+        parent.registerStautsPage.hide();
+        parent.parent.parentLoginPage.hide();
+        parent.parent.parent.history.pushState(stateObj, "Login", "/");
+<%end%>
+    }
+
+  }
+  
+  function provider_register_success(){
+    var stateObj = {
+      foo: "bar"
+    };
+    myURL = document.location;
+    if(navigator.appName=="Microsoft Internet Explorer"){
+      window.location.hash="/";
+    }
+    else{
+      parent.registerStautsPage.hide();
+      parent.parent.parentLoginPage.hide();
+      parent.parent.parent.history.pushState(stateObj, "Login", "/");
+    }
+  }
+  function closepopup() {
+    parent.registerStautsPage.hide();
+    parent.parent.parentLoginPage.hide();	
+  }
+  function ld_popup()
+  {
+    parent.registerStautsPage.hide();
+<%cookies[:card_msg]=""%>
+    parent.$("#sponsorBankDiv").css("display","none");
+    parent.$("#provider_sell").css("display","block"); 
+    parent.$("#sell_credit_card").css("display","block");
+    //~ parent.$('#registerbutton_1').css("display","none");
+    //~ parent.$('#registerbutton_2').css("display","inline-block");
+        parent.$('#register_button').removeClass('save-button-disabled');
+        parent.$('#register_button').addClass('save-button');
+  }
+  function partner_success_close()
+  {
+    parent.registerStautsPage.hide();
+    parent.window.location.href="/";
+  }
+  function become_provider()
+  {
+<%if current_user && current_user.user_type == "P"%>
+      parent.parent.window.location.href = "provider?<%=current_user.user_profile.business_name.parameterize if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.city.nil? %>"
+<%else%>
+      parent.parent.window.location.href = "/"
+<%end%>
+  }
+
+  function invited_popup()
+  {  <%@msg_page=cookies[:message] if !cookies[:message].nil?%>
+<% if !@user_usr.nil? && @user_usr!="failed" && @user_usr!="success" && @user_usr!="parent_success" && @user_usr!="b_provider" && @user_usr!="school" && @user_usr!="partner" %>
+  <%@user_s = uservaluesstore(@user_usr) %>
+
+  <%usercreditvalues(@user_s) if @user_s%>
+      <!--credit value stored-->
+      <!--update the provider details-->
+  <%updateproviderdetails(@user_s) if !@user_s.nil? && @user_s.present?%>
+ 
+      //parent.registerStautsPage.hide();
+  <%if !@msg_page.nil? && @msg_page.present? && cookies[:role_usr] == "P"%>
+        parent.parent.window.location.href = "/messages?mode=provider"
+  <%elsif !@msg_page.nil? && @msg_page.present?%>
+        parent.parent.window.location.href = "/messages?mode=parent"
+  <%elsif cookies[:role_usr] == "P"%>
+        parent.parent.window.location.href = "provider?<%=current_user.user_profile.business_name.parameterize if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.city.nil? %>"
+  <%else%>
+        parent.parent.window.location.href = "/"
+  <%end%>
+<%end%>
+  }
+</script>
+<style>
+  .deletePopupContainer{
+    height: 190px;
+    margin:0 auto;width:450px;display:block;
+    overflow:hidden;
+    padding-right: 60px;
+    padding-left: 60px;
+  }
+
+  .deletePopupContainer .p1{
+    padding-top: 30px;
+    margin: 0px;
+  }
+  .deletePopupContainer .buttons{
+    padding-top: 15px;
+  }
+  #page_wrapper{
+    margin-bottom:0px;
+  }
+</style>
+<div class="deletePopupContainer">
+  <% if !@status.nil? && @status.present? && @status=="failed"%>
+    <div class="p1">Registration failed!. <%=@failer_message if !@failer_message.nil? %></div>
+    <div class="buttons" align="center">
+      <a href="javascript:void(0)" onClick="ld_popup();"><img src="/assets/register/ok_btn.png" height="42px;" width="115px;"alt=""/></a>
+    </div>
+  <%elsif !@status.nil? && @status.present? && @status=="b_provider"%>
+    <div class="p1" align="center">Awesome! You are now a provider with Famtivity!</div>
+    <div class="buttons" align="center">
+      <a href="javascript:void(0)" onClick="closepopup();parent.parent.window.location.href ='/'"><img src="/assets/register/ok_btn.png" alt=""/></a>
+      <%if current_user%>
+        <a href="javascript:void(0)" onClick="become_provider();"><img src="/assets/register/switch_to_provider.png" alt=""/></a>
+      <%end%>
+    </div>
+  <%elsif !@status.nil? && @status.present? && @status=="school"%>
+    <div class="p1" align="center">A famtivity representative will contact you to validate eligibility for our school/programs pricing.<br><span style="color:#5099AC;"><b>Thank you!</b></span></div>
+    <div class="buttons" align="center">
+      <a href="javascript:void(0)" onClick="closepopup();"><img src="/assets/register/ok_btn.png" height="42px;" width="115px;"alt=""/></a>
+    </div>
+  <%elsif !@status.nil? && @status.present? && @status=="success"%>
+    <div class="p1" align="center"><span style="color:#5099AC;"><b>Success! </b></span>We just sent an email with an activation link to your inbox. Click the link to confirm your registration and begin enjoying the benefits of Famtivity! </div>
+    <div class="buttons" align="center">
+      <a href="javascript:void(0)" onClick="provider_register_success();"><img src="/assets/register/ok_btn.png" height="42px;" width="115px;"alt=""/></a>
+    </div>
+  <%elsif !@status.nil? && @status.present? && @status=="parent_success"%>
+    <div class="p1" align="center"><span style="color:#5099AC;"><b>Success! </b></span>We just sent an email with an activation link to your inbox. Click the link to confirm your registration and begin enjoying the benefits of Famtivity!</div>
+    <div class="buttons" align="center">
+      <a href="javascript:void(0)" onClick="register_success();_gaq.push(['_trackEvent', 'Registration', 'Parent Registration', 'Registration Success']);"><img src="/assets/register/ok_btn.png" height="42px;" width="115px;"alt=""/></a>
+    </div>
+  <%elsif !@status.nil? && @status.present? && @status=="partner"%>
+    <div class="p1" align="center"><span style="color:#5099AC;"><b>Success! </b></span>We just sent an email with an activation link to your inbox. Click the link to confirm your registration and begin enjoying the benefits of Famtivity! </div>
+    <div class="buttons" align="center">
+      <a href="javascript:void(0)" onclick="partner_success_close();" title=""><img src="/assets/register/ok_btn.png" height="42px;" width="115px;"alt=""/></a>
+    </div>
+  <%else%>
+    <div class="p1" align="center"><span style="color:#5099AC;"><b>Success! </b></span>Get started with Famtivity!</div>
+    <div class="buttons" align="center">
+      <a href="javascript:void(0)" onClick="invited_popup();"><img src="/assets/register/ok_btn.png" height="42px;" width="115px;"alt=""/></a>
+    </div>
+  <%end%>
+</div>

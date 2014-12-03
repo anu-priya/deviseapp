@@ -1,0 +1,60 @@
+<div class="create_head">
+  <b> Edit other fee</b><a  id="close_fee_pop" title="" onclick="cancel_edit_fee()" href="javascript:void(0)"><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15")%></a>
+</div>
+<div class="inner_body_popup">
+  <div class="inner_header_contents">
+    <p>Update other fee for your activity eg. Registration Fee, Family Registration Fee... etc.</p>
+    <p>This will be Update to your activity price</p>
+  </div>
+
+   
+  <input type="hidden" id="edit_id" value="<%= @edit_fees.provider_fee_type_id %>"/>
+  <div class="inner_body_contents">
+    <table cellpadding="5" cellspacing="0" border="0">
+      <tr>
+        <td><b>Other fee Name</b></td>
+        <td colspan="3"><b>Price</b></td>
+
+      </tr>
+      <tr>
+        <td width="300"><input type="text" onfocus="if (this.value=='Enter Other Fee Name') { this.value = '';$(this).css('color','#444444');}" onblur="if (this.value==''){ this.value = 'Enter Other Fee Name';$(this).css('color','#999999');}" id="edit_fee_name" name="edit_fee_name" value="<%= @edit_fees.fee_name %>" class="lt textbox" style="width:280px"></td>
+        <td><input type="text" maxlength="4" onfocus="if (this.value=='Enter Price') { this.value = '';$(this).css('color','#444444');}" onblur="if (this.value==''){ this.value = 'Enter Price';$(this).css('color','#999999');}" id="edit_fee_price" name="edit_fee_price" value="<%= @edit_fees.price %>" class="lt textbox" style="width:170px"></td>
+        <td><input type="checkbox" id="edit_fee_quantity" name="create_fee_quantity" value="<%= @edit_fees.quantity %>"> <b>Quantity</b></td>
+        <td><input type="checkbox" id="edit_fee_mand" name="create_fee_mand" value="<%= @edit_fees.fee_mandatory %>"> <b>Mandatory</b></td>
+      </tr>
+      <tr>
+        <td colspan="4"><textarea name="edit_fee_notes" id="edit_fee_notes" style="width:660px;"class="lt textbox descTextbox" onfocus="if (this.value=='Enter Notes here') { this.value = '';$(this).css('color','#444444');}" onblur="if (this.value==''){ this.value = 'Enter Notes here';$(this).css('color','#999999');}"><%if !@edit_fees.nil? && @edit_fees!="" %><%= @edit_fees.note %><%else%>Enter Notes here<%end%></textarea> </td>
+
+      </tr>
+      <tr id="edit_err_tr" style="display: none;color:#ff0000">
+        <td colspan="4">
+          <div id="edit_error_feee" style="display:none"></div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4"> <table style="padding:0px;"><tr><td>
+          <a onclick="save_edit_fee()"><%=image_tag("/assets/create_new_activity/save.png", :width=>"113", :height=>"41")%></a>
+
+          <a onclick="cancel_edit_fee()"><%=image_tag("/assets/create_new_activity/cancel.png", :width=>"113", :height=>"41")%></a>
+          </td>
+            <td>
+              <!--div id="edit_fee_success" style="display:none;width: 39%;margin-left: 0px;background:#CFFFE7;color: #575656; padding: 10px 5px; margin-top: 8px;">Other fee has been Updated Successfully</div-->
+              <div id="edit_fee_success" style="display:none;width:350px;margin: 0 auto;background:#65B3CA;color: #ffffff; padding: 10px 5px; text-align: center;margin-left: 67px;">Other fee has been Updated Successfully</div>
+          
+        </td>
+<!--td valign="middle"><span style="display: none; float: left; position: relative;  left: 5px;" id="loading_img3"><img src="/assets/loading_small.gif"></span>
+
+ </td-->
+            </tr></table></td>      </tr>
+    </table>
+
+  </div>
+</div>
+<script>
+<%if @edit_fees.quantity == true %>
+    $("#edit_fee_quantity").attr("checked","true");
+<%end%>
+  <%if @edit_fees.fee_mandatory == true %>
+    $("#edit_fee_mand").attr("checked","true");
+<%end%>
+</script>

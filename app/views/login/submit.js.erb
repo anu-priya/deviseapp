@@ -1,0 +1,108 @@
+	<% if cookies[:fam_post_invite] && cookies[:fam_post_invite] == "fampost"%>
+		parent.window.location.href ="/home/fam_post"
+	<% elsif cookies[:role_usr] == "P"%>
+		<% if !@news_import.nil? && @news_import.present? && @news_import=="u"%>
+		    parent.history.replaceState("", "", "import-invite-friends");
+			parent.window.location.href = "/provider?invite_friend=friend"
+	    <% elsif !@news_import.nil? && @news_import.present? && @news_import=="t"%>
+	        parent.history.replaceState("", "", "create-famnetwork");
+	    	parent.window.location.href = "/?creat_network=true"
+		<% elsif !@email_val.nil? && @email_val.present?%>
+		    parent.window.location.href = "/messages?mode=parent"
+		<% elsif  !@activity_id.nil? && @activity_id.present? && !@act.nil? && @act.present? && @act=="embeded" %>
+			parent.LoginPage.hide();
+			parent.window.location.href="/embed_popup?pu=<%=@embed_user if !@embed_user.nil?%>&activity=<%=@activity_id %>"
+		<% elsif !@activity_id.nil? && @activity_id.present? && @get_cooki_arg && @get_cooki_arg.present?%>
+			parent.window.location.href = "/?mview=<%= @activity_id%>&bcrum=<%=@get_cooki_arg%>";
+		<% elsif !@activity_id.nil? && @activity_id.present?%>
+			parent.window.location.href = "/?mview=<%= @activity_id %>";
+		<% elsif !@activity_id.nil? && @activity_id.present? && !@act.nil? && @act.present? && @act=="save_favorites"%>
+		    parent.window.location.href = "provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?%>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?%>";
+		    parent.pop_favorite_activity('/save_favorites?before_login_value=<%=@activity_id%>&activity_id=<%=@activity_id%>');
+		<% elsif !@activity_id.nil? && @activity_id.present? && !@act.nil? && @act.present? && @act=="share_activity"%>
+		    parent.window.location.href = "provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?%>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?%>";
+		    parent.pop_share_activity('/share_activity?before_login_value=<%=@activity_id%>&activity_id=<%=@activity_id%>&mode=parent');
+		<% elsif !@activity_id.nil? && @activity_id.present? %>
+		    parent.window.location.href = "provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?%>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?%>";
+		    parent.parent.$('#activity_new').html('<%= escape_javascript(render(:partial => 'activity_detail/activitynew_details')) %>');
+		<% elsif @atten_type && @attendee_link && !@atten_type.nil? && !@attendee_link.nil? %>
+		    parent.window.location.href  = "<%=@attendee_link%>"
+		<% elsif !@macid.nil? && @macid.present? && !@macid.nil? && @mgr_acpted.present? && @mgr_acpted=="manager_accepted"%>
+			parent.window.location.href = "provider?macid=<%=@macid%>&mgr_acpted=<%=@mgr_acpted%>";
+		<%else %>
+		    parent.window.location.href = "provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?%>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?%>";
+		<%end%>
+	<%elsif cookies[:role_usr] == "A"%>
+		<% if !@news_import.nil? && @news_import.present? && @news_import=="u" %>
+			    parent.history.replaceState("", "", "import-invite-friends");
+				parent.window.location.href = "/?invite_friend=friend"
+		<% elsif !@news_import.nil? && @news_import.present? && @news_import=="t"%>
+				parent.history.replaceState("", "", "create-famnetwork");
+	    		parent.window.location.href = "/?creat_network=true"
+	    <% elsif !@activity_id.nil? && @activity_id.present? && @get_cooki_arg && @get_cooki_arg.present?%>
+			parent.window.location.href = "/?mview=<%= @activity_id%>&bcrum=<%=@get_cooki_arg%>";
+		<% elsif !@activity_id.nil? && @activity_id.present?%>
+				parent.window.location.href = "/?mview=<%= @activity_id %>";
+	    <% elsif !@activity_id.nil? && @activity_id.present? && !@act.nil? && @act.present? && @act=="save_favorites"%>
+		    parent.window.location.href = "admin";
+		    parent.pop_favorite_activity('/save_favorites?before_login_value=<%=@activity_id%>&activity_id=<%=@activity_id%>');
+		<% elsif !@activity_id.nil? && @activity_id.present? && !@act.nil? && @act.present? && @act=="share_activity"%>
+		    parent.window.location.href = "admin";
+		    parent.pop_share_activity('/share_activity?before_login_value=<%=@activity_id%>&activity_id=<%=@activity_id%>&mode=parent');
+		<% elsif !@activity_id.nil? && @activity_id.present? %>
+		    parent.window.location.href = "admin";
+		    parent.parent.$('#activity_new').html('<%= escape_javascript(render(:partial => 'activity_detail/activitynew_details')) %>');
+		<% elsif !@macid.nil? && @macid.present? && !@macid.nil? && @mgr_acpted.present? && @mgr_acpted=="manager_accepted"%>
+			parent.window.location.href = "provider?macid=<%=@macid%>&mgr_acpted=<%=@mgr_acpted%>";
+		<% elsif @atten_type && @attendee_link && !@atten_type.nil? && !@attendee_link.nil? %>
+		    parent.window.location.href  = "<%=@attendee_link%>"
+		<%else %>
+		    parent.window.location.href = "admin";
+		<%end%>
+	<%else%>
+		<%if @become_provider%>    
+		    parent.window.location.href = "/?become_pro=yes&sent_user=<%=@invite_user_id if !@invite_user_id.nil? && @invite_user_id.present?%>&sent_user_email=<%=@invite_user_email if !@invite_user_email.nil? && @invite_user_email.present?%>";
+		<%else%>
+			<% if !@news_import.nil? && @news_import.present? && @news_import=="u" %>
+			    parent.history.replaceState("", "", "import-invite-friends");
+				parent.window.location.href = "/?invite_friend=friend"
+			<% elsif !@news_import.nil? && @news_import.present? && @news_import=="t"%>
+				parent.history.replaceState("", "", "create-famnetwork");
+	    		parent.window.location.href = "/?creat_network=true"
+			<% elsif !@email_val.nil? && @email_val.present?%>
+				parent.window.location.href = "/messages?mode=parent"
+		          <% elsif !@activity_id.nil? && @activity_id.present? && @get_cooki_arg && @get_cooki_arg.present?%>
+				parent.window.location.href = "/?mview=<%= @activity_id%>&bcrum=<%=@get_cooki_arg%>";
+			<% elsif !@activity_id.nil? && @activity_id.present?%>
+				parent.window.location.href = "/?mview=<%= @activity_id %>";
+			<% elsif !@activity_id.nil? && @activity_id.present? && !@act.nil? && @act.present? && @act=="save_favorites"%>
+				parent.window.location.href = "/";
+				parent.pop_favorite_activity('/save_favorites?before_login_value=<%=@activity_id%>&activity_id=<%=@activity_id%>');
+			<% elsif !@activity_id.nil? && @activity_id.present? && !@act.nil? && @act.present? && @act=="share_activity"%>
+				parent.window.location.href = "/";
+				parent.pop_share_activity('/share_activity?before_login_value=<%=@activity_id%>&activity_id=<%=@activity_id%>&mode=parent');
+			<% elsif !@activity_id.nil? && @activity_id.present? %>
+				parent.window.location.href = "/";
+				parent.parent.$('#activity_new').html('<%= escape_javascript(render(:partial => 'activity_detail/activitynew_details')) %>');
+			<% elsif !@macid.nil? && @macid.present? && !@macid.nil? && @mgr_acpted.present? && @mgr_acpted=="manager_accepted"%>
+				parent.window.location.href = "provider?macid=<%=@macid%>&mgr_acpted=<%=@mgr_acpted%>";
+			<% elsif @atten_type && @attendee_link && !@atten_type.nil? && !@attendee_link.nil? %>
+			      parent.window.location.href  = "<%=@attendee_link%>"
+			<%else %>
+			          <%if !@ws.nil? && @ws.present? && @ws=="1"%>
+					parent.window.location.href = "/?login=success";
+				<%else%>
+					parent.window.location.href = "/?login=success";
+				<%end%>
+			<%end%>
+		<%end%>
+	<%end%>
+
+	<% if  !@act.nil? && @act.present? && @act=="save_favorites" %>
+		parent.window.location.href = "/?favorites=<%= @activity_id %>";
+	<% end %>
+	<% if  !@act.nil? && @act.present? && @act=="share_activity" %>
+		parent.window.location.href = "/?share_act=<%= @activity_id %>";
+	<% end %>
+
+

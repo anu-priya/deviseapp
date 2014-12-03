@@ -1,0 +1,147 @@
+
+<script type="text/javascript">
+  /*$(".send-friend-req").click(function(){
+  var key_val=$("#text-name").val();
+  var test = this.id;
+  var val = $("#"+test).attr('data');
+  alert(val);
+  send_friend_req(val,key_val);
+}); */
+
+
+  function send_friend_req(email){
+    var key_val=$("#text-name").val();
+    $.ajax({
+      type: "POST",
+      data: {"contact_email":email,"key_val":key_val},
+      url: "/send_friend_request",
+      success: function(data){
+
+        if (data=='true'){
+          //~ setTimeout("$('#success-msg').show();",2000)
+          $('#success-msg').css("display","inline-block");
+          $("#success-msg").show();
+          $("#success-msg").fadeOut(5000);
+        }
+        else
+        {
+          $('#success-msg').css("display","inline-block");
+          $("#success-msg").show();
+          $("#success-msg").fadeOut(5000);
+          $("#list_no_frnds").html(data);
+          // return false;
+        }
+      }
+    })
+    return false;
+  }
+
+</script>
+<div id="fam-list-show">
+  <table cellspacing="0" cellpadding="0" border="0" style="width:100%; .width:98%;">
+    <% if @fam_mem.present?%>
+      <tr>
+        <%i = 0%>
+        <% @fam_mem.each do |fam| %>
+          <%i = i + 1%>
+          <%if i.even? %>
+          <tr class="setBg2">
+          <%else%>
+          <tr class="setBg1">
+          <%end%>
+
+          <td width="10%" align="left" style="border-bottom:1px solid #E2EAEC; height:105px; ">
+            <div align="center">
+              <%if fam.user_profile && fam.user_profile.user_photo%>
+                <span class="contactImg"><%=image_tag(fam.user_profile.user_photo.url(:small),:width => 63,:height => 63 )%></span>
+              <%else%>
+                <span class="contactImg"><img src="/assets/profile/user_icon_69.png" width="63" height="63" style="border:1px solid #CEE1E8;"/></span>
+              <%end%>
+            </div>
+          </td>
+
+          <td width="20%" align="left" style="border-bottom:1px solid #E2EAEC; height:105px;">
+            <div class="setFreindFocus">
+              <a href="javascript:void(0)" class="FriendnameText" title="<%= (fam.user_type.downcase=="u") ? fam.user_name : (fam.user_profile && fam.user_profile.business_name) ? fam.user_profile.business_name : ""%>&#013<%=(fam.user_profile && fam.user_profile.state) ? fam.user_profile.state : ""%>&#013<%=(fam.user_profile && fam.user_profile.country) ? fam.user_profile.country : ""%>"><b><%= fam.user_name %></b></a>
+            </div>
+          </td>
+          <td width="45%" align="left" style="border-bottom:1px solid #E2EAEC; height:105px;">
+            <div>
+              <span class="FriendnameText">&nbsp;</span>
+            </div>
+          </td>
+          <td width="40%" align="left" colspan="2" style="border-bottom:1px solid #E2EAEC; height:105px;">
+            <div>
+              <% chk_status = check_friends(fam)%>
+              <%if chk_status%>
+              <% owner_status = check_owner(cookies[:fam_network],@key_word) if !cookies[:fam_network].nil? && cookies[:fam_network].present? && !@key_word.nil? &&   @key_word.present?%>
+                <%if owner_status%>
+                    <span>Owner</span>  
+                <%else%>
+                    <span>Friend</span>
+                <%end%>
+                
+                <%if !cookies[:fam_network].nil? && cookies[:fam_network]!="" && !chk_status %>
+                  <%con=ContactUser.find_by_contact_email_and_user_id(fam.email_address,current_user.user_id) if !current_user.nil?%>
+
+                  <%if !con.nil?%>
+                    <%fam_net = ContactUserGroup.where("contact_user_id = '#{con.contact_id}' and contact_group_id='#{cookies[:fam_network]}'").last%>
+                    <% if !fam_net.nil?  %>
+                      <% if fam_net.fam_accept_status != true  %>
+                        <span href="javascript:void(0)"  title="" onclick="send_friend_req('<%= fam.email_address %>');" class="send-friend-req" id="friend-req" data="<%=fam.email_address%>"  style="color: #13849B;cursor: pointer;">Send Request</span>
+                      <% end %>
+                    <%else%>
+                      <span href="javascript:void(0)"  title="" onclick="send_friend_req('<%= fam.email_address %>');" class="send-friend-req" id="friend-req" data="<%=fam.email_address%>"  style="color: #13849B;cursor: pointer;">Send Request</span>
+                    <% end %>
+                  <% end %>
+                <%end%>
+              <%else%>
+                <%if fam.email_address==current_user.email_address%>
+                  <span style="color: #13849B;">Your Profile</span>
+                <%else%>
+                  <%con=ContactUser.find_by_contact_email_and_user_id(fam.email_address,current_user.user_id) if !current_user.nil?%>
+                  <%displa = true%>
+                  <%if !cookies[:fam_network].nil? && cookies[:fam_network]!=""%>
+                  <%@fam_users = ContactUser.find_by_sql("select * FROM contact_users
+                                        INNER JOIN contact_user_groups as fam
+                                        ON contact_users.contact_id = fam.contact_user_id and fam.contact_group_id='#{cookies[:fam_network]}'")%>
+                    <%@ss=[]%>
+                    <% @fam_users.each do |fu|%>
+                     <% olduser=fu.contact_email==@key_word if !@key_word.nil? &&   @key_word.present?%>
+                     <% @ss<<fu if !olduser.nil? && olduser.present?%>
+                    <%end%>
+                     <%#=@ss%>
+                    <%if ((!con.nil? && con.present?)||(!@ss[0].nil? && @ss[0].present?))%>
+                      <%con=@ss[0] if !@ss[0].nil? && @ss[0].present?%>
+                      <% fam_net = ContactUserGroup.where("contact_user_id = '#{con.contact_id}' and contact_group_id='#{cookies[:fam_network]}'").last%>
+                      <% if !fam_net.nil?  %>
+                        <%if fam_net.fam_accept_status != true  %>
+                          <span href="javascript:void(0)"  title="" onclick="send_friend_req('<%= fam.email_address %>');" class="send-friend-req" id="friend-req" data="<%=fam.email_address%>"  style="color: #13849B;cursor: pointer;">Send Request</span>
+                        <%else%>
+                          <span>Already in Network</span>
+                        <% end %>
+                        <% displa = false%>
+                      <% end %>
+                    <%end%>
+                  <%end%>
+                  <%if displa == true%>
+                    <% if con && con.invite_status == true  %>
+                      <span style="color: #13849B;cursor: default;">Invited |
+                        <span href="javascript:void(0)"  title="" onclick="send_friend_req('<%= fam.email_address %>');" class="send-friend-req" id="friend-req" data="<%=fam.email_address%>"  style="color: #13849B;cursor: pointer;">Send Again</span></span>
+                    <%else%>
+                      <span href="javascript:void(0)"  title="" onclick="send_friend_req('<%= fam.email_address %>');" class="send-friend-req" id="friend-req" data="<%=fam.email_address%>"  style="color: #13849B;cursor: pointer;">Send Friend Request</span>
+                    <%end %>
+                  <%end %>
+                <%end%>
+              <%end%>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <span>No results found.</span>
+    <% end %>
+  </table>
+</div>
+
+

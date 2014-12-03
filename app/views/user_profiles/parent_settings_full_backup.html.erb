@@ -1,0 +1,1488 @@
+<script type="text/javascript" src="/assets/global/checkbox.js"></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+    initARC('settings','altCheckboxOn','altCheckboxOff');
+  });
+</script>
+
+<link rel="stylesheet" type="text/css" href="/assets/header/header.css" />
+<link rel="stylesheet" type="text/css" href="/assets/profile/profile.css" />
+<script type="text/javascript" src="/assets/header/header.js"></script>
+<link rel="stylesheet" href="/assets/landing/how_it_works.css" type="text/css" />
+
+<!--contact menu-->
+<script type="text/javascript" src="/assets/global/checkbox.js"></script>
+<script type="text/javascript" src="/assets/settings/contact_list.js"></script>
+
+
+<!--settings select option dropdown-->
+<script type="text/javascript" src="/assets/settings/select_option.js">
+
+
+<!--mac fix-->
+<script type="text/javascript" src="/assets/event_index/macfix.js"></script>
+<!-- drop down menu-->
+<script type="text/javascript" src="/assets/event_index/jquery.dropdownPlain.js"></script>
+<style type="text/css" id="page-css">
+  /* Styles specific to this particular page */
+  .scroll-pane
+  {
+    width: 100%;
+    height: 185px;
+    overflow: auto;
+  }
+  .horizontal-only
+  {
+    height: auto;
+    max-height: 185px;
+  }
+</style>
+<script type="text/javascript" id="sourcecode">
+  $(function(){
+    $('.scroll-pane').jScrollPane();
+  });
+</script>
+
+
+<link rel="stylesheet" type="text/css" href="/assets/custom_scroll/jquery.jscrollpane.css" />
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="/assets/custom_scroll/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="/assets/custom_scroll/jquery.jscrollpane.min.js"></script>
+<script type="text/javascript" src="/assets/custom_scroll/demo.js"></script>
+
+<!--calender-->
+<!--<link rel="stylesheet" href="/assets/provider_event_list/provider_event_list.css" type="text/css" />-->
+<script type="text/javascript" src="/assets/event/event.js"></script>
+<script type="text/javascript" src="/assets/event/jquery.ui.core.js"></script>
+<script type="text/javascript" src="/assets/event/jquery.ui.datepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="/assets/event/jquery.ui.datepicker.css" />
+<link rel="stylesheet" type="text/css" href="/assets/event/jquery.ui.theme.css" />
+
+<!-- DHTML Modal Effect -->
+<link rel="stylesheet" href="/assets/global/overlay/windowfiles/dhtmlwindow.css" type="text/css" />
+<link rel="stylesheet" href="/assets/global/overlay/modalfiles/modal.css" type="text/css" />
+
+<script type="text/javascript" src="/assets/global/overlay/windowfiles/dhtmlwindow.js"></script>
+<script type="text/javascript" src="/assets/global/overlay/modalfiles/modal.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  //get mutiple check box id and store to hidden field
+  function getchk_actid(curr_actid,span_)
+  {
+    span_index=$(".checkboxImg").index(span_);
+    chk_staus=$(".checkboxImg:eq("+span_index+") label").attr('class');
+    if(chk_staus=="altCheckboxOn")
+    {
+      //add selected checkbox id
+      txt_id=$("#actid_chk").val();
+      if(txt_id=="")
+      { selected_ids=curr_actid; 	}
+      else{ selected_ids=txt_id+","+curr_actid; 	}
+      $("#actid_chk").val(selected_ids);
+	  
+    }
+    else
+    {
+      //remove the id
+      txt_id=$("#actid_chk").val();
+      selected_ids=txt_id.replace(curr_actid,'');
+      $("#actid_chk").val(selected_ids);
+      $('#select').css('display','none');
+      $('#not_select').css('display','inline-block');
+      $('#row').val(0);
+    }
+  }
+
+});
+  var newActivityPage;
+  var EditparentprofilePage;
+  var activitySupportPage;
+  var inviteproviderPage;
+  var becomeproviderPage;
+  var activityFeedbackPage;
+  
+  function pop_new_activity(url){
+    newActivityPage = dhtmlmodal.open("Event New Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+  function pop_provider_edit_profile(url){
+    EditparentprofilePage = dhtmlmodal.open("Edit Password ","iframe",url,"", "width=896px,height=2000px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+  //support form popup
+  function pop_support_form(url){
+    activitySupportPage = dhtmlmodal.open("Delete Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+  
+  //invite provider popup
+    function pop_invite_provider(url){
+    inviteproviderPage = dhtmlmodal.open("Edit Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+		
+    return false;
+  }
+
+  //Become a provider popup
+    function pop_become_provider(url){
+    becomeproviderPage = dhtmlmodal.open("Edit Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+		
+    return false;
+  }
+   //feedback form
+    function pop_feedback_form(url){
+    activityFeedbackPage = dhtmlmodal.open("Delete Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+		
+    return false;
+  }
+
+</script>
+
+<div id="event_index_container">
+
+<input type="hidden" id="actid_chk" name="actid_chk" value="" />
+  <div class="headerPart1">
+    <div align="center"><a href="/event_index" title=""><img src="/assets/event_index/famtivity_logo_parent.png" width="110" height="35"></a></div>
+    <table cellpadding="0" class="headerDivRight" cellspacing="0" width="429" border="0" style="float:right; display:inline-block; margin-top:-33px; .margin-top:-30px;">
+      <tr>
+        <td align="right" width="300">
+
+          <span><img src="/assets/event_index/photo_register.png"  style="top:-7px; position:relative;"/></span>
+          <span id="user_menu" class="UserDivMenu">
+            <ul>
+              <li>
+                <a href="" class="userDiv" style="color: #4495AE; border: 1px solid #DBEEF4;"><%= current_user.user_name %><span class="actImg"><img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/></span></a>
+                <ul class="sub-menu dispParentUserDiv" style=".margin-top:30px; right:0px;" align="right">
+                  <%if current_user.user_type=="U" %>
+                     <li style="border:1px #B1D7E3 solid;background-color:#EDF2F5;"><a href="#" style="padding-top:8px;color:#E24C4B;" onclick="pop_become_provider('/become_provider');" title=""><b>Become a Provider</b></a></li>
+                  <%else%> 
+                    <li style="border:1px #B1D7E3 solid;background-color:#EDF2F5;"><a href="/event" style="padding-top:8px;color:#E24C4B;"><b>Switch to Provider</b></a></li>
+                  <%end%> 
+                  <li><a href="javascript:void(0)" onclick="pop_new_activity('/create_new_activity')">Add My New Activity</a></li>
+                  <li><a href="/activity_parent_schedule" style="border-bottom:1px #B1D7E3 solid;">My Scheduled</a></li>
+				<!-- <li style="border-bottom:1px #B1D7E3 solid;"><a href="#">My Map</a></li>
+				  <li style="border-bottom:1px #B1D7E3 solid; margin-bottom: 10px; margin-left: 8px; margin-top: -13px; width: 132px; display:inline-block;"><a href="#" style="width:132px; display:inline-block;">&nbsp;</a></li>-->
+				  <li><a href="/parent_profile">Profile</a></li>
+				  <li><a href="/parent_settings">Settings</a></li>
+                  <li><a href="/logout">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="clear"></div>
+          </span>
+
+        </td>
+        <td width="33" align="left">
+          <div><a href="/contact_users" title=""><img src="/assets/event_index/contacts_icon.png" width="28" height="26" /  onmouseover='$(this.src="/assets/event_index/contacts_icon_over.png")' onmouseout='$(this.src="/assets/event_index/contacts_icon.png")'></a></div>
+        </td>
+        <td width="0" align="left"><div><a href="javascript:void(0)" title=""><img src="/assets/event_index/divider_top.png" width="1" height="17" /></a></div></td>
+<!--        <td width="31" align="left"><div><a href="/contact_users" title=""><img src="/assets/event_index/message_icon.png" width="26" height="24" /  onmouseover='$(this.src="/assets/event_index/message_icon_over.png")' onmouseout='$(this.src="/assets/event_index/message_icon.png")'></a></div></td>
+        <td width="1" align="left"><div><a href="javascript:void(0)" title=""><img src="/assets/event_index/divider_top.png" width="1" height="17" /></a></div></td>
+-->
+        <td >
+
+          <div id="service_menu" class="serviceDivMenu">
+            <ul>
+              <li>
+                <a href="" class="serviceDiv" style="color: #4495AE; border: 1px solid #DBEEF4; width:65px;">Service<span class="actImg"><img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/></span></a>
+                <ul class="sub-menu dispParentServiceDiv" style="margin-left:-66px;.margin-top:28px; .margin-left:-147px;">
+                  <li><a href="/how_it_works" style="padding-top:8px;">How it works</a></li>
+				            <li><a href="#" onclick="pop_invite_provider('/invite_provider');">Invite Your Provider</a></li>
+                    <!--<%if current_user.user_type=="U" %>
+                    <li><a href="#" onclick="pop_become_provider('/become_provider');" title="">Become a Provider</a></li>
+                    <%end%>-->
+                  <li><a href="javascript:void(0)" title="" onclick="pop_feedback_form('/feedback');" class="lt setRt">Feedback</a></li>
+                  <li><a href="/terms_of_service">Terms of Service</a></li>
+                  <li><a href="/privacy_policy">Privacy Policy</a></li>
+				  <li><a href="#">About</a></li>
+				  <li><a href="#">Contact</a></li>
+				  <li><a href="http://www.famtivity.com/blog/">Blog</a></li>
+				  <li><a href="#">FAQ</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="clear"></div>
+          </div>
+
+        </td>
+      </tr>
+    </table>
+  </div>
+
+
+  <div id="how_it_worksDiv" class="SettingsDiv" style="padding-bottom:0px;">
+  <form name="settings" id="settings" method="post">
+    <div class="TopListText" align="center" style="width:183px; padding: 10px 0 29px; .padding: 10px 0 10px;">
+      <span class="lt"><a href="/parent_profile" class="menuText">Profile</a></span>
+      <span class="dot menuText">&bull;</span>
+      <span class="lt"><a href="/parent_settings" class="menuText"><b>Settings</b></a></span>
+    </div>
+    <div class="clear"></div>
+    <div class="setTopBprder" style="padding-top:8px;"></div>
+	<!-- famtivity contacts hidden field-->
+	<input type="hidden" id="famti_contact" name="famti_contact" value=""/>
+    <div class="dottedDiv" style="position:relative;"> 
+          <div class="Title" id="sharedText"><b>Sharing Settings</b></div>
+	  </div>
+	  
+       <div class="Title ActivityTopSetting"><b>Activity Settings</b></div>
+	   
+	    <div class="SettingsRow1" id="fam_contact">
+			<div class="leftSettingDiv">
+				<p>My purchased activities are visible to:</p>
+			</div>
+			<div class="centerDropdown"> 
+				<div class="settingsDropdown" onmouseover="flag5=true;" onmouseout="flag5=false;">
+                    <input type="hidden" id="visible_to" name="visible_to" value=""/>
+					
+                    <div id="visible_to_field" class="selectDiv" style="line-height:23px;">Famtivity Everyone</div>
+				</div>
+                  <div class="dropDownDivSettingVisible" id="dropDownDiv5" style="display:none;">
+                    <a href="javascript:void(0)"  rel="1" title="" id="set_value1" onclick="setvalue1('Famtivity Everyone',this.id)" tabindex="">Famtivity Everyone</a>
+					<a href="javascript:void(0)"  rel="1" title="" id="set_value2" class="f_contacts" id="f_contacts" onclick="setvalue1('Famtivity Contacts',this.id)" style="border:1px solid #fff; background:#fff;" tabindex="">Famtivity Contacts <span style=" position: relative; top: -1px;"><img src="/assets/event_index/dropdown_arrow.png" width="7" height="4"></span></a>
+					<a href="javascript:void(0)"  rel="1" title="" id="set_value3" onclick="setvalue1('Just Me',this.id)" tabindex="">Just Me</a>
+		         </div>
+					<!--contact menu-->
+                    <div id="dispContactDiv" class="dispNone">
+                    <div class="topBox">
+                      <input type="hidden" name="activity_id" value="werwe">
+                      <div class="groupRow">
+                        <div class="lt groupRowLeft">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="contact" onclick="selectedContact()"><input id="contact" name="contact" type="checkbox" value=""><label for="contact">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Contacts</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt groupRowLeft" style="border:none;">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="group" onclick="selectedGroup()"><input id="group" name="group" type="checkbox" value=""><label for="group">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Groups</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="contactNamesRow">
+                        <div class="lt contactRowLeft" id="contactList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td class="contactFr"><input id="c1" name="c1" type="checkbox" value="johnjoe@gmail.com"><label for="c1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Johnjoe</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactFr"><input id="c2" name="c2" type="checkbox" value="Smith@yahoo.com"><label for="c2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Smith</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactFa"><input id="c3" name="c3" type="checkbox" value="bikowski@gmail.com"><label for="c3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Bikowski</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactOf"><input id="c4" name="c4" type="checkbox" value="alex@yahoo.co.in"><label for="c4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Alex Brewer</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactTe"><input id="c5" name="c5" type="checkbox" value="aram@i-waves.com"><label for="c5">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Aram Jabbari</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactTe"><input id="c6" name="c6" type="checkbox" value="abby@gmail.com"><label for="c6">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Abby Roundy</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt contactRowRight" style="border:none;" id="groupList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td onclick="selectFriends()"><input id="g1" name="g1" type="checkbox" value="Johnjoe"><label for="g1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Friends</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectFmaily()"><input id="g2" name="g2" type="checkbox" value="Smith"><label for="g2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Family</p></td>
+                            </tr>
+                            <tr>
+                              <td onclick="selectOffice()"><input id="g3" name="g3" type="checkbox" value="Bikowski"><label for="g3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Office</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectTeam()"><input id="g4" name="g4" type="checkbox" value="Alex Brewer"><label for="g4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Team</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="buttonRow">
+                        <a href="javascript:void(0)" title="" class="lt" onclick="addcontactnames()">
+                          <img src="/assets/settings/popup_save_button.png" width="67" hight="32" alt=""/>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="bottomBox"></div>
+                  </div>
+		   </div>
+		   
+			<div class="lastSettingDiv">
+						<div class="lt" style="width:70px;">
+						          <div>
+									  <input id="row1" name="row1" type="checkbox" value="violin"/>
+									  <span id="chk_span" class="checkboxImg"><label id="s1" class="altCheckboxoff" for="row1">&nbsp;</label></span>
+								  </div>
+							<div><img src="/assets/settings/facebook_icon.png" width="25" height="25" alt=""></div>
+						</div>
+						
+						<div class="lt" style="width:70px;">
+						          <input id="row2" name="row2" type="checkbox" value="violin"/>
+                                  <span id="chk_span" class="checkboxImg" ><label id="s2" class="altCheckboxoff" for="row2">&nbsp;</label></span>
+							<div><img src="/assets/settings/google_icon.png" width="25" height="25" alt=""></div>
+						</div>
+			
+			
+						<div class="lt" style="width:70px;">
+						          <input id="row3" name="row3" type="checkbox" value="violin"/>
+                                  <span id="chk_span" class="checkboxImg" ><label id="s3" class="altCheckboxoff" for="row3">&nbsp;</label></span>
+
+							<div><img src="/assets/settings/twitter_icon.png" width="25" height="25" alt=""></div>
+						</div>
+			
+			
+						<div class="lt" style="width:70px;">
+						          <input id="row4" name="row4" type="checkbox" value="violin"/>
+                                  <span id="chk_span" class="checkboxImg" ><label id="s4" class="altCheckboxoff" for="row4">&nbsp;</label></span>
+							<div><img src="/assets/settings/pinterest_icon.png" width="25" height="25" alt=""></div>
+						</div>
+			
+				</div>
+				<div class="clear"></div>
+				
+		</div>	
+		
+		<div class="SettingsRow1" id="fam_contact">
+			<div class="leftSettingDiv">
+				<p>My Created activities are visible to:</p>
+			</div>
+			<div class="centerDropdown">
+				<div class="settingsDropdown" onmouseover="flag6=true;" onmouseout="flag6=false;">
+                    <input type="hidden" id="create_to" name="create_to" value=""/>
+                    <div id="create_to_field" class="selectDiv" style="line-height:23px;">Famtivity Everyone</div>
+				</div>
+                  <div class="dropDownDivSettingVisible" id="dropDownDiv6" style="display:none;">
+                    <a href="javascript:void(0)"  rel="1" title="" id="set_value4" onclick="setvalue2('Famtivity Everyone',this.id)" tabindex="">Famtivity Everyone</a>
+					<a href="javascript:void(0)"  rel="1" title="" id="set_value5" class="f_contacts_create" onclick="setvalue2('Famtivity Contacts',this.id)" style="border:1px solid #fff; " tabindex="">Famtivity Contacts <span style=" position: relative; top: -1px;"><img src="/assets/event_index/dropdown_arrow.png" width="7" height="4"></span></a>
+					<a href="javascript:void(0)"  rel="1" title="" id="set_value6" onclick="setvalue2('Just Me',this.id)" tabindex="">Just Me</a>
+		         </div>
+					<!--contact menu-->
+                    <div id="dispContactDiv" class="dispNone" style="margin-top:133px;">
+                    <div class="topBox">
+                      <input type="hidden" name="activity_id" value="werwe">
+                      <div class="groupRow">
+                        <div class="lt groupRowLeft">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="contact" onclick="selectedContact()"><input id="contact" name="contact" type="checkbox" value=""><label for="contact">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Contacts</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt groupRowLeft" style="border:none;">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="group" onclick="selectedGroup()"><input id="group" name="group" type="checkbox" value=""><label for="group">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Groups</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="contactNamesRow">
+                        <div class="lt contactRowLeft" id="contactList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td class="contactFr"><input id="c1" name="c1" type="checkbox" value="johnjoe@gmail.com"><label for="c1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Johnjoe</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactFr"><input id="c2" name="c2" type="checkbox" value="Smith@yahoo.com"><label for="c2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Smith</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactFa"><input id="c3" name="c3" type="checkbox" value="bikowski@gmail.com"><label for="c3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Bikowski</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactOf"><input id="c4" name="c4" type="checkbox" value="alex@yahoo.co.in"><label for="c4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Alex Brewer</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactTe"><input id="c5" name="c5" type="checkbox" value="aram@i-waves.com"><label for="c5">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Aram Jabbari</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactTe"><input id="c6" name="c6" type="checkbox" value="abby@gmail.com"><label for="c6">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Abby Roundy</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt contactRowRight" style="border:none;" id="groupList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td onclick="selectFriends()"><input id="g1" name="g1" type="checkbox" value="Johnjoe"><label for="g1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Friends</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectFmaily()"><input id="g2" name="g2" type="checkbox" value="Smith"><label for="g2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Family</p></td>
+                            </tr>
+                            <tr>
+                              <td onclick="selectOffice()"><input id="g3" name="g3" type="checkbox" value="Bikowski"><label for="g3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Office</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectTeam()"><input id="g4" name="g4" type="checkbox" value="Alex Brewer"><label for="g4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Team</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="buttonRow">
+                        <a href="javascript:void(0)" title="" class="lt" onclick="addcontactnames()">
+                          <img src="/assets/settings/popup_save_button.png" width="67" hight="32" alt=""/>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="bottomBox"></div>
+                  </div>
+		   </div>
+		   
+			<div class="lastSettingDiv" id="socialDiv">
+						<div class="lt" style="width:70px;">
+						          <input id="row5" name="row5" type="checkbox" value="violin"/>
+                                  <span id="chk_span" class="checkboxImg"><label id="s5" class="altCheckboxoff" for="row5">&nbsp;</label></span>
+							<div><img src="/assets/settings/facebook_icon.png" width="25" height="25" alt=""></div>
+						</div>
+						
+						<div class="lt" style="width:70px;">
+						          <input id="row6" name="row6" type="checkbox" value="violin"/>
+                                  <span id="chk_span" class="checkboxImg" ><label id="s6" class="altCheckboxoff" for="row6">&nbsp;</label></span>
+							<div><img src="/assets/settings/google_icon.png" width="25" height="25" alt=""></div>
+						</div>
+			
+			
+						<div class="lt" style="width:70px;">
+						          <input id="row7" name="row7" type="checkbox" value="violin"/>
+                                  <span id="chk_span" class="checkboxImg" ><label id="s7" class="altCheckboxoff" for="row7">&nbsp;</label></span>
+
+							<div><img src="/assets/settings/twitter_icon.png" width="25" height="25" alt=""></div>
+						</div>
+			
+			
+						<div class="lt" style="width:70px;">
+						          <input id="row8" name="row8" type="checkbox" value="violin"/>
+                                  <span id="chk_span" class="checkboxImg" ><label id="s8" class="altCheckboxoff" for="row8">&nbsp;</label></span>
+							<div><img src="/assets/settings/pinterest_icon.png" width="25" height="25" alt=""></div>
+						</div>
+			
+				</div>
+				<div class="clear"></div>
+			
+		</div>	
+		
+		
+		<div class="SettingsRow1" id="fam_contact">
+			<div class="leftSettingDiv">
+				<p>My Favorites are visible to:</p>
+			</div>
+			<div class="centerDropdown">
+				<div class="settingsDropdown" onmouseover="flag7=true;" onmouseout="flag7=false;">
+                    <input type="hidden" id="favour_to" name="favour_to" value=""/>
+                    <div id="favour_to_field" class="selectDiv" style="line-height:23px;">Famtivity Everyone</div>
+				</div>
+                  <div class="dropDownDivSettingVisible" id="dropDownDiv7" style="display:none;">
+                    <a href="javascript:void(0)"  rel="1" title="" id="set_value7" onclick="setvalue3('Famtivity Everyone',this.id)" tabindex="">Famtivity Everyone</a>
+					<a href="javascript:void(0)"  rel="1" title="" id="set_value8" class="f_contacts_favour" onclick="setvalue3('Famtivity Contacts',this.id)" style="border:1px solid #fff;" tabindex="">Famtivity Contacts <span style=" position: relative; top: -1px;"><img src="/assets/event_index/dropdown_arrow.png" width="7" height="4"></span></a>
+					<a href="javascript:void(0)"  rel="1" title="" id="set_value9" onclick="setvalue3('Just Me',this.id)" tabindex="">Just Me</a>
+		         </div>
+					<!--contact menu-->
+                    <div id="dispContactDiv" class="dispNone" style="margin-top:133px;">
+                    <div class="topBox">
+                      <input type="hidden" name="activity_id" value="werwe">
+                      <div class="groupRow">
+                        <div class="lt groupRowLeft">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="contact" onclick="selectedContact()"><input id="contact" name="contact" type="checkbox" value=""><label for="contact">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Contacts</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt groupRowLeft" style="border:none;">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="group" onclick="selectedGroup()"><input id="group" name="group" type="checkbox" value=""><label for="group">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Groups</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="contactNamesRow">
+                        <div class="lt contactRowLeft" id="contactList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td class="contactFr"><input id="c1" name="c1" type="checkbox" value="johnjoe@gmail.com"><label for="c1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Johnjoe</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactFr"><input id="c2" name="c2" type="checkbox" value="Smith@yahoo.com"><label for="c2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Smith</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactFa"><input id="c3" name="c3" type="checkbox" value="bikowski@gmail.com"><label for="c3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Bikowski</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactOf"><input id="c4" name="c4" type="checkbox" value="alex@yahoo.co.in"><label for="c4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Alex Brewer</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactTe"><input id="c5" name="c5" type="checkbox" value="aram@i-waves.com"><label for="c5">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Aram Jabbari</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactTe"><input id="c6" name="c6" type="checkbox" value="abby@gmail.com"><label for="c6">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Abby Roundy</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt contactRowRight" style="border:none;" id="groupList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td onclick="selectFriends()"><input id="g1" name="g1" type="checkbox" value="Johnjoe"><label for="g1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Friends</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectFmaily()"><input id="g2" name="g2" type="checkbox" value="Smith"><label for="g2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Family</p></td>
+                            </tr>
+                            <tr>
+                              <td onclick="selectOffice()"><input id="g3" name="g3" type="checkbox" value="Bikowski"><label for="g3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Office</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectTeam()"><input id="g4" name="g4" type="checkbox" value="Alex Brewer"><label for="g4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Team</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="buttonRow">
+                        <a href="javascript:void(0)" title="" class="lt" onclick="addcontactnames()">
+                          <img src="/assets/settings/popup_save_button.png" width="67" hight="32" alt=""/>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="bottomBox"></div>
+                  </div>
+		   </div>
+		   
+			<div class="lastSettingDiv" id="socialDiv">
+						<div class="lt" style="width:70px;">
+						          <input id="row9" name="row9" type="checkbox" value="violin"/>
+                                  <span id="chk_span" class="checkboxImg"><label id="s9" class="altCheckboxoff" for="row9">&nbsp;</label></span>
+							<div><img src="/assets/settings/facebook_icon.png" width="25" height="25" alt=""></div>
+						</div>
+						
+						<div class="lt" style="width:70px;">
+						          <input id="row10" name="row10" type="checkbox" value="violin"/>
+                                  <span id="chk_span" class="checkboxImg" ><label id="s10" class="altCheckboxoff" for="row10">&nbsp;</label></span>
+							<div><img src="/assets/settings/google_icon.png" width="25" height="25" alt=""></div>
+						</div>
+			
+			
+						<div class="lt" style="width:70px;">
+						          <input id="row11" name="row11" type="checkbox" value="violin"/>
+                                  <span id="chk_span" class="checkboxImg" ><label id="s11" class="altCheckboxoff" for="row11">&nbsp;</label></span>
+
+							<div><img src="/assets/settings/twitter_icon.png" width="25" height="25" alt=""></div>
+						</div>
+			
+			
+						<div class="lt" style="width:70px;">
+						          <input id="row12" name="row12" type="checkbox" value="violin"/>
+                                  <span id="chk_span" class="checkboxImg" ><label id="s12" class="altCheckboxoff" for="row12">&nbsp;</label></span>
+							<div><img src="/assets/settings/pinterest_icon.png" width="25" height="25" alt=""></div>
+						</div>
+			
+				</div>
+				<div class="clear"></div>
+			
+		</div>		
+
+
+		<div class="SettingsRow1" id="fam_contact">
+			<div class="leftSettingDiv">
+				<p>Activities my family is attending are visible to:</p>
+			</div>
+			<div class="centerDropdown">
+				<div class="settingsDropdown" onmouseover="flag8=true;" onmouseout="flag8=false;">
+                    <input type="hidden" id="family_to" name="family_to" value=""/>
+                    <div id="family_to_field" class="selectDiv" style="line-height:23px;">Famtivity Everyone</div>
+				</div>
+                  <div class="dropDownDivSettingVisible" id="dropDownDiv8" style="display:none;">
+                    <a href="javascript:void(0)"  rel="1" title="" id="set_value10" onclick="setvalue4('Famtivity Everyone',this.id)" tabindex="">Famtivity Everyone</a>
+					<a href="javascript:void(0)"  rel="1" title="" id="set_value11" class="f_contacts_family" onclick="setvalue4('Famtivity Contacts',this.id)" style="border:1px solid #fff;" tabindex="">Famtivity Contacts <span style=" position: relative; top: -1px;"><img src="/assets/event_index/dropdown_arrow.png" width="7" height="4"></span></a>
+					<a href="javascript:void(0)"  rel="1" title="" id="set_value12" onclick="setvalue4('Just Me',this.id)" tabindex="">Just Me</a>
+		         </div>
+					<!--contact menu-->
+                    <div id="dispContactDiv" class="dispNone" style="margin-top:133px;">
+                    <div class="topBox">
+                      <input type="hidden" name="activity_id" value="werwe">
+                      <div class="groupRow">
+                        <div class="lt groupRowLeft">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="contact" onclick="selectedContact()"><input id="contact" name="contact" type="checkbox" value=""><label for="contact">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Contacts</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt groupRowLeft" style="border:none;">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="group" onclick="selectedGroup()"><input id="group" name="group" type="checkbox" value=""><label for="group">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Groups</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="contactNamesRow">
+                        <div class="lt contactRowLeft" id="contactList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td class="contactFr"><input id="c1" name="c1" type="checkbox" value="johnjoe@gmail.com"><label for="c1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Johnjoe</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactFr"><input id="c2" name="c2" type="checkbox" value="Smith@yahoo.com"><label for="c2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Smith</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactFa"><input id="c3" name="c3" type="checkbox" value="bikowski@gmail.com"><label for="c3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Bikowski</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactOf"><input id="c4" name="c4" type="checkbox" value="alex@yahoo.co.in"><label for="c4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Alex Brewer</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactTe"><input id="c5" name="c5" type="checkbox" value="aram@i-waves.com"><label for="c5">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Aram Jabbari</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactTe"><input id="c6" name="c6" type="checkbox" value="abby@gmail.com"><label for="c6">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Abby Roundy</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt contactRowRight" style="border:none;" id="groupList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td onclick="selectFriends()"><input id="g1" name="g1" type="checkbox" value="Johnjoe"><label for="g1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Friends</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectFmaily()"><input id="g2" name="g2" type="checkbox" value="Smith"><label for="g2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Family</p></td>
+                            </tr>
+                            <tr>
+                              <td onclick="selectOffice()"><input id="g3" name="g3" type="checkbox" value="Bikowski"><label for="g3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Office</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectTeam()"><input id="g4" name="g4" type="checkbox" value="Alex Brewer"><label for="g4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Team</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="buttonRow">
+                        <a href="javascript:void(0)" title="" class="lt" onclick="addcontactnames()">
+                          <img src="/assets/settings/popup_save_button.png" width="67" hight="32" alt=""/>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="bottomBox"></div>
+                  </div>
+		   </div>
+		   
+
+				<div class="clear"></div>
+			
+		</div>		
+
+
+
+		<div class="SettingsRow1" id="fam_contact">
+			<div class="leftSettingDiv">
+				<p>Pictures I post are visible to:</p>
+			</div>
+			<div class="centerDropdown">
+				<div class="settingsDropdown" onmouseover="flag9=true;" onmouseout="flag9=false;">
+                    <input type="hidden" id="picture_to" name="picture_to" value=""/>
+                    <div id="picture_to_field" class="selectDiv" style="line-height:23px;">Famtivity Everyone</div>
+				</div>
+                  <div class="dropDownDivSettingVisible" id="dropDownDiv9" style="display:none;">
+                    <a href="javascript:void(0)"  rel="1" title="" id="set_value13" onclick="setvalue5('Famtivity Everyone',this.id)" tabindex="">Famtivity Everyone</a>
+					<a href="javascript:void(0)"  rel="1" title="" id="set_value14" class="f_contacts_picture" onclick="setvalue5('Famtivity Contacts',this.id)" style="border:1px solid #fff;" tabindex="">Famtivity Contacts <span style=" position: relative; top: -1px;"><img src="/assets/event_index/dropdown_arrow.png" width="7" height="4"></span></a>
+					<a href="javascript:void(0)"  rel="1" title="" id="set_value15" onclick="setvalue5('Just Me',this.id)" tabindex="">Just Me</a>
+		         </div>
+					<!--contact menu-->
+                    <div id="dispContactDiv" class="dispNone" style="margin-top:133px;">
+                    <div class="topBox">
+                      <input type="hidden" name="activity_id" value="werwe">
+                      <div class="groupRow">
+                        <div class="lt groupRowLeft">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="contact" onclick="selectedContact()"><input id="contact" name="contact" type="checkbox" value=""><label for="contact">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Contacts</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt groupRowLeft" style="border:none;">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="group" onclick="selectedGroup()"><input id="group" name="group" type="checkbox" value=""><label for="group">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Groups</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="contactNamesRow">
+                        <div class="lt contactRowLeft" id="contactList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td class="contactFr"><input id="c1" name="c1" type="checkbox" value="johnjoe@gmail.com"><label for="c1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Johnjoe</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactFr"><input id="c2" name="c2" type="checkbox" value="Smith@yahoo.com"><label for="c2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Smith</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactFa"><input id="c3" name="c3" type="checkbox" value="bikowski@gmail.com"><label for="c3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Bikowski</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactOf"><input id="c4" name="c4" type="checkbox" value="alex@yahoo.co.in"><label for="c4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Alex Brewer</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactTe"><input id="c5" name="c5" type="checkbox" value="aram@i-waves.com"><label for="c5">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Aram Jabbari</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactTe"><input id="c6" name="c6" type="checkbox" value="abby@gmail.com"><label for="c6">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Abby Roundy</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt contactRowRight" style="border:none;" id="groupList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td onclick="selectFriends()"><input id="g1" name="g1" type="checkbox" value="Johnjoe"><label for="g1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Friends</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectFmaily()"><input id="g2" name="g2" type="checkbox" value="Smith"><label for="g2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Family</p></td>
+                            </tr>
+                            <tr>
+                              <td onclick="selectOffice()"><input id="g3" name="g3" type="checkbox" value="Bikowski"><label for="g3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Office</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectTeam()"><input id="g4" name="g4" type="checkbox" value="Alex Brewer"><label for="g4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Team</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="buttonRow">
+                        <a href="javascript:void(0)" title="" class="lt" onclick="addcontactnames()">
+                          <img src="/assets/settings/popup_save_button.png" width="67" hight="32" alt=""/>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="bottomBox"></div>
+                  </div>
+		   </div>
+		   
+
+				<div class="clear"></div>
+			
+		</div>		
+
+
+
+		<div class="SettingsRow1" id="fam_contact">
+			<div class="leftSettingDiv">
+				<p>Receive requests to join a Famtivity network from:</p>
+			</div>
+			<div class="centerDropdown">
+				<div class="settingsDropdown" onmouseover="flag10=true;" onmouseout="flag10=false;">
+                    <input type="hidden" id="network_to" name="network_to" value=""/>
+                    <div id="network_to_field" class="selectDiv" style="line-height:23px;">Famtivity Everyone</div>
+				</div>
+                  <div class="dropDownDivSettingVisible" id="dropDownDiv10" style="display:none;">
+                    <a href="javascript:void(0)"  rel="1" title="" id="set_value16" onclick="setvalue6('Famtivity Everyone',this.id)" tabindex="">Famtivity Everyone</a>
+					<a href="javascript:void(0)"  rel="1" title="" id="set_value17" class="f_contacts_network" onclick="setvalue6('Famtivity Contacts',this.id)" style="border:1px solid #fff;" tabindex="">Famtivity Contacts <span style=" position: relative; top: -1px;"><img src="/assets/event_index/dropdown_arrow.png" width="7" height="4"></span></a>
+					<a href="javascript:void(0)"  rel="1" title="" id="set_value18" onclick="setvalue6('Just Me',this.id)" tabindex="">Just Me</a>
+		         </div>
+					<!--contact menu-->
+                    <div id="dispContactDiv" class="dispNone" style="margin-top:133px;">
+                    <div class="topBox">
+                      <input type="hidden" name="activity_id" value="werwe">
+                      <div class="groupRow">
+                        <div class="lt groupRowLeft">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="contact" onclick="selectedContact()"><input id="contact" name="contact" type="checkbox" value=""><label for="contact">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Contacts</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt groupRowLeft" style="border:none;">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="group" onclick="selectedGroup()"><input id="group" name="group" type="checkbox" value=""><label for="group">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Groups</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="contactNamesRow">
+                        <div class="lt contactRowLeft" id="contactList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td class="contactFr"><input id="c1" name="c1" type="checkbox" value="johnjoe@gmail.com"><label for="c1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Johnjoe</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactFr"><input id="c2" name="c2" type="checkbox" value="Smith@yahoo.com"><label for="c2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Smith</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactFa"><input id="c3" name="c3" type="checkbox" value="bikowski@gmail.com"><label for="c3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Bikowski</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactOf"><input id="c4" name="c4" type="checkbox" value="alex@yahoo.co.in"><label for="c4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Alex Brewer</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactTe"><input id="c5" name="c5" type="checkbox" value="aram@i-waves.com"><label for="c5">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Aram Jabbari</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactTe"><input id="c6" name="c6" type="checkbox" value="abby@gmail.com"><label for="c6">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Abby Roundy</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt contactRowRight" style="border:none;" id="groupList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td onclick="selectFriends()"><input id="g1" name="g1" type="checkbox" value="Johnjoe"><label for="g1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Friends</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectFmaily()"><input id="g2" name="g2" type="checkbox" value="Smith"><label for="g2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Family</p></td>
+                            </tr>
+                            <tr>
+                              <td onclick="selectOffice()"><input id="g3" name="g3" type="checkbox" value="Bikowski"><label for="g3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Office</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectTeam()"><input id="g4" name="g4" type="checkbox" value="Alex Brewer"><label for="g4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Team</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="buttonRow">
+                        <a href="javascript:void(0)" title="" class="lt" onclick="addcontactnames()">
+                          <img src="/assets/settings/popup_save_button.png" width="67" hight="32" alt=""/>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="bottomBox"></div>
+                  </div>
+		   </div>
+
+				<div class="clear"></div>
+			
+		</div>		
+
+
+		<div class="SettingsRow1" id="fam_contact">
+			<div class="leftSettingDiv">
+				<p>Receive friend requests from:</p>
+			</div>
+			<div class="centerDropdown">
+				<div class="settingsDropdown" onmouseover="flag11=true;" onmouseout="flag11=false;">
+                    <input type="hidden" id="friends_to" name="friends_to" value=""/>
+                    <div id="friends_to_field" class="selectDiv" style="line-height:23px;">Famtivity Everyone</div>
+				</div>
+                  <div class="dropDownDivSettingVisible" id="dropDownDiv11" style="display:none;">
+                    <a href="javascript:void(0)"  rel="1" title="" id="set_value19" onclick="setvalue7('Famtivity Everyone',this.id)" tabindex="">Famtivity Everyone</a>
+					<a href="javascript:void(0)"  rel="1" title="" id="set_value20" class="f_contacts_friends" onclick="setvalue7('Famtivity Contacts',this.id)" style="border:1px solid #fff;" tabindex="">Famtivity Contacts <span style=" position: relative; top: -1px;"><img src="/assets/event_index/dropdown_arrow.png" width="7" height="4"></span></a>
+					<a href="javascript:void(0)"  rel="1" title="" id="set_value21" onclick="setvalue7('Just Me',this.id)" tabindex="">Just Me</a>
+		         </div>
+					<!--contact menu-->
+                    <div id="dispContactDiv" class="dispNone" style="margin-top:133px;">
+                    <div class="topBox">
+                      <input type="hidden" name="activity_id" value="werwe">
+                      <div class="groupRow">
+                        <div class="lt groupRowLeft">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="contact" onclick="selectedContact()"><input id="contact" name="contact" type="checkbox" value=""><label for="contact">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Contacts</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt groupRowLeft" style="border:none;">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="group" onclick="selectedGroup()"><input id="group" name="group" type="checkbox" value=""><label for="group">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Groups</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="contactNamesRow">
+                        <div class="lt contactRowLeft" id="contactList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td class="contactFr"><input id="c1" name="c1" type="checkbox" value="johnjoe@gmail.com"><label for="c1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Johnjoe</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactFr"><input id="c2" name="c2" type="checkbox" value="Smith@yahoo.com"><label for="c2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Smith</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactFa"><input id="c3" name="c3" type="checkbox" value="bikowski@gmail.com"><label for="c3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Bikowski</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactOf"><input id="c4" name="c4" type="checkbox" value="alex@yahoo.co.in"><label for="c4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Alex Brewer</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactTe"><input id="c5" name="c5" type="checkbox" value="aram@i-waves.com"><label for="c5">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Aram Jabbari</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactTe"><input id="c6" name="c6" type="checkbox" value="abby@gmail.com"><label for="c6">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Abby Roundy</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt contactRowRight" style="border:none;" id="groupList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td onclick="selectFriends()"><input id="g1" name="g1" type="checkbox" value="Johnjoe"><label for="g1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Friends</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectFmaily()"><input id="g2" name="g2" type="checkbox" value="Smith"><label for="g2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Family</p></td>
+                            </tr>
+                            <tr>
+                              <td onclick="selectOffice()"><input id="g3" name="g3" type="checkbox" value="Bikowski"><label for="g3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Office</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectTeam()"><input id="g4" name="g4" type="checkbox" value="Alex Brewer"><label for="g4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Team</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="buttonRow">
+                        <a href="javascript:void(0)" title="" class="lt" onclick="addcontactnames()">
+                          <img src="/assets/settings/popup_save_button.png" width="67" hight="32" alt=""/>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="bottomBox"></div>
+                  </div>
+		   </div>
+		   
+
+				<div class="clear"></div>
+			
+		</div>		
+
+
+		<div class="SettingsRow1" id="fam_contact">
+			<div class="leftSettingDiv">
+				<p>Receive messages from:</p>
+			</div>
+			<div class="centerDropdown">
+				<div class="settingsDropdown" onmouseover="flag12=true;" onmouseout="flag12=false;">
+                    <input type="hidden" id="msg_to" name="msg_to" value=""/>
+                    <div id="msg_to_field" class="selectDiv" style="line-height:23px;">Famtivity Everyone</div>
+				</div>
+                  <div class="dropDownDivSettingVisible" id="dropDownDiv12" style="display:none;">
+                    <a href="javascript:void(0)"  rel="1" title="" id="set_value22" onclick="setvalue8('Famtivity Everyone',this.id)" tabindex="">Famtivity Everyone</a>
+					<a href="javascript:void(0)"  rel="1" title="" id="set_value23" class="f_contacts_msg" onclick="setvalue8('Famtivity Contacts',this.id)" style="border:1px solid #fff;" tabindex="">Famtivity Contacts <span style=" position: relative; top: -1px;"><img src="/assets/event_index/dropdown_arrow.png" width="7" height="4"></span></a>
+					<a href="javascript:void(0)"  rel="1" title="" id="set_value24" onclick="setvalue8('Just Me',this.id)" tabindex="">Just Me</a>
+		         </div>
+					<!--contact menu-->
+                    <div id="dispContactDiv" class="dispNone" style="margin-top:133px;">
+                    <div class="topBox">
+                      <input type="hidden" name="activity_id" value="werwe">
+                      <div class="groupRow">
+                        <div class="lt groupRowLeft">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="contact" onclick="selectedContact()"><input id="contact" name="contact" type="checkbox" value=""><label for="contact">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Contacts</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt groupRowLeft" style="border:none;">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="group" onclick="selectedGroup()"><input id="group" name="group" type="checkbox" value=""><label for="group">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Groups</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="contactNamesRow">
+                        <div class="lt contactRowLeft" id="contactList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td class="contactFr"><input id="c1" name="c1" type="checkbox" value="johnjoe@gmail.com"><label for="c1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Johnjoe</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactFr"><input id="c2" name="c2" type="checkbox" value="Smith@yahoo.com"><label for="c2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Smith</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactFa"><input id="c3" name="c3" type="checkbox" value="bikowski@gmail.com"><label for="c3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Bikowski</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactOf"><input id="c4" name="c4" type="checkbox" value="alex@yahoo.co.in"><label for="c4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Alex Brewer</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactTe"><input id="c5" name="c5" type="checkbox" value="aram@i-waves.com"><label for="c5">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Aram Jabbari</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactTe"><input id="c6" name="c6" type="checkbox" value="abby@gmail.com"><label for="c6">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Abby Roundy</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt contactRowRight" style="border:none;" id="groupList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td onclick="selectFriends()"><input id="g1" name="g1" type="checkbox" value="Johnjoe"><label for="g1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Friends</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectFmaily()"><input id="g2" name="g2" type="checkbox" value="Smith"><label for="g2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Family</p></td>
+                            </tr>
+                            <tr>
+                              <td onclick="selectOffice()"><input id="g3" name="g3" type="checkbox" value="Bikowski"><label for="g3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Office</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectTeam()"><input id="g4" name="g4" type="checkbox" value="Alex Brewer"><label for="g4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Team</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="buttonRow">
+                        <a href="javascript:void(0)" title="" class="lt" onclick="addcontactnames()">
+                          <img src="/assets/settings/popup_save_button.png" width="67" hight="32" alt=""/>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="bottomBox"></div>
+                  </div>
+		   </div>
+		   
+
+				<div class="clear"></div>
+			
+		</div>		
+
+
+		<div class="SettingsRow1" id="fam_contact">
+			<div class="leftSettingDiv">
+				<p>My likes are visible to:</p>
+			</div>
+			<div class="centerDropdown">
+				<div class="settingsDropdown" onmouseover="flag13=true;" onmouseout="flag13=false;">
+                    <input type="hidden" id="like_to" name="like_to" value=""/>
+                    <div id="like_to_field" class="selectDiv" style="line-height:23px;">Famtivity Everyone</div>
+				</div>
+                  <div class="dropDownDivSettingVisible" id="dropDownDiv13" style="display:none;">
+                    <a href="javascript:void(0)"  rel="1" title="" id="set_value25" onclick="setvalue9('Famtivity Everyone',this.id)" tabindex="">Famtivity Everyone</a>
+					<a href="javascript:void(0)"  rel="1" title="" id="set_value26" class="f_contacts_like" onclick="setvalue9('Famtivity Contacts',this.id)" style="border:1px solid #fff;" tabindex="">Famtivity Contacts <span style=" position: relative; top: -1px;"><img src="/assets/event_index/dropdown_arrow.png" width="7" height="4"></span></a>
+					<a href="javascript:void(0)"  rel="1" title="" id="set_value27" onclick="setvalue9('Just Me',this.id)" tabindex="">Just Me</a>
+		         </div>
+					<!--contact menu-->
+                    <div id="dispContactDiv" class="dispNone" style="margin-top:133px;">
+                    <div class="topBox">
+                      <input type="hidden" name="activity_id" value="werwe">
+                      <div class="groupRow">
+                        <div class="lt groupRowLeft">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="contact" onclick="selectedContact()"><input id="contact" name="contact" type="checkbox" value=""><label for="contact">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Contacts</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt groupRowLeft" style="border:none;">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="group" onclick="selectedGroup()"><input id="group" name="group" type="checkbox" value=""><label for="group">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Groups</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="contactNamesRow">
+                        <div class="lt contactRowLeft" id="contactList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td class="contactFr"><input id="c1" name="c1" type="checkbox" value="johnjoe@gmail.com"><label for="c1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Johnjoe</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactFr"><input id="c2" name="c2" type="checkbox" value="Smith@yahoo.com"><label for="c2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Smith</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactFa"><input id="c3" name="c3" type="checkbox" value="bikowski@gmail.com"><label for="c3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Bikowski</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactOf"><input id="c4" name="c4" type="checkbox" value="alex@yahoo.co.in"><label for="c4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Alex Brewer</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactTe"><input id="c5" name="c5" type="checkbox" value="aram@i-waves.com"><label for="c5">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Aram Jabbari</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactTe"><input id="c6" name="c6" type="checkbox" value="abby@gmail.com"><label for="c6">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Abby Roundy</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt contactRowRight" style="border:none;" id="groupList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td onclick="selectFriends()"><input id="g1" name="g1" type="checkbox" value="Johnjoe"><label for="g1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Friends</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectFmaily()"><input id="g2" name="g2" type="checkbox" value="Smith"><label for="g2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Family</p></td>
+                            </tr>
+                            <tr>
+                              <td onclick="selectOffice()"><input id="g3" name="g3" type="checkbox" value="Bikowski"><label for="g3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Office</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectTeam()"><input id="g4" name="g4" type="checkbox" value="Alex Brewer"><label for="g4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Team</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="buttonRow">
+                        <a href="javascript:void(0)" title="" class="lt" onclick="addcontactnames()">
+                          <img src="/assets/settings/popup_save_button.png" width="67" hight="32" alt=""/>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="bottomBox"></div>
+                  </div>
+		   </div>
+		   
+
+				<div class="clear"></div>
+			
+		</div>
+			
+		
+		</form>
+		
+		
+		<div class="setdividerImage"></div>
+		
+		<!-- Block User Part -->
+			 <div class="block_user_div">
+			  <form name="block_user" id="block_user" method="post" onSubmit="return block_validation()">
+			  <div class="Title" style="margin-left:-15px"><b>Block Users</b></div>
+			     <div class="inner_block">
+			     	<p class="block_text">Once you block someone, that person can no longer interact with you on Famtivity.</p>
+					<div class="formDiv">
+					
+					  <div style="padding-top:10px;">
+						<div class="lt leftSideField">Name</div>
+						<input type="text" name="block_name" id="block_name" class="lt textbox_block" maxlength="25" />
+						<div class="clear"></div>
+					  </div>
+					  
+					  <div class="clear"></div>
+					  <div class="errorDiv" style="display:none">
+						<div class="lt leftSideField">&nbsp;</div>
+						<div class="lt" id="block_name_error"></div>
+						<div class="clear"></div>
+					  </div>
+					  <div class="clear"></div>
+					  
+					  <div style="padding-top:10px;">
+						<div class="lt leftSideField">Email</div>
+						<input type="text" name="block_email" id="block_email" class="lt textbox_block" maxlength="25" />
+						<div class="clear"></div>
+					  </div>
+					  
+					  <div class="clear"></div>
+					  <div class="errorDiv" style="display:none">
+						<div class="lt leftSideField">&nbsp;</div>
+						<div class="lt" id="block_email_error"></div>
+						<div class="clear"></div>
+					  </div>
+					  <div class="clear"></div>
+					  
+					  <div style="padding-top:10px;">
+						<div class="lt leftSideField">&nbsp;</div>
+						<input type="image" src="/assets/settings/block_button.png" width="73" height="35" alt="" />
+						<div class="clear"></div>
+					  </div>
+					
+					</div>
+				 </div>
+				 </form>
+			  </div>
+		
+             <!--Mobile setting part-->
+			  <div class="dottedDiv" style="position:relative; margin-top:23px;"> 
+				  <div class="Title" id="sharedText"><b>Mobile Settings</b></div>
+			  </div>
+			  <div class="mobileDiv">
+			  <form name="mobile" id="mobile" method="post" onSubmit="return mobile_validation()">
+			  	<div class="lt mobileLt">
+					<p class="phone_text">Your phones:</p>
+					<p class="phone_number">098 765 43210 .<span class="remove_text">Remove</span></p>
+					<p class="add_phone_number">+ Add another mobile number</p>
+					<p class="block_text" style="margin-top:10px; font-size:13px;">Your registered number is not activated to receive text messages.</p>
+					<div style="margin:10px 0 20px 0;">
+					 <a href="javascript:void(0)" title=""><img src="/assets/settings/activate_text_messaging_button.png" width="183" height="35" alt=""/></a>
+					</div>
+				</div>
+				
+			  	<div class="lt mobileRt">
+					<p class="phone_number" style="padding:2px 0 15px 0;">Already received a confirmation code?</p>
+					<div>
+						<div class="lt">
+						  <input type="text" name="cfm_code" id="cfm_code" value="Confirmation code" class="lt textbox_block" maxlength="25" onfocus="if(this.value == 'Confirmation code'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Confirmation code'}"/>
+						</div>
+						<div>
+						 <input type="image" src="/assets/settings/confirm.png" width="83" height="34" class="confirm_button" style="margin:-1px 0 0 4px; ">
+						</div>
+					</div>
+					  <div class="clear"></div>
+					  <div class="errorDiv" style="display:none">
+						<div class="lt leftSideField">&nbsp;</div>
+						<div class="lt" id="confirm_code_error"></div>
+						<div class="clear"></div>
+					  </div>
+					  <div class="clear"></div>
+				</div>
+				</form>
+			  </div>
+
+		<!--change password part-->
+		
+    <div class="dottedDiv" style="position:relative; margin-top:23px;"> 
+          <div class="Title" id="sharedText"><b>Change Password</b></div>
+	  </div>
+		
+ <div class="top_info_text" style="width:829px; margin:0;">
+  <div id="change_password">
+    <input id="pwd" name="pwd" type="hidden" value="<%=current_user.user_password%>" />
+    <form name="change_password_form" id="change_password_form" action="" method="post" onSubmit="return change_password_validation()">
+
+      <div class="paddingTop10_settings" style="width:829px;">
+       
+        <div class="clear"></div>
+      </div>
+      <div class="paddingTop10_settings"></div>
+      <div class="paddingTop10_settings"></div>
+      <div class="paddingTop10_settings">
+        <div class="lt leftSideField" style="margin-left:7px;">&nbsp;</div>
+        <div class="setLockBg">
+          <div style="float:left; display:inline-block;">
+            <img src="/assets/profile/privacy_lock.png">
+          </div>
+          <div class="lock_text" align="center">To Change your password, enter your current password in the field below</div>
+        </div>
+        <div class="clear"></div>
+      </div>
+
+
+      <div class="paddingTop10_settings">
+        <div class="lt leftSideField">&nbsp;</div>
+        <!--successful message -->
+        <div class="success_update_info" style="display:none;color:green;">Your password was successfully updated</div>
+        <div class="clear"></div>
+      </div>
+
+      <div class="paddingTop10_settings">
+        <div class="lt leftSideField" style="margin-left:6px;">Current Password</div>
+        <input type="password" name="user_password" id="current_password" value="password" class="lt textbox" maxlength="25" onfocus="if(this.value == 'password'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='password'}"/>
+        <div class="clear"></div>
+      </div>
+
+      <div class="clear"></div>
+      <div class="errorDiv" style="display:none">
+        <div class="lt leftSideField" style="margin-left:21px;">&nbsp;</div>
+        <div class="lt" id="current_password_error"></div>
+        <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+
+      <div class="paddingTop10_settings">
+        <div class="lt leftSideField" style="margin-left:6px;">New Password</div>
+        <input type="password" name="new_pass" id="new_pass" value="newpassword" class="lt textbox" onfocus="if(this.value == 'newpassword'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='newpassword'}"/>
+        <div class="clear"></div>
+      </div>
+
+      <div class="clear"></div>
+      <div class="errorDiv" style="display:none">
+        <div class="lt leftSideField" style="margin-left:21px;">&nbsp;</div>
+        <div class="lt" id="new_pass_error"></div>
+        <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+
+      <div class="paddingTop10_settings">
+        <div class="lt leftSideField" style="margin-left:6px;">Confirm New Password</div>
+        <input type="password" name="confirm_pass" id="confirm_pass" value="newpassword" class="lt textbox" maxlength="15" onfocus="if(this.value == 'newpassword'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='newpassword'}"/>
+        <div class="clear"></div>
+      </div>
+
+      <div class="clear"></div>
+      <div class="errorDiv" style="display:none">
+        <div class="lt leftSideField" style="margin-left:21px;">&nbsp;</div>
+        <div class="lt" id="confirm_password_error"></div>
+        <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+      <div class="buttonDiv">
+        <div class="lt leftSideField" style="margin-left:20px;">
+          &nbsp;
+        </div>
+        <div class="lt"> 
+          <input type="image" src="/assets/settings/save_button.png" width="113" height="41" alt="" />
+
+          <a href="javascript:void(0)" onClick="clearpasswordfields()" onkeydown="cancelActivityClearData(event)"><img src="/assets/settings/cancel_button.png"  width="113" height="41" alt="" /></a>
+        </div>
+        <div class="clear"></div>
+      </div>
+
+    </form>
+  </div>
+ <div style="height:20px;"></div>
+
+</div>
+
+	  <div class="clear"></div>
+  <div class="footer" style="background-color:#ffffff;">
+    <div class="border"></div>
+    <div class="footerConts">&copy; Copyright 2012 famtivity Inc.</div>
+	<div class="clear"></div>
+  </div>
+<div class="clear"></div>
+
+
+</div>
+
+<script>
+//var cflag=1;
+$(parent.window.document).click(function(){		
+	//alert(cflag);
+	if(cflag==1){
+	closeFamtivityContact();	
+	//cflag=0;
+	}
+	else if(cflag==2){
+	showFamtivityContact();	
+	//cflag=1;
+	}
+});	
+
+</script>

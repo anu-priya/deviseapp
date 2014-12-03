@@ -1,0 +1,92 @@
+<link rel="stylesheet" href="/assets/contacts_users/contact_user.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up_success.css" />
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css"/>
+<script language="javascript">
+  function closepopup() {
+<%if !@reld.nil? %>
+	var stateObj = {
+		foo: "bar"
+	};
+	if(navigator.appName=="Microsoft Internet Explorer")
+	{
+		window.location.hash='';
+	}
+	else
+	{
+		parent.history.replaceState(stateObj, "Invite and invite friend", "import-and-invite-friend-success");
+	}
+      parent.invitesuccessPage.hide();
+      //parent.location.reload(true);
+      <%if cookies[:friend_mode] =='parent' %>
+	parent.location.href="/contact_users?mode=parent";
+      <% else %>
+       parent.location.href="/contact_users";
+       <%end%>
+<%elsif @click_mode=='parent' %>
+	var stateObj = {
+		foo: "bar"
+	};
+	if(navigator.appName=="Microsoft Internet Explorer")
+	{
+		window.location.hash='';
+	}
+	else
+	{
+		parent.history.replaceState(stateObj, "Invite a friends", "invite-to-friend-success");
+	}
+      //parent.location.reload(true);
+      parent.location.href="/contact_users?mode=parent";
+      parent.invitesuccessPage.hide();
+<%else%>
+	var stateObj = {
+		foo: "bar"
+	};
+	if(navigator.appName=="Microsoft Internet Explorer")
+	{
+		window.location.hash='';
+	}
+	else
+	{
+		parent.history.replaceState(stateObj, "Invite a friends", "send-invite-to-friend-success");
+	}
+      //parent.location.reload(true);
+      parent.location.href="/contact_users";
+      parent.invitesuccessPage.hide();
+<%end%>
+  }
+
+</script>
+<style>
+  .deletePopupContainer{
+    height: 160px;
+    margin:0 auto;width:442px;display:block;
+    overflow:hidden;
+  }
+  .deletePopupContainer .p1{
+    padding-top: 30px;
+  }
+  .deletePopupContainer .buttons{
+    padding-top: 30px;
+  }
+  #page_wrapper{
+    margin-bottom:0px;
+  }
+</style>
+
+<script language="javascript">
+</script>
+<%if !cookies[:fam_network].nil?%>
+  <div class="deletePopupContainer" align="center" >
+    <p class="successText" style="padding:28px 0;">Success! Your friend has been invited to join Famtivity.</p>
+    <div class="clear"></div>
+    <div ></div>
+    <a href="javascript:void(0)" onclick="closepopup();"   title=""><img src="/assets/register/ok_btn.png" alt="" /></a>
+  </div>
+<%else%>
+  <div class="deletePopupContainer" align="center" >
+    <p class="successText" style="padding:28px 0;">Success! Your friend has been invited to join Famtivity.</p>
+    <div class="clear"></div>
+    <div ></div>
+    <a href="javascript:void(0)" onclick="closepopup();"   title=""><img src="/assets/register/ok_btn.png" alt="" /></a>
+  </div>
+<%end%>

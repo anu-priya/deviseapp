@@ -1,0 +1,139 @@
+<table cellpadding="0" cellspacing="0" width="220">
+  <tr class="paymentHeadpart2"><td width="130" ><span class="spdetails" style="font-size:12px;">Payment Period</span></td><td width="90" ><span class="spdetails" style="font-size:12px;">Price</span></td></tr>
+  <%s = 1%>
+  <% price_arr = []
+  !@activity_price.nil? && @activity_price!='' && @activity_price.each do |price|
+    @price_discount = ActivityDiscountPrice.where("activity_price_id=#{price.activity_price_id}")
+    @discount_arr = []
+    @session_arr = []
+    @participant_arr = []
+    if !@price_discount.nil? && @price_discount!='' && @price_discount.present?
+      @price_discount.each do |discountval|
+        if !discountval.discount_type.nil?
+          if (discountval.discount_type).downcase == "multiple participant discount"
+            @participant_arr << {"discount_id"=>discountval.discount_id,"discount_type"=>discountval.discount_type,
+              "discount_number"=>discountval.discount_number,"discount_valid"=>discountval.discount_valid,
+              "payment_type"=>discountval.discount_currency_type,"discount_price"=>discountval.discount_price}
+          elsif (discountval.discount_type).downcase == "multiple session discount"
+            @session_arr << {"discount_id"=>discountval.discount_id,"discount_type"=>discountval.discount_type,
+              "discount_number"=>discountval.discount_number,"discount_valid"=>discountval.discount_valid,
+              "payment_type"=>discountval.discount_currency_type,"discount_price"=>discountval.discount_price}
+          else
+            #early
+            @attend = ActivityAttendDetail.where("activity_id=#{price.activity_price_id} and lower(payment_status)='paid' and lower(discount_type)='early bird discount'")
+            if !@attend.nil? && @attend!='' && @attend.present?
+              @count = @attend.length
+            else
+              @count = 0
+            end
+            @cdate = (DateTime.now).strftime("%Y-%m-%d")
+            @date = discountval["discount_valid"].strftime("%Y-%m-%d") if !discountval["discount_valid"].nil?
+            if !@date.nil? && @date!='' && @date.present?
+              if @date >= @cdate
+                if !discountval.discount_number.nil?
+                  if (discountval.discount_number).to_i > @count.to_i
+                    @discount_arr << {"discount_id"=>discountval.discount_id,"discount_type"=>discountval.discount_type,
+                      "discount_number"=>discountval.discount_number,"discount_valid"=>discountval.discount_valid,
+                      "payment_type"=>discountval.discount_currency_type,"discount_price"=>discountval.discount_price}
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+    price_arr << {"price_id"=>price.activity_price_id,"no_of_class"=>price.no_of_class,"payment_period"=>price.payment_period,
+      "price"=>price.price,"early"=>@discount_arr,"participant"=>@participant_arr,"session"=>@session_arr}
+  end%>
+  <%price_arr.each do |p|%>
+    <%if p["payment_period"] =="Class Card" %>
+      <%pay_calss = "#{p["no_of_class"]} Class Card"%>
+      <%if p["no_of_class"] == "1"%>
+        <%pay_calss_value = "#{p["no_of_class"]} Class" %>
+      <%else%>
+        <%pay_calss_value = "#{p["no_of_class"]} Classes" %>
+      <%end%>
+    <%elsif p["payment_period"] =="Per Class" %>
+      <%if p["no_of_class"] == "1"%>
+        <%pay_calss = "#{p["no_of_class"]} Day" %>
+      <%else%>
+        <%pay_calss = "#{p["no_of_class"]} Days" %>
+      <%end%>
+    <%elsif p["payment_period"] =="Per Session" %>
+      <%hour = "" %>
+      <%if !p["no_of_hours"].nil?%>
+        <%hour = "#{p['no_of_hours']} hours" %>
+      <%end%>
+      <%pay_calss = "Per Session (#{p["no_of_class"]} days #{hour}) " %>
+    <%elsif p["payment_period"] =="Per Hour" %>
+      <%if p["no_of_class"] == "1"%>
+        <%pay_calss = "#{p["no_of_class"]} Hour" %>
+      <%else%>
+        <%pay_calss = "#{p["no_of_class"]} Hours" %>
+      <%end%>
+    <%elsif p["payment_period"] =="Weekly" %>
+      <%if p["no_of_class"] == "1"%>
+        <%pay_calss = "#{p["no_of_class"]} Week" %>
+      <%else%>
+        <%pay_calss = "#{p["no_of_class"]} Weeks" %>
+      <%end%>
+    <%elsif p["payment_period"] =="Monthly" %>
+      <%if p["no_of_class"] == "1"%>
+        <%pay_calss = "#{p["no_of_class"]} Month" %>
+      <%else%>
+        <%pay_calss = "#{p["no_of_class"]} Months" %>
+      <%end%>
+    <%elsif p["payment_period"] =="Yearly" %>
+      <%if p["no_of_class"] == "1"%>
+        <%pay_calss = "#{p["no_of_class"]} Year" %>
+      <%else%>
+        <%pay_calss = "#{p["no_of_class"]} Years" %>
+      <%end%>
+    <%end%>
+    <%if p["early"].empty? && p["participant"].empty? && p["session"].empty?%>
+      <tr class="paymentHeadview" >
+        <td width="130" ><span class="spdetails" style="font-size:12px;"><%= pay_calss %></span></td>
+        <%if !p["price"].nil? && p["price"]!="" && p["price"]!="% or USD"%>
+          <td width="90" ><span class="spdetails" style="font-size:12px;">$<%=number_with_precision p["price"] , :precision => 2%></span></td>
+        <%else%>
+          <td width="90" ><span class="spdetails" style="font-size:12px;">-</span></td>
+        <%end%>
+      </tr>
+    <%end%>
+    <%if !p["early"].empty?%>
+      <tr class="paymentHeadview" >
+        <td width="130" ><span class="spdetails" style="font-size:12px;"><%= pay_calss %></span></td>
+        <%if !p["price"].nil? && p["price"]!="" && p["price"]!="% or USD"%>
+          <td width="90" ><span class="spdetails" style="font-size:12px;">$<%=number_with_precision p["price"] , :precision => 2%></span></td>
+        <%else%>
+          <td width="90" ><span class="spdetails" style="font-size:12px;">-</span></td>
+        <%end%>
+
+        <%p["early"].each do |e|%>
+                                                           <!--<td width="150" ><%= e["payment_type"] %><%= e["discount_price"] %></td>-->
+        <%end%>
+      </tr>
+    <%elsif !p["session"].empty?%>
+      <tr class="paymentHeadview" >
+        <td width="130" ><span class="spdetails" style="font-size:12px;"><%= pay_calss %></span></td>
+        <%if !p["price"].nil? && p["price"]!="" && p["price"]!="% or USD"%>
+          <td width="90" ><span class="spdetails" style="font-size:12px;">$<%=number_with_precision p["price"] , :precision => 2%></span></td>
+        <%else%>
+          <td width="90" ><span class="spdetails" style="font-size:12px;">-</span></td>
+        <%end%>
+      </tr>
+    <%elsif !p["participant"].empty?%>
+      <tr class="paymentHeadview" >
+        <td width="130" ><span class="spdetails" style="font-size:12px;"><%= pay_calss %></span></td>
+        <%if !p["price"].nil? && p["price"]!="" && p["price"]!="% or USD"%>
+          <td width="90" ><span class="spdetails" style="font-size:12px;">$<%=number_with_precision p["price"] , :precision => 2%></span></td>
+        <%else%>
+          <td width="90" ><span class="spdetails" style="font-size:12px;">-</span></td>
+        <%end%>
+      </tr>
+    <%end%>
+  <%end%>
+</table> 
+</div>
+<div class="clear"></div>

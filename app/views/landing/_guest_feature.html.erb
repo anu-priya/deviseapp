@@ -1,0 +1,79 @@
+<%= javascript_include_tag "home/home_page.js" %>
+  <!-- guest feature popup start -->
+<div id="guest_use_feature" style="width: 520px;">
+<div style="border-radius:10px;border:1px solid #EAEAEA;margin-bottom: 20px;">
+<div class="content_popup" style="display:block;background-color: #FAFBFF;margin-bottom1: 15px;border-radius:10px;">
+  <p class="ftcpopgreen fts20 ftnl" style="padding: 30px 0 20px;">To buy this Activity...</p>
+  <div id="guest_error" style="display:none;font-size:12px;color:red;" class="ftnl"></div>
+  <div class="guest_login" style="padding:15px 0 20px 0;width: 78%;margin:0 auto;">
+	<div class="guest_radio role_nt_selected ftcGray56 ftnl" id="guest_radio_1" onclick="role_select(1);">Login</div>
+	<div class="guest_radio role_nt_selected ftcGray56 ftnl" id="guest_radio_2" onclick="role_select(2)">Register</div>
+	<div class="guest_radio role_nt_selected ftcGray56 ftnl" id="guest_radio_3" onclick="role_select(3)" style="margin: 0;">Continue as Guest</div>
+  </div>
+  <p class="fts12 ftcRed ftnl" style="padding:10px 10px 0 10px;text-align: left;border-top:1px solid #EAEAEA;background-color: #FFF;line-height: 18px;" id="form_display" style="display:none;">This activity requires the completion of provider Forms. If you purchase as a guest you will not have access to the forms. We recommend that you sign-up as a user and establish a famtivity account.</p>
+  <div class="clear"></div>
+</div>
+</div>
+<a id="guestFeature" href="javascript:void(0)" title=""><div class="redbutton2 ftwt btnwidth ftcwhite lt" style="margin-right: 10px;" >Proceed</div></a>
+<a href="javascript:void(0);" title=""><div class="b-close bluebutton ftwt btnwidth lt ftcwhite">Cancel</div></a>
+<div class="clear"></div>
+</div>
+<!-- guest feature popup end -->
+      
+              <!-- guest feature popup start -->
+<div id="guest_login_fm" style="height:200px;padding:15px 0px 15px 0px;width: 520px;">
+  <div class="content_popup">
+	<div style="border-bottom:thin solid #D6DADB;width:100%;margin-bottom: 10px;">
+          <div class="fts20 ftcBlue lt" style="width:90%;height:30px;">
+	Change Password
+	</div>
+	<div><a href="javascript:void(0)" onclick="closepopup()" title=""><span class="b-close"> <%= image_tag("/assets/global/pop_up/button_close.png",:width=>"15",:height=>"15") %></span></a></div>
+	<div class="clear"></div>
+	</div>
+  <div id="guest_login_error" style="display:none;font-size:12px;color:red;"></div>
+  <%guest_user = GuestDetail.fetch_by_guest_id(params[:guest_id]).last%>
+  <div class="guest_login">
+	<form name="parent_register" id="parent_register" action="parent_register" method="post">
+	<input type="hidden" name="email_usr" id="email_usr_reg" value="<%=guest_user.guest_email if guest_user && guest_user.present? && !guest_user.nil? && guest_user.guest_email%>"/>
+	<input type="hidden" name="username_usr" id="username_usr_reg" value="<%=guest_user.guest_name if guest_user && guest_user.present? && !guest_user.nil? && guest_user.guest_name%>"/>
+	
+                        <%if cookies[:city_new_usr]%>
+                          <%@news_let_city = cookies[:city_new_usr]%>
+                        <%else%>
+                          <%@news_let_city = 'Walnut Creek'%>
+                        <%end%>
+                        <input type="hidden" name="news_let_city" id="news_let_city" value="<%=@news_let_city%>" />
+	
+	<div style="margin-left:70px;margin-top:15px;" class="lt">
+		<input type="password" name="password_usr_reg" id="password_usr_reg" placeholder="New Password" class="textbox" maxlength="20" style="outline1:none;width:375px;padding-left:5px;height: 20px;" tabindex="3" value="">
+	</div>
+	<div class="clear"></div>
+	<div style="margin-left:70px;" class="lt errorDiv">
+		<div class="lt" id="guest_pwd_error"></div>
+	</div>
+	<div class="clear"></div>
+	<div style="margin-left:70px;margin-top:15px;" class="lt">
+		<input type="password" name="confirm_password_usr" id="confirm_password_usr" placeholder="Confirm Password" class="textbox"  maxlength="20" style="outline:none;width:375px;padding-bottom:5px;padding-left:5px;height: 20px;" tabindex="4" value="">
+	</div>
+	<div class="clear"></div>
+	<div style="margin-left:70px;" class="lt errorDiv">
+		<div class="lt" id="guest_confirm_pwd_error"></div>
+	</div>
+	<div class="clear"></div>
+	
+
+	<div style="margin-top:15px;margin-left:70px;">
+	<span id="guest_lgn_sub" style="cursor:pointer;"><a href="javascript:void(0)" title=""></a><div class="redbutton2 ftwt ftcwhite lt" style="margin-right: 10px;width: 150px;padding:8px 10px;" >Save</div></span>
+          <a href="javascript:void(0);" title=""><span class="b-close"><div class="b-close bluebutton ftwt lt" style="width: 150px;padding:8px 10px;">Cancel</div></a>
+	<span id='auto_loading' style='display:none;margin-left:7px;float:left;margin-top:7px;'> <%= image_tag("/assets/loading_small.gif") %></span>
+	<div class="clear"></div>
+	<!--span id="guest_lgn_sub"><a href="javascript:void(0)" title=""><img src="/assets/create_new_activity/save.png" /></a></span>
+        <a href="javascript:void(0);" title=""><span class="b-close"><img src="/assets/create_new_activity/cancel.png"  alt="" border="0"/></span></a-->
+	</div>
+	</form>
+  </div>
+
+
+</div>
+</div>
+<!-- guest feature popup end -->

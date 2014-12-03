@@ -1,0 +1,15 @@
+<%i=1%>
+<% @contact_groups.each do |group|%>
+<!--<li><input id="grp_<%=i%>" name="grp_<%=i%>" type="checkbox" value="<%= group.group_id %>" class="grp_checkboxes"/><span class="scText"><b><%= group.group_name%></b></span></li>-->
+<li>
+	<div style="margin-right:0px;width: 25px;" class="lt checkbox setstyle">
+	<input id="group_menu_id_<%=i%>" class="group_menu_checkbox_value" type="hidden" value="<%= group.group_id %>"/>
+	<input id="group_menu_checkbox_<%=i%>" class="group_menu_checkbox" type="hidden" value="0"/>
+	<a href="javascript:void(0)" title="" class="group_menu_checkbox_selected_s" id="group_menu_checkbox_selected_<%=i%>"  data="<%=i%>" style="display: none;"><img alt="" src="/assets/contact/selected_checkbox.png"></a>
+	<a href="javascript:void(0)" title="" class="group_menu_checkbox_normal_s"  id="group_menu_checkbox_normal_<%=i%>" data="<%=i%>"><img alt="" src="/assets/contact/normal_checkbox.png"></a>
+	</div>
+	<div class="scText fts12"><%= group.group_name%></div>
+	<div class="clear"></div>
+</li>
+<%i=i+1%>
+<%end%>

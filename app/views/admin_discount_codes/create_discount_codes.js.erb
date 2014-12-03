@@ -1,0 +1,18 @@
+<%if @admin_discount_code.save%>
+  $(".flash-message").html("Discount Code has been successfully created!");
+  var win=$(window).width();
+  var con=$(".flash_content").width();
+  var leftvalue=((win/2)-(con/2))
+  $(".flash_content").css("left",leftvalue+"px");
+  $(".flash_content").css("top","67px");
+  $('.flash_content').fadeIn().delay(10000).fadeOut();
+  <%if @act.length > 1%>
+    $("#prepend_discount_code").prepend("<%=escape_javascript(render 'single_discount_code')%>")
+  <%else%>
+    $("#prepend_discount_code").html("<%=escape_javascript(render 'single_discount_code')%>")
+  <%end%>
+<%else%>
+  $("#discount_code").css("border","1px solid #fc8989");
+  $("#discount_code_error").html("Discount Code already exist");
+  $("#discount_code_error").parent().css("display","block");
+<%end%>

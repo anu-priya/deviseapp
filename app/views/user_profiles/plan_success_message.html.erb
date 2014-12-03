@@ -1,0 +1,61 @@
+<%=stylesheet_link_tag "contacts_users/contact_user", :media => "all"%>
+<script language="javascript">
+  function closepopup() {
+    parent.newSuccessPlanPage.hide();	
+  }
+  function ld_popup()
+  {
+    parent.newSuccessPlanPage.hide();
+    parent.$('#preview').html('<%= escape_javascript(render(:partial => 'provider_plan_profile')) %>');
+    //parent.location.reload(true);
+  }
+ function ld_failure(){
+ parent.newSuccessPlanPage.hide();
+ parent.window.location.href="/payment_setup"
+ }
+</script>
+<style>
+  .deletePopupContainer{
+    height: 200px;
+    margin:0 auto;width:400px;display:block;
+    overflow:hidden;
+    padding-right: 60px;
+    padding-left: 60px;
+  }
+
+  .deletePopupContainer .p1{
+    padding-top: 30px;
+  }
+  .deletePopupContainer .buttons{
+    padding-top: 30px;
+  }
+  #page_wrapper{
+    margin-bottom:0px;
+  }
+.save-button{
+	padding-top:4px;
+	padding:5px 15px 0px 15px;
+	height:23px;
+	background-color:#f82b2b;
+	display:inline-block;
+	font-size:14px;
+	color: #FFFFFF;
+	cursor: pointer;
+	border:0;
+	text-align:center;
+	text-decoration:none;
+}
+.save-button:hover {
+    background-color: #ee1515;
+}
+</style>
+  <div class="deletePopupContainer">
+    <div class="p1" align="center"><%=@act if !@act.nil? && @act.present?%></div>
+    <div class="buttons" align="center">
+    <%if !@act.nil? && @act.present? && @act=='Sorry. we are unable to proceed with the transaction. Please check your card details or try again later.'%>
+	<a href="javascript:void(0)" class="save-button" onClick="ld_failure();">OK</a>
+      <%else%>
+	<a href="javascript:void(0)" class="save-button" onClick="ld_popup();">OK</a>
+      <%end%>
+    </div>
+  </div>

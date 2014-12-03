@@ -1,0 +1,43 @@
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="padding:10px;">
+      <%if !@member.nil? && @message && @message.present? && !@message.nil?%>
+        <p>
+          <%if @message.length > 220 %>
+            <%=raw @message.truncate(220)%><span style="color:#5AA3B6;cursor:default;">
+            <%to_user = Base64.encode64("#{@to_user}") if !@to_user.nil?%>
+            <%@msg_url = "http://#{@url}?msg_email=#{to_user}&view_more=true"%>
+              <a href="<%=@msg_url if !@msg_url.nil? && @msg_url.present? && @msg_url!=''%>" title="" target="_blank" style="color:#5AA3B6;text-decoration: none"> View More</a></span>
+    <%#=truncate(@message.html_safe, :length => 140, :omission => "...")%>
+          <%else%>
+            <%=raw @message %>
+            <%end%></p>
+        <%elsif @message && @message.present? && !@message.nil?%>
+        <p><%=raw @message if @message && @message.present? && !@message.nil?%></p>
+        <table cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="left" valign="middle">
+              <%en_user_id = Base64.encode64("#{@user.user_id}") if !@user.nil?%>
+              <%@msg_url = "http://#{@url}?message_reg=true&sent_user=#{en_user_id}&sent_user_email=#{ @to_user}&msg_invite=true"%>
+              <a href="<%=@msg_url if !@msg_url.nil? && @msg_url.present? && @msg_url!=''%>" title="" target="_blank" ><%=image_tag("https://www.famtivity.com/assets/contact/join_famtivity.png", :width=>"202", :height=>"35", :alt=>"Join_Famtivity", :border=>"0")%></a>
+            </td>
+          </tr>
+        </table>
+      <%end%>
+    </td>
+  </tr>
+  <tr>
+    <td height="24" align="left" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#444444;padding-left:10px;">Thanks</td>
+  </tr>
+  <tr>
+    <td  align="left"  height="24" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;padding-left: 10px;padding-bottom: 10px;">
+      <% if !@user.user_profile.business_name.nil? && @user.user_profile.business_name.present? && @user.user_profile.business_name!=''%>
+        <%=@user.user_profile.business_name.capitalize %>,
+      <%else%>
+        <%=@user.user_name.capitalize%>,
+      <%end%>
+    </td>
+  </tr>
+</table>
+
+

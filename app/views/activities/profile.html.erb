@@ -1,0 +1,118 @@
+<%=stylesheet_link_tag "header/header","profile/profile","landing/how_it_works","custom_scroll/jquery.jscrollpane","event/jquery.ui.datepicker","event/jquery.ui.theme","global/overlay/windowfiles/dhtmlwindow","global/overlay/modalfiles/modal", :media => "all"%>
+<%=javascript_include_tag "header/header","event_index/macfix","event_index/jquery.dropdownPlain","custom_scroll/jquery.mousewheel","custom_scroll/jquery.jscrollpane.min","custom_scroll/demo","event/event","event/jquery.ui.core","event/jquery.ui.datepicker","global/overlay/windowfiles/dhtmlwindow","global/overlay/modalfiles/modal"%>
+<style type="text/css" id="page-css">
+  /* Styles specific to this particular page */
+  .scroll-pane
+  {
+    width: 100%;
+    height: 185px;
+    overflow: auto;
+  }
+  .horizontal-only
+  {
+    height: auto;
+    max-height: 185px;
+  }
+</style>
+<script type="text/javascript" id="sourcecode">
+  $(function(){
+    $('.scroll-pane').jScrollPane();
+  });
+</script>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+  
+  var EditpasswordPage;
+
+  function pop_edit_password(url){
+    EditpasswordPage = dhtmlmodal.open("Edit Password ","iframe",url,"", "width=896px,height=2000px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+</script>
+
+<div id="event_index_container">
+  <div class="headerPart1" style="padding:0px;">
+    <div align="center"><a href="/event?index=true" title=""><%=image_tag("/assets/event_index/famtivity_logo_parent.png", :width=>"110", :height=>"35")%></a></div>
+    <table cellpadding="0" class="headerDivRight" cellspacing="0" width="466" border="0" style="float:right; display:inline-block; margin-top:-33px; .margin-top:-30px;">
+      <tr>
+        <td align="right" width="300">
+
+          <span><%=image_tag("/assets/event_index/photo_register.png", :width=>"21", :height=>"21", :style=>"top:-7px; position:relative;")%></span>
+          <span id="user_menu" class="UserDivMenu">
+            <ul>
+              <li>
+                <a href="" class="userDiv" style="color: #4495AE; border: 1px solid #DBEEF4;"><%= current_user.user_name %><span class="actImg"><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4", :style=>"position: relative; top: -1px;", :id=>"arrow1")%></span></a>
+                <ul class="sub-menu dispParentUserDiv" style="height:116px;.margin-top:30px; right:0px;" align="right">
+                  <li style="border:1px #B1D7E3 solid;margin-bottom:3px;background-color:#EDF2F5;"><a href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? %>" style="padding-top:8px;color:#E24C4B;"><b>Switch to Provider</b></a></li>
+                  <li><a href="/profile">Profile</a></li>
+                  <li><a href="#">Change Password</a></li>
+                  <li><a href="/logout">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="clear"></div>
+          </span>
+
+        </td>
+        <td width="33" align="left">
+          <div><a href="/contact_users" title=""><%=image_tag("/assets/event_index/contacts_icon.png", :width=>"28", :height=>"26", :onmouseover=>"$(this.src='/assets/event_index/contacts_icon_over.png')", :onmouseout=>"$(this.src='/assets/event_index/contacts_icon.png')")%></a></div>
+        </td>
+        <td width="6" align="left"><div><a href="javascript:void(0)" title=""><%=image_tag("/assets/event_index/divider_top.png", :width=>"1", :height=>"17")%></a></div></td>
+        <td width="31" align="left"><div><a href="javascript:void(0)" title=""><%=image_tag("/assets/event_index/message_icon.png", :width=>"26", :height=>"24", :onmouseover=>"$(this.src='/assets/event_index/message_icon_over.png')", :onmouseout=>"$(this.src='/assets/event_index/message_icon.png')")%></a></div></td>
+        <td width="1" align="left"><div><a href="javascript:void(0)" title=""><%=image_tag("/assets/event_index/divider_top.png", :width=>"1", :height=>"17")%></a></div></td>
+
+        <td >
+
+          <div id="service_menu" class="serviceDivMenu">
+            <ul>
+              <li>
+                <a href="" class="serviceDiv" style="color: #4495AE; border: 1px solid #DBEEF4; width:65px;">Service<span class="actImg"><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4", :style=>"position: relative; top: -1px;", :id=>"arrow1")%></span></a>
+                <ul class="sub-menu dispParentServiceDiv" style="height:135px; margin-left:-66px;.margin-top:28px; .margin-left:-147px;">
+                  <li><a href="/how_it_works" style="padding-top:8px;">How it works</a></li>
+                  <li><a href="#">Support</a></li>
+                  <li><a href="#">Terms of Service</a></li>
+                  <li><a href="#">Privacy Policy</a></li>
+                  <li><a href="#">Invite Your Provider</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="clear"></div>
+          </div>
+
+        </td>
+      </tr>
+    </table>
+  </div>
+
+
+  <div id="how_it_worksDiv">
+    <div class="TopListText" align="center" style="width:183px; padding: 10px 0 29px; .padding: 10px 0 10px;">
+      <span class="lt"><a href="javascript:void(0)" class="menuText"><b>Profile</b></a></span>
+      <span class="dot menuText">&bull;</span>
+      <span class="lt"><a href="javascript:void(0)" class="menuText">Change Password</a></span>
+    </div>
+    <div class="clear"></div>
+    <div class="setTopBprder"></div>
+    <!--added partial file for profile in form view-->
+    <%=render :partial=>"change_password"%>
+
+  </div>
+
+  <div class="footer" style="background-color:#ffffff;">
+    <div class="border"></div>
+    <div class="footerConts">&copy; Copyright 2012 famtivity Inc.</div>
+  </div>
+
+
+</div>
+
+

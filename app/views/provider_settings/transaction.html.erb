@@ -1,0 +1,206 @@
+<%=stylesheet_link_tag "event_index/event_scroll","report/plan_report","report/transaction_report","global/jquery.ui.datepicker","global/jquery.ui.theme", :media => "all"%>
+<%=javascript_include_tag "global/jquery.ui.core","event_index/event_scroll","pagination"%>
+<script type="text/javascript">
+$(function(){
+  var curTime = new Date();
+  var cdate = curTime.getDate();
+  var cmonth = curTime.getMonth();
+  var cyear = curTime.getFullYear();
+  cmonth = parseInt(cmonth) + 1;
+  var weekday = new Array(7);
+  weekday[0] = "Sun";
+  weekday[1] = "Mon";
+  weekday[2] = "Tue";
+  weekday[3] = "Wed";
+  weekday[4] = "Thu";
+  weekday[5] = "Fri";
+  weekday[6] = "Sat";
+  var cday = curTime.getDay();
+  var incval = parseInt(cday) + 1;
+  var cday = weekday[cday];
+
+  //var cuday = cday + " " + cmonth + "/" + cdate + "/" + cyear;
+  var date_value = cmonth + "/" + cdate + "/" + cyear;
+  var  cuday = cyear + "-" + cmonth + "-" + cdate ;
+
+  $('#act_from').val(date_value);
+  $('#act_from_alt').val(cuday);
+  $('#act_to').val(date_value);
+  $('#act_to_alt').val(cuday);
+
+  $("#act_from").datepicker({
+    showOn : "button",
+    buttonImage : "/assets/create_new_activity/date_icon.png",
+    buttonImageOnly : true,
+    dateFormat : "m/d/yy",
+    altField : "#act_from_alt",
+    altFormat : "yy-m-d",
+    onClose: function(selectedDate) {
+      $("#act_to").datepicker( "option", "minDate", selectedDate );
+    }
+  });
+
+  $("#act_to").datepicker({
+    showOn : "button",
+    buttonImage : "/assets/create_new_activity/date_icon.png",
+    buttonImageOnly : true,
+    dateFormat : "m/d/yy",
+    altField : "#act_to_alt",
+    altFormat : "yy-m-d",
+    onClose: function(selectedDate) {
+      $("#act_from").datepicker( "option", "maxDate", selectedDate );
+    }
+  });
+
+});
+
+  $('#menu ul li a').hover(function (){
+    $('.actDiv').css('border','1px solid #DBEEF4');
+  }, function(){
+     $('.actDiv').css('border','1px solid #F6F8F7');
+  });
+
+  function filter_by_admin_date(){
+    var date_from = $("#act_from_alt").val();
+    var date_to = $("#act_to_alt").val();
+    if (Date.parse(date_from) > Date.parse(date_to) || date_from == "" || date_to =="" ) {
+      $(".topContainer").css('height','70px');
+      $("#dateError").show();
+      $("#dateError").html("Invalid date range.");
+      return false;
+    }
+    else{
+      $(".topContainer").css('height','40px');
+      $("#dateError").hide();
+      $("#dateError").html("");
+
+      $.get("/transaction",{
+        "date_from":date_from,
+        "date_to":date_to,
+        "trans_date":"date"
+      }, null, "script");
+    }
+  }
+ 
+
+
+//report td hide and show
+  function click_less(){ 
+    $(".td_less").hide();
+    $(".td_more").show();   
+  }
+  function click_more(){ 
+    $(".td_less").show();
+    $(".td_more").hide();
+  }
+  function reports_stats(){
+ $(".transDivMenu ").addClass("hoveredmenu");
+  }
+   function reports_stats_act1(){
+ $(".hoveredmenu").removeClass().addClass("transDivMenu");
+  }
+  </script>
+<!-- Provider Sub Menu -->
+<%= render :partial => '/provider_settings/provider_submenu'%>
+<div class="wrapper-content">
+  <div class="title-container" style="height:45px;">
+    <div class="tite-left-content" align="left">
+      <div style="" id="menu" class="transDivMenu">
+        <ul>
+          <li>
+            <a id="activity_stat" href="#" class="transDiv details" style="padding:10px 0 10px 5px;width: 95px;">
+              <span class="menuText">
+                <b id="setActivity">Sort By</b>
+              </span>
+              <span style="padding-left: 5px;" class="actImg">
+                <%= image_tag("/assets/event_index/dropdown_arrow.png", id:"arrow1", style: " position: relative; top: -1px;", size:"7x4")%>
+              </span>
+            </a>
+            <ul class="sub-menu dispProvidertransDiv">
+              <div align="right" style="margin-top: -11px;" class="netmenu">
+                <%= image_tag('/assets/event/schedule_top_arrow.png', :alt=>"")%>
+              </div>
+              <li>
+                <a id="select" onClick="activity_transaction('activity')" title="" href="javascript:void(0)">By Activity</a>
+              </li>
+              <li>
+                <a id="select" onClick="activity_transaction('date')" title="" href="javascript:void(0)">By Date</a>
+              </li>
+              <li>
+                <a id="select" onClick="activity_transaction('activity_stats')" title="" href="javascript:void(0)">By Activity Stats</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <div class="clear"></div>
+      </div>
+      <%if !@trans.nil? && @trans.length > 0 %>
+        <div id="byActivityDiv" style="display:none;margin-left:70px;">
+          <select onchange="trans_activityname()" style="opacity:1;padding:5px 0;position: relative;top: -27px;width:200px;border:1px solid #CDE0E6;color: #999999;" id="trans_list_view" name="trans_list_view">
+            <option value="">-- Select Activity Name--</option>
+            <%if !@activity_name.nil? && @activity_name.present? %>
+              <%@activity_name.each do |act_name|%>
+                <option value="<%=act_name.activity_id%>"><%=act_name.activity_name if !act_name.nil?%></option>
+              <%end%>
+            <%end%>
+          </select>
+        </div>
+        <div style="display: none; width: 380px; top: -15px; position: relative;" id="filter_admin_date" class="pipeSymbol num_Act">
+          <div class="CalenderDiv">
+            <div class="StrtTxt ToTxt menuText">From</div>
+              <div class="StrtDte">
+                <div class="dateDiv">
+                  <input type="text" tabindex="61" style="margin-right:3px;" readonly="readonly" value="" class="dateTextbox" name="act_from" id="act_from">
+                  <input type="hidden" value="2014-10-20" name="act_from_alt" id="act_from_alt">
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div>
+                <div class="StrtTxt ToTxt menuText">To</div>
+                <div class="StrtDte">
+                  <div class="dateDiv">
+                    <input type="text" tabindex="62" style="margin-right:3px;" readonly="readonly" value="" class="dateTextbox" name="act_to" id="act_to">
+                    <input type="hidden" value="2014-10-20" name="act_to_alt" id="act_to_alt">
+                  </div>
+                </div>
+                <div style="color:#FC8989;font-size: 12px;" id="dateError"></div>
+                <div class="clear"></div>
+              </div>
+            </div>
+            <div style="margin: 2px 0 0;" class="GoButton">
+              <!-- <a onclick="filter_by_admin_date()" title="" href="javascript:void(0)"> -->
+                <!-- <img width="33" height="26" src="/assets/event_index/go_button.png" alt="Go_button"> -->
+              <!-- </a> -->
+              <a class="cancel-button" href="javascript:void(0)" title="" onclick="filter_by_admin_date();">Go</a>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      <%end%>
+    <div class="title-right-content" align="right" style="padding-top: 8px;">
+      <%if !@trans_group.nil? && @trans_group.count >0%>
+      <%=image_tag("/assets/policies/dwniconnormal.png", :alt=>"Down arrow")%>
+        <%= link_to "CSV", transaction_path(format: "csv"), {:class=>"menuText"}%> |
+        <%= link_to "Excel", transaction_path(format: "xls"),{:class=>"menuText"}%>
+      <%#else%>
+        <!-- <span class="menuText"><b>CSV</b></span> | -->
+        <!-- <span class="menuText"><b>Excel</b></span>   -->
+      <%end%>  
+    </div>
+    </div>
+  </div>
+  <input type="hidden" id="actid_chk" name="actid_chk" value="" />
+  <div id="provider_partial_event_list" class="tableStr">
+    <%if @activity_stats%>
+      <!---provider activity stats reports applied-->
+      <%= render "provider_settings/email_metric_reports" %>
+    <%else%>
+      <%= render "provider_settings/transaction_list" %>
+    <%end%>
+  </div>
+  <div class="clear"></div>
+</div>
+<!--ajax loader -->
+<div id='loadingmessage' style='display:none;margin-top:-415px' align="center">
+  <%= image_tag("/assets/ajax-loader.gif")%>
+</div>

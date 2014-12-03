@@ -1,0 +1,460 @@
+<div id="error_reslt" style="display:none;color:green;font-size: 14px; padding-top: 10px;" align="center">Please check your CSV file.</div>
+<div id="success_reslt" style="display:none;color:green;font-size: 14px; padding-top: 10px;" align="center"></div>
+
+<div>  
+  <input id="contact_names" name="contact_names" type="hidden" value="" />
+  <% if (!@contact_users.nil? && @contact_users.present?) || (!@activity_users.nil? && @activity_users.present?)%>
+    <%if @contact_users.length>0 %>
+      <%if !params[:page].nil? && params[:page].present?%>
+        <%i =((params[:page].to_i*@perpage.to_i)-@perpage.to_i)+1 %>
+      <%elsif%>
+        <%i = 1%>
+      <%end%>
+      <%@contact_users.each do |con|%>
+       <%if !con.nil? %>
+        <div class="list">
+          <table cellspacing="0" cellpadding="0" border="0">
+            <tr>
+              <td width="28" class="activityName" align="left">
+                <input id="contact_id_<%=i%>" class="contact_checkbox_value" type="hidden" value="<%= con.contact_id %>"/>
+                <input id="contact_checkbox_<%=i%>" class="contact_checkbox" type="hidden" value="0"/>
+                <a href="javascript:void(0)" title="" class="contact_checkbox_selected" id="contact_checkbox_selected_<%=i%>" data="<%=i%>" style="display: none"><img src="/assets/contact/selected_checkbox.png" alt=""/></a>
+                <a href="javascript:void(0)" title="" class="contact_checkbox_normal" id="contact_checkbox_normal_<%=i%>" data="<%=i%>"><img src="/assets/contact/normal_checkbox.png" alt=""/></a>
+              </td>
+              <td  align="left">
+              <a href="#" class="popimg-click" id="popimg_<%=con.contact_id%>" data="<%=con.contact_id%>" title="">
+              <input type="hidden" id="pop_<%=con.contact_id%>" value="contacts" />
+              <div class="comments_owner_img">
+                  <div style="overflow:hidden;height: 55px;margin-top: 10px;">
+                    <table cellpadding="0" cellspacing="0"  height="100%" >
+                      <tr>
+                        <td valign="middle" align="center">
+                         <div id="owner_image" style="width:45px;">
+                          <img style="width:auto;height:auto;max-width:100%;" src="
+                          <%if !con.contact_file_name.nil? && con.contact.present?%>
+                          <%=con.contact.url(:original)%>
+                          <%else%>
+                          /assets/default/user_msg_default_Image.png
+                          <%end%>"><!---change the user image-->
+                        </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                <!--div class="circleimage"-->
+                <div class="image_circle blue_circleimage " style="width: 55px;height: 99px;margin: 0;top: -10px;right: 15px;"></div>
+                <div class="clear"></div>
+                     <%if !con.contact_user_type.nil? && con.contact_user_type.present? && con.contact_user_type.downcase == "non_member"%>
+                        <P class="constatus contact_all fam_hover_img"></P>
+                      <%else%>
+                        <P class="constatus contact_all fam_normal_img"></P>
+                      <%end%>
+                  <div class="ftcBlue postedbyname"><%#=name%></div>
+            </div>
+          </a>
+        </td>
+        <td width="200" align="left">
+                <span class="new_font contact-name" id="<%=con.contact_id%>" style="cursor:pointer;" onclick="view_friend('<%=con.contact_id%>','contacts');" title="<%if !con.nil? && !con.contact_name.nil?%><%=con.contact_name%><%elsif !con.nil? && !con.contact_email.nil?%><%name=con.contact_email.split("@")%><%=name[0]%><%end%>"><%if !con.nil? && !con.contact_name.nil?%><%=truncate(con.contact_name, :length =>20, :omission => "... ")%><%elsif !con.nil? && !con.contact_email.nil?%><%name=con.contact_email.split("@")%><%=name[0]%><%end%></span></br>
+                <%if !@status_id.nil?&& @status_id.present?%>
+                <%@fam_friend=ContactUserGroup.where("contact_group_id ='#{@status_id}'and contact_user_id='#{con.contact_id}'and fam_accept_status=true").last%>
+                <%#@fam_member=ContactUserGroup.where("contact_group_id ='#{@status_id}'and contact_user_id='#{con.contact_id}'and fam_accept_status!=true").last%>
+                <%@meb=User.where("email_address=?",con.contact_email)%>
+                  <%if !@fam_friend.nil? && @fam_friend.present?%>
+                      <span class="nameText new_font con-type" style="font-size: 13px;" >friend</span></br>
+                  <%elsif !@meb.nil? && @meb.present?%>
+                      <span class="nameText new_font con-type" style="font-size: 13px;" >member</span></br>
+                  <%else%>
+                      <span class="nameText new_font con-type" style="font-size: 13px;" >non_member</span></br>
+                  <%end%>
+                <%else%>
+                  <%if ((@key_word!="non_member") && (@key_word!="member") && (@key_word!="friend"))%>
+                    <%if con.contact_user_type.present?%>
+                      <span class="nameText new_font con-type" style="font-size: 13px;" ><%=display_member_type(con.contact_user_type)%></span></br>
+                    <%end%>
+                  <%end%>
+                <%end%>
+                <%if !@meb.nil? && @meb.present? && !@fam_friend%>
+                        <% if con.contact_user_type =="facebook" %>
+                            <!-- <a class="send-list"style="font-size: 13px;">Post on wall</a> -->
+                        <%else%>
+                            <span class="invite-list" style="font-size: 13px;">Invited |
+                            <a href="javascript:void(0)"  onclick="send_group_req('<%=con.contact_id%>','<%=con.contact_email%>','<%=@status_id if !@status_id.nil?%>');" class="nameText " style="color: #13849B;font-size: 13px;">Send Again</a></span>
+                        <%end%>
+                <%elsif !@fam_friend.nil? && @fam_friend.present?%>
+                <%elsif @click=="groups" && con.contact_user_type!="friend"%>
+                        <% cont_group = ContactUserGroup.where("contact_user_id = ? and contact_group_id = ?",con.contact_id,params[:id]).last %>
+                        <%if cont_group.fam_accept_status == true %>
+                                <%if !cookies[:fam_network].nil?%>
+                                  <span class="send-list">Accepted</span>
+                                <%else%>
+                                  Member
+                                <%end%>
+                        <%else%>
+                                <% if con.contact_type =="facebook" %>
+                                  <!-- <a class="send-list"style="font-size: 13px;">Post on wall</a> -->
+                                <%else%>
+                                  <span class="new_font" style="display:inline-block;font-size: 13px;">Invited |
+                                  <a href="javascript:void(0)"  onclick="send_group_req('<%=con.contact_id%>','<%=con.contact_email%>','<%=@status_id if !@status_id.nil?%>');" class="" style="color: #13849B;font-size: 12px;"> Send Again</a></span>
+                                <%end%>
+                        <%end%>
+                <% else %>
+                    <%if  !con.contact_user_type.nil? && con.contact_user_type.present? && con.contact_user_type == "member"%>
+                        <%if con.contact_type=="facebook"%>
+                              <% if con.invite_status == true  %>
+                                <span class="invite-list" style="font-size: 13px;">Invited |
+                                  <a href="javascript:void(0)"  onclick="postonwall('<%=con.profile_id%>','<%=con.contact_name%>','<%=current_user.user_name%>','<%=con.contact_id%>','<%=con.contact_user_type%>')"; class="nameText" style="color: #13849B;font-size: 13px;"><!--FB Invite-->Send Again </a></span>
+                              <%else%>
+                                <a href="javascript:void(0)"  onclick="postonwall('<%=con.profile_id%>','<%=con.contact_name%>','<%=current_user.user_name%>','<%=con.contact_id%>','<%=con.contact_user_type%>')"; class="nameText send-list" style="font-size: 13px;color: #13849B;" ><!--FB Invite-->Send Friend Request</a>
+                              <%end%>
+                        <%else%>
+                              <% if con.invite_status == true  %>
+                                <span class="invite-list" style="font-size: 13px;">Invited |
+                                  <a href="javascript:void(0)"  id="send-friend-<%=con.id%>" data="<%=con.id%>" class="nameText send-friend-inv" style="color: #13849B;font-size: 13px;">Send Again</a></span>
+                              <% else%>
+                                <a href="javascript:void(0)"  id="send-friend-<%=con.id%>" data="<%=con.id%>" class="nameText send-friend-inv send-list" style="font-size: 13px;color: #13849B;">Send Friend Request</a>
+                              <% end %>
+                        <%end%>
+                  <%elsif !con.contact_user_type.nil? && con.contact_user_type.present? && (con.contact_user_type == "non_member")%>
+                        <%desc="Join me on Famtivity, the family activity network! I think you will really enjoy it.  "%>
+                        <%if con.contact_type=="facebook"%>
+                                <% if con.invite_status == true  %>
+                                    <span class="invite-list" style="font-size: 13px;">Invited |
+                                    <a href="javascript:void(0)" data="<%=con.id%>" onclick="postonwall('<%=con.profile_id%>','<%=con.contact_name%>','<%=current_user.user_name%>','<%=con.contact_id%>','<%=con.contact_user_type%>')"; class="nameText " style="color: #13849B;font-size: 13px;"> Send Again</a></span>
+                                <%else%>
+                                  <a href="javascript:void(0)"  onclick="postonwall('<%=con.profile_id%>','<%=con.contact_name%>','<%=current_user.user_name%>','<%=con.contact_id%>','<%=con.contact_user_type%>')"; class="nameText send-list" style="font-size: 13px;color: #13849B;"><!--FB Invite-->Send Invite</a>
+                                <%end%>
+
+                        <%else%>
+                                <% if con.invite_status == true  %>
+                                  <span class="invite-list" style="font-size: 13px;">Invited |
+                                    <a href="javascript:void(0)"  id="send-new-<%=con.id%>" data="<%=con.id%>" class="nameText send-new-inv" style="color: #13849B;font-size: 13px;"> Send Again</a></span>
+                                <% else%>
+                                  <a href="javascript:void(0)"  id="send-new-<%=con.id%>" data="<%=con.id%>" class="nameText send-new-inv send-list" style="font-size: 13px;color: #13849B;">Send Invite</a>
+                                <% end %>
+                        <%end%>
+                  <%end%>
+                <%end%>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <%end%>
+        <% i= i.to_i+1 %>
+      <%end%>
+    <%else%>
+
+    <%end%>
+  <%#if params[:mode] != "parent"%>
+    <%if @activity_users && @activity_users.length>0%>
+      <%k=1%>
+      <% @activity_users.each do |con|%>
+        <div class="list" >
+          <table cellspacing="0" cellpadding="0" border="0">
+            <tr>
+              <td width="32" class="activityName" align="left">
+                <img alt="" src="/assets/contact/normal_checkbox.png">
+              </td>
+              <td width="76" align="left">
+                <a href="#" class="popimg-click" id="popimg_<%=con.user_id%>" data="<%=con.user_id%>" title="">
+                  <input type="hidden" id="pop_<%=con.user_id%>" value="users" />
+                    <div class="comments_owner_img">
+                     <div style="overflow:hidden;height: 55px;margin-top: 10px;">
+                            <table cellpadding="0" cellspacing="0"  height="100%" >
+                              <tr>
+                                <td valign="middle" align="center">
+                                 <div id="owner_image" style="width:45px;">
+                                  <img style="width:auto;height:auto;max-width:100%;" src="
+                                  <%if con.user_profile.present? && !con.user_profile.profile_file_name.nil?%>
+                                  <%=con.user_profile.profile.url(:original)%>
+                                  <%else%>
+                                  /assets/default/user_msg_default_Image.png
+                                  <%end%>"><!---change the user image-->
+                                </div>
+                                </td>
+                              </tr>
+                            </table>
+                      </div>
+                    <!--div class="circleimage"></div-->
+                    <div class="image_circle blue_circleimage " style="width: 55px;height: 99px;margin: 0;top: -10px;right: 15px;"></div>
+                    <div class="clear"></div>
+                </div>
+                  
+                </a>
+              </td>
+              <td width="200" align="left">
+                <span class="new_font contact-name" id="<%=con.user_id%>" style="cursor:pointer;" onclick="view_friend('<%=con.user_id%>','users');"><%if !con.nil? && !con.user_name.nil?%><%=truncate(con.user_name, :length =>15, :omission => "... ")%><%elsif !con.nil? && !con.email_address.nil?%><%name=con.email_address.split("@")%><%=name[0]%><%end%></span></br>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <% k= k.to_i+1 %>
+      <%end%>
+    <%end%>
+  <%#end%>
+  <%else%>
+    <div style="width:98%;display:block;text-align:center;">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%" align="center">
+        <tr>
+          <td class="no_activities" width="100%" align="center" valign="middle" style="text-align:center;padding-top:50px;">
+            <% if @search == 'search' %>
+             <!--div class="contact-search search-grp" style="top: -61px;left: 160px;"></div-->
+             <div class="search-result" style="margin-left: 47px;">
+              <div ><img src="/assets/contact/contact_search.png" alt=""/></div>
+              Sorry we found no results for your search.
+              </div>
+            <%else%>
+              <% if @key_word.nil? %>
+                <div class="emptyContact" id="emptyContact" style="width:650px;">
+                  <p class="emptyTxt" style="color: #585858;">It's lonely in here! Start adding your friends now!</p>
+                  <p class="importTopBG setImportWidth" style="width:550px;">Invite your friends and get<b class="ftcRedff" style="font-size:16px;">&nbsp;$1.00 Discount Dollar&nbsp;</b>for every friend that joins.</p>
+                  <div align="center" style="display: inline-block;">
+                    <a href="javascript:void(0);" onclick="pop_invite_friend_check('/invite_friend_famtivity?check_invite=contact_import'); _gaq.push(['_trackEvent','Parent Module', 'clickContact','Import']);" style="display:inline-block;padding: 10px 7px;float: left;background-color: #F82b2b;cursor: pointer;width: 180px;font-size: 16px;margin: 0px 10px;"><span style="display:inline-block;color:#ffffff">Invite a Friend</span></a>
+                    <a href="javascript:void(0);" onclick="pop_new_contact('/contact_users/new'); _gaq.push(['_trackEvent','Parent Module', 'clickContact','Create New Friend']);" style="display:inline-block;padding: 10px 7px;float: left;background-color: #6cc1dd;cursor: pointer;width: 180px;font-size: 16px;"><span style="display:inline-block;color:#ffffff">Add New Contact</span></a>
+                    <div class="clear"></div></div>
+                  <div class="clear"></div>
+                </div>
+              <%elsif !@key_word.nil? && @key_word.present? && @key_word=="all"%>
+                <div class="emptyContact" id="emptyContact" style="width:650px;">
+                  <p class="emptyTxt" style="color: #585858;">It's lonely in here! Start adding your friends now!</p>
+                  <p class="importTopBG setImportWidth" style="width:550px;">Invite your friends and get<b class="ftcRedff" style="font-size:16px;">&nbsp;$1.00 Discount Dollar&nbsp;</b>for every friend that joins.</p>
+                  <div align="center" style="display: inline-block;">
+                    <a href="javascript:void(0);" onclick="pop_invite_friend_check('/invite_friend_famtivity?check_invite=contact_import'); _gaq.push(['_trackEvent','Parent Module', 'clickContact','Import']);" style="display:inline-block;padding: 10px 7px;float: left;background-color: #F82b2b;cursor: pointer;width: 180px;font-size: 16px;margin: 0px 10px;"><span style="display:inline-block;color:#ffffff">Invite a Friend</span></a>
+                     <a href="javascript:void(0);" onclick="pop_new_contact('/contact_users/new'); _gaq.push(['_trackEvent','Parent Module', 'clickContact','Create New Friend']);" style="display:inline-block;padding: 10px 7px;float: left;background-color: #6cc1dd;cursor: pointer;width: 180px;font-size: 16px;"><span style="display:inline-block;color:#ffffff">Add New Contact</span></a>
+                    <div class="clear"></div></div>
+                  <div class="clear"></div>
+                </div>
+              <%else%>
+                <div class="search-result" style="margin-left: -50px;">
+                <div ><img src="/assets/contact/contact_search.png" alt=""/></div>
+                Sorry we found no results for your search.</div> 
+              <%end%>
+            <%end%>
+          </td>
+        </tr>
+      </table>
+     
+    </div>
+  <%end%>
+</div>
+
+
+<script type="text/javascript">
+  $( document ).ready(function() {
+    //alert("<%=request.fullpath%>");
+    FB.getLoginStatus(function(response) {
+      if (response.status === 'connected') {
+        var uid = response.authResponse.userID;
+        var accessToken = response.authResponse.accessToken;
+        //alert(uid+"1");
+        //alert(accessToken);
+      } else if (response.status === 'not_authorized') {
+        // the user is logged in to Facebook,
+        // but has not authenticated your app
+      } else {
+        // the user isn't logged in to Facebook.
+      }
+    });
+  });
+
+
+  function send_single_group_req(id,email)
+  {
+    $.ajax({
+      type: "POST",
+      url: '/invite_mail',
+      data: {"toemailaddress":email,"redactor_content":""}, // serializes the form's elements.
+      success: function(data)
+      {
+
+      }
+    })
+  }
+
+
+  function send_single_req(id,request_invite)
+  {
+    $.ajax({
+      type: "POST",
+      url: "contact_users/req_multi_email",
+      data: {"ids": id, "request": request_invite },
+      dataType : 'script',
+    });
+    //pop_mail_contact('/contact_users/req_multi_email?ids='+id+'&request='+request_invite)
+  }
+  //IE8 issue fixes
+  $(".send-friend-inv").click(function(){
+    var test = this.id;
+    var val = $("#"+test).attr('data');
+    send_single_req(val,'friend_invite');
+  });
+  
+  $(".send-new-inv").click(function(){
+    var test = this.id;
+    var val = $("#"+test).attr('data');
+    send_single_req(val,'new_invite');
+  });
+  
+  $(".contact_checkbox_selected").click(function(){
+    var test = this.id;
+    var val = $("#"+test).attr('data');
+    dispCheckSelected(val);
+  });
+  
+  $(".contact_checkbox_normal").click(function(){
+    var test = this.id;
+    var val = $("#"+test).attr('data');
+    dispCheckNormal(val);
+  });
+   
+  $(".popimg-click").click(function(){
+    var test = this.id;
+    var val = $("#"+test).attr('data');
+    var user_type = $("#pop_"+val).val();
+    pop_view_contact('/contact_users/contact_detail?id='+val+'&user_type='+user_type);
+  });
+  function view_friend(val,type){
+    pop_view_contact('/contact_users/contact_detail?id='+val+'&user_type='+type);
+  }
+  //IE8 issue fixes
+  function send_group_req(id,email,grp_id)
+  {
+    $.ajax({
+      type: "POST",
+      url: '/invite_mail',
+      data: {"toemailaddress":email,"redactor_content":"","con_id":id,"grp_id":grp_id}, // serializes the form's elements.
+      dataType: "script",
+      success: function(data)
+      {
+        $("#success_message").css("display","block").fadeOut(5000);
+      }
+    })
+    //pop_mail_contact('/contact_users/req_multi_email?ids='+id+'&request='+request_invite)
+  }
+</script>
+
+<script src="<%=request.protocol%>connect.facebook.net/en_US/all.js">
+</script>
+<script>
+  function postonwall(id,cname,cuser,reciver_fam_id,user_type){
+    //var furl='http://<%=@get_current_url %>?facebook_reg=yes&sent_user=<%=current_user.user_id%>&invited='+id
+    if (user_type=="member"){
+      var msg = cuser+" just invited you to become friends on Famtivity.  "
+      var fam_sub="Click here to accept Friend request"
+    }
+    else
+    {
+      var msg = "Join me on Famtivity, the family activity network! I think you'll really enjoy it.  Get $5 credit just for joining.  Invite other friends to join and get $1 credit per friend to spend on great kids activities in your area! "
+      var fam_sub="Click here to join famtivity"
+    }
+    FB.init({
+      appId:'<%= FB_APP_ID %>', cookie:true,
+      status:true, xfbml:true
+    });
+
+    FB.getLoginStatus(function(response) {
+      if (response.status === 'connected') {
+        var uid = response.authResponse.userID;
+        var accessToken = response.authResponse.accessToken;
+        FB.ui(
+        {
+          method: 'feed',
+          from:uid,
+          to:id,
+          name: fam_sub,
+          link:'http://<%=@get_current_url %>?facebook_reg=yes&sent_user=<%=current_user.user_id%>&invited='+id,
+          description: 'Hi ' +cname+ ',  '+msg 
+        },          
+
+        function(response) {
+          if (response && response.post_id) {
+            $(".flash-message").html("Your invite has been sent successfully!");
+            var win=$(window).width();
+            var con=$(".flash_content").width();
+            var leftvalue=((win/2)-(con/2))
+            $(".flash_content").css("left",leftvalue+"px");
+            $(".flash_content").css("top","9%");
+            //$('.flash_content').show()
+            $('.flash_content').fadeIn().delay(10000).fadeOut();
+            $.ajax({
+              type: "POST",
+              data: {"reciver_id":reciver_fam_id,"c_page":"f_main" },
+              url: "fb_invite",
+              dataType: "script"
+            });
+      
+          } else {
+            $(".flash-message").html("Oops something went wrong. Please invite again");
+            var win=$(window).width();
+            var con=$(".flash_content").width();
+            var leftvalue=((win/2)-(con/2))
+            $(".flash_content").css("left",leftvalue+"px");
+            $(".flash_content").css("top","9%");
+            $('.flash_content').fadeIn().delay(10000).fadeOut();
+          }
+        }
+      );
+  
+      } else if (response.status === 'not_authorized') {
+        // the user is logged in to Facebook,
+        // but has not authenticated your app
+      } else {
+    
+        FB.ui(
+        {
+          method: 'feed',
+          from:uid,
+          to:id,
+          name: fam_sub,
+          link:'http://<%=@get_current_url %>?facebook_reg=yes&sent_user=<%=current_user.user_id%>&invited='+id,
+          description: 'Hi ' +cname+ ',  '+msg 
+        },
+
+        function(response)
+        {
+          if (response && response.post_id) {
+            $(".flash-message").html("Your invite has been sent successfully!");
+            var win=$(window).width();
+            var con=$(".flash_content").width();
+            var leftvalue=((win/2)-(con/2))
+            $(".flash_content").css("left",leftvalue+"px");
+            $(".flash_content").css("top","67px");
+            //$('.flash_content').show()
+            $('.flash_content').fadeIn().delay(10000).fadeOut();
+            $.ajax({
+              type: "POST",
+              data: {"reciver_id":reciver_fam_id,"c_page":"f_main" },
+              url: "fb_invite",
+              dataType: "script"
+            });
+      
+          } else {
+            $(".flash-message").html("Oops something went wrong. Please invite again");
+            var win=$(window).width();
+            var con=$(".flash_content").width();
+            var leftvalue=((win/2)-(con/2))
+            $(".flash_content").css("left",leftvalue+"px");
+            $(".flash_content").css("top","67px");
+            $('.flash_content').fadeIn().delay(10000).fadeOut();
+      
+          }
+        });
+      }
+    });
+
+    FB.init({
+      appId:'<%= FB_APP_ID %>', cookie:true,
+      status:true, xfbml:true
+    });
+
+  }
+  
+  function warmup(){
+    FB.init({
+      appId:'<%= FB_APP_ID %>', cookie:true,
+      status:true, xfbml:true
+    });
+  }
+</script>
+
+
+

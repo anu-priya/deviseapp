@@ -1,0 +1,163 @@
+<%
+meta :title => "Registration Management Software for Camps & Lessons",
+     :description => "Famtivity provides registration management software for kids camps and lessons of all types including e-commerce payments",
+     :keywords => "Registration Management Software, Camp Registration Management Software, Lesson Registration Management Software"
+%>
+<%=stylesheet_link_tag "static/static_style", :media => "all"%>
+ <div class="<%if current_user.nil? && !current_user.present?%>wrapper_contianer_inner<%else%>wrapper_contianer_inner_login<%end%>">
+	<div class="staic_inner">
+		<div class="page_head">		
+			<div class="head_line"></div>
+			<h1 class="search_head">Famtivity Terms of Service&nbsp;</h1>
+		</div><br>
+		<p class="line_spaceing fnt13 faq_para">
+			Welcome, and thank you for your interest in Famtivity, Inc. ("Famtivity") and our service that helps parents learn about and book for activities, and coordinate activities with other parents as made available through our website at www.famtivity.com and through our downloadable applications (collectively the "Service"). The following Terms of Use are a legally binding contract between you and Famtivity regarding your use of the Service.
+		</p>
+		<p class="line_spaceing fnt13 faq_para">
+			PLEASE READ THE FOLLOWING TERMS OF USE CAREFULLY. BY CLICKING  "I ACCEPT," YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTOOD, AND AGREE TO BE BOUND BY THE FOLLOWING TERMS AND CONDITIONS, INCLUDING THE FAMTIVITY PRIVACY POLICY, AND ANY ADDITIONAL TERMS OR FUTURE MODIFICATIONS (COLLECTIVELY, THE "TERMS"). If you are not eligible, or do not agree to the Terms, then please do not use the Service.
+		</p>
+		<div class="line_spaceing">
+			<div class="faq_para">
+				<p class="pspace faq_head"><b>1. Famtivity Overview</b></p>
+				<div class="para_indent_first">
+					<p class="faq_para fnt13"><span class="pspace grey_txt">1. Activities</span> The Service allows you to find and book local activities, events, and services (each an &quot;Activity&quot;). If you book an Activity through the Service, your right to cancel or reschedule such Activity is subject to the policies of the applicable Provider (as defined below).</p>
+					
+					<p class="faq_para fnt13"><span class="pspace grey_txt">2. Providers</span> Through the Service, you may book Activities with independent providers of such Activities (each a &quot;Provider&quot;). If you are entering into these Terms as a Provider, in addition to these Terms, you must acknowledge, agree, and accept the Famtivity Provider Agreement available at 
+					<a href="http://www.famtivity.com/provider_terms_of_service" title=""  class="blue_nav"><b>www.famtivity.com/provider</b></a> before registering for a Provider account.  </p>
+				</div>
+			</div>
+			<div class="faq_para">
+				<p class="pspace faq_head"><b>2. Eligibility</b></p>	
+				<p class="para_indent_first fnt13"> You must be at least [eighteen (18)] years of age to use the Service. By agreeing to the Terms, you represent and warrant to us: (i) that you are at least [eighteen (18)] years of age (ii) that you have not previously been suspended or removed from the Service and (iii) that your registration and your use of the Service is in compliance with any and all applicable laws and regulations. If you are using the Service on behalf of a Provider, or other entity, organization, or company, you represent and warrant that you have the authority to bind such Provider or organization to these Terms and you agree to be bound by these Terms on behalf of such Provider or organization. If you are agreeing to be bound on behalf of a Provider or other entity &quot;you&quot; as used herein means such Provider or entity and each end user of such Provider or entity, including you as an individual. </p>
+			</div>
+			<div class="faq_para">
+				<p class="pspace faq_head"><b>3. Accounts and Registration</b></p>
+				<p class="para_indent_first fnt13">To access most features of the Service you must register for an account. When you register for an account, you may be required to provide us with some information about yourself (such as your e-mail address or other contact information). You agree that the information you provide to us is and will be accurate and up-to-date at all times. When you register, you will be asked to provide a password. You are solely responsible for maintaining the confidentiality of your account and password. You agree to accept responsibility for all activities that occur under your account. If you have reason to believe that your account is no longer secure, then you agree to immediately notify us at <a href="mailto:support@famtivity.com"  title="" class="blue_nav fnt13"><b>support@famtivity.com.</b></a></p>
+			</div>
+			<div class="faq_para">				
+				<p class="pspace faq_head"><b>4. Payment</b></p>			
+				<p class="para_indent_first fnt13">Access to the Service, or to certain features of the Service or Activities, may require you to pay fees. Before you are required to pay any fees, you will have an opportunity to review and accept the applicable fees that you will be charged. All fees are in U.S. Dollars and are non-refundable. Famtivity may change the fees for the Service or any feature of the Service or any Activity, including by adding additional fees or charges, on a going forward basis at any time. Famtivity will charge the payment method you specify at the time of purchase. You authorize Famtivity to charge all sums described herein to such payment method. If you pay any applicable fees with a credit card, Famtivity may seek pre-authorization of your credit card account prior to your purchase to verify that the credit card is valid and has the necessary funds or credit available to cover your purchase. </p>
+			</div>
+			<div class="faq_para">
+				<p class="pspace faq_head"><b>5. Liability Disclaimer</b></p>			
+				<p class="para_indent_first fnt13">THE PROVIDERS REFERENCED IN THIS AGREEMENT ARE INDEPENDENT CONTRACTORS AND NOT AGENTS OR EMPLOYEES OF FAMTIVITY. FAMTIVITY IS NOT LIABLE FOR THE ACTS, ERRORS, OMISSIONS, REPRESENTATIONS, WARRANTIES, BREACHES OR NEGLIGENCE OF ANY SUCH SUPPLIERS OR FROM ANY PERSONAL INJURIES, DEATH, PROPERTY DAMAGE, OR OTHER DAMAGES OR EXPENSES RESULTING THEREFROM. YOU ACKNOWLEDGE THAT THE USE OR ENJOYMENT OF CERTAIN  ACTIVITIES MAY BE HAZARDOUS AND INHERENTLY RISKY, AND, TO THE MAXIMUM EXTENT PERMITTED BY LAW, YOU WILL ASSUME ALL RISK OF INJURY OR DEATH ARISING OUT OF OR IN CONNECTION WITH THE ACTIVITY, AND ALL ACTIONS OR EVENTS OCCURRING PRIOR TO, DURING, AT OR AFTER, THE ACTIVITY. TO THE MAXIMUM EXTENT PERMITTED BY LAW, FAMTIVITY SHALL HAVE NO LIABILITY FOR ANY PERSONAL INJURY OR DEATH; LOST, STOLEN, DAMAGED OR DESTROYED PROPERTY; OR OTHER LIABILITY ARISING OUT OF OR IN CONNECTION WITH THE ACTIVITY, AND ALL ACTIONS OR EVENTS OCCURRING PRIOR TO, DURING, AT OR AFTER, THE ACTIVITY. </p>
+			</div>
+			<div class="faq_para">
+				<p class="pspace faq_head"><b>6. User Content</b></p>	
+				<p class="para_indent_first faq_para fnt13"><span class="pspace grey_txt">1. User Content Generally</span>Certain features of the Service may permit you to post content, including messages, reviews, photos, video, images, folders, data, text, and other types of works (collectively called, &quot;User Content&quot;) and to publish User Content on the Service. You retain copyright and any other proprietary rights you hold in the User Content that you post to the Service.</p>
+				<p class="para_indent_first faq_para fnt13"><span class="pspace grey_txt">2. Limited License Grant to Famtivity </span>By posting User Content, you grant Famtivity a worldwide, non-exclusive, royalty-free right and license (with the right to sublicense) to host, store, transfer, display, perform, reproduce, modify, and distribute your User Content, in whole or in part, in any media formats and through any media channels (now known or hereafter developed). Any such use of your User Content by Famtivity may be without any compensation paid to you.</p>
+				<p class="para_indent_first faq_para fnt13"><span class="pspace grey_txt">3. Limited License Grant to Other Users</span> By posting and sharing User Content with another user of the Service, you hereby grant that user a non-exclusive license to access and use such User Content as permitted by these Terms and the functionality of the Service.</p>
+				<p class="para_indent_first faq_para fnt13"><span class="pspace grey_txt">4. User Content Representations and Warranties</span> You are solely responsible for your User Content and the consequences of posting or publishing User Content. By posting and publishing User Content, you affirm, represent, and warrant that: </p>	
+				<div class="para_indent_first faq_para">
+				<ul class="fnt13" style="list-style:disc outside none;margin:0 0 0 30px;">
+					<li style="margin-bottom:20px;">You are the creator and owner of, or have the necessary licenses, rights, consents, and permissions to use and to authorize Famtivity and users of the Service to use and distribute your User Content as necessary to exercise the licenses granted by you in this Section 5 and in the manner contemplated by Famtivity and these Terms; </li>
+					<li>Your User Content, and the use thereof as contemplated herein, does not and will not: (a) infringe, violate, or misappropriate any third-party right, including any copyright, trademark, patent, trade secret, moral right, privacy right, right of publicity, or any other intellectual property or proprietary right; or (b) slander, defame, libel, or invade the right of privacy, publicity or other property rights of any other person.</li>
+				</ul>
+				</div>	
+				<p class="para_indent_first faq_para fnt13"><span class="pspace grey_txt">5. User Content Disclaimer</span> We are under no obligation to edit or control User Content that you and other users post or publish, and will not be in any way responsible or liable for User Content. However, Famtivity may at any time and without prior notice, remove any User Content that in our sole judgment violates these Terms or is otherwise objectionable. You understand that when using the Service you will be exposed to User Content from a variety of sources and acknowledge that User Content may be inaccurate, offensive, indecent or objectionable. You agree to waive, and hereby do waive, any legal or equitable rights or remedies you have or may have against Famtivity with respect to User Content. We expressly disclaim any and all liability in connection with User Content. If notified by a user or content owner that User Content allegedly does not conform to the Terms, we may investigate the allegation and determine in our sole discretion whether to remove the User Content, which we reserve the right to do at any time and without notice. For clarity, Famtivity does not permit copyright infringing activities on the Service.</p>	
+			</div>
+			<div class="faq_para">
+				<p class="pspace faq_head"><b>7. Digital Millennium Copyright Act.</b></p>	
+				<p class="para_indent_first faq_para fnt13"><span class="pspace grey_txt">1. DMCA Notification</span>
+				We comply with the provisions of the Digital Millennium Copyright Act applicable to internet service providers (17 U.S.C. &sect;512, as amended). If you have any complaints with respect to material posted on the Service, you may contact our Designated Agent at the following address: </p>
+				<p class="para_indent_first fnt13 pbottm">Famtivity, Inc.<br/>2461 S. Larkey Ln. <br/>Walnut Creek, CA 94597<br/>E-mail: <a href="mailto:copyright@famtivity.com" title=""  class="blue_nav fnt13"><b>copyright@famtivity.com</b></a></p>
+				<p class="para_indent_first fnt13">Any notice alleging that materials hosted by or distributed through the Service infringe intellectual property rights must include the following information:</p>
+						
+				<div class="para_indent_first pbottm">
+				<ul class="fnt13" style="list-style:lower-alpha outside none;margin:0 0 0 18px;">
+					<li>an electronic or physical signature of the person authorized to act on behalf of the owner of the copyright or other right being infringed;</li>
+					<li>a description of the copyrighted work or other intellectual property that you claim has been infringed;</li>
+					<li>a description of the material that you claim is infringing and where it is located on the Service;</li>
+					<li>your address, telephone number, and email address;</li>
+					<li>a statement by you that you have a good faith belief that the use of the materials on the Service of which you are complaining is not authorized by the copyright owner, its agent, or the law; and</li>
+					<li>a statement by you that the above information in your notice is accurate and that, under penalty of perjury, you are the copyright or intellectual property owner or authorized to act on the copyright or intellectual property owner&rsquo;s behalf.</li>
+				</ul>
+				</div>		
+				<p class="para_indent_first faq_para fnt13"><span class="pspace grey_txt">2. Repeat Infringers</span>
+				Famtivity will promptly terminate without notice the accounts of users that are determined by Famtivity to be &ldquo;repeat infringers.&quot; A repeat infringer is a user who has been notified of infringing activity more than twice and/or has had User Content removed from the Service more than twice.</p>			
+			</div>
+			<div class="faq_para">
+				<p class="pspace faq_head"><b>8. Prohibited Conduct</b></p>
+				<p class="para_indent_first faq_para">BY USING THE SERVICE YOU AGREE NOT TO:</p>		
+				<div class="indent_inner"><p class="faq_para fnt13">1. use the Service for any illegal purpose, or in violation of any local, state, national, or international law;</p>
+				<p  class="faq_para fnt13">2. violate, or encourage others to violate, the rights of third parties, including by infringing or misappropriating third party intellectual property rights;</p>	
+				<p class="faq_para fnt13">3. post, upload, or distribute any User Content or other content that is unlawful, defamatory, libelous, inaccurate or that a reasonable person could deem to be objectionable, profane, indecent, pornographic, harassing, threatening, embarrassing, hateful, or otherwise inappropriate; </p>	
+				<p class="faq_para fnt13">4. interfere with security-related features of the Service, including by (i) disabling or circumventing features that prevent or limit use or copying of any content, or (ii) reverse engineering or otherwise attempting to discover the source code of the Service or any part thereof except to the extent that such activity is expressly permitted by applicable law;  </p>
+				<p class="faq_para fnt13">5. interfere with the operation of the Service or any user&rsquo;s enjoyment of the Service, including by (i) uploading or otherwise disseminating viruses, adware, spyware, worms, or other malicious code, (ii) making unsolicited offers or advertisements to other users of the Service, or (iii) attempting to collect, personal information about users or third parties without their consent;</p>
+				<p class="faq_para fnt13">6. perform any fraudulent activity including impersonating any person or entity, claiming false affiliations, accessing the Service accounts of others without permission, or falsifying your age or date of birth; or</p>
+				<p class="faq_para fnt13">7. sell or otherwise transfer the access granted herein or any Materials (as defined in Section 12 below).</p>
+				</div>
+			</div>
+		
+			<div class="faq_para">
+				<p class="pspace faq_head"><b>9. Third Party Services and Linked Websites</b></p>
+				<p class="para_indent_first fnt13">Famtivity may provide tools through the Service that enable you to export information, including User Content, to third party services. By using these tools, you agree that we may transfer such information to the applicable third party service. Such third party services are not under our control, and we are not responsible for their use of your exported information. The Service may also contain links to third-party websites. Such linked websites are not under our control, and we are not responsible for their content. </p>
+			</div>
+			<div class="faq_para">
+				<p class="pspace faq_head pleft"><b>10. Termination of Use; Discontinuation and Modification of the Service</b></p>
+				<p class="para_indent_first fnt13">Famtivity may provide tools through the Service that enable you to export information, including User Content, to third party services. By using these tools, you agree that we may transfer such information to the applicable third party service. Such third party services are not under our control, and we are not responsible for their use of your exported information. The Service may also contain links to third-party websites. Such linked websites are not under our control, and we are not responsible for their content. </p>
+			</div>
+			<div class="faq_para">		
+				<p class="pspace faq_head pleft"><b>11. Privacy Policy; Additional Terms </b></p>
+				<p class="para_indent_first faq_para fnt13"><span class="pspace grey_txt">1. Privacy Policy</span> Please read the Famtivity Privacy Policy carefully for information relating to our collection, use, storage and disclosure of your personal information. The Famtivity Privacy Policy is hereby incorporated by reference into, and made a part of, these Terms. </p>
+				<p class="para_indent_first faq_para fnt13"><span class="pspace grey_txt">2. Additional Terms</span> Your use of the Service is subject to any additional terms, rules, or guidelines applicable to the Service or certain features of the Service that we may post and you may accept (the &quot;Additional Terms&quot;), such as end user license agreements for our downloadable applications, subject to Section 11 below. All such Additional Terms are hereby incorporated by reference into, and made a part of, the Terms.</p>
+			</div>
+			<div class="faq_para">
+				<p class="pspace faq_head pleft"><b>12. Modification of the Terms </b></p>
+				<p class="para_indent_first fnt13">We reserve the right, at our discretion, to change the Terms on a going forward basis at any time. Please check the Terms periodically for changes. In the event that a change to the Terms materially modifies your rights or obligations, you will be required to accept such modified terms in order to continue to use the Service. Material modifications are effective upon your acceptance of such the modified Terms. Immaterial modifications are effective upon publication. For the avoidance of doubt, disputes arising hereunder will be resolved in accordance with the Terms in effect that the time the dispute arose.</p>		
+			</div>
+			<div class="faq_para">
+				<p class="pspace faq_head pleft"><b>13. Ownership; Proprietary Rights</b></p>
+				<p class="para_indent_first fnt13">The Service is owned and operated by Famtivity. The visual interfaces, graphics, design, compilation, information, computer code (including source code or object code), products, software, services, and all other elements of the Service provided by Famtivity (the &ldquo;Materials&bdquo;) are protected by all relevant intellectual property and proprietary rights and applicable laws. Except for any User Content, all Materials contained in the Service are the property of Famtivity or our third-party licensors. Except as expressly authorized by Famtivity you may not make use of the Materials. Famtivity reserves all rights to the Materials not expressly granted in these Terms.</p>	
+			</div>
+			<div class="faq_para">		
+				<p class="pspace faq_head pleft"><b>14. Indemnity</b></p>
+				<p class="para_indent_first fnt13">You agree that you will be personally responsible for your use of the Service, and you agree to defend, indemnify and hold harmless Famtivity and its officers, directors, employees, consultants, affiliates, subsidiaries and agents (collectively, the &quot;Famtivity Entities&quot;) from and against any and all claims, liabilities, damages, losses and expenses, including reasonable attorneys&prime; and accounting fees and costs, arising out of or in any way connected with (i) your access to, use of or alleged use of the Service; (ii) your violation of the Terms or any representation, warranty, or agreements referenced herein, or any applicable law or regulation; (iii) your violation of any third party right, including without limitation any intellectual property right, publicity, confidentiality, property or privacy right; or (iv) any disputes or issues between you and any third party. We reserve the right, at our own expense, to assume the exclusive defense and control of any matter otherwise subject to indemnification by you, and in such case, you agree to cooperate with our defense of such claim.</p>	
+			</div>
+			<div class="faq_para">	
+				<p class="pspace faq_head pleft"><b>15. Disclaimers; No Warranties</b></p>
+				<p class="para_indent_first fnt13">THE SERVICE IS PROVIDED &quot;AS IS&quot; AND ON AN &quot;AS AVAILABLE" BASIS, WITHOUT WARRANTY OR CONDITION OF ANY KIND, EITHER EXPRESS OR IMPLIED. THE Famtivity ENTITIES SPECIFICALLY (BUT WITHOUT LIMITATION) DISCLAIM (i) ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, QUIET ENJOYMENT OR NON-INFRINGEMENT; AND (ii) ANY WARRANTIES ARISING OUT OF COURSE-OF-DEALING, USAGE, OR TRADE. YOU ASSUME ALL RISK FOR ALL DAMAGES THAT MAY RESULT FROM YOUR USE OF OR ACCESS TO THE SERVICE. </p>	
+			</div>
+			<div class="faq_para">
+				<p class="faq_head pleft pbottm"><b>16. Limitation of Liability</b></p>
+				<p class="para_indent_first fnt13 pbottm">1. IN NO EVENT WILL THE FAMTIVITY ENTITIES BE LIABLE TO YOU FOR ANY INCIDENTAL, SPECIAL, CONSEQUENTIAL OR PUNITIVE DAMAGES, WHETHER BASED ON WARRANTY, CONTRACT, TORT (INCLUDING NEGLIGENCE), STATUTE OR ANY OTHER LEGAL THEORY, WHETHER OR NOT THE FAMTIVITY ENTITIES HAVE BEEN INFORMED OF THE POSSIBILITY OF SUCH DAMAGE. </p>	
+				<p class="para_indent_first fnt13 pbottm">2. YOU AGREE THAT THE AGGREGATE LIABILITY OF THE FAMTIVITY ENTITIES TO YOU FOR ANY AND ALL CLAIMS ARISING FROM OR RELATED TO THE USE OF THE SERVICE IS LIMITED TO THE GREATER OF (i) THE AMOUNTS YOU HAVE PAID TO FAMTIVITY FOR ACCESS TO AND USE OF THE SERVICE IN THE TWELVE (12) MONTHS PRIOR TO THE CLAIM OR (ii) $100.</p>	
+				<p class="para_indent_first fnt13">3. SOME JURISDICTIONS DO NOT ALLOW THE DISCLAIMER OF WARRANTIES OR LIMITATION OF LIABILITY IN CERTAIN CIRCUMSTANCES. ACCORDINGLY, SOME OF THE ABOVE LIMITATIONS MAY NOT APPLY TO YOU. </p>	
+			</div>
+			<div class="faq_para">
+				<p class="faq_head pleft pbottm"><b>17. Governing Law</b></p>
+				<p class="para_indent_first fnt13">These Terms shall be governed by the laws of the State of California without regard to conflict of law principles. To the extent that any lawsuit or court proceeding is permitted hereunder, you and Famtivity agree to submit to the personal and exclusive jurisdiction of the state courts and federal courts located within Santa Clara County, California for the purpose of litigating all such disputes. We operate the Service from our offices in California, and we make no representations that information and materials included in the Service are appropriate or available for use in other locations.</p>	
+			</div>		
+			<div class="faq_para">
+				<p class="faq_head pleft pbottm"><b>18. General</b></p>
+				<p class="para_indent_first fnt13">The Terms, together with the Privacy Policy and any other agreements expressly incorporated by reference herein, constitute the entire and exclusive understanding and agreement between you and Famtivity regarding your use of and access to the Service, and except as expressly permitted above may only be amended by a written agreement signed by authorized representatives of the parties. You may not assign or transfer the Terms or your rights hereunder, in whole or in part, by operation of law or otherwise, without our prior written consent. We may assign the Terms at any time without notice. The failure to require performance of any provision shall not affect our right to require performance at any time thereafter, nor shall a waiver of any breach or default of the Terms constitute a waiver of any subsequent breach or default or a waiver of the provision itself. Use of paragraph headers in the Terms is for convenience only and shall not have any impact on the interpretation of particular provisions. In the event that any part of the Terms is held to be invalid or unenforceable, the unenforceable part shall be given effect to the greatest extent possible and the remaining parts will remain in full force and effect. Upon termination of the Terms, any provision which, by its nature or express terms should survive, will survive such termination or expiration, including, but not limited to Sections 2, 5 and 7 through 18.</p>	
+			</div>
+			<div class="faq_para">
+				<p class="pbottm faq_head pleft"><b>19. Dispute Resolution and Arbitration</b></p>
+				<p class="para_indent_first faq_para fnt13"><span class="pspace grey_txt">1. Generally</span>
+				In the interest of resolving disputes between you and Famtivity in the most expedient and cost effective manner, you and Famtivity agree that any and all disputes arising in connection with these Terms shall be resolved by binding arbitration. Arbitration is more informal than a lawsuit in court. Arbitration uses a neutral arbitrator instead of a judge or jury, may allow for more limited discovery than in court, and can be subject to very limited review by courts. Arbitrators can award the same damages and relief that a court can award. Our agreement to arbitrate disputes includes, but is not limited to all claims arising out of or relating to any aspect of these Terms, whether based in contract, tort, statute, fraud, misrepresentation or any other legal theory, and regardless of whether the claims arise during or after the termination of these Terms. You understand and agree that, by entering into these Terms, you and Famtivity are each waiving the right to a trial by jury or to participate in a class action.</p>	
+				<p class="para_indent_first faq_para fnt13"><span class="pspace grey_txt">2. Exceptions</span>
+				Notwithstanding subsection 18.1, we both agree that nothing herein shall be deemed to waive, preclude, or otherwise limit either of our right to (i) bring an individual action in small claims court, (ii) pursue enforcement actions through applicable federal, state, or local agencies where such actions are available, (iii) seek injunctive relief in a court of law, or (iv) to file suit in a court of law to address intellectual property infringement claims. </p>	
+				<p class="para_indent_first faq_para fnt13"><span class="pspace grey_txt">3. Arbitrator</span>
+				Any arbitration between you and Famtivity will be governed by the Commercial Dispute Resolution Procedures and the Supplementary Procedures for Consumer Related Disputes (collectively, &quot;AAA Rules&quot;) of the American Arbitration Association (&quot;AAA&quot;), as modified by these Terms, and will be administered by the AAA. The AAA Rules and filing forms are available online at www.adr.org, by calling the AAA at 1-800-778-7879, or by contacting Famtivity.</p>	
+				<p class="para_indent_first faq_para fnt13"><span class="pspace grey_txt">4. Notice; Process</span>
+				A party who intends to seek arbitration must first send a written notice of the dispute to the other, by certified mail or Federal Express (signature required), or in the event that we do not have a physical address on file for you, by electronic mail (&quot;Notice&quot;). Famtivity&rsquo;s address for Notice is: 2461 S. Larkey Ln., Walnut Creek, CA 94597. The Notice must (a) describe the nature and basis of the claim or dispute; and (b) set forth the specific relief sought (&quot;Demand&quot;). We agree to use good faith efforts to resolve the claim directly, but if we do not reach an agreement to do so within 30 days after the Notice is received, you or Famtivity may commence an arbitration proceeding. During the arbitration, the amount of any settlement offer made by you or Famtivity shall not be disclosed to the arbitrator until after the arbitrator makes a final decision and award, if any; provided that if our dispute is finally resolved through arbitration in your favor, Famtivity shall pay you the greater of (i) the amount awarded by the arbitrator, if any, and (ii) the greatest amount offered by Famtivity in settlement of the dispute prior to the arbitrator&rsquo;s award.</p>	
+				<p class="para_indent_first faq_para fnt13"><span class="pspace grey_txt">5. Fees</span>
+				In the event that you commence arbitration in accordance with these Terms, Famtivity will reimburse you for your payment of the filing fee, unless your claim is for greater than $10,000, in which case the payment of any fees shall be decided by the AAA Rules. Any arbitration hearings will take place at a location to be agreed upon in Santa Clara County, California, provided that if the claim is for $10,000 or less, you may choose whether the arbitration will be conducted solely on the basis of documents submitted to the arbitrator, through a non-appearance based telephonic hearing, or by an in-person hearing as established by the AAA Rules. If the arbitrator finds that either the substance of your claim or the relief sought in the Demand is frivolous or brought for an improper purpose (as measured by the standards set forth in Federal Rule of Civil Procedure 11(b)), then the payment of all fees will be governed by the AAA Rules. In such case, you agree to reimburse Famtivity for all monies previously disbursed by it that are otherwise your obligation to pay under the AAA Rules. Regardless of the manner in which the arbitration is conducted, the arbitrator shall issue a reasoned written decision sufficient to explain the essential findings and conclusions on which the decision and award, if any, are based. The arbitrator may make rulings and resolve disputes as to the payment and reimbursement of fees or expenses at any time during the proceeding and upon request from either party made within 14 days of the arbitrator&rsquo;s ruling on the merits.</p>	
+				<p class="para_indent_first faq_para fnt13"><span class="pspace grey_txt">6. No Class Actions</span>
+				YOU AND Famtivity AGREE THAT EACH MAY BRING CLAIMS AGAINST THE OTHER ONLY IN YOUR OR ITS INDIVIDUAL CAPACITY AND NOT AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS OR REPRESENTATIVE PROCEEDING. Further, unless both you and Famtivity agree otherwise, the arbitrator may not consolidate more than one person&rsquo;s claims, and may not otherwise preside over any form of a representative or class proceeding.</p>	
+				<p class="para_indent_first faq_para fnt13"><span class="pspace grey_txt">7. Modifications</span>
+				In the event that Famtivity makes any future change to this arbitration provision (other than a change to the Famtivity&rsquo;s address for Notice), you may reject any such change by sending us written notice within 30 days of the change to Famtivity&rsquo;s address for Notice, in which case your account with Famtivity shall be immediately terminated and this arbitration provision, as in effect immediately prior to the amendments you reject shall survive.</p>
+				<p class="para_indent_first faq_para fnt13"><span class="pspace grey_txt">8. Enforceability</span>
+				 If Subsection 18.6 is found to be unenforceable or if the entirety of this Section 18 is found to be unenforceable, then the entirety of this Section 18 shall be null and void and, in such case, the parties agree that the exclusive jurisdiction and venue described in Section 16 shall govern any action arising out of or related to these Terms.</p>		
+			</div>
+		
+			<div class="faq_para">
+				<p class="faq_head pleft pbottm"><b>20. Contact Information</b></p>
+				<p class="para_indent_first faq_para fnt13">If you have any questions regarding Famtivity, the Service, or the Terms please contact us at <a href="mailto:support@famtivity.com" class="blue_nav fnt13" title=""><b>support@famtivity.com.</b></a></p>	
+			</div>
+				
+			
+		</div>		
+	</div>
+</div>

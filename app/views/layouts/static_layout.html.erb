@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+  <head>    
+    <%= metamagic %>
+    <meta http-equiv="Content-Language" content="en" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta http-equiv="pragma" content="cache" />
+    <meta http-equiv="cache-control" content="cache" />
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <meta name="bitly-verification" content="e85040e783dc"/>
+    <meta name="google-site-verification" content="ZoU0MNkf02c532RyvEjt2YoAYN8IOm8XPWy0yfwUEKc" />
+    <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon"/>
+    <link rel="icon" type="image/png" href="/assets/favicon/favicon.png"/>
+    <link rel="dns-prefetch" href="https://www.facebook.com/"/>
+    <link rel="dns-prefetch" href="https://www.twitter.com/"/>
+    <link rel="dns-prefetch" href="https://www.pinterest.com/"/>
+    <script type="text/javascript" src="https://apis.google.com/js/client.js"></script>
+<%if !@meta_alt.nil? && @meta_alt.present? %>
+   <link rel="alternate" media="only screen and (max-width: 640px)" href="<%= "#{$meta_mobile}#{request.fullpath}" %>">
+  <%end%>
+    <!-- Dont remove added for analytics- start -->
+    <%if ((request.env['HTTP_HOST'] != 'famtivity.com') &&  (request.env['HTTP_HOST'] != 'www.famtivity.com'))  %>
+    <!-- Added meta tag to restrict calling of analytics in dev and uat-->
+    <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    <% end %>
+    <% if current_user && get_provider_path%>
+    <!-- Added meta tag for provider side-->
+    <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+
+    <%end%>  
+    <%= stylesheet_link_tag "global/fonts","header/new_header","global/overlay/windowfiles/dhtmlwindow","global/overlay/modalfiles/modal","footer/footer", :media => "all" %>
+    <%= javascript_include_tag "global/jquery-1.8.3.min","event/index_of_fix.js", "autocomplete/jquery.autocomplete.js","header/header.js","global/set_breadcrumb.js"%>
+
+        <script language="JavaScript" src="https://js.maxmind.com/app/geoip.js"></script>
+    <script type="text/javascript">
+    m_name=$("meta[name='keywords']").attr("content");
+    m_cont=$("meta[name='description']").attr("content");
+    $("meta[name='keywords']").removeAttr("content").attr("content",m_name);
+    $("meta[name='description']").removeAttr("content").attr("content",m_cont);
+    </script> 
+  </head>
+  <body>
+    <%= render :partial => '/common/preload_images'%>
+    <div class="wrapper">
+      <div class="page_header">
+        <div class="headerOuter dp" style="width:100%; background-color:#E5F4F9;">
+          <div class="headerWrapper" style="width:1260px; margin:0 auto;">
+            <div class="lt header_inner">
+              <div class="lt logo">
+                <div class="logo_inner">
+                 <a href="/" title="Famtivity"><%=image_tag("/assets/header/new_logo.png", size: "155x52", alt: "Famtivity")%></a>
+                </div>
+              </div>
+              <div class="lt header_container">
+                <!--div style="border:1px solid green; width:668px;"-->
+                <% if (!(params[:controller] == 'home' && params[:action] == 'index')) || (current_user && current_user.present? && !current_user.nil?)%>
+                 <%= render :partial => '/banner/new_search',:locals => {:def_age => '4 - 7'} %>
+                <%end%>
+                <!--/div-->
+              </div>             
+                <div class="<%if current_user.nil? || !current_user.present?%>header_right<%else%>msg_contact_aflogin<%end%>">       
+                <%if current_user.nil? || !current_user.present?%>
+                <div class="lt right_inner">
+                  <div align="center" class="how-it-img"><a title="How it Works" onclick="howitworks('/how-it-works'); _gaq.push(['_trackEvent','Parent Module', 'clickServices','How it works']);" style="cursor:pointer;"><%=image_tag("/assets/header/how_it_works.png", size: "30x42", alt: "Famtivity")%></a></div>
+                  <div class="clear"></div>
+                  <div align="center">
+                   <a title="How it Works" onclick="howitworks('/how-it-works'); _gaq.push(['_trackEvent','Parent Module', 'clickServices','How it works']);"><span class="link_nav" style="cursor:pointer;">How It Works</span></a>
+                  </div>
+                </div>
+                <div class="lt right_outer">
+                  <div class="lt fam_signup_icon"><a href="javascript:void(0)" onclick="pop_Parent_Login('/parent_register?price=provider');show_provider_plan(); _gaq.push(['_trackEvent', 'Registration', 'clickProviderSignup']);" title="Sign Up"><%=image_tag("/assets/header/provider_sign_up.png", size: "44x40", alt: "Sign Up", border: "0")%></a></div>
+                  <div class="lt fam_signup">
+                    <span class="fam_txt" style="cursor:pointer;" onclick="pop_Parent_Login('/parent_register?price=provider');show_provider_plan(); _gaq.push(['_trackEvent', 'Registration', 'clickProviderSignup']);">Sign-up Provider | School</span><br />
+                    <span class="link_nav">or Call +1 (888)-386-6479</span>
+                  </div>
+                </div>
+                <%else%>
+                  <%if !current_user.user_type.nil? && current_user.user_type.downcase!='a'%>
+			<%if params[:action] == "browse_category" || params[:action] == 'how_it_works' || params[:action] == 'build_activity_network_popup' || params[:action] == 'message_preview_attachment' || params[:action] == 'privacy_policy' || params[:action] == 'terms_of_service' || params[:action] == 'about_us' || params[:action] == 'contact_us' || params[:action] == 'faq' ||  params[:action] == 'parent_profile' || params[:action] == 'parent_settings' || params[:action] == 'activity_parent_schedule'  ||  params[:action] == 'parent_privacy_policy' ||  params[:action] == 'parent_terms_of_service' || params[:action] == 'search_by_keyword' || params[:action] == 'search'  || params[:action] == 'advanced_search' || request.fullpath == '/contact_users?mode=parent' || request.fullpath == '/change_password?mode=parent' ||  params[:action] == 'landing_new' ||  params[:action] == 'search' || request.fullpath == '/discount_dollars?mode=parent' || params[:action] == 'follow_cities' || (params[:search_type]) || (params[:action]=="search_new_search")%>
+			<%= render :partial =>"common/parent_menu" %>
+			<%else%>
+			    <%if !current_user.user_type.nil? && current_user.user_type.downcase=='u'%>
+			      <%= render :partial =>"common/parent_menu" %>
+			    <%elsif !current_user.user_type.nil? && current_user.user_type.downcase=='p'%>
+			      <%if (params["mode"] && params["mode"].downcase == 'parent') || (@mode && @mode=="parent") || (params[:search_type]) || (params[:action]=="search_new_search")%>
+			       <%= render :partial =>"common/parent_menu" %>
+			      <%else%>
+			       <%= render :partial =>"common/provider_menu" %>
+			      <%end%>
+			    <%end%>
+			<%end%>
+                  <%else%>
+                    <%if (params["mode"] && params["mode"].downcase == 'parent') || (@mode && @mode=="parent")%>
+                     <%= render :partial =>"common/parent_menu" %>
+                    <%elsif params["mode"] && params["mode"].downcase == 'admin'%>
+                      <%= render :partial =>"common/admin_menu" %>
+                    <%else%>
+                     <%= render :partial =>"common/provider_menu" %>
+                    <%end%>
+                  <%end%>
+                <%end%>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <% if current_user.nil? && !current_user.present? %>
+        <div class="header_bottom" align="center">
+          <div class="header_bottom_inner" align="center">
+            <a onclick="pop_Login('/login'); _gaq.push(['_trackEvent', 'Login', 'clickLogin'])" href="javascript:void(0)" class="lt login_btn" title="Login">Login</a>
+            <a onclick="pop_Parent_Login('/parent_register?s_user_id=<%=params[:sent_user]%>'); _gaq.push(['_trackEvent', 'Registration', 'clickParentRegistration'])" href="javascript:void(0)" class="lt signup_btn" title="Signup">Sign-up</a>
+          </div>
+          <div class="get-credit" style="color:#6e6e6e;">&hellip;&amp; get <span class="get-credit-inner">$20</span> Credit!</div>
+        </div>
+        <%end%>
+      </div>
+      <div class="wrap_banner">
+        <div class="wrapper_contianer">
+          <span class="flash_content"style="position: absolute;display: none; background:#ff6363;padding: 8px 10px 8px 20px;color:white;width:auto;z-index: 100000;">
+          <span class="flash-message flash-text" style="float:left;"></span>
+          <span class="flash-close" onClick='$(".flash_content").hide();'  style="cursor: pointer;font-size: 15px;margin-left: 20px;">X</span>
+          </span>
+          <div class="clear"></div>
+          <!--div data-pjax-container-->
+            <%= yield%>
+          <!--/div-->
+        </div>
+      </div>
+      <div id="popup_friend" style="top: 20px !important;"></div>
+      <div class="footerContainer">
+        <%=render :partial => "common/comman_footer" if (!(params[:controller]=="home" && params[:action]=="index"))%>
+      </div>
+    </div>
+    <div class="loadDiv" id="loadDivjax" style="display:none;margin:0 auto; position:fixed;width:98%;top:250px; z-index:1; " align="center">
+     <div class="loadDiv_img" style="display:block; margin:200px;"><%=image_tag("/assets/loading.gif", class: "spinner_gif")%></div>
+    </div>
+      <script src="https://www.google-analytics.com/ga.js" async="" type="text/javascript"></script> <!-- Enabling Google Analytics Social Tracking code Starts Here -->
+      <%= javascript_include_tag "global/overlay/windowfiles/dhtmlwindow.js", "global/overlay/modalfiles/modal.js", "bpopup/jquery.easing.1.3.js", "ga_social_tracking.js"%>
+      <script type="text/javascript">
+      function showSurveyMonkey(){window.open('famtivity-survey',"Survey Monkey","scrollbars=1,top=1,height=700,width=1017,fullscreen=yes,resizable=yes")}
+      /* Google Analytics Site Tracking Information (Dont Remove) */
+      var _gaq = _gaq || [];_gaq.push(['_setAccount', 'UA-37198261-1']);_gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+      /* added pixel for conversion tracking */
+      var fb_param = {};
+      fb_param.pixel_id = '6009203206329';
+      fb_param.value = '0.00';
+      fb_param.currency = 'USD';
+      (function(){
+      var fpw = document.createElement('script');
+      fpw.async = true;
+      fpw.src = '//connect.facebook.net/en_US/fp.js';
+      var ref = document.getElementsByTagName('script')[0];
+      ref.parentNode.insertBefore(fpw, ref);
+      })();
+      /*PJAX functions start*/
+      //~ $(document).on('pjax:timeout', function(event) {
+        //~ event.preventDefault()
+      //~ });
+
+      //~ $(document).pjax('a[data-pjax]', '[data-pjax-container]')
+
+      //~ $(document).on('pjax:start', function() {
+        //~ $('#loadDivjax').css("display","block")
+      //~ })
+      //~ $(document).on('pjax:success', function() {
+        //~ $('#loadDivjax').css("display","none");
+      //~ $(window).scrollTop(0,0);
+      //~ })
+      /*PJAX functions end*/
+      var s_user=$("#sent_user").val();
+      var s_user_email=$("#sent_user_email").val();
+      var group="<%=params[:group]%>"
+      var cid="<%=params[:cid]%>"
+      <%if  params[:sent_user] && params[:sent_user_email] && !params[:cid] && !params[:group]%> 
+          pop_Parent_Login("/parent_register?s_user_id="+s_user+"&s_user_email="+s_user_email)
+      <%elsif  params[:sent_user] && params[:sent_user_email] && params[:message_reg] && params[:cid] && params[:group] && !params[:con_invite].nil?%>
+          pop_Parent_Login("/parent_register?s_user_id="+s_user+"&s_user_email="+s_user_email+"&msg_invite=true&group="+group+"&cid="+cid)  
+      <%elsif !params[:facebook_reg].nil? && params[:facebook_reg].present? && params[:facebook_reg]!='' && params[:facebook_reg]=='yes' %>
+          var s_user="<%=params[:sent_user]%>"
+          var invited="<%=params[:invited]%>"
+          facebook_login(s_user,invited);
+      <% end %>
+      <%if cookies[:search_city].nil? %>
+      if (typeof geoip_city != 'undefined') 
+       {
+        document.cookie="city_new_usr="+geoip_city();
+        var locate_ip_addr = geoip_city();
+        if (locate_ip_addr=="")
+        {
+          $.ajax({
+                url:'/find_location_by_ip',
+                success:function(data){ 
+                  $('#zip_values').val(data);
+                  document.cookie="search_city="+data; 
+                  document.cookie="search_geocoder_city="+data;
+                  window.location.reload();
+                }
+          });
+        }
+        else
+        {
+          document.cookie="search_city="+geoip_city(); 
+          document.cookie="search_maxmind_city="+geoip_city();
+        }
+
+        document.cookie="latitude="+geoip_latitude();
+        document.cookie="longitude="+geoip_longitude();
+	}
+      <%end%>
+      $(document).ready(function(){
+        $(".bx-prev, .bx-next").hide();
+      });
+      </script>
+    </body>
+    <% if cookies[:search_maxmind_city] || cookies[:search_geocoder_city] %>
+      <% create_log_for_zipcode %>
+    <% end %>
+</html>

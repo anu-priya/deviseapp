@@ -1,0 +1,782 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css" />
+<link rel="stylesheet" type="text/css" href="/assets/share_activity/share_acitivity_detail.css" />
+<link rel="stylesheet" type="text/css" href="/assets/share_activity/share_activity.css" />
+<link rel="stylesheet" type="text/css" href="/assets/contacts_users_new/contact_user.css" />
+<!-- email editor -->
+<link rel="stylesheet" type="text/css" href="/assets/email_editor/kube.css" />
+<!--link rel="stylesheet" type="text/css" href="/assets/email_editor/screen.css" /-->
+<link rel="stylesheet" type="text/css" href="/assets/email_editor/redactor.css" />
+<script src="/assets/email_editor/jquery-1.9.1.min.js"></script>
+<script src="/assets/email_editor/global.js"></script>
+<script src="/assets/email_editor/prettify.js"></script>
+<script src="/assets/email_editor/redactor.js"></script>
+<script type="text/javascript" src="/assets/jquery.form.js"></script>
+<script src="/assets/bpopup/jquery.bpopup-0.9.3.min.js" type="text/javascript"></script>
+<script src="/assets/bpopup/jquery.easing.1.3.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="/assets/contacts_users/jquery-ui.css" />
+<script src="/assets/auto_complete/jquery-ui.js"></script>
+
+
+<script language="javascript">
+  var popInviteSuccess;
+  function Pop_invite_success(url)
+  {
+    popInviteSuccess = dhtmlmodal.open("Delete Activity","iframe",url," ", "width=450px,height=600px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    return false;
+  }
+
+  function closepopup() {
+
+    var y_value = $("#yahoo_id").val();
+<%if !cookies[:fam_network].nil? && cookies[:fam_network]!=""%>
+      if(y_value == "1"){
+        //parent.location.reload(true);
+        parent.pop_invite_friend_check('/invite_friend_famtivity?check_invite=import&reld=aftsuccess&fam_net_id=<%= cookies[:fam_network] %>');
+      }
+      else if(y_value == "2"){
+  check_fb();
+        //parent.location.reload(true);
+        // parent.pop_invite_friend_check('/invite_friend_famtivity?check_invite=import&reld=aftsuccess');
+      }
+      
+      else{
+        parent.contactImportPage.hide();
+      }
+<%else%>
+//alert("test");
+      if(y_value == "1"){
+        //parent.location.reload(true);
+        parent.pop_invite_friend_check('/invite_friend_famtivity?check_invite=import&reld=aftsuccess');
+      }
+      else if(y_value == "2"){
+        //parent.location.reload(true);
+        parent.pop_invite_friend_check('/invite_friend_famtivity?check_invite=import&reld=aftsuccess&fb_val=success');
+        // parent.pop_invite_friend_check('/invite_friend_famtivity?check_invite=import&reld=aftsuccess');
+      }
+      else{
+        parent.contactImportPage.hide();
+      }
+<%end%>
+  
+    parent.document.getElementById("emptyContact").style.display="block";
+  }
+
+  function csv_closepopup(id) {
+
+
+    var y_value = id
+    if(y_value == "1"){
+<%if !cookies[:fam_network].nil? && cookies[:fam_network]!=""%>
+        parent.pop_invite_friend_check('/invite_friend_famtivity?check_invite=import&reld=aftsuccess&fam_net_id=<%= cookies[:fam_network] %>');
+<%else%>
+        parent.pop_invite_friend_check('/invite_friend_famtivity?check_invite=import&reld=aftsuccess');
+<%end%>
+    }
+    else if(y_value == "2"){
+      parent.location.reload(true);
+    }
+    else{
+      parent.contactImportPage.hide();
+    }
+
+
+    
+    parent.document.getElementById("emptyContact").style.display="block";
+  }
+
+  function closepopupdiv() {
+    var y_value = $("#yahoo_id").val();
+    if(y_value == "1"){
+      window.location.reload(false);
+    }
+    else{
+      $("#close_popup").addClass("b-close");
+    }
+    //$("#invite_success").css("display","none");
+    //$(".top_social_icon").css("display","block");
+    //$("#inviteAccount_1").css("display","block");
+    //parent.popInviteFriendPage.hide();
+    // parent.popInviteFriendPage.reload(true);
+  }
+  $("#inv-contact").click(function(){
+    show_contact(1);
+  });
+  $("#find-contact").click(function(){
+    show_contact(3);
+  });
+  $("#import-contact").click(function(){
+    show_contact(2);
+  });
+</script>
+
+<div id="invite_friend_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">
+              <%if (!current_user.nil? && current_user.sign_in_count==1 && cookies[:first_import_success].nil?)%>
+                Import &amp; Invite Friends
+              <%else%>
+                Invite Friends
+              <%end%>
+            </div>
+          </div>
+          <div class="closeButton" style="padding:0;">
+
+            <!--<a href="javascript:closepopupdiv();" title="" id="close_popup"><img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" /></a>-->
+
+            <%if !check.nil? && check=="import"%>
+              <a href="javascript:void(0);" title="" class="b-close" onclick="check_fb();"><img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" /></a>
+            <%else%>
+              <a href="javascript:void(0);" title="" onclick="fam_last_action();"><img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" /></a>
+            <%end%>
+
+          </div>
+        </div>
+        <!---->
+        <div class="centerCont" style="padding:15px 0px 20px 0px; border: 1px solid;display: none;">
+
+          <div class="top_social_icon" align="center" style="position:relative;width: auto;">
+            <a href="javascript:void(0)" class="menuText " id="inv-contact" title="">
+              <div class="invites">
+                <span id="comment_test" class="text_1" style="padding-left:3px;font-weight: bold;">Invite Friend</span>
+              </div>
+            </a>
+            <!--span class="dot menuText">&bull;</span-->
+            <a href="javascript:void(0)" class="menuText" title="" id="import-contact">
+              <div class="invites">
+                <span id="error_text" style="padding-left:3px;" class="text_2">Import &amp; Invite Friends</span>
+              </div>
+            </a>
+            <!--span class="dot menuText">&bull;</span-->
+            <a href="javascript:void(0)" class="menuText" title="" id="find-contact">
+              <div class="invites">
+                <span id="error_text" style="padding-left:3px;" class="text_3">Find Famtivity Members</span>
+              </div>
+            </a>
+          </div>
+        </div>
+        <!---->
+        <div class="clear"></div>
+         <div class="spacerdiv_30"></div>
+        <div class="clear"></div>
+        <div class="ajax_show_hide">
+          <%if params[:net] == "true"%>
+            <div class="invite_friend_success">
+              <div class="success_text">
+                <img src="/assets/fam_networks/tick_icon.png"/> success!!!
+              </div>
+              <div class="success_sec_text">
+                Invite your friends to join this Fam Network
+
+              </div>
+            </div>
+          <%end%>
+        </div>
+
+        <div class="clear"></div>
+        <div class="invite_import_img_div" style="margin-bottom: 20px;">
+          <div class="invie_inner_img">
+            <div class="inner_imgs ">
+              <div id="invite_border" class="single_img selct_borders " onclick="change_invite_tabs_new('1'); _gaq.push(['_trackEvent','Contacts', 'clickContacts','Invite a Friend']);">
+                <div class="invite invite_normal_select"></div>
+                <div class="invite_txt text_span_select">Invite a Friend</div>
+              </div>
+              <div id="import_border" class="single_img " onclick="change_invite_tabs_new('2'); _gaq.push(['_trackEvent','Contacts', 'clickContacts','Import and Invite Friends']);">
+                <div class="import import_normal"></div>
+                <div class="import_txt text_span">Import & Invite Friends</div>
+              </div>
+              <div id="find_border"class="single_img " onclick="change_invite_tabs_new('3'); _gaq.push(['_trackEvent','Contacts', 'clickContacts','Find Famtivity Members']);">
+                <div class="find find_normal"></div>
+                <div class="find_txt text_span">Find Famtivity Members</div>
+              </div>
+            </div>
+          </div>
+
+<div class="checkout_hide" id="checkout" style="display: none;">
+    <div class="checkout_top" style="width:450px;font-weight:normal">
+      <div class="set_style_1 checkoutLt" style="float: left;background: #FFFAFA"><span class="number_1">1</span></div>
+      <div class="checkoutLt" style="width:400px;border-top:1px solid #CCE9EF;;height:5px;margin-top:17px;float: left;"></div> 
+      <div class="set_style_2 checkoutLt" style="float: left;background: #CCE9EF;"><span class="number_1">2</span></div>
+    </div>
+
+    <div class="clear"></div>
+    <div class="checkout_top" style="margin-top:2px; .margin-top:7px;width:400px;font-weight:normal"> 
+      <div class="checkoutLt"><span class="number_1 chkout_ftSz12" style="margin: 4px 0 0 -31px;position: relative; display:block;">Import</span></div>     
+      <div class="checkoutLt"><span class="number_1 chkout_ftSz12" style="margin-left:393px;top:3px;"><b>Invite</b></span></div>
+    </div>
+  </div>
+          <div class="clear"></div>
+          <div class="discountdollar" >
+      Invite your friends and get <span class="bold_txt">$1.00 Discount Dollar</span> for every friend that joins.
+          </div>
+          <input type="hidden" id="yahoo_id" value=""/>
+          <input type="hidden" name="pop_value" id="pop_val" value="<%=check%>" />
+          <div class="clear"></div>
+          <div id="invite_friends_all"class="enter_detail" style="display: block;">
+            <%=render "/contact_users/contact_create_message"%>
+
+          </div>
+          <div class="clear"></div>
+          <div id="import_friends" class="enter_detail" style="display: none;<%if !@reld.nil? && @reld !=""%> width:775px<%else%> width:522px;<%end%>">
+            <%= render :partial=>"import" %>
+          </div>
+          <div class="clear"></div>
+          <div id="find_friends" class="enter_detail" style="display: none;">
+            <!--find start-->
+            <div id="inviteAccount3">
+              <div class="ffdivs " >
+                <form action="#" method="post">
+                  <div class="ffmem">
+                    <table cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td width="405">
+                          <input type="text" name="ffmem"  id="text-name" autocomplete='on' value="Search for famtivity Member" class="ffmemInTxt" />
+                          <div id="txt_autocomplete" style="left: 263px;"></div>
+                        </td>
+                        <td>
+                          <input type="image" id="search-famt" src="/assets/event_index/search_icon.png" class="ffmemseaBt" />
+                        </td>
+                      </tr>
+                    </table>
+
+                    <span id="success-msg" style="display:none;color: green;font-size: 14px; padding: 12px 70px;">Friend request has been sent successfully</span>
+
+                  </div>
+                </form>
+              </div>
+              <div class="friendListff" id="list_no_frnds">
+                <p class="ffifTxt">Find Friends in Famtivity</p>
+              </div>
+              <div class="clear"></div>
+            </div>
+            <!--find end-->
+          </div>
+
+        </div>
+        <div class="clear"></div>
+
+        <div class="button_classes" id="button_invite" style="display: block;">
+          <a href="javascript:void(0);" title="" class="invitefriend"><img src="/assets/fam_networks/invite_fam.png" alt=""/></a>
+          <a href="javascript:void(0);" onclick="fam_last_action();"  title=""><img src="/assets/fam_networks/cancel_fam.png" alt=""/></a>
+          <span id='loadingSave' style='display: none;padding-left: 10px; position:relative; top:-13px;' ><img src='/assets/loading.gif'/></span>
+
+        </div>
+        <div class="button_classes" id="button_import" >
+          <a href="javascript:void(0)" title="" onclick="select_network(); _gaq.push(['_trackEvent','Parent Module', 'clickContact','Import']);"><img src="/assets/contact/import_new.png" height ="39" width = "111" /></a>
+          <a href="javascript:void(0)" onclick="fam_last_action();"  title=""><img src="/assets/fam_networks/cancel_fam.png" height ="39" width = "111" alt="" onclick="closepopup()"/></a>
+        </div>
+        <div  id="fb_cancel" style="margin-bottom: 85px;margin-left: 50px;display: none;">
+           <a href="#" style="float:left; position: relative; padding-left: 3px; display:inline-block;" onclick="check_import();"><%= @click_mode%><img src="/assets/contact/fb_cancel.png"  alt=""/></a>
+        </div>
+
+
+        <!------------------------->
+
+        <!--Invite Famvity Account-->
+
+        <!--invite start--
+        <div id="inviteAccount_1" style="display:block;">
+<%#=render "/contact_users/contact_create_message"%>
+        </div>
+        <div class="clear"></div>
+        <!--invite end-->
+
+        <!--import start--
+        <div id="inviteAccount_2" style="display:none;">
+<%#= render :partial=>"import" %>
+        </div>
+        <div class="clear"></div>
+        <!--import end-->
+
+        <!--ajax loader /contact_invite?mail=<%#=gmail.contact_email%>-->
+        <div id='loadingmessage' style='display:none;margin-top:-415px' align="center">
+          <img src='/assets/ajax-loader.gif'/>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+   function check_fb(){
+    <%if cookies[:friend_mode]=='parent' %>
+   parent.location.href="/contact_users?mode=parent";
+    <%else%>
+  parent.location.href="/contact_users";
+    <%end%> 
+    }
+  function fam_last_action(){
+    var y_val = $("#yahoo_id").val();
+    if(y_val == "3"){
+        window.location.href="/contact_users"
+      }
+    var stateObj = {
+    foo: "bar"
+    }
+    if(navigator.appName=="Microsoft Internet Explorer")
+    {
+      window.location.hash='';
+    }
+    else
+    {
+      <%if !@fam_last.nil?%>
+      history.replaceState(stateObj, "", "<%=@fam_last%>");
+      <%else%>
+      history.replaceState(stateObj, "", "/");
+      <%end%>
+    }
+$("#invite_friend_container").bPopup().close();
+    }
+    
+  var availableTags=new Array();
+<%if !all_users.nil?%>
+  <%all_users.each do |auto_complete|%>
+    <% if !auto_complete.nil? %>
+        availableTags.push({'label':'<%= auto_complete.user_name if !auto_complete.user_name.nil?%>, <%=auto_complete.email_address if !auto_complete.email_address.nil?%>','data':'<%=auto_complete.email_address%>'});
+        //availableTags.push('<%= "#{auto_complete.user_name}, #{auto_complete.email_address}"%>');
+    <%end%>
+  <%end%>
+<%end%>
+
+  $(function() {
+    $( "#text-name" ).autocomplete({ 
+      minLength: 1,
+      position: {
+        my: 'left top',
+        at: 'left bottom',
+        of: $('.ffmem')
+        },
+      source: function(request, response) {
+        var results = $.ui.autocomplete.filter(availableTags, request.term);
+        response(results.slice(0, 8));        
+      },
+      appendTo: $(".ffmem"),
+      //appendTo: $("#txt_autocomplete"),
+      select: function(event, ui) {
+        var choice = ui.item.data;
+        $("#text-name").val(choice);
+        search_fam();
+        return false;
+      }   
+    });
+  });
+  
+  //Autocomplete dropdown scroll fixes
+  $(window).scroll(function() {
+    $("#ui-id-1").hide();
+  });
+
+
+  $(document).ready(function() {
+    <%cookies.delete :f_invited_user%>
+    //hide back scroll start
+    // $('html, body').css({
+    // 'overflow': 'hidden',
+    // 'height': '100%'
+    // })
+    
+    <%if !params[:net].nil? && params[:net] !="" && params[:net] == "true"%>
+    $("#yahoo_id").val("3");
+    <%end%>
+
+    //hide back scroll end
+<%if !@reld.nil? && @reld !=""%>
+      $('.button_classes').css('display','none');
+      change_invite_tabs_new(2);
+<%end%>
+    var t = document.getElementById("text-name");
+    t.onfocus = function() { if(t.value == 'Search for famtivity Member'){t.value=''; t.style.color='#444444';}};
+    t.onblur = function() { if (t.value == '') {t.style.color='#999999'; t.value='Search for famtivity Member';}};
+
+    var check =$("#pop_val").val();
+    if (check == 'find')
+    {
+      change_invite_tabs_new(3);
+      /* $("#inviteAccount_1").hide();
+      $("#inviteAccount_3").show();
+      $("#inviteAccount_2").hide();
+      $(".text_2").css("font-weight","normal");
+      $(".text_3").css("font-weight","bold");
+      $(".text_1").css("font-weight","normal"); */
+    }
+    else if (check == 'import')
+    {
+      $("#inviteAccount_1").hide();
+      $("#inviteAccount_3").hide();
+      $("#inviteAccount_2").show();
+      //$("#import_friends").hide();
+      $("#existInivtefriend").show();
+      $(".text_2").css("font-weight","bold");
+      $(".text_3").css("font-weight","normal");
+      $(".text_1").css("font-weight","normal");
+    }
+    else if (check == 'invite')
+    {
+      change_invite_tabs_new(1);
+      /* $("#inviteAccount_3").hide();
+      $("#inviteAccount_1").show();
+      $("#inviteAccount_2").hide();
+      $(".text_2").css("font-weight","normal");
+      $(".text_1").css("font-weight","bold");
+      $(".text_3").css("font-weight","normal"); */
+    }
+    else if (check == 'contact_import')
+    {
+      change_invite_tabs_new(2);
+      /* $("#inviteAccount_1").hide();
+      $("#inviteAccount_3").hide();
+      $("#inviteAccount_2").show();
+      $("#import_friends").show();
+      $("#existInivtefriend").hide();
+      $(".text_2").css("font-weight","bold");
+      $(".text_3").css("font-weight","normal");
+      $(".text_1").css("font-weight","normal"); */
+    }
+  
+    //ie8 key enter fixes
+    $("#text-name").keypress(function(e) {
+      if(e.which == 13)
+      {
+        e.preventDefault();
+        search_fam();
+      }
+    });
+
+  });
+
+ 
+ 
+
+
+  function change_invite_tabs_new(x){
+    
+    if(x=='1'){
+        var stateObj = {
+    foo: "bar"
+  };
+  if(navigator.appName=="Microsoft Internet Explorer")
+  {
+    window.location.hash='';
+  }
+  else
+  {
+    history.replaceState(stateObj, "Invite a Friend", "invite-a-friend");
+  }
+      $('.checkout_hide').hide();  
+      $('.discountdollar').css('display','block');
+      $('.button_classes').css('display','none');
+      $('.enter_detail').css('display','none');
+      $('#invite_friends_all').css('display','block');
+      $('.single_img').removeClass('selct_borders');
+      $('.discountdollar').css('font-size','12px');
+      $('.discountdollar').html('Invite your friends and get <span class="bold_txt">$1.00 Discount Dollar</span> for every friend that joins... It adds up fast!'); 
+      $('.import').removeClass('import_normal_select').addClass('import_normal');
+      $('.import_txt').removeClass('text_span_select').addClass('text_span');
+      $('.find').removeClass('find_normal_select').addClass('find_normal');
+      $('.find_txt').removeClass('text_span').addClass('text_span');
+      $('.invite').removeClass('invite_normal').addClass('invite_normal_select');
+      $('.invite_txt').removeClass('text_span').addClass('text_span_select');
+      $('#fb_cancel').css('display','none');
+      $('#button_invite').css('display','block');
+      $('#invite_border').addClass('selct_borders');
+      $('.invite_import_img_div').css('height','525px');
+    }
+    if(x=='2'){
+  var stateObj = {
+    foo: "bar"
+  };
+  if(navigator.appName=="Microsoft Internet Explorer")
+  {
+    window.location.hash='';
+  }
+  else
+  {
+    history.replaceState(stateObj, "Import & Invite Friends", "import-invite-friends");
+  }
+      $('.discountdollar').css('display','block');
+      $('.button_classes').css('display','none');
+      $('.enter_detail').css('display','none');
+      $('#import_friends').css('display','block');
+      $('.single_img').removeClass('selct_borders');
+      $('.find').removeClass('find_normal_select').addClass('find_normal');
+      $('.find_txt').removeClass('text_span_select').addClass('text_span');
+      $('#fb_cancel').css('display','none');
+      $('.invite').removeClass('invite_normal_select').addClass('invite_normal');
+      $('.invite_txt').removeClass('text_span_select').addClass('text_span');
+      $('#button_import').css('display','block');
+      $('.import').removeClass('import_normal').addClass('import_normal_select');
+      $('.import_txt').removeClass('text_span').addClass('text_span_select');
+      $('#import_border').addClass('selct_borders');
+      $('.invite_import_img_div').css('height','410px'); 
+      <%if !@reld.nil? && @reld !="" && !@fb_val.nil? && @fb_val !=""%>
+        $('.discountdollar').css('font-size','14px');
+        $('.discountdollar').html('"Send Invite" for each contact you want to invite!'); 
+        $('.invite_import_img_div').css('height','575px'); 
+        $('.checkout_hide').show();
+        //$('.invite_import_img_div').css('height','auto;');
+        $('.fb_list').css('display','block');
+        $('#fb_cancel').css('display','block');
+        var y_id =$("#yahoo_id").val();
+        if (y_id=="4"){
+          $('#button_import').css('display','block');
+          $('.fb_list').hide();
+          $('#fb_cancel').hide();
+        }
+        else{
+            $('#button_import').css('display','none');
+            }        
+        $('#existInivtefriend').css('display','none');
+      <%elsif !@reld.nil? && @reld !=""%>
+        $('#fb_cancel').css('display','none');
+        $('.invite_import_img_div').css('height','auto');
+         var y_id =$("#yahoo_id").val();
+        if (y_id=="4"){
+          $('#button_import').css('display','block');
+        }
+        else{
+            $('#button_import').css('display','none');
+            }
+      <%end%>
+      
+    }
+    if(x=='3'){
+      var stateObj = {
+    foo: "bar"
+  };
+  if(navigator.appName=="Microsoft Internet Explorer")
+  {
+    window.location.hash='';
+  }
+  else
+  {
+    history.replaceState(stateObj, "Find Famtivity Members", "find-famtivity-members");
+  }
+      $('.checkout_hide').hide();            
+      $('.discountdollar').css('display','none');
+      $('.button_classes').css('display','none');
+      $('.enter_detail').css('display','none');
+      $('#find_friends').css('display','block');
+      $('.single_img').removeClass('selct_borders');
+      $('#fb_cancel').css('display','none');      
+      $('.invite').removeClass('invite_normal_select').addClass('invite_normal');
+      $('.invite_txt').removeClass('text_span_select').addClass('text_span');
+      
+      $('.import').removeClass('import_normal_select').addClass('import_normal');
+      $('.import_txt').removeClass('text_span_select').addClass('text_span');
+      
+      $('.find').removeClass('find_normal').addClass('find_normal_select');
+      $('.find_txt').removeClass('text_span').addClass('text_span_select');
+      $('#find_border').addClass('selct_borders');
+      $('.invite_import_img_div').css('height','525px');
+    }
+  
+  }
+
+  $("#search-famt").click(function(){
+    search_fam();
+    return false;
+  });
+
+  //~ $('#text-name').on('keyup', function() {
+  //~ search_fam();
+  //~ return false;
+  //~ });
+  
+  function search_fam()
+  {
+    var search_key = $("#text-name").val();
+    if (search_key== "Search for famtivity Member" || search_key=='')
+    {
+      $(".ffmem").css("border","1px solid #fc8989");
+    }
+    else
+    {
+      
+      $.ajax({
+        type: "GET",
+        data: {"key_word":search_key},
+        url: "/search_famtivity_members",
+        success: function(data){
+          $("#list_no_frnds").html(data);
+        }
+      });
+    }
+    return false;
+  }
+
+
+  function chk_validation(){
+    var invite_frnd =$("#invite_frnd").val();
+    var errorFlag=false;
+  
+    $("#invite_frnd").css("border","1px solid #CDE0E6");
+    $("#email_error").parent().css("display","none");
+  
+    if(invite_frnd == ""){
+      $("#invite_frnd").css("border","1px solid #fc8989");
+      $("#email_error").html("please enter Email");
+      $("#email_error").parent().css("display","block");
+      errorFlag = true;
+
+    }
+    else if(!validateCorrectEmail(invite_frnd)){
+      $("#invite_frnd").css("border","1px solid #fc8989");
+      $("#email_error").html("Please enter valid Email");
+      $("#email_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    if(errorFlag){
+      return false;
+    }
+    else{
+      return true;
+      $("#email_value").val(invite_frnd);
+    }
+  }
+  function Trim(str)
+  {  while(str.charAt(0) == (" ") )
+    {  str = str.substring(1);
+    }
+    while(str.charAt(str.length-1) == " " )
+    {  str = str.substring(0,str.length-1);
+    }
+    return str;
+  }
+
+  function validateCorrectEmail(elementValue){
+    flag=true;
+    var emailSplitComma= elementValue.split(",");
+    //alert(emailSplitComma);
+    if(emailSplitComma.length>0)
+    {
+      for(i=0;i<emailSplitComma.length; i++)
+      {
+        if(Trim(emailSplitComma[i])!="")
+        {
+          email=Trim(emailSplitComma[i]);
+          var emailPattern = /^([a-zA-Z0-9]+([~{|}`^?=+*'#$!%._-]{0,1}[a-zA-Z0-9]+)*)@(([a-zA-Z0-9]+([._-]{0,1}[a-zA-Z0-9]+)*)+(?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,3})?)$/;
+          if(emailPattern.test(email) == false)
+          {
+            flag=false;
+          }
+        
+          else
+          {
+            $("#send_to_error").hide();
+            $("#invite_frnd").css("border","1px solid #BDD6DD");
+            $("#email_error").parent().css("display","none");
+          }
+        }
+    
+      }
+    }
+    else
+    {
+      var emailPattern = /^([a-zA-Z0-9]+([~{|}`^?=+*'#$!%._-]{0,1}[a-zA-Z0-9]+)*)@(([a-zA-Z0-9]+([._-]{0,1}[a-zA-Z0-9]+)*)+(?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,3})?)$/;
+      if(emailPattern.test(email) == false)
+      {
+        flag=false;
+      
+      }
+    
+      else
+      {
+        $("#email_error").hide();
+        $("#invite_frnd").css("border","1px solid #BDD6DD");
+        $("#email_error").parent().css("display","none");
+      }
+    }
+    if(!flag)
+    {
+      $("#email_error").show();
+      return false;
+     
+    }
+    else
+    {
+      $('.loadingmessage').show();
+  
+      //alert("test");
+      var mail=$("#invite_frnd").val();
+      // alert(mail);
+      $.get("/contact_users/multi_email", {"invite_frnd":mail}, null, "script");
+      $("#invite_success").css("display","block");
+      $(".top_social_icon").css("display","none");
+      $("#inviteAccount_1").css("display","none");
+      $("#inviteAccount_2").css("display","none");
+      $("#inviteAccount_3").css("display","none");
+      $("#inviteAccount_4").css("display","none");
+      $("#inviteAccount_5").css("display","none");
+      $('.loadingmessage').hide();
+      return false;
+    }
+  
+  }
+
+
+  function Gmail(mail,id){
+    //alert(mail)
+    $('.loadingmessage').show();
+    $.ajax({
+      type: "POST",
+      url: '/contact_users/contact_invite',
+      data:"mail="+mail+"&id="+id,
+      success: function(data){
+        //document.location="/invite_contact_success"
+        $("#invite_success").css("display","block");
+        $(".top_social_icon").css("display","none");
+        $("#inviteAccount_1").css("display","none");
+        $("#inviteAccount_2").css("display","none");
+        $("#inviteAccount_3").css("display","none");
+        $("#inviteAccount_4").css("display","none");
+        $("#inviteAccount_5").css("display","none");
+        $('.loadingmessage').hide();
+      }
+    });
+      
+  }
+
+  function Facebook(mail,id){
+    $('.loadingmessage').show();
+    //alert(mail)
+    $.ajax({
+      type: "POST",
+      url: '/contact_users/facebook_invite',
+      data:"mail="+mail+"&id="+id,
+      success: function(data){
+        //document.location="/invite_contact_success"
+        $("#invite_success").css("display","block");
+        $(".top_social_icon").css("display","none");
+        $("#inviteAccount_1").css("display","none");
+        $("#inviteAccount_2").css("display","none");
+        $("#inviteAccount_3").css("display","none");
+        $("#inviteAccount_4").css("display","none");
+        $("#inviteAccount_5").css("display","none");
+        $('.loadingmessage').hide();
+      }
+    });
+      
+  }
+
+  function Multiemail(){
+    $('.loadingmessage').show();
+    var mail=$("#invite_frnd").val();
+    $.get("/contact_users/multi_email", {"invite_frnd":mail}, null, "script");
+    $("#invite_success").css("display","block");
+    $(".top_social_icon").css("display","none");
+    $("#inviteAccount_1").css("display","none");
+    $("#inviteAccount_2").css("display","none");
+    $("#inviteAccount_3").css("display","none");
+    $("#inviteAccount_4").css("display","none");
+    $("#inviteAccount_5").css("display","none");
+    $('.loadingmessage').hide();
+  } 
+</script>
+
+

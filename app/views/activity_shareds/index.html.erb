@@ -1,0 +1,35 @@
+<h1>Listing activity_shareds</h1>
+
+<table>
+  <tr>
+    <th>Shared</th>
+    <th>Shared to</th>
+    <th>Subject</th>
+    <th>Message</th>
+    <th>Activity</th>
+    <th>User</th>
+    <th>Shared date</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @activity_shareds.each do |activity_shared| %>
+  <tr>
+    <td><%= activity_shared.shared_id %></td>
+    <td><%= activity_shared.shared_to %></td>
+    <td><%= activity_shared.subject %></td>
+    <td><%= activity_shared.message %></td>
+    <td><%= activity_shared.activity_id %></td>
+    <td><%= activity_shared.user_id %></td>
+    <td><%= activity_shared.shared_date %></td>
+    <td><%= link_to 'Show', activity_shared %></td>
+    <td><%= link_to 'Edit', edit_activity_shared_path(activity_shared) %></td>
+    <td><%= link_to 'Destroy', activity_shared, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Activity shared', new_activity_shared_path %>

@@ -1,0 +1,13 @@
+<%- headers = ["Transaction ID","Transaction Date", "Product ID", "Product Name","Customer Name", "Customer Phone","Contact information", "Participant(s) Name", "Voucher", "Sale Price($)","Discount","Discount Dollar","Amount_Charged($)", "Minus Credit Card Fees (processing fee) 3%","Famtivity Fee 2.5% or 0.99","Net Amount Payable($)"] -%>
+<%= CSV.generate_line(headers).strip %>
+<%if !@trans_group.nil? && @trans_group.length > 0 %>
+  <% @trans_group.each do |tran|%>
+      <%- row = [tran[0],tran[1],tran[2],tran[3],tran[4],tran[5],tran[6],tran[7],tran[8],tran[9],tran[10],tran[11],tran[12],tran[13],tran[14],tran[15]]-%>
+      <%= CSV.generate_line(row).html_safe.strip%>
+      <%#= CSV.generate_line row, :row_sep => ?\t, :quote_char => ?\ %>
+  <%end%>
+<%else%>
+  Sorry we found no results
+<%end%>
+
+

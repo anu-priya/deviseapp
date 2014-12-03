@@ -1,0 +1,14 @@
+<table cellpadding="0" cellpadding="0">
+            <tr>
+              <td style="padding:12px;">
+                <p>Hi Eileen,</p>
+	          <p>This is to inform you that a provider, <%if (@user && @user.user_profile && @user.user_profile.business_name)%><%=@user.user_profile.business_name %><%elsif @user && @user.present? && @user.user_name.present?%><%=@user.user_name%><%end%>, upgraded their plan from the Curator plan to the <%if !@user.nil? && !@user.manage_plan.nil? && @user.manage_plan.present?%><%if @user.manage_plan == "market_sell"%>Market &amp; Sell plan<%elsif @user.manage_plan == "market_sell_manage" %>Market Sell &amp; Manage plan<%elsif @user.manage_plan == "market_sell_manage_plus" %>Market Sell &amp; Manage Plus plan<%end%><%end%>.</p>
+                <p>The provider information is listed below:</p>
+	      <p>Username: <b><%=@user.user_name if @user.present? && @user.user_name.present?%></b></p>
+	      <p>Email: <b><%=@user.email_address if @user.present? && @user.email_address.present?%></b></p>
+              </td>
+            </tr>
+</table>
+<p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;padding-top:20px;">Your Famtivity Team</p>
+
+     

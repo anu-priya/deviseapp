@@ -1,0 +1,29 @@
+<h1>Listing monthly_budgets</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Monthly budget</th>
+    <th>Inserted at</th>
+    <th>Modified at</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @monthly_budgets.each do |monthly_budget| %>
+  <tr>
+    <td><%= monthly_budget.user_id %></td>
+    <td><%= monthly_budget.monthly_budget %></td>
+    <td><%= monthly_budget.inserted_at %></td>
+    <td><%= monthly_budget.modified_at %></td>
+    <td><%= link_to 'Show', monthly_budget %></td>
+    <td><%= link_to 'Edit', edit_monthly_budget_path(monthly_budget) %></td>
+    <td><%= link_to 'Destroy', monthly_budget, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Monthly budget', new_monthly_budget_path %>

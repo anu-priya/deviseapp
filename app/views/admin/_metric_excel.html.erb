@@ -1,0 +1,16 @@
+<div style="color: #2b91af; font-size: 14px;left:16px; cursor:pointer;"><%=image_tag("/assets/policies/dwniconnormal.png", :width=>"9", :height=>"14", :alt=>"download")%>
+<%if @users && !@users.nil? && @users.present? && @users.length > 0%>
+
+<script>
+function emetrics(){
+var type=$('#filter_type_val').val();
+var date_from = $("#strt_dte").val();
+var date_to = $("#end_dte").val();
+window.location.href= "/admin/email_metrics.xls?filter_value="+type+"&date_from="+date_from+"&date_to="+date_to
+}
+</script>
+<a href="javascript:void(0)" onclick="emetrics();" style="color: #2b91af;" title="Excel">Excel</a>
+<%else%>
+<a href="javascript:void(0)" style="color: #2b91af;" title="Excel">Excel</a>
+<%end%>
+</div>

@@ -1,0 +1,44 @@
+<table cellpadding="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+	  <table cellpadding="0" cellpadding="0">
+	  	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="50">Hi <%= @user.user_name%>,</td>
+		</tr>
+	  	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="40">Here&rsquo;s that Email we promised to send. Click the activation link below so your Famtivity account becomes official:</td>
+		</tr>
+		
+	  	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#2c8fae;" height="30"><%= link_to @url, @url %></td>
+		</tr>
+		<%if @user.user_type=="P"%>
+			<tr>
+				<td>
+					<div style="padding1: 15px 0px 15px 5px;">
+						<p style="color: #4495B0;font-size: 14px;font-family: Arial,Helvetica,sans-serif;">Take a Tour</p>
+						<div style="border: 1px solid #EFEFEF;background: #FBFBFB;margin: 7px 0px;padding: 10px 10px 10px 10px;display: inline-block;">
+							Here's a brief tutorial video to help get you started <br>
+							<div style="float: left;width: 231px; height:146px;border: 1px solid #E2E2E2;background: #FFFFFF;padding: 7px;margin-right: 10px; margin-top:8px;">
+								<a href="http://youtu.be/a4eYo_dYTEI" title="" target="_blank">
+									<%= image_tag("http://www.famtivity.com/assets/landing/lanVideo2.png")%>
+								</a>
+							</div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		<% end %>
+		<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="80">Have fun!</td>
+		</tr>
+		<tr>
+			<td><span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;">Your Famtivity Team</span></td>
+		</tr>
+		
+	  </table>
+      
+
+  </td>
+  </tr>
+</table>

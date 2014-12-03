@@ -1,0 +1,538 @@
+  <%=stylesheet_link_tag "event_index/event_index","event/event","event_index/menu","admin/admin", :media => "all"%>
+
+<style>
+  #providerEventList{
+    background:#F6F8F7;
+  }
+  #providerEventList .topContainer .leftMenus{
+    /* width:100%;*/
+  }
+  #providerEventList .topContainer span.num_Act{
+    color: #807E7E;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    position: relative;
+    top: 0px;
+    left:6px;
+    .top: 2px;
+  }
+  @media \0screen{
+    #providerEventList .topContainer span.num_Act{
+      top: 0px;
+    }
+  }
+  #providerEventList .topContainer .pipeSymbol{
+    position:static;
+    vertical-align:inherit;
+    .position:relative;
+    .top:-1px;
+    vertical-align:inherit;
+  }
+  #menu {
+    display: inline-block;
+    position: relative;
+    top: 4px;
+    .top: -3px;
+    left:10px;
+  }
+  .dateDiv{
+    display: inline-block;
+    position:relative;
+    width:100px;
+    height:29px;
+    padding:0px 5px 0px 5px;
+    border:1px solid #CDE0E6;
+    background:#F6F8F7;
+  }
+  .dateTextbox{
+    display: inline-block;
+    float:left;
+    width:70px;
+    .width:67px;
+    height:16px;
+    color:#959292;
+    font-size:13px;
+    margin-top:5px;
+    outline:none;
+    overflow: hidden;
+    border:1px solid #F6F8F7;
+    background:#F6F8F7;
+  }
+  .StrtDte{
+    float: left;
+    display: inline-block;
+    height:31px;
+  }
+  .StrtTxt{
+    float: left;
+    display: inline-block;
+    font-size: 13px;
+    color: #959292;
+    margin-top: 7px;
+  }
+  .ToTxt{
+    font-size: 15px;
+    color: #626262;
+    display:inline-block;
+    padding:0 5px 0 5px;
+  }
+  .CalenderDiv{
+    width: 298px;
+    float: left;
+    display:inline-block;
+    .margin-top:6px;
+  }
+  @media \0screen{
+    .CalenderDiv{
+      margin-top:3px;
+    }
+    #field{
+      float:none;
+    }
+  }
+
+  .setColor{
+    color:#4c92b4;
+  }
+  #filter_admin_category{
+    .margin-top:8px;
+  }
+  #filter_by_provider{
+    .margin-top:8px;
+  }
+  #providerEventList .topContainer .event_search{
+    width:190px;
+  }
+  #providerEventList .topContainer .searchDiv{
+    width:280px;
+  }
+  #providerEventList .topContainer .checkboxImg{
+    top:5px;
+    .top:7px;
+  }
+  .dispProviderCatDiv{
+    width: 700px;    
+  }
+  .eventmoreContainer .centerContainer{
+    width: 700px;
+  }
+  .eventmoreContainer .innerContainer{
+    width: 700px;
+  }
+  #acc #nested .accDiv{
+    width: 688px;
+  }
+  #acc #nested .accDiv h3{
+    width: 680px;
+  }
+  #acc #nested .acc-content{
+    width: 661px;
+  }
+  #acc #nested .acc-content .inner_acc-content{
+    width:203px;
+  }
+  #providerEventList .topContainer .menuText{
+    font-weight:bold;
+  }
+  #acc #nested .acc-content{
+    height: 96px;
+  }
+  #acc #nested .acc-content .inner_acc-content{
+    height:26px;
+    margin:0;
+  }
+  #event_index_container .Setlt{
+    height:auto;
+    margin:0;
+  }
+  #event_index_container .grayColorText{
+    color: #807E7E;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight:normal;
+  }
+  #event_index_container .setSportsText{
+    cursor:pointer;
+    width:auto;
+    margin: 15px 0;
+  }
+  #event_index_container .setSportsText:hover{
+    cursor:pointer;
+    width:auto;
+    margin: 15px 0;
+  }
+  #event_index_container .errorDiv{
+    margin:5px 0 0 10px;
+    color:#fc8989;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+  }
+  #event_index_container .provider_menu{
+    float:left;    
+    height:240px;
+    overflow-y:auto;
+    margin: -27px 0 0 140px;	
+    font-size:13px;
+    background:#F6F8F7;
+    color:#959292;
+    border:1px solid #C2DDE4; 
+    padding: 10px 10px 0 0;
+  }
+  #event_index_container .provider_menu a{	
+    color:#959292;
+    display:block;
+    white-space: nowrap;
+    text-decoration:none;
+    padding:5px 10px 5px 8px;
+  }
+  #event_index_container .provider_menu a:hover{
+    display:block;
+    white-space: nowrap;
+    text-decoration:none;
+    padding:5px 10px 5px 8px;	
+    color:#F97C0E;
+  }
+  @media \0screen{
+    #menu {
+      top: 4px;
+    }
+  }
+  #event_index_container .status_menu{
+    float:left;    
+    height:240px;
+    overflow-y:auto;
+    margin: -27px 0 0 140px;	
+    font-size:13px;
+    background:#F6F8F7;
+    color:#959292;
+    border:1px solid #C2DDE4; 
+    padding: 10px 10px 0 0;
+  }
+  #event_index_container .status_menu a{	
+    color:#959292;
+    display:block;
+    white-space: nowrap;
+    text-decoration:none;
+    padding:5px 10px 5px 8px;
+  }
+  #event_index_container .status_menu a:hover{
+    display:block;
+    white-space: nowrap;
+    text-decoration:none;
+    padding:5px 10px 5px 8px;	
+    color:#F97C0E;
+  }
+#providerEventList .topContainer{
+    width:100%;
+    height:40px;
+    background:#F6F8F7;
+	padding-top:10px;
+	.margin-top:0px;
+}
+
+#menu li:hover ul.sub-menu {
+	display: block;
+	z-index: 2147483647;
+	position: absolute;
+	left: 0;
+	 width: auto;
+}
+#event_index_container .GoButton{
+	left: 7px;
+	 top: 2px;
+}
+.actionDiv{
+  margin: 0px !important;
+}
+#menu ul.sub-menu{
+  margin: 0 !important;
+}
+.pipeSymbol ul li a.actDiv{
+  margin: 0 !important;
+}
+.trans_link
+{
+ color:#4AA3B6;
+ font-size:14px;
+ font-weight:bold;
+}
+.trans_link a
+{
+ color:#4AA3B6;
+ text-decoration:none;
+}
+.hoveredmenu
+{
+    width:94px;
+    height:22px;
+    padding: 0px 5px 3px 5px;
+    border:1px solid #A9D3E1;
+    border-bottom:none;
+    background:#E6F5F8;
+    font-weight:bold;
+    margin:0px 0 0 -9px;
+}
+
+.transDivMenu1 ul{
+text-align: left;
+  display: inline;
+  margin: 0;
+  padding: 15px 4px 17px 0;
+  list-style: none;
+}
+.transDivMenu1  ul li{
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+.transDivMenu1 ul li:hover {
+  background: #F6F8F7;
+  border:1px solid #A9D3E1;
+}
+.transDivMenu1 ul li ul li:hover {
+  background: #F6F8F7;
+  color: #fff;
+  border:none;
+}
+.transDivMenu1 ul li ul {
+  padding: 0;
+  position: absolute;
+  top: 28px;
+ /* left: 8;*/
+  width: 150px;
+  display:none;
+   visibility: hidden;
+   border:1px solid #A9D3E1;
+  }
+  .transDivMenu1 ul li ul li { 
+  background: #F6F8F7; 
+   display: block; 
+  color: #fff;
+  }
+  
+ .transDivMenu1  ul li ul li:hover { color:#f97c0e; }
+.transDivMenu1 ul li:hover ul {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+</style>
+
+<style>
+  #ui-id-1 {
+    width:200px;
+    overflow: hidden;
+  }
+</style>
+<%=javascript_include_tag "global/jquery.ui.core","global/jquery.ui.datepicker"%>
+<%=stylesheet_link_tag "global/jquery.ui.datepicker","global/jquery.ui.theme", :media => "all"%>
+<script type="text/javascript">
+  $(document).ready(function(){ 
+ var curTime = new Date();
+  var cdate = curTime.getDate();
+  var cmonth = curTime.getMonth();
+  var cyear = curTime.getFullYear();
+  cmonth = parseInt(cmonth) + 1;
+  var weekday = new Array(7);
+  weekday[0] = "Sun";
+  weekday[1] = "Mon";
+  weekday[2] = "Tue";
+  weekday[3] = "Wed";
+  weekday[4] = "Thu";
+  weekday[5] = "Fri";
+  weekday[6] = "Sat";
+  var cday = curTime.getDay();
+  var incval = parseInt(cday) + 1;
+  var cday = weekday[cday];
+
+  //var cuday = cday + " " + cmonth + "/" + cdate + "/" + cyear;
+  var date_value = cmonth + "/" + cdate + "/" + cyear;
+  var  cuday = cyear + "-" + cmonth + "-" + cdate ;
+
+  $('#act_from1').val(date_value);
+  $('#act_from_alt1').val(cuday);
+  $('#act_to1').val(date_value);
+  $('#act_to_alt1').val(cuday);
+});
+
+$(function() {
+	$( "#act_from1" ).datepicker({
+		  showOn : "button",
+		  buttonImage : "/assets/create_new_activity/date_icon.png",
+		  buttonImageOnly : true,
+		  dateFormat : "m/d/yy",
+		  altField : "#act_from_alt1",
+		  altFormat : "yy-m-d",
+		  onClose: function( selectedDate ) {
+			$( "#act_to1" ).datepicker( "option", "minDate", selectedDate );
+		}
+	});
+	$( "#act_to1" ).datepicker({
+		  showOn : "button",
+		  buttonImage : "/assets/create_new_activity/date_icon.png",
+		  buttonImageOnly : true,
+		  dateFormat : "m/d/yy",
+		  altField : "#act_to_alt1",
+		  altFormat : "yy-m-d",
+		  onClose: function( selectedDate ) {
+			$( "#act_from1" ).datepicker( "option", "maxDate", selectedDate );
+		}
+	});
+});
+
+function filter_by_user_reports(){
+    var date_from = $("#act_from_alt1").val();
+    var date_to = $("#act_to_alt1").val();
+    if (Date.parse(date_from) > Date.parse(date_to) || date_from == "" || date_to =="" ) {
+      $(".topContainer").css('height','70px');
+      $("#dateError").show();
+      $("#dateError").html("Invalid date range.");
+      return false;
+    }
+    else{
+$(".topContainer").css('height','40px');
+      $("#dateError").hide();
+      $("#dateError").html("");
+      //$("#provider_partial_event_list").html("");
+      $("#famtivity_list").html("");
+       //~ $(".loading_page_1").show();  
+       user_type_val = $('#user_type_val').val();
+      $.get("/admin/user_reports",{
+        "user_type":user_type_val,
+        "date_from":date_from,
+        "date_to":date_to
+      }, null, "script");
+    }
+  }
+  //scrolling pagination instead of pagination by rajkumar
+	
+	//famtivity user reports
+	function admin_user_reports(ad_val){
+		if(ad_val == "All"){
+			$("#setActivity").html(ad_val);
+			$("#filter_admin_date").css('display','none');
+			utype = 'all'
+			admin_user_lists(utype);
+		}
+		if(ad_val == "Admin"){
+			$("#setActivity").html(ad_val);
+			$("#filter_admin_date").css('display','none');
+			utype = 'a'
+			admin_user_lists(utype);
+		}
+		if(ad_val == "Providers"){
+			$("#setActivity").html(ad_val);
+			$("#filter_admin_date").css('display','inline-block');
+			utype = 'p'
+			admin_user_lists(utype);
+		}
+		if(ad_val == "Parents"){
+			$("#setActivity").html(ad_val);
+			$("#filter_admin_date").css('display','inline-block');
+			utype = 'u'
+			admin_user_lists(utype);
+		}
+	}
+	
+	//ajax calling while clicking the admin and other users
+	//onclick function for report filter
+	function admin_user_lists(utype){
+	    //$(".loading_page_1").show();   
+	    $('#user_type_val').val(utype);
+	    $.get("/admin/user_reports",{
+		"user_type":utype
+	    }, null, "script");
+	}
+</script>
+
+<body id="CategoriesBarPage">
+  <div id="event_index_container"><input type="hidden" id="view_det" value="view">
+      <div id="providerEventList" style="margin-top:45px;">
+	<input type="hidden" id="user_type_val" name="user_type_val" value=""/>
+	<!--filter div started here-->
+        <div class="topContainer1 sponsorship" style="height:55px;">
+        <table width="100%" cellspacing="0" border="0" cellpadding="0">
+		<tbody>
+		   <tr>
+			<!--report filter start march 13 rajkumar-->
+			<td height="40" align="left" width="120">
+				<div class="transDivMenu1" id="menu1" style="left:16px;top:0px;">
+					  <ul>
+					    <li><a id="activity_stat1" style="margin-left:0px;width:95px;display:block;.top:-2px;height:20px;margin-top:0px;" class="transDiv" href="#" ><span class="menuText"><b id="setActivity" style="color:#959292">Sort By</b></span><span class="actImg"><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4", :id=>"arrow1", :style=>"position: relative; top: -1px;")%></span></a>
+					       <ul style="width:142px;height:110px;margin-left:-1px;margin-top:-2px;z-index:100000;" class="sub-menu dispProvidertransDiv">
+						<li><a href="javascript:void(0)" title="" id="select" onClick="admin_user_reports('All'); _gaq.push(['_trackEvent','Admin Module', 'clickAdminSettings','All']);" >All</a></li>
+						<li><a href="javascript:void(0)" title="" id="select" onClick="admin_user_reports('Admin'); _gaq.push(['_trackEvent','Admin Module', 'clickAdminSettings','Admin']);" >Admin</a></li>
+						<li><a href="javascript:void(0)" title="" id="select" onClick="admin_user_reports('Providers'); _gaq.push(['_trackEvent','Admin Module', 'clickAdminSettings','Providers']);" >Providers</a></li>
+						<li><a href="javascript:void(0)" title="" id="select" onClick="admin_user_reports('Parents'); _gaq.push(['_trackEvent','Admin Module', 'clickAdminSettings','Parents']);" >Parents</a></li>
+					      </ul>
+					    </li>
+					  </ul>
+					  <div class="clear"></div>
+				</div>
+			</td>
+			<!--report filter start march 13 rajkumar-->
+			
+			<!--date fileter started here-->
+			<td height="40" align="left">
+			   <div class="clear"></div>
+			      <div class="pipeSymbol num_Act" id="filter_admin_date" style="display:none;width:380px;top:-3px; position:relative;">
+				<div class="CalenderDiv">
+				  <div class="StrtTxt ToTxt menuText">From</div>
+				  <div class="StrtDte">
+				    <div class="dateDiv">
+				      <input type="text"  id="act_from1" name="act_from1" class="dateTextbox" value="" readonly="readonly" style="margin-right:1px;" tabindex="61"/>
+				      <input type="hidden" id="act_from_alt1" name="act_from_alt1" value=""/>
+				    </div>
+				    <div class="clear"></div>
+				  </div>
+				  <div>
+				    <div class="StrtTxt ToTxt menuText">To</div>
+				    <div class="StrtDte">
+				      <div class="dateDiv">
+					<input type="text"  id="act_to1" name="act_to1" class="dateTextbox" value="" readonly="readonly" style="margin-right:1px;" tabindex="62"/>
+					<input type="hidden" id="act_to_alt1" name="act_to_alt1" value=""/>
+				      </div>
+				    </div>
+				    <div id="dateError" style="color:#FC8989;font-size: 12px;"></div>
+				    <div class="clear"></div>
+				  </div>
+				</div>
+
+				<div class="GoButton" style=".top:10px;"><a href="javascript:void(0)" title="" onClick="filter_by_user_reports()"><%=image_tag("/assets/event_index/go_button.png", :width=>"33", :height=>"26")%></a></div>
+				<div class="clear"></div>
+			      </div>
+			      <div class="clear"></div>
+			</td>
+			<!--date fileter ending here-->
+		   </tr>
+		</tbody>
+	</table>
+      </div>
+      <!--filter div ending here-->
+     <div class="clear"></div>
+	<!--div table started here-->
+		<div class="centerContainer" id="provider_partial_event_list" style=" width:100%"  >
+
+            <div id="famtivity_list" style="width:31%;float: left;height: 697px;overflow: auto;margin-bottom: 20px;">
+		          <%= render :partial=>"admin/user_reports" %>
+            </div>
+
+            <div id="famtivity_user_list" style="width:69%;float: left;height: 697px;overflow: auto;margin-bottom: 20px;">
+            <%= render :partial=>"admin/user_list" %>
+            </div>
+            <div id="load_more" style="height:50px; top: 50%; margin-bottom:50px;width: 100%;position: fixed;z-index:9999;display: none;opacity: 0.6;margin-left: 14%;" align="center">
+                <div><%=image_tag("/assets/loading.gif", :width=>"25", :height=>"25")%></div>
+            </div>
+
+		</div>
+		<div class='loading_page_1' style="text-align: center; display:none">
+		<span class="load-new1"><%=image_tag("/assets/loading_small.gif", :width=>"16", :height=>"16")%></span>
+		</div>
+	<!--div table ending here-->
+      </div>
+  </div>
+  
+  <div class="clear"></div>
+</body>

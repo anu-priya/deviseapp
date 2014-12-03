@@ -1,0 +1,95 @@
+<%=stylesheet_link_tag "global/pop_up_success", :media => "all"%>
+<script language="javascript">
+  function closepopup(){
+    parent.activityDeletePage.hide();
+  }
+  
+  //delete the activity id while clicking the cross image button
+  function delete_activity(){
+    var delete_id = $('#to_delete').val();
+    var action_name = $('#last_action').val();
+    var page_no = $('#page').val(); 
+    $.post("destroy", {"id":delete_id,"last_action":action_name,"page":page_no}, null, "script");
+
+  }
+
+  function status_change(){
+    var act_id = $('#to_delete').val();
+    var page =$('#page').val();
+    $.get("/admin/status_update",{
+      "activity_id":act_id,
+      "page":page
+    }, null, "script");
+  }
+  function featured_activity(){
+    var featured_id = $('#to_delete').val();
+    $.post("mark_featured", {"id":featured_id}, null, "script");
+  }
+</script> 
+<div id="delete_actvity">
+  <div class="popupContainer">
+    <div class="headTab" style="border:none;">
+      <div class="heading">
+        <!--div class="headCont">Share Activity</div-->
+      </div>
+      <!--      <div class="lt closeButton">
+              <a href="javascript:void(0)" onClick="closepopup()" title="" class="lt">
+                <img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" />
+              </a>
+            </div>
+      -->      <div class="clear"></div>
+    </div>
+    <div align="center">
+      <!--to get the current activity id for delete the record from the db-->
+      <input type="hidden" id="to_delete" value="<%= @to_delete %>"/>
+      <input type="hidden" id="page" value="<%= @page %>"/>
+            <input type="hidden" id="last_action" value="<%=params[:action] if !params[:action].nil?%>"/>
+      <%if @prop == "to_delete" && @to_delete != ""%>
+        <p class="successText">Do you want to delete the Activity?</p>
+        <div class="clear"></div>
+        <div style="margin-top:20px;">
+          <a href="javascript:void(0)" onClick="delete_activity()"><%=image_tag("/assets/contact/ok_button_delete.png", :width=>"112", :height=>"41")%></a>
+          <a href="#" onClick="closepopup()"><%=image_tag("/assets/contact/cancel_button_new.png", :width=>"113", :height=>"41")%></a>
+        </div>
+      <%elsif @prop == "to_delete" && @to_delete == ""%>
+        <p class="successText">Please select Atleast one activity to delete</p>
+        <div class="clear"></div>
+        <div style="margin-top:20px;">
+          <a href="javascript:void(0)" onClick="parent.activityDeletePage.hide();"><%=image_tag("/assets/contact/ok_button_delete.png", :width=>"112", :height=>"41")%></a>
+        </div>
+      <%elsif @prop == "featured" && @to_delete != ""%>
+		<%@a_f=@to_delete.split(",")%>
+		<%if @a_f.length==1%>
+		<p class="successText">Choosen Activity will be marked as featured</p>
+		<%elsif @a_f.length>1%>
+		<p class="successText">Choosen Activities will be marked as featured</p>
+		<%end%>
+        <div class="clear"></div>
+        <div style="margin-top:20px;">
+          <a href="javascript:void(0)" onClick="featured_activity()"><%=image_tag("/assets/contact/ok_button_delete.png", :width=>"112", :height=>"41")%></a>
+          <a href="#" onClick="closepopup()"><%=image_tag("/assets/contact/cancel_button_new.png", :width=>"113", :height=>"41")%></a>
+        </div>
+      <%elsif @prop == "featured" && @to_delete == ""%>
+        <p class="successText">Please select Atleast one activity to mark as featured?</p>
+        <div class="clear"></div>
+        <div style="margin-top:20px;">
+          <a href="javascript:void(0)" onClick="parent.activityDeletePage.hide();"><%=image_tag("/assets/contact/ok_button_delete.png", :width=>"112", :height=>"41")%></a>
+        </div>
+      <%elsif @prop == "status" && @to_delete != ""%>
+        <p class="successText">Choosen Activities will be marked as Active/Inactive</p>
+        <div class="clear"></div>
+        <div style="margin-top:20px;">
+          <a href="javascript:void(0)" onClick="status_change()"><%=image_tag("/assets/contact/ok_button_delete.png", :width=>"112", :height=>"41")%></a>
+          <a href="#" onClick="closepopup()"><%=image_tag("/assets/contact/cancel_button_new.png", :width=>"113", :height=>"41")%></a>
+        </div>
+      <%elsif @prop == "status" && @to_delete == ""%>
+        <p class="successText">Please select Atleast one activity to mark as Active/Inactive?</p>
+        <div class="clear"></div>
+        <div style="margin-top:20px;">
+          <a href="javascript:void(0)" onClick="parent.activityDeletePage.hide();"><%=image_tag("/assets/contact/ok_button_delete.png", :width=>"112", :height=>"41")%></a>
+        </div>
+
+      <%end%>
+    </div>
+  </div>
+</div>

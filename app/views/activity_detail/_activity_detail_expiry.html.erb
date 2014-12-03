@@ -1,0 +1,542 @@
+	<!--displayed date format for schedule repeat with occurrence,ends_never,ends_on by Rajkumar june 29-2013-->
+<%checkParticipants = check_participants_toAttend(@activity)%>
+	
+	<%@use_act = User.find_by_user_id(@activity.user_id) if !@activity.nil? && @activity.user_id!=''%>
+<% if current_user.present? && !current_user.user_id.nil? %>
+	<%@se_date = Time.now.strftime("%Y-%m-%d") %>
+		
+		<!--contact provider get information-->
+		<%if !@a_share.nil? && !@a_share.price_type.nil? && @a_share.price_type == "4"%>
+			<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+			<!--<a href="#" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.pop_provider_info('/provider_information?activity_id=<%#=@a_share.activity_id%>&before_login_value=<%#= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Get Info',<%#=@a_share.activity_id%>])"><%#if !current_user.nil? && current_user.present?%><span class="b-close"><%#end%><img src="/assets/detailed_view/get_info.png"></span></a>-->
+			<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><%if !current_user.nil? && current_user.present?%><span class="b-close"><%end%><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+			</div>
+		<!--By appointment  attend flow-->
+		<%elsif !@a_share.nil? && !@a_share.schedule_mode.nil? && @a_share.schedule_mode == "By Appointment"%>
+				<!--by appoint start-->
+				<%if !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase == "sell"%>
+						<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+						<%if checkParticipants%>
+						<a href="#" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.pop_add_participant('/activities/add_participant?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Attend Activity',<%=@a_share.activity_id%>])"><span class="b-close"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+						<%else%>
+						<div class="soldTxt"><%=image_tag("/assets/activity_detail_view/Sold_BTN.png", :width=>"98", :height=>"35")%></div>
+						<%end%>
+						<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>])"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+						</div>
+				<%elsif !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase != "sell" && !@a_share.nil? && !@a_share.created_by.nil? && @a_share.created_by.downcase == "provider" %>	
+						<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+						<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+						</div>
+				<%else%>
+						<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+						<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+						</div>
+				<%end%>
+				<!--by appoint end-->
+			<!--any time activity-->
+		<%elsif !@a_share.nil? && !@a_share.schedule_mode.nil? && @a_share.schedule_mode == "Any Time"%>
+				<!--sell provider condition checked started-->
+				<%if !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase == "sell"%>
+						<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+						<%if checkParticipants%>
+						<a href="#" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.pop_add_participant('/activities/add_participant?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Attend Activity',<%=@a_share.activity_id%>])"><span class="b-close"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+						<%else%>
+						<div class="soldTxt"><%=image_tag("/assets/activity_detail_view/Sold_BTN.png", :width=>"98", :height=>"35")%></div>
+						<%end%>
+						<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>])"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+						</div>
+				<%elsif !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase != "sell" && !@a_share.nil? && !@a_share.created_by.nil? && @a_share.created_by.downcase == "provider" %>	
+						<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+						<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+						</div>
+				<%else%>
+						<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+						<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+						</div>
+				<%end%>
+				<!--sell provider condition checked started end-->
+		<%elsif (!@share.start_date.nil? && !@share.end_date.nil?) || !@share.start_date.nil?%> 
+		          <%@schedule= ""%>
+			<%@schedule=!@share.nil? && @share.present? && @share %>
+			<%@repeat= ""%>
+			<%@repeat=@schedule.activity_repeat.last if !@schedule.activity_repeat.last.nil? %>
+			<%@repeat_date=""%>
+			<%@repeat_date = @repeat.ends_on.strftime("%Y-%m-%d") if @repeat.present? && @repeat.ends_on.present? %>
+			<%@schedule_date = ""%>
+			<%@schedule_date = !@schedule.nil? && !@schedule.start_date.nil? && @schedule.start_date.strftime("%Y-%m-%d")%>
+			<% if (@share.start_date.strftime("%Y-%m-%d") < @se_date) && (!@share.end_date.nil? && @share.end_date.present? && @share.end_date.strftime("%Y-%m-%d") < @se_date)  %> 
+				<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+				  <a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><%if !current_user.nil? && current_user.present?%><span class="b-close"><%end%><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+				</div>
+			<%elsif !@schedule_date.nil? && !@repeat.nil? && @repeat.present?%>
+				<%if @schedule_date.present? && (!@repeat_date.nil? && @repeat_date.present? && @repeat_date < @se_date) %>
+				<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+				  <a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><%if !current_user.nil? && current_user.present?%><span class="b-close"><%end%><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+				</div>
+				<%elsif (@schedule_date < @se_date) && (!@repeat_date.nil? && @repeat_date.present? && @repeat_date < @se_date) %>
+				<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+				  <a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><%if !current_user.nil? && current_user.present?%><span class="b-close"><%end%><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+				</div>
+				<%elsif(@schedule_date < @se_date) && !@repeat.nil? && !@repeat.end_occurences.nil? && @repeat.end_occurences.present? %>
+					
+						<%if !@repeat.repeats.nil? && @repeat.repeats=="Daily"%>
+							 <%if !@repeat.end_occurences.nil? && @repeat.end_occurences.present?%>
+							<%@occ_daily=""%>
+							<%daily_e_date=""%>
+							<%daily_e_date = @schedule.start_date + (@repeat.repeat_every.to_i * @repeat.end_occurences.to_i).days%>
+							  <%@occ_daily = daily_e_date.strftime("%Y-%m-%d") if @repeat.present? && daily_e_date.present? %>
+									  <% if(@schedule_date < @se_date) && !@occ_daily.nil? && @occ_daily < @se_date%>
+									<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+									  <a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><%if !current_user.nil? && current_user.present?%><span class="b-close"><%end%><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+									</div>
+									  <%else%>
+										<!--sell provider condition checked started-->
+										<%if !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase == "sell"%>
+												<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+												<%if checkParticipants%>
+												<a href="#" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.pop_add_participant('/activities/add_participant?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Attend Activity',<%=@a_share.activity_id%>])"><span class="b-close"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+												<%else%>
+												<div class="soldTxt"><%=image_tag("/assets/activity_detail_view/Sold_BTN.png", :width=>"98", :height=>"35")%></div>
+												<%end%>
+												<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>])"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+												</div>
+										<%elsif !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase != "sell" && !@a_share.nil? && !@a_share.created_by.nil? && @a_share.created_by.downcase == "provider" %>	
+												<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+												<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+												</div>
+										<%else%>
+												<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+												<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+												</div>
+										<%end%>
+										<!--sell provider condition checked started end-->
+									  <%end%>
+							  <%end%>
+						  <%end%>
+						  
+						  <%if !@repeat.repeats.nil? && @repeat.repeats=="Weekly"%>
+							 <%if !@repeat.end_occurences.nil? && @repeat.end_occurences.present?%>
+							<%@occ_weekly=""%>
+							<%daily_e_date=""%>
+							   <%daily_e_date = @schedule.start_date + (@repeat.repeat_every.to_i * @repeat.end_occurences.to_i * 7).days%>
+							   <%@occ_weekly = daily_e_date.strftime("%Y-%m-%d") if @repeat.present? && daily_e_date.present? %>
+									<% if(@schedule_date < @se_date) && !@occ_weekly.nil? && @occ_weekly < @se_date%>
+									  <div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+									  <a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><%if !current_user.nil? && current_user.present?%><span class="b-close"><%end%><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+									</div>
+									  <%else%>
+										<!--sell provider condition checked started-->
+										<%if !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase == "sell"%>
+												<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+												<%if checkParticipants%>
+												<a href="#" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.pop_add_participant('/activities/add_participant?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Attend Activity',<%=@a_share.activity_id%>])"><span class="b-close"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+												<%else%>
+												<div class="soldTxt"><%=image_tag("/assets/activity_detail_view/Sold_BTN.png", :width=>"98", :height=>"35")%></div>
+												<%end%>
+												<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>])"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+												</div>
+										<%elsif !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase != "sell" && !@a_share.nil? && !@a_share.created_by.nil? && @a_share.created_by.downcase == "provider" %>	
+												<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+												<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+												</div>
+										<%else%>
+												<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+												<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+												</div>
+										<%end%>
+										<!--sell provider condition checked started end-->
+									  <%end%>
+							  <%end%>
+						  <%end%>
+						  
+						  <%if !@repeat.repeats.nil? && @repeat.repeats=="Monthly"%>
+							 <%if !@repeat.end_occurences.nil? && @repeat.end_occurences.present?%>
+							<%@occ_monthly=""%>
+							<%daily_e_date=""%>
+							<%daily_e_date = @schedule.start_date + (@repeat.repeat_every.to_i * @repeat.end_occurences.to_i).months%>
+							<%@occ_monthly = daily_e_date.strftime("%Y-%m-%d") if @repeat.present? && daily_e_date.present? %>
+									<% if(@schedule_date < @se_date) && !@occ_monthly.nil? && @occ_monthly < @se_date%>
+									  <div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+									  <a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><%if !current_user.nil? && current_user.present?%><span class="b-close"><%end%><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+									</div>
+									  <%else%>
+										 <!--sell provider condition checked started-->
+										<%if !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase == "sell"%>
+												<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+												<%if checkParticipants%>
+												<a href="#" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.pop_add_participant('/activities/add_participant?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Attend Activity',<%=@a_share.activity_id%>])"><span class="b-close"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+												<%else%>
+												<div class="soldTxt"><%=image_tag("/assets/activity_detail_view/Sold_BTN.png", :width=>"98", :height=>"35")%></div>
+												<%end%>
+												<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>])"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+												</div>
+										<%elsif !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase != "sell" && !@a_share.nil? && !@a_share.created_by.nil? && @a_share.created_by.downcase == "provider" %>	
+												<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+												<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+												</div>
+										<%else%>
+												<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+												<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+												</div>
+										<%end%>
+										<!--sell provider condition checked started end-->
+									  <%end%>
+							  <%end%>
+						  <%end%>
+						  
+						  <%if !@repeat.repeats.nil? && @repeat.repeats=="Yearly"%>
+							 <%if !@repeat.end_occurences.nil? && @repeat.end_occurences.present?%>
+							<%@occ_yearly=""%>
+							<%daily_e_date=""%>
+							<%daily_e_date = @schedule.start_date + (@repeat.repeat_every.to_i * @repeat.end_occurences.to_i).years%>
+							  <%@occ_yearly = daily_e_date.strftime("%Y-%m-%d") if @repeat.present? && daily_e_date.present? %>
+									<% if(@schedule_date < @se_date) && !@occ_yearly.nil? && @occ_yearly < @se_date%>
+									  <div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+									  <a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><%if !current_user.nil? && current_user.present?%><span class="b-close"><%end%><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+									</div>
+									  <%else%>
+										<!--sell provider condition checked started-->
+										<%if !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase == "sell"%>
+												<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+												<%if checkParticipants%>
+												<a href="#" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.pop_add_participant('/activities/add_participant?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Attend Activity',<%=@a_share.activity_id%>])"><span class="b-close"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+												<%else%>
+												<div class="soldTxt"><%=image_tag("/assets/activity_detail_view/Sold_BTN.png", :width=>"98", :height=>"35")%></div>
+												<%end%>
+												<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>])"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+												</div>
+										<%elsif !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase != "sell" && !@a_share.nil? && !@a_share.created_by.nil? && @a_share.created_by.downcase == "provider" %>	
+												<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+												<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+												</div>
+										<%else%>
+												<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+												<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+												</div>
+										<%end%>
+										<!--sell provider condition checked started end-->
+									  <%end%>
+							  <%end%>
+						  <%end%>
+				<%else%>
+					<!--sell cond start-->
+					<%if !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase == "sell"%>
+						<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+						<%if checkParticipants%>
+						<a href="#" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.pop_add_participant('/activities/add_participant?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Attend Activity',<%=@a_share.activity_id%>])"><span class="b-close"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+						<%else%>
+						<div class="soldTxt"><%=image_tag("/assets/activity_detail_view/Sold_BTN.png", :width=>"98", :height=>"35")%></div>
+						<%end%>
+						<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>])"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+						</div>
+					<%elsif !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase != "sell" && !@a_share.nil? && !@a_share.created_by.nil? && @a_share.created_by.downcase == "provider" %>	
+						<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+						<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+						</div>
+					<%else%>
+						<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+						<a href="javascript:void(0)" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.pop_add_participant('/activities/add_participant?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Attend Activity',<%=@a_share.activity_id%>])"><span class="b-close disInblo"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+						<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>])"><span class="b-close disInblo"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+						</div>
+					<%end%>
+					<!--sell cond end-->
+				<%end%>
+			<%elsif @schedule_date < @se_date%>
+			  <div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+			<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><%if !current_user.nil? && current_user.present?%><span class="b-close"><%end%><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+			</div>
+			<%else%>
+				<!--sell cond start-->
+					<%if !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase == "sell"%>
+						<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+						<%if checkParticipants%>
+						<a href="#" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.pop_add_participant('/activities/add_participant?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Attend Activity',<%=@a_share.activity_id%>])"><span class="b-close"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+						<%else%>
+						<div class="soldTxt"><%=image_tag("/assets/activity_detail_view/Sold_BTN.png", :width=>"98", :height=>"35")%></div>
+						<%end%>
+						<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>])"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+						</div>
+					<%elsif !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase != "sell" && !@a_share.nil? && !@a_share.created_by.nil? && @a_share.created_by.downcase == "provider" %>	
+						<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+						<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>]);"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+						</div>
+					<%else%>
+						<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+						<a href="javascript:void(0)" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.pop_add_participant('/activities/add_participant?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Attend Activity',<%=@a_share.activity_id%>])"><span class="b-close disInblo"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+						<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.pop_favorite_activity('/save_favorites?activity_id=<%=@a_share.activity_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@a_share.activity_id%>])"><span class="b-close disInblo"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+						</div>
+					<%end%>
+				<!--sell cond end-->
+			<%end%>
+		<%end%>
+<%else%><!--non user-->
+		<%@se_date = Time.now.strftime("%Y-%m-%d") %>
+		
+		<!--contact provider get information-->
+		<%if !@a_share.nil? && !@a_share.price_type.nil? && @a_share.price_type == "4"%>
+			<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+                          <a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+                        </div>
+		<!--By appointment  attend flow-->
+		<%elsif !@a_share.nil? && !@a_share.schedule_mode.nil? && @a_share.schedule_mode == "By Appointment"%>
+				<!--by appoint start-->
+				<%if !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase == "sell"%>
+					<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+					<%if checkParticipants%>
+					<a href="javascript:void(0)" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>','<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+					<%else%>
+					<div class="soldTxt"><%=image_tag("/assets/activity_detail_view/Sold_BTN.png", :width=>"98", :height=>"35")%></div>
+					<%end%>
+					<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+					</div>
+				<%elsif !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase != "sell" && !@a_share.nil? && !@a_share.created_by.nil? && @a_share.created_by.downcase == "provider" %>	
+					<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+					<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+					</div>
+				<%else%>
+					<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+					<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+					</div>
+				<%end%>
+				<!--by appoint end-->
+			<!--any time activity-->
+		<%elsif !@a_share.nil? && !@a_share.schedule_mode.nil? && @a_share.schedule_mode == "Any Time"%>
+				<!--by appoint start-->
+				<%if !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase == "sell"%>
+					<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+					<%if checkParticipants%>
+					<a href="javascript:void(0)" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>','<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+					<%else%>
+					<div class="soldTxt"><%=image_tag("/assets/activity_detail_view/Sold_BTN.png", :width=>"98", :height=>"35")%></div>
+					<%end%>
+					<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+					</div>
+				<%elsif !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase != "sell" && !@a_share.nil? && !@a_share.created_by.nil? && @a_share.created_by.downcase == "provider" %>	
+					<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+					<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+					</div>
+				<%else%>
+					<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+					<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+					</div>
+				<%end%>
+				<!--by appoint end-->
+		<%elsif (!@share.nil? && !@share.start_date.nil? && !@share.end_date.nil?) || !@share.nil? && !@share.start_date.nil?%> 
+		          <%@schedule=""%>
+			<%@schedule=!@share.nil? && @share.present? && @share %>
+			<%@repeat=""%>
+			<%@repeat=@schedule.activity_repeat.last if !@schedule.activity_repeat.last.nil? %>
+			<%@repeat_date=""%>
+			<%@repeat_date = @repeat.ends_on.strftime("%Y-%m-%d") if @repeat.present? && @repeat.ends_on.present? %>
+			<%@schedule_date=""%>
+			<%@schedule_date = !@schedule.nil? && !@schedule.start_date.nil? && @schedule.start_date.strftime("%Y-%m-%d")%>
+			<% if (@share.start_date.strftime("%Y-%m-%d") < @se_date) && (!@share.end_date.nil? && @share.end_date.present? && @share.end_date.strftime("%Y-%m-%d") < @se_date)  %> 
+				<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+				<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+				</div>
+			<%elsif !@schedule_date.nil? && !@repeat.nil? && @repeat.present?%>
+				<%if @schedule_date.present? && (!@repeat_date.nil? && @repeat_date.present? && @repeat_date < @se_date) %>
+				<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+				<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+				</div>
+				<%elsif (@schedule_date < @se_date) && (!@repeat_date.nil? && @repeat_date.present? && @repeat_date < @se_date) %>
+				<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+				<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+				</div>
+				<%elsif(@schedule_date < @se_date) && !@repeat.nil? && !@repeat.end_occurences.nil? && @repeat.end_occurences.present? %>
+					
+						<%if !@repeat.repeats.nil? && @repeat.repeats=="Daily"%>
+							 <%if !@repeat.end_occurences.nil? && @repeat.end_occurences.present?%>
+							<%@occ_daily=""%>
+							<%daily_e_date=""%>
+							<%daily_e_date = @schedule.start_date + (@repeat.repeat_every.to_i * @repeat.end_occurences.to_i).days%>
+							  <%@occ_daily = daily_e_date.strftime("%Y-%m-%d") if @repeat.present? && daily_e_date.present? %>
+									  <% if(@schedule_date < @se_date) && !@occ_daily.nil? && @occ_daily < @se_date%>
+									<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+									  <a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><%if !current_user.nil? && current_user.present?%><span class="b-close"><%end%><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+									</div>
+									  <%else%>
+										<!--sell and market provider cond start-->
+										<%if !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase == "sell"%>
+											<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+											<%if checkParticipants%>
+											<a href="javascript:void(0)" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>','<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+											<%else%>
+											<div class="soldTxt"><%=image_tag("/assets/activity_detail_view/Sold_BTN.png", :width=>"98", :height=>"35")%></div>
+											<%end%>
+											<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+											</div>
+										<%elsif !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase != "sell" && !@a_share.nil? && !@a_share.created_by.nil? && @a_share.created_by.downcase == "provider" %>	
+											<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+											<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+											</div>
+										<%else%>
+											<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+											<a href="javascript:void(0)" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>','<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Attend Activity',<%=@a_share.activity_id%>])"><span class="b-close disInblo"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+											<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+											</div>
+										<%end%>
+										<!--sell and market provider cond end-->
+									  <%end%>
+							  <%end%>
+						  <%end%>
+						  
+						  <%if !@repeat.repeats.nil? && @repeat.repeats=="Weekly"%>
+							 <%if !@repeat.end_occurences.nil? && @repeat.end_occurences.present?%>
+							<%@occ_weekly=""%>
+							<%daily_e_date=""%>
+							   <%daily_e_date = @schedule.start_date + (@repeat.repeat_every.to_i * @repeat.end_occurences.to_i * 7).days%>
+							   <%@occ_weekly = daily_e_date.strftime("%Y-%m-%d") if @repeat.present? && daily_e_date.present? %>
+									<% if(@schedule_date < @se_date) && !@occ_weekly.nil? && @occ_weekly < @se_date%>
+									  <div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+									  <a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+									</div>
+									  <%else%>
+										 <!--sell and market provider cond start-->
+										<%if !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase == "sell"%>
+											<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+											<%if checkParticipants%>
+											<a href="javascript:void(0)" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>','<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+											<%else%>
+											<div class="soldTxt"><%=image_tag("/assets/activity_detail_view/Sold_BTN.png", :width=>"98", :height=>"35")%> </div>
+											<%end%>
+											<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+											</div>
+										<%elsif !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase != "sell" && !@a_share.nil? && !@a_share.created_by.nil? && @a_share.created_by.downcase == "provider" %>	
+											<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+											<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+											</div>
+										<%else%>
+											<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+											<a href="javascript:void(0)" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>','<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Attend Activity',<%=@a_share.activity_id%>])"><span class="b-close disInblo"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+											<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+											</div>
+										<%end%>
+										<!--sell and market provider cond end-->
+									  <%end%>
+							  <%end%>
+						  <%end%>
+						  
+						  <%if !@repeat.repeats.nil? && @repeat.repeats=="Monthly"%>
+							 <%if !@repeat.end_occurences.nil? && @repeat.end_occurences.present?%>
+							<%@occ_monthly=""%>
+							<%daily_e_date=""%>
+							<%daily_e_date = @schedule.start_date + (@repeat.repeat_every.to_i * @repeat.end_occurences.to_i).months%>
+							<%@occ_monthly = daily_e_date.strftime("%Y-%m-%d") if @repeat.present? && daily_e_date.present? %>
+									<% if(@schedule_date < @se_date) && !@occ_monthly.nil? && @occ_monthly < @se_date%>
+									  <div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+									  <a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+									</div>
+									  <%else%>
+										 <!--sell and market provider cond start-->
+										<%if !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase == "sell"%>
+											<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+											<%if checkParticipants%>
+											<a href="javascript:void(0)" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>','<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+											<%else%>
+											<div class="soldTxt"><%=image_tag("/assets/activity_detail_view/Sold_BTN.png", :width=>"98", :height=>"35")%></div>
+											<%end%>
+											<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+											</div>
+										<%elsif !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase != "sell" && !@a_share.nil? && !@a_share.created_by.nil? && @a_share.created_by.downcase == "provider" %>	
+											<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+											<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+											</div>
+										<%else%>
+											<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+											<a href="javascript:void(0)" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>','<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Attend Activity',<%=@a_share.activity_id%>])"><span class="b-close disInblo"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+											<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+											</div>
+										<%end%>
+										<!--sell and market provider cond end-->
+									  <%end%>
+							  <%end%>
+						  <%end%>
+						  
+						  <%if !@repeat.repeats.nil? && @repeat.repeats=="Yearly"%>
+							 <%if !@repeat.end_occurences.nil? && @repeat.end_occurences.present?%>
+							<%@occ_yearly=""%>
+							<%daily_e_date=""%>
+							<%daily_e_date = @schedule.start_date + (@repeat.repeat_every.to_i * @repeat.end_occurences.to_i).years%>
+							  <%@occ_yearly = daily_e_date.strftime("%Y-%m-%d") if @repeat.present? && daily_e_date.present? %>
+									<% if(@schedule_date < @se_date) && !@occ_yearly.nil? && @occ_yearly < @se_date%>
+									<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+									  <a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+									</div>
+									  <%else%>
+										 <!--sell and market provider cond start-->
+										<%if !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase == "sell"%>
+											<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+											<%if checkParticipants%>
+											<a href="javascript:void(0)" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>','<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+											<%else%>
+											<div class="soldTxt"><%=image_tag("/assets/activity_detail_view/Sold_BTN.png", :width=>"98", :height=>"35")%></div>
+											<%end%>
+											<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+											</div>
+										<%elsif !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase != "sell" && !@a_share.nil? && !@a_share.created_by.nil? && @a_share.created_by.downcase == "provider" %>	
+											<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+											<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+											</div>
+										<%else%>
+											<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+											<a href="javascript:void(0)" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>','<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Attend Activity',<%=@a_share.activity_id%>])"><span class="b-close disInblo"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+											<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+											</div>
+										<%end%>
+										<!--sell and market provider cond end-->
+									  <%end%>
+							  <%end%>
+						  <%end%>
+				<%else%>
+				<!--sell and market provider condition start-->
+				<%if !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase == "sell"%>
+					<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+					<%if checkParticipants%>
+					<a href="javascript:void(0)" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>','<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+					<%else%>
+					<div class="soldTxt"><%=image_tag("/assets/activity_detail_view/Sold_BTN.png", :width=>"98", :height=>"35")%></div>
+					<%end%>
+					<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+					</div>
+				<%elsif !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase != "sell" && !@a_share.nil? && !@a_share.created_by.nil? && @a_share.created_by.downcase == "provider" %>	
+					<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+					<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+					</div>
+				<%else%>
+					<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+					<a href="javascript:void(0)" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>','<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Attend Activity',<%=@a_share.activity_id%>])"><span class="b-close disInblo"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+					<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+					</div>
+				<%end%>
+				<!--sell and market provider condition end-->				<%end%>
+			<%elsif @schedule_date < @se_date%>
+			  <div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+			<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>','<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');"><%if !current_user.nil? && current_user.present?%><span class="b-close"><%end%><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+			</div>
+			<%else%>
+				<!--sell and market provider cond start-->
+				<%if !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase == "sell"%>
+					<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+					<%if checkParticipants%>
+					<a href="javascript:void(0)" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>','<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+					<%else%>
+					<div class="soldTxt"><%=image_tag("/assets/activity_detail_view/Sold_BTN.png", :width=>"98", :height=>"35")%></div>
+					<%end%>
+					<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+					</div>
+				<%elsif !@use_act.nil? && !@use_act.user_plan.nil? && @use_act.user_plan.present? && @use_act.user_plan.downcase != "sell" && !@a_share.nil? && !@a_share.created_by.nil? && @a_share.created_by.downcase == "provider" %>	
+					<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+					<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+					</div>
+				<%else%>
+					<div style="margin-top:20px; width:250px; cursor:pointer; position:relative;" class="setAttend">
+					<a href="javascript:void(0)" style="display:inline-block; height:38px;" tabindex="10" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>','<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Attend Activity',<%=@a_share.activity_id%>])"><span class="b-close disInblo"><%=image_tag("/assets/detailed_view/attend.png", :width=>"120", :height=>"37")%></span></a>
+					<a href="javascript:void(0)"style="display:inline-block; height:38px;"  tabindex="11" title="" onClick="closepopupd();parent.login_feature('<%=@a_share.activity_id%>');"><span class="b-close"><%=image_tag("/assets/detailed_view/save.png", :width=>"97", :height=>"37")%></span></a>
+					</div>
+				<%end%>
+				<!--sell and market provider cond end-->
+			<%end%>
+		<%end%>
+
+<%end%>

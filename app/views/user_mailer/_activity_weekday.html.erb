@@ -1,0 +1,166 @@
+<!--activity_weekday - start-->  
+          <% if !@share.nil? && @share.present?%>
+          <%@schedule=""%>
+          <%@schedule=!@share.nil? && @share.present? && @share %>
+          <%@repeat=""%>
+          <%@repeat=@schedule.activity_repeat.last if !@schedule.activity_repeat.last.nil? %>
+          <%@repeat_date=""%>
+          <%@repeat_date = @repeat.ends_on.strftime("%Y-%m-%d") if @repeat.present? && @repeat.ends_on.present? %>
+          <%@schedule_date=""%>
+          <%@schedule_date = !@schedule.nil? && !@schedule.start_date.nil? && @schedule.start_date.strftime("%Y-%m-%d")%>
+            <%if !@repeat.nil? && @repeat.present?%>                
+                <% if !@share.nil? && !@share.schedule_mode.nil? && @share.schedule_mode=="Schedule" && !@repeat.nil? && @repeat.present? && @repeat%>                  
+                  <%if @repeat.repeats=="Weekly" %>
+                    <%if !@repeat.repeat_on.nil? && @repeat.repeat_on.present?%>
+                    <%@repeat_days=""%>
+                       <%@repeat_days=@repeat.repeat_on.downcase.split(",") if !@repeat.repeat_on.nil?%>                      
+                      <%= render :partial =>"user_mailer/activity_day_selection" %>
+
+                  
+
+
+                    <%end%>
+                  <%elsif !@repeat.repeats.nil? && @repeat.repeats=="Daily" && (!@repeat.nil? && !@repeat.ends_never.nil? && @repeat.ends_never.present? && @repeat.ends_never==TRUE)%>
+                                      
+                    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr>
+                        <td width="10"></td>
+                        <td  width="20" valign="middle">
+                          <span style=" font-weight:bold; color: #65a2c0; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">S</span>
+                        </td>
+                          <td  width="20" valign="middle">
+                            <span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">M</span>
+                          </td>
+                            <td  width="20" valign="middle">
+                              <span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">T</span>
+                            </td>
+                            <td  width="20" valign="middle">
+                              <span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">W</span>
+                            </td>
+                            <td  width="20" valign="middle">
+                              <span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">T</span>
+                            </td>
+                              <td  width="20" valign="middle">
+                                <span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">F</span>
+                              </td>
+                              <td  width="20" valign="middle"><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">S</span>
+                              </td> 
+                              <td width="10"></td>
+                            </tr></table>
+                                        
+                  <%elsif (!@repeat.repeats.nil? && @repeat.repeats=="Daily") && (!@repeat_date.nil? && @repeat_date.present?)%>
+                        <%occ = Recurrence.new(:every => :day, :starts =>@share.start_date, :until =>@repeat_date, :interval => 1)%>
+                        <%@occ_daily=[]%>
+                        <%occ.events.each do |occ_day|%>
+                        <%@occ_daily<<occ_day.strftime("%a")%>
+                        <%end%>                       
+                        <%if !@occ_daily.nil? && @occ_daily.length>7%>
+                                               
+                                    <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td width="10"></td><td  width="20" valign="middle" style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;"><span >S</span></td><td  width="20" valign="middle" style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;"><span >M</span></td><td  width="20" valign="middle" style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;"><span >T</span></td><td  width="20" valign="middle" style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;"><span >W</span></td><td  width="20" valign="middle" style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;"><span >T</span></td><td  width="20" valign="middle" style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;"><span >F</span></td><td  width="20" valign="middle" style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;"><span >S</span></td><td width="10"></td></tr></table>
+                                                                  
+                        <%elsif !@occ_daily.nil? && @occ_daily.length<7 %>
+                          <%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily!=""%>
+                            
+                                     <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td width="10"></td>
+                                        <td  width="20" valign="middle" style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Sun")%><span >S</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">S</span><%end%></td>
+                                        <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Mon")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">M</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">M</span><%end%></td>
+                                        <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Tue")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">T</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">T</span><%end%></td>
+                                        <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Wed")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">W</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">W</span><%end%></td>
+                                        <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Thu")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">T</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">T</span><%end%></td>
+                                        <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Fri")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">F</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">F</span><%end%></td>
+                                        <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Sat")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">S</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">S</span><%end%></td>
+                                <td width="10"></td></tr></table>
+                                                            
+                          <%end%>
+                        <%end%>                       
+                  <%elsif !@share.start_date.nil? && @share.start_date.present? && !@repeat.nil? && @repeat.repeats=="Daily" && !@repeat.end_occurences.nil? && @repeat.end_occurences.present? && !@repeat.repeat_every.nil? && @repeat.repeat_every.present? %>
+                      <%daily_e_date=""%>
+                      <%daily_e_date = @share.start_date + (@repeat.repeat_every.to_i * @repeat.end_occurences.to_i).days%>
+                        <%occ = Recurrence.new(:every => :day, :starts =>@share.start_date, :until =>daily_e_date, :interval => 1)%>
+                        <%@occ_daily=[]%>
+                        <%occ.events.each do |occ_day|%>
+                        <%@occ_daily<<occ_day.strftime("%a")%>
+                        <%end%>                       
+                        <%if !@occ_daily.nil? && @occ_daily.length>7%>
+                        
+                        
+                                       <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td width="10"></td><td  width="20" valign="middle"><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">S</span></td><td  width="20" valign="middle"><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">M</span></td><td  width="20" valign="middle"><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">T</span></td><td  width="20" valign="middle"><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">W</span></td><td  width="20" valign="middle"><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">T</span></td><td  width="20" valign="middle"><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">F</span></td><td  width="20" valign="middle"><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">S</span></td> <td width="10"></td></tr></table>
+                                                               
+                        <%elsif !@occ_daily.nil? && @occ_daily.length<7 %>
+
+                          <%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily!=""%>
+                            
+                                     <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td width="10"></td>
+                                        <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Sun")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">S</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">S</span><%end%></td>
+                                        <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Mon")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">M</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">M</span><%end%></td>
+                                        <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Tue")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">T</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">T</span><%end%></td>
+                                        <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Wed")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">W</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">W</span><%end%></td>
+                                        <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Thu")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">T</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">T</span><%end%></td>
+                                        <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Fri")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">F</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">F</span><%end%></td>
+                                        <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Sat")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">S</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">S</span><%end%></td>
+                                <td width="10"></td></tr></table>
+                              
+                          <%end%>
+                        <%end%>                       
+                  <%elsif !@share.start_date.nil? && @share.start_date.present? && !@repeat.nil? && @repeat.present? && !@repeat.repeats.nil? && @repeat.repeats.present? && @repeat.repeats=="Monthly" && !@repeat.repeated_by_month.nil? && @repeat.repeated_by_month==false %>
+                    <%@daily_day=""%>
+                    <%@daily_day=@share.start_date.strftime("%a")%>                   
+                    <%if !@daily_day.nil? && @daily_day.present? && @daily_day!=""%>
+                    
+                             <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td width="10"></td>
+                              <td  width="20" valign="middle"><%if !@daily_day.nil? && @daily_day.present? && @daily_day.include?("Sun")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">S</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">S</span><%end%></td>
+                              <td  width="20" valign="middle"><%if !@daily_day.nil? && @daily_day.present? && @daily_day.include?("Mon")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">M</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">M</span><%end%></td>
+                              <td  width="20" valign="middle"><%if !@daily_day.nil? && @daily_day.present? && @daily_day.include?("Tue")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">T</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">T</span><%end%></td>
+                              <td  width="20" valign="middle"><%if !@daily_day.nil? && @daily_day.present? && @daily_day.include?("Wed")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">W</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">W</span><%end%></td>
+                              <td  width="20" valign="middle"><%if !@daily_day.nil? && @daily_day.present? && @daily_day.include?("Thu")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">T</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">T</span><%end%></td>
+                              <td  width="20" valign="middle"><%if !@daily_day.nil? && @daily_day.present? && @daily_day.include?("Fri")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">F</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">F</span><%end%></td>
+                              <td  width="20" valign="middle"><%if !@daily_day.nil? && @daily_day.present? && @daily_day.include?("Sat")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">S</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">S</span><%end%></td>
+                        <td width="10"></td></tr></table>
+                                          
+                    <%end%>                   
+                  <%end%>                 
+                <%end%>
+            <%elsif !@share.nil? && @share.present? && !@share.start_date.nil? && @share.start_date.present? && !@share.end_date.nil? && @share.end_date.present? %>              
+              <%occ = Recurrence.new(:every => :day, :starts =>@share.start_date, :until =>@share.end_date, :interval => 1)%>
+              <%@occ_daily=[]%>
+              <%occ.events.each do |occ_day|%>
+              <%@occ_daily<<occ_day.strftime("%a")%>
+              <%end%>             
+              <%if !@occ_daily.nil? && @occ_daily.length>7%>
+              
+                             <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td width="10"></td><td  width="20" valign="middle"><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">S</span></td><td  width="20" valign="middle"><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">M</span></td><td  width="20" valign="middle"><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">T</span></td><td  width="20" valign="middle"><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">W</span></td><td  width="20" valign="middle"><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">T</span></td><td  width="20" valign="middle"><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">F</span></td><td  width="20" valign="middle"><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">S</span></td><td width="10"></td></tr></table>
+                      
+              <%elsif !@occ_daily.nil? && @occ_daily.length<7 %>                
+                <%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily!=""%>
+                 
+                           <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td width="10"></td>
+                              <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Sun")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">S</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">S</span><%end%></td>
+                              <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Mon")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">M</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">M</span><%end%></td>
+                              <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Tue")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">T</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">T</span><%end%></td>
+                              <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Wed")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">W</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">W</span><%end%></td>
+                              <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Thu")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">T</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">T</span><%end%></td>
+                              <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Fri")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">F</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">F</span><%end%></td>
+                              <td  width="20" valign="middle"><%if !@occ_daily.nil? && @occ_daily.present? && @occ_daily.include?("Sat")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">S</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">S</span><%end%></td>
+                      <td width="10"></td></tr></table>
+                                    
+                <%end%>
+              <%end%>
+            <%elsif !@share.nil? && @share.present? && !@share.start_date.nil? && @share.start_date.present?%>
+              <%@daily_day=""%>
+              <%@daily_day=@share.start_date.strftime("%a")%>
+                <%if !@daily_day.nil? && @daily_day.present? && @daily_day!=""%>
+                
+                         <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td width="10"></td>
+                              <td  width="20" valign="middle"><%if !@daily_day.nil? && @daily_day.present? && @daily_day.include?("Sun")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">S</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">S</span><%end%></td>
+                              <td  width="20" valign="middle"><%if !@daily_day.nil? && @daily_day.present? && @daily_day.include?("Mon")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">M</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">M</span><%end%></td>
+                              <td  width="20" valign="middle"><%if !@daily_day.nil? && @daily_day.present? && @daily_day.include?("Tue")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">T</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">T</span><%end%></td>
+                              <td  width="20" valign="middle"><%if !@daily_day.nil? && @daily_day.present? && @daily_day.include?("Wed")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">W</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">W</span><%end%></td>
+                              <td  width="20" valign="middle"><%if !@daily_day.nil? && @daily_day.present? && @daily_day.include?("Thu")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">T</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">T</span><%end%></td>
+                              <td  width="20" valign="middle"><%if !@daily_day.nil? && @daily_day.present? && @daily_day.include?("Fri")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">F</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">F</span><%end%></td>
+                              <td  width="20" valign="middle"><%if !@daily_day.nil? && @daily_day.present? && @daily_day.include?("Sat")%><span style=" color: #65a2c0; font-weight:bold; display: block; height: 19px; padding: 3px 0 0; text-align: center; width: 20px;">S</span><%else%><span style="font-family:Arial; font-size:12px; color:#65a2c0;">S</span><%end%></td>
+                     <td width="10"></td></tr></table>
+                  <%end%><%end%><%end%> 
+
+
+
+                  <!--activity_weekday - end-->

@@ -1,0 +1,10 @@
+<% if !@sub_category.blank? %>
+          <option value="" selected="selected">--Select Sub Category--</option>
+  <% @sub_category.each do |sub|%>
+	<option value="<%= sub.subcateg_name.html_safe %>"><%= sub.subcateg_name.html_safe %></option>
+  <%end%>
+<% else %>
+	<option value="" selected="selected">--Select Sub Category--</option>
+<% end %>
+
+

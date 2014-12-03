@@ -1,0 +1,2 @@
+module MonthlyBudgetsHelper
+end

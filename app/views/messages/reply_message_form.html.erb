@@ -1,0 +1,194 @@
+<link rel="stylesheet" type="text/css" href="/assets/contacts_users/jquery-ui.css" />
+<script type="text/javascript" src="/assets/message/message.js"></script>
+<script type="text/javascript" src="/assets/message/add_message.js"></script>
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css" />
+<link rel="stylesheet" type="text/css" href="/assets/share_activity/share_acitivity_detail.css" />
+<link rel="stylesheet" type="text/css" href="/assets/message/message.css" />
+<link rel="stylesheet" href="/assets/fam_network/uploadfile.css" type="text/css" />
+<script type="text/javascript" src="/assets/fam_network/jquery.uploadfile.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/assets/custom_scrollbar/mCustomScrollbar.min.css" />
+<script src="/assets/custom_scrollbar/mCustomScrollbar.concat.min.js"></script>
+<style>
+.b-modal{border:none !important;}
+.threequarter{
+	width: 87% !important;
+}
+.half, .third, .quarter, .fifth, .sixth, .twothird, .twofifth, .threefifth, .fourfifth, .fivesixth, .threequarter{
+	margin-left: -17px !important;
+}
+
+.add_radio_autocomplete{
+	/*margin-bottom:-10px;*/
+}
+.ui-menu {
+	max-height: 150px;
+	overflow: hidden;
+	overflow-y: auto;
+	width: 540px !important;
+}
+.ffdiv{
+	border: 1px solid #CDE0E6;
+	width: 525px;
+	padding:10px;
+}
+.ffmem{
+	border: 1px solid #BDD6DD;
+	height: 25px;
+	width: 520px;
+	background:#f6f8f7;
+}
+.ffmemInTxt{
+	border: none medium;
+	color: #999999;
+	font-size: 13px;  
+	vertical-align: text-top;
+	width: 490px;
+	padding: 0px 4px;
+	height: 26px;
+	font-family: Arial,Helvetica,sans-serif;
+	background:none;
+}
+.ffmemseaBt{
+	position: relative;
+	top: 3px;
+}
+.friendListff{
+	overflow: auto;
+	height: 290px;
+	margin: 20px;
+	width: 95%;
+}
+.ffifTxt{
+	margin: 100px auto auto;
+	width: 385px;
+	padding: 10px 20px;
+	background: #EDF1F2;
+	font-size: 13px;
+	color: #555557;
+	font-family: Arial,Helvetica,sans-serif;
+	text-align: center;
+}
+@media \0screen {
+	#text-name{
+		padding-top:4px;
+	}
+	.ffmemseaBt{
+		top:0;
+	}
+	.ffmemInTxt{
+		height:22px;
+	}
+}
+.clsimgin{
+background-color: #5eb0c6;
+width: 15px;
+height: 23px;
+float: right;
+padding-top: -2px;
+padding: 8px 7px 0px 7px;
+}
+#img_close{
+position:absolute;
+cursor: pointer;
+width:930px;
+}
+#msgpath{
+margin:0 auto;
+padding:1% 0%;
+width:900px;
+font-size: 16px;
+}
+#newmsg{
+background-color: #f6f6f6;
+padding-bottom: 30px;
+}
+
+
+</style>
+
+<div id="newmsg">
+	<div class="clear"></div>
+	<div id="msgpath" >
+
+		<a href="/messages?mode=<%=@mode%>" ><span style="color: #fe3e3d;font-family: 'open_sansregular';margin-right: 5px;">Messages </span></a> > <span style="font-family: 'open_sansregular';margin-left: 2px;"> <%if @type=='reply'%>
+	    Reply
+	    <%elsif @type=='reply_all'%>
+	    Reply to All
+	    <%elsif @type=='forward'%>
+	    Forward Message
+	    <%end%></span>
+	</div>
+
+<div id="new_act_container">
+  <div class="popupContainer"  style="border: 0.5px solid #D7DADB;height:<%=(@type=='forward') ? "820px;margin-bottom: 40px;" : "740px;"%>">
+  	<div id="img_close" align="right" >
+    <div class="clsimgin" onclick="close_msg();">
+              <img src="/assets/activity_detail/cancel_icon.png" border="0" alt="">
+    </div>
+  </div>
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+            <div class="head-msg" style="text-align: center;font-family: 'open_sansregular';">
+	    <%if @type=='reply'%>
+	    Reply
+	    <%elsif @type=='reply_all'%>
+	    Reply to All
+	    <%elsif @type=='forward'%>
+	    Forward Message
+	    <%end%>
+	  </div>
+          
+          <!--div style="width:30px;height:23px;float:right;margin-top:-7px;margin-right:2px;opacity: 0.6;filter: alpha(opacity=60);border: 1px solid #DFD7D7;border-right: none;border-top:none;padding-top:7px;" onclick="close_msg();"><a href="javascript:void(0)"  title="" style="margin-left: 5px;"><img src="/assets/global/close_icon.png" alt="" /></a>
+				</div-->
+        </div>
+          <div id="share_render">
+          	<div class="centerCont">
+            <form id="createMessageNetwork" name="replyMessageNetwork" action="/reply_message_create" method="post" data-remote="true" enctype="multipart/form-data">
+				<%=render :partial => 'form'%>
+            </form>
+	    	</div>
+          </div>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  </div>
+  <div class="clear"></div>
+</div>
+
+<!-- invitemanager popup start -->
+<div id="messageSuccess" style="top:200px;left:215px;">
+	<div class="content_popup" style="display:block;"><br>You have sent message successfully<br><br>
+	<span class="b-close"><a href="javascript:void(0)" onclick="reply_msg();" title="" ><img src="/assets/register/ok_btn.png" /></a></span>
+	</div>
+</div>
+<!-- invitemanager popup end -->
+<script type="text/javascript">
+ $(document).ready(function()
+  {
+  	 // $("textarea#message_content").mCustomScrollbar({ajax-upload-wrap_fileuploader,.ajax-upload-wrap
+  	 	$(".ajax-upload-wrap").mCustomScrollbar({
+       theme:"dark-2"
+   });
+ 
+
+	if(navigator.appName=="Microsoft Internet Explorer")
+	    {
+	        window.location.hash='reply_message_form';
+	    }
+	    else
+	    {
+	        history.replaceState("", "","reply_message_form");
+	    }
+
+});
+function reply_msg(){
+parent.window.location.href='/messages?mode=<%=@mode%><%if @type!='forward'%>&rep_id=<%=@msg.message_id%><%end%>'
+_gaq.push(['_trackEvent','<%= @mode.capitalize %> Module', 'clickMessages','Success Message']);
+}
+</script>

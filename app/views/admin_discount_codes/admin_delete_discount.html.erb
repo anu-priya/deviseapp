@@ -1,0 +1,55 @@
+<%=stylesheet_link_tag "global/pop_up_success", :media => "all"%>
+
+<script language="javascript">
+
+  function closepopup() {
+    parent.deletediscountPage.hide();
+  }
+  //delete the activity id while clicking the cross image button
+  function delete_discount(){
+    //loading image while delete the activity
+    $('#loading_img').show();
+    $.post("admin_discount_codes/delete_discount_code", {"id":<%= params[:discount_id] %>}, function(data){
+      $('#loading_img').hide();
+    }, "script");
+  }
+
+
+</script>
+
+<div id="delete_actvity">
+  <div class="popupContainer">
+    <div class="headTab" style="border:none; width:417px;">
+      <div class="heading">
+        <!--div class="headCont">Share Activity</div-->
+      </div>
+      <div class="closeButton" style="float:right;">
+        <a href="javascript:void(0)" onClick="closepopup()" title=""><%=image_tag("/assets/global/pop_up/button_close.png", :alt=>"", :width=>"15", :height=>"15")%></a>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+
+      <div align="center">
+        <!--to get the current activity id for delete the record from the db-->
+        <!--modified by rajkumar-->
+        <p class="successText" style="margin:31px 0 33px;">Do you want to delete the Discount?</p>
+        <div class="clear"></div>
+
+        <div style="margin-top:2px;">
+          <a href="javascript:void(0)" onClick="delete_discount();_gaq.push(['_trackEvent', 'Provider Module', 'clickDeleteActivity','Delete Activity','<%= @to_delete %>']);"><%=image_tag("/assets/detailed_view/yes_button.png", :alt=>"", :width=>"103", :height=>"41")%></a>
+          <a href="#" onClick="closepopup()"><%=image_tag("/assets/detailed_view/no_button.png", :alt=>"", :width=>"103", :height=>"41")%></a>
+          <span id="loading_img" style="display:none;"><%=image_tag("/assets/loading_small.gif", :alt=>"", :width=>"16", :height=>"16")%></span>
+        </div>
+
+      </div>
+  </div>
+
+
+</div>
+
+<script>
+  $(window).load(function(){
+    $('.loadDiv_img').fadeOut(1000);
+  });
+</script>

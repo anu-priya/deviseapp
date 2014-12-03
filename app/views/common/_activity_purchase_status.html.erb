@@ -1,0 +1,57 @@
+<% 
+	@purchase_flag = false	
+	if !@act_activityid.nil?
+		@activity = Activity.find_by_activity_id(@act_activityid)
+		@act_user = User.find_by_user_id(@activity.user_id) if @activity && @activity.present?
+		if !@activity.nil? && @activity.present? && !@activity.purchase_url.nil? && @activity.purchase_url!='' && @activity.purchase_url.present?
+			@purchase_flag = true
+		else
+			@purchase_flag = false
+		end
+		@purchase_btn=get_purchase_status(@act_activityid,@act_userid)	
+		 activ_url = activity_link_format(@activity,@act_user) 
+		if !@purchase_btn.nil?
+			if @purchase_btn == 'curator'
+			%>
+			  <a data-pjax href="/<%=activ_url%>"  title="Get info" class="disInblo">
+				<%=image_tag("/assets/card_images/get_info_btn.png", :width=>"33", :height=>"23", :style=>"border:0px;")%>
+			  </a>
+			<% elsif @purchase_btn == 'get info'%>
+			  <a <% if @purchase_flag%>target="_blank" href="<%= @activity.purchase_url %>" <%else%> data-pjax href="/<%=activ_url%>"<%end%> title="Get info" class="disInblo">
+				<%=image_tag("/assets/card_images/get_info_btn.png", :width=>"33", :height=>"23", :style=>"border:0px;")%>
+			  </a>			  
+			<%
+			elsif @purchase_btn == 'buy now'
+			%>
+			 <a <% if @purchase_flag%>target="_blank" href="<%= @activity.purchase_url %>" <% else %> data-pjax href="/<%=activ_url%>" onclick="_gaq.push(['_trackEvent', 'Parent Module',  'clickAttend','Attend',<%= @activity.activity_id %>]);"<% end%> title="Attend">
+				<%=image_tag("/assets/card_images/buy_now.png", :width=>"78", :height=>"21", :style=>"border:0px;")%>
+			 </a>
+			<%
+			elsif @purchase_btn == 'edit'
+			%>
+				<a href="javascript:void(0)" onClick="pop_edit_activity('/edit_activity_parent?activity_id=<%= @activity.activity_id%>')" title="Edit"><%=image_tag("/assets/card_images/edit_btn.png", :width=>"65", :height=>"23", :style=>"border:0px;")%></a>
+			<%
+			elsif @purchase_btn == 'attend'
+			%>
+			<a <% if @purchase_flag%>target="_blank" href="<%= @activity.purchase_url %>" <% else %> data-pjax href="/<%=activ_url%>" onclick="_gaq.push(['_trackEvent', 'Parent Module',  'clickAttend','Attend',<%= @activity.activity_id %>]);"<% end%> title="Attend">
+				<%=image_tag("/assets/card_images/attend_card.png", :width=>"78", :height=>"21", :style=>"border:0px;")%>
+			</a>
+			<%
+			end
+		else
+		%>
+		<a <% if @purchase_flag%>target="_blank" href="<%= @activity.purchase_url %>" <% else %> data-pjax href="/<%=activ_url%>" onclick="_gaq.push(['_trackEvent', 'Parent Module',  'clickAttend','Attend',<%= @activity.activity_id %>]);"<% end%> title="Get info" class="disInblo">
+				<%=image_tag("/assets/card_images/get_info_btn.png", :width=>"33", :height=>"23", :style=>"border:0px;")%>
+		</a>
+		<%
+		end
+	else
+	%>
+		<a <% if @purchase_flag%>target="_blank" href="<%= @activity.purchase_url %>" <% else %> data-pjax href="<%=activ_url%>"<% end%> title="Get info" class="disInblo">
+				<%=image_tag("/assets/card_images/get_info_btn.png", :width=>"33", :height=>"23", :style=>"border:0px;")%>
+		</a>
+	<%
+	end
+	%>
+
+

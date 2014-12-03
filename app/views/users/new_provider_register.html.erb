@@ -1,0 +1,60 @@
+<%meta :title => "Kids Class Management Software for Payments & Registration",
+     :description => "Famtivity provides class management software for kids activities, events, camps, classes and lessons including payments and registrations",
+     :keywords => "Class Management Software, Class Registration Software, Kids Management Software"
+%>
+
+
+
+<div id="new_act_container1">
+  <div class="popupContainer" style="width:1000px;">
+    <div class="popupContainerTop" style="width:1000px;"></div>
+    <div class="popupContainerCenter" style="width:1000px;">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading" style="width:960px;">
+            <h1 class="headCont">
+		Sign-up as Provider <span class="fts14" style="position: relative;top: -3px;">(...& get <span class="ftcRed">$20</span> Credit!)</span>
+            </h1>
+          </div>
+          <div class="closeButton">
+            <%if !@log_value.nil? && @log_value.present? && @log_value=='reld'%>
+             <%= link_to image_tag("/assets/global/pop_up/button_close.png", :border => 0), root_path, :target => "_parent" %>
+            <%else%>
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> <img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" /> </a>
+            <%end%>
+          </div>
+        </div>
+
+        <div id="register_outerContainer">
+          <div id="curator_message" style="display:none;text-align: center;height: 430px;width: 600px;margin: 0 auto;font-size: 16px;color: #000;" >
+            <div style="text-align:center;padding: 25px;line-height: 22px;">
+            Your email address is already in use. If you did not create  an account, it is likely that Famtivity has added this email as a provider account. </br>Click on the button below to proceed and take control of your account.
+            </div>
+            <div style="border-top:1px solid #d7dadb; margin:0 auto; width: 100%; height:25px;">&nbsp;</div>
+            <div style="width:300px;height:240px;margin:0 auto;border: 1px solid #d7dadb;">
+              <div style="font-weight: bold;color: #5099ac;margin-top: 20px;margin-bottom: -15px;font-size: 21px;">Provider</div>
+            <div style="text-align:center;padding: 35px;line-height: 22px;"><img src="/assets/global/curator_image.png" alt=""  />
+            </div>
+
+            <a href="javascript:void(0)" onClick="curatormessage()" title=""> <img src="/assets/global/switch_provider.png" alt=""  /> </a>
+            </div>
+          </div>
+
+          <!-- Parent Register Page -->
+          <div id="ParentRegister">
+            <%= render :partial =>'provider_register_profile' %>
+            <div class="clear"></div>
+          </div>
+
+
+
+        </div>
+      </div>
+      <div class="clear"></div>
+
+    </div>
+    <div class="clear"></div>
+    <!-- div class="popupContainerBottom"></div -->
+
+  </div>
+</div>

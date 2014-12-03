@@ -1,0 +1,6 @@
+$('#no_of_users').html("No.of Users:<%=@act.length%>");
+<%if @view =="gallery"%>
+  $('#provider_partial_event_list').html("<%=escape_javascript(render 'admin_gallery_view')%>");
+<%else%>
+  $('#provider_partial_event_list').html("<%=escape_javascript(render 'admin_list')%>");
+<%end%>

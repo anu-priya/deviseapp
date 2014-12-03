@@ -1,0 +1,7 @@
+	<%if @last_msg=='last'%>
+		parent.window.location.reload();
+	<%else%>
+		 $("#fam_post_details").html('<%= escape_javascript(render(:partial => '/fam_networks/fam_network_thread_details',:locals => {:message_threads => @message_threads,:fam_network => @message, :curr_user => current_user})) %>');
+ 	<%end%>
+
+ 

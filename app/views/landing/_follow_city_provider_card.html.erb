@@ -1,0 +1,36 @@
+<%act_link = @list_link%>
+<%cookies[:categv]=params[:categ]%>
+<%cookies[:sub_categv]=params[:sub_categ]%>
+<%cookies[:ctyv] = (params[:city] && params[:city].present?) ? (params[:city]) : (' ')%>
+
+  <div class="browseprocard" id="procardborder" style="height:425px;">
+     <%if !@user_profile.card_file_name.nil? && !@user_profile.card.nil? && File.exists?(@user_profile.card.path(:original))%>
+          <div align="center" style="width:240px;height:210px; overflow:hidden; margin:15px 10px;" id="getid1" class="proimage lt"><a href="<%=act_link%>" title=""><%= image_tag @user_profile.card.url(:original), :style => "width:auto;height:210px;vertical-align:middle;" if !@user_profile.card.url(:original).nil?%></a></div>
+        <%elsif !@user_profile.profile_file_name.nil? && !@user_profile.profile.nil? && File.exists?(@user_profile.profile.path(:original))%>
+          <div align="center" style="width:240px;height:210px; overflow:hidden;  margin:15px 10px;" id="getid1" class="proimage lt"><a href="<%=act_link%>" title=""><%= image_tag @user_profile.profile.url(:original), :style => "width:auto;height:210px;vertical-align:middle;" if !@user_profile.profile.url(:original).nil?%></a></div>
+        <%else%>
+          <div align="center" style="width:240px;height:210px; overflow:hidden; margin:15px 10px;" id="getid1" class="proimage lt"><a href="<%=act_link%>" style="line-height:185px;" title=""><%=image_tag("/assets/no_image.png", :alt=>"", :style=>"vertical-align:middle;")%></a></div>
+        <%end%>
+        <div class="procarddetails lt" style="width:240px;">
+           <a href="<%=act_link%>" style="line-height: 15px;text-align:left;" class="ftcGreen3c ftwt truncateText" title="<%=@user_profile.business_name%>"><%=@user_profile.business_name%></a>
+           <p class="ftcGreen3c procardlist">
+	<table border="0" cellpadding="0" cellspacing="0">
+              <tbody><tr>
+		<td align="left" valign="middle">
+			<%if !@user_profile.nil? && !@user_profile.profile_file_name.nil? && !@user_profile.profile.nil? && File.exists?(@user_profile.profile.path(:thumb))%>
+				<%= image_tag(@user_profile.profile.url(:thumb), :style => "height1:75px;", :alt=>'')%>
+			<%else%>
+			<%=image_tag("/assets/card_images/age_range_icon.png", :style=>"position: relative;border: 1px solid #CDE0E6;")%>
+			<%end%>
+		</td>
+		<td align="left" valign="middle" class="price_text">
+			&nbsp;&nbsp;<div class="truncateText" style="width:123px;"><%=@user_profile.city if @user_profile && @user_profile.city%></div>
+		</td>
+		</tr>
+		</tbody></table></p>
+           <p class="ftcGreen3c procardlist" title="<%=@user_profile.description if @user_profile && @user_profile.description %>" style="overflow:hidden;"><%= truncate(@user_profile.description,:length =>260, :omission =>'...') if @user_profile && @user_profile.description%></p>
+        </div>
+        <div class="clear"></div>
+  </div>
+  
+<!--div class="separation"> </div-->

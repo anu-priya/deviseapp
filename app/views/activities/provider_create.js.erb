@@ -1,0 +1,6 @@
+ <% if !@act_type.nil? && @act_type.present? && @act_type=="provider_activites"%>
+      parent.parent.parent.$('#provider_partial_event_list').html("<%=escape_javascript(render 'provider_thumb_list')%>");
+ <%# elsif !@act_type.nil? && @act_type.present? && @act_type=="index" %>
+ <%else%>
+      parent.parent.parent.$('#provider_partial_event_list').html("<%=escape_javascript(render 'provider_event_list')%>");
+ <% end %>

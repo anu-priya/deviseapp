@@ -1,0 +1,8 @@
+$("#loadimg").hide();
+<%if @click=="groups"%>
+$('#contact_list_member').html('<%=escape_javascript(render "/contact_users/contact_user")%>');
+<%elsif @click=="others"%>
+$('#contact_list_member').html('<%=escape_javascript(render "/contact_users/other_user", :other => @fam )%>');
+<%else%>
+$('#contact_list_member').html('<%=escape_javascript(render "/contact_users/activity_user")%>');
+<%end%>

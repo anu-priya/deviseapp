@@ -1,0 +1,286 @@
+		<h2 class="section_head">Mobile Settings&nbsp;</h2>
+		<%test_num = (number.present?) ? "true" : "false"%>
+		<div class="SettingNum">
+		           <div id="success_msg" style="display:none;color:green;"></div>
+			 <div id="err_phone" style="display:none;"></div>
+			<div class="add_number_txt">Add your phone number to receive all Famtivity notifications on your mobile	phone.</div>
+			<!--div id="add_number_button" onclick="show_addnum();" style=<%#=(!number.present?) ? "display:block;" : "display:none;"%>></div-->
+			<!--div id="add_number_button" onclick="show_addnum();" style=<%=(!number.present?) ? "display:block;" : "display:none;"%>>
+				<table cellspacing="0" cellpadding="0" width="180" border="0" align="center">
+					<tr>
+						<td width="50" valign="middle" height="22" align="right" style="padding-top:5px;"><img src="/assets/provider_event_list/add_num_plus.png"></td>
+						<td width="10"></td>
+						<td width="120" valign="middle" align="left"><strong>Add Number</strong></td>
+					</tr>
+				</table>
+			</div-->
+			<div  id="add_number_button" class="save-button lt" onclick="show_addnum();"  style="padding-top:5px;height:28px;margin-bottom:20px;<%=(!number.present?) ? "display:block;" : "display:none;"%>"><img src="/assets/provider_event_list/add_num_plus.png" align="absbottom">&nbsp;&nbsp;Add Number</div>
+			          <div id="rm_number" style="<% if number && number.present? && status%>display:block;<%else%>display:none;<%end%>">
+					<div id="remove_number_button" onclick="verify_num('remove');"></div>
+					<div id="confirmed_num"><%=number%></div>
+				</div>
+				<div id="add_number_textbox">
+					<div class="sent_code" id="code_sent" style="<% if number && number.present? && !status%>display:block;<%else%>display:none;<%end%>float:left;">
+						<span id="number_display_txt">We have sent a verification code to your mobile number </span>&nbsp;
+						<span id="number_display"><%=number%></span>
+						<span id="edit_mobile" onclick="edit_number('<%=number%>');"></span>
+						<span onclick="send_code();" id="res_code">Resend code</span>&nbsp;
+					</div> 
+					<div style="display: none;position: relative;float:left;" id="loadingresend">
+						<img src="/assets/loading.gif">
+					</div>
+					<div class="clear"></div>
+					<div id="phone_num" style="display:none;">
+					</br>
+						<div id="input_boxes">
+							<span>
+							<input type="text" name="code_num" style="width: 15px;color:#999999" id="code_num" readonly="readonly" value="+1">
+							<input type="text" name="get_verify_num" id="get_verify_num"  value="Enter your mobile number for verification" style="width: 370px;color:#999999;" onfocus="if(this.value=='Enter your mobile number for verification'){this.value='';$(this).css('color','#444444');this.style.border='1px solid #a9a9a9';}" onblur="if(this.value==''){this.value='Enter your mobile number for verification';$(this).css('color','#999999');}">
+							</span>
+						</div>
+						<div class="save-button lt" id="verify_verify" onclick="verify_num('add');">Verify</div>
+						<!-- <div class='common-blue-button' id="verify_verify" onclick="verify_num('add');">Verify</div> -->
+						<div class="cancel-button lt"><a href="javascript:void(0)" onclick="close_addnum('<%=test_num%>');" style="color:#fff;">Cancel</a></div>
+						<div style="display: none;position: relative;float:left;padding:2px 0px 0px 5px;" id="loadingverify">
+							<img src="/assets/loading.gif">
+						</div>
+					</div>
+					<div class="clear"></div>
+					<div id="code_confirmation" style="<% if number && number.present? && !status%>display:block;<%else%>display:none;<%end%>">
+						<div id="confirm_boxes">
+							<input type="text" name="confirm_code" id="confirm_code" onfocus="{this.style.border='1px solid #a9a9a9';}" onblur="{this.style.border='1px solid #E1E1E1';}">
+						</div>
+						<div class="cancel-button" id="con_verify" onclick="confirm_sms_code();" style="width:112px;">Confirm Code</div>
+					</div>
+
+					<div id="phone-helptext" style="display:none"></br>(only US phone numbers are valid)</div>
+				</div>
+		<div class="clear"></div>
+		</div>
+	
+<script>
+
+function show_addnum(){
+	$("#phone-helptext").css("display","block");
+	$("#phone_num").css("display","block");
+	$("#get_verify_num").css("border","1px solid #E1E1E1");
+	$("#add_number_button").css("display","none"); 
+}
+
+function close_addnum(chk_num){
+	if(chk_num=="true")
+	{
+	$("#code_sent").css("display","block");
+	$("#code_confirmation").css("display","block");
+	$("#add_number_button").css("display","none");
+	$("#phone_num").css("display","none");
+	//~ $("#get_verify_num").val(num);
+	}
+	else
+	{
+	$("#phone-helptext").css("display","none");
+	$("#phone_num").css("display","none");
+	$("#add_number_button").css("display","block");
+	}
+}
+
+function verify_num(chk_status){
+if (chk_status=='add')
+{
+        $("#loadingverify").css("display","inline-block");
+	var mobile_num = $("#get_verify_num").val();
+ }
+ else
+ {
+	var mobile_num = $("#confirmed_num").text();
+ }
+ 	var phoneRegExp = /^\(?(\d{3})\)?[-]?(\d{3})[-]?(\d{4})$/; 
+	var phoneRegExp1 = /^\(?(\d{3})\)?[ ]?(\d{3})[ ]?(\d{4})$/;
+	var phoneRegExp2 = /^\(?(\d{3})\)?[.]?(\d{3})[.]?(\d{4})$/;
+	var phoneRegExp3 = /^\(?(\d{3})\)?[_]?(\d{3})[_]?(\d{4})$/;
+	var phoneRegExp4 = /^\(?(\d{3})\)[(](\d{3})[)][(](\d{4})[)]$/;
+	var phoneRegExp5 = /^\(?(\d{1})\)?[-]?(\d{9})$/;
+	var phoneRegExp6 = /^\b[A-Z]$/;
+	var phoneNum = /^[0-9]+$/;
+        var phoneVal = mobile_num;
+	var errorflag = false;
+	if (phoneVal=='' || phoneVal=='Enter your mobile number for verification'){
+		$("#err_phone").show();
+		$("#err_phone").css('color','red');
+		$("#err_phone").html("Please enter your mobile number");
+		$('#err_phone').fadeIn().delay(5000).fadeOut();
+		//~ $(".flash-message").html("Please enter your mobile number");
+		//~ var win=$(window).width();
+		//~ var con=$(".flash_content").width();
+		//~ var leftvalue=((win/2)-(con/2))
+		//~ $(".flash_content").css("left",leftvalue+"px");
+		//~ $(".flash_content").css("top","67px");
+		//~ $('.flash_content').fadeIn().delay(10000).fadeOut();
+		$("#get_verify_num").css("border","1px solid #fc8989"); 
+		$("#loadingverify").hide();
+		return false;
+	}
+	else if(phoneNum.test(phoneVal)){
+		if(phoneVal.length!=10){
+			errorflag = true;
+		}
+	
+	}
+	else if(phoneVal.indexOf('-') >= 0) {
+	  if (!phoneRegExp.test(phoneVal) && (!phoneRegExp5.test(phoneVal))){
+			errorflag = true;
+		 }
+	}
+	else if(phoneVal.indexOf('.') >= 0) {
+		  if(!phoneRegExp2.test(phoneVal)){
+			errorflag = true;
+		  }
+	  }else if(phoneVal.indexOf('_') >= 0) {
+		  if(!phoneRegExp3.test(phoneVal)){
+			errorflag = true;
+		  } 
+	  }else if(phoneVal.indexOf('(') >= 0 || phoneVal.indexOf(')') >= 0) {
+		  if(!phoneRegExp4.test(phoneVal)){
+			errorflag = true;
+		  }
+	  }else if(phoneVal.replace(phoneRegExp6)) {	
+		errorflag = true;
+	  }
+	if(errorflag)
+	{
+		      $("#get_verify_num").css("border","1px solid #fc8989"); 		
+		      $("#err_phone").show();
+		      $("#err_phone").css('color','red');
+		      $("#err_phone").html("Please enter a valid mobile number"); 
+		      $('#err_phone').fadeIn().delay(5000).fadeOut();
+		      $("#loadingverify").hide();
+		      return false;
+		      //~ $(".flash-message").html("Please enter a valid mobile number");
+			//~ var win=$(window).width();
+			//~ var con=$(".flash_content").width();
+			//~ var leftvalue=((win/2)-(con/2))
+			//~ $(".flash_content").css("left",leftvalue+"px");
+			//~ $(".flash_content").css("top","67px");
+			//~ $('.flash_content').fadeIn().delay(10000).fadeOut();
+	}
+	else{
+		$.ajax({
+			url:'/add_mobile_send_code',
+			data: {
+			    "mobile_num": mobile_num,
+			    "chk_add_rem": chk_status,
+			    "resend":false
+			},
+			success:function(data){
+			    if (data=="true"){
+				location.reload();
+			    	//$("#loadingverify").hide();
+			        //$("#mobile_settings").html(data);
+			       //~ $("#notification_msg_count_"+mess_id).hide();
+			    }
+			    else
+			    {
+			        $("#loadingverify").hide();
+				//~ $("#err_phone").show();
+				//~ $("#err_phone").css('color','red');
+				//~ $("#err_phone").html("Verification Code has been already sent to this mobile number."); 
+				//~ $('#err_phone').fadeIn().delay(5000).fadeOut();
+					$('html, body').animate({ scrollTop: 0 });
+					$('.flash-message').html('Verification Code has been already sent to this mobile number.');
+					var win=$(window).width();
+					var con=$('.flash_content').width();
+					var leftvalue=((win/2)-(con/2))
+					$('.flash_content').css('left',leftvalue+'px');
+					$('.flash_content').css('top','67px');
+					$('.flash_content').fadeIn().delay(5000).fadeOut();
+			    }
+			}
+		});
+	}
+}
+
+function send_code()
+{
+$("#loadingresend").css("display","inline-block");
+		$.ajax({
+			url:'/add_mobile_send_code',
+			data: {
+			    "resend": true
+			},
+			success:function(data){
+			    if (data){
+			      //~ $("#success_msg").show();
+			      //~ $("#success_msg").html("A confirmation code has been sent to verify permission.");
+			      //~ $('#success_msg').fadeIn().delay(5000).fadeOut();
+				$("#loadingresend").hide();
+				$('html, body').animate({ scrollTop: 0 });
+				$('.flash-message').html('A confirmation code has been sent to verify permission.');
+				var win=$(window).width();
+				var con=$('.flash_content').width();
+				var leftvalue=((win/2)-(con/2))
+				$('.flash_content').css('left',leftvalue+'px');
+				$('.flash_content').css('top','67px');
+				$('.flash_content').fadeIn().delay(5000).fadeOut();
+			    }
+			}
+		});
+}
+
+function confirm_sms_code()
+{
+$("#err_phone").hide();
+$("#err_phone").html("");
+var v_code = $("#confirm_code").val();
+	if (v_code==''){
+		$("#err_phone").show();
+		$("#err_phone").html("Please enter the verification code");
+		//~ $(".flash-message").html("Please enter the verification code.");
+		$("#err_phone").css("color","red");
+		$('#err_phone').fadeIn().delay(5000).fadeOut();
+	}
+	else
+	{
+		$("#err_phone").hide();
+		$("#err_phone").html("");
+			$.ajax({
+			url:'/mobile_code_verification',
+			data: {
+			    "code_verify": v_code
+			},
+			success:function(data){
+			    if (data=='false'){
+				$("#err_phone").show();
+				$("#err_phone").html("Please check the code and try again");
+				//~ var win=$(window).width();
+				//~ var con=$(".flash_content").width();
+				//~ var leftvalue=((win/2)-(con/2))
+				//~ $(".flash_content").css("left",leftvalue+"px");
+				//~ $(".flash_content").css("top","67px");
+				//~ $('.flash_content').fadeIn().delay(10000).fadeOut();
+				$("#err_phone").css("color","red");
+				$('#err_phone').fadeIn().delay(5000).fadeOut();
+			    }
+			    else{
+			    location.reload();
+				//$("#err_phone").hide();
+				//$("#err_phone").html("");
+				
+				//$("#code_sent").css("display","none");
+				//$("#code_confirmation").css("display","none");
+				//$("#rm_number").css("display","block");
+				//$("#confirmed_num").html(data);
+			    }
+			}
+		});
+	}
+}
+
+function edit_number(num){
+	$("#code_sent").css("display","none");
+	$("#code_confirmation").css("display","none");
+	$("#add_number_button").css("display","none");
+	$("#phone_num").css("display","block");
+	$("#get_verify_num").val(num);
+}
+
+</script>

@@ -1,0 +1,285 @@
+<%= stylesheet_link_tag "landing/invite_provider.css" %>
+<%= stylesheet_link_tag "global/pop_up.css" %>
+<script language="javascript">
+<%if @aclick%>
+    function closepopup() {
+      var stateObj = { foo: "bar" };
+      myURL = document.location;
+      if(navigator.appName=="Microsoft Internet Explorer")
+      {
+        parent.window.location.hash='';
+      }
+      else
+      {
+        parent.history.replaceState(stateObj, "Activity Details", "/discount_dollars?mode=parent");
+      }
+      parent.inviteproviderPage.hide();
+    }
+<%else%>
+    function closepopup(){
+      window.location.href='/'
+    }
+<%end%>
+</script>
+<div id="invite_provider_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Invite your favorite Provider to join the famtivity network!</div>
+          </div>
+          <div class="closeButton">
+            <%if @aclick%>
+              <a href="javascript:void(0)" onClick="closepopup()" title=""> <%= image_tag("/assets/global/pop_up/button_close.png",:width=>"15",:height=>"15") %></a>
+            <%else%>
+              <a href="/" title=""> <%= image_tag("/assets/global/pop_up/button_close.png",:width=>"15",:height=>"15") %></a>
+            <%end%>
+          </div>
+        </div>
+        <div class="centerCont" style="padding:20px 0 0px 0;">
+          <div class="SetOuterDivStyle" style="height: auto;">
+            <form name="invite_provider" id="invite_provider" action="invite_provider_submit" method="post" >
+              <p class="TopDoText" style="color: #FE0003;padding-bottom: 17px;">...And get $<%=(number_with_precision $dollar, :precision => 2)%> Discount Dollars that you can apply to the purchase of any acitivity accepting Discount Dollars as part of the purchase price.</p>
+              <p class="TopDoText">It&rsquo;s easy! just enter your provider&rsquo;s information:</p>
+              <div class="row1">
+                <div class="lt leftSideField">
+                  <span class="fieldname" style="color:#616161;"><b>Provider business name<sup class="ftcRed" style="position: relative;top: 3px;left: 2px;">*</sup></b></span>
+                </div>
+                <!--<input type="text" name="p_business_name" id="p_business_name" class="InviteProviderTextbox"/>-->
+                <input type="text" name="p_business_name" id="p_business_name" value="Enter Provider Business Name" onfocus="if(this.value=='Enter Provider Business Name'){this.value='';this.style.color='#444444'}" onblur="if(this.value==''){this.value='Enter Provider Business Name';this.style.color='#999999'}" class="InviteProviderTextbox" style="color:#999999" />
+              </div>
+
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div id="business_error"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="row2">
+                <div class="lt leftSideField">
+                  <span class="fieldname" style="color:#616161;"><b>Email<sup class="ftcRed" style="position: relative;top: 3px;left: 2px;">*</sup></b></span>
+                </div>
+                <!--<input type="text" name="p_email" id="p_email" class="InviteProviderTextbox">-->
+                <input type="text" name="p_email" id="p_email" value="Enter Email Address" onfocus="if(this.value=='Enter Email Address'){this.value='';this.style.color='#444444'}" onblur="if(this.value==''){this.value='Enter Email Address';this.style.color='#999999'}" class="InviteProviderTextbox" style="color:#999999"/>
+              </div>
+
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div id="email_error"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="row2">
+                <div class="lt leftSideField">
+                  <span class="fieldname" style="color:#616161;"><b>Your Name<sup class="ftcRed" style="position: relative;top: 3px;left: 2px;">*</sup></b></span>
+                </div>
+                <!--<input type="text" name="name" id="name" class="InviteProviderTextbox">-->
+                <input type="text" name="name" id="name" value="Enter Your Name" onfocus="if(this.value=='Enter Your Name'){this.value='';this.style.color='#444444'}" onblur="if(this.value==''){this.value='Enter Your Name';this.style.color='#999999'}" class="InviteProviderTextbox" style="color:#999999"/>
+              </div>
+
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div id="name_error"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="row2">
+                <div class="lt leftSideField">&nbsp;</div>
+                <input type="image" src="/assets/landing/send_button.png" width="113" height="40" alt=""/>
+                <span id="loading_img" style="display:none;"> <%= image_tag("/assets/ajax-loader.gif") %></span>
+              </div>
+              <div class="clear"></div>
+            </form>
+          </div>
+          <div class="SetOuterDivStyle BlockText newinviteFriend" style="margin-top:25px;height: auto;border-top: 1px dotted #b9b9b9;padding-top: 10px;border-bottom: 1px dotted #b9b9b9;">
+            <p class="SetPadding TopDoText" style="color: #FE0003;">That&rsquo;s it! Your provider will receive an invitation that looks like this:</p>
+            <p> <%= image_tag("/assets/contact/Invite_Provider_Email.png",:width=>"505",:height=>"302") %></p>
+            <p class="SetPadding" style="color: #FE0003;padding: 15px 0px 20px;font-size: 14px;">Once your provider clicks their customized link and registers for the &#34;Sell-Through&#34; Plan, you can sign-up for activities participating in the D$ program and apply your credit. So, encourage them to join today!</p>
+          </div>
+          <div class="SetOuterDivStyle BlockText newinviteFriend" style="margin-top:10px;height: auto;">
+            <p class="SetPadding" style="color: #5099AC; font-size:16px;"><b>Thanks for the help in growing the Famtivity Network!</b></p>
+            <p class="SetPadding" style="color: #5099AC; font-size:16px;"><b>The Famtivity Team</b></p>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>
+
+<script type="text/javascript">
+  //function inviteProviderChk(){--normal
+  //onSubmit="return inviteProviderChk()"--normal
+  //~ else{
+  //~ return true;
+  //~ }
+  //parent.inviteproviderPage.hide();
+  $(document).ready(function() {
+    $('#invite_provider').submit(function (){
+      var p_businees_name= $("#p_business_name").val();
+      var p_email= $("#p_email").val();
+      var name = $("#name").val();
+	
+      p_businees_name = p_businees_name.replace(/^\s+|\s+$/g, "");
+      p_email = p_email.replace(/^\s+|\s+$/g, "");
+      name = name.replace(/^\s+|\s+$/g, "");
+	
+      $("#p_business_name").css("border","1px solid #BDD6DD");
+      $("#p_email").css("border","1px solid #BDD6DD");
+      $("#name").css("border","1px solid #BDD6DD");
+	
+      $("#business_error").html("");
+      $("#email_error").html("");
+      $("#name_error").html("");
+	
+      $("#business_error").parent().css("display","none");
+      $("#email_error").parent().css("display","none");
+      $("#name_error").parent().css("display","none");
+	
+      var errorFlag=false;
+	
+      if(p_businees_name == ""||p_businees_name == "Enter Provider Business Name"){
+        $("#p_business_name").css("border","1px solid #fc8989");
+        $("#business_error").html("Please enter provider businees name");
+        $("#business_error").parent().css("display","block");
+        errorFlag=true;
+      }
+      if(p_email == ""||p_email =="Enter Email Address"){
+        $("#p_email").css("border","1px solid #fc8989");
+        $("#email_error").html("Please enter your Email");
+        $("#email_error").parent().css("display","block");
+        errorFlag=true;
+      }
+      else if(!validateCorrectEmail(p_email)){
+        $("#p_email").css("border","1px solid #fc8989");
+        $("#email_error").html("Please Check The Email Entered");
+        $("#email_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(!validateDot(p_email)){
+        $("#p_email").css("border","1px solid #fc8989");
+        $("#email_error").html("Please Check The Email Entered");
+        $("#email_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      if(name == ""||name =="Enter Your Name"){
+        $("#name").css("border","1px solid #fc8989");
+        $("#name_error").html("Please enter your name");
+        $("#name_error").parent().css("display","block");
+        errorFlag=true;
+      }
+      if(errorFlag){
+        return false;
+      }
+      else
+      {
+        var p_business_name= $("#p_business_name").val()
+        var p_email= $("#p_email").val()
+        var name= $("#name").val();
+		
+        //ajax call for sending a mail to the provider
+        $('#loading_img').show();
+        $.ajax({
+          type: "GET",
+          data: {"cre_to_msg":p_email,"type":"inv_provider"},
+          url: "/check_repeated_users",
+          success: function(data){
+            if (data !="")
+            {
+              $('#loading_img').hide();
+              $("#email_error").parent().css("display","block");
+              $("#email_error").html("This provider has already registered in Famtivity! Try inviting another provider!");
+            }
+            else
+            {
+              var stateObj = {
+                foo: "bar"
+              };
+              if(navigator.appName=="Microsoft Internet Explorer"){
+                window.location.hash='/invite-your-favorite-provider';
+              }
+              else{
+                parent.history.pushState(stateObj, "Send Invite", '/invite-your-favorite-provider');
+              }
+              $.post("/invite_provider_submit",{
+                "p_business_name": p_business_name,
+                "p_email": p_email,
+                "name": name
+              }, function(data){
+                $('#loading_img').hide();
+              }, "script"
+            );
+            }
+          }
+        });
+        return false;
+      }
+      
+      
+      
+
+      
+      
+      
+      
+      
+    })
+  })
+
+  function validateDot(elementValue) {
+    var emailSplitat = elementValue.split("@");
+    var emailSplitdotf = emailSplitat[0].split(".");
+    var emailSplitdotl = emailSplitat[1].split(".");
+  	 
+    if(emailSplitat[0].length<4){
+      return false;
+    }
+  	  	
+    if(emailSplitdotf.length>3){
+      return false;
+    }
+    if(emailSplitdotf.length<3){
+      var filter = /[^a-z/g]+/gi;
+      var filter1 = /^[0-9]+$/;
+      if(filter.test( emailSplitdotf) && filter1.test( emailSplitdotf)){
+        return false;
+      }
+    }
+    if(emailSplitdotl.length>1){
+      var prev = emailSplitdotl[0];
+      var curr = emailSplitdotl[1];
+      for(var i=1;i<emailSplitdotl.length;i++){
+        if(prev == curr ){
+          return false;
+        }
+        prev = curr;
+        curr = 	emailSplitdotl[i+1];
+      }
+    }
+    if(emailSplitdotl.length>3){
+      return false;
+    }
+    return true;
+  }
+
+  function validateCorrectEmail(elementValue){
+    var emailPattern = /^([a-zA-Z0-9]+([~{|}`^?=+*'#$!%._-]{0,1}[a-zA-Z0-9]+)*)@(([a-zA-Z0-9]+([._-]{0,1}[a-zA-Z0-9]+)*)+(?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,3})?)$/;
+    return emailPattern.test(elementValue);
+    /*var e = elementValue;
+        elementValue = e.trim();
+        var filter = /^[A-Za-z0-9][A-Za-z0-9\_\-\.]*\@[A-Za-z0-9][A-Za-z0-9\_\-\.]*\.[A-Za-z]{2,}$/;
+        var filter2 = /(\.\.+)|(\@\@+)|(\_\_+)|(\-\-+)/;
+        var filter3 = /(\.ac|\.ad|\.ae|\.aero|\.af|\.ag|\.ai|\.al|\.am|\.an|\.ao|\.aq|\.ar|\.arpa|\.as|\.at|\.au|\.aw|\.ax|\.az|\.ba|\.bb|\.bd|\.be|\.bf|\.bg|\.bh|\.bi|\.biz|\.bj|\.bm|\.bn|\.bo|\.br|\.bs|\.bt|\.bv|\.bw|\.by|\.bz|\.ca|\.cat|\.cc|\.cd|\.cf|\.cg|\.ch|\.ci|\.ck|\.cl|\.cm|\.cn|\.co|\.com|\.coop|\.cr|\.cu|\.cv|\.cx|\.cy|\.cz|\.de|\.dj|\.dk|\.dm|\.do|\.dz|\.ec|\.edu|\.ee|\.eg|\.er|\.es|\.et|\.eu|\.fi|\.fj|\.fk|\.fm|\.fo|\.fr|\.ga|\.gb|\.gd|\.ge|\.gf|\.gg|\.gh|\.gi|\.gl|\.gm|\.gn|\.gov|\.gp|\.gq|\.gr|\.gs|\.gt|\.gu|\.gw|\.gy|\.hk|\.hm|\.hn|\.hr|\.ht|\.hu|\.id|\.ie|\.il|\.im|\.in|\.info|\.int|\.io|\.iq|\.ir|\.is|\.it|\.je|\.jm|\.jo|\.jobs|\.jp|\.ke|\.kg|\.kh|\.ki|\.km|\.kn|\.kr|\.kw|\.ky|\.kz|\.la|\.lb|\.lc|\.li|\.lk|\.lr|\.ls|\.lt|\.lu|\.lv|\.ly|\.ma|\.mc|\.md|\.mg|\.mh|\.mil|\.mk|\.ml|\.mm|\.mn|\.mo|\.mobi|\.mp|\.mq|\.mr|\.ms|\.mt|\.mu|\.museum|\.mv|\.mw|\.mx|\.my|\.mz|\.na|\.name|\.nc|\.ne|\.net|\.nf|\.ng|\.ni|\.nl|\.no|\.np|\.nr|\.nu|\.nz|\.om|\.org|\.pa|\.pe|\.pf|\.pg|\.ph|\.pk|\.pl|\.pm|\.pn|\.pr|\.pro|\.ps|\.pt|\.pw|\.py|\.qa|\.re|\.ro|\.ru|\.rw|\.sa|\.sb|\.sc|\.sd|\.se|\.sg|\.sh|\.si|\.sj|\.sk|\.sl|\.sm|\.sn|\.so|\.sr|\.st|\.su|\.sv|\.sy|\.sz|\.tc|\.td|\.tel|\.tf|\.tg|\.th|\.tj|\.tk|\.tl|\.tm|\.tn|\.to|\.tp|\.tr|\.travel|\.tt|\.tv|\.tw|\.tz|\.ua|\.ug|\.uk|\.um|\.us|\.uy|\.uz|\.va|\.vc|\.ve|\.vg|\.vi|\.vn|\.vu|\.wf|\.ws|\.ye|\.yt|\.yu|\.za|\.zm|\.zw)$/i;
+	
+	
+        if( (!filter.test( elementValue ))  || ( filter2.test( elementValue )) || ( !filter3.test( elementValue )) ) {
+                return false;
+        }
+        return true;*/
+  }
+
+</script>

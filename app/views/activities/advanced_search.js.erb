@@ -1,0 +1,11 @@
+$('#fsearch_count').hide();
+<%if !@advance_count.nil? && @advance_count.present?%>
+  $('#fadvance_search_count').html('('+<%=@advance_count%>+')');
+<%else%>
+  $('#fadvance_search_count').html('('+0+')');
+<%end%>
+$('.right_container').html("<%=escape_javascript(render 'advance_search')%>");
+$("#load_more").css('display','none');
+
+
+

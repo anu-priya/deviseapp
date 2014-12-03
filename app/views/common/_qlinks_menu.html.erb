@@ -1,0 +1,38 @@
+	<!--Quick links started here-->
+	<div class="menuSelection">
+		<div class="divheading">
+			<a class="<%if params[:action]=="browse_category"%>innerMenuSelection<%else%>alink<% end%>"  href="/categories" title="Browse by Category" onclick="search_qklink();_gaq.push(['_trackEvent', 'Browse by Category', 'clickQucikLinks']);">Browse by Category</a>
+		</div>
+		<div class="dottedone">&nbsp;<span class="middt" <%if params[:search_type] == "hot-deals"%>style="color:#DC1F1B;"<%end%>>&middot;</span>&nbsp;</div>
+		<div class="divheading">
+			<a class="<%if params[:search_type] == "hot-deals" %>innerMenuSelection<%else%>alink<% end%>"  href="/hot-deals-activities" title="Hot Deals" onclick="search_qklink();_gaq.push(['_trackEvent', 'Hot Deals', 'clickQucikLinks']);">Hot Deals</a>
+		</div>
+		<%if current_user && !current_user.nil? && current_user.present?%>
+		<div class="dottedone">&nbsp;<span class="middt" <%if params[:search_type] == "favorite"%>style="color:#DC1F1B;"<%end%>>&middot;</span>&nbsp;</div>
+		<div class="divheading">
+			<a class="<%if params[:search_type] == "favorite"%>innerMenuSelection<%else%>alink<% end%>" href="/favorite-activities"  title="Favorites" onclick="search_qklink();_gaq.push(['_trackEvent', 'Favorites', 'clickQucikLinks']);">Favorites</a>
+		</div>
+		<%end%>
+		<div class="dottedone">&nbsp;<span class="middt" <%if params[:search_type] == "free"%>style="color:#DC1F1B;"<%end%>>&middot;</span>&nbsp;</div>
+		<div class="divheading">
+			<a class="<%if params[:search_type] == "free"%>innerMenuSelection<%else%>alink<% end%>" href="/free-activities" title="Free" onclick="search_qklink();_gaq.push(['_trackEvent', 'Free', 'clickQucikLinks']);">Free</a>
+		</div>
+		<div class="dottedone">&nbsp;<span class="middt" <%if params[:search_type] == "camp"%>style="color:#DC1F1B;"<%end%>>&middot;</span>&nbsp;</div>
+		<div class="divheading">
+			<a class="<%if params[:search_type] == "camp"%>innerMenuSelection<%else%>alink<% end%>" href="/camp-activities" title="Camps" onclick="search_qklink();_gaq.push(['_trackEvent', 'Camps', 'clickQucikLinks']);">Camps</a>
+		</div>
+		<div class="dottedone">&nbsp;<span class="middt">&middot;</span>&nbsp;</div>
+		<div class="divheading">
+			<a class="alink" href="javascript:void(0)"  title="This Weekend" onclick="week_click_new();_gaq.push(['_trackEvent', 'This Weekend', 'clickQucikLinks']);">This Weekend</a>
+		</div>
+	</div>
+<!--weed end newsletter starting-->
+<%=render :partial => 'common/week_end_newsletter'%>
+<!--weed end newsletter ending-->
+<script type="text/javascript">
+//quick link onclick functions called
+function search_qklink(qtype)
+{
+	var search_word = $("#search_value").val('<%if current_user && !current_user.nil? && current_user.present?%>dance lessons, painting, class, etc<%else%>dance lessons, painting...<%end%>');
+}
+</script>

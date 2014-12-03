@@ -1,0 +1,45 @@
+<%= form_for(@activity_shared) do |f| %>
+  <% if @activity_shared.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@activity_shared.errors.count, "error") %> prohibited this activity_shared from being saved:</h2>
+
+      <ul>
+      <% @activity_shared.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :shared_id %><br />
+    <%= f.number_field :shared_id %>
+  </div>
+  <div class="field">
+    <%= f.label :shared_to %><br />
+    <%= f.text_area :shared_to %>
+  </div>
+  <div class="field">
+    <%= f.label :subject %><br />
+    <%= f.text_area :subject %>
+  </div>
+  <div class="field">
+    <%= f.label :message %><br />
+    <%= f.text_area :message %>
+  </div>
+  <div class="field">
+    <%= f.label :activity_id %><br />
+    <%= f.number_field :activity_id %>
+  </div>
+  <div class="field">
+    <%= f.label :user_id %><br />
+    <%= f.number_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :shared_date %><br />
+    <%= f.date_select :shared_date %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

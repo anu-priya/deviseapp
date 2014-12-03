@@ -1,0 +1,63 @@
+<%=javascript_include_tag "global/checkbox" %>
+<input type="hidden" id="actid_chk" name="actid_chk" value="" />
+<input type="hidden" id="page" name="page" value="<% if !params[:page].nil? && params[:page].present? %><%=params[:page]%><%else%>1<%end%>" />
+
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+ <%if !@activity_stats.nil? && @activity_stats !="" %>
+     <%slcount = 1%>
+    <%i = 0%>
+    <%if @activity_stats.length > 0 %>
+   <tr>
+    <td align="left" width="80" class="headText setPadLt">S.No</td>
+    <td align="left" width="200" class="headText">Activity Name</td>
+    <td align="left" width="180" class="headText">Status</td>
+    <td align="left" width="180" class="headText">Discount Dollar</td>
+    <td align="left" width="180" class="headText">Views</td>
+    <td align="left" width="180" class="headText">Shared</td>
+  </tr>
+  
+      <%@activity_stats && @activity_stats.each do |act|%>
+        <%i = i + 1%>
+        <%if i.even? %>
+          <tr class="setBg2">
+          <%else%>
+          <tr class="setBg1">
+          <%end%>
+	          
+		<td align="left" width="80" class="contentText setPadLt activityName">
+		<!--displayed the serial no for provider activity stats reports by rajkumar-->
+		<%if @page_sno==1%>
+			<%=slcount %>
+		<%else%>
+			<%=((@page_sno.to_i-1)*10)+slcount%>
+		<%end%>
+		</td>
+		<!--to display the user's activity status information from the user transactions helper methods by rajkumar-->
+		<td align="left" width="200" class="contentText"><%=act.activity_name.capitalize if !act.nil? && !act.activity_name.nil?%></td>
+
+		<td align="left" width="180" class="contentText"><%if act && !act.nil? && !act.activity_id.nil? && !current_user.nil?%><%=reports_activity_status(act.activity_id,current_user.user_id) %><%else%>-<%end%></td>
+
+		<td align="left" width="180" class="contentText"><%if act && !act.nil? && !act.discount_eligible.nil? && act.discount_eligible.present?%>Accept<%else%>-<%end%></td>
+		
+		<td align="left" width="180" class="contentText"><%if act && !act.nil? && !act.activity_id.nil? && act.activity_id.present?%><%=reports_activity_views(act.activity_id) %><%else%>0<%end%></td>
+		
+		<td align="left" width="180" class="contentText"><%if act && !act.nil? && !act.activity_id.nil? && act.activity_id.present?%><%=reports_activity_shared(act.activity_id) %><%else%>0<%end%></td>
+        </tr>
+	<%slcount = slcount+1%>
+      <%end%><!--do ending here-->
+
+    <%else%>
+      <tr class="setBg1">
+        <td width="40%" colspan="7" class="no_activities" style="text-align:center;height: 500px;">No reports available</td>
+      </tr>
+    <%end%>
+  <%else%>
+    <tr class="setBg1">
+      <td width="40%" colspan="7" class="no_activities" style="text-align:center;height: 500px;">No reports available</td>
+    </tr>
+  <%end%>
+
+</table>
+<div class="pro_pagination">
+  <%= will_paginate @activity_stats if (!@activity_stats.nil? && !@activity_stats.empty?) %>
+</div>

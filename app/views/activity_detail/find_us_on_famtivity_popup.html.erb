@@ -1,0 +1,76 @@
+<%
+meta :title => "Find us on Famtivity - Marketing for Kids Activities, Classes, Camps, & Lessons",
+     :description => "Use the Find us on Famtivity button on your website to get a marketing boost for your kids activities, classes, camps and lessons",
+     :keywords => "Find us on Famtivity, kids activity marketing, marketing for kids activities"
+%>
+<noscript>
+<%=javascript_include_tag "global/to_mail","global/checkbox","share_activity/share_activity","share_activity/validate"%>
+</noscript>
+<%=stylesheet_link_tag "global/pop_up","share_activity/share_acitivity_detail","share_activity/share_activity", :media => "all"%>
+<%=javascript_include_tag "global/overlay/windowfiles/dhtmlwindow","global/overlay/modalfiles/modal"%>
+<script language="javascript">
+ 
+  function closepopuppreview(){
+    parent.embedPage3.hide();
+    //~ /*SEO Optimization url for  find_us_on_famtivity start*/
+    var stateObj = {
+        foo: "bar"
+    };
+    if(navigator.appName=="Microsoft Internet Explorer")
+    {
+        window.location.hash='/';
+    }
+    else
+    {
+        parent.history.replaceState(stateObj, "Find us on Famtivity", "/");
+    }
+    /*SEO Optimization ends*/
+  }
+</script>
+
+<div id="new_act_container">
+  <div class="popupContainer" style="width:795px;">
+    <div class="popupContainerTop" style="width:795px;"></div>
+    <div class="popupContainerCenter" id="provider_embed_list" style="width:795px;">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading" style="width:750px;">
+            <h1 class="headCont">Find Us On Famtivity</h1>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopuppreview()" title="">
+               <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%>
+            </a>
+          </div>
+        </div>
+        <div class="centerCont" style="width:775px;">
+          <div class="paddingTop10" style="padding:20px 0 40px 25px;width:765px;">
+	<div class="lt leftSideField" style="width:75px;margin-left:45px;">&nbsp;</div>
+	<div class="lt">
+		<p style="font-family:arial;background-color1:#EDF1F2;font-size:14px;line-height:18px; text-align:left;width: 525px;margin: 0px 0px 15px 0px;padding:10px 0px;" >Add the "Find Us On Famtivity" button to your website and get a "Social Boost" from our marketing team.  Just copy and paste the code below onto your website and then email us at <a href="mailto:admin@famtivity.com"><font color="#5AA3B6">admin@famtivity.com</font></a> with a link to your site.  We'll then promote your business to our thousands of Facebook fans!</p>
+		<p style="font-family:arial;background-color1:#EDF1F2;font-size:14px; text-align:center;width: 525px;margin: 0px 0px 15px 0px;padding:10px 0px;clear:both;" ><%=image_tag("/assets/find-us-on-famtivity.jpg", :width=>"230", :height=>"90", :alt=>"find us on famtivity")%></p>
+		<p style="font-family:arial;background-color:#EDF1F2;font-size:14px; text-align:left;width: 525px;margin: 0px 0px 15px 0px;padding:10px 10px;">To add the link, copy and paste this code onto your website</p>
+	</div><br>
+       <div class="lt leftSideField" style="width:75px;margin-left:45px;">Embed as Anchor</div><textarea  class="textArea" name="message" id="message" value="" onchange="removeunwantedSpace('message',this.value)" onfocus="focusChangeBorderColor('message')" onblur="blurChangeBorderColor('message')" style="height:85px;width:535px;"><a href="https://www.famtivity.com" target="_blank">
+<%=image_tag("https://www.famtivity.com/assets/find-us-on-famtivity.jpg", :width=>"230", :height=>"90", :alt=>"Find Us On Famtivity")%></a></textarea>
+	<div class="clear"><br/></div>
+       <div class="lt leftSideField" style="width:75px;margin-left:45px;">Embed as Iframe</div>
+	<textarea  class="textArea" name="message" id="message" value="" onchange="removeunwantedSpace('message',this.value)" onfocus="focusChangeBorderColor('message')" onblur="blurChangeBorderColor('message')" style="height:85px;width:535px;"><iframe scrolling="no" width="230px" height="90px" src='<%=request.protocol%><%=@get_current_url%>/find-us-on-famtivity' target='_blank' frameborder="0" ></iframe></textarea>
+          <div class="lt leftSideField" style="width:75px;margin-left:45px;">&nbsp;</div><br><br>
+	<div class="lt">
+		<!--<a href="javascript:void(0)" tabindex="25" onClick="cancelRepeatDiv()" onkeydown="cancelKeyDown(event)"><img src="/assets/tickets/save_a_copy_button.png" alt="" ></a>-->
+		<!--<a href="javascript:void(0)" tabindex="23" onclick="closepopuppreview()" style="position:relative;">
+		<img src="/assets/tickets/cancel.png" alt="" ></a>-->
+          </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+      <div class="clear"></div>
+  </div>
+    </div>
+    <div class="popupContainerBottom" style="width:795px;"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+</div>

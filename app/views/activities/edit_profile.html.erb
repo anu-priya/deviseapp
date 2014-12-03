@@ -1,0 +1,1261 @@
+<%=stylesheet_link_tag "colorPicker/jquery.miniColors","profile/profile","contacts_users/contact_user","event/add_participant","global/pop_up", :media => "all"%>
+<%=javascript_include_tag "colorPicker/jquery.miniColors","profile/profile_select","event/add_participant"%>
+		<style type="text/css">
+			BODY {
+				font-family: Arial, Helvetica, sans-serif;
+				font-size: 13px;
+				line-height: 1.5;
+			}
+			
+			INPUT {
+				vertical-align: middle;
+				font-size: 13px;
+			}
+		</style>
+
+
+		<script type="text/javascript">
+			
+			$(document).ready( function() {
+				function init() {
+					
+					$('.color-picker').each( function() {
+					
+						$(this).miniColors({
+							opacity: $(this).hasClass('opacity'),
+							change: function(hex, rgba) {
+								$('#console').prepend('change: ' + hex + ', rgba(' + rgba.r + ', ' + rgba.g + ', ' + rgba.b + ', ' + rgba.a + ')<br>');
+							},
+							open: function(hex, rgba) {
+								$('#console').prepend('open: ' + hex + ', rgba(' + rgba.r + ', ' + rgba.g + ', ' + rgba.b + ', ' + rgba.a + ')<br>');
+							},
+							close: function(hex, rgba) {
+								$('#console').prepend('close: ' + hex + ', rgba(' + rgba.r + ', ' + rgba.g + ', ' + rgba.b + ', ' + rgba.a + ')<br>');
+							}
+						});
+						
+					});
+					
+				}
+				
+				init();
+				
+				$('#disable').click( function() {
+					$('#console').prepend('disable<br />');
+					$('.color-picker, .color-picker').miniColors('disabled', true);
+					$("#disable").prop('disabled', true);
+					$("#enable").prop('disabled', false);
+				});
+				
+				$('#enable').click( function() {
+					$('#console').prepend('enable<br />');
+					$('.color-picker, .color-picker').miniColors('disabled', false);
+					$("#disable").prop('disabled', false);
+					$("#enable").prop('disabled', true);
+				});
+				
+				$('#makeReadonly').click( function() {
+					$('#console').prepend('readonly = true<br />');
+					$('.color-picker').miniColors('readonly', true);
+					$("#unmakeReadonly").prop('disabled', false);
+					$("#makeReadonly").prop('disabled', true);
+				});
+				
+				$('#unmakeReadonly').click( function() {
+					$('#console').prepend('readonly = false<br />');
+					$('.color-picker').miniColors('readonly', false);
+					$("#unmakeReadonly").prop('disabled', true);
+					$("#makeReadonly").prop('disabled', false);
+				});
+				
+				$('#destroy').click( function() {
+					$('#console').prepend('destroy<br />');
+					$('.color-picker').miniColors('destroy');
+					$("INPUT[type=button]:not(#create)").prop('disabled', true);
+					$("#destroy").prop('disabled', true);
+					$("#create").prop('disabled', false);
+				});
+				
+				$('#create').click( function() {
+					$('#console').prepend('create<br />');
+					init();
+					$("#makeReadonly, #disable, #destroy, #randomize").prop('disabled', false);
+					$("#destroy").prop('disabled', false);
+					$("#create").prop('disabled', true);
+				});
+				
+				$('#randomize').click( function() {
+					$('.color-picker').miniColors('value', '#' + Math.floor(Math.random() * 16777215).toString(16));
+				});
+				
+			});
+			
+		</script>
+
+<script language="javascript">
+  function closepopup() {
+    parent.EditpasswordPage.hide();
+  }
+  function profile_div(){
+  errorFlag = false;
+	   var age_edit = $("#age_edit").val();
+	   $("#profile_age_error").html("");
+	   $("#setAgeBorder").css("border","none");
+  	    if(age_edit == "" || age_edit=="Select"){
+        $("#setAgeBorder").css("border","1px solid #fc8989");
+        $("#profile_age_error").html("Please select the age range");
+        $("#profile_age_error").parent().css("display","block");
+		addedProfileDiv();
+        errorFlag = true;
+		
+    }
+	if(errorFlag){	
+	
+        return false;
+		
+    }
+    else{
+	addedProfileDiv();
+        return false;
+    }
+
+	}
+	function addedProfileDiv()
+	{
+
+    $("#defaultColorDiv").css("display","none");
+	$("#colorDiv").css("display","block");
+    var lengthDiv = $('.createDynamicDivsProfile font').length;
+	
+    if(lengthDiv<25){
+        var currentDiv = lengthDiv+1;
+		//alert(currentDiv);
+        var value = currentDiv;	
+		//count increment	
+		count=$("#part_count").val();
+		count_inc=count+","+value;
+		$("#part_count").val(count_inc);
+		
+        str_profile = '<font><div style="padding-top:30px;" id="add_color_'+value+'"> <div class="lt setwidth_add_color"> <span id="add_clr_parti_'+value+'">1</span></div><div class="lt setwidth_add_color"><span id="add_clr_age_'+value+'">1-3</span></div><div class="lt setwidth_add_color"><span id="add_clr_color_'+value+'">Color</span></div><div class="lt setwidth_add_color"><span id="add_clr_action_'+value+'"><a href="javascript:void(0)" onclick="deleteProfileDiv('+value+')"><img src="/assets/provider_event_list/delete_icon.png" width="29" height="26" alt="" /></a></span></div></div></font>';
+		
+		$('.createDynamicDivsProfile').append(str_profile);
+		
+        //var pre_val = value - 1;        
+       // $('#add_clr_action_'+value).show();
+	}
+}
+
+function deleteProfileDiv(incVal){
+    $('#add_color_'+incVal).html('');
+	$('#add_color_'+incVal).hide();
+	$('#add_color_'+incVal).css('display','none');
+	remove_count=$("#part_count").val();
+	r_count=remove_count.replace(incVal,'');
+	$("#part_count").val(r_count);
+}
+
+</script>
+
+
+<div id="edit_profie_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Edit Profile</div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%> </a>
+          </div>
+        </div>
+        <div class="centerCont ">
+          <form id="edit_password" name="edit_password" action="#" method="post">
+            <div class="paddingTop10" style=".padding-top:5px;"></div>
+			<div class="edit_personal_text paddingTop10" style=".padding-top:0px;">Personal Details</div>
+			  <div class="paddingTop10">
+				<div class="lt leftSideField setMarginTop">Upload Image</div>
+				<div class="lt">		
+				  <div class="lt setImgBorder">
+					<%=image_tag("/assets/contact/browse_box.png", :width=>"85", :height=>"87", :style=>"border:0px;", :id=>"setBrowseBorder")%>
+				   </div>
+				  <div class="lt">
+					<div class="lt FileUpload">
+					  <input type="file" accept="image/*" onchange="document.getElementById('photo').value =this.value;" size="21" id="photo1" class="BrowserHidden" name="contact_user[contact]" style=".width:100px;"/>
+					  <div class="BrowserVisible" style="border:none;">
+						<input type="text" name="photo" id="photo" class="FileField"  readonly="readonly" />
+		
+					  </div>
+					  <span class="browse_profile"  style="cursor:pointer; position:relative; display:inline-block;"><b>Change Picture</b></span>
+					  <div class="clear"></div>
+					</div>
+				  </div>
+		
+		
+				  <div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+				<div class="errorDiv" style="display:none;">
+				  <div class="lt leftSideField">&nbsp;</div>
+				  <div class="lt" id="photo_profile_error"></div>
+				  <div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+					  <div class="paddingTop10">
+						<div class="lt leftSideField">Email</div>
+						<input type="text" name="profile_email" id="profile_email" class="lt textbox" tabindex="1"/>
+						<div class="clear"></div>
+					  </div>
+		
+					  <div class="clear"></div>
+					  <div class="errorDiv" style="display:none">
+						<div class="lt leftSideField">&nbsp;</div>
+						<div class="lt" id="email_profile_error"></div>
+						<div class="clear"></div>
+					  </div>
+					  <div class="clear"></div>
+		
+					  <div class="paddingTop10">
+						<div class="lt leftSideField">User Name</div>
+						<div class="lt">
+							<input type="text" name="profile_first_name" id="profile_first_name" class="lt textbox_username" maxlength="15" tabindex="2"/>
+						</div>
+						<div class="lt">
+							<input type="text" style="margin-left:9px;" name="profile_last_name" id="profile_last_name" class="lt textbox_username" maxlength="15" tabindex="3"/>
+						</div>
+						<div class="clear"></div>
+					  </div>
+		
+					  <div class="clear"></div>
+					  <div class="errorDiv" style="display:none;">
+						<div class="lt leftSideField">&nbsp;</div>
+						<div class="lt" id="profile_firstname_error" style="width:278px; border:1px solid #fff;"></div>
+						<div class="lt" id="profile_lastname_error"></div>
+						<div class="clear"></div>
+					  </div>
+					  <div class="clear"></div>
+					  
+					  <div class="paddingTop10">
+						<div class="lt leftSideField">Date of Birth</div>
+						<div class="lt" style="width:95px;">
+							  <div class="editProfileSelectBox"  id="setdayBorder" onkeydown="selectRegdateUsrKeyDown(event)" onmouseover="flagEditOne=true;" onmouseout="flagEditOne=false;">
+								<input type="hidden" id="day_edit" name="day_edit" value="Select"  />
+								<div id="field_edit_day" class="selectDiv selectDivMedium" style="line-height:23px; width:48px;" tabindex="4">Day</div>
+							  </div>
+			
+							  <div class="editDaydropDownDiv dropDownDiv_small" id="EditdropDownDivOne" style="display:none;">
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('01')" title="">01</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('02')" title="">02</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('03')" title="">03</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('04')" title="">04</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('05')" title="">05</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('06')" title="">06</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('07')" title="">07</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('08')" title="">08</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('09')" title="">09</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('10')" title="">10</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('11')" title="">11</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('12')" title="">12</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('13')" title="">13</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('14')" title="">14</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('15')" title="">15</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('16')" title="">16</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('17')" title="">17</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('18')" title="">18</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('19')" title="">19</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('20')" title="">20</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('21')" title="">21</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('22')" title="">22</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('23')" title="">23</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('24')" title="">24</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('25')" title="">25</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('26')" title="">26</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('27')" title="">27</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('28')" title="">28</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('29')" title="">29</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('30')" title="">30</a>
+								<a href="javascript:void(0)" onclick="setDropDownValueOne('31')" title="">31</a>
+							  </div>
+						 </div>
+						<div class="lt" style="width:95px;">
+							  <div class="editProfileSelectBox"  onkeydown="selectRegdateUsrKeyDown(event)" onmouseover="flagEditTwo=true;" onmouseout="flagEditTwo=false;">
+								<input type="hidden" id="month_edit" name="month_edit" value="Select"  />
+								<div id="field_edit_month" class="selectDiv selectDivMedium" style="line-height:23px; width:48px;" tabindex="5">Month</div>
+							  </div>
+			
+							  <div class="editDaydropDownDiv dropDownDiv_small" id="EditdropDownDivTwo" style="display:none; width:83px;">
+								  <a href="javascript:void(0)" onclick="setDropDownValueTwo('Jan')">January</a>
+								  <a href="javascript:void(0)" onclick="setDropDownValueTwo('Feb')">February</a>
+								  <a href="javascript:void(0)" onclick="setDropDownValueTwo('Mar')">March</a>
+								  <a href="javascript:void(0)" onclick="setDropDownValueTwo('Apr')">April</a>
+								  <a href="javascript:void(0)" onclick="setDropDownValueTwo('May')">May</a>
+								  <a href="javascript:void(0)" onclick="setDropDownValueTwo('Jun')">June</a>
+								  <a href="javascript:void(0)" onclick="setDropDownValueTwo('Jul')">July</a>
+								  <a href="javascript:void(0)" onclick="setDropDownValueTwo('Aug')">August</a>
+								  <a href="javascript:void(0)" onclick="setDropDownValueTwo('Sep')">September</a>
+								  <a href="javascript:void(0)" onclick="setDropDownValueTwo('Oct')">October</a>
+								  <a href="javascript:void(0)" onclick="setDropDownValueTwo('Nov')">November</a>
+								  <a href="javascript:void(0)" onclick="setDropDownValueTwo('Dec')">December</a>
+							  </div>
+						 </div>
+						<div class="lt" style="width:95px;">
+							  <div class="editProfileSelectBox"  onkeydown="selectRegdateUsrKeyDown(event)" onmouseover="flagEditThree=true;" onmouseout="flagEditThree=false;">
+								<input type="hidden" id="year_profile_1" name="year_profile_1" value="Select"  />
+								<div id="year_profile_setVal_1" class="selectDiv selectDivMedium" style="line-height:23px; width:48px;" tabindex="6">Year</div>
+							  </div>
+			
+							  <div class="editDaydropDownDiv dropDownDiv_small" id="EditdropDownDivThree" style="display:none;">
+							  <div id="yearDisp_profile_1"></div>
+							  </div>
+						 </div>
+						<div class="lt gender_text" style="width:80px; margin:8px 0 0 6px;">Gender</div>
+						<div class="lt" style="width:80px;">
+							  <div class="editProfileGenderSelectBox"  onkeydown="selectRegdateUsrKeyDown(event)" onmouseover="flagEditSeven=true;" onmouseout="flagEditSeven=false;">
+								<input type="hidden" id="gender_edit" name="gender_edit" value="Select"  />
+								<div id="field_edit_gender" class="selectDiv selectDivMedium" style="line-height:23px; width:48px;" tabindex="7">Select</div>
+							  </div>
+			
+							  <div class="editGenderdropDownDiv dropDownDiv_small" id="EditdropDownDivSeven" style="display:none; width:170px;">
+								  <a href="javascript:void(0)" onclick="setDropDownValueSeven('Male')">Male</a>
+								  <a href="javascript:void(0)" onclick="setDropDownValueSeven('Female')">Female</a>
+							  </div>
+						</div>
+						<div class="clear"></div>
+					  </div>
+						<div class="clear"></div>
+					  <div class="errorDiv" style="display:none">
+						<div class="lt leftSideField">&nbsp;</div>
+						<div class="lt" id="profile_dob_error"></div>
+						<div class="clear"></div>
+					  </div>
+					  <div class="clear"></div>
+					   
+				  <div class="paddingTop10" style=".padding-top:5px;"></div>
+			         <div class="edit_personal_text paddingTop10" style=".padding-top:0px;">Contact Details</div>
+					  <div class="paddingTop10" style="padding-top:18px;">
+						<div class="lt leftSideField">Website</div>
+						<input type="text" name="profile_web" id="profile_web" class="lt textbox" tabindex="8"/>
+						<div class="clear"></div>
+					  </div>
+		
+					  <div class="clear"></div>
+					  <div class="errorDiv" style="display:none">
+						<div class="lt leftSideField">&nbsp;</div>
+						<div class="lt" id="profile_web_error"></div>
+						<div class="clear"></div>
+					  </div>
+					  <div class="clear"></div>
+		
+					  <div class="paddingTop10">
+						<div class="lt leftSideField">Institute Name</div>
+						<input type="text" name="profile_insti" id="profile_insti" class="lt textbox" tabindex="9"/>
+						<div class="clear"></div>
+					  </div>
+		
+					  <div class="clear"></div>
+					  <div class="errorDiv" style="display:none">
+						<div class="lt leftSideField">&nbsp;</div>
+						<div class="lt" id="profile_insti_error"></div>
+						<div class="clear"></div>
+					  </div>
+					  <div class="clear"></div>
+					  
+					  <div class="paddingTop10">
+						<div class="lt leftSideField">Contact Number</div>
+						<input type="text" name="profile_contact" id="profile_contact" class="lt textbox" tabindex="10"/>
+						<div class="clear"></div>
+					  </div>
+		
+					  <div class="clear"></div>
+					  <div class="errorDiv" style="display:none">
+						<div class="lt leftSideField">&nbsp;</div>
+						<div class="lt" id="profile_contact_error"></div>
+						<div class="clear"></div>
+					  </div>
+					  <div class="clear"></div>
+					   <div class="clear"></div>
+					   
+					  <div class="paddingTop10">
+						<div class="lt leftSideField">Address</div>
+						<input type="text" name="profile_Add1" id="profile_Add1" class="lt textbox" tabindex="11"/>
+						<div class="clear"></div>
+					  </div>
+					  <div style="margin-top:3px;">
+						<div class="lt leftSideField">&nbsp;</div>
+						<input type="text" name="profile_Add2" id="profile_Add2" class="lt textbox" tabindex="12"/>
+						<div class="clear"></div>
+					  </div>
+
+		
+					  <div class="clear"></div>
+					  <div class="errorDiv" style="display:none">
+						<div class="lt leftSideField">&nbsp;</div>
+						<div class="lt" id="profile_address_error"></div>
+						<div class="clear"></div>
+					  </div>
+					  <div class="clear"></div>
+					  
+					  <div class="paddingTop10">
+						<div class="lt leftSideField">&nbsp;</div>
+						<div class="lt" style="width:275px;">
+							<div class="selectBoxEditProfileCity selectBoxMedium" id="setCountryBorder"  onmouseover="flagEditFour=true;" onmouseout="flagEditFour=false;">
+                                                          <input type="hidden" id="country_edit_profile" name="country_edit_profile" value="--Choose Country--"  />
+								<div id="field_edit_country" class="selectDiv selectDivMedium" style="line-height:23px;" tabindex="13">--Choose Country--</div>
+							</div>
+							
+							<div class="dropDownDivEditCity dropDownDivMedium" id="EditdropDownDivFour" style="display:none; height:111px; overflow-y:scroll;">
+								<a href="javascript:void(0)" onclick="setCountryProfileValue('United States')" title="">United States</a>
+								<a href="javascript:void(0)" onclick="setCountryProfileValue('India')" title="">India</a>
+                            </div>
+							</div>
+							
+						  <div class="lt">
+							<div class="selectBoxEditProfileCity selectBoxMedium"  id="setStateBorder" onmouseover="flagEditFive=true;" onmouseout="flagEditFive=false;">
+								<input type="hidden" id="state_edit_profile" name="state_edit_profile" value="--Choose State--"  />
+								<div id="field_edit_state" class="selectDiv selectDivMedium" style="line-height:23px;" tabindex="14">--Choose State--</div>
+							</div>
+							<div class="dropDownDivEditCity dropDownDivMedium" id="EditdropDownDivFive" style="display:none; height:111px; overflow-y:scroll;">
+                            </div>
+						 </div>
+						    <div class="clear"></div>
+		              </div>
+					  <div class="clear"></div>
+					  
+					  <div class="errorDiv" style="display:none;">
+						 <div class="lt leftSideField">&nbsp;</div>
+						 <div class="lt" style="width:275px; border:1px solid #fff;" id="profile_country_error"></div>
+						  <div class="lt" id="profile_state_error"></div>
+						 </div>
+
+
+					  <div class="clear"></div>
+					  
+					  <div class="paddingTop10">
+						<div class="lt leftSideField">&nbsp;</div>
+						<div class="lt" style="width:275px;">
+							<div class="selectBoxEditProfileCity selectBoxMedium" id="setCityBorder"  onmouseover="flagEditSix=true;" onmouseout="flagEditSix=false;">
+								<input type="hidden" id="city_edit_profile" name="city_edit_profile" value="--Choose City--"  />
+								<div id="field_edit_city" class="selectDiv selectDivMedium" style="line-height:23px;" tabindex="15">--Choose City--</div>
+							</div>
+							
+							<div class="dropDownDivEditCity dropDownDivMedium" id="EditdropDownDivSix" style="display:none; height:111px; overflow-y:scroll;">
+                            </div>
+							</div>
+						<div class="lt" style="width:275px;">
+						<input type="text" style="margin-left:1px;" name="profile_zipcode" id="profile_zipcode" class="lt textbox_username" maxlength="15" tabindex="3"/>
+						</div>
+						<div class="clear"></div>
+					  </div>
+					  <div class="clear"></div>
+					  
+					  	<div class="errorDiv" style="display:none;">
+						 <div class="lt leftSideField">&nbsp;</div>
+						 <div class="lt" style="width:275px; border:1px solid #fff;" id="profile_city_error"></div>
+						  <div class="lt" id="profile_zipcode_error"></div>
+						 </div>
+						 
+					  <div class="clear"></div>
+					  
+				    <div class="paddingTop10" style=".padding-top:5px;"></div>
+			         <div class="edit_personal_text paddingTop10" style=".padding-top:0px;">Account Details</div>
+					  <div class="paddingTop10" style="padding-top:18px;">
+						<div class="lt leftSideField">Language</div>
+						<div class="lt">
+							  <div class="editProfileSelectBoxLanguage" id="setLanguageBorder"  onkeydown="selectRegdateUsrKeyDown(event)" onmouseover="flagEditEight=true;" onmouseout="flagEditEight=false;">
+								<input type="hidden" id="language_edit" name="language_edit" value="Select"  />
+								<div id="field_edit_language" class="selectDiv selectDivMedium" style="line-height:23px; width:511px;" tabindex="16">Select</div>
+							  </div>
+			
+							  <div class="editLanguagedropDownDiv dropDownDiv_small" id="EditdropDownDivEight" style="display:none;">
+								  <a href="javascript:void(0)" onclick="setDropDownValueEight('English')">English</a>
+<!--								  <a href="javascript:void(0)" onclick="setDropDownValueEight('Feb')">February</a>
+								  <a href="javascript:void(0)" onclick="setDropDownValueEight('Mar')">March</a>
+-->							  </div>
+						<div class="clear"></div>
+					   </div>
+					  </div>
+					  
+					  <div class="errorDiv" style="display:none">
+						<div class="lt leftSideField">&nbsp;</div>
+						<div class="lt" id="profile_language_error"></div>
+						<div class="clear"></div>
+					  </div>
+					  <div class="clear"></div>
+		
+		
+					  <div class="paddingTop10">
+						<div class="lt leftSideField">Linked Accounts</div>
+							<div class="set_linked_bg lt">
+								<div class="lt"><a href="#"><%=image_tag("/assets/profile/face_icon.png", :width=>"31", :height=>"31")%></a><span><a href="#" class="fb_text">Facebook</a></span></div>
+								<div style="float:right; display:inline-block;"><a href="#"><%=image_tag("/assets/profile/connect_button.png", :width=>"97", :height=>"34")%></a></div>
+							</div>
+						<div class="clear"></div>
+					  </div>
+					  <div style="margin-top:1px;">
+						<div class="lt leftSideField">&nbsp;</div>
+							<div class="set_linked_bg lt">
+								<div class="lt"><a href="#"><%=image_tag("/assets/header/gplus_icon.png", :width=>"24", :height=>"23")%></a><span><a href="#" class="fb_text">Google+</a></span></div>
+								<div style="float:right; display:inline-block;"><a href="#"><%=image_tag("/assets/profile/connect_button.png", :width=>"97", :height=>"34")%></a></div>
+							</div>
+						<div class="clear"></div>
+					  </div>
+					  
+					  <div class="paddingTop10" style="padding-top:18px;">
+						<div class="lt leftSideField">Time Zone</div>
+						<div class="lt">
+							  <div class="editProfileSelectBoxLanguage" id="setTimezoneBorder"  onkeydown="selectRegdateUsrKeyDown(event)" onmouseover="flagEditNine=true;" onmouseout="flagEditNine=false;">
+								<input type="hidden" id="Time_zone_edit" name="Time_zone_edit" value="Select"  />
+								<div id="field_edit_time_zone" class="selectDiv selectDivMedium" style="line-height:23px; width:511px;" tabindex="17">Select</div>
+							  </div>
+			
+							  <div class="editLanguagedropDownDiv dropDownDiv_small" id="EditdropDownDivNine" style="display:none;">
+								  <a href="javascript:void(0)" onclick="setDropDownValueNine('(GMT+08:00) Irkutsk, Ulaan Bataar')">(GMT+08:00) Irkutsk, Ulaan Bataar</a>
+<!--								  <a href="javascript:void(0)" onclick="setDropDownValueNine('Feb')">February</a>
+								  <a href="javascript:void(0)" onclick="setDropDownValueEight('Mar')">March</a>
+-->							  </div>
+						<div class="clear"></div>
+					   </div>
+					  </div>
+					 <div class="clear"></div>
+					  <div class="errorDiv" style="display:none">
+						<div class="lt leftSideField">&nbsp;</div>
+						<div class="lt" id="profile_timezone_error"></div>
+						<div class="clear"></div>
+					  </div>
+
+					  <div class="clear"></div>
+
+					  <div class="paddingTop10" style="padding-top:18px;">
+						<div class="lt leftSideField">Set Participant Age Range</div>
+						<div class="lt">
+							  <div class="editProfileSelectBoxLanguage" id="setAgeBorder"  onkeydown="selectRegdateUsrKeyDown(event)" onmouseover="flagEditTen=true;" onmouseout="flagEditTen=false;">
+								<input type="hidden" id="age_edit" name="age_edit" value="Select"  />
+								<div id="field_edit_age" class="selectDiv selectDivMedium" style="line-height:23px; width:511px;" tabindex="18">Select</div>
+							  </div>
+			
+							  <div class="editLanguagedropDownDiv dropDownDiv_small" id="EditdropDownDivTen" style="display:none; height:110px;">
+									  <a href="#" onclick="setDropDownValueTen('1-3')">1-3</a>
+									  <a href="#" onclick="setDropDownValueTen('4-6')">4-6</a>
+									  <a href="#" onclick="setDropDownValueTen('7-9')">7-9</a>
+									  <a href="#" onclick="setDropDownValueTen('10-12')">10-12</a>
+									  <a href="#" onclick="setDropDownValueTen('13-15')">13-15</a>
+									  <a href="#" onclick="setDropDownValueTen('16-18')">16-18</a>
+									  <a href="#" onclick="setDropDownValueTen('Adults')">Adults</a>
+    						  </div>
+						<div class="clear"></div>
+					   </div>
+					  </div>
+		
+					  <div class="clear"></div>
+					  <div class="errorDiv" style="display:none">
+						<div class="lt leftSideField">&nbsp;</div>
+						<div class="lt" id="profile_age_error"></div>
+						<div class="clear"></div>
+					  </div>
+					  <div class="clear"></div>
+					  
+					  <div class="paddingTop10">
+						<div class="lt leftSideField">Set Color</div>
+							<div class="set_linked_bg lt">
+								<div class="lt" style="margin-top:10px;"><span id="setbg" class="lt" style=""></span><span><a href="javascript:void(0)" onclick="profile_div()" class="fb_text"  style="top:0px; color: #5099AC;">Add</a></span></div>
+								<div style="float:right; display:inline-block;">
+								  <input type="hidden" name="color1" class="color-picker" size="7" autocomplete="on" value="#005294" />
+<!--								  <div id="setbg" style="display:block; width:50px; height:50px; margin:-50px 0 0 100px;"></div>
+-->								</div>
+							</div>
+						<div class="clear"></div>
+					  </div>
+					  
+					  <div class="paddingTop10" id="defaultColorDiv">
+						<div class="lt leftSideField">&nbsp;</div>
+							<div class="set_linked_bg lt">
+								<div class="lt" style="padding: 28px 99px; color:#999999;" align="center"> Selected Age Range and Color will be displayed here</div>
+							</div>
+	
+						<div class="clear"></div>
+					  </div>
+								<!-- add participant and color value-->
+					  <div class="paddingTop10" id="colorDiv" style="display:none;">
+						<div class="lt leftSideField">&nbsp;</div>
+							<div class="set_linked_bg lt">
+								<div class="lt setwidth_add_color">
+									<span>Participant</span>
+								</div>
+								<div class="lt setwidth_add_color">
+									<span>Age Range</span>
+								</div>
+								<div class="lt setwidth_add_color">
+									<span>Color</span>
+								</div>
+								<div class="lt setwidth_add_color">
+									<span>Action</span>
+								</div>
+							
+								<span class="createDynamicDivsProfile"></span>		
+														
+							</div>
+						<div class="clear"></div>
+					  </div>
+
+
+                     <div class="paddingTop10"></div>
+					 
+					 
+
+					 <!-- Add Participant Page-->
+			  
+				   <div id="add_participant" class="setPadd" style="margin:14px 0 0 24px; display: block; width: 850px;">
+					<form id="add_participant2" name="add_participant" action="/checkout/add_participant_success" method="post" enctype="multipart/form-data">				
+					  <div class="edit_personal_text" style="margin-left:41px;">Participant Details</div>
+					  <div class="centerArea">
+						<table cellspacing="0" cellpadding="0" border="0" width="100%">
+						  <tr height="35">
+							<td width="70" class="thead thead1">Image</td>
+							<td width="156" class="thead">Participant Name</td>
+							<td width="155" class="thead"><span class="setLeft">Date of Birth</span></td>
+							<td width="80" class="thead"><span class="setLeft">Age Range</span></td>
+							<td width="63" class="thead"><span class="setLeft">Gender</span></td>
+							<td width="232" class="thead"><span class="setLeft">Schedule</span></td>
+							<td width="50" class="thead">&nbsp;<span id="action_s_1" style="display:none;">Action</span></td>
+						  </tr>
+						</table>
+						<table cellspacing="0" cellpadding="0" border="0" width="100%" id="participant_1">
+						  <tr><td colspan="7" class="errorDiv" id="errorDiv_1" style="display:none;"></td></tr>
+						  <tr height="90">
+							<td width="70" class="tdata tdata1">
+							  <span class="browse" id="filediv_1"><a href="#" onClick="selectFile(1)" class="lt"><%=image_tag("/assets/create_new_activity/browse_image.png", :width=>"65", :height=>"69")%></a></span>
+							  <input type="file" accept="image/*" onchange="readURL(this);" size="21" id="photo_1" name="photo_1" value="" style="display:none;"/>
+			
+							  <div id="imagediv_1" class="browse1" style="display:none;">
+								<a href="#" onClick="selectFile(1)" class="lt"><img id="blah_1" src="#" alt="" /></a>
+							  </div>
+			
+							</td>
+							<td width="156" class="tdata">
+							  <input type="text" id="participant_name_1" name="participant_name" class="lt textbox" value=""/>
+							</td>
+							<td width="155" class="tdata setIEcen">
+							  <input type="hidden" id="day_1" name="day" value="" />
+							  <div id="menu" class="lt dayDivMenu">
+								<ul>
+								  <li><a href="#" class="dayDiv"><span id="day_setVal_1">Day</span><span><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4", :style=>"position:relative;top:-1px;left:5px;")%></span></a>
+									<ul class="sub-menu dispDayDiv" style="height:109px;">
+									  <li><a href="#" onclick="setDayVal(01,1)">1</a></li>
+									  <li><a href="#" onclick="setDayVal(02,1)">2</a></li>
+									  <li><a href="#" onclick="setDayVal(03,1)">3</a></li>
+									  <li><a href="#" onclick="setDayVal(04,1)">4</a></li>
+									  <li><a href="#" onclick="setDayVal(05,1)">5</a></li>
+									  <li><a href="#" onclick="setDayVal(06,1)">6</a></li>
+									  <li><a href="#" onclick="setDayVal(07,1)">7</a></li>
+									  <li><a href="#" onclick="setDayVal(08,1)">8</a></li>
+									  <li><a href="#" onclick="setDayVal(09,1)">9</a></li>
+									  <li><a href="#" onclick="setDayVal(10,1)">10</a></li>
+									  <li><a href="#" onclick="setDayVal(11,1)">11</a></li>
+									  <li><a href="#" onclick="setDayVal(12,1)">12</a></li>
+									  <li><a href="#" onclick="setDayVal(13,1)">13</a></li>
+									  <li><a href="#" onclick="setDayVal(14,1)">14</a></li>
+									  <li><a href="#" onclick="setDayVal(15,1)">15</a></li>
+									  <li><a href="#" onclick="setDayVal(16,1)">16</a></li>
+									  <li><a href="#" onclick="setDayVal(17,1)">17</a></li>
+									  <li><a href="#" onclick="setDayVal(18,1)">18</a></li>
+									  <li><a href="#" onclick="setDayVal(19,1)">19</a></li>
+									  <li><a href="#" onclick="setDayVal(20,1)">20</a></li>
+									  <li><a href="#" onclick="setDayVal(21,1)">21</a></li>
+									  <li><a href="#" onclick="setDayVal(22,1)">22</a></li>
+									  <li><a href="#" onclick="setDayVal(23,1)">23</a></li>
+									  <li><a href="#" onclick="setDayVal(24,1)">24</a></li>
+									  <li><a href="#" onclick="setDayVal(25,1)">25</a></li>
+									  <li><a href="#" onclick="setDayVal(26,1)">26</a></li>
+									  <li><a href="#" onclick="setDayVal(27,1)">27</a></li>
+									  <li><a href="#" onclick="setDayVal(28,1)">28</a></li>
+									  <li><a href="#" onclick="setDayVal(29,1)">29</a></li>
+									  <li><a href="#" onclick="setDayVal(30,1)">30</a></li>
+									  <li><a href="#" onclick="setDayVal(31,1)">31</a></li>
+									</ul>
+								  </li>
+								</ul>
+								<div class="clear"></div>
+							  </div>
+			
+							  <input type="hidden" id="month_1" name="month" value="" />
+							  <div id="menu" class="lt monthDivMenu">
+								<ul>
+								  <li><a href="#" class="monthDiv" ><span id="month_setVal_1">Month</span><span><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4", :style=>"position:relative;top:-1px;left:5px;")%></span></a>									  <ul class="sub-menu dispMonthDiv" style="height:109px;">
+									  <li><a href="#" onclick="setMonthVal('Jan',1)">January</a></li>
+									  <li><a href="#" onclick="setMonthVal('Feb',1)">February</a></li>
+									  <li><a href="#" onclick="setMonthVal('Mar',1)">March</a></li>
+									  <li><a href="#" onclick="setMonthVal('Apr',1)">April</a></li>
+									  <li><a href="#" onclick="setMonthVal('May',1)">May</a></li>
+									  <li><a href="#" onclick="setMonthVal('Jun',1)">June</a></li>
+									  <li><a href="#" onclick="setMonthVal('Jul',1)">July</a></li>
+									  <li><a href="#" onclick="setMonthVal('Aug',1)">August</a></li>
+									  <li><a href="#" onclick="setMonthVal('Sep',1)">September</a></li>
+									  <li><a href="#" onclick="setMonthVal('Oct',1)">October</a></li>
+									  <li><a href="#" onclick="setMonthVal('Nov',1)">November</a></li>
+									  <li><a href="#" onclick="setMonthVal('Dec',1)">December</a></li>
+									</ul>
+			
+								  </li>
+								</ul>
+								<div class="clear"></div>
+							  </div>
+			
+							  <input type="hidden" id="year_1" name="year" value="" />
+							  <div id="menu" class="lt yearDivMenu">
+								<ul>
+								  <li><a href="#" class="yearDiv"><span id="year_setVal_1">Year</span><span><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4", :style=>"position:relative;top:-1px;left:5px;")%></span></a>
+									<ul class="sub-menu dispYearDiv" id="yearDisp_1" style="height:109px;"></ul>
+								  </li>
+								</ul>
+								<div class="clear"></div>
+							  </div>
+							</td>
+							<td width="80" class="tdata setIEcen">
+							  <input type="hidden" id="age_1" name="age" value="" />
+							  <div id="menu" class="lt ageDivMenu">
+								<ul>
+								  <li><a href="#" class="ageDiv"><span id="age_setVal_1">Select</span><span><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4", :style=>"position:relative;top:-1px;left:5px;")%></span></a>									  <ul class="sub-menu dispAgeDiv" style="height:109px;">
+									  <li><a href="#" onclick="setAgeVal('1-3',1)">1-3</a></li>
+									  <li><a href="#" onclick="setAgeVal('4-6',1)">4-6</a></li>
+									  <li><a href="#" onclick="setAgeVal('7-9',1)">7-9</a></li>
+									  <li><a href="#" onclick="setAgeVal('10-12',1)">10-12</a></li>
+									  <li><a href="#" onclick="setAgeVal('13-15',1)">13-15</a></li>
+									  <li><a href="#" onclick="setAgeVal('16-18',1)">16-18</a></li>
+									  <li><a href="#" onclick="setAgeVal('Adults',1)">Adults</a></li>
+									</ul>
+			
+								  </li>
+								</ul>
+								<div class="clear"></div>
+							  </div>
+							</td>
+							<td width="63" class="tdata setIEcen">
+							  <input type="hidden" id="gender_1" name="gender" value="" />
+							  <div id="menu" class="lt genderDivMenu">
+								<ul>
+								  <li><a href="#" class="ageDiv genderDiv"><span id="gender_setVal_1">Select</span><span><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4", :style=>"position:relative;top:-1px;left:5px;")%></span></a>									  <ul class="sub-menu dispGenderDiv">
+									  <li><a href="#" onclick="setGenderVal('Male',1)">Male</a></li>
+									  <li><a href="#" onclick="setGenderVal('Female',1)">Female</a></li>
+									</ul>
+			
+								  </li>
+								</ul>
+								<div class="clear"></div>
+							  </div>
+							</td>
+							<td width="232" class="tdata setIEcen">
+							  <input type="hidden" id="schedule_1" name="gender" value="" />
+							  <div id="menu" class="lt scheduleDivMenu">
+								<ul  id="schedule_div_1">
+								  <li><a href="#" class="scheduleDiv"><span id="schedule_setVal_1">Choose Schedule</span><span><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4", :style=>"position:relative;top:-1px;left:5px;", :id=>"arrow1")%></span></a>				<ul class="sub-menu dispScheduleDiv">
+									  <li><a href="#" onclick="setScheduleVal('Mon 08/06/2012 04:30 PM to 05.30 PM',1)">Mon 08/06/2012 04:30 PM to 05.30 PM</a></li>
+									  <li><a href="#" onclick="setScheduleVal('Mon 08/07/2012 04:30 PM to 05.30 PM',1)">Mon 08/07/2012 04:30 PM to 05.30 PM</a></li>
+									</ul>
+								  </li>
+								</ul>
+								<div class="clear"></div>
+							  </div>
+							</td>
+							<td width="50" class="tdata">&nbsp;<span id="action_e_1" style="display:none;"><a href="javascript:void(0)" onclick="deleteTable(1)" title="" class="lt"><%=image_tag("/assets/provider_event_list/delete_icon.png", :width=>"29", :height=>"26")%></a></span></td>
+						  </tr>
+			
+						</table>
+						<span class="createDynamicDivs"></span>
+					  </div>
+					  <div class="addButtonDiv">
+						<div class="lt"><a href="javascript:void(0)" title="" onclick="checkValidation()"><%=image_tag("/assets/create_new_activity/add_button.png", :width=>"20", :height=>"20", :class=>"lt addButton")%>
+							<span class="lt addText">Add</span></a></div>
+					  </div>
+					 </form>
+					 <div class="clear"></div>
+					</div>
+					<div class="clear"></div>
+
+
+              <div class="buttonDiv">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+                <div class="lt">
+                  <input type="image" src="/assets/create_new_activity/save.png" alt="" tabindex="6" style="margin-top:-26px;"/>
+
+                  <a href="javascript:void(0)" onClick="clearfields_profile()" onkeydown="cancelActivityClearData(event)"><%=image_tag("/assets/create_new_activity/cancel.png", :width=>"113", :height=>"41", :style=>"border:0px;", :tabindex=>"7")%></a>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>
+
+<script type="text/javascript" language="javascript">
+  $(document).ready(function (){
+
+    $('#edit_password').submit(function (){
+	//alert("test");
+	    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    //return false;
+
+
+	var profile_email = $("#profile_email").val();
+	var profile_first_name = $("#profile_first_name").val();
+	var profile_last_name = $("#profile_last_name").val();
+	var day_edit = $("#day_edit").val();
+	var month_edit = $("#month_edit").val();
+	var year_profile_1 = $("#year_profile_1").val();
+	var gender_edit = $("#gender_edit").val();
+	var profile_web = $("#profile_web").val();
+	var profile_insti = $("#profile_insti").val();
+	var profile_contact = $("#profile_contact").val();
+	var profile_Add1 = $("#profile_Add1").val();
+	var profile_Add2 = $("#profile_Add2").val();
+	var country_edit_profile = $("#country_edit_profile").val();
+	var state_edit_profile = $("#state_edit_profile").val();
+	var city_edit_profile = $("#city_edit_profile").val();
+	var profile_zipcode = $("#profile_zipcode").val();
+	var language_edit = $("#language_edit").val();
+	var Time_zone_edit = $("#Time_zone_edit").val();
+	var age_edit = $("#age_edit").val();
+	var edit_photo = $("#photo").val();
+	
+	profile_email = profile_email.replace(/^\s+|\s+$/g, "");
+    profile_first_name = profile_first_name.replace(/^\s+|\s+$/g, "");
+    profile_last_name = profile_last_name.replace(/^\s+|\s+$/g, "");
+    profile_web = profile_web.replace(/^\s+|\s+$/g, "");
+    profile_insti = profile_insti.replace(/^\s+|\s+$/g, "");
+	profile_contact = profile_contact.replace(/^\s+|\s+$/g, "");
+    profile_Add1 = profile_Add1.replace(/^\s+|\s+$/g, "");
+    profile_Add2 = profile_Add2.replace(/^\s+|\s+$/g, "");
+    profile_zipcode = profile_zipcode.replace(/^\s+|\s+$/g, "");
+	
+    $("#setBrowseBorder").css("border","none");
+	$("#profile_email").css("border","1px solid #BDD6DD");
+    $("#profile_first_name").css("border","1px solid #BDD6DD");
+    $("#profile_last_name").css("border","1px solid #BDD6DD");
+    $("#profile_web").css("border","1px solid #BDD6DD");
+    $("#profile_insti").css("border","1px solid #BDD6DD");
+    $("#profile_contact").css("border","1px solid #BDD6DD");
+    $("#profile_Add1").css("border","1px solid #BDD6DD");
+    $("#profile_Add2").css("border","1px solid #BDD6DD");
+	$("#setdayBorder").css("border","none");
+    $(".selectBoxEditProfileCity").css("border","none");
+    $("#setCountryBorder").css("border","none");
+    $("#setStateBorder").css("border","none");
+    $("#setCityBorder").css("border","none");
+    $("#setLanguageBorder").css("border","none");
+    $("#setTimezoneBorder").css("border","none");
+    $("#edit_profie_container .editProfileSelectBox").css("border","none");
+    $("#profile_zipcode").css("border","1px solid #BDD6DD");
+    $("#setAgeBorder").css("border","none");
+    $(".editProfileGenderSelectBox").css("border","none");
+	
+
+	$("#photo_profile_error").html("");
+    $("#email_profile_error").html("");
+    $("#profile_firstname_error").html("");
+    $("#profile_lastname_error").html("");
+    $("#profile_dob_error").html("");
+    $("#profile_web_error").html("");
+    $("#profile_insti_error").html("");
+	$("#profile_contact_error").html("");
+	$("#profile_address_error").html("");
+	$("#profile_country_error").html("");
+	$("#profile_state_error").html("");
+	$("#profile_city_error").html("");
+	$("#profile_zipcode_error").html("");
+	$("#profile_language_error").html("");
+	$("#profile_timezone_error").html("");
+	$("#profile_age_error").html("");
+	
+	$("#photo_profile_error").parent().css("display","none");
+    $("#email_profile_error").parent().css("display","none");
+    $("#profile_firstname_error").parent().css("display","none");
+    $("#profile_lastname_error").parent().css("display","none");
+    $("#profile_dob_error").parent().css("display","none");
+    $("#profile_web_error").parent().css("display","none");
+    $("#profile_insti_error").parent().css("display","none");
+    $("#profile_contact_error").parent().css("display","none");
+    $("#profile_address_error").parent().css("display","none");
+    $("#profile_country_error").parent().css("display","none");
+    $("#profile_state_error").parent().css("display","none");
+	$("#profile_city_error").parent().css("display","none");
+	$("#profile_zipcode_error").parent().css("display","none");
+	$("#profile_language_error").parent().css("display","none");
+	$("#profile_timezone_error").parent().css("display","none");
+	$("#profile_age_error").parent().css("display","none");
+
+	var errorFlag = false;
+
+    if(edit_photo == ""){
+        $("#setBrowseBorder").css("border","1px solid #fc8989");
+        $("#photo_profile_error").html("Please select the image");
+        $("#photo_profile_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	
+    if(profile_email == ""){
+        $("#profile_email").css("border","1px solid #fc8989");
+        $("#email_profile_error").html("Please enter your email address");
+        $("#email_profile_error").parent().css("display","block");
+        errorFlag = true;
+    }
+    else if(!validateCorrectEmail(profile_email)){
+        $("#profile_email").css("border","1px solid #fc8989");
+        $("#email_profile_error").html("Please Check The Email Address Entered");
+        $("#email_profile_error").parent().css("display","block");
+        errorFlag = true;
+    }
+    else if(!validateDot(profile_email)){
+        $("#profile_email").css("border","1px solid #fc8989");
+        $("#email_profile_error").html("Please Check The Email Address Entered");
+        $("#email_profile_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	    if(profile_first_name == ""){
+        $("#profile_first_name").css("border","1px solid #fc8989");
+        $("#profile_firstname_error").html("Please enter your first name");
+        $("#profile_firstname_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	    else if(!validateName(profile_first_name)){
+        $("#profile_first_name").css("border","1px solid #fc8989");
+        $("#profile_firstname_error").html("Please enter your first name");
+        $("#profile_firstname_error").parent().css("display","block");
+        errorFlag = true;
+    }
+
+	    if(profile_last_name == ""){
+        $("#profile_last_name").css("border","1px solid #fc8989");
+        $("#profile_lastname_error").html("Please enter your last name");
+        $("#profile_lastname_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	
+	    else if(!validateName(profile_last_name)){
+        $("#profile_last_name").css("border","1px solid #fc8989");
+        $("#profile_lastname_error").html("Please enter your last name");
+        $("#profile_lastname_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	
+	    if(day_edit == "Day" || day_edit == "" || day_edit == "Select"){
+        $("#edit_profie_container .editProfileSelectBox").css("border","1px solid #fc8989");
+        $("#profile_dob_error").html("Please select day, month, year , gender");
+        $("#profile_dob_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	
+	    if(month_edit == "Month" || month_edit == "" || month_edit == "Select"){
+        $("#edit_profie_container .editProfileSelectBox").css("border","1px solid #fc8989");
+        $("#profile_dob_error").html("Please select day, month, year , gender");
+        $("#profile_dob_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	
+	    if(year_profile_1 == "Year" || year_profile_1 == "" || year_profile_1 == "Select"){
+        $("#edit_profie_container .editProfileSelectBox").css("border","1px solid #fc8989");
+        $("#profile_dob_error").html("Please select day, month, year , gender");
+        $("#profile_dob_error").parent().css("display","block");
+        errorFlag = true;
+    }
+
+	    if(gender_edit == "Select" || gender_edit == ""){
+        $(".editProfileGenderSelectBox").css("border","1px solid #fc8989");
+        $("#profile_dob_error").html("Please select day, month, year , gender");
+        $("#profile_dob_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	
+	    if(profile_web == ""){
+        $("#profile_web").css("border","1px solid #fc8989");
+        $("#profile_web_error").html("Please select the web address");
+        $("#profile_web_error").parent().css("display","block");
+        errorFlag = true;
+    }
+
+    else if(!ValidateWebsiteAddress(profile_web)){
+        $("#profile_web").css("border","1px solid #fc8989");
+        $("#profile_web_error").html("Please enter the valid web address");
+        $("#profile_web_error").parent().css("display","block");
+        errorFlag = true;
+    }
+    else if(!ValidateWebAddress(profile_web)){
+        $("#profile_web").css("border","1px solid #fc8989");
+        $("#profile_web_error").html("Please enter the valid web address");
+        $("#profile_web_error").parent().css("display","block");
+        errorFlag = true;
+    }
+
+	    if(profile_insti == ""){
+        $("#profile_insti").css("border","1px solid #fc8989");
+        $("#profile_insti_error").html("Please enter the institute name");
+        $("#profile_insti_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	
+	    if(profile_contact == ""){
+        $("#profile_contact").css("border","1px solid #fc8989");
+        $("#profile_contact_error").html("Please enter the contact number");
+        $("#profile_contact_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	   else if(isNaN(profile_contact)){
+        $("#profile_contact").css("border","1px solid #fc8989");
+        $("#profile_contact_error").html("Please enter the valid number");
+        $("#profile_contact_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	
+	    if(profile_Add1 == ""){
+        $("#profile_Add1").css("border","1px solid #fc8989");
+        $("#profile_address_error").html("Please enter the address details");
+        $("#profile_address_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	
+	    if(profile_Add2 == ""){
+        $("#profile_Add2").css("border","1px solid #fc8989");
+        $("#profile_address_error").html("Please enter the address details");
+        $("#profile_address_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	
+	    if(country_edit_profile == "" || country_edit_profile=="--Choose Country--"){
+        $("#setCountryBorder").css("border","1px solid #fc8989");
+        $("#profile_country_error").html("Please select the country");
+        $("#profile_country_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	
+	    if(state_edit_profile == "" || state_edit_profile=="--Choose State--"){
+        $("#setStateBorder").css("border","1px solid #fc8989");
+        $("#profile_state_error").html("Please select the state");
+        $("#profile_state_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	
+	    if(city_edit_profile == "" || city_edit_profile=="--Choose City--"){
+        $("#setCityBorder").css("border","1px solid #fc8989");
+        $("#profile_city_error").html("Please select the city");
+        $("#profile_city_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	
+	    if(profile_zipcode == ""){
+        $("#profile_zipcode").css("border","1px solid #fc8989");
+        $("#profile_zipcode_error").html("Please enter the zipcode");
+        $("#profile_zipcode_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	
+	    else if(isNaN(profile_zipcode)){
+        $("#profile_zipcode").css("border","1px solid #fc8989");
+        $("#profile_zipcode_error").html("Please enter the number");
+        $("#profile_zipcode_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	
+	    if(language_edit == "" || language_edit=="Select"){
+        $("#setLanguageBorder").css("border","1px solid #fc8989");
+        $("#profile_language_error").html("Please select the language");
+        $("#profile_language_error").parent().css("display","block");
+        errorFlag = true;
+    }
+
+	    if(Time_zone_edit == "" || Time_zone_edit=="Select"){
+        $("#setTimezoneBorder").css("border","1px solid #fc8989");
+        $("#profile_timezone_error").html("Please select the time zone");
+        $("#profile_timezone_error").parent().css("display","block");
+        errorFlag = true;
+    }
+
+	    if(age_edit == "" || age_edit=="Select"){
+        $("#setAgeBorder").css("border","1px solid #fc8989");
+        $("#profile_age_error").html("Please select the age range");
+        $("#profile_age_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	checkValidation();
+
+	    if(errorFlag){	
+        return false;
+    }
+    else{
+        return true;
+    }
+
+    });
+	
+  });
+
+function validateName(elementValue){
+    var alphaExp = /^[a-zA-Z ]*$/;
+    return alphaExp.test(elementValue);
+}
+
+function ValidateWebsiteAddress() {
+    var url = document.getElementById('profile_web').value;
+    var urlIsValid =       ValidateWebAddress(url);      //alert("Website Address is valid?:" +urlIsValid );
+    return urlIsValid ;
+}
+    
+
+function ValidateWebAddress(url) {
+    var webSiteUrlExp = /^(([\w]+:)?\/\/)?(([\d\w]|%[a-fA-f\d]{2,2})+(:([\d\w]|%[a-fA-f\d]{2,2})+)?@)?([\d\w][-\d\w]{0,253}[\d\w]\.)+[\w]{2,4}(:[\d]+)?(\/([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)*(\?(&?([-+_~.\d\w]|%[a-fA-f\d]{2,2})=?)*)?(#([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)?$/;
+    if (webSiteUrlExp.test(url)) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+function validateDot(elementValue) {
+    var emailSplitat = elementValue.split("@");
+    var emailSplitdotf = emailSplitat[0].split(".");
+    var emailSplitdotl = emailSplitat[1].split(".");
+  	 
+    if(emailSplitat[0].length<4){
+        return false;
+    }
+  	  	
+    if(emailSplitdotf.length>3){
+        return false;
+    }
+    if(emailSplitdotf.length<3){
+        var filter = /[^a-z/g]+/gi;
+        var filter1 = /^[0-9]+$/;
+        if(filter.test( emailSplitdotf) && filter1.test( emailSplitdotf)){
+            return false;
+        }
+    }
+    if(emailSplitdotl.length>1){
+        var prev = emailSplitdotl[0];
+        var curr = emailSplitdotl[1];
+        for(var i=1;i<emailSplitdotl.length;i++){
+            if(prev == curr ){
+                return false;
+            }
+            prev = curr;
+            curr = 	emailSplitdotl[i+1];
+        }
+    }
+    if(emailSplitdotl.length>3){
+        return false;
+    }
+    return true;
+}
+
+function clearfields_profile(){
+
+	$("#profile_email").val('');
+	$("#profile_first_name").val('');
+	$("#profile_last_name").val('');
+	$("#day_edit").val('');
+	$("#month_edit").val('');
+	$("#year_profile_1").val('');
+	$("#gender_edit").val('');
+	$("#profile_web").val('');
+	$("#profile_insti").val('');
+	$("#profile_contact").val('');
+	$("#profile_Add1").val('');
+	$("#profile_Add2").val('');
+	$("#country_edit_profile").val('');
+	$("#state_edit_profile").val('');
+	$("#city_edit_profile").val('');
+	$("#profile_zipcode").val('');
+	$("#language_edit").val('');
+	$("#Time_zone_edit").val('');
+	$("#age_edit").val('');
+	$("#photo").val('');
+	
+      clearPartiValue();
+	  	
+    $("#setBrowseBorder").css("border","none");
+	$("#profile_email").css("border","1px solid #BDD6DD");
+    $("#profile_first_name").css("border","1px solid #BDD6DD");
+    $("#profile_last_name").css("border","1px solid #BDD6DD");
+    $("#profile_web").css("border","1px solid #BDD6DD");
+    $("#profile_insti").css("border","1px solid #BDD6DD");
+    $("#profile_contact").css("border","1px solid #BDD6DD");
+    $("#profile_Add1").css("border","1px solid #BDD6DD");
+    $("#profile_Add2").css("border","1px solid #BDD6DD");
+	$("#setdayBorder").css("border","none");
+    $(".selectBoxEditProfileCity").css("border","none");
+    $("#setCountryBorder").css("border","none");
+    $("#setStateBorder").css("border","none");
+    $("#setCityBorder").css("border","none");
+    $("#setLanguageBorder").css("border","none");
+    $("#setTimezoneBorder").css("border","none");
+    $("#edit_profie_container .editProfileSelectBox").css("border","none");
+    $("#profile_zipcode").css("border","1px solid #BDD6DD");
+    $("#setAgeBorder").css("border","none");
+    $(".editProfileGenderSelectBox").css("border","none");
+	
+	$("#photo_profile_error").html("");
+    $("#email_profile_error").html("");
+    $("#profile_firstname_error").html("");
+    $("#profile_lastname_error").html("");
+    $("#profile_dob_error").html("");
+    $("#profile_web_error").html("");
+    $("#profile_insti_error").html("");
+	$("#profile_contact_error").html("");
+	$("#profile_address_error").html("");
+	$("#profile_country_error").html("");
+	$("#profile_state_error").html("");
+	$("#profile_city_error").html("");
+	$("#profile_zipcode_error").html("");
+	$("#profile_language_error").html("");
+	$("#profile_timezone_error").html("");
+	$("#profile_age_error").html("");
+	
+	$("#photo_profile_error").parent().css("display","none");
+    $("#email_profile_error").parent().css("display","none");
+    $("#profile_firstname_error").parent().css("display","none");
+    $("#profile_lastname_error").parent().css("display","none");
+    $("#profile_dob_error").parent().css("display","none");
+    $("#profile_web_error").parent().css("display","none");
+    $("#profile_insti_error").parent().css("display","none");
+    $("#profile_contact_error").parent().css("display","none");
+    $("#profile_address_error").parent().css("display","none");
+    $("#profile_country_error").parent().css("display","none");
+    $("#profile_state_error").parent().css("display","none");
+	$("#profile_city_error").parent().css("display","none");
+	$("#profile_zipcode_error").parent().css("display","none");
+	$("#profile_language_error").parent().css("display","none");
+	$("#profile_timezone_error").parent().css("display","none");
+	$("#profile_age_error").parent().css("display","none");
+	
+
+}
+function validateCorrectEmail(elementValue){  
+    var emailPattern = /^([a-zA-Z0-9]+([~{|}`^?=+*'#$!%._-]{0,1}[a-zA-Z0-9]+)*)@(([a-zA-Z0-9]+([._-]{0,1}[a-zA-Z0-9]+)*)+(?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,3})?)$/;
+    return emailPattern.test(elementValue);
+/*var e = elementValue;
+	elementValue = e.trim();
+	var filter = /^[A-Za-z0-9][A-Za-z0-9\_\-\.]*\@[A-Za-z0-9][A-Za-z0-9\_\-\.]*\.[A-Za-z]{2,}$/;
+	var filter2 = /(\.\.+)|(\@\@+)|(\_\_+)|(\-\-+)/;
+	var filter3 = /(\.ac|\.ad|\.ae|\.aero|\.af|\.ag|\.ai|\.al|\.am|\.an|\.ao|\.aq|\.ar|\.arpa|\.as|\.at|\.au|\.aw|\.ax|\.az|\.ba|\.bb|\.bd|\.be|\.bf|\.bg|\.bh|\.bi|\.biz|\.bj|\.bm|\.bn|\.bo|\.br|\.bs|\.bt|\.bv|\.bw|\.by|\.bz|\.ca|\.cat|\.cc|\.cd|\.cf|\.cg|\.ch|\.ci|\.ck|\.cl|\.cm|\.cn|\.co|\.com|\.coop|\.cr|\.cu|\.cv|\.cx|\.cy|\.cz|\.de|\.dj|\.dk|\.dm|\.do|\.dz|\.ec|\.edu|\.ee|\.eg|\.er|\.es|\.et|\.eu|\.fi|\.fj|\.fk|\.fm|\.fo|\.fr|\.ga|\.gb|\.gd|\.ge|\.gf|\.gg|\.gh|\.gi|\.gl|\.gm|\.gn|\.gov|\.gp|\.gq|\.gr|\.gs|\.gt|\.gu|\.gw|\.gy|\.hk|\.hm|\.hn|\.hr|\.ht|\.hu|\.id|\.ie|\.il|\.im|\.in|\.info|\.int|\.io|\.iq|\.ir|\.is|\.it|\.je|\.jm|\.jo|\.jobs|\.jp|\.ke|\.kg|\.kh|\.ki|\.km|\.kn|\.kr|\.kw|\.ky|\.kz|\.la|\.lb|\.lc|\.li|\.lk|\.lr|\.ls|\.lt|\.lu|\.lv|\.ly|\.ma|\.mc|\.md|\.mg|\.mh|\.mil|\.mk|\.ml|\.mm|\.mn|\.mo|\.mobi|\.mp|\.mq|\.mr|\.ms|\.mt|\.mu|\.museum|\.mv|\.mw|\.mx|\.my|\.mz|\.na|\.name|\.nc|\.ne|\.net|\.nf|\.ng|\.ni|\.nl|\.no|\.np|\.nr|\.nu|\.nz|\.om|\.org|\.pa|\.pe|\.pf|\.pg|\.ph|\.pk|\.pl|\.pm|\.pn|\.pr|\.pro|\.ps|\.pt|\.pw|\.py|\.qa|\.re|\.ro|\.ru|\.rw|\.sa|\.sb|\.sc|\.sd|\.se|\.sg|\.sh|\.si|\.sj|\.sk|\.sl|\.sm|\.sn|\.so|\.sr|\.st|\.su|\.sv|\.sy|\.sz|\.tc|\.td|\.tel|\.tf|\.tg|\.th|\.tj|\.tk|\.tl|\.tm|\.tn|\.to|\.tp|\.tr|\.travel|\.tt|\.tv|\.tw|\.tz|\.ua|\.ug|\.uk|\.um|\.us|\.uy|\.uz|\.va|\.vc|\.ve|\.vg|\.vi|\.vn|\.vu|\.wf|\.ws|\.ye|\.yt|\.yu|\.za|\.zm|\.zw)$/i;
+	
+	
+	if( (!filter.test( elementValue ))  || ( filter2.test( elementValue )) || ( !filter3.test( elementValue )) ) {
+		return false;
+	}	
+	return true;*/	
+} 
+
+</script>
+

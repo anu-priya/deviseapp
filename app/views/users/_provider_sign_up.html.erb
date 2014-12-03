@@ -1,0 +1,244 @@
+<link rel="stylesheet" type="text/css" href="/assets/register/register.css" />
+<link rel="stylesheet" type="text/css" href="/assets/register/provider_register.css" />
+<link rel="stylesheet" type="text/css" href="/assets/create_new_activity/create_new_activity.css" />
+<script type="text/javascript" src="/assets/register/register_payment.js"></script>
+
+<!-- DHTML Modal Effect -->
+<link rel="stylesheet" href="/assets/global/overlay/windowfiles/dhtmlwindow.css" type="text/css" />
+<link rel="stylesheet" href="/assets/global/overlay/modalfiles/modal.css" type="text/css" />
+
+<script type="text/javascript" src="/assets/global/overlay/windowfiles/dhtmlwindow.js"></script>
+<script type="text/javascript" src="/assets/global/overlay/modalfiles/modal.js"></script>
+
+<script type="text/javascript">
+  function closepopup(){
+    parent.parentLoginPage.hide();
+  }
+
+  var BidPopPage;
+  function Bid_amount_pop(url){
+    BidPopPage = dhtmlmodal.open("Bid Amount Pop ","iframe",url,"", "width=953px,height=700px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    return false;
+  }
+
+
+  function showImage1(){
+    $("#img1").attr("src","/assets/provider_register/step_1active.png");
+    $("#img2").attr("src","/assets/provider_register/step_2inactive.png");
+    $("#img3").attr("src","/assets/provider_register/step_2inactive.png");
+    $("#choose_text").css("font-weight","bold");
+    $("#plan_text").css("font-weight","normal");
+    $("#payment_text").css("font-weight","normal");
+  }
+  function showImage2(){
+    $("#img2").attr("src","/assets/provider_register/step_2active.png");
+    $("#img1").attr("src","/assets/provider_register/step_1inactive.png");
+    $("#img3").attr("src","/assets/provider_register/step_3inactive.png");
+    $("#choose_text").css("font-weight","normal");
+    $("#payment_text").css("font-weight","normal");
+    $("#plan_text").css("font-weight","bold");
+  }
+
+  function showImage3(){
+    $("#img3").attr("src","/assets/provider_register/step_3active.png");
+    $("#img1").attr("src","/assets/provider_register/step_1inactive.png");
+    $("#img2").attr("src","/assets/provider_register/step_2inactive.png");
+    $("#choose_text").css("font-weight","normal");
+    $("#payment_text").css("font-weight","normal");
+    $("#plan_text").css("font-weight","normal");
+    $("#payment_text").css("font-weight","bold");
+  }
+  function showInfo(){
+    $("#show_infoDiv").css("display","block");
+  }
+  function hideInfo(){
+    $("#show_infoDiv").css("display","none");
+  }
+</script>
+<div id="register_outerContainer">
+  <div class="Provider_innerContainer" style="width:910px;">
+    <div class="header" align="center">
+      <%= link_to image_tag("/assets/register/logo.png", :border=>0,:width=>305,:height=>100,:align=>"center"), :controller => 'landing' %>
+<%#*<img align="center" src="/assets/register/logo.png" alt="" width="305" height="100"/>%>
+      <!--p class="blueText">Discover, Schedule and Coordinate</p>
+			<p class="redText">Great activities with friends</p-->
+    </div>
+#signup to change
+    <div id="signupDiv">
+      <div class="setTopPosition">
+        <div class="lt" id="setImage"></div>
+        <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_1inactive.png" id="img1" align="top" class="circleNumber" onclick="showImage1()"></a></div>
+        <div class="lt" id="setImage1"></div>
+        <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_2inactive.png" id="img2" align="top" class="circleNumber" onclick="showImage2()"></a></div>
+        <div class="lt" id="setImage2"></div>
+        <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_3inactive.png" id="img3" align="top" class="circleNumber" onclick="showImage3()"></a></div>
+        <div class="lt" id="setImage"></div>
+        <div class="clear"></div>
+        <div style="margin-top:3px;">
+          <div class="lt setfont12" id="choose_text">Choose Plan</div>
+          <div class="lt setfont12" id="plan_text">Set up Profile</div>
+          <div class="lt setfont12" id="payment_text">Add Payment Details</div>
+          <div class="clear"></div>
+        </div>
+      </div>
+      <div class="setBg">
+        <div>
+          <div class="lt" id="marketDiv">
+            <table cellpadding="0" cellspacing="0" border="0" width="295">
+              <tr>
+                <td height="40" class="setfont" align="center"><b>Market</b> sign</td>
+              </tr>
+              <tr>
+                <td height="20" class="setfont14" align="center">Free</td>
+              </tr>
+              <tr>
+                <td height="20" class="setfont14" align="center">&nbsp;</td>
+              </tr>
+              <tr>
+                <td height="20" class="setfont14" align="center">&nbsp;</td>
+              </tr>
+              <tr>
+                <td height="30" class="setfont18" align="center"><b>Market your Activities</b></td>
+              </tr>
+
+              <tr>
+                <td height="30" class="setfont12" align="center">Create and Manage activity pages</td>
+              </tr>
+
+              <tr>
+                <td height="30" class="setfont12" align="center">Update Pictures/Videos/Text</td>
+              </tr>
+
+              <tr>
+                <td height="30" class="setfont12" align="center">Manage Contact Information</td>
+              </tr>
+
+            </table>
+            <div style="margin-top:293px;">
+              <a href="javascript:void(0)" title=""><img src="/assets/provider_register/button_signup_sm.png"></a>
+            </div>
+          </div>
+          <div class="lt" id="marketDiv" style="margin-top:39px;">
+            <table cellpadding="0" cellspacing="0" border="0" width="295">
+              <tr>
+                <td height="40" class="setfont" align="center"><b>Sponsor</b></td>
+              </tr>
+              <tr>
+                <td height="30" class="setfont14" align="center">(TBD - Pay Per Click)</td>
+              </tr>
+              <tr>
+                <td height="20" class="setfont14" align="center">&nbsp;</td>
+              </tr>
+              <tr>
+                <td height="44" class="setfont14" align="center">&nbsp;</td>
+              </tr>
+              <tr>
+                <td height="20" class="setfont18" align="center"><b>Market your Activities</b></td>
+              </tr>
+
+              <tr>
+                <td height="47" class="setfont12" align="center">Create and Manage activity pages</td>
+              </tr>
+
+              <tr>
+                <td height="14" class="setfont12" align="center">Update Pictures/Videos/Text</td>
+              </tr>
+
+              <tr>
+                <td height="51" class="setfont12" align="center">Manage Contact Information</td>
+              </tr>
+              <tr>
+                <td height="25" class="setfont12" align="center">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td height="55" class="setfont18" align="center"><b>Guarantee Premium Placement</b></td>
+              </tr>
+
+              <tr>
+                <td height="13" class="setfont12" align="center">Premium placement of activity pages.</td>
+              </tr>
+            </table>
+            <div style="margin-top:148px;">
+              <a href="javascript:void(0)" title="" onclick="Bid_amount_pop('/provider_bid_amount')"><img src="/assets/provider_register/button_signup_big.png"></a>
+            </div>
+
+          </div>
+          <div class="lt" id="sellDiv">
+            <table cellpadding="0" cellspacing="0" border="0" width="295" style="margin-left:5px;">
+              <tr>
+                <td height="40" class="setfont" align="center"><b>Sell Through</b></td>
+              </tr>
+              <tr>
+                <td height="20" class="setfont14" align="center">$0.99cents convenience fee on any<br>
+                  activity sold through famtivity
+                </td>
+              </tr>
+              <tr>
+                <td height="25" class="setfont14" align="center">&nbsp;</td>
+              </tr>
+              <tr>
+                <td height="30" class="setfont18" align="center"><b>Market your Activities</b></td>
+              </tr>
+
+              <tr>
+                <td height="30" class="setfont12" align="center">Create and Manage activity pages</td>
+              </tr>
+
+              <tr>
+                <td height="30" class="setfont12" align="center">Update Pictures/Videos/Text</td>
+              </tr>
+
+              <tr>
+                <td height="30" class="setfont12" align="center">Manage Contact Information</td>
+              </tr>
+              <tr>
+                <td height="25" class="setfont12" align="center">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td height="30" class="setfont18" align="center"><b>Guarantee Premium Placement</b></td>
+
+
+              </tr>
+
+              <tr>
+                <td height="30" class="setfont12" align="center">Premium placement of activity pages.</td>
+              </tr>
+
+              <tr>
+                <td height="25" class="setfont12" align="center">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td height="30" class="setfont18" align="center"><b>Convert interest to sales</b></td>
+              </tr>
+
+              <tr>
+                <td height="30" class="setfont12" align="center">Receive activity inquiries</td>
+              </tr>
+
+              <tr>
+                <td height="50" class="setfont12" align="center">Instantly sell activities to interested<br> participants</td>
+              </tr>
+
+              <tr>
+                <td height="50" class="setfont12" align="center">Automatically Message your famtivity<br> network with new or changed activities</td>
+              </tr>
+
+            </table>
+            <div style="margin-top:27px;">
+              <a href="javascript:void(0)" title=""><img src="/assets/provider_register/button_signup_sm.png"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+

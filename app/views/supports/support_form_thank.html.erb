@@ -1,0 +1,31 @@
+<%=stylesheet_link_tag "global/pop_up_success", :media => "all"%>
+<script language="javascript">
+  $(document).ready(function(){
+    $("html, body", window.parent.document).animate({ scrollTop: 0 }, 100);
+  });
+
+function closepopup() {
+parent.activitySupportPage.hide();
+//parent.parent.location.reload(true);
+
+}
+</script>
+<div id="share_actvity_success">
+  <div class="popupContainer">
+    <div class="headTab">
+      <div class="heading">
+        <div class="headCont">Support Success</div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div align="center">
+      <p class="successText">You have successfully sent a mail to the support team</p>
+      <div class="clear"></div>
+      <a href="#" onclick="closepopup()"  title="">
+        <!-- <img src="/assets/global/pop_up_success/ok.png" alt="" width="101" height="37" /> -->
+        <%= image_tag("/assets/global/pop_up_success/ok.png", size: "101x37" )%>
+      </a>
+    </div>
+  </div>
+</div>
+

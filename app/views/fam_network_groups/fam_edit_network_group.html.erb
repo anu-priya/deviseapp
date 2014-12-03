@@ -1,0 +1,646 @@
+<style>
+  .fam_network_header{
+    width: 100%;
+    height: 25px;
+    text-align: center;
+    padding: 10px 0px;
+    color: #3d83a3;
+    font-family: arial;
+    font-weight: bold;
+    font-size: 20px;
+    text-transform: capitalize;
+    border-bottom: 1px solid #e1e1e1;
+  }
+  .name_network{
+    width: 660px;
+    height: 422px;
+    background: #f6fbfc;
+    border: 1px solid #e1eef2;
+    margin: 0 auto;
+    margin-top: 30px;
+  }
+  .fam_net_img{
+    width: 189px;
+    height: 189px;
+    margin: 0 auto;
+
+    background: url("/assets/fam_networks/fan_net_image.png") center no-repeat;
+  }
+  .name_ur_network{
+    width: 100%;
+    height: auto;
+    text-align: center;
+    margin: 0 auto;
+
+    color: #5099ac;
+    font-family: arial;
+    font-weight: regular;
+    font-size: 26px;
+    text-transform: capitalize;
+  }
+
+  .name_ur_network input[type="text"]{
+    width: 420px;
+    height: 46px;
+    border: 1px solid #e1e1e1;
+    padding: 0 10px;
+    margin: 0 auto;
+    box-shadow: inset 0px 0px 5px #e1e1e1;
+  }
+  #create_network{
+    background: #f82b2b;
+    color: #fff;
+    width: 415px;
+    height: auto;
+    font-family: arial;
+    font-size: 16px;
+    margin: 0 auto;
+    padding: 11px 0px;
+    cursor: pointer;
+  }
+  .fam_dots{
+    width: 774px;
+    height: 30px;
+    border-bottom: 1px dotted #e1e1e1;
+    margin: 0 auto;
+  }
+  .fam_space{
+    width: 100%;
+    height: 30px;
+  }
+  .fam_space1{
+    width: 100%;
+    height: 20px;
+  }
+  .clear{
+    clear: both;
+  }
+  .fam_tutorial{
+    width: 100%;
+    padding:20px 0px;
+    margin: 0 auto;
+    font-family: arial;
+    color: #5099ac;
+    font-size: 20px;
+    text-transform: capitalize;
+    text-align: center;
+  }
+  .fam_video{
+    border: 5px solid #bfe1eb;
+    width: 532px;
+    height: 290px;
+    margin: 0 auto;
+  }
+  #error_networkmessage{
+    display: none;
+    color: #F82B2B;
+    padding: 3px;
+    width: 420px;
+    text-align: left;
+    margin: 0 auto;
+  }
+  #loding_symbol{
+    display: none;
+    text-align: center;
+  }
+  #fam_heading{
+    width: 95%;
+    float: left;
+  }
+  .close_popup{
+    width: 5%;
+    float: left;
+    cursor: pointer;
+  }
+  /***********new styles************/
+  .invite_div{
+    width: 95%;
+    height: 17px;
+    text-transform: capitalize;
+    font-size: 16px;
+    color: #5099AC;
+    padding: 17px 0;
+
+    margin: 0 auto;
+  }
+  .invited_member{
+    float: left;
+    padding-left: 28px;
+    cursor: pointer;
+    background: url("/assets/fam_networks/invite_icon.png") center left no-repeat;
+  }
+  .invited_member_action{
+    float: right;
+
+  }
+  .edit_action{
+    float: left;
+    background: url("/assets/fam_networks/edit_dropdown.png") center right no-repeat;
+    padding-right: 5px;
+    width: 90px;
+    cursor: pointer;
+  }
+  .delete_action{
+    float: left;
+    width: 110px;
+    cursor: pointer;
+
+  }
+  .separator{
+    font-size: 15px;
+    font-weight: bold;
+    width: 10px;
+    padding-left: 5px;
+    float: left;
+  }
+  .members_div{
+    width: 95%;
+    margin: 0 auto;
+    max-height: 490px;
+    min-height: 120px;
+    border: 1px solid #dce0e0;
+  }
+  .member_header{
+    background: #f0f7f7;
+    width: 100%;
+    height: 20px;
+    padding: 10px 0px;
+    font-size: 16px;
+    color: #5099AC;
+    text-transform: capitalize;
+    cursor: pointer;
+    border-bottom: 1px solid #dce0e0
+  }
+  .member_select_all{
+    float: left;
+    background: url("/assets/fam_networks/top_checkbox_normal.png") center left no-repeat;
+    padding-left: 20px;
+    margin-left: 5px;
+  }
+  .member_selected_all{
+    float: left;
+    background: url("/assets/fam_networks/top_checkbox_selected.png") center left no-repeat;
+    padding-left: 20px;
+    margin-left: 5px;
+  }
+  .member_remove{
+    float: left;
+    background: url("/assets/fam_networks/remove.png") center left no-repeat;
+    padding-left: 20px;
+  }
+  .invite_this_members{
+    width:272px;
+    float: left;
+  }
+  .img_border{
+    border: 1px solid #dddedc;
+
+    width: 48px;
+    height: 48px;
+  }
+  .img_border img{
+    padding: 3px;
+  }
+  .member_name{
+    color: #7d7d7d;
+    font-size: 14px;
+    text-transform: capitalize;
+    font-weight: bold;
+  }
+  .member_email{
+    color: #4595ad;
+    font-size: 13px;
+
+    font-weight: normal;
+  }
+  .invite_these_members{
+    max-height: 450px;
+    min-height: 120px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .images_checkbox_normal{
+    background: url("/assets/fam_networks/pro_checkbox_normal.png") center center no-repeat;
+    width: 22px;
+    height: 22px;
+  }
+  .images_checkbox_selected{
+    background: url("/assets/fam_networks/pro_checkbox_selected.png") center center no-repeat;
+    width: 22px;
+    height: 22px;
+  }
+  .images_checkbox{
+    cursor: pointer;
+  }
+  .fam_network_edit{
+    width: 884px;
+    height: 610px;
+    border: 1px solid #e1e1e1;
+    background: #ffffff;
+  }
+  #button_group_yes{
+    float: left;
+    background: url("/assets/fam_networks/yes_button.png") center center no-repeat ;
+    width: 110px;
+    height:39px;
+    cursor: pointer;
+  }
+  #button_group_no{
+    float: left;
+    background: url("/assets/fam_networks/no_button.png") center center no-repeat;
+    width: 110px;
+    height:39px;
+    cursor: pointer;
+  }
+  #button_group_ok{
+    margin: 0 auto;
+    background: url("/assets/fam_networks/ok_button.png") center center no-repeat;
+    width: 110px;
+    height:39px;
+    cursor: pointer;
+  }
+  #remove_invities{
+    width: 470px;
+    padding: 20px;
+    margin: 100px auto;
+    border: 1px solid #e1e1e1;
+    background: #fff;
+  }
+  #remove_invities_txt{
+    text-align: center;
+    font-size: 21px;
+    padding: 18px;
+    color:#000;
+  }
+  #button_group{
+    width: 222px;
+    margin: 0 auto;
+    height: 50px;
+    padding: 10px;
+  }
+  #button_group_ok{
+    width: 100px;
+
+    height: 50px;
+    padding: 10px;
+  }
+  #remove_network{
+    width: 400px;
+    padding: 20px;
+    margin: 0 auto;
+    border: 1px solid #e1e1e1;
+    margin-top: 100px;
+    background: #fff;
+  }
+  #remove_network_success{
+    width: 400px;
+    padding: 20px;
+    margin: 0 auto;
+    border: 1px solid #e1e1e1;
+    margin-top: 100px;
+    background: #fff;
+    color:#000;
+  }
+  #remove_member{
+    text-align: center;
+    font-size: 21px;
+    padding: 18px;
+    background: #fff;
+    color:#000;
+  }
+  .contactImage{
+    background: none repeat scroll 0 0 #FBFDFE;
+    border: 1px solid #CDE0E6;
+    display: block;
+    height: 57px;
+    margin: 5px 25px 0 5px;
+    padding: 5px 5px 0;
+    width: 62px;
+  }
+
+  .contactImage span {
+    background: none repeat scroll 0 0 #F2F5F6;
+    color: #5AA3B6;
+    display: block;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    height: 52px;
+    text-align: center;
+    width: 62px;
+  }
+
+  .famNorHov {
+    margin-left: 64px;
+    margin-top: -15px;
+  }
+
+  .no_network {
+    padding-top:40px;
+    color: #2B91AF;
+    font-size: 14px;
+  }
+  .succes_msg{
+    color: #FF0000;
+    display: none;
+    padding-left: 50px;
+    text-align: center;
+  }
+</style>
+<script>
+
+  $(document).ready(function(){
+    $(".choosen_check").click(function(){
+      var arr= new Array();
+      if( $(this).hasClass('member_select_all')){
+        $(".choosen_check").addClass('member_selected_all').removeClass('member_select_all');
+        $(".images_checkbox").addClass('images_checkbox_selected').removeClass('images_checkbox_normal');
+        $(".images_checkbox_selected").each(function(){
+
+          arr.push($(this).attr("id"));
+          $('#selected_member').val(arr);
+          //alert(arr);
+        });
+      }
+      else{
+        $(".choosen_check").addClass(' member_select_all').removeClass('member_selected_all');
+        $(".images_checkbox").addClass('images_checkbox_normal').removeClass(' images_checkbox_selected');
+        $('#selected_member').val('');
+      }
+    });
+    $(".images_checkbox").click(function(){
+      if( $(this).hasClass('images_checkbox_normal')){
+        $(this).addClass('images_checkbox_selected').removeClass('images_checkbox_normal');
+        var id_arr=$('#selected_member').val();
+        id_arr=id_arr.split(',');
+        //if(id_arr.length)
+        id_arr.push($(this).attr("id"));
+        $('#selected_member').val(id_arr);
+        if($(".images_checkbox").length==$(".images_checkbox_selected").length){
+          $(".choosen_check").addClass('member_selected_all').removeClass('member_select_all');
+        }
+      }
+      else{
+        $(".choosen_check").addClass(' member_select_all').removeClass('member_selected_all');
+        $(this).addClass('images_checkbox_normal').removeClass('images_checkbox_selected');
+        var id_arr1=$('#selected_member').val();
+        id_arr1=id_arr1.split(',');
+        for(var i=0; i<id_arr1.length;i++){
+          if(id_arr1[i]==$(this).attr("id")){
+            id_arr1.splice(i,1);
+          }
+        }
+        $('#selected_member').val(id_arr1);
+      }
+    });
+
+
+    //IE8 issue fixes
+    $(".send-friend-inv").click(function(){
+      var test = this.id;
+      var val = $("#"+test).attr('data');
+      send_single_req(val,'friend_invite');
+    });
+
+
+  });
+  function delete_network(){
+    $('.fam_network_edit').css('display','none');
+    $('#remove_network').css('display','block');
+  }
+
+  function remove_member(){
+    var select_mem = $('#selected_member').val();
+    if (select_mem !=""){
+      $('.fam_network_edit').css('display','none');
+      $('#remove_invities').css('display','block');
+    }
+    else{
+      $(".flash-message").html(" Please select atleast one friend to delete.");
+      var win=$(window).width();
+      var con=$(".flash_content").width();
+      var leftvalue=((win/2)-(con/2))
+      $(".flash_content").css("left",leftvalue+"px");
+      $(".flash_content").css("top","5%");
+      $('.flash_content').fadeIn().delay(5000).fadeOut();
+    }
+  }
+  function remove_invite(){
+    $('#loading').show();
+    var select_mem = $('#selected_member').val();
+    if (select_mem !=""){
+      $.ajax({
+        url: "/remove_member",
+        type:'GET',
+        data: {
+          "fam_rem_id":select_mem,
+          "fam_id":<%= @fam_group.group_id %>
+        },
+        dataType: "script",
+        success: function(html){
+
+        }
+      });
+    }
+
+  }
+
+
+  function send_single_group_req(id,email)
+  {
+    $.ajax({
+      type: "POST",
+      url: '/invite_mail',
+      data: {"toemailaddress":email,"redactor_content":""}, // serializes the form's elements.
+      dataType: "script",
+      success: function(data)
+      {
+        $("#success_message").css("display","block").fadeOut(5000);
+      }
+    })
+    //pop_mail_contact('/contact_users/req_multi_email?ids='+id+'&request='+request_invite)
+  }
+
+
+
+  function remove_network(){
+    $('#loading').show();
+    $.ajax({
+      url: "/remove_member",
+      type:'GET',
+      data: {
+        "fam_del":"yes",
+        "fam_id":<%= @fam_group.group_id %>
+      },
+      dataType: "script",
+      success: function(html){
+
+      }
+    });
+  }
+
+  function close_success_popup(){
+    parent.FamGroupPage.hide();
+    parent.window.location.reload();
+  }
+
+  function close_popup(){
+    parent.FamGroupPage.hide();
+    parent.jumpto('<%=@fam_group.group_name.downcase.gsub(/[^a-zA-Z0-9]/,"_") if !@fam_group.nil? && !@fam_group.group_name.nil?%>');
+  }
+  function get_to_parent(){
+    $('.fam_network_edit').css('display','block');
+    $('#remove_network').css('display','none');
+    $('#remove_invities').css('display','none');
+  }
+</script>
+
+<div class="fam_network_edit">
+  <div id="fam_edit">
+    <div class="fam_network_header">
+      <div id="fam_heading"> <%= @fam_group.group_name %> </div>
+      <div class="close_popup" onclick="close_popup()"><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%></div>
+    </div>
+    <div class="clear"></div>
+    <div  class="invite_div">
+      <div class="invited_member" onclick="parent.FamGroupPage.hide();parent.pop_invite_friend_check('/invite_friend_famtivity?check_invite=invite&fam_net_id=<%= params[:id] %>&fam_last=/');">invite friends</div>
+      <%user_fam_id = current_user.user_id%>
+      <%if @fam_group.user_id == user_fam_id%>
+        <div class="invited_member_action">
+          <input type="hidden" name="selected_member" id="selected_member" value=""/>
+          <div class="edit_action" style="display: none;">edit network</div>
+          <div class="separator" style="display: none;">|</div>
+          <div class="delete_action" onclick="delete_network(); _gaq.push(['_trackEvent','Parent Module', 'clickFriending','Delete Network']);">delete network</div>
+        </div>
+      <%end%>
+    </div>
+    <div class="clear"></div>
+    <div id="success_message" class="succes_msg" style="display:none;">Your invite has been sent successfully!</div>
+    <div class="members_div">
+      <%if @fam_group.user_id == user_fam_id%>
+        <div class="member_header">
+          <div class="member_select_all choosen_check">select all</div>
+          <div class="separator">|</div>
+          <div class="member_remove" onclick="remove_member(); _gaq.push(['_trackEvent','Parent Module', 'clickFriending','Remove']);">remove</div>
+        </div>
+      <%end%>
+      <div class="clear"></div>
+      <div class="invite_these_members">
+        <!---repeat this as a loop start---->
+        <%user_owner = User.find_by_user_id(@fam_group.user_id) %>
+        <div class="invite_this_members">
+          <table border="0" cellpadding="0" cellspacing="0" width="270" height="100">
+            <tr>
+              <td valign="middle" align="center" width="30">
+
+              </td>
+              <td width="76" align="left">
+                <a href="#" class="popimg-click" id="popimg_<%=user_owner.user_id%>" data="<%=user_owner.user_id%>" title="">
+                  <input type="hidden" id="pop_<%=user_owner.user_id%>" value="users" />
+                  <%if user_owner.user_profile.present? && !user_owner.user_profile.profile_file_name.nil?%>
+                    <div class="contactImage"><span><%= image_tag user_owner.user_profile.profile.url(:original), :width => "62", :height => "52", :alt=>"Loading..." if !user_owner.user_profile.profile.url(:original).nil?%></span></div>
+                  <%else%>
+                    <div class="contactImage"><span style="padding-top:20px;height:32px;">No Image</span></div>
+                    <P class="famNorHov"><%=image_tag("/assets/contact/Famtivity_normal.png", :width=>"21", :height=>"22")%></P>
+                  <%end%>
+                </a>
+              </td>
+              <td width="180" align="left">
+                <div class="member_name"><%= user_owner.user_name %></div>
+                <div class="member_email" title="<%= user_owner.email_address %>" ><%=truncate(user_owner.email_address, :length =>20, :omission => '..') if !user_owner.email_address .nil?%></div>
+                <div class="member_email">Owner</div>
+              </td>
+
+            </tr>
+
+          </table>
+        </div>
+
+
+        <%if @fam_users.length > 0 %>
+          <%@fam_users.each do |con|%>
+            <div class="invite_this_members">
+              <table border="0" cellpadding="0" cellspacing="0" width="270" height="100">
+                <tr>
+                  <td valign="middle" align="center" width="30">
+                    <%if @fam_group.user_id == user_fam_id%>
+                      <div class="images_checkbox images_checkbox_normal" id="<%= con.contact_id %>">
+                      </div>
+                    <%end%>
+                  </td>
+                  <td width="76" align="left">
+                    <a href="#" class="popimg-click" id="popimg_<%=con.contact_id%>" data="<%=con.contact_id%>" title="">
+                      <input type="hidden" id="pop_<%=con.contact_id%>" value="contacts" />
+                      <%if !con.contact_file_name.nil? && con.contact.present?%>
+                        <div class="contactImage"><span><%= image_tag con.contact.url(:original), :width => "62", :height => "52", :alt=>"Loading..." if !con.contact.url(:original).nil?%></span></div>
+                        <%if !con.contact_user_type.nil? && con.contact_user_type.present? && con.contact_user_type.downcase == "non_member"%>
+                          <P class="famNorHov"><%=image_tag("/assets/contact/Famtivity_hover.png", :width=>"21", :height=>"22")%></P>
+                        <%else%>
+                          <P class="famNorHov"><%=image_tag("/assets/contact/Famtivity_normal.png", :width=>"21", :height=>"22")%></P>
+                        <%end%>
+                      <%else%>
+                        <div class="contactImage"><span style="padding-top:20px;height:32px;">No Image</span></div>
+                        <%if !con.contact_user_type.nil? && con.contact_user_type.present? && con.contact_user_type.downcase == "non_member"%>
+                          <P class="famNorHov"><%=image_tag("/assets/contact/Famtivity_hover.png", :width=>"21", :height=>"22")%></P>
+                        <%else%>
+                          <P class="famNorHov"><%=image_tag("/assets/contact/Famtivity_normal.png", :width=>"21", :height=>"22")%></P>
+                        <%end%>
+                      <%end%>
+                    </a>
+                  </td>
+                  <td width="180" align="left">
+                    <div class="member_name"><%= con.contact_name %></div>
+                    <div class="member_email" title="<%= con.contact_email %>" ><%=truncate(con.contact_email, :length =>20, :omission => '..') if !con.contact_email.nil?%></div>
+                    <div class="member_email">
+                      <%if con.fam_accept_status == "t"%>
+                        Accepted
+                      <%else%>
+                        <%if con.user_id == user_fam_id%>
+                          <% if con.contact_type=="facebook" %>
+                            <!--a>Post on wall</a-->
+                          <%else%>
+                            Invited
+                            |
+                            <a href="javascript:void(0)"  onclick="send_single_group_req(<%= con.contact_id %>,'<%= con.contact_email %>'); _gaq.push(['_trackEvent','Parent Module', 'clickFriending','Send Again']);" class="nameText send-new-inv" style="color: #13849B;font-size: 12px;"> Send Again</a>
+                          <%end%>
+                        <%end%>
+                      <%end%>
+                    </div>
+                  </td>
+
+                </tr>
+
+              </table>
+            </div>
+          <%end%>
+        <%else%>
+          <div align="center" class="no_network" > No Members are available in this network.</div>
+        <%end%>
+        <!---repeat this as a loop end---->
+      </div>
+    </div>
+  </div>
+
+
+</div>
+<div id="remove_network_success" style="display: none;">
+  <div id="remove_member" style="font-size: 18px;color: #010101;"></div>
+  <div id="button_group_ok" onclick="close_success_popup();"></div>
+</div>
+
+<div id="remove_network" style="display: none;">
+  <div id="remove_invities_txt" style="font-size: 18px;color: #010101;">Do you want to delete this network?<!--Would you like to delete this network?--></div>
+  <div id="button_group">
+    <div id="button_group_yes" onclick="remove_network();"></div>
+    <div id="button_group_no" onclick="get_to_parent();"></div>
+    <div id='loading' style="position: relative;bottom: 30px;left: 220px;display:none"><%=image_tag("/assets/loading_small.gif", :width=>"16", :height=>"16")%></div>
+  </div>
+</div>
+
+<div id="remove_invities" style="display: none;">
+  <div id="remove_invities_txt" style="font-size: 18px;color: #010101;">Are you sure you want to delete members from the "<%= @fam_group.group_name %>" network?</div>
+  <div id="button_group">
+    <div id="button_group_yes" onclick="remove_invite();"></div>
+    <div id="button_group_no" onclick="get_to_parent();"></div>
+    <div id='loading' style="position: relative;bottom: 30px;left: 220px;display:none"><%=image_tag("/assets/loading_small.gif", :width=>"16", :height=>"16")%></div>
+  </div>
+</div>

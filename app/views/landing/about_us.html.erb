@@ -1,0 +1,329 @@
+<%
+meta :title => "About Famtivity - Kids Activities, Camps, Classes, Lessons",
+  :description => "Famtivity is a social networking for finding, buying, and sharing kids & children's activities, camps, classes, lessons, and sports",
+  :keywords => "About us, About famtivity, About kids activities"
+%>
+<%= stylesheet_link_tag "landing/how_it_works.css" %>
+<!-- drop down menu-->
+
+<style type="text/css" id="page-css">
+  /* Styles specific to this particular page */
+  .terms_of_service{
+    padding:8px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:14px;
+    color:hsl(0, 2%, 48%);
+    margin:0 0 0 40px;
+  }
+  .clrBlueLight{
+    color:#4495ae;
+  }
+
+  .main {
+    margin:0 auto;
+    width:940px;
+  }
+  .left-image {
+    float:left;
+    width:496px;
+    height:308px;
+    margin-right: 10px;
+  }
+
+  .right-img
+  {
+    float:right;
+    width:200px;
+    height:282px;
+  }
+  .left-content
+  {
+    float:left;
+    width:740px;
+
+  }
+
+  .setcolor_about{
+    color: #7C7A7B;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    line-height: 23px;
+  }
+  #header-about{
+    color: #5099AC;
+    font-family: arial;
+    font-size: 22px;
+    margin-bottom: 25px;
+    margin-top: 10px;
+  }
+  .abtlist{
+    list-style: disc outside;
+    margin: 10px 0px 20px 30px;
+    list-style: #000;
+  }
+  .abtlist li{
+    color: #7C7A7B;
+    font-family: Arial,Helvetica,sans-serif;
+    line-height: 23px;
+    font-size: 14px;
+  }
+  .abtlist li span{
+    font-style: italic;
+  }
+  .fam_press
+  {
+    padding: 20px 0px;
+    border-bottom: 1px solid #DDE1E2;
+  }
+  .press_txt
+  {
+    width: 250px;
+    text-align: center;
+    color: #5099AC;
+    font-size: 15px;
+    line-height: 20px;
+    padding-right: 20px;
+
+  }
+  .press1_img
+  {
+    text-align: center;
+    padding: 30px 0px;
+    background-color: white;
+    border: 1px solid #D6D6D6;
+    margin-bottom: 12px;
+    height:25px;
+  }
+  .press2_img
+  {
+    text-align: center;
+    padding: 30px 0px;
+    background-color: white;
+    border: 1px solid #D6D6D6;
+    margin-bottom: 12px;
+    height:30px;
+  }
+  .providerFrame{
+    background: url('/assets/header/tex_box.png') no-repeat;
+    height: 182px;
+    width: 414px;
+    margin: 15px 40px 20px 10px;
+  }
+  .providermsg{
+    color: #7C7A7B;
+    font-size: 14px;
+    text-align: center;
+    line-height: 20px;
+    font-family: Comic Sans MS;
+  }
+  .providerName{
+    font-size: 16px;
+    color: #5A9DB7;
+    padding: 0px 0px 4px 4px;
+  }
+  .activities_head{
+    color: #5099AC;
+    font-size: 16px;
+  }
+  .providerType{
+    font-size: 13px;
+    color: #7C7A7B;
+    padding: 0px 0px 0px 4px;
+  }
+  /*@media screen and (-webkit-min-device-pixel-ratio:0) {
+  .footer{
+	background-color:#ffffff;
+	position:absolute;
+	bottom:0px;
+	width:99.9%;
+  }
+  }
+  */
+</style>
+<div id="how_it_worksDiv" style="margin-top:44px; padding-top:2px; background:#F6F8F7;">
+
+
+  <div class="TopDiv" style="margin: 0 auto;">
+    <%if !current_user.nil?%>
+      <div class="aftrlogindiv">
+      <%else%>
+        <div class="bfrlogindiv">
+        <%end%>
+        <div class="clear"></div>
+
+        <div class="fam_press" style="border-bottom:none">
+          <div id="header-about"><b>Famtivity in the Press</b></div>
+          <div style="width:247px; height: 126px; float:left;text-align:center;margin-bottom: 30px; margin-right:20px;">
+            <a href="http://www.insidebayarea.com/news/ci_25995895/startups-ease-search-perfect-summer-camp" target="_blank" style="width:247px; height:64px; border:1px solid #D6D6D6;  padding-top:12px; padding-bottom:12px; background-color:#fff; display:block;">
+              <div style="margin-top:4px;"><img src="/assets/header/mercury-news.png" alt="mercury news" ></div>
+
+            </a>
+            <div style="margin-top:10px; color:#5099AC; font-size:15px;">
+              <a href="http://www.insidebayarea.com/news/ci_25995895/startups-ease-search-perfect-summer-camp" target="_blank" style="color:#5099AC; text-decration:none;">Startups ease the search for the perfect summer camp</a>
+            </div>
+          </div>
+
+          <div style="width:247px; height: 126px; float:left;text-align:center;margin-bottom: 30px; margin-right:20px;">
+            <a href="http://www.diablomag.com/March-2014/Apps-for-Families/" target="_blank" style="width:247px; height:64px; border:1px solid #D6D6D6;  padding-top:12px; padding-bottom:12px; background-color:#fff; display:block;">
+              <div style="margin-top:10px;"><img src="/assets/header/diablo-magazine.png" alt="diablo magazine"></div>
+
+            </a>
+            <div style="margin-top:10px; color:#5099AC; font-size:15px;">
+              <a href="http://www.diablomag.com/March-2014/Apps-for-Families/" target="_blank" style="color:#5099AC; text-decration:none;">Start streamlining your family's activities</a>
+            </div>
+          </div>
+          <div style="width:247px; height: 126px; float:left;text-align:center;margin-bottom: 30px; margin-right:20px;">
+            <a href="http://www.parentspress.com/Parents-Press/January-2014/Tech-Time-Schedule-Kids-Activities-With-A-Click/" target="_blank" style="width:247px; height:64px; border:1px solid #D6D6D6;  padding-top:12px; padding-bottom:12px; background-color:#fff; display:block;">
+              <div style="margin-top:20px;"><img src="/assets/header/parent-press.jpg" alt="parents press"></div>
+
+            </a>
+            <div style="margin-top:10px; color:#5099AC; font-size:15px;">
+              <a href="http://www.parentspress.com/Parents-Press/January-2014/Tech-Time-Schedule-Kids-Activities-With-A-Click/" target="_blank" style="color:#5099AC; text-decration:none;">Schedule Kids Activities with a Click 	</a>
+            </div>
+          </div>
+
+          <div class="clear"></div>
+
+          <div style="width:247px; height: 126px; float:left;text-align:center;margin-bottom: 30px; margin-right:20px;">
+            <a href="http://www.contracostatimes.com/lafayette/ci_24870316/matching-kids-activities-schedules-walnut-creek-based-famtivity" target="_blank" style="width:247px; height:64px; border:1px solid #D6D6D6;  padding-top:12px; padding-bottom:12px; background-color:#fff; display:block;">
+              <div style="margin-top:20px;"><img src="/assets/header/contra-costa-times.jpg" alt="contra costa times"></div>
+
+            </a>
+            <div style="margin-top:10px; color:#5099AC; font-size:15px;">
+              <a href="http://www.contracostatimes.com/lafayette/ci_24870316/matching-kids-activities-schedules-walnut-creek-based-famtivity" target="_blank" style="color:#5099AC; text-decration:none;">Matching Kids' Activities, Schedules:Famtivity Makes the Connection</a>
+            </div>
+          </div>
+          <div style="width:247px; height: 126px;  float:left;text-align:center;margin-bottom: 30px; margin-right:20px;">
+            <a href="http://claycord.com/2014/05/22/column-creative-space-on-claycord-famtivity-com/#comments" target="_blank" style="width:247px; height:64px; border:1px solid #D6D6D6;  padding-top:12px; padding-bottom:12px; background-color:#fff; display:block;">
+              <div style="margin-top:20px;"><img src="/assets/header/clay-cord.png" alt="clay cord" ></div>
+
+            </a>
+            <div style="margin-top:10px; color:#5099AC; font-size:15px;">
+              <a href="http://claycord.com/2014/05/22/column-creative-space-on-claycord-famtivity-com/#comments"  target="_blank" style="color:#5099AC; text-decration:none;">Claycord Days of Service: Hold the door open for somebody today.</a>
+            </div>
+          </div>
+
+        </div>
+        <div class="clear"></div>
+
+
+        <h1 id="header-about"><br><b>About Us</b></h1>
+
+
+        <div class="clear"></div>-->
+        <span class="setcolor_about">Welcome to Famtivity. We&#39;re a group of busy folks (probably a lot like you) with families, pets, jobs, deadlines, bills, hobbies and a passion for enjoying free time. We like to inspire, explore, connect, learn and play (not always in that order).
+          <br><br/>Our Aha! moment was born out of frustration from finding and coordinating all the various activities for our kids. Until now, organizing activities had been a complex ordeal involving countless web searches, phone calls, e-mails and paperwork. Let&#39;s just say we were growing tired of tearing our hair out. <br/><br/>
+          We believe there&#39;s a better way. Famtivity&#39;s mission is to simplify the process of finding, organizing and purchasing activities. We connect activity seekers with activity providers to create a network we call The Family Activity Network.
+          <br/><br/>We know that activities are as diverse as the families and individuals seeking them.  We also know that activity providers benefit from connecting to their local communities of existing and potential clientele (we love a win-win).
+          <br/><br/>Better yet, our core services are entirely free.<br/><br/>It&#39;s quite simple really. Famtivity&#39;s website, tablet and mobile apps help in the following ways:<br/><br/>
+          <span class="activities_head">Activity seekers can:</span></span>
+        <ul class="abtlist">
+          <li><span>Search:</span> Find and view activities by customizable and targeted search criteria such as age, location, date and activity type.</li>
+          <li><span>Sign up:</span> Register and pay for activities.</li>
+          <li><span>Share:</span> Connect with your network of friends via Famtivity messaging and social networks. Share your activities, see who&#39;s attending, add photos, read and post reviews of activities and providers. </li>
+          <li><span>Schedule:</span> Add session dates to your calendar, coordinate classes and arrange carpools.</li>
+        </ul>
+        <span class="setcolor_about activities_head">Activity providers can:</span>
+        <ul class="abtlist">
+          <li><span>Promote:</span> Publicize activity offerings to a wide yet local audience.</li>
+          <li><span>Market:</span> Sell activities directly to customers.</li>
+          <li><span>Manage:</span> Build and foster customer relationships for repeat business.</li>
+          <li><span>Share:</span> Post social media messages and photos securely within activity groups.</li>
+        </ul>
+        <span class="setcolor_about">Just about everyone at Famtivity is a parent, and our goal is to help parents and kids grow together to reach their highest potential.  We believe that parenting and enriching one&lsquo;s life is all about communication, cooperation, and love - and this understanding not only results in children&lsquo;s growth, but also the growth of parents themselves.  Our <a href="https://www.famtivity.com/blog" title="" style="color: #4495ae;" target="_blank">blog</a> shares insightful thinking and content that aligns with our values.</span><br/><br/>
+        <span class="setcolor_about">So join our community today. Famtivity makes organizing the fun part of life a whole lot easier (and you keep the hair on your head while doing it)!</span><br/>
+        <!--<div style="border-top: 1px dashed #BCC1A1;width: 100%;margin: 10px 0px 5px;"></div>-->
+        <span class="setcolor_about">Famtivity is located in Walnut Creek, California - just outside of San Francisco.  For more information about our company, contact us at <a href="mailto:info@Famtivity.com" title="" style="color: #4495ae;">info@Famtivity.com</a> or call to: <a href="9259795340" style="color: #4495ae;" title="">925.979.5340</a>.</span>
+        <div style="border-top: 1px dashed #BCC1A1;width: 100%;margin: 25px 0px 5px;"></div>
+        <div class="loveFam" style="padding: 5px 0px 30px 0px;">
+          <p id="header-about" style="margin-bottom: 0px; "><b>Why providers love Famtivity!</b></p>
+          <div class="providerFrame lt">
+            <table cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td width="18%"></td>
+                <td height="90"><p class="providermsg">Famtivity is the wave of the future</p></td>
+                <td width="25%" rowspan="2"></td>
+              </tr>
+              <tr>
+                <td align="right"><%= image_tag("/assets/header/jenny-perry.png") %></td>
+                <td height="90">
+                  <p class="providerName"><b>Jenny Perry</b></p>
+                  <p class="providerType">Owner, The Ballet School</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="providerFrame lt">
+            <table cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td width="18%"></td>
+                <td height="90"><p class="providermsg">Famtivity gets my business in front of thousands of parents.</p></td>
+                <td width="25%" rowspan="2"></td>
+              </tr>
+              <tr>
+                <td align="right"><%= image_tag("/assets/header/lori-hoehn.png") %></td>
+                <td height="90">
+                  <p class="providerName"><b>Lori Hoehn</b></p>
+                  <p class="providerType">Owner, Tat-It-Up</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="providerFrame lt">
+            <table cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td width="18%"></td>
+                <td height="90"><p class="providermsg">Getting set-up was super simple and the staff were readily available to help.</p></td>
+                <td width="20%" rowspan="2"></td>
+              </tr>
+              <tr>
+                <td align="right"><%= image_tag("/assets/header/image_emty.png") %></td>
+                <td height="90">
+                  <p class="providerName"><b>Stephanie Roberts</b></p>
+                  <p class="providerType">Manager, Spun Studios</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="providerFrame lt">
+            <table cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td width="18%"></td>
+                <td height="90"><p class="providermsg">Getting on board was a no brainer.</p></td>
+                <td width="25%" rowspan="2"></td>
+              </tr>
+              <tr>
+                <td align="right"><%= image_tag("/assets/header/burke.png") %></td>
+                <td height="90">
+                  <p class="providerName"><b>TJ Burke</b></p>
+                  <p class="providerType">Owner, Blue Note Entertainment</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var docheight = $(window).height();
+      var innerHeight = docheight - parseInt(200);
+      innerHeight = innerHeight+"px";
+      $(".scroll-pane").css('height',innerHeight);
+      $(".scroll-pane").jScrollPane();
+    });
+    window.onresize = function(event) {
+      var docheight = $(window).height();
+      var innerHeight = docheight - parseInt(200);
+      innerHeight = innerHeight+"px";
+      $(".scroll-pane").css('height',innerHeight);
+      $(".scroll-pane").jScrollPane();
+    }
+  </script>
+

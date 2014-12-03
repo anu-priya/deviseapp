@@ -1,0 +1,71 @@
+<%= stylesheet_link_tag "global/pop_up_success.css" %>
+<script language="javascript">
+  var parentLoginPage;
+
+  function pop_Parent_Login(url){
+    parentLoginPage = dhtmlmodal.open("Activity Detail ","iframe",url,"", "width=951px,height=1125px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");    
+    $("html, body").animate({ scrollTop: 0 }, 100);   
+    return false;
+  }   
+
+  //delete the activity id while clicking the cross image button
+  function delete_activity(){
+    var delete_id = $('#to_delete').val();
+    $.post("destroy", {"id":delete_id}, null, "script");
+  }
+
+  var flag=1;
+  $(parent.window.document).click(function(){
+    if(flag==1){
+      parent.becomeproviderPage.hide();
+      flag=2;
+    }
+  });
+  function closepopup() {
+    parent.becomeproviderPage.hide();
+    flag=2;
+  }
+  function show_plan_page(id){
+    $("#provider_plan").css("display","block");
+    $("#ParentRegister").css("display","none");
+    return false;
+  }
+
+</script> 
+<div id="new_act_container">
+  <div id="delete_actvity">
+    <div class="popupContainer">
+      <div class="headTab" style="border:none;">
+        <div class="heading">
+          <!--div class="headCont">Share Activity</div-->
+        </div>
+        <!--      <div class="lt closeButton">
+                <a href="javascript:void(0)" onClick="closepopup()" title="" class="lt">
+                  <img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" />
+                </a>
+              </div>
+        -->      <div class="clear"></div>
+      </div>
+      <div align="center">
+        <!--to get the current activity id for delete the record from the db-->
+        <!--modified by rajkumar-->
+        <p class="successText" style="margin: 40px 0 25px; width:317px;">
+          <%if !current_user.nil? && current_user.user_type=="U" %>
+            <b>You are currently signed in as a Parent. Provide us with a little more information and you can become a Provider!<b>
+              <%elsif !current_user.nil? && current_user.user_type=="P" %>
+                <b>You are currently signed in as a Provider.<b>
+                  <%end%>
+                  </p>
+                  <div class="clear"></div>
+                  <div>
+                    <%if !current_user.nil? && current_user.user_type=="U" %>
+                      <a href="javascript:void(0)" onclick="parent.becomeproviderPage.hide();parent.pop_Parent_Login('/provider_register?b_provider=pro&invited_user=<%=@s_user_id%>&invitee_email=<%=@s_user_email%>');show_plan_page('plan');"> <%= image_tag("/assets/register/ok_btn.png",:width=>"97",:height=>"37") %></a>
+                    <%elsif !current_user.nil? && current_user.user_type=="P" %>
+                      <a href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? %>" target="_parent"> <%= image_tag("/assets/register/ok_btn.png",:width=>"97",:height=>"37") %></a>
+                    <%end%>
+                    <a href="javascript:void(0)" onClick="closepopup()"> <%= image_tag("/assets/login/cancel_button.png",:width=>"97",:height=>"37") %></a>
+                  </div>
+                  </div>
+                  </div>
+                  </div>
+                  </div>

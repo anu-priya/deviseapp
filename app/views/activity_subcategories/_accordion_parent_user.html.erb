@@ -1,0 +1,116 @@
+<div class="lt leftPanel" style="width:580px;">
+  <div class="setBorder">
+    <div id="advanceSearchDiv">
+      <div class="ad_textbox" style="width:265px;" id="ParentSearch">
+        <div class="lt_search"><input type="text" onkeypress="handleEnter(this, event)" style="width:235px;outline:none" id="parent_search_user" name="parent_search_user" value="Search Following" class="textbox" onfocus="if(this.value == 'Search Following'){this.value=''; this.style.color='#444444';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.value='Search Following'}" /></div>
+        <div class="lt_search"><a href="javascript:void(0)" onclick="search_provider('u')" class="set_search_icon" title=""><%=image_tag("/assets/event_index/search_icon.png", :width=>"18", :height=>"19")%></a></div>
+        <div class="clear"></div>
+      </div>
+    </div>
+  </div>
+
+  <%i = 5%>
+
+  <!--follow parent search result by changed 31/7/13 rajkumar-->
+  <%if @parent_follow_search=="followsearch" && !@parent_user.nil? && @parent_user.present?%>
+    <%@parent_user%>
+  <%else%>
+    <%
+    @all_parent=[]
+    if @parent_user_id
+      @all_parent<<@parent_user_id
+    end
+    if @parent_user_contact
+      @all_parent<<@parent_user_contact
+    end
+  %>
+    <%@user_row=@all_parent.flatten%>
+    <%@parent_user=@user_row.uniq{|x| x[:user_id]}%>
+    <%@parent_user=@parent_user.sort_by{|x| x[:user_name]}%>
+  <%end%>
+  <div class="scroll-pane-provider">
+    <%if !@parent_user.nil? && @parent_user.length > 0%>
+      <%@parent_user.each do |sub|%>
+        <!-- Inner Div Start-->
+        <div class="lt subCat providerSubCat" id="subCat_<%= sub.user_id %>">
+          <input id="sc<%= sub.user_id%>" name="sc<%= sub.user_id %>" type="checkbox" value="<%= sub.user_id%>"/>
+          <span class="scImg" onClick="parent_row(<%= sub.user_id %>,<%= sub.user_id%>)"><label class="altCheckboxoff" for="sc<%= sub.user_id%>">&nbsp;</label></span>
+          <a href="javascript:void(0)" onmouseOver="detailedView('parent_row_<%= sub.user_id%>')" onmouseOut="detailedClose('parent_row_<%= sub.user_id%>')" class="smallImg">
+            <%if !sub.user_profile.user_photo.nil? && sub.user_profile.user_photo.present? %>
+              <%= image_tag (sub.user_profile.user_photo.url(:small)),  :width => '21', :height => '21', :style =>"position:relative;"%>
+            <%else%>
+	    <%=image_tag("/assets/landing/user_icon_21.png", :width=>"21", :height=>"21", :style=>"position:relative;")%>
+            <%end%>
+          </a>
+          <span class="scText setWidthCP"><a href="javascript:void(0)" onmouseOver="detailedView('parent_row_<%= sub.user_id%>')" onmouseOut="detailedClose('parent_row_<%= sub.user_id%>')"><%=truncate(sub.user_name.html_safe, :length =>20, :omission => '... ')%></a></span>
+          <div class="clear"></div>
+
+          <div class="detailedViewDivOuter detailedViewRt" id="parent_row_<%= sub.user_id%>" style="display:none;">
+            <table cellspacing="0" cellpadding="0" border="0" width="220">
+              <tr>
+                <td class="detailedViewDivInner" width="205">
+                  <table cellspacing="0" cellpadding="0" border="0" width="205">
+                    <tr>
+                      <td width="40" valign="top">
+                        <%if !sub.user_profile.user_photo.nil? && sub.user_profile.user_photo.present? %>
+                          <%= image_tag (sub.user_profile.user_photo.url(:small)),  :width => '40', :height => '40', :style =>"position:absolute;overflow:hidden;"%>
+                        <%else%>
+			<%=image_tag("/assets/landing/user_icon_40.png", :width=>"40", :height=>"40", :style=>"position:absolute;overflow:hidden;border:none;")%>
+                        <%end%>
+                      </td>
+                      <td valign="top" class="info">
+                        <p class="fstText"><b><%= sub.user_name %></b></p>
+                        <p class="thdText"><%= sub.user_profile.city%>, <%= sub.user_profile.state%>,<%= sub.user_profile.country%></p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td width="15" class="arrowRt">
+		<%=image_tag("/assets/event/right_arrow.png", :width=>"12", :height=>"20", :class=>"de_right_arrow")%>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+        </div>
+      <% end %>
+    <%else%>
+      <div style="padding:10px;"> No search keyword found </div>
+    <% end %>
+    <!-- End -->
+  </div>
+  <script type="text/javascript" >
+    var parentadd_val = $("#parentadd_val").val();
+    if (parentadd_val!=""){
+      parentadd_val_cal = parentadd_val.split(",")
+      jQuery.each(parentadd_val_cal, function(index, value) {
+        $("#subCat_"+value+" input").attr('checked', true);
+        $("#subCat_"+value+" label").addClass('altCheckboxOn');
+        $("#subCat_"+value+" label").removeClass('altCheckboxOff');
+      });
+    }
+    var activity_check ="<%= @user_row%>"
+    if (activity_check!=""){
+      activity_check = activity_check.replace("[","");
+      activity_check = activity_check.replace("]","");
+      activity_check_cal = activity_check.split(",")
+
+      jQuery.each(activity_check_cal, function(index, value) {
+        value = parseInt(value);
+        $("#subCat_"+value+" input").attr('checked', true);
+        $("#subCat_"+value+" label").addClass('altCheckboxOn');
+        $("#subCat_"+value+" label").removeClass('altCheckboxOff');
+      });
+    }
+    var parentremove_val = $("#parentremove_val").val();
+    if (parentremove_val!=""){
+      parentremove_val_cal = parentremove_val.split(",")
+      jQuery.each(parentremove_val_cal, function(index, value) {
+        $("#subCat_"+value+" input").attr('checked', false);
+        $("#subCat_"+value+" label").addClass('altCheckboxOff');
+        $("#subCat_"+value+" label").removeClass('altCheckboxOn');
+      });
+    }
+
+  </script>
+</div>

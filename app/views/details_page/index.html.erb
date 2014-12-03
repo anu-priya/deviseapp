@@ -1,0 +1,465 @@
+<%= stylesheet_link_tag "login/login_new" %>
+<%= stylesheet_link_tag "global/pop_up" %>
+<%= javascript_include_tag "login/login" %>
+<%= javascript_include_tag "login/validate" %>
+
+<%if !(@type=="activity" && @activity &&  @activity.present?) && !(@type=="provider" && @user_profile && @user_profile.present?)%>
+<%meta :title => "Famtivity - Kids Classes, Camps, Lessons, Events & Activities",
+     :description => "Kids Classes, Kids Camps, Kids Activities",
+     :keywords => "Kids activities, classes, day & summer camps, lessons, things to do & events for children of all ages including local provider discounts & specials"
+%>
+<%else%>
+<% page = find_page_title_for_detail_page(params)
+  if page && page!="" && !page.nil?
+      meta :title => "#{page[0]}",
+     :description => "#{page[1]}",
+     :keywords => "#{page[2]}"
+  end
+%>
+<%end%>
+<!--fb login start-->
+<div id="fb-root"></div>
+<input id="sent_user" type="hidden" value="<%=params[:sent_user] if !params[:sent_user].nil?%>" />
+<input id="sent_user_email" type="hidden" value="<%=params[:sent_user_email] if !params[:sent_user_email].nil?%>" />
+
+<fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
+<script> window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '<%= FB_APP_ID %>', // App ID
+    status     : true, // check login status
+    cookie     : true // enable cookies to allow the server to access the session
+  });
+};
+(function(d){
+  var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement('script'); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js";
+  ref.parentNode.insertBefore(js, ref);
+}(document));
+function testAPI(s_user,invited) {
+  FB.api('/me', {fields: "id,name,picture,email,username,name"},function(response)
+  {
+    $.get("login/fb_login?s_user="+s_user+"&invited="+invited, {"fb_res": response},function(data) {
+      // 'data' contains a 'user' object with 'email' and 'name' in it.
+    });
+  });
+}
+ 
+function facebook_login(s_user,invited) {
+  FB.login(function(response) {
+    if (response.status === 'connected') {
+      testAPI(s_user,invited);
+    } else if (response.status === 'not_authorized') {
+         
+    } else {
+      FB.login();
+    }
+  }, {scope: 'email,user_likes'},{perms:'user_address, user_mobile_phone'});
+}
+</script>
+<!--fb login  end-->
+<%=stylesheet_link_tag "detail_page/detail_page", :media => "all"%>
+
+<!-- detail page container start -->
+
+<div class="detail-container" style="<%if current_user.nil? && !current_user.present?%>margin-top:54px;<%end%>">
+  <div class="detail-inner-container">
+  <%if (@type=="activity" && @activity &&  @activity.present?) || (@type=="provider" && @user_profile && @user_profile.present?)%>
+    <div class="breadcrumb"><%= @breadcrumb.html_safe if @breadcrumb.present? %></div><!-- bread crumb div-->
+	
+    <!-- Image section start-->
+        <%if @type && @type == "provider"%>
+		<%if !@user_profile.nil? && !@user_profile.profile_file_name.nil? && !@user_profile.card.nil? && @user_profile.card.present? && is_file_exists(@user_profile.card.path(:original))%>
+		<% get_width = getWidthofImage(@user_profile.card.path(:original))%>	
+		<%end%>
+	<%else%>
+		<%if @activity && !@activity.avatar_file_name.nil? && @activity.avatar.present? && is_file_exists(@activity.avatar.path)%>
+		<% get_width = getWidthofImage(@activity.avatar.path(:original))%>	
+		<%end%>
+	<%end%>
+	<% if get_width && get_width[0] && get_width[1] && get_width[0]!='' && get_width[1]!=''
+		img_width=(get_width[0] && get_width[0]>800) ? 1004 :  get_width[0].round		
+		if get_width[1] >= 518
+				div_height=518
+			else
+				div_height= get_width[1].round
+			end
+		#if img_width >= 800
+			#div_height= 518			
+		#else
+			#if (img_width >= 400 && img_width < 800)
+				#if get_width[1] >= 518
+					#div_height=518
+				#else
+					#div_height= get_width[1].round
+				#end
+			#else
+				#if get_width[1] >= 400
+				##div_height=get_width[1].round
+				#div_height=518
+				#else
+				#div_height=get_width[1].round
+				#end
+			#end
+		#end
+	else
+		div_height= 207
+	end%>
+    <div align="left" class="provider_info">
+		<div class="detail-close" align="center">
+			<a href=<%=(@is_search_key && @is_search_key.present?) ? "/search?event_search=#{@is_search_key}"  : "javascript:void(0)"%> <%if !@is_search_key && !@is_search_key.present?%>onclick="close_page();"<%end%> title="Close" >
+			  <div style="background-color:#5eb0c6;width:30px;height:23px;float:right;margin-top:-1px;padding-top:7px;">
+			    <%=image_tag("/assets/activity_detail/cancel_icon.png", :width=>"16", :height=>"16", :border=>"0")%>
+			  </div>
+			</a>
+		</div>		
+		<div class="info_inner" align="left">
+			<%if @type=="activity" %>
+			<h1 class="bnme" title="<%=@user_profile.business_name if @user_profile && @user_profile.business_name%>"><%= ((@user_profile && @user_profile.present? && @user_profile.business_name) ? @user_profile.business_name.titlecase : "")%></h1>                  		
+			<% end %>		
+			<div class="lt info_topspace">
+				<table border="0" cellpadding="0" cellspacing="0" align="left">
+				<tr>
+				<%img_flag = false%>
+				<%if !@user_profile.nil? && !@user_profile.profile.nil? && @user_profile.profile.present? && File.exists?(@user_profile.profile.path(:thumb))%>
+				<%img_flag = true%>
+				<td align="left" valign="top">
+				<div>									
+					<%= image_tag @user_profile.profile.url(:medium), :alt=>"#{@user_profile.business_name if @user_profile && @user_profile.business_name}, #{@user_profile.city if @user_profile && @user_profile.city}, CA",  :style=>"max-height:78px", :align=>"absbottom", :border=>"0" %>
+				</div>
+				</td>
+				<%end%>
+				<td align="left" valign="top">
+				<div style="<% if img_flag%>margin:-5px 0 0 10px;<%else%>margin:-5px 0 0 0px;<%end%>">
+					<%if @type=="activity" %>
+					<h2  class="actnme" title="<%=@activity.activity_name if @activity && @activity.activity_name%>"><%= ((@activity && @activity.present? && @activity.activity_name.present?) ? @activity.activity_name.titlecase : "")%></h2>
+					<% else %>
+					<h1 class="actnme"  title="<%=@user_profile.business_name if @user_profile && @user_profile.business_name%>"><%= ((@user_profile && @user_profile.present? && @user_profile.business_name) ? @user_profile.business_name.titlecase : "")%></h1>
+					<% end %>
+					<%if @type=="activity" %>
+						<p class="actcity"><%=((@activity && @activity.present? && @activity.city.present?) ? @activity.city.titlecase : "") %><%= (!check_for_state_value(@activity.city).blank?) ? ", #{(check_for_state_value(@activity.city)).gsub("-","").upcase}" : "" if @activity.present? && @activity.city.present?%>
+						</p>		  
+					<% else %>                
+						<p class="actcity"><%= ((@user_profile && @user_profile.present? && @user_profile.city) ? @user_profile.city.titlecase : "")%><%= (!check_for_state_value(@user_profile.city).blank?) ?", #{(check_for_state_value(@user_profile.city)).gsub("-","").upcase}" : "" if @user_profile.present? && @user_profile.city.present?%>
+						</p>
+					<% end %>					
+					<%if @type=="activity"%>
+						<div class="activity-share">
+						<!-- Favorites -->
+						<%actf=get_user_favorite(current_user.user_id,@activity.activity_id) if !current_user.nil? && current_user.user_id.present? && @activity && @activity.present?%>
+						<a href="javascript:void(0)" style="width;25px;height:25px;display:inline-block;" class="fav_title" title="<%if actf%>Un Favorite<%else%>Favorite<%end%>" onClick="<%if !current_user.nil?%>checkfavorites('<%=@activity.activity_id if @activity && @activity.present?%>');<%else%>login_feature_detail('<%=@activity.activity_id  if @activity && @activity.present?%>','<%=@test_cooki%>');<%end%>_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Save Favorites',<%=@activity.activity_id if @activity && @activity.present?%>])"><%if actf%><%=image_tag("/assets/activity_detail/un_fav.png", :width=>"25", :height=>"25", :id=>"un_fav_act", :alt=>"Un Favorite")%><%else%><%=image_tag("/assets/activity_detail/fav.png", :width=>"25", :height=>"25", :id=>"fav_act", :alt=>"Favorite")%><%end%></a>
+						<!-- Share -->
+						<%chk_user_status = current_user && current_user.present? && !current_user.user_status.nil? && current_user.user_status == "deactivate" %>
+						<%if !current_user.nil? && current_user.present?%>
+						<%chk_mode = ((!params[:mode].nil? && params[:mode].present?) ||  !params[:provider_mode].nil?) ? 'provider' : 'parent' %>
+						<a href="javascript:void(0)" title="Activity Share" <%if chk_user_status%> onclick="parent.deactivate_user_added_act();"<%else%>onClick="pop_share_activity('/share_activity?activity_id=<%=@activity.activity_id if @activity && @activity.present?%>&mode=<%=chk_mode%>&act=<%=params[:act]%>');_gaq.push(['_trackEvent', 'Provider Module', 'clickActivityDetails','Famtivity Share',<%=@activity.activity_id  if @activity && @activity.present?%>]); _gaq.push(['_setCustomVar',1,'Famtivity Share','Yes',3]);"<%end%>><%=image_tag("/assets/activity_detail/share.png", :width=>"25", :height=>"25", :alt=>"Facebook")%></a>
+						<%else%>
+						<a href="javascript:void(0)" title="Activity Share" <%if chk_user_status%> onclick="parent.deactivate_user_added_act();"<%else%>onClick="login_feature_detail('<%=@activity.activity_id  if @activity && @activity.present?%>','<%=@test_cooki%>');"<%end%>><%=image_tag("/assets/activity_detail/share.png", :width=>"25", :height=>"25", :alt=>"Facebook")%></a>
+						<%end%>
+						<!-- FB share-->
+						<%if !current_user.nil? && current_user.present?%>
+						<a  href="javascript:void(0)" title="Facebook" target="_blank" onclick="postToFeed(); return false;_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Facebook Share',<%=@activity.activity_id if @activity && @activity.present?%>])"><%=image_tag("/assets/activity_detail/fb_share.png", :width=>"25", :height=>"25", :alt=>"")%></a>
+						<%else%>
+						<a href="javascript:void(0)" onclick="login_feature_detail('<%=@activity.activity_id  if @activity && @activity.present?%>','<%=@test_cooki%>');" title="Facebook"><%=image_tag("/assets/activity_detail/fb_share.png", :width=>"25", :height=>"25", :alt=>"")%></a>
+						<%end%>
+						<!-- Twitter-->
+						<%if !current_user.nil? && current_user.present?%>
+						<a  target="_blank" href="https://twitter.com/share" data-url="<%=$app_url  if !$app_url.nil? && $app_url!='' && $app_url.present? %>/?mview=<%=@activity.activity_id  if @activity && @activity.present?%>" data-via="Famtivity" data-lang="en"  data-text="<%= @activity.activity_name[0..97]  if @activity && @activity.present?%>..." data-count="horizontal" title="Twitter"><%=image_tag("/assets/activity_detail/twitter_share.png", :width=>"25", :height=>"25", :alt=>"Twitter")%></a>
+						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+						<%else%>
+						<a href="javascript:void(0)" onClick="login_feature_detail('<%=@activity.activity_id  if @activity && @activity.present?%>','<%=@test_cooki%>');" title="Twitter"><%=image_tag("/assets/activity_detail/twitter_share.png", :width=>"25", :height=>"25", :alt=>"Twitter")%></a>
+						<%end%>
+						<!-- Pin -->
+						<%if !current_user.nil? && current_user.present?%>
+						<%my_path=request.protocol+request.host%>		    
+						<% result = is_file_exists(@activity.avatar.path) %>
+						<%chk_host = ((my_path == "https://www.famtivity.com") || (my_path=="https://famtivity.com") || (my_path=="http://www.famtivity.com") || (my_path=="http://famtivity.com"))%>
+						<a target="_blank" href="<%=request.protocol%>pinterest.com/pin/create/button/?url=<%=request.protocol%>www.pinterest.com/&media=<%=my_path if !chk_host%><%if result %><%= @activity.avatar.url(:thumb) if !@activity.nil? && !@activity.avatar.nil?%><%else%>/assets/card/no_image.png<%end%>&description=<%= @activity.activity_name[0..1000]  if @activity && @activity.present?%>. <%=$app_url  if !$app_url.nil? && $app_url!='' && $app_url.present? %>/?mview=<%=@activity.activity_id  if @activity && @activity.present?%>&v=0" title="Pinterest"><%=image_tag("/assets/activity_detail/pin.png", :width=>"25", :height=>"25", :alt=>"Pinterest")%></a>
+						<%else%>
+						<a href="javascript:void(0)" onClick="login_feature_detail('<%=@activity.activity_id  if @activity && @activity.present?%>','<%=@test_cooki%>');" title="Pinterest"><%=image_tag("/assets/activity_detail/pin.png", :width=>"25", :height=>"25", :alt=>"Pinterest")%></a>
+						<%end%>
+						<!-- Embed -->
+						<a href="javascript:void(0)" title="Embed" <%if !current_user.nil? && current_user.present?%>onClick="pop_embed_Detail('/activity_detail/embedded_link?activity_id=<%=@activity.activity_id  if @activity && @activity.present?%>');_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityDetails','Embed',<%=@activity.activity_id  if @activity && @activity.present?%>])"<%else%>onClick="login_feature_detail('<%=@activity.activity_id  if @activity && @activity.present?%>','<%=@test_cooki%>');"<%end%>><%=image_tag("/assets/activity_detail/embed.png", :width=>"25", :height=>"25", :alt=>"Embed")%></a>
+						</div>
+					<%end%>
+				</div>
+				</td>
+				</tr>
+				</table>
+			</div>
+			<div class="clear"></div>
+		</div>
+	<div class="image_section" style="">
+      <%if @type && @type == "provider"%>
+        <%if !@user_profile.nil? && !@user_profile.profile_file_name.nil? && !@user_profile.card.nil? && @user_profile.card.present? && is_file_exists(@user_profile.card.path(:original))%>
+              <center>
+		<%= image_tag @user_profile.card.url(:original), :align=>'absbottom', :style=>"max-width:100%; min-height:150px; max-height:518px;", :alt=>"#{@user_profile.business_name if @user_profile && @user_profile.business_name}, #{@user_profile.city if @user_profile && @user_profile.city}, CA" if !@user_profile.card.url(:original).nil?%>
+               </center>
+        <%else%>
+          <table cellpadding="0" cellspacing="0" align="center" width="100%" height="72" border="0">
+            <tbody><tr>
+                <td align="center" valign="middle" height="207">
+		<%=image_tag("/assets/card/detail_noimage.png", :width=>"283", :height=>"207", :alt=>"#{@user_profile.business_name if !@user_profile.nil? && !@user_profile.business_name.nil?}")%>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        <%end%>
+      <%else%>
+        <%if @activity && !@activity.avatar_file_name.nil? && @activity.avatar.present? && is_file_exists(@activity.avatar.path)%>
+          <center>
+		<%= image_tag(@activity.avatar.url(:original),:align=>'absbottom', :style=>"max-width:100%; min-height:150px; max-height:518px;", :alt => "#{@activity.activity_name if @activity && @activity.activity_name}, #{@activity.category if @activity && @activity.category} Activities - #{@activity.sub_category if @activity && @activity.sub_category}")%>
+         </center>    
+        <%else%>
+          <table cellpadding="0" cellspacing="0" align="center" width="100%" height="72" border="0">
+            <tbody><tr>
+                <td align="center" valign="middle" height="207">
+                  <%= image_tag ('/assets/card/detail_noimage.png'),:align=>'absbottom', :alt => "#{@activity.activity_name if @activity && @activity.activity_name}, #{@activity.category if @activity && @activity.category} Activities - #{@activity.sub_category if @activity && @activity.sub_category}" %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        <%end%>
+      <%end%>
+		</div>
+    </div>
+    <div style="height: 0px;border: 2px solid #FF7372;"></div>
+    <!-- Image section end-->
+    <div class="form_topline lt">
+      <!-- form section start-->
+      <div class="info-container">
+        <h2 class="detail-form-header">FOR MORE INFORMATION, CONTACT THE PROVIDER NOW!</h2>
+        <div class="form-detail" style="padding-top:15px;">
+          <%if @type=="activity"%>
+            <%t_action = "/sendmsgtoprver"%>
+            <%form_userid = @activity.user_id if !@activity.nil?%>
+          <%else%>
+            <%t_action = "/msg_to_provider_curator"%>
+            <%form_userid = @user.user_id if !@user.nil?%>
+          <%end%>
+          <form id="send_to-provider" action="<%=t_action%>" name="send_to-provider" method="get">
+            <input type="hidden" name="user_id" value="<%=form_userid if form_userid && !form_userid.nil?%>"/>
+            <input type="hidden" name="activity_id" value="<%=@activity.activity_id if !@activity.nil?%>"/>
+            <%if current_user.nil? && !current_user.present?%>
+              <input type="text" name="provider_email" id="provider_email" value="Enter your Email"  class="emailInputBox" onfocus="if(this.value == 'Enter your Email'){this.value='';$('#provider_email').css('color','#444444');}" onblur="if(this.value==''){this.value='Enter your Email';$('#provider_email').css('color','#999999');}" tabindex="1" /></br>
+              <div class="sendEmailError" style="display:none"></div>
+            <%end%>
+            <div class="text-button" style="display:inline-block;">
+              <textarea name="send_msg" id="send_msg" rows="10" cols="40"  class="descInputBox"  onfocus="if(this.value == 'Enter your message, the provider will get back to you shortly'){this.value='';$('#send_msg').css('color','#444444');}" onblur="if(this.value==''){this.value='Enter your message, the provider will get back to you shortly';$('#send_msg').css('color','#999999');}" tabindex="2">Enter your message, the provider will get back to you shortly</textarea>
+              <input type="button" class="msg-send-button" onclick="<% if current_user.present? && !current_user.user_id.nil?%>return validateSendMsgpro(); <%else%>return validateSendMsg();<%end%>" value="Send">
+            </div>
+            <div class="sendMsgError" style="display:none"></div>
+          </form>
+        </div>
+      </div>
+      <!-- form section end-->
+      <!-- schedule section start-->
+      <%=render "schedule_detail_page" if @type=="activity"%>
+      <!-- schedule section end-->
+      <!-- Activity detail section start-->
+      <div class="detail-card-main lt">
+        <div class="card-details lt">
+          <h2 class="detail-title">MORE DETAILS</h2>
+          <div style="margin-top: 8px;">
+            <%if @type && @type == "provider"%>
+              <%= render :partial =>"provider_contact_details"%>
+            <%else%>
+              <%= render :partial =>"activity_contact_details" if @type=="activity"%>
+            <%end%>
+          </div>
+        </div>
+        <div class="descdetail" >
+         <div class="google-maps">
+	<%if @type && @type == "provider"%>
+		<% address_value=getEventAddress(@user_profile,'user')%>	  
+		<%add_flag=true%>
+	<%else%>
+		<%if !@activity.nil? && !@activity.schedule_mode.nil? && @activity.schedule_mode!="Any Where"%>           
+			<% address_value=getEventAddress(@activity,'activity')%>
+			<%add_flag=true%>
+		<%else%>
+			<%add_flag=false%>
+		<%end%>
+	<%end%>
+	<%if add_flag%>
+		<iframe width="100%" height="335px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.co.in/maps?q=<%= CGI.escape(address_value)%>&t=m&z=10&iwloc=addr&output=embed"></iframe>
+	<%end%>
+          </div>
+        </div>
+        <div style="clear:both;"></div>
+      </div>
+      <!-- Activity detail section end-->
+      <!-- Activity description  section start-->
+    <%if (@activity && @activity.present? && @activity.description.present?) || (@user_profile && !@user_profile.nil? && !@user_profile.description.nil?)%>
+    <div class="detail-card-main lt" style="width: 961px;color: #5A5A5A;margin-bottom: 25px;">
+            <% desc_detail = (@type=="activity") ? raw(@activity.description) : raw(@user_profile.description)%>
+            <h2 class="detail-title" style="padding:0px;">DESCRIPTION</h2>
+            <div class="desc_detail_inner desc_scroll" style="font-size:14px;">
+              <%=desc_detail%>
+            </div>
+        <div style="clear:both;"></div>
+      </div>
+      <%end%>
+       <!-- Activity description  section end-->
+    </div>
+
+
+    <div style="clear:both;"></div>
+    <!--activity card section in Provider detail page starting here-->
+    <%if @type && @type == "provider" && @test_arr.present?%>
+      <div style="width:1000px;" class="lt">
+        <div class="detailcard">
+          <div class="cardlist_sec" align="center">
+            <h3 class="pdetailhtag">Sign-Up Now for Classes, Camps, Lessons, Activities, or Events provided by <%= @user_profile.business_name if !@user_profile.nil? && !@user_profile.business_name.nil?%></h3>
+            <p class="detailtxt">Join Famtivity, the Family Activity Network, to earn Discount Dollars that may apply to offers from <%= @user_profile.business_name if !@user_profile.nil? && !@user_profile.business_name.nil?%> or other providers that offer classes, camps, lessons, activities and events.</p>
+          </div>
+        </div>
+
+        <div id="activitycardlist" class="cardlist_sec">
+          <%=render :partial =>"activity_card/quick_link_hot"%>
+        </div>
+       <div class="clear:both;"></div>
+      </div>
+      <!--show more button displayed-->
+      <div id="pro_show_more" align="center" style="margin:10px auto;display: none;"><%=image_tag("/assets/loading.gif", :width=>"25", :height=>"25", :alt=>"loading...")%></div>
+      <div style="text-align:center;width:100%"><a onclick="load_more_pro_activity();" href="javascript:void(0);">
+        <span style="<%if @activity_free && @activity_free.present? && @activity_free.total_pages > 1%>display:inline-block;<%else%>display: none;<%end%>"  class="showtxt" id="activity_show">Show More</span></a>
+      </div>
+      <!--show more button ending displayed-->
+    <%end%>
+    <!--activity card section in Provider detail page ending here-->
+    <%# render "widget"%>
+  <%else%>
+
+	<!-- No activity or provider detail start -->
+
+	<div class="image_section" align="center" style="border: 0px solid #EAEAEA;padding:0px 10px;">		
+		<%=render "error_content"%>
+	</div>
+	<!--No activity or provider detail start -->
+	
+<%end%>
+<div style="padding-bottom:55px;"><div class="clear"></div>&nbsp;</div>
+  </div>
+</div>
+<!-- detail page container end -->
+
+
+
+
+<!-- login feature popup start -->
+<div id="login_use_feature">
+  <div class="content_popup" style="display:block;"><br>You need to login to use this feature<br><br>
+    <span class="b-close" id="loginFeature"><a href="javascript:void(0)" title=""><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38", :style=>"border:0px;")%></a></span>
+    <a href="javascript:void(0);" title=""><span class="b-close"><%=image_tag("/assets/landing/cancel_button.png", :width=>"101", :height=>"35", :style=>"border:0px;")%></span></a>
+  </div>
+</div><!-- login feature popup end -->
+
+
+	<!-- Login popup start bpopup-->
+	  <div id="login_popup">
+	  <div class="contnt">
+	  
+	  </div>
+	  </div>
+	<!-- Login popup end bpopup-->
+
+<!-- GUEST POPUP-->
+<%=render :partial => 'landing/guest_feature' if current_user.nil? && !current_user.present?%>
+<!-- GUEST POPUP-->
+<div class="footerContainer">
+  <%=render :partial => "common/comman_footer"%>
+</div>
+
+<%=javascript_include_tag "acitivity_view_details/new_detail_page","acitivity_view_details/schedule_price"%>
+<script type="text/javascript">
+// $(document).ready(function(){
+// $(".desc_scroll").mCustomScrollbar({
+// theme:"dark-2"
+// });
+// });
+  function activity_web_count()
+  {
+    var user_id ="<%=@user_profile.user_id if !@user_profile.nil?%>"
+    $.ajax({
+      type: "POST",
+      url: "/provider_web_count",
+      data: {"user_id": user_id,"type":"provider"},
+      dataType : 'json',
+      success: function(data)
+      {
+      }
+    });
+  }
+
+  function load_more_pro_activity(){
+    var url = $(".pagination .next_page").last().attr('href');
+    if (url) {
+      $('#pro_show_more').show();
+      return $.getScript(url);
+    }
+  }
+  
+  
+//FB SHARE
+  FB.init({appId: "<%= FB_APP_ID %>", status: true, cookie: true});
+  function postToFeed() {
+    // calling the API ...
+    var des= "<%=@desc=ActiveSupport::Inflector.transliterate @activity.description.downcase.gsub(/\s/," ") if !@activity.nil? && !@activity.description.nil? %>"
+    var pcol = window.location.protocol;
+    if (pcol=="http:"){
+      var obj = {
+        method: 'feed',
+        redirect_uri: '<%=request.protocol%>www.facebook.com/',
+        link: '<%=$app_url  if !$app_url.nil? && $app_url!='' && $app_url.present? %>/?mview=<%=@activity.activity_id if @activity && !@activity.nil? && @activity.present?%>&v=0',
+        name: '<%= @activity.activity_name if !@activity.nil? && !@activity.activity_name.nil?%>',
+        caption: 'Famtivity - Family Activity Network',
+        description: '<%=strip_tags(@desc.gsub('&nbsp;',' '))[0..150] if !@desc.nil? && @desc.present?%>...'
+      };
+    }
+    else{
+      var obj = {
+        method: 'feed',
+        redirect_uri: '<%=request.protocol%>www.facebook.com/',
+        link: '<%=$app_url  if !$app_url.nil? && $app_url!='' && $app_url.present? %>/?mview=<%=@activity.activity_id if @activity && !@activity.nil? && @activity.present?%>&v=0',
+        picture: '<%= @activity.avatar.url(:thumb) if !@activity.nil? && !@activity.avatar.nil? %>',
+        name: '<%= @activity.activity_name if !@activity.nil? && !@activity.activity_name.nil?%>',
+        caption: 'Famtivity - Family Activity Network',
+        description: '<%=strip_tags(@desc.gsub('&nbsp;',' '))[0..150] if !@desc.nil? && @desc.present?%>...'
+      };
+    }
+
+
+
+    function callback(response) {
+      if (response && response.post_id) {
+        //alert('Post was published.');
+        //~ $("#success").show();
+        //~ setTimeout("$('#success').hide();",6000)
+        $(".flash-message").html("Great! This activity has been shared with your Facebook friends!");
+        var win=$(window).width();
+        var con=$(".flash_content").width();
+        var leftvalue=((win/2)-(con/2))
+        $(".flash_content").css("left",leftvalue+"px");
+        $(".flash_content").css("top","67px");
+        $('.flash_content').fadeIn().delay(10000).fadeOut()
+      } else {
+        //alert('Post was not published.');
+        //~ $("#fail").show();
+        //~ setTimeout("$('#fail').hide();",6000)
+        $(".flash-message").html("Oops something went wrong. Please try sharing this activity again.");
+        var win=$(window).width();
+        var con=$(".flash_content").width();
+        var leftvalue=((win/2)-(con/2))
+        $(".flash_content").css("left",leftvalue+"px");
+        $(".flash_content").css("top","67px");
+        $('.flash_content').fadeIn().delay(10000).fadeOut()
+      }
+
+      //  document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+    }
+
+    FB.ui(obj, callback);
+  }
+</script>

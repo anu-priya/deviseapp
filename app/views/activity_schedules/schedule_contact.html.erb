@@ -1,0 +1,99 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css" />
+<link rel="stylesheet" type="text/css" href="/assets/create_new_activity/create_new_activity.css" />
+<script type="text/javascript" src="/assets/activity_schedule/schedule2.js"></script>
+<script type="text/javascript">
+function closepopup(){
+    parent.scheduleContactPage.hide();parent.schedule_check();
+}
+</script>
+<style>
+.cke_bottom{
+	background:none;
+	border-top:none;
+}
+.cke_chrome{
+	border:1px solid #CDE0E6;
+}
+.cke_top{
+	background:#E7F2F6;
+	border-bottom:1px solid #CDE0E6;
+}
+#cke_1_bottom{
+	display:none;
+}
+#new_act_container .descTextbox{
+	padding:4px 4px;
+}
+</style>
+
+<div id="new_act_container">
+<div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">
+							Contact Provider
+            </div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> <img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" /> </a>
+          </div>
+        </div>
+        <div id ="activity_render">
+          <div  class="centerCont">
+            <form id="createactivity" name="activity" action="#" method="post" enctype="multipart/form-data" onSubmit="return validate_schedule_contact()">
+              <div class="paddingTop10">
+                
+				<div class="paddingTop10">
+                  <div class="lt leftSideField">To<span class="required">*</span></div>
+                  <input type="text" tabindex="1" name="user_name" id="user_name" class="lt textbox" value="" maxlength="100"/>
+                  <div class="clear"></div>
+                </div>
+				
+				<div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="user_name_error"></div>
+				  <div class="clear"></div>
+                </div>
+				
+				<div class="clear"></div>
+				
+				<div class="paddingTop10">
+					<div class="lt leftSideField">Description<span class="required">*</span></div>
+					<textarea tabindex="2" class="lt textbox descTextbox" cols="40" rows="10" id="desc" name="description"></textarea>
+					<div class="clear"></div>
+				</div>
+				
+				<div class="errorDiv" style="display:none">
+					<div class="lt leftSideField">&nbsp;</div>
+					<div class="lt" id="desc_error"></div>
+					<div class="clear"></div>
+				</div>
+			    
+				<div class="clear"></div>
+				
+				<div class="buttonDiv">
+					<div class="lt leftSideField">&nbsp;</div>
+					<div class="lt">
+						<input tabindex="3" type="image" src="/assets/share_activity/send.png" alt="" style="position:relative;"/>
+						<a href="javascript:void(0)" tabindex="4" id="cancel_activity" onClick="closepopup()" style="position:relative;"><img src="/assets/create_new_activity/cancel.png" alt="" /></a>
+					</div>
+					<div class="clear"></div>
+				</div>
+				
+				
+			  </div>
+			</form>
+		  </div>
+		</div>
+	  </div>
+	</div>
+    <div class="popupContainerBottom"></div>
+  </div>
+
+  <div class="clear"></div>
+</div>
+<div class="clear"></div>
+</div>

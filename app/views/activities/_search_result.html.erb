@@ -1,0 +1,92 @@
+<%if @activity_free.length > 0 %>
+  <%@activity_free.each do |share|%>
+    <%raj = [1,2,3].sample%>
+
+    <div id="field">
+      <div class="lt"><%=image_tag("/assets/event_index/top.png", :width=>"229", :height=>"13", :id=>"marginLeftMac")%></div>
+	  	      <div class="BottomContent" id="freediv<%= share.activity_id %>" onmouseover="$('#freediv<%= share.activity_id %>').show();" onmouseout="$('#freediv<%= share.activity_id %>').hide();" style="display:none; z-index:9997; left:69px; .left:220px; top:24px;">
+        <a href="#" title="Purchase Activity" id="ShowPop_purchase"><%=image_tag("/assets/event_index/cart_img.png", :width=>"25", :height=>"25", :class=>"lt")%></a>
+        <a href="javascript:void(0)" onclick="pop_favorite_activity('/save_favorites?activity_id=<%=share.activity_id%>')" title="Save to Favorites" id="ShowPop_purchase"><%=image_tag("/assets/event_index/fave_img.png", :width=>"25", :height=>"25", :class=>"lt", :style=>"padding-left:5px;")%></a>
+        <!--modified by rajkumar-->
+        <%@schedule=share.activity_schedule.last%>
+
+        <!--div class="description lt" id="commentDiv">5 Comment</div-->
+
+        <%if !share.activity_id.nil?%>
+          <span class="SetStarImg1" id="more_friends"><a href="javascript:void(0)" title="Request more information or share with friends"  onclick="pop_share_activity('/share_activity?activity_id=<%=share.activity_id%>')"><%=image_tag("/assets/event_index/chat_img.png", :width=>"25", :height=>"25", :style=>"padding-left:5px;")%></a></span>
+
+        <%end%>
+      </div>
+
+      <div class="center_bg_scroll" id="setHeightMac">
+        <%if !share.avatar_file_name.nil? && share.avatar.present?%>
+          <%if raj == 1 %>
+            <div align="center" class="setPaddingImg1" id="getid1"><a href="javascript:void(0)" title="" onmouseover="$('#freediv<%= share.activity_id %>').css('display','block');  $('#freediv<%= share.activity_id %>'+ ' #tooltip').css('display','none')" onmouseout="$('#freediv<%= share.activity_id %>').css('display','none');"><%= image_tag share.avatar.url(:small), :onclick=>"pop_Activity_Detail('/activitydetail_new?getinfo=free_page&det=#{share.activity_id}');" if !share.avatar.url(:small).nil?%></a></div>
+          <%elsif raj == 2%>
+            <div align="center" class="setPaddingImg1" id="getid2"><a href="javascript:void(0)" title="" onmouseover="$('#freediv<%= share.activity_id %>').css('display','block');  $('#freediv<%= share.activity_id %>'+ ' #tooltip').css('display','none')" onmouseout="$('#freediv<%= share.activity_id %>').css('display','none');"><%= image_tag share.avatar.url(:medium), :onclick=>"pop_Activity_Detail('/activitydetail_new?getinfo=free_page&det=#{share.activity_id}');"  if !share.avatar.url(:medium).nil?%></a></div>
+          <%elsif raj == 3%>
+            <div align="center" class="setPaddingImg1"><a href="javascript:void(0)" title="" onmouseover="$('#freediv<%= share.activity_id %>').css('display','block'); $('#freediv<%= share.activity_id %>'+ ' #tooltip').css('display','none')" onmouseout="$('#freediv<%= share.activity_id %>').css('display','none');"><%= image_tag share.avatar.url(:thumb),:onclick=>"pop_Activity_Detail('/activitydetail_new?getinfo=free_page&det=#{share.activity_id}');" if !share.avatar.url(:thumb).nil?%></a></div>
+          <%end%>
+        <%else%>
+          <div align="center" class="setPaddingImg1"><a href="javascript:void(0)" title="" onmouseover="$('#freediv<%= share.activity_id %>').css('display','block'); $('#tooltipsharediv<%= share.activity_id %>').css('display','none'); $('#freediv<%= share.activity_id %>'+ ' #tooltip').css('display','none')" onmouseout="$('#freediv<%= share.activity_id %>').css('display','none');"><%= image_tag "no_image.png",:onclick=>"pop_Activity_Detail('/activitydetail_new?getinfo=free_page&det=#{share.activity_id}');" if !share.avatar.url(:thumb).nil?%></a></div>
+        <%end%>
+
+        <div class="ImgbottomDiv" id="bottomDiv" >
+        <% if !share.activity_name.nil? && share.activity_name.present?%>
+          <div class="Title" style="width:205px;"><b><%=truncate(share.activity_name, :length =>25, :omission => '... ')%></b></div>
+        <%end%>
+        <% if !share.description.nil? && share.description.present?%>
+          <div style="float: left; width: 205px; padding-top: 4px;" class="description" style=" padding-top: 5px;"><%=truncate(share.description, :length =>55, :omission => '... ')%></div><div class="clear"></div>
+        <%end%>
+
+	  <% if !share.activity_schedule.last.nil? && !share.nil? && !share.activity_schedule.nil?%>
+                            <% if share.activity_schedule.last.schedule_mode=="Schedule"%>
+                               <div class="description" style=" padding-top: 9px; width:205px;"><span class="ftSz12"></span> <span><%=share.activity_schedule.last.start_date.strftime("%a %b/%d") if !share.activity_schedule.last.start_date.nil?%> <%=share.activity_schedule.last.start_time.strftime(",%I:%M%P") if !share.activity_schedule.last.start_time.nil?%></span></div> <div class="clear"></div>
+                            <%end%>
+                            <% if share.activity_schedule.last.schedule_mode=="Camps/Workshop"%>
+                              <div class="description" style=" padding-top: 9px; width:205px;"><span class="ftSz12"></span> <span><%=share.activity_schedule.last.start_date.strftime("%a %b/%d") if !share.activity_schedule.last.start_date.nil?%> <%=share.activity_schedule.last.start_time.strftime(",%I:%M%P") if !share.activity_schedule.last.start_time.nil?%></span></div> <div class="clear"></div>
+                            <%end%>
+                            <% if share.activity_schedule.last.schedule_mode=="Any Time"%>
+                              <div class="description" style=" padding-top: 9px; width:205px;"><span class="ftSz12"></span> <span><%=share.activity_schedule.last.start_time.strftime("%a %b/%d") if !share.activity_schedule.last.start_time.nil?%> <%=share.activity_schedule.last.start_time.strftime(",%I:%M%P") if !share.activity_schedule.last.start_time.nil?%></span></div> <div class="clear"></div>
+			<%end%>
+	<%end%>
+
+	<%if !share.category.nil? && !share.sub_category.nil? && share.category.present? && share.sub_category.present?%>
+          <div class="description" style=" padding-top: 9px; width:205px;"><span class="ftSz12"></span> <span><%= share.category %> , <%= share.sub_category %></span></div> <div class="clear"></div>
+         <%end%>
+
+	 <%if share.filter_id==3 || share.filter_id==4%>
+          <div class="description" style=" padding-top: 9px; width:205px;color:#FF8C00;"><span class="ftSz12">Price</span> <span>Free</span></div>
+          <div class="clear"></div>
+	<%end%>
+        <%if  !share.address_1.nil? &&  share.address_1.present? or share.address_2.present? && !share.address_2.nil?%>
+          <div class="ftSz12" style="padding-top: 9px;width: 205px;"> Address</div>
+          <div class="clear"></div>
+          <div class="description" style=" padding-top: 9px; width:205px;"><%= share.address_1%><%if !share.address_2.nil? && share.address_2.present?%>, <br> <%= share.address_2%><%end%></div>
+        <%end%>
+        <%if !share.age_range.nil? && share.age_range.present? %>
+          <div class="description" style=" padding-top: 9px; width:205px;"><span class="ftSz12">Age Range</span> <span><%=share.age_range%></span></div> <div class="clear"></div>
+        <%end%>
+        <% if !share.no_participants.nil? && share.no_participants.present? && !share.nil?%>
+          <div class="description" style=" padding-top: 9px; width:205px;"><span class="ftSz12">No of Participants</span> <span><%=share.no_participants%></span></div>
+        <%end%>
+	<% if share.created_by == "Provider"%>
+	    <%@use = User.find_by_user_id(share[:user_id]) if !share.nil?%>
+				<%if @use.user_type=="P"%>
+				<div class="description" style="padding-top:9px; width:205px;"><span class="ftSz12">Provider By</span><span> <%=@use.user_profile.business_name if !@use.nil? && !@use.user_profile.business_name.nil?%></span></div>
+				<%else%>
+					<div class="description" style="padding-top:9px; width:205px;"><span class="ftSz12">Provider By</span><span> <%=@use.user_name if !@use.nil?%></span></div>
+				<%end%>
+          <%end%>
+      </div>
+
+      </div>
+      <div><%=image_tag("/assets/event_index/box_bottom.png", :width=>"227", :height=>"5", :class=>"box_bottom_img")%></div>
+
+    </div>
+  <%end%>
+<%else%>
+  <div class="setBg1">
+    <div width="100%" class="no_activities" style="text-align:center;height: 500px;">No activities available for Searched Location/Date</div>
+  </div>
+<%end%>

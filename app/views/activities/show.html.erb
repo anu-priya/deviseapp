@@ -1,0 +1,79 @@
+<%=stylesheet_link_tag "global/pop_up","tickets/ticket_view", :media => "all"%>
+<%=javascript_include_tag "tickets/tickets"%>
+
+<script language="javascript">
+function closepopup() {		
+	parent.showPage.hide();
+}
+</script>
+<div id="new_act_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">
+              Activity Ticket 
+            </div>
+          </div>
+          <div class="closeButton">          
+			<%#= link_to(image_tag('/assets/global/pop_up/button_close.png', :width => 15, :height => 15, :title => "Close" ), tickets_path, :remote => true) %>
+			<a href="javascript:void(0)" onClick="closepopup()" title=""> <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%> </a>
+           
+          </div>
+        </div>
+       <div id ="view_ticket">
+            <div class="centerCont">		  
+				<div class="lt imageLt">
+           
+              <div class="ticketContainer" id="viewTicket2">               
+                <div class="row1 setbottomBorder">
+                	<%#= @activities.activity_schedule.end_date %>
+                  <div class="lt col1 setOrgBg "><span class="whiteText">
+                    <%=@activities.activity_schedule.last.start_date.strftime("%d %b") if !@activities.activity_schedule.last.start_date.nil?%>
+                   </div>
+                <div class="lt col2 setOrgBg setleftBorder"><span class="whiteText">
+                  <%=@activities.activity_schedule.last.start_time.strftime("%I:%M%P") if !@activities.activity_schedule.last.start_time.nil?%>
+    			      
+    			  <span class='whiteTextSmall'>Start time</span></span></div>
+                  <div class="lt col3 setOrgBg setleftBorder"><span class="whiteText"><%=@activities.activity_schedule.last.end_time.strftime("%I:%M%P") if !@activities.activity_schedule.last.end_time.nil?%></b><br/><span class='whiteTextSmall'>End time</span></span></div>
+                </div>  
+                <div class="row2 setOrgBg"><span class='actName'><%= @activities.activity_name %></span></div>
+                <div class="row3"><%=image_tag("/assets/tickets/view_page_ticket_image22.png", :width=>"222", :height=>"174", :style=>"border:0px;")%></div>	
+              
+                <div class="contRow redBottom">
+                <div style='height:136px;overflow:hidden;'>
+                <div class="head"><%= @activities.activity_name %></div>
+                <div class="desp" style="font-size:9px;"><%= @activities.description %></div>
+                <div class="head">Venue</div>
+                <div class="desp"><%= @activities.address_1 %>,<%= @activities.address_2 %>,<%= @activities.city %>, Pn:<%=@activities.phone%></div>
+                </div>
+                <div class="clear"></div>
+                <div>
+                  <div class="lt priceCode">
+                    <div class="head">Price</div>
+                    <div class="redText">$<%= @activities.price %>/-</div>             
+                  </div>
+                  <div class="lt priceCodert">
+                    <div class='ticketText'>FamPass Code</div>
+                    <%=image_tag("/assets/tickets/ticket_code.png", :width=>"92", :height=>"43", :class=>"lt ticketCodeImg")%>            
+                  </div>
+                 <div class="clear"></div>   
+				 </div>
+                 <div class="clear"></div>  
+</div>
+                 <div class="clear"></div>  				 
+            </div>
+            <div class="clear"></div> 
+            </div> 
+        </div>
+    </div>
+      </div> 
+ <div class="clear"></div>   	  
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+</div>

@@ -1,0 +1,80 @@
+<%=stylesheet_link_tag "global/pop_up","share_activity/share_acitivity_detail","share_activity/share_activity", :media => "all"%>
+<div id="new_act_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Message</div>
+          </div>
+          <div class="closeButton"><a href="javascript:void(0)" onClick="closepopup()" title=""><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%></a></div>
+        </div>
+        <div id="share_render">
+          <div class="centerCont">
+            <form id="share_activity" name="share_activity" action="share_activity_success" method="post" data-remote="true">
+              <div class="paddingTop10" id="createactivity">
+		<table width="880" height="34" border="0" cellpadding="1" cellspacing="0" style="margin-top:10px;">
+                  <tr>
+                    <td width="197" class="setfont_share" align="left"><span style="margin-left:70px;">To</span></td>
+                    <td width="495"> <input type="text" name="send_to" id="send_to" class="lt textbox" value="" /></td></td>
+                  </tr>
+                </table>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="send_to_error"></div>
+                </div>
+                <div class="clear"></div>
+                <table width="880" height="34" border="0" cellpadding="1" cellspacing="0" style="margin-top:10px;">
+                  <tr>
+                    <td width="197" align="left" class="setfont_share"><span style="margin-left:70px;">Subject</span></td>
+                    <td width="495">  		    
+		    <input type="text" name="subject" id="subject" class="lt textbox" value="" /></td>
+                  </tr>
+                </table>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="subject_error"></div>
+                </div>           
+                <div class="clear"></div>
+                <table width="880" height="34" border="0" cellpadding="1" cellspacing="0" style="margin-top:10px;">
+                  <tr>
+                    <td width="197" class="setfont_share" align="left"><span style="margin-left:70px; top:-52px; position:relative;">Message</span></td>
+                    <td width="495"> <textarea class="textArea" name="message" id="message" value="" ></textarea></td>
+                  </tr>
+                </table>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="message_error"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="buttonDiv">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt">                       
+		  <a href="javascript:void(0)"><%=image_tag("/assets/login/send_button.png", :width=>"97", :height=>"37", :onclick=>"send_message()")%></a>	
+                      <a href="javascript:void(0)"><%=image_tag("/assets/login/cancel_button.png", :width=>"97", :height=>"37", :onclick=>"closepopup()")%></a>
+		    <!--ajax loader -->
+		<span id='loadingmessage' style='display:none; margin-left: 7px;position: relative;top: -10px;'>
+			<%=image_tag("/assets/loading_small.gif", :width=>"16", :height=>"16")%>
+		</span>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+</div>
+<%=javascript_include_tag "event/message_send"%>
+<script language="javascript">
+  function closepopup(){
+  	parent.participantMsgPage.hide();	
+  }
+</script>

@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+<title>class ApplicationController - Rails Application Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>app/controllers/application_controller.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">ActionController::Base
+  
+</nav>
+
+    <!-- Included Modules -->
+<nav id="includes-section" class="section">
+  <h3 class="section-header">Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><a class="include" href="ApplicationHelper.html">ApplicationHelper</a>
+  
+  
+  </ul>
+</nav>
+
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-authenticate_site">#authenticate_site</a>
+    
+    <li><a href="#method-i-authenticate_user">#authenticate_user</a>
+    
+    <li><a href="#method-i-authenticate_user_admin">#authenticate_user_admin</a>
+    
+    <li><a href="#method-i-check_cookies">#check_cookies</a>
+    
+    <li><a href="#method-i-clear_other_users_session">#clear_other_users_session</a>
+    
+    <li><a href="#method-i-clear_user_sesion">#clear_user_sesion</a>
+    
+    <li><a href="#method-i-current_user">#current_user</a>
+    
+    <li><a href="#method-i-current_user-3D">#current_user=</a>
+    
+    <li><a href="#method-i-email_present">#email_present</a>
+    
+    <li><a href="#method-i-getcity_search">#getcity_search</a>
+    
+    <li><a href="#method-i-init">#init</a>
+    
+    <li><a href="#method-i-invite_welfriend">#invite_welfriend</a>
+    
+    <li><a href="#method-i-json_request-3F">#json_request?</a>
+    
+    <li><a href="#method-i-login_from_cookie">#login_from_cookie</a>
+    
+    <li><a href="#method-i-login_from_session">#login_from_session</a>
+    
+    <li><a href="#method-i-redirect_mobile">#redirect_mobile</a>
+    
+    <li><a href="#method-i-server_error">#server_error</a>
+    
+    <li><a href="#method-i-set_access_control_headers">#set_access_control_headers</a>
+    
+    <li><a href="#method-i-set_cache_buster">#set_cache_buster</a>
+    
+    <li><a href="#method-i-set_current_user">#set_current_user</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./doc/README_FOR_APP.html">README_FOR_APP</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./ActivitiesController.html">ActivitiesController</a>
+  
+    <li><a href="./ActivitiesHelper.html">ActivitiesHelper</a>
+  
+    <li><a href="./Activity.html">Activity</a>
+  
+    <li><a href="./ActivityAttendDetail.html">ActivityAttendDetail</a>
+  
+    <li><a href="./ActivityAttendDetailsController.html">ActivityAttendDetailsController</a>
+  
+    <li><a href="./ActivityAttendDetailsHelper.html">ActivityAttendDetailsHelper</a>
+  
+    <li><a href="./ActivityBid.html">ActivityBid</a>
+  
+    <li><a href="./ActivityBidsController.html">ActivityBidsController</a>
+  
+    <li><a href="./ActivityBidsHelper.html">ActivityBidsHelper</a>
+  
+    <li><a href="./ActivityCategoriesController.html">ActivityCategoriesController</a>
+  
+    <li><a href="./ActivityCategoriesHelper.html">ActivityCategoriesHelper</a>
+  
+    <li><a href="./ActivityCategory.html">ActivityCategory</a>
+  
+    <li><a href="./ActivityClick.html">ActivityClick</a>
+  
+    <li><a href="./ActivityComment.html">ActivityComment</a>
+  
+    <li><a href="./ActivityCommentsController.html">ActivityCommentsController</a>
+  
+    <li><a href="./ActivityCommentsHelper.html">ActivityCommentsHelper</a>
+  
+    <li><a href="./ActivityCount.html">ActivityCount</a>
+  
+    <li><a href="./ActivityDetailController.html">ActivityDetailController</a>
+  
+    <li><a href="./ActivityDetailHelper.html">ActivityDetailHelper</a>
+  
+    <li><a href="./ActivityDiscountPrice.html">ActivityDiscountPrice</a>
+  
+    <li><a href="./ActivityFavorite.html">ActivityFavorite</a>
+  
+    <li><a href="./ActivityFavoritesController.html">ActivityFavoritesController</a>
+  
+    <li><a href="./ActivityFavoritesHelper.html">ActivityFavoritesHelper</a>
+  
+    <li><a href="./ActivityForm.html">ActivityForm</a>
+  
+    <li><a href="./ActivityNetworkController.html">ActivityNetworkController</a>
+  
+    <li><a href="./ActivityNetworkHelper.html">ActivityNetworkHelper</a>
+  
+    <li><a href="./ActivityNetworkPermission.html">ActivityNetworkPermission</a>
+  
+    <li><a href="./ActivityPrice.html">ActivityPrice</a>
+  
+    <li><a href="./ActivityPricesController.html">ActivityPricesController</a>
+  
+    <li><a href="./ActivityPricesHelper.html">ActivityPricesHelper</a>
+  
+    <li><a href="./ActivityRating.html">ActivityRating</a>
+  
+    <li><a href="./ActivityRatingsController.html">ActivityRatingsController</a>
+  
+    <li><a href="./ActivityRatingsHelper.html">ActivityRatingsHelper</a>
+  
+    <li><a href="./ActivityRepeat.html">ActivityRepeat</a>
+  
+    <li><a href="./ActivityRepeatsController.html">ActivityRepeatsController</a>
+  
+    <li><a href="./ActivityRepeatsHelper.html">ActivityRepeatsHelper</a>
+  
+    <li><a href="./ActivityRow.html">ActivityRow</a>
+  
+    <li><a href="./ActivityRowsController.html">ActivityRowsController</a>
+  
+    <li><a href="./ActivityRowsHelper.html">ActivityRowsHelper</a>
+  
+    <li><a href="./ActivitySchedule.html">ActivitySchedule</a>
+  
+    <li><a href="./ActivitySchedulesController.html">ActivitySchedulesController</a>
+  
+    <li><a href="./ActivitySchedulesHelper.html">ActivitySchedulesHelper</a>
+  
+    <li><a href="./ActivitySetting.html">ActivitySetting</a>
+  
+    <li><a href="./ActivitySettingsDetail.html">ActivitySettingsDetail</a>
+  
+    <li><a href="./ActivitySettingsType.html">ActivitySettingsType</a>
+  
+    <li><a href="./ActivityShared.html">ActivityShared</a>
+  
+    <li><a href="./ActivitySharedsController.html">ActivitySharedsController</a>
+  
+    <li><a href="./ActivitySharedsHelper.html">ActivitySharedsHelper</a>
+  
+    <li><a href="./ActivitySubcategoriesController.html">ActivitySubcategoriesController</a>
+  
+    <li><a href="./ActivitySubcategoriesHelper.html">ActivitySubcategoriesHelper</a>
+  
+    <li><a href="./ActivitySubcategory.html">ActivitySubcategory</a>
+  
+    <li><a href="./ActivityTotalCount.html">ActivityTotalCount</a>
+  
+    <li><a href="./ActivityTrack.html">ActivityTrack</a>
+  
+    <li><a href="./AdminController.html">AdminController</a>
+  
+    <li><a href="./AdminDiscountCode.html">AdminDiscountCode</a>
+  
+    <li><a href="./AdminDiscountCodesController.html">AdminDiscountCodesController</a>
+  
+    <li><a href="./AdminDiscountCodesHelper.html">AdminDiscountCodesHelper</a>
+  
+    <li><a href="./AdminHelper.html">AdminHelper</a>
+  
+    <li><a href="./AgeRangeColorsController.html">AgeRangeColorsController</a>
+  
+    <li><a href="./AgeRangeColorsHelper.html">AgeRangeColorsHelper</a>
+  
+    <li><a href="./AgerangeColor.html">AgerangeColor</a>
+  
+    <li><a href="./AgerangeColorsController.html">AgerangeColorsController</a>
+  
+    <li><a href="./AgerangeColorsHelper.html">AgerangeColorsHelper</a>
+  
+    <li><a href="./ApplicationController.html">ApplicationController</a>
+  
+    <li><a href="./ApplicationHelper.html">ApplicationHelper</a>
+  
+    <li><a href="./Authentication.html">Authentication</a>
+  
+    <li><a href="./AuthenticationsController.html">AuthenticationsController</a>
+  
+    <li><a href="./BlockUser.html">BlockUser</a>
+  
+    <li><a href="./CheckoutController.html">CheckoutController</a>
+  
+    <li><a href="./City.html">City</a>
+  
+    <li><a href="./CityGroup.html">CityGroup</a>
+  
+    <li><a href="./ContactGroup.html">ContactGroup</a>
+  
+    <li><a href="./ContactGroupsController.html">ContactGroupsController</a>
+  
+    <li><a href="./ContactGroupsHelper.html">ContactGroupsHelper</a>
+  
+    <li><a href="./ContactUser.html">ContactUser</a>
+  
+    <li><a href="./ContactUserGroup.html">ContactUserGroup</a>
+  
+    <li><a href="./ContactUsersController.html">ContactUsersController</a>
+  
+    <li><a href="./ContactUsersHelper.html">ContactUsersHelper</a>
+  
+    <li><a href="./Country.html">Country</a>
+  
+    <li><a href="./DefaultFilter.html">DefaultFilter</a>
+  
+    <li><a href="./DefaultFiltersController.html">DefaultFiltersController</a>
+  
+    <li><a href="./DefaultFiltersHelper.html">DefaultFiltersHelper</a>
+  
+    <li><a href="./DeletedSchedule.html">DeletedSchedule</a>
+  
+    <li><a href="./DetailPageIdentityHelper.html">DetailPageIdentityHelper</a>
+  
+    <li><a href="./DetailsPageController.html">DetailsPageController</a>
+  
+    <li><a href="./DetailsPageHelper.html">DetailsPageHelper</a>
+  
+    <li><a href="./DiscountDollarsController.html">DiscountDollarsController</a>
+  
+    <li><a href="./DiscountDollarsHelper.html">DiscountDollarsHelper</a>
+  
+    <li><a href="./EmbedController.html">EmbedController</a>
+  
+    <li><a href="./ErrorsController.html">ErrorsController</a>
+  
+    <li><a href="./FamFeeDetail.html">FamFeeDetail</a>
+  
+    <li><a href="./FamNetwork.html">FamNetwork</a>
+  
+    <li><a href="./FamNetworkGroup.html">FamNetworkGroup</a>
+  
+    <li><a href="./FamNetworkGroupsController.html">FamNetworkGroupsController</a>
+  
+    <li><a href="./FamNetworkGroupsHelper.html">FamNetworkGroupsHelper</a>
+  
+    <li><a href="./FamNetworkPost.html">FamNetworkPost</a>
+  
+    <li><a href="./FamNetworkPostsController.html">FamNetworkPostsController</a>
+  
+    <li><a href="./FamNetworkPostsHelper.html">FamNetworkPostsHelper</a>
+  
+    <li><a href="./FamNetworkRow.html">FamNetworkRow</a>
+  
+    <li><a href="./FamNetworksController.html">FamNetworksController</a>
+  
+    <li><a href="./FamNetworksHelper.html">FamNetworksHelper</a>
+  
+    <li><a href="./FamPost.html">FamPost</a>
+  
+    <li><a href="./FamPostsController.html">FamPostsController</a>
+  
+    <li><a href="./FamPostsHelper.html">FamPostsHelper</a>
+  
+    <li><a href="./FampassDetail.html">FampassDetail</a>
+  
+    <li><a href="./FamtivityNetworkMailer.html">FamtivityNetworkMailer</a>
+  
+    <li><a href="./FeaturedAuditLog.html">FeaturedAuditLog</a>
+  
+    <li><a href="./FeaturedAuditLogsController.html">FeaturedAuditLogsController</a>
+  
+    <li><a href="./FeaturedAuditLogsHelper.html">FeaturedAuditLogsHelper</a>
+  
+    <li><a href="./FollowingUser.html">FollowingUser</a>
+  
+    <li><a href="./Form.html">Form</a>
+  
+    <li><a href="./FormQuestion.html">FormQuestion</a>
+  
+    <li><a href="./FormResult.html">FormResult</a>
+  
+    <li><a href="./FormResultAnswer.html">FormResultAnswer</a>
+  
+    <li><a href="./FormsController.html">FormsController</a>
+  
+    <li><a href="./FormsHelper.html">FormsHelper</a>
+  
+    <li><a href="./GeneralTag.html">GeneralTag</a>
+  
+    <li><a href="./GuestDetail.html">GuestDetail</a>
+  
+    <li><a href="./HomeController.html">HomeController</a>
+  
+    <li><a href="./HomeHelper.html">HomeHelper</a>
+  
+    <li><a href="./InviteAttendees.html">InviteAttendees</a>
+  
+    <li><a href="./InvitesHelper.html">InvitesHelper</a>
+  
+    <li><a href="./InvitorList.html">InvitorList</a>
+  
+    <li><a href="./InvitorListHelper.html">InvitorListHelper</a>
+  
+    <li><a href="./LandingController.html">LandingController</a>
+  
+    <li><a href="./LandingHelper.html">LandingHelper</a>
+  
+    <li><a href="./LeadTransaction.html">LeadTransaction</a>
+  
+    <li><a href="./LoginController.html">LoginController</a>
+  
+    <li><a href="./LogoutController.html">LogoutController</a>
+  
+    <li><a href="./Manager.html">Manager</a>
+  
+    <li><a href="./Message.html">Message</a>
+  
+    <li><a href="./MessageFile.html">MessageFile</a>
+  
+    <li><a href="./MessageMailer.html">MessageMailer</a>
+  
+    <li><a href="./MessageThread.html">MessageThread</a>
+  
+    <li><a href="./MessageThreadViewer.html">MessageThreadViewer</a>
+  
+    <li><a href="./MessagesController.html">MessagesController</a>
+  
+    <li><a href="./MessagesHelper.html">MessagesHelper</a>
+  
+    <li><a href="./MonthlyBudget.html">MonthlyBudget</a>
+  
+    <li><a href="./MonthlyBudgetsController.html">MonthlyBudgetsController</a>
+  
+    <li><a href="./MonthlyBudgetsHelper.html">MonthlyBudgetsHelper</a>
+  
+    <li><a href="./NewsletterMailer.html">NewsletterMailer</a>
+  
+    <li><a href="./NewslettersController.html">NewslettersController</a>
+  
+    <li><a href="./NotificationDetail.html">NotificationDetail</a>
+  
+    <li><a href="./ParentNotification.html">ParentNotification</a>
+  
+    <li><a href="./ParentNotificationDetail.html">ParentNotificationDetail</a>
+  
+    <li><a href="./ParentSetting.html">ParentSetting</a>
+  
+    <li><a href="./ParentSettingDetail.html">ParentSettingDetail</a>
+  
+    <li><a href="./ParentSettingsController.html">ParentSettingsController</a>
+  
+    <li><a href="./Participant.html">Participant</a>
+  
+    <li><a href="./ParticipantsController.html">ParticipantsController</a>
+  
+    <li><a href="./ParticipantsHelper.html">ParticipantsHelper</a>
+  
+    <li><a href="./PaymentDetail.html">PaymentDetail</a>
+  
+    <li><a href="./PaymentDetailsController.html">PaymentDetailsController</a>
+  
+    <li><a href="./PaymentDetailsHelper.html">PaymentDetailsHelper</a>
+  
+    <li><a href="./PoliciesController.html">PoliciesController</a>
+  
+    <li><a href="./PoliciesHelper.html">PoliciesHelper</a>
+  
+    <li><a href="./Policy.html">Policy</a>
+  
+    <li><a href="./PolicyFile.html">PolicyFile</a>
+  
+    <li><a href="./PolicyType.html">PolicyType</a>
+  
+    <li><a href="./ProviderActivityFee.html">ProviderActivityFee</a>
+  
+    <li><a href="./ProviderActivityFeeType.html">ProviderActivityFeeType</a>
+  
+    <li><a href="./ProviderCount.html">ProviderCount</a>
+  
+    <li><a href="./ProviderDiscountCode.html">ProviderDiscountCode</a>
+  
+    <li><a href="./ProviderDiscountCodeType.html">ProviderDiscountCodeType</a>
+  
+    <li><a href="./ProviderDiscountType.html">ProviderDiscountType</a>
+  
+    <li><a href="./ProviderLead.html">ProviderLead</a>
+  
+    <li><a href="./ProviderListController.html">ProviderListController</a>
+  
+    <li><a href="./ProviderNotification.html">ProviderNotification</a>
+  
+    <li><a href="./ProviderNotificationDetail.html">ProviderNotificationDetail</a>
+  
+    <li><a href="./ProviderSetting.html">ProviderSetting</a>
+  
+    <li><a href="./ProviderSettingDetail.html">ProviderSettingDetail</a>
+  
+    <li><a href="./ProviderSettingsController.html">ProviderSettingsController</a>
+  
+    <li><a href="./ProviderSettingsHelper.html">ProviderSettingsHelper</a>
+  
+    <li><a href="./ProviderTransaction.html">ProviderTransaction</a>
+  
+    <li><a href="./ProviderTransactionLog.html">ProviderTransactionLog</a>
+  
+    <li><a href="./ProviderWebsiteTrack.html">ProviderWebsiteTrack</a>
+  
+    <li><a href="./Question.html">Question</a>
+  
+    <li><a href="./QuestionType.html">QuestionType</a>
+  
+    <li><a href="./QuestionValue.html">QuestionValue</a>
+  
+    <li><a href="./QuickLinksController.html">QuickLinksController</a>
+  
+    <li><a href="./QuickLinksHelper.html">QuickLinksHelper</a>
+  
+    <li><a href="./SchoolRepresentative.html">SchoolRepresentative</a>
+  
+    <li><a href="./SchoolRepresentativesController.html">SchoolRepresentativesController</a>
+  
+    <li><a href="./SearchController.html">SearchController</a>
+  
+    <li><a href="./SearchHelper.html">SearchHelper</a>
+  
+    <li><a href="./SendSMS.html">SendSMS</a>
+  
+    <li><a href="./Setting.html">Setting</a>
+  
+    <li><a href="./SettingsController.html">SettingsController</a>
+  
+    <li><a href="./SettingsHelper.html">SettingsHelper</a>
+  
+    <li><a href="./SmsStatus.html">SmsStatus</a>
+  
+    <li><a href="./SocialType.html">SocialType</a>
+  
+    <li><a href="./SponsorShip.html">SponsorShip</a>
+  
+    <li><a href="./SponsorShipsController.html">SponsorShipsController</a>
+  
+    <li><a href="./SponsorShipsHelper.html">SponsorShipsHelper</a>
+  
+    <li><a href="./State.html">State</a>
+  
+    <li><a href="./StaticController.html">StaticController</a>
+  
+    <li><a href="./Support.html">Support</a>
+  
+    <li><a href="./SupportsController.html">SupportsController</a>
+  
+    <li><a href="./SupportsHelper.html">SupportsHelper</a>
+  
+    <li><a href="./Ticket.html">Ticket</a>
+  
+    <li><a href="./TicketsController.html">TicketsController</a>
+  
+    <li><a href="./TicketsHelper.html">TicketsHelper</a>
+  
+    <li><a href="./TransactionDetail.html">TransactionDetail</a>
+  
+    <li><a href="./User.html">User</a>
+  
+    <li><a href="./UserBankDetail.html">UserBankDetail</a>
+  
+    <li><a href="./UserCalender.html">UserCalender</a>
+  
+    <li><a href="./UserCard.html">UserCard</a>
+  
+    <li><a href="./UserChild.html">UserChild</a>
+  
+    <li><a href="./UserChildrenController.html">UserChildrenController</a>
+  
+    <li><a href="./UserCredit.html">UserCredit</a>
+  
+    <li><a href="./UserDeactivateLog.html">UserDeactivateLog</a>
+  
+    <li><a href="./UserDebit.html">UserDebit</a>
+  
+    <li><a href="./UserDeletedAccount.html">UserDeletedAccount</a>
+  
+    <li><a href="./UserEmailChangeLog.html">UserEmailChangeLog</a>
+  
+    <li><a href="./UserMailer.html">UserMailer</a>
+  
+    <li><a href="./UserNotification.html">UserNotification</a>
+  
+    <li><a href="./UserProfile.html">UserProfile</a>
+  
+    <li><a href="./UserProfilesController.html">UserProfilesController</a>
+  
+    <li><a href="./UserProfilesHelper.html">UserProfilesHelper</a>
+  
+    <li><a href="./UserRow.html">UserRow</a>
+  
+    <li><a href="./UserSettingsHelper.html">UserSettingsHelper</a>
+  
+    <li><a href="./UserTransaction.html">UserTransaction</a>
+  
+    <li><a href="./UserTransactionsController.html">UserTransactionsController</a>
+  
+    <li><a href="./UserTransactionsHelper.html">UserTransactionsHelper</a>
+  
+    <li><a href="./UsersController.html">UsersController</a>
+  
+    <li><a href="./UsersHelper.html">UsersHelper</a>
+  
+    <li><a href="./WeekendActivity.html">WeekendActivity</a>
+  
+    <li><a href="./WeekendMailer.html">WeekendMailer</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class ApplicationController</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-getcity_search" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">getcity_search</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="getcity_search-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 35</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">getcity_search</span>
+        <span class="ruby-ivar">@fam_city</span> = <span class="ruby-constant">City</span>.<span class="ruby-identifier">order</span>(<span class="ruby-value">:city_name</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- getcity_search-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- getcity_search-method -->
+
+    
+      <div id="method-i-init" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">init</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>measure the loading time</p>
+          
+
+          
+          <div class="method-source-code" id="init-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 48</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">init</span>
+      <span class="ruby-ivar">@start_time</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">usec</span>
+      <span class="ruby-ivar">@s_time</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- init-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- init-method -->
+
+    
+      <div id="method-i-redirect_mobile" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">redirect_mobile</span><span
+            class="method-args">(site = $mail_redirection_path)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="redirect_mobile-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 42</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">redirect_mobile</span>(<span class="ruby-identifier">site</span> = <span class="ruby-identifier">$mail_redirection_path</span>)
+      <span class="ruby-identifier">url</span>=<span class="ruby-identifier">site</span><span class="ruby-operator">+</span><span class="ruby-identifier">request</span>.<span class="ruby-identifier">fullpath</span>
+      <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">url</span> <span class="ruby-keyword">if</span> <span class="ruby-regexp">/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|ipad|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/</span>.<span class="ruby-identifier">match</span>(<span class="ruby-identifier">request</span>.<span class="ruby-identifier">user_agent</span>) <span class="ruby-operator">||</span> <span class="ruby-regexp">/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/</span>.<span class="ruby-identifier">match</span>(<span class="ruby-identifier">request</span>.<span class="ruby-identifier">user_agent</span>[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">3</span>])
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- redirect_mobile-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- redirect_mobile-method -->
+
+    
+      <div id="method-i-server_error" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">server_error</span><span
+            class="method-args">(exception)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>~ notification message from server while accessing.</p>
+          
+
+          
+          <div class="method-source-code" id="server_error-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 72</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">server_error</span>(<span class="ruby-identifier">exception</span>)
+ <span class="ruby-constant">ExceptionNotifier</span><span class="ruby-operator">::</span><span class="ruby-constant">Notifier</span>.<span class="ruby-identifier">exception_notification</span>(<span class="ruby-identifier">request</span>.<span class="ruby-identifier">env</span>, <span class="ruby-identifier">exception</span>).<span class="ruby-identifier">deliver</span>
+ <span class="ruby-identifier">render_404</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- server_error-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- server_error-method -->
+
+    
+      <div id="method-i-set_access_control_headers" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">set_access_control_headers</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="set_access_control_headers-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 38</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">set_access_control_headers</span>
+<span class="ruby-identifier">headers</span>[<span class="ruby-string">'Access-Control-Request-Method'</span>] = <span class="ruby-string">'*'</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- set_access_control_headers-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- set_access_control_headers-method -->
+
+    
+      <div id="method-i-set_cache_buster" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">set_cache_buster</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="set_cache_buster-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 55</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">set_cache_buster</span>
+  <span class="ruby-identifier">response</span>.<span class="ruby-identifier">headers</span>[<span class="ruby-string">&quot;Cache-Control&quot;</span>] = <span class="ruby-string">&quot;no-cache, no-store, max-age=0, must-revalidate&quot;</span>
+  <span class="ruby-identifier">response</span>.<span class="ruby-identifier">headers</span>[<span class="ruby-string">&quot;Pragma&quot;</span>] = <span class="ruby-string">&quot;no-cache&quot;</span>
+  <span class="ruby-identifier">response</span>.<span class="ruby-identifier">headers</span>[<span class="ruby-string">&quot;Expires&quot;</span>] = <span class="ruby-string">&quot;Fri, 01 Jan 1990 00:00:00 GMT&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- set_cache_buster-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- set_cache_buster-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+     <section id="protected-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Protected Instance Methods</h3>
+
+    
+      <div id="method-i-authenticate_site" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">authenticate_site</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="authenticate_site-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 88</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">authenticate_site</span>
+   <span class="ruby-identifier">authenticate_or_request_with_http_basic</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">username</span>, <span class="ruby-identifier">password</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">username</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;fam-webuser&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">password</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;f@musr&quot;</span>
+   <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- authenticate_site-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- authenticate_site-method -->
+
+    
+      <div id="method-i-authenticate_user" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">authenticate_user</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="authenticate_user-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 122</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">authenticate_user</span>
+<span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>] <span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+<span class="ruby-ivar">@current_user</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">User</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;user_id= ?&quot;</span>,<span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>]).<span class="ruby-identifier">last</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>]
+<span class="ruby-identifier">cookies</span>[<span class="ruby-value">:uid_usr</span>] = <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>] <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@current_user</span>.<span class="ruby-identifier">nil?</span>
+<span class="ruby-identifier">redirect_to</span> <span class="ruby-string">&quot;/&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@current_user</span>.<span class="ruby-identifier">nil?</span>
+<span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-identifier">cookies</span>[<span class="ruby-value">:uid_usr</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:uid_usr</span>] <span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+<span class="ruby-ivar">@current_user</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">User</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;user_id= ?&quot;</span>,<span class="ruby-identifier">cookies</span>[<span class="ruby-value">:uid_usr</span>]).<span class="ruby-identifier">last</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:uid_usr</span>]
+<span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>] = <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:uid_usr</span>] <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@current_user</span>.<span class="ruby-identifier">nil?</span>
+<span class="ruby-identifier">redirect_to</span> <span class="ruby-string">&quot;/&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@current_user</span>.<span class="ruby-identifier">nil?</span>
+<span class="ruby-keyword">else</span>
+<span class="ruby-identifier">redirect_to</span> <span class="ruby-string">&quot;/&quot;</span>
+<span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- authenticate_user-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- authenticate_user-method -->
+
+    
+      <div id="method-i-authenticate_user_admin" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">authenticate_user_admin</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="authenticate_user_admin-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 106</span>
+ <span class="ruby-keyword">def</span> <span class="ruby-identifier">authenticate_user_admin</span>  
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:uid_usr</span>] 
+    <span class="ruby-ivar">@a_current_user</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">User</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;user_id= ? and user_type=?&quot;</span>,<span class="ruby-identifier">cookies</span>[<span class="ruby-value">:uid_usr</span>],<span class="ruby-string">&quot;A&quot;</span>).<span class="ruby-identifier">first</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:uid_usr</span>] 
+    <span class="ruby-identifier">redirect_to</span> <span class="ruby-string">&quot;/&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@a_current_user</span>.<span class="ruby-identifier">nil?</span> 
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>] 
+    <span class="ruby-ivar">@a_current_user</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">User</span>.<span class="ruby-identifier">find_by_user_id_and_user_type</span>(<span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>],<span class="ruby-string">&quot;A&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>] 
+    <span class="ruby-identifier">redirect_to</span> <span class="ruby-string">&quot;/&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@a_current_user</span>.<span class="ruby-identifier">nil?</span> 
+  <span class="ruby-keyword">else</span> 
+    <span class="ruby-identifier">redirect_to</span> <span class="ruby-string">&quot;/&quot;</span> 
+  <span class="ruby-keyword">end</span> 
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- authenticate_user_admin-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- authenticate_user_admin-method -->
+
+    
+      <div id="method-i-check_cookies" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">check_cookies</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="check_cookies-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 98</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">check_cookies</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">cookies</span>[<span class="ruby-value">:city_new_usr</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-keyword">true</span>      
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">root_url</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- check_cookies-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- check_cookies-method -->
+
+    
+      <div id="method-i-clear_other_users_session" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clear_other_users_session</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>To delete the other user session/Sindhu</p>
+          
+
+          
+          <div class="method-source-code" id="clear_other_users_session-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 156</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-identifier">clear_other_users_session</span>
+     <span class="ruby-identifier">pmsg_email</span>= <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">decode64</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:msg_email</span>]) <span class="ruby-keyword">if</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:msg_email</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:msg_email</span>].<span class="ruby-identifier">present?</span>)
+     <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user_email</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:group</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:cid</span>].<span class="ruby-identifier">nil?</span>
+        <span class="ruby-ivar">@fam</span> = <span class="ruby-constant">ContactUserGroup</span>.<span class="ruby-identifier">find_by_contact_user_id_and_contact_group_id_and_fam_accept_status</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:cid</span>],<span class="ruby-identifier">params</span>[<span class="ruby-value">:group</span>],<span class="ruby-keyword">true</span>)
+    <span class="ruby-keyword">end</span> 
+
+
+ <span class="ruby-comment">#~ chk_user = Base64.decode64(params[:sent_user]) if params[:sent_user] &amp;&amp; !params[:sent_user].nil?</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:login</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:login</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:login</span>]<span class="ruby-operator">==</span><span class="ruby-string">&quot;login&quot;</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">user_type</span><span class="ruby-operator">==</span><span class="ruby-string">&quot;P&quot;</span>
+      <span class="ruby-identifier">redirect_to</span><span class="ruby-string">&quot;/provider?invite_friend=friend&quot;</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> ((<span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">user_type</span><span class="ruby-operator">==</span><span class="ruby-string">&quot;U&quot;</span>)<span class="ruby-operator">||</span>(<span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">user_type</span><span class="ruby-operator">==</span><span class="ruby-string">&quot;A&quot;</span>))
+      <span class="ruby-identifier">redirect_to</span><span class="ruby-string">&quot;/?invite_friend=friend&quot;</span>
+    <span class="ruby-keyword">else</span>
+     <span class="ruby-identifier">redirect_to</span> <span class="ruby-string">&quot;/invite-friends/login&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:news_letter_fam</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:news_letter_fam</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:news_letter_fam</span>]<span class="ruby-operator">==</span><span class="ruby-string">&quot;login&quot;</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">present?</span> 
+     <span class="ruby-identifier">redirect_to</span> <span class="ruby-string">&quot;/?creat_network=true&quot;</span>
+    <span class="ruby-keyword">else</span>
+     <span class="ruby-identifier">redirect_to</span> <span class="ruby-string">&quot;/invite-famnetworks/login/&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@fam</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@fam</span>.<span class="ruby-identifier">present?</span>
+    <span class="ruby-identifier">email_present</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user_email</span>]) <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user_email</span>].<span class="ruby-identifier">nil?</span> 
+    <span class="ruby-identifier">redirect_to</span> <span class="ruby-string">&quot;/?fam_status=true&quot;</span>
+  <span class="ruby-keyword">elsif</span> ((<span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user_email</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user_email</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">current_user</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">email_address!</span>=<span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user_email</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:become_provider</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:become_provider</span>].<span class="ruby-identifier">present?</span>) <span class="ruby-operator">||</span>(<span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:facebook_reg</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user</span>].<span class="ruby-identifier">nil?</span>) <span class="ruby-operator">||</span> (<span class="ruby-identifier">params</span>[<span class="ruby-value">:idm</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:idm</span>].<span class="ruby-identifier">nil?</span>) <span class="ruby-operator">||</span> (<span class="ruby-identifier">params</span>[<span class="ruby-value">:s_out</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:s_out</span>].<span class="ruby-identifier">nil?</span>)<span class="ruby-operator">||</span> (<span class="ruby-identifier">params</span>[<span class="ruby-value">:provider_reg</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:provider_reg</span>].<span class="ruby-identifier">nil?</span>))
+   <span class="ruby-identifier">clear_user_sesion</span>
+   <span class="ruby-keyword">if</span> (<span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user_email</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_reg</span>]<span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user_email</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_reg</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:message_reg</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:cid</span>])
+        <span class="ruby-identifier">redirect_to</span> <span class="ruby-node">&quot;/home?sent_user=#{params[:sent_user]}&amp;sent_user_email=#{params[:sent_user_email]}&quot;</span>
+   <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user_email</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:group</span>]<span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:message_reg</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:cid</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user_email</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:group</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:message_reg</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:cid</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:con_invite</span>].<span class="ruby-identifier">nil?</span>)
+        <span class="ruby-identifier">redirect_to</span> <span class="ruby-node">&quot;/home?sent_user=#{params[:sent_user]}&amp;sent_user_email=#{params[:sent_user_email]}&amp;message_reg=#{params[:message_reg]}&amp;cid=#{params[:cid]}&amp;group=#{params[:group]}&amp;con_invite=true&quot;</span>
+   <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user_email</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_reg</span>]<span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user_email</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_reg</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:message_reg</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:cid</span>])
+    <span class="ruby-identifier">redirect_to</span> <span class="ruby-node">&quot;/home?sent_user=#{params[:sent_user]}&amp;sent_user_email=#{params[:sent_user_email]}&quot;</span>
+  <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user_email</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:group</span>]<span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:message_reg</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:cid</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user_email</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:group</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:message_reg</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:cid</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:con_invite</span>].<span class="ruby-identifier">nil?</span>)
+        <span class="ruby-identifier">redirect_to</span> <span class="ruby-node">&quot;/home?sent_user=#{params[:sent_user]}&amp;sent_user_email=#{params[:sent_user_email]}&amp;message_reg=#{params[:message_reg]}&amp;cid=#{params[:cid]}&amp;group=#{params[:group]}&amp;con_invite=true&quot;</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:become_provider</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:become_provider</span>].<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user_email</span>].<span class="ruby-identifier">nil?</span>
+   <span class="ruby-identifier">user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;email_address=? and user_type=? and account_active_status=?&quot;</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user_email</span>],<span class="ruby-string">&quot;U&quot;</span>,<span class="ruby-keyword">true</span>).<span class="ruby-identifier">last</span> <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user_email</span>].<span class="ruby-identifier">nil?</span>
+   <span class="ruby-identifier">provider</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;email_address=? and user_type=? and account_active_status=?&quot;</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user_email</span>],<span class="ruby-string">&quot;P&quot;</span>,<span class="ruby-keyword">true</span>).<span class="ruby-identifier">last</span> <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:sent_user_email</span>].<span class="ruby-identifier">nil?</span>
+   <span class="ruby-comment">#@same_user=(current_user.email_address==user.email_address) if !user.nil? &amp;&amp; user.present? &amp;&amp; !current_user.nil? &amp;&amp; current_user.present?</span>
+   <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">provider</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">provider</span>.<span class="ruby-identifier">present?</span>
+    <span class="ruby-identifier">email_present</span>(<span class="ruby-identifier">provider</span>.<span class="ruby-identifier">email_address</span>)
+    <span class="ruby-identifier">redirect_to</span> <span class="ruby-string">&quot;/&quot;</span>
+   <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-identifier">user</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">present?</span>
+    <span class="ruby-identifier">email_present</span>(<span class="ruby-identifier">user</span>.<span class="ruby-identifier">email_address</span>)
+     <span class="ruby-identifier">redirect_to</span> <span class="ruby-string">&quot;/?become_pro=yes&quot;</span>
+   <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-identifier">pmsg_email</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">email_present</span>(<span class="ruby-identifier">pmsg_email</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:cnetwork</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:cnetwork</span>].<span class="ruby-identifier">present?</span> 
+      <span class="ruby-identifier">redirect_to</span> <span class="ruby-string">&quot;/?creat_network=true&quot;</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:group</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:group</span>].<span class="ruby-identifier">present?</span>
+      <span class="ruby-ivar">@con</span> = <span class="ruby-constant">ContactGroup</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;group_id=#{params[:group]}&quot;</span>).<span class="ruby-identifier">last</span>
+      <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:follow_cat_val</span>]=<span class="ruby-ivar">@con</span>.<span class="ruby-identifier">group_name</span> <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@con</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">redirect_to</span> <span class="ruby-string">&quot;/&quot;</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">redirect_to</span> <span class="ruby-node">&quot;/messages?mode=parent&amp;rep_id=#{params[:rep_id]}&quot;</span>
+    <span class="ruby-keyword">end</span>
+ <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">email_address</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">pmsg_email</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">email_address</span><span class="ruby-operator">==</span><span class="ruby-identifier">pmsg_email</span>
+      <span class="ruby-identifier">redirect_to</span> <span class="ruby-node">&quot;/messages?mode=parent&amp;rep_id=#{params[:rep_id]}&quot;</span>
+ <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:guest_login</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:guest_login</span>]<span class="ruby-operator">==</span><span class="ruby-string">'true'</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:guest_id</span>]
+         <span class="ruby-identifier">guest</span> = <span class="ruby-constant">GuestDetail</span>.<span class="ruby-identifier">find_by_guest_id</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:guest_id</span>])
+         <span class="ruby-identifier">user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;email_address=?&quot;</span>,<span class="ruby-identifier">guest</span>.<span class="ruby-identifier">guest_email</span>).<span class="ruby-identifier">last</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">guest</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">guest</span>.<span class="ruby-identifier">present?</span>
+         <span class="ruby-keyword">if</span> <span class="ruby-identifier">user</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">present?</span>
+              <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">user_id!</span>=<span class="ruby-identifier">user</span>.<span class="ruby-identifier">user_id</span>
+                      <span class="ruby-identifier">clear_user_sesion</span>
+              <span class="ruby-keyword">end</span>
+              <span class="ruby-identifier">email_present</span>(<span class="ruby-identifier">user</span>.<span class="ruby-identifier">email_address</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">nil?</span>
+         <span class="ruby-keyword">end</span>
+ <span class="ruby-keyword">end</span>
+ 
+      <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:mview</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:mview</span>]<span class="ruby-operator">!=</span><span class="ruby-string">''</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:mview</span>].<span class="ruby-identifier">present?</span>
+         <span class="ruby-identifier">act_url</span> = <span class="ruby-identifier">get_mactivty</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:mview</span>])
+         <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:bcrum</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:bcrum</span>].<span class="ruby-identifier">present?</span>
+                 <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:bcrum</span>]<span class="ruby-operator">==</span><span class="ruby-string">&quot;p&quot;</span>
+                      <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:set_bread</span>]=<span class="ruby-string">&quot;p&quot;</span>
+                 <span class="ruby-keyword">else</span>
+                      <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:thro_page</span>] = <span class="ruby-identifier">params</span>[<span class="ruby-value">:bcrum</span>]  
+                 <span class="ruby-keyword">end</span>
+         <span class="ruby-keyword">end</span>
+         <span class="ruby-identifier">redirect_to</span> <span class="ruby-node">&quot;/#{act_url}&quot;</span> , <span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">301</span>
+      <span class="ruby-keyword">end</span>
+ 
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- clear_other_users_session-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clear_other_users_session-method -->
+
+    
+      <div id="method-i-clear_user_sesion" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clear_user_sesion</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="clear_user_sesion-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 288</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">clear_user_sesion</span>
+                  <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">delete</span> <span class="ruby-value">:login_usr</span>
+                  <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">delete</span> <span class="ruby-value">:uid_usr</span>
+                  <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">delete</span> <span class="ruby-value">:city_new_usr</span>
+                  <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">delete</span> <span class="ruby-value">:selected_city</span>
+                  <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">delete</span> <span class="ruby-value">:first_import</span>
+                  <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">delete</span> <span class="ruby-value">:first_import_success</span>
+                  <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">delete</span> <span class="ruby-value">:logged_in</span>
+                  <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">delete</span> <span class="ruby-value">:username_usr</span>
+                  <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">delete</span> <span class="ruby-value">:email_usr</span>
+                  <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>] = <span class="ruby-keyword">nil</span>
+                  <span class="ruby-comment">#session['ip_location'] = nil</span>
+                  <span class="ruby-ivar">@current_user</span> = <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- clear_user_sesion-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clear_user_sesion-method -->
+
+    
+      <div id="method-i-current_user" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">current_user</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="current_user-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 138</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">current_user</span>
+  <span class="ruby-ivar">@current_user</span> <span class="ruby-operator">||=</span> (<span class="ruby-identifier">login_from_session</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">login_from_cookie</span>) <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@current_user</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- current_user-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- current_user-method -->
+
+    
+      <div id="method-i-current_user-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">current_user=</span><span
+            class="method-args">(user)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="current_user-3D-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 142</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">current_user=</span>(<span class="ruby-identifier">user</span>)
+  <span class="ruby-ivar">@current_user</span> = <span class="ruby-identifier">user</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- current_user-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- current_user-3D-method -->
+
+    
+      <div id="method-i-email_present" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">email_present</span><span
+            class="method-args">(pmsg_email)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="email_present-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 269</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">email_present</span>(<span class="ruby-identifier">pmsg_email</span>)
+  <span class="ruby-identifier">c_user</span>=<span class="ruby-constant">User</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;email_address= ?&quot;</span>, <span class="ruby-identifier">pmsg_email</span>).<span class="ruby-identifier">last</span>
+      <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:date_registered_usr</span>] = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">strftime</span>(<span class="ruby-string">&quot;%Y-%m-%d&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:date_registered_usr</span>].<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:login_usr</span>] = <span class="ruby-string">&quot;on&quot;</span>
+      <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:role_usr</span>]= <span class="ruby-identifier">c_user</span>.<span class="ruby-identifier">user_type</span>
+      <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:logged_in</span>] = <span class="ruby-string">&quot;yes&quot;</span>
+      <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>] = <span class="ruby-identifier">c_user</span>.<span class="ruby-identifier">user_id</span>
+      <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">permanent</span>[<span class="ruby-value">:uid_usr</span>] = <span class="ruby-identifier">c_user</span>.<span class="ruby-identifier">user_id</span>
+      <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">permanent</span>[<span class="ruby-value">:username_usr</span>] = <span class="ruby-identifier">c_user</span>.<span class="ruby-identifier">user_name</span>
+      <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:email_usr</span>] = <span class="ruby-identifier">c_user</span>.<span class="ruby-identifier">email_address</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">c_user</span>
+              <span class="ruby-identifier">add_sign_count</span> = <span class="ruby-identifier">c_user</span>.<span class="ruby-identifier">sign_in_count</span>
+              <span class="ruby-identifier">c_user</span>.<span class="ruby-identifier">sign_in_count</span> = (<span class="ruby-identifier">add_sign_count</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">add_sign_count</span><span class="ruby-operator">==</span><span class="ruby-value">0</span>) <span class="ruby-operator">?</span>  <span class="ruby-value">1</span> <span class="ruby-operator">:</span> (<span class="ruby-identifier">add_sign_count</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>)
+              <span class="ruby-identifier">c_user</span>.<span class="ruby-identifier">last_sign_in</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>
+              <span class="ruby-identifier">c_user</span>.<span class="ruby-identifier">save</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-ivar">@current_user</span> = <span class="ruby-identifier">c_user</span>
+    <span class="ruby-keyword">end</span></pre>
+          </div><!-- email_present-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- email_present-method -->
+
+    
+      <div id="method-i-invite_welfriend" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">invite_welfriend</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>To delete the other user session</p>
+          
+
+          
+          <div class="method-source-code" id="invite_welfriend-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 243</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">invite_welfriend</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:wel_friend</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:wel_friend</span>]<span class="ruby-operator">!=</span><span class="ruby-string">''</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:wel_friend</span>].<span class="ruby-identifier">present?</span>
+     <span class="ruby-ivar">@user_usr</span>=<span class="ruby-constant">User</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;user_id= ?&quot;</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:wel_friend</span>]).<span class="ruby-identifier">last</span>
+     <span class="ruby-identifier">p</span> <span class="ruby-identifier">current_user</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@user_usr</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@user_usr</span>.<span class="ruby-identifier">user_id</span><span class="ruby-operator">==</span><span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">user_id</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">current_user</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@user_usr</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@user_usr</span>.<span class="ruby-identifier">user_id</span><span class="ruby-operator">==</span><span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">user_id</span>
+      <span class="ruby-identifier">redirect_to</span> <span class="ruby-node">&quot;/?invite_wel_friend=#{params[:wel_friend]}&quot;</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-ivar">@user_usr</span>
+        <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:date_registered_usr</span>] = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">strftime</span>(<span class="ruby-string">&quot;%Y-%m-%d&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:date_registered_usr</span>].<span class="ruby-identifier">nil?</span>
+        <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:login_usr</span>] = <span class="ruby-string">&quot;on&quot;</span>
+        <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:role_usr</span>]= <span class="ruby-ivar">@user_usr</span>.<span class="ruby-identifier">user_type</span>
+        <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:logged_in</span>] = <span class="ruby-string">&quot;yes&quot;</span>
+        <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>] = <span class="ruby-ivar">@user_usr</span>.<span class="ruby-identifier">user_id</span>
+        <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">permanent</span>[<span class="ruby-value">:uid_usr</span>] = <span class="ruby-ivar">@user_usr</span>.<span class="ruby-identifier">user_id</span>
+        <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">permanent</span>[<span class="ruby-value">:username_usr</span>] = <span class="ruby-ivar">@user_usr</span>.<span class="ruby-identifier">user_name</span>
+        <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:email_usr</span>] = <span class="ruby-ivar">@user_usr</span>.<span class="ruby-identifier">email_address</span>
+        <span class="ruby-identifier">add_sign_count</span> = <span class="ruby-ivar">@user_usr</span>.<span class="ruby-identifier">sign_in_count</span>
+        <span class="ruby-ivar">@user_usr</span>.<span class="ruby-identifier">sign_in_count</span> = (<span class="ruby-identifier">add_sign_count</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">add_sign_count</span><span class="ruby-operator">==</span><span class="ruby-value">0</span>) <span class="ruby-operator">?</span>  <span class="ruby-value">1</span> <span class="ruby-operator">:</span> (<span class="ruby-identifier">add_sign_count</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>)
+        <span class="ruby-ivar">@user_usr</span>.<span class="ruby-identifier">last_sign_in</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>
+        <span class="ruby-ivar">@user_usr</span>.<span class="ruby-identifier">save</span>
+        <span class="ruby-identifier">redirect_to</span> <span class="ruby-node">&quot;/?invite_wel_friend=#{params[:wel_friend]}&quot;</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+ <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- invite_welfriend-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- invite_welfriend-method -->
+
+    
+      <div id="method-i-json_request-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">json_request?</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="json_request-3F-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 94</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">json_request?</span>
+  <span class="ruby-identifier">request</span>.<span class="ruby-identifier">format</span>.<span class="ruby-identifier">json?</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- json_request-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- json_request-3F-method -->
+
+    
+      <div id="method-i-login_from_cookie" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">login_from_cookie</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="login_from_cookie-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 150</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">login_from_cookie</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">current_user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;user_id= ?&quot;</span>,<span class="ruby-identifier">cookies</span>[<span class="ruby-value">:uid_usr</span>]).<span class="ruby-identifier">last</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:uid_usr</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- login_from_cookie-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- login_from_cookie-method -->
+
+    
+      <div id="method-i-login_from_session" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">login_from_session</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="login_from_session-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 146</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">login_from_session</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">current_user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;user_id= ?&quot;</span>,<span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>]).<span class="ruby-identifier">last</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- login_from_session-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- login_from_session-method -->
+
+    
+      <div id="method-i-set_current_user" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">set_current_user</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="set_current_user-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 118</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">set_current_user</span>
+  <span class="ruby-constant">User</span>.<span class="ruby-identifier">current</span> = <span class="ruby-identifier">current_user</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- set_current_user-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- set_current_user-method -->
+
+    
+    </section><!-- protected-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

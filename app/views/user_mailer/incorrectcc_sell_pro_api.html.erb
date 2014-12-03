@@ -1,0 +1,56 @@
+<table cellpadding="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+	<table cellspacing="0" cellpadding="0" border="0" style="width:98%; margin:12px; font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;">
+	    <tr>
+	      <td align="left" valign="top" height="24" style="ont-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;">   
+		<strong>Hello <% if !@activity.nil? && @activity.present? && !@activity.created_by.nil? && @activity.created_by.present? && @activity.created_by.downcase=='provider'%>
+					<% if !@puser.user_profile.nil? && @puser.user_profile.present? && @puser.user_profile!=''%>
+						<% if !@puser.user_profile.business_name.nil? && @puser.user_profile.business_name.present? && @puser.user_profile.business_name!=''%>
+							<%=@puser.user_profile.business_name %>,
+						<%else%>
+							<%=@puser.user_name%>,
+						<%end%>
+					<%else%>
+						<%=@puser.user_name%>,
+					<%end%>
+				<%else%>
+				<%=@puser.user_name%>,
+				<%end%></strong> 
+	      </td>
+	    </tr>
+	    <tr>
+		<td height="10"></td>
+	    </tr>
+	     <tr>
+		      <td style="color:#333333;" align="left" valign="top">
+		    This is to inform you that <b><%= @cuser.user_name if !@cuser.nil? && !@cuser.user_name.nil?%></b> has contacted you through the Famtivity contact form about your activity, <b><%=@activity.activity_name unless @activity.nil? && @activity.activity_name.nil?%></b>. 
+			</td> 
+	    </tr>
+	    <tr>
+		<td height="10"></td>
+	    </tr>
+	    <tr>
+		    <td  align="left" valign="top">Since a parent has contacted you through the Famtivity contact form, you are being charged &cent;99.
+		    </td>
+	    </tr>
+	    <tr>
+		<td height="10"></td>
+	    </tr>
+	     <tr>
+		    <td align="left" valign="top">It appears that your credit card details are incorrect. Please check if this is the case and provide valid credit card details. A member of the Famtivity support team will contact you shortly to help you register the updated details. 
+		    </td>
+	    </tr>
+	    <tr>
+		<td height="20"></td>
+	    </tr>
+	     <tr>
+		<td height="24" align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#444444;">Thanks,</td>
+	  </tr>
+	  <tr>
+		<td  align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;">Your Famtivity Team</td>
+	  </tr>
+	</table>
+</td>
+</tr>
+</table>

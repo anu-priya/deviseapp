@@ -1,0 +1,124 @@
+.timeLineContainer{
+	width:100%;
+	height:649px; /* total timeline height */
+	overflow:hidden;
+	position:relative;
+	z-index:2;
+	margin-bottom:8px;
+}
+.timeLineContainer .innerTimeLineContainer{
+	width:100%;
+	height:auto;
+	position:relative;
+	z-index:1;
+}
+.timeLineContainer .innerTimeLineContainer .timeLineContent{
+	width:100%;
+	height:52px; /* timeline height */	
+	position:relative;
+	z-index:1;
+}
+#event_container #weekDiv .innerDiv{	
+	height:100%;
+}
+#event_container #weekDiv .timeLineBg{			
+	width: 96px;
+	height:50px;
+	border-bottom:1px solid #CDE0E6;
+}
+#event_container #weekDiv .weekContainer:first-child .timeLineBg{
+	border-bottom:none;	
+}
+#event_container #weekDiv .timeLineBg .timeLineCont{
+	display:inline-block;
+	font-family:"Arial";
+	font-size: 15px;
+	font-weight:bold;	
+	color:#7d8c91;
+	position:relative;
+	left:7px;
+	top:13px;
+}
+#event_container #weekDiv .weekContainer{	
+	width: 100%;	
+}
+#event_container #weekDiv .weekContainer .weekHeader{
+	height:52px;
+	position:relative;
+	top:-2px;	
+}
+#event_container #weekDiv .weekContainer .daysColheadBorder{
+	border-bottom:1px solid #CDE0E6;
+	border-left:1px solid #CDE0E6;
+	height:48px;
+	width: 5%;
+}
+#event_container #weekDiv .weekContainer .daysColhead{
+	width:110px; 
+	margin:0 auto;
+	text-align:center;
+	overflow: hidden;	
+	font-family: Arial, "MS Trebuchet", sans-serif;	
+	font-size: 15px;	
+	color:#807e7e;
+}
+#event_container #weekDiv .weekContainer .selectedBg{	
+	/*background:url('/assets/event_week/selected_day.png') repeat-x;	*/
+	height: 46px;
+}
+#event_container #weekDiv .weekContainerCont{	
+	width: 100%;
+}
+#event_container #weekDiv .weekContainerCont .daysColBorder{
+	border-top:1px solid #ffffff;
+	border-bottom:1px solid #CDE0E6;
+	border-left:1px solid #CDE0E6;
+	height:51px;
+	width: 5%;
+}
+#event_container #weekDiv .weekContainerCont .timeLineContent:first-child .daysColBorder{
+	border-top:1px solid #CDE0E6;
+}
+#event_container #weekDiv .weekContainerCont .daysCol{
+	width:110px;
+	height:50px;	
+	overflow: hidden;
+}
+#event_container #weekDiv .weekContainerCont .daysCol p{
+	font-family: Arial, "MS Trebuchet", sans-serif;	
+	font-size: 13px;	
+	color:#807e7e;
+	padding:3px 0px 2px 4px;	
+}
+#event_container #weekDiv .weekContainerCont .daysCol .newActivityBg{
+	/*background:url('/assets/event_week/new_activity_bg.png') no-repeat;*/
+	display:inline-block;
+	width:15px;
+	height:15px;
+	position:relative;
+	top:3px;	
+}
+#event_container #weekDiv .weekContainerCont .daysCol .newActivityBg .newActivityCount{
+	display:inline-block;
+	float:left;
+	width:15px;
+	height:12px;	
+	font-size: 11px;	
+	color:#ffffff;
+	text-align:center;
+	position:relative;
+	overflow:hidden;
+	top:0px;
+	left:0px;
+	*left:1px;	
+}
+.top_arrow{	
+	position:relative;
+	top:-50px;	
+	z-index:10;	
+}
+.bottom_arrow{	
+	position:relative;
+	top:-46px;	
+	z-index:10;	
+}

@@ -1,0 +1,21 @@
+<%msg = @return.split('$')%>
+<%if msg[0]=='true'%>
+	<%if msg[1]=='last'%>
+		 $(".flash-message").html("Messages are deleted successfully");
+		 var win=$(window).width();
+		 var con=$(".flash_content").width();
+		 var leftvalue=((win/2)-(con/2))
+		 $(".flash_content").css("left",leftvalue+"px");
+		 $(".flash_content").css("top","8%");
+		 $('.flash_content').fadeIn().delay(10000).fadeOut();
+		 //$('#error-message').fadeIn().delay(5000).fadeOut();
+		 $(".topContainer").html('<%= escape_javascript(render(:partial => 'message_header')) %>');
+		 $("#provider_partial_event_list").html('<%= escape_javascript(render(:partial => 'message_list')) %>');
+		 //$(".crt_new").css("margin-top","200px");
+	  	 findMsgHt();
+	<%else%>
+		window.location.href='/messages?mode=<%=@mode%>&rep_id=<%=@msg_id%>'
+ 	<%end%>
+ <%end%>
+
+ 

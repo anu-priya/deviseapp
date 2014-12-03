@@ -1,0 +1,15 @@
+<!--meta tags added for quick link pages-->
+<%if request.fullpath == '/locations'
+  meta :title => "Kids Classes, Camps, Lessons, Events & Activities",
+    :description => "Kids activities, events, day and summer camps, lessons, classes for children of all ages with local provider discounts and specials",
+    :keywords => "Kids Activities, Kids Events, Kids Camps"
+end
+%>
+<%cookies[:browse_category]=""%>
+<%cookies[:set_bread]=""%>
+<%= stylesheet_link_tag "header/categories.css" %>
+<div class="<%if current_user.nil? && !current_user.present?%>wrapper_contianer_inner<%else%>wrapper_contianer_inner_login<%end%>">
+  <%= render :partial => "quick_links/city_list"%>
+</div>
+
+

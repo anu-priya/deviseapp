@@ -1,0 +1,27 @@
+
+<%if @set_update%>
+  //alert('Update the permissions for the representative')
+  $('#login_use_feature').bPopup({
+			fadeSpeed:100,
+			followSpeed:100,
+			opacity:0.8,
+			positionStyle: 'fixed',
+			modalClose: false,
+		},
+		function(){
+			$(".content_popup").show();
+		});
+  
+  
+<%else%>
+ $('#edit_v_'+'<%=@activity.activity_id%>').prop('checked',false);
+ $('#delete_v_'+'<%=@activity.activity_id%>').prop('checked',false);
+ $('#edit_v_'+'<%=@activity.activity_id%>').val('off')
+ $('#delete_v_'+'<%=@activity.activity_id%>').val('off')
+<%end%>
+
+$('#menu_active1').html('<%= j(render(:partial => 'provider_event_list')) %>');
+
+<%#if @school_present && @school_present=='true' && @school_rep && !@school_rep.nil? && !@school_rep.representative_id.nil? && @school_rep.representative_id==current_user.user_id%>
+		//$('#edit-del-permission_'+'<%=@activity.activity_id%>').replaceWith("<%=escape_javascript(render(:partial =>'set_permissions_for_rep'))%>");
+<%#end%>

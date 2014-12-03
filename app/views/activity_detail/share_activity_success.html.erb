@@ -1,0 +1,26 @@
+<%=stylesheet_link_tag "global/pop_up_success", :media => "all"%>
+<script language="javascript">
+  function closepopup(){
+    parent.shareActivitySuccessPage.hide();
+  }
+</script> 
+<div id="share_actvity_success">
+  <div class="popupContainer">
+    <div class="headTab">
+      <div class="heading">
+        <div class="headCont">Share Activity</div>
+      </div>
+      <div class="lt closeButton">
+        <a href="javascript:void(0)" onClick="closepopup()" title="" class="lt">
+          <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%>
+        </a>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div align="center">
+      <p class="successText">You have successfully shared this activity</p>
+      <div class="clear"></div>
+      <%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38", :style=>"border:0px;", :onclick=>"closepopup();")%>
+    </div>
+  </div>
+</div>

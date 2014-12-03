@@ -1,0 +1,22 @@
+<%= javascript_include_tag "auto_complete/jquery-1.8.3.js" %>
+<%= form_tag url_for(:controller=>"landing",:action => 'category_report_count', remote: true),:id=>"update_category",:method => :get,:onsubmit => "return false;" do %>
+  <%= select_tag(:city_name, options_for_select(["All Cities"]+(@city.compact.reject { |c| c.empty? }).sort)) %>
+  <%= select_tag(:cat, options_for_select(["All Categories"]+(@category.compact.reject { |c| c.empty? }).sort)) %>
+  <%= submit_tag "Go",:onclick=>"javascript:submitForm()" %>
+  <span id="loading_img" style="display:none;position:relative; top:2px; left: 5px;"><img  src="/assets/loading_small.gif" /></span> 
+<% end %>
+
+<script>
+  function submitForm(){
+    $('#loading_img').css("display","inline-block");
+    $.ajax({
+      type: 'get',
+      url: "/landing/category_report_count",
+      data:$('#update_category').serialize(),
+      success: function(data){ $("#products").html(data);$('#loading_img').hide();},
+      complete: function (){   }
+    });
+    return false;
+  }
+</script>
+<div id="products"></div>

@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Shared:</b>
+  <%= @activity_shared.shared_id %>
+</p>
+
+<p>
+  <b>Shared to:</b>
+  <%= @activity_shared.shared_to %>
+</p>
+
+<p>
+  <b>Subject:</b>
+  <%= @activity_shared.subject %>
+</p>
+
+<p>
+  <b>Message:</b>
+  <%= @activity_shared.message %>
+</p>
+
+<p>
+  <b>Activity:</b>
+  <%= @activity_shared.activity_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @activity_shared.user_id %>
+</p>
+
+<p>
+  <b>Shared date:</b>
+  <%= @activity_shared.shared_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_activity_shared_path(@activity_shared) %> |
+<%= link_to 'Back', activity_shareds_path %>

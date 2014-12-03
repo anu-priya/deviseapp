@@ -1,0 +1,851 @@
+<!--meta tag added for search  landing page-->
+<%
+      meta :title => "Famtivity - Kids Classes, Camps, Lessons, Events & Activities",
+     :description => "Kids activities, day & summer camps, lessons, classes, & events for children of all ages including local provider discounts & specials",
+     :keywords => "Kids Activities, Kids Camps, Kids Lessons"
+%>
+<!-- Track Attend Event for invite and message-->
+<script type="text/javascript">
+  $(document).ready(function() {
+    var check_attend = "<%= params[:attend_track]%>";
+    var msg_track = "<%= params[:msg_invite]%>"
+    var view_more_track ="<%= params[:view_more]%>"
+    if(check_attend == "true")
+    {
+      _gaq.push(['_trackEvent', 'Parent Module', 'clickAttendActivity','Accept']);
+    }
+    if(msg_track =="true")
+    {
+      _gaq.push(['_trackEvent', 'Parent Module', 'clickMessageInvite','Join Famtivity Now']);
+    } 
+    if(view_more_track =="true")
+    {
+      _gaq.push(['_trackEvent', 'Parent Module', 'clickMessage','View More']);
+    }
+     macos_fixes();
+  });
+
+	  function macos_fixes(){		
+
+	 var ua=navigator.userAgent;
+          if(ua.indexOf("Mac")!=-1)
+          {
+	    if(($.browser.safari)||($.browser.chrome)){
+	       $('.search_bar_login').css('margin-top','-59px');
+	    }
+	  }
+	  else{
+	    if($.browser.safari){
+	       $('.search_bar_login').css('margin-top','-59px');
+	    }
+	  }
+  }
+</script>
+<link rel="stylesheet" href="/assets/activity_view_detail/paymentDetail.css" type="text/css"/>
+<script src="/assets/scroller/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
+<script src="/assets/scroller/jquery.mousewheel.min.js" type="text/javascript"></script>
+<script src="/assets/scroller/jquery.smoothdivscroll-1.3-min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/assets/acitivity_view_details/schedule_price.js"></script>
+<div class="clear"></div>
+<style>
+  .bS_menus
+  {
+    font-size: 12px !important;
+  }
+</style>
+<% landing_feature_activity %>
+<div id="eventListContainer" class="eventListContainer" style="<% if !current_user.nil?%>margin-top:62px;<% else%>margin-top:80px;<%end%> margin-bottom: 36px;"><!-- Start Default Activities List --><!-- Top Banner Slide Start-->
+  <div class="setouterstyle"><!--slider start-->    
+    <% if (request.fullpath)=="/home" %>
+      <% if !current_user.nil?%>
+        <%= render :partial =>"common/top_banner" %>
+      <% else %>
+        <%= render :partial =>"common/v2_top_banner" %>
+      <% end %>
+    <% else %>
+      <%= render :partial =>"common/top_banner" %>
+    <%end%>
+<%#= render :partial =>"common/top_banner" %>
+    <!--slider end--> <!--Header Slider-->
+    <%  @jump_to_scroll_first = []
+    #don't remove this. jump to drop down dynamically show
+    @jump_to_scroll_first.push("Featured")
+    #@jump_to_scroll_first.push("Free")
+    %>
+    <% if !current_user.nil?
+      act_categ = ActivityCategory.where("lower(category_name) = 'default'").last
+      sub_cat = ActivitySubcategory.where(:category_id=>act_categ.category_id ).map(&:subcateg_id)
+      @row_default = ActivityRow.where(:subcateg_id => sub_cat,:user_id => current_user.user_id)
+      @row_default.each do |s|
+        @jump_to_scroll_first.push("#{s.row_type}")
+      end
+      if @fam_post.length > 0
+        @fam_post.each do |s|
+          if !s.nil? && s!=""
+            fa = ContactGroup.where("group_id = #{s} and lower(group_status)!='just_me'").last
+            @jump_to_scroll_first.push(fa.group_name) if !fa.nil?
+          end
+        end
+      end
+    end
+    #@jump_to_scroll_first.push("Dance")
+    #@jump_to_scroll_first.push("Music")
+    #@jump_to_scroll_first.push("Sports")
+
+
+
+    @provider_activites.each do |s|
+      @jump_to_scroll_first.push(s) if !s.nil? && s.present? && s!=''
+    end if !@provider_activites.nil? && @provider_activites.present? && @provider_activites!=''
+    @follow_parent_user.each do |u|
+      @user = User.where("user_id = #{u}").last if !u.nil? && u.present? && u!=''
+      @jump_to_scroll_first.push(@user.user_name) if !@user.nil?
+    end if !@follow_parent_user.nil? && @follow_parent_user.present? && @follow_parent_user!=''
+    @follow_provider_user.each do |u|
+      @user = User.where("user_id = #{u}").last  if !u.nil? && u.present? && u!=''
+      @jump_to_scroll_first.push(@user.user_profile.business_name) if !@user.nil?
+    end if !@follow_provider_user.nil? && @follow_provider_user.present? && @follow_provider_user!=''
+    @jump_to_scroll = @jump_to_scroll_first.uniq
+  %>
+    <!--////////////////////////////////Start new search  ////////////////////////////////////////////-->
+    <input type="hidden" id="provider_list_count" value="<%= cookies[:provider_count].blank? ? 1 : cookies[:provider_count]%>" />
+    <div id="basic_Search" style="left: 0;position: absolute;right: 0;top: 260px;">
+      <table cellspacing="0" cellpadding="0" border="0" width="100%">
+        <tr>
+          <td width="10%"></td>
+          <td width="70%" align="center">
+            <div style="width:770px; background:#ffffff; top:248px;height: 60px;z-index:1000;margin-left: 7.5%;<%if !current_user.nil?%>margin-top: -16px;<%else%>margin-top: 8px;<%end%>">
+              <form id="advanced_search_update" action="/search" name="advanced_search_update" method="get">
+
+                <div id="search_outer" align="center">
+                  <div id="bS_outer" style="width:auto;">
+                    <!--div id="ca_mp" class="bS_menus">Camp
+				      <div class="drop_dwon" id="camp">
+					<table width="125" border="0" align="left" cellpadding="0" cellspacing="0">
+					  <tr>
+					    <td width="86"  align="left" valign="top">
+					      <input type="hidden" value="" id="camp_range_1" name="camp_range_1"/>
+					      <input type="hidden" value="" id="camp_all"/>
+					      <span><input type="checkbox" name="a_all" value="a_all" id="a_all" class="checkbox12" onClick="camp_all_changes()"/></span><span class="inner_text">All</span>
+					    </td>
+					  </tr>
+					  <td width="88"  align="left" valign="top">
+					    <span><input type="checkbox" name="c_r1" value="specials" id="a_r1" class="checkbox12" onClick="camp_range_changes(1,this.value)"/></span><span class="inner_text">Specials</span>
+					  </td>
+					  <tr>
+					    <td width="96"  align="left" valign="top">
+					      <span><input type="checkbox" name="c_r4" value="camp" id="a_r4" class="checkbox12" onClick="camp_range_changes(4,this.value)"/></span><span class="inner_text">Camp</span>
+					    </td>
+					  </tr>
+					</table>
+				      </div>
+				    </div-->
+                    <div id="category" class="bS_menus">Category
+                      <div class="drop_dwon" id="adv_category_detail">
+                        <div style="height:275px; width:529px; overflow-y:scroll;overflow-x:hidden;">
+                          <%sub=1%>
+                          <input type="hidden" id="ad_sub_category_1" name="ad_sub_category_1" value=""/>
+                          <input type="hidden" id="ad_sub_category_id_1" name="ad_sub_category_id" value=""/>
+                          <%@accordion && @accordion.each do |s|%>
+                            <%if !s.category.nil? && !s.nil? && s.category!=""%>
+                              <div class="Adv_categoryText"><%=s.category.capitalize if !s.category.nil?%></div>
+                            <%end%>
+                            <div class="clear"></div>
+                            <%@ac_sub = Activity.find(:all,:conditions=>["lower(category) = ?",s.category.downcase],:select =>"DISTINCT lower(trim(sub_category)) as sub_category").uniq if !s.nil? && !s.category.nil?%>
+                            <%if @ac_sub.present? && @ac_sub!="" && !@ac_sub.nil?%>
+                              <div class="Adv_CategoryStyle">
+                                <%@ac_sub.each do |st|%>
+                                  <%if !st.sub_category.nil? && !st.nil? && st.sub_category!=""%>
+                                    <div class="Adv_sub_category"><span><input type="checkbox" name="ad_cate_<%=sub%>" id="ad_cate_<%=sub%>" value="" class="checkbox" onClick="get_subCat_id('<%=sub%>','<%=  st.sub_category.capitalize if !st.sub_category.nil? && !st.nil? && st.sub_category!=""%>')"></span><span class="inner_text"><%=  st.sub_category.capitalize if !st.sub_category.nil? && !st.nil? && st.sub_category!=""%></span></div>
+                                    <%sub=sub+1%>
+                                  <%end%>
+                                <%end%>
+                              </div>
+                            <%end%>
+                          <%end%>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="age_range" class="bS_menus">Age Range
+                      <div class="drop_dwon" id="range_age">
+                        <table width="270" border="0" align="left" cellpadding="0" cellspacing="0">
+                          <tr>
+                            <td width="86"  align="left" valign="top">
+                              <input type="hidden" value="" id="age_range7"/>
+                              <input type="hidden" value="" id="age_all"/>
+                              <input type="hidden" value="" id="age_r1"/>
+                              <input type="hidden" value="" id="age_r4"/>
+                              <input type="hidden" value="" id="age_r8"/>
+                              <span><input type="checkbox" name="aa_all" value="a_all" id="aa_all" class="checkbox" onClick="daterange_all_changes1()"/></span><span class="inner_text">All</span>
+                            </td>
+                          </tr>
+                          <td width="88"  align="left" valign="top">
+                            <span><input type="checkbox" name="aa_r1" value="0-3" id="aa_r1" class="checkbox1" onClick="date_range_changes1(1,this.value)"/></span><span class="inner_text">0 - 3</span>
+                          </td>
+                          <tr>
+                            <td width="96"  align="left" valign="top">
+                              <span><input type="checkbox" name="aa_r4" value="4-7" id="aa_r4" class="checkbox1" onClick="date_range_changes1(4,this.value)"/></span><span class="inner_text">4 - 7</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="top">
+                              <span><input type="checkbox" name="aa_r8" value="8-15" id="aa_r8" class="checkbox1" onClick="date_range_changes1(8,this.value)"/></span><span class="inner_text">8 +</span>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                    <div id="start_D"class="bS_menus">
+                      <span id="start_dates_formate">Start Date</span><input type="hidden" name="start_dates" id="start_dates" value="" />
+                      <div class="drop_dwon  " id="date_start" >
+                      </div>
+                    </div>
+                    <div id="end_D" class="bS_menus">
+                      <span id="end_dates_formate">End Date</span><input type="hidden" name="end_dates" id="end_dates" value="" />
+                      <div class="drop_dwon  " id="date_end" >
+                      </div>
+                    </div>
+                    <div  id="day_W"class="bS_menus">Day of Week
+                      <div class="drop_dwon" id="d_week">
+                        <input type="hidden" name="age_rangera" id="age_rangera" value=""/>
+                        <table cellpadding="0" cellspacing="0" border="0" width="270">
+                          <tr>
+                            <td width="83"  align="left" valign="top">
+                              <span><input type="checkbox" name="day_of_week_1" value="Mon" id="day_of_week_1" class="checkbox2" onClick="price_range_changes()"/></span><span class="inner_text">Monday</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="74"  align="left" valign="top">
+                              <span><input type="checkbox" name="day_of_week_2" value="Tue" id="day_of_week_2" class="checkbox2" onClick="date_range_changes()"/></span><span class="inner_text">Tuesday</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="113"  align="left" valign="top">
+                              <span><input type="checkbox" name="day_of_week_3" value="Wed" id="day_of_week_3" class="checkbox2" onClick="date_range_changes()"/></span><span class="inner_text">Wednesday</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="top">
+                              <span><input type="checkbox" name="day_of_week_4" value="Thu" id="day_of_week_4" class="checkbox2" onClick="date_range_changes()"/></span><span class="inner_text">Thursday</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="top">
+                              <span><input type="checkbox" name="day_of_week_5" value="Fri" id="day_of_week_5" class="checkbox2" onClick="date_range_changes()"/></span><span class="inner_text">Friday</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="top">
+                              <span><input type="checkbox" name="day_of_week_6" value="Sat" id="day_of_week_6" class="checkbox2" onClick="date_range_changes()"/></span><span class="inner_text">Saturday</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="top">
+                              <span><input type="checkbox" name="day_of_week_7" value="Sun" id="day_of_week_7" class="checkbox2" onClick="date_range_changes()"/></span><span class="inner_text">Sunday</span>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                    <div id="gend_r" class="bS_menus">Gender
+                      <div class="drop_dwon" id="gender">
+                        <table border="0" cellpadding="0" cellspacing="0" width="129">
+                          <tr><td  align="left" valign="top">
+                              <span><input type="radio" name="gender" id="sex" value="g_all" class="checkbox"/></span><span class="inner_text">Both</span>
+                            </td></tr>
+                          <tr><td  align="left" valign="top">
+                              <span><input type="radio" name="gender" id="sex" value="Male" class="checkbox"/></span><span class="inner_text">Male</span>
+                            </td></tr>
+                          <tr><td  align="left" valign="top">
+                              <span><input type="radio" name="gender" id="sex" value="Female" class="checkbox"/></span><span class="inner_text">Female</span>
+                            </td></tr>
+                        </table>
+                      </div>
+                    </div>
+                    <!--<div class="bS_menu" id="zip_code">
+				      <!--<span id="zip_enter">Enter Zip Code</span>--<span id="zip_value" style="display: inline-block;"> <input type="text" id="zip_values" value="Enter Zip Code" name="zip_value_name" size="15"  onKeyPress="return number(event);" style = "color:#999999;"></span>&nbsp;(or)
+				    </div>-->
+                    <input type="hidden" id="city_search" value="" name="city_search_ra"/>
+
+
+                    <!--<div class="bS_menus" id="city_choose">
+				      <span id="selectedCity">Choose City</span>
+				      <div class="drop_dwon" id="chose_city">
+					<div style="width:500px;"><% @fam_city = City.order(:city_name)%><% if !@fam_city.nil? && @fam_city!="" && @fam_city.present? %><%@ci = 1 %><%@fam_city.each do |cit|%><div class="cityText" onclick="city_search('<%=cit.city_name%>')"><%=cit.city_name%></div><%@ci = @ci+1 %><%end%><%end%></div>
+				      </div>
+				    </div> -->
+
+                    <div id="Price"class="bS_menus">Price
+                      <input type="hidden" name="age_range71_8"  id="age_range71_8" value=""/>
+                      <div class="drop_dwon" id="chose_price">
+                        <table border="0" cellpadding="0" cellspacing="0" width="129">
+                          <tr><td  align="left" valign="top">
+                              <input type="hidden" value="" id="price_range"/>
+                              <span><input type="checkbox" name="p_all" value="p_all" id="price_all" class="checkbox" onClick="price_all_changes()"/></span><span class="inner_text">All</span>
+                            </td></tr>
+                          <tr><td  align="left" valign="top">
+                              <span><input type="checkbox" name="a_f" value="free" id="price_free" class="checkbox3" onClick="price_range_changes()"/></span><span class="inner_text">Free</span>
+                            </td></tr>
+                          <tr><td  align="left" valign="top">
+                              <span><input type="checkbox" name="paid" value="paid" id="price_paid" class="checkbox3" onClick="price_range_changes()"/></span><span class="inner_text">Paid</span>
+                            </td></tr>
+                        </table>
+                      </div>
+                    </div>
+                    <!--div class="bS_menu"  id="city_chooses">
+					    <!--<input type="text" id="zip_values" name="zip_value_name" class="textbox" value="Enter city (or) Zip code">--					    
+					     <input type="text" id="zip_values" name="zip_value_name" class="textbox" value="Enter city (or) Zip code" onKeyPress="content_checking('zip');">
+				    </div-->
+
+                    <div id="submit"class="bS_menu" style="padding: 3px;">
+                      <input type="button" name="search" id="search_button" value="search" onClick="advance_search_navigate()" />
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+
+              <div class="clear"></div>
+            </div>
+          </td>
+          <td width="15%"></td>
+        </tr>
+      </table>
+
+    </div>
+
+    <!--////////////////////////////////End of new search  ////////////////////////////////////////////-->
+    <div>
+      <a name="featured"></a>
+      <div id="featured" class="scrollSection" style="margin-top:10px;"><!-- Featured Row -->
+        <div class="dottedDiv" style="position:relative;"> <!-- dont remove the style properties in dottedDiv -->
+          <div class="lt"><table cellspacing="0" cellpadding="0" border="0" class="activityImage"><tr><td width="34" valign="middle"><img src="/assets/categories/featured.png" alt="" /></td><td class="Title_head" valign="middle" style="padding-right: 4px;"><b>Featured</b></td><td id="featured_count" class="Title_head" valign="middle" ></td></tr></table></div>
+          <% if !@jump_to_scroll.nil? && @jump_to_scroll.present? && @jump_to_scroll.length>1 %>
+            <div class="rt" id="GotoFeatured">
+              <div id="jump_menu" class="jumpDivMenu"><ul><li><a href="javascript:void(0);" class="jumpDiv" style="color: #4495AE;">Jump To</a>
+                    <ul class="sub-menu dispParentjumpDiv" style="margin-left:-62px;.margin-top:28px; .margin-left:-147px;"><% if !@jump_to_scroll.nil? && @jump_to_scroll.present?%><% @jump_to_scroll.each do |jval|%><%if !jval.nil? && jval.present? && jval!=""%><li><a class="test<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" href="javascript:void(0);" onclick="jumpto('<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>');  _gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>']);"><%=jval%></a></li><%end%><%end%><%end%></ul></li></ul>
+              </div>
+            </div>
+          <%end%>
+        </div>
+        <div id="makeMeScrollablefeatured" style="margin-left:5px">
+          <div class="blogDesign">
+		<div  id="article">
+			<div id="blog_loading" align="center" style="width:410px; margin:0 auto; margin-top:241px;">
+				<img src="/assets/loading_small.gif" alt="loading..." width="16" height="16">
+			</div>
+		</div>
+            <div class="moreArticle">
+              <div class="lt">
+                <a href="javascript:void(0);" title="" onmouseover="pause()" onmouseout="resume()" onclick="play('0')" class="blueDot" style="border: 1px solid #76BDDB;background: #76BDDB;"></a>
+                <a href="javascript:void(0);" title="" onmouseover="pause()" onmouseout="resume()" onclick="play('1')" class="blueDot"></a>
+                <a href="javascript:void(0);" title="" onmouseover="pause()" onmouseout="resume()" onclick="play('2')" class="blueDot"></a>
+              </div>
+              <a href="http://blog.famtivity.com" target="_blank" title="" class="ftcGreen3c fts14">More articles</a>
+            </div>
+          </div>
+          <%= render :partial =>"featured_row" %>
+        </div>
+      </div>  
+<%#if !current_user.nil?%><!-- Free Row -
+      <div id="free" class="scrollSection">
+        <div class="dottedDiv" style="position:relative;">
+          <div class="lt"><table cellspacing="0" cellpadding="0" border="0" class="activityImage"><tr><td width="34" valign="middle"><img src="/assets/categories/Free.png" alt="" /></td><td class="Title_head" valign="middle" style="padding-right: 4px;"><b>Free</b></td><td id="free_count" class="Title_head" valign="middle" ></td></tr></table></div>
+          <div class="rt" id="GotoFeatured"><div id="jump_menu" class="jumpDivMenu"><ul><li><a href="javascript:void(0);" class="jumpDiv" style="color: #4495AE;" >Jump To</a><ul class="sub-menu dispParentjumpDiv" style="margin-left:-62px;.margin-top:28px; .margin-left:-147px;"><%# if !@jump_to_scroll.nil? && @jump_to_scroll.present? %><%# @jump_to_scroll.each do |jval|%><%#if !jval.nil? && jval.present? && jval!=""%><li><a class="test<%#=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" href="javascript:void(0);" onclick="jumpto('<%#=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>');" class="test<%#=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>"><%#=jval%></a></li><%#end%><%#end%><%#end%></ul></li></ul></div></div>
+        </div>
+        <div id="makeMeScrollablefree">
+          <div id="field" style="width: 228px;margin: 0 auto;float: none;">
+            <table cellpadding="0" cellspacing="0" style="height: 450px;" align="center"><tr><td width="228" align="center" valign="middle"><img src='/assets/ajax-loader.gif' /></td></tr></table>
+          </div>
+        </div>
+      </div>-->
+<%#end%>
+      <%if !current_user.nil?%>
+        <%@row_default.each do |defa|%>
+          <div id="<%=defa.row_type.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" class="scrollSection">
+            <div class="dottedDiv" style="position:relative;"> <!-- dont remove the style properties in dottedDiv -->
+              <div class="lt"><table cellspacing="0" cellpadding="0" border="0" class="activityImage"><tr><%if defa.row_type.downcase =="shared"%><td width="34" valign="middle"><img src="/assets/categories/shared.png" alt="" /></td><%elsif defa.row_type.downcase =="my favorites"%><td width="34" valign="middle"><img src="/assets/categories/my_favorites.png" alt="" /></td><%elsif defa.row_type.downcase =="my created"%><td width="34" valign="middle"><img src="/assets/categories/my_created.png" alt="" /></td><%end%><td class="Title_head" valign="middle" style="padding-right: 4px;"><b><%=defa.row_type%></b></td></tr></table></div>
+              <% if !@jump_to_scroll.nil? && @jump_to_scroll.present? && @jump_to_scroll.length>1 %><div class="rt" id="GotoFeatured"><div id="jump_menu" class="jumpDivMenu"><ul><li><a href="javascript:void(0);" class="jumpDiv" style="color: #4495AE;">Jump To</a><ul class="sub-menu dispParentjumpDiv" style="margin-left:-62px;.margin-top:28px; .margin-left:-147px;"><% if !@jump_to_scroll.nil? && @jump_to_scroll.present? %><% @jump_to_scroll.each do |jval|%><%if !jval.nil? && jval.present? && jval!= ""%><li><a class="test<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" href="javascript:void(0);" onclick="jumpto('<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>');  _gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>']);"><%=jval%></a></li><%end%><%end%><%end%></ul></li></ul></div></div><%end%>
+            </div>
+            <div id="makeMeScrollable<%=defa.row_type.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>">
+              <div id="field" style="width: 228px;margin: 0 auto;float: none;">
+                <table cellpadding="0" cellspacing="0" style="height: 450px;" align="center"><tr><td width="228" align="center" valign="middle"><img src='/assets/ajax-loader.gif' /></td></tr></table>
+              </div>
+            </div>
+          </div>
+          <script>
+    <%if defa.row_type.downcase =="shared"%>
+      $("#makeMeScrollableshared").smoothDivScroll({
+      mouseOverRightHotSpot: function () {
+        $("#makeMeScrollableshared").smoothDivScroll("getAjaxContent", "/landing/shared_activity", "addLast");
+      },mouseOverLeftHotSpot: function () {
+        $("#makeMeScrollableshared").smoothDivScroll("getAjaxContent", "/landing/shared_activity", "addLast");
+      },getContentOnLoad: {
+        method: "getAjaxContent",
+        content: "/landing/shared_activity?page=1",
+        manipulationMethod: "replace"
+      }
+      });
+    <%end%>
+    <%if defa.row_type.downcase =="my favorites"%>
+      $("#makeMeScrollable<%=defa.row_type.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>").smoothDivScroll({
+      mouseOverRightHotSpot: function () {
+        $("#makeMeScrollable<%=defa.row_type.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>").smoothDivScroll("getAjaxContent", "/landing/favorite_activity", "addLast");
+      },mouseOverLeftHotSpot: function () {
+        $("#makeMeScrollable<%=defa.row_type.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>").smoothDivScroll("getAjaxContent", "/landing/favorite_activity", "addLast");
+      },getContentOnLoad: {
+        method: "getAjaxContent",
+        content: "/landing/favorite_activity?page=1",
+        manipulationMethod: "replace"
+      }
+      });
+    <%end%>
+    <%if defa.row_type.downcase =="my created"%>
+      $("#makeMeScrollable<%=defa.row_type.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>").smoothDivScroll({
+      mouseOverRightHotSpot: function () {
+        $("#makeMeScrollable<%=defa.row_type.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>").smoothDivScroll("getAjaxContent", "/landing/my_activity", "addLast");
+      },mouseOverLeftHotSpot: function () {
+        $("#makeMeScrollable<%=defa.row_type.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>").smoothDivScroll("getAjaxContent", "/landing/my_activity", "addLast");
+      },getContentOnLoad: {
+        method: "getAjaxContent",
+        content: "/landing/my_activity?page=1",
+        manipulationMethod: "replace"
+      }
+      });
+    <%end%>
+          </script>
+        <%end%>
+      <%end%><!--current user end-->
+
+      <%!@fam_post.nil? && @fam_post!="" && @fam_post.present? && @fam_post.each do |p|%>
+<%if !p.nil? && p!=""%>
+        <%@fam = ContactGroup.where("group_id = #{p} and lower(group_status)!='just_me'").last%>
+        <%if !@fam.nil? %>
+          <div id="fam<%=@fam.group_id%>">
+            <div id="<%=@fam.group_name.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" class="scrollSection">
+              <div class="dottedDiv" style="position:relative;"> <!-- dont remove the style properties in dottedDiv -->
+                <div class="lt"><table cellspacing="0" cellpadding="0" border="0" class="activityImage"><tr><td width="26" height="34" valign="middle"><img src="/assets/fam_networks/fam_network_land_icon.png"></td><td class="Title_head" valign="middle"><b><%=@fam.group_name if !@fam.nil? && @fam.present? && @fam!="" %>&nbsp;</b></td></tr></table></div>
+                <% if !@jump_to_scroll.nil? && @jump_to_scroll.present? && @jump_to_scroll.length>1 %><div class="rt" id="GotoFeatured"><div id="jump_menu" class="jumpDivMenu"><ul><li><a href="javascript:void(0);" class="jumpDiv" style="color: #4495AE;" >Jump To</a><ul class="sub-menu dispParentjumpDiv" style="margin-left:-62px;.margin-top:28px; .margin-left:-147px;"><% if !@jump_to_scroll.nil? && @jump_to_scroll.present? %><% @jump_to_scroll.each do |jval|%><%if !jval.nil? && jval.present? && jval!=''%><li><a class="test<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" href="javascript:void(0);" onclick="jumpto('<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>');  _gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>']);" class="test<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" ><%=jval%></a></li><%end%><%end%><%end%></ul></li></ul></div><%end%>
+                </div>
+              </div>
+              <div id="makeMeScrollablefam<%=@fam.group_id%>" style="margin-top1:6px;">
+                <div id="field" style="width: 228px;margin: 0 auto;float: none;">
+                  <table cellpadding="0" cellspacing="0" style="height: 450px;" align="center"><tr><td width="228" align="center" valign="middle"><img src='/assets/ajax-loader.gif' /></td></tr></table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <script>
+            $(document).ready(function () {
+              count<%= @fam.group_id %> = 1
+              $("#makeMeScrollablefam<%= @fam.group_id %>").smoothDivScroll({
+                mouseOverRightHotSpot: function () {
+                  count<%= @fam.group_id %>+=1
+                  $("#makeMeScrollablefam<%= @fam.group_id%>").smoothDivScroll("getAjaxContent", "/landing/fam_post_row?id=<%= @fam.group_id %>&page="+count<%= @fam.group_id %>, "addLast");
+                },mouseOverLeftHotSpot: function () {
+                  count<%= @fam.group_id %>+=1
+                  $("#makeMeScrollablefam<%= @fam.group_id %>").smoothDivScroll("getAjaxContent", "/landing/fam_post_row?id=<%= @fam.group_id %>&page="+count<%= @fam.group_id %>, "addLast");
+                },getContentOnLoad: {
+                  method: "getAjaxContent",
+                  content: "/landing/fam_post_row?page=1&id=<%=@fam.group_id%>",
+                  manipulationMethod: "replace"
+                }
+              });
+              //~ Provider and Parent Invite and discount dollar
+
+            })
+          </script>
+          <style type="text/css" >
+            #makeMeScrollablefam<%=@fam.group_id %>{width:100%;height: auto;position: relative;.top:10px;z-index:0;.z-index:-1;}
+          </style>
+        <%end%>
+  <%end%>
+      <%end%>
+
+      <%value_inc = 1%>
+      <%!@provider_activites.nil? && @provider_activites!="" && @provider_activites.present? && @provider_activites.each do |cat|%>
+        <%if !cat.nil? && cat.downcase!='default'%>
+          <div id="<%=cat.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" class="scrollSection">
+            <div class="dottedDiv" style="position:relative;"> <!-- dont remove the style properties in dottedDiv -->
+              <div class="lt"><table cellspacing="0" cellpadding="0" border="0" class="activityImage"><tr><%category_values=ActivityCategory.find_by_category_name("#{cat}") if !cat.nil?%><%if !category_values.nil? && !category_values.category_file_name.nil? && !category_values.category_file_name.blank? && category_values.category.present?%><td width="26" height="34" valign="middle"><%= image_tag(category_values.category.url(:small)) if !category_values.category.nil? && category_values.category.present?%></td><% else %><td width="26" height="34" valign="middle"><img src="/assets/categories/my_created.png"></td><% end %><td class="Title_head" valign="middle"><b><%=cat if !cat.nil? && cat.present? && cat!="" %>&nbsp;</b><input id="act_list" type="hidden" value="<%=@str_act_list%>" /></td></tr></table></div>
+              <% if !@jump_to_scroll.nil? && @jump_to_scroll.present? && @jump_to_scroll.length>1 %><div class="rt" id="GotoFeatured"><div id="jump_menu" class="jumpDivMenu"><ul><li><a href="javascript:void(0);" class="jumpDiv" style="color: #4495AE;" >Jump To</a><ul class="sub-menu dispParentjumpDiv" style="margin-left:-62px;.margin-top:28px; .margin-left:-147px;"><% if !@jump_to_scroll.nil? && @jump_to_scroll.present? %><% @jump_to_scroll.each do |jval|%><%if !jval.nil? && jval.present? && jval!=''%><li><a class="test<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" href="javascript:void(0);" onclick="jumpto('<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>');  _gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>']);" class="test<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" ><%=jval%></a></li><%end%><%end%><%end%></ul></li></ul></div><%end%>
+              </div>
+            </div>
+            <div id="makeMeScrollable<%=value_inc%>" style="margin-top1:6px;">
+              <div id="field" style="width: 228px;margin: 0 auto;float: none;">
+                <table cellpadding="0" cellspacing="0" style="height: 450px;" align="center"><tr><td width="228" align="center" valign="middle"><img src='/assets/ajax-loader.gif' /></td></tr></table>
+              </div>
+            </div>
+          </div>
+          <input id="parent_reg" type="hidden" value="<%=params[:parent_reg]%>" />
+          <input id="provider_reg" type="hidden" value="<%=params[:provider_reg]%>" />
+          <input id="sent_user" type="hidden" value="<%=params[:sent_user]%>" />
+          <input id="sent_user_email" type="hidden" value="<%=params[:sent_user_email]%>" />
+          <script>
+            $(document).ready(function () {
+              $("#makeMeScrollable<%= value_inc %>").smoothDivScroll({
+                mouseOverRightHotSpot: function () {
+                  $("#makeMeScrollable<%= value_inc %>").smoothDivScroll("getAjaxContent", "/landing/cat_subcategory_row?cat=<%=cat.html_safe%>", "addLast");
+                },mouseOverLeftHotSpot: function () {
+                  $("#makeMeScrollable<%= value_inc %>").smoothDivScroll("getAjaxContent", "/landing/cat_subcategory_row?cat=<%=cat.html_safe%>", "addLast");
+                },getContentOnLoad: {
+                  method: "getAjaxContent",
+                  content: "/landing/cat_subcategory_row?page=1&cat=<%=cat.html_safe%>",
+                  manipulationMethod: "replace"
+                }
+              });
+              //~ Provider and Parent Invite and discount dollars
+              var s_user = $("#sent_user").val();
+              var s_user_email = $("#sent_user_email").val();
+              var attendees_test = '<%=params[:act_type]%>'
+              var attendees_uid = '<%=params[:uid]%>'
+              var attendees_aid = '<%=params[:aid]%>'
+              if ($("#parent_reg").val() == 'true')
+              {
+                pop_Parent_Login("/parent-registration?parent_reg=true&s_user_id="+s_user+"&s_user_email="+s_user_email);
+              }
+              else if ($("#provider_reg").val() == 'true')
+              {
+                pop_Parent_Login("/parent-registration?provider_reg=true&s_user_id="+s_user+"&s_user_email="+s_user_email);
+              }
+              else if (attendees_test == 'attendies')
+              {
+                pop_Login("/login?uid="+attendees_uid+"&aid="+attendees_aid+"&act_type="+attendees_test);
+              }
+            })
+
+          </script>
+          <style type="text/css" >
+            #makeMeScrollable<%= value_inc %>{width:100%;height: auto;position: relative;.top:10px;z-index:0;.z-index:-1;}
+          </style>
+          <%value_inc = value_inc +1%>
+        <%end%>
+      <%end%>
+      <%@follow_parent_user.each do |s|%>
+        <%@user = User.find_by_user_id(s)%>
+        <% if !@user.nil? && @user.present? && @user!="" && !@user.user_profile.nil? && !@user.user_profile.business_name.nil?%>
+          <div id="<%= @user.user_profile.business_name.downcase.gsub(/[^a-zA-Z0-9]/,"_") if !@user.nil? && @user.present? && @user!="" && !@user.user_profile.nil? && !@user.user_profile.business_name.nil? %>" class="scrollSection">
+          <%else%>
+            <div id="<%= @user.user_name.downcase.gsub(/[^a-zA-Z0-9]/,"_") if !@user.nil? && !@user.user_name.nil?%>" class="scrollSection">
+            <%end%>
+            <div class="dottedDiv" style="position:relative;"> <!-- dont remove the style properties in dottedDiv -->
+              <div class="lt"><table cellspacing="0" cellpadding="0" border="0" class="activityImage"><tr><%if !@user.nil? && @user.present? && !@user.user_profile.nil? && !@user.user_profile.user_photo.blank?%><td width="26" height="34" valign="middle"><%= image_tag @user.user_profile.user_photo, :width => '22', :height => '27', :alt=>'loading...', :style =>"width:22px;height:27px;"%></td><% else %><td width="26" height="34" valign="middle"><img src="/assets/profile/user_icon.png" height="21" width="21" /></td><% end %><td class="Title_head" valign="middle"><b><% if !@user.nil? && @user.present? && @user!=""%><%=@user.user_name.capitalize if !@user.nil? && !@user.user_name.nil? && !s.nil?%><%end%></b><input id="act_list" type="hidden" value="<%=@str_act_list%>" /></td></tr></table></div>
+              <% if !@jump_to_scroll.nil? && @jump_to_scroll.present? && @jump_to_scroll.length>1 %><div class="rt" id="GotoFeatured"><div id="jump_menu" class="jumpDivMenu"><ul><li><a href="javascript:void(0);" class="jumpDiv" style="color: #4495AE;">Jump To</a><ul class="sub-menu dispParentjumpDiv" style="margin-left:-62px;.margin-top:28px; .margin-left:-147px;"><% if !@jump_to_scroll.nil? && @jump_to_scroll.present? %><% @jump_to_scroll.each do |jval|%><%if !jval.nil? && jval.present? && jval!=''%><li><a class="test<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" href="javascript:void(0);" onclick="jumpto('<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>');  _gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>']);"><%=jval%></a></li><%end%><%end%><%end%></ul></li></ul></div></div><%end%>
+            </div>
+            <div id="makeMeScrollableparent<%=s%>" style="margin-top1:6px;">
+              <div id="field" style="width: 228px;margin: 0 auto;float: none;">
+                <table cellpadding="0" cellspacing="0" style="height: 450px;" align="center"><tr><td width="228" align="center" valign="middle"><img src='/assets/ajax-loader.gif' /></td></tr></table>
+              </div>
+            </div>
+          </div>
+          <script>
+            $(document).ready(function () {
+              $("#makeMeScrollableparent<%= s %>").smoothDivScroll({
+                mouseOverRightHotSpot: function () {
+                  $("#makeMeScrollableparent<%= s %>").smoothDivScroll("getAjaxContent", "/landing/get_parent_user?cat=<%=s%>", "addLast");
+                },mouseOverLeftHotSpot: function () {
+                  $("#makeMeScrollableparent<%= s %>").smoothDivScroll("getAjaxContent", "/landing/get_parent_user?cat=<%=s%>", "addLast");
+                },getContentOnLoad: {
+                  method: "getAjaxContent",
+                  content: "/landing/get_parent_user?page=1&cat=<%=s%>",
+                  manipulationMethod: "replace"
+                }
+              });
+            })
+          </script>
+          <style type="text/css" >
+            #makeMeScrollableparent<%= s %>{
+              width:100%;height: auto;position: relative;.top:10px;z-index:0;.z-index:-1;
+            }
+          </style>
+        <%end%>
+        <%!@follow_provider_user.nil? && @follow_provider_user!="" && @follow_provider_user.present? && @follow_provider_user.each do |cat|%>
+          <%@user = User.find_by_user_id(cat)%>
+          <% if !@user.nil? && @user.present? && @user!="" && !@user.user_profile.nil? && !@user.user_profile.business_name.nil?%>
+            <div id="<%= @user.user_profile.business_name.downcase.gsub(/[^a-zA-Z0-9]/,"_") if !@user.nil? && @user.present? && @user!="" && !@user.user_profile.nil? && !@user.user_profile.business_name.nil? %>" class="scrollSection">
+            <%else%>
+              <div id="<%= @user.user_name.downcase.gsub(/[^a-zA-Z0-9]/,"_") if !@user.nil? && !@user.user_name.nil?%>" class="scrollSection">
+              <%end%>
+              <div class="dottedDiv" style="position:relative;"> <!-- dont remove the style properties in dottedDiv -->
+                <div class="lt"><table cellspacing="0" cellpadding="0" border="0" class="activityImage"><tr><%if !@user.nil? && @user.present? && !@user.user_profile.nil? && !@user.user_profile.profile.blank?%><td width="26" height="34" valign="middle"><%= image_tag @user.user_profile.profile.url(:thumb), :width => '22', :height => '27', :alt=>'loading...', :style =>"width:22px;height:27px;"%></td><% else %><td width="26" height="34" valign="middle"><img src="/assets/profile/user_icon.png" height="21" width="21" /></td><% end %><td class="Title_head" valign="middle"><b><% if !@user.nil? && @user.present? && @user!="" && !@user.user_profile.nil? && !@user.user_profile.business_name.nil?%><%=@user.user_profile.business_name.capitalize if !@user.nil? && @user.present? && @user!="" && !@user.user_profile.nil? && !@user.user_profile.business_name.nil? %><%else%><%=@user.user_name.capitalize if !@user.nil? && !@user.user_name.nil? && !s.nil?%><%end%>&nbsp;</b><input id="act_list" type="hidden" value="<%=@str_act_list%>" /></td></tr></table></div>
+                <% if !@jump_to_scroll.nil? && @jump_to_scroll.present? && @jump_to_scroll.length>1 %><div class="rt" id="GotoFeatured"><div id="jump_menu" class="jumpDivMenu"><ul><li><a href="javascript:void(0);" class="jumpDiv" style="color: #4495AE;">Jump To</a><ul class="sub-menu dispParentjumpDiv" style="margin-left:-62px;.margin-top:28px; .margin-left:-147px;"><% if !@jump_to_scroll.nil? && @jump_to_scroll.present? %><% @jump_to_scroll.each do |jval|%><%if !jval.nil? && jval.present? && jval!=''%><li><a class="test<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" href="javascript:void(0);" onclick="jumpto('<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>');  _gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>']);"><%=jval%></a></li><%end%><%end%><%end%></ul></li></ul></div></div><%end%>
+              </div>
+              <div id="makeMeScrollableprovider<%=cat%>" style="margin-top1:6px;">
+                <div id="field" style="width: 228px;margin: 0 auto;float: none;">
+                  <table cellpadding="0" cellspacing="0" style="height: 450px;" align="center"><tr><td width="228" align="center" valign="middle"><img src='/assets/ajax-loader.gif' /></td></tr></table>
+                </div>
+              </div>
+            </div>
+            <script>
+              $(document).ready(function () {
+                $("#makeMeScrollableprovider<%= cat %>").smoothDivScroll({
+                  mouseOverRightHotSpot: function () {
+                    $("#makeMeScrollableprovider<%= cat %>").smoothDivScroll("getAjaxContent", "/landing/get_provider_user?cat=<%=cat%>", "addLast");
+                  },mouseOverLeftHotSpot: function () {
+                    $("#makeMeScrollableprovider<%= cat %>").smoothDivScroll("getAjaxContent", "/landing/get_provider_user?cat='<%=cat%>'", "addLast");
+                  },getContentOnLoad: {
+                    method: "getAjaxContent",
+                    content: "/landing/get_provider_user?page=1&cat=<%=cat%>",
+                    manipulationMethod: "replace"
+                  }
+                });
+              })
+            </script>
+            <style type="text/css">
+              #makeMeScrollableprovider<%= cat %>{
+                width:100%;height: auto;position: relative;.top:10px;z-index:0;.z-index:-1;
+              }
+            </style>
+          <%end%>
+        </div>
+        <div id="popup_container" style="top: 20px !important;">      </div>
+      </div>
+      <div class="dottedDiv addFollowRow" <% if current_user.nil? %>style="background:none;"<% end %>> <!-- dont remove the style properties in dottedDiv -->
+        <!--<div align="center" width="100%"><table cellspacing="0" cellpadding="0" border="0" class="activityImage" style="position: relative;padding: 0px 10px;"><tbody><tr><td><img src="/assets/header/following_img_blue.png" alt="" /></td><td align="center"  class="Title_head">&nbsp;&nbsp;&nbsp;<a title="" href="javascript:void(0)" style="color: #5099AC; display: inline-block;float: left;" onclick="<%#if !current_user.nil?%>show_follow();<%#else%>login_feature_follow();<%#end%>"><b><u>Click here to Follow more Feeds</u></b></a></td></tr></tbody></table></div>-->
+        <% if !current_user.nil? %><div align="center" width="100%"><table cellspacing="0" cellpadding="0" border="0" class="activityImage" style="position: relative;padding: 0px 10px;"><tbody><tr><td><img src="/assets/header/following_img_blue.png" alt="" /></td><td align="center"  class="Title_head">&nbsp;&nbsp;&nbsp;<a title="" href="javascript:void(0)" style="color: #5099AC; display: inline-block;float: left;" onclick="show_follow(); _gaq.push(['_trackEvent', 'Follow', 'clickFollowMoreFeeds']);"><b><u>Click here to Follow more Feeds</u></b></a></td></tr></tbody></table></div>
+      <%end%>
+      </div>
+      <div class="dynamicLetdiv">Browse Your Locations: <% ('A'..'Z').each do |alpha| %><a href="javascript:void(0);" title=""><%=alpha%></a><%end%>  </div>
+      <!--City alphabet search--->
+      <div class="cityvalueDisplay" id="cityvalueDisplay"> </div>
+      <!-- login feature popup start -->
+      <div id="login_use_feature">
+        <div class="content_popup" style="display:block;"><br>You need to login to use this feature.<br><br>
+          <span class="b-close" id="loginFeature"><a href="javascript:void(0)" title=""><img src="/assets/register/ok_btn.png" /></a></span>
+        </div>
+      </div><!-- login feature popup end -->
+      <div id="login_use_feature_without" class="bMulti" style="min-height: inherit;">
+        <div class="content_popup fts18" style="display:block;">Feeds will not be saved unless you login.<br><br>
+          <a href="javascript:void(0);" title="" style="position: inherit;" onclick="show_pop_up(30); pop_Parent_Login('/parent-registration'); _gaq.push(['_trackEvent', 'Registration', 'clickParentRegistration'])"><span class="b-close"><img src="/assets/landing/sign_up_button.png" alt="" border="0"/></span></a>
+          <a href="javascript:void(0)" title="" style="position: inherit;"><span class="b-close" id="loginFeature1"><img src="/assets/landing/okay_button.png" /></span> </a>
+        </div>
+      </div><!-- login feature popup end -->
+      <script>
+        //show following button in bottom link
+        function show_follow()
+        {
+          $(".selectedCity23244").show();
+          $('#top_menu ul li ul, #top_menu ul li ul li').css("display","block");
+        }	
+        function login_feature_follow()
+        {
+          $('#login_use_feature_without').bPopup({
+            fadeSpeed:100,
+            followSpeed:100,
+            opacity:0.8,
+            positionStyle: 'absolute',
+            modalClose: false
+          },function(){
+            $( "#loginFeature1" ).click(function(){
+              pop_Login('/login?act='+act+'&activity_id='+actid);
+            });
+          });
+        }      
+        //login feature bpopup displayed
+        function login_feature(sav,actid)
+        {
+          var act=sav;
+          if (typeof(actid) == 'undefined' || actid == null)
+          {
+            var activity_id=act;
+          }
+          else
+          {
+            var activity_id=actid;
+          }
+	
+          $('#login_use_feature').bPopup({
+            fadeSpeed:100,
+            followSpeed:100,
+            opacity:0.8,
+            positionStyle: 'absolute',
+            modalClose: false
+          },function(){
+            $( "#loginFeature" ).click(function(){
+              pop_Login('/login?act='+act+'&activity_id='+activity_id);
+            });
+          });
+        }	
+        function login_feature_detail(act)
+        {
+          var activity_id=act;
+          $('#login_use_feature').bPopup({
+            fadeSpeed:100,
+            followSpeed:100,
+            opacity:0.8,
+            positionStyle: 'absolute',
+            modalClose: false
+          },function(){
+            $( "#loginFeature" ).click(function(){
+              pop_Login('/login?activity_id='+activity_id);
+            });
+          });
+        }
+        var array_fav = new Array();
+        var remove_fav = new Array();
+        var fam_net_add_fav = new Array();
+        var fam_net_remove_fav = new Array();
+        var parent_add_fav = new Array();
+        var parent_remove_fav = new Array();
+        var provider_add_fav = new Array();
+        var provider_remove_fav = new Array();
+        var follow_add_fav = new Array();
+        var follow_remove_fav = new Array();
+        var followuser_add_fav = new Array();
+        var followuser_remove_fav = new Array();
+
+        function modifyText_ev(testVal){
+          if($("#subCat_"+testVal+" input").is(":checked")){
+            $(".add_favorite").css("display","block");
+            favorite_item = $("#subCat_"+testVal+" input").val();
+            array_fav.push(favorite_item);
+            $('#fav_val').val(array_fav);
+          }
+          else{
+            var remove_item = $("#subCat_"+testVal+" input").val();
+            var index = array_fav.indexOf(remove_item);
+            array_fav.splice(index, 1);
+            $('#fav_val').val(array_fav);
+            if (remove_fav.indexOf(remove_item) == -1){
+              remove_fav.push(remove_item);
+              $('#rem_fav_val').val(remove_fav);
+            }
+          }
+        }
+        function add_favorite(){
+          var cat_add_row = $('#fav_val').val();
+          var cat_rem_row = $('#rem_fav_val').val();
+          var catsub_add_row = $('#providercatadd_val').val();
+          var catsub_rem_row = $('#providercatremove_val').val();
+          var provider_add_row = $('#provideradd_val').val();
+          var provider_rem_row = $('#providerremove_val').val();
+          var parent_add_row = $('#parentadd_val').val();
+          var parent_rem_row = $('#parentremove_val').val();
+          var follow_add_row = $('#followadd_val').val();
+          var follow_rem_row = $('#followremove_val').val();
+          var follow_you_add_row = $('#followuseradd_val').val();
+          var follow_you_rem_row = $('#followuserremove_val').val();
+          var fam_net_add_row = $("#fam_net_val").val();
+          var fam_net_rem_row = $("#rem_fam_net_val").val();
+          $.ajax({
+            url:'/activity_subcategories/update_follow_row',
+            type:"get",
+            data: {"fam_net_add_row":fam_net_add_row,"fam_net_rem_row":fam_net_rem_row,"catsub_add_row":catsub_add_row,"catsub_rem_row":catsub_rem_row,"cat_add_row":cat_add_row,"cat_remove_row":cat_rem_row,"provider_add_row":provider_add_row,"provider_rem_row":provider_rem_row,"parent_add_row":parent_add_row,"parent_rem_row":parent_rem_row,"follow_add_row":follow_add_row,"follow_rem_row":follow_rem_row,"follow_you_add_row":follow_you_add_row,"follow_you_rem_row":follow_you_rem_row},
+            success:function(data){
+            }
+          });
+        }
+        document.getElementById('#eventListContainer').display='block';
+      </script>
+      <script type="text/javascript">
+        processing_feature = false;
+
+        function show_pop_up(exdays){
+          var exdate=new Date();
+          exdate.setDate(exdate.getDate() + exdays);
+          var c_value=escape(1) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+          document.cookie="show_again=" + c_value;
+          if(window.sessionStorage==undefined)
+          {
+          }
+          else{
+            sessionStorage.setItem("mySplashPage", "opened");
+          }
+        }
+        $(document).ready(function () {
+          $("#makeMeScrollablefeatured").smoothDivScroll({
+            mouseOverRightHotSpot: function () {
+              if (processing_feature)
+              {
+                return false;
+              }
+              else{
+                processing_feature=true;
+                $("#makeMeScrollablefeatured").smoothDivScroll("getAjaxContent", "/landing/featured_activity", "addLast");
+              }
+            },mouseOverLeftHotSpot: function () {
+              if (processing_feature){
+                return false;
+              }
+              else{
+                processing_feature=true;
+                $("#makeMeScrollablefeatured").smoothDivScroll("getAjaxContent", "/landing/featured_activity", "addLast");
+              }
+            }
+          });	  
+        });
+      </script>
+      <style type="text/css" id="page-css">/* Styles specific to this particular page */
+        #banner_location_2  option{padding: 2px 8px;}
+        #banner_location_first option{padding: 2px 8px;}
+        /*.autocomplete-suggestions { top:154px;}*/
+      </style>
+      <script type="text/javascript">
+        function macfix(){
+          var ua=navigator.userAgent;
+          if(ua.indexOf("Mac")!=-1)
+          {
+            if(ua.indexOf("Firefox")!=-1){
+              $('#marginLeftMac').css('border','1px solid red');
+              $('#marginLeftMac').css('position','relative');
+              $('#marginLeftMac').css('top','0px');
+            }
+            if(ua.indexOf("Safari")!=-1){
+              $('.center_bg_scroll').css('height','538px');
+            }
+          }
+        }
+        macfix();
+        $(document).ready(function () {
+$.ajax({
+		url: "/blog_content",
+	dataType: 'script',
+	success: function(data){		
+	}			
+	});
+<%if !cookies[:follow_cat_val].nil? && cookies[:follow_cat_val]!=""%>
+      setTimeout(function(){
+        jumpto('<%=cookies[:follow_cat_val]%>');
+  <%=cookies[:follow_cat_val]=""%>
+      },5000);
+<%end%>
+
+
+
+<%if (!current_user.nil? && current_user.sign_in_count==1 && cookies[:first_import].nil?)%>
+      pop_invite_friend_check('/invite_friend_famtivity?check_invite=contact_import');
+      //pop_contact_import('/contact_users/contact_import');
+  <%cookies[:first_import]='1'%>
+<%end%>
+  });
+
+  var city_values = new Array();
+<% @fam_city.each do |autocomplete| %>
+    city_values.push({"value": "<%= autocomplete.city_name%>","data": "<%= autocomplete.city_id%>"});
+<%end%>
+
+  $("#zip_values").autocomplete({
+    paramName: 'city',
+    minLength: 1,
+    lookup: city_values,
+    appendTo: $("#zip_values_autocomplete"),
+    onSelect: function(suggestion)
+    {
+      this.value = suggestion.value;
+      $("#city_search").val(suggestion.value);
+      var expires = new Date();
+      expires = new Date(new Date().getTime() + parseInt(expires) * 1000 * 60 * 60 * 24);
+ 
+      document.cookie = "search_city="+suggestion.value+ ";expires="+expires.toGMTString();
+      //$.cookie("search_city", suggestion.value);
+      $('#zip_values').hide();
+      $("#mouseover_effect").hide();
+      $('.dynamic_cities').show();
+      var select_new_city=suggestion.value;
+      var new_city=(select_new_city.length<12)?select_new_city:(select_new_city.substring(0,9))+'...';
+      $('.dynamic_cities').text(new_city);
+      window.location.href = "/search";
+    }
+  });
+      </script>

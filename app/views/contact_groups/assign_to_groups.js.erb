@@ -1,0 +1,32 @@
+$("#loadimg").hide();
+<%if @error_msg.blank?%>
+$('#contact_user_index').html('<%= escape_javascript(render(:partial => "/contact_users/contact_group")) %>');
+$('#contact_list_member').html('<%= escape_javascript(render(:partial => "/contact_users/contact_user")) %>');
+//$("#grp_success_msg").show();
+//$('#grp_success_msg').fadeIn().delay(4000).fadeOut();
+
+$(".flash-message").html("Your friends have been added to the group");
+var win=$(window).width();
+var con=$(".flash_content").width();
+var leftvalue=((win/2)-(con/2))
+//alert((win/2) +"ss"+ (con/2));
+$(".flash_content").css("left",leftvalue+"px");
+$(".flash_content").css("top","67px");
+$('.flash_content').fadeIn().delay(10000).fadeOut();
+<%else%>
+//$("#group_message").html("<%= @error_msg.html_safe%>");
+//$("#group_message").fadeOut(6000);
+$(".flash-message").html("<%= @error_msg.html_safe%>");
+var win=$(window).width();
+var con=$(".flash_content").width();
+var leftvalue=((win/2)-(con/2))
+//alert((win/2) +"ss"+ (con/2));
+$(".flash_content").css("left",leftvalue+"px");
+$(".flash_content").css("top","67px");
+$('.flash_content').fadeIn().delay(10000).fadeOut();
+//$("#group_error_msg").html("<%= @error_msg.html_safe%>");
+//$("#group_error_msg").fadeOut(6000);
+<%end%>
+
+
+

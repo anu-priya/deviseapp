@@ -1,0 +1,45 @@
+<%=stylesheet_link_tag "global/pop_up_success", :media => "all"%>
+<script language="javascript">
+  function closepopup() {
+    parent.activityDeletePageEmpty.hide();
+  }
+  
+
+  function delete_activity(){
+    var delete_id = $('#to_delete').val();
+    if (delete_id=='')
+    {
+    parent.activityDeletePageEmpty.hide();
+    }
+    else
+    {
+    $.post("destroy", {"id":delete_id}, null, "script");
+    }
+  }
+  
+</script> 
+<div id="delete_actvity">
+  <div class="popupContainer">
+    <div class="headTab" style="border:none; width:417px;">
+      <div class="heading">
+        <!--div class="headCont">Share Activity</div-->
+      </div>
+      <div class="closeButton" style="float:right;">
+        <a href="javascript:void(0)" onClick="closepopup()" title="" class="lt">
+          <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%>
+        </a>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div align="center">
+    <!--to get the current activity id for delete the record from the db-->
+    <input type="hidden" id="to_delete" value="<%= @to_delete %>"/>
+    <!--modified by rajkumar-->
+      <p class="successText" style=" margin: 38px 0 10px;">Please select Atleast one activity to delete</p>
+      <div class="clear"></div>
+	  <div style="margin-top:20px;">
+      <a href="javascript:void(0)" onClick=" parent.activityDeletePageEmpty.hide();"><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38", :style=>"border:0px;")%></a>
+	  </div>
+    </div>
+  </div>
+</div>

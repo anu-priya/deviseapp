@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+  <head>    
+    <%= metamagic %>
+    <meta http-equiv="Content-Language" content="en" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta http-equiv="pragma" content="cache" />
+    <meta http-equiv="cache-control" content="cache" />
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <meta name="bitly-verification" content="e85040e783dc"/>
+    <meta name="google-site-verification" content="ZoU0MNkf02c532RyvEjt2YoAYN8IOm8XPWy0yfwUEKc" />
+    <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon"/>
+    <link rel="icon" type="image/png" href="/assets/favicon/favicon.png"/>
+    <link rel="dns-prefetch" href="https://www.facebook.com/"/>
+    <link rel="dns-prefetch" href="https://www.twitter.com/"/>
+    <link rel="dns-prefetch" href="https://www.pinterest.com/"/>
+    <script type="text/javascript" src="https://apis.google.com/js/client.js"></script>
+  <%if !@meta_alt.nil? && @meta_alt.present? %>
+   <link rel="alternate" media="only screen and (max-width: 640px)" href="<%= "#{$meta_mobile}#{request.fullpath}" %>">
+  <%end%>
+   
+<script type="text/javascript">
+   var fb_id = '<%=FB_APP_ID%>'
+$(document).ready(function() {       
+$('#loadDivjax').css('display','block');     
+    setTimeout(function(){
+      //document.getElementById('loadDiv').style.display="none";
+      $('#loadDivjax').css('display','none');
+      $('#page_wrapper').show();
+    },1000);
+  }); 
+    
+</script> 
+    
+    <%= stylesheet_link_tag "global/fonts","header/new_header","global/overlay/windowfiles/dhtmlwindow","global/overlay/modalfiles/modal","bpopup/bpopup","checkbox/checkbox","global/pop_up","register_new/register_pop","register_new/provider_register_pop", :media => "all" %>
+    <%= javascript_include_tag "global/jquery-1.8.3.min","event/index_of_fix.js", "header/header.js","bpopup/jquery.easing.1.3.js","bpopup/jquery.bpopup-0.9.3.min.js"%>
+
+
+</head>
+  
+  <body onload="show_loadpopup();" id="class_popup_frame">
+  <!-- Remove background color for all iframe popup pages --><style type="text/css">body{background:none;}</style><!-- loading image -->
+<div class="loadDiv" id="loadDivjax" style="display:none;margin:0 auto; position:fixed;width:98%; z-index:1; " align="center">
+  <div class="loadDiv_img" style="display:block; margin:200px;"><%=image_tag("/assets/loading.gif", class: "spinner_gif")%></div>
+</div>
+  <script src="https://www.google-analytics.com/ga.js" async="" type="text/javascript"></script> <!-- Enabling Google Analytics Social Tracking code Starts Here -->
+  <%= javascript_include_tag "global/overlay/windowfiles/dhtmlwindow.js", "global/overlay/modalfiles/modal.js", "ga_social_tracking.js"%>
+  
+  <div id="page_wrapper">    
+  <div id="event_index_container">
+  <%=yield%>
+  </div>
+  </div>
+
+  <div id="fb-root"></div>
+<fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
+
+</body>
+
+</html>

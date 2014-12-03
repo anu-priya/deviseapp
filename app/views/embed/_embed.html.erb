@@ -1,0 +1,334 @@
+<!-- the CSS for Smooth Div Scroll -->
+<link rel="Stylesheet" type="text/css" href="<%= $image_global_path%>/activity_embed/smoothDivScroll.css" />
+<style type="text/css">
+	.card_wrapper{
+	width:600px;
+	border:1px solid #D3D7DA;
+	background-color:#F7F9F8;
+	}
+	.card_wrapper_top{
+		background-color:#DBEEF4;
+		margin-bottom:10px;
+		
+	}
+	.card_wrapper_content
+	{
+		margin:0 10px 10px 10px;
+	}
+	.card_outer
+	{
+		width: 228px;
+		float: left;
+		position: relative;
+		margin-bottom1: 10px;
+		height:535px;
+		border:1px solid #888888;
+		overflow:hidden;
+		margin-right:10px;
+		background-color:#fff;
+	}
+	.card_inner_image
+	{
+		width: 216px;		
+		max-height:500px;	
+		margin-bottom:10px;
+	}
+	.card_outer table
+	{
+		color:#3D8EA3;
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:12px;:
+	}
+	.card_outer_inner
+	{
+		width: 216px;
+		margin:6px 6px 6px 6px;
+		max-height:526px;
+		overflow:hidden;
+		color:#3D8EA3;
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:12px;
+		
+	}
+	.card_inner_content
+	{
+		margin-left:6px;
+		margin-right:6px;
+	}
+	.card_inner_padding
+	{
+		margin-right:4px;
+	}
+	.card_head{
+			font-size:14px;
+			font-weight:bold;
+	}
+	.card_link
+	{
+		color:#5099AC ; text-decoration:none;
+	}
+	.scrollable_activity
+		{
+			width:100%;
+			height: 538px;
+			position: relative;			
+		}
+		
+		.scrollable_activity div.scrollableArea div
+		{
+			position: relative;
+			
+			
+			padding: 0;			
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+		}
+	.SetOfferBg{
+	background: url("<%= $image_global_path%>/assets/landing/specials_icon.png") no-repeat;
+width: 77px;
+height: 79px;
+display: block;
+position: absolute;
+z-index: 10;
+cursor: pointer;
+left: -5px;
+top: -4px;
+}
+.SetOfferBgDiscount {
+background: url("<%= $image_global_path%>//assets/landing/discount.png") no-repeat;
+width: 77px;
+height: 79px;
+display: block;
+position: absolute;
+z-index: 10;
+cursor: pointer;
+left: -3px;
+top: -2px;
+}
+.SetOfferBgEligible {
+background: url("<%= $image_global_path%>/assets/landing/specials_and_discount.png") no-repeat;
+width: 77px;
+height: 79px;
+display: block;
+position: absolute;
+z-index: 10;
+cursor: pointer;
+left: -3px;
+top: -2px;
+}
+.truncateText {
+width: 206px;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+color: #3D8EA3;
+display: inline-block;
+}
+</style>
+
+<div class="card_wrapper">
+	<div align="center" class="card_wrapper_top">
+		<img src="<%= $image_global_path%>/assets/header/famtivity-logo.png" width="" height="" alt="Famtivity" />
+	</div>
+	<div class="card_wrapper_content" >
+		<%
+		 if !@activity.nil? && @activity.length <= 0 %>
+			<%if !@msg.nil? && @msg!='' %>
+				<%= @msg %>
+			<%else%>
+			Currently activities not available!.
+			<%end%>
+		<% else %>
+		<div id="scrollable_activity" class="scrollable_activity">
+			<% @activity.each do |aval|%>
+			<%act_user = User.find_by_user_id(aval.user_id) if aval && aval.present?%>
+			<%activitylink = activity_link_format(aval,act_user)%> <!-- Activity Link formation - From application helper link formation-->
+
+			<div class="card_outer" style="z-index:10;">    
+				 <%if !aval.nil? && !aval.price_type.nil? && aval.price_type == "1" || aval.price_type == "2"%>
+					<%@p_details=""%>
+					<%@p_details = ActivityPrice.get_price_details(aval.activity_id) if !aval.activity_id.nil?%>
+					<%@val_date=activity_valid_date(aval.activity_id) if !aval.activity_id.nil? && aval.activity_id!=''%> 
+					<%if !@p_details.nil? && @p_details.present? && @p_details!=""%>
+						<% if !aval.nil? && !aval.discount_eligible.nil? && aval.discount_eligible.present? && !@val_date.nil? && !@val_date[0].nil?%>
+						<span class="SetOfferBgEligible" ></span>	
+						<%elsif !@val_date.nil? && !@val_date[0].nil?%>
+						<span class="SetOfferBg"></span>
+						<%elsif !aval.nil? && !aval.discount_eligible.nil? && aval.discount_eligible.present?%>
+						<span class="SetOfferBgDiscount"></span>							
+						<%end%>						
+					<%elsif !aval.nil? && !aval.discount_eligible.nil? && aval.discount_eligible.present?%>
+						<span class="SetOfferBgDiscount"></span>						
+					<%end%>
+				<%end%>
+
+				<div class="card_outer_inner">
+					<div class="card_inner_image">
+						<div align="center">					
+							<a href="<%= $image_global_path %><%=activitylink%>" target="_blank" title=""><%= image_tag aval.avatar.url(:thumb), :alt => 'Loading...', :style=> "margin:3px 0px 3px 0px; border:0px;" if !aval.avatar.url(:thumb).nil?%></a>
+						</div>
+					</div>
+					<div class="card_inner_content">	         
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+							<tr>
+							<td align="left" valign="middle" class="card_head">
+								<div class="truncateText"><a href="<%= $image_global_path %><%=activitylink%>" target="_blank" class="card_link" title=""><%= aval.activity_name %></a></div>
+							</td>
+						    </tr>
+						    <tr>
+							<td align="left" valign="middle">
+								<table border="0" cellpadding="0" cellspacing="0" width="100%">
+								<tr>
+									<td align="left" valign="middle" width="50%" class="card_inner_padding" height="30">
+									<%act_det = ActivitySchedule.select("schedule_id").where("activity_id = ? AND expiration_date >= ?",aval.activity_id,Date.today ) if !aval.nil? && !aval.activity_id.nil?%>
+									<% shedule_count=act_det.count%>
+									<% if aval.schedule_mode.downcase!='any time' && !shedule_count.nil? && shedule_count>1%>
+										<%if !aval.price_type.nil? && aval.price_type == "3" || aval.filter_id == "3" || aval.created_by.downcase == "parent"%>
+										$ Free
+										<%elsif !aval.price_type.nil? && aval.price_type == "4"%>
+										<a href="<%= $image_global_path %><%=activitylink%>" target="_blank" class="card_link" title="">$  Contact Provider</a>
+										<%else%>
+										<a href="<%= $image_global_path %><%=activitylink%>" target="_blank" class="card_link" title="">$ Price Details</a>
+										<%end%>
+									<%elsif !aval.price_type.nil? && aval.price_type == "1"  || aval.price_type == "2"%>						
+										<%@price_det = get_activity(aval.activity_id) if !aval.nil? && !aval.activity_id.nil?%>
+										<%if !@price_det.nil? && @price_det.present? && @price_det.length>1%>
+											<a href="<%= $image_global_path %><%=activitylink%>" target="_blank" class="card_link" title="">$ Price Details</a>
+										<%elsif !@price_det.nil? && @price_det.present? && @price_det.length==1 %>
+											$ <%=number_with_precision @price_det[0].price , :precision => 2  if !@price_det.nil?%>
+										<%end%>
+									<%elsif !aval.price_type.nil? && aval.price_type == "2"%>
+										$ <%= number_with_precision aval.price, :precision => 2 %>
+									<%elsif !aval.price_type.nil? && aval.price_type == "3" || aval.filter_id == "3" || aval.created_by.downcase == "parent"%>
+										$ Free
+									<%elsif !aval.price_type.nil? && aval.price_type == "4"%>
+										$  Contact Provider
+									<% elsif aval.price.present? && !aval.price.nil?  && aval.price!=0%>
+										$ <%= number_with_precision aval.price, :precision => 2 %>
+									<%end%>
+								    </td>
+								    <td align="right" valign="middle" width="50%" class="card_inner_padding"  height="30">
+										<%
+										@act_activityid = aval.activity_id
+										@act_userid = ''
+										%>
+										<%= render :partial => 'common/mail_activity_purchase_status',:locals=>{:user=>act_user} %>
+								    </td>
+								</tr>
+								 <%if (!aval.min_age_range.nil? && aval.min_age_range.present? && aval.min_age_range!='') || (!aval.city.nil? &&  aval.city.present?)%>
+								<tr>
+									<td align="left" valign="middle" width="50%" class="card_inner_padding" height="30">
+									<div style="width:87px;" class="truncateText">	<%if !aval.schedule_mode.nil? && aval.schedule_mode.downcase == 'any where'%>Anywhere<%else%><%= aval.city.strip %><%end%></div>
+									</td>
+									<td align="right" valign="middle" width="50%" class="card_inner_padding"  height="30">
+									<%if (!aval.min_age_range.nil? && aval.min_age_range.present?) && (!aval.max_age_range.nil? && aval.max_age_range.present?) %>   
+									<table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tr>
+											<td align="left" valign="middle" width="20">
+												<img src="<%= $image_global_path %>/assets/card_images/age_range_icon.png" alt="Age" height="18" width="17">
+											</td>
+											<td align="left" valign="middle">									                                                             
+												Age <%=age_range_cal(aval.min_age_range,aval.max_age_range)%> 
+											</td>
+										</tr>
+									</table>
+									<%end%>
+									</td>
+								</tr>
+								<%end%>						
+								<tr>
+									<td align="left" valign="middle" width="50%" class="card_inner_padding" height="30" colspan="2">
+										<%@share = ActivitySchedule.where("activity_id=?",aval.activity_id).last %>								
+											<table border="0"  cellpadding="0" cellspacing="0" width="100%">
+											<tr>
+												<td align="left" valign="middle" width="16">
+													<img src="<%= $image_global_path %>assets/newsletter/calendar_icon.png" alt="" width="16" height="18" border="0">
+												</td>
+												<td align="left" valign="middle" width="10"></td>
+												<td align="left" valign="middle">
+												<% if aval.created_by.downcase=='parent' && !aval.schedule_mode.nil? && aval.schedule_mode.present? && aval.schedule_mode.downcase=='any time' %>
+												   AnyTime
+												<% elsif aval.created_by.downcase=='parent' && !aval.schedule_mode.nil? && aval.schedule_mode.present? && aval.schedule_mode.downcase != 'any time'%>
+													<% if !@share.nil? && @share.present?%><%= render :partial =>"newsletters/schedule_new_format" %><%end%>
+												 <% elsif (!aval.nil? && !aval.schedule_mode.nil? && aval.schedule_mode == "By Appointment")%>
+													By Appointment
+												<%else%>
+													
+														<% if aval.schedule_mode.downcase=="schedule" && !shedule_count.nil? && shedule_count>1%>
+														<a href="<%= $image_global_path %><%=activitylink%>" target="_blank" title="" class="card_link"> Schedule details</a> 
+													  <%elsif aval.schedule_mode.downcase=="schedule"%>
+														<%= render :partial =>"newsletters/schedule_new_format" %>
+													  <%end%>
+														  <% if aval.schedule_mode.downcase=="whole day" && !shedule_count.nil? && shedule_count>1%>
+															<a href="<%= $image_global_path %><%=activitylink%>" target="_blank" class="card_link" title=""> Schedule details</a>
+														  <% elsif aval.schedule_mode.downcase=="whole day"%>
+															<%= render :partial =>"newsletters/wholeday_new_format" %>
+														  <%end%>
+														<% if aval.schedule_mode.downcase=="by appointment"%>
+															By Appointment
+														<%end%>
+														<% if aval.schedule_mode.downcase=="any time"%>
+															AnyTime
+														<%end%>
+														<% if aval.schedule_mode.downcase=="any where"%>
+															AnyTime
+														<%end%>						           
+												 <%end%>
+												</td>
+											</tr>
+											</table>
+										
+									</td>                                   
+								</tr>
+								<tr>
+									<td align="left" valign="middle" width="50%" class="card_inner_padding" height="30" colspan="2">
+									<table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tr>
+										<td align="left" valign="middle" width="27">
+											<% @user = User.find_by_user_id(aval.user_id) if !aval.user_id.nil? %>
+											<% @user_pro = @user.user_profile  if !@user.nil? && @user.present?%>
+											<% if !@user_pro.nil? && @user_pro.present? %>
+												<% if !@user_pro.profile.present?.nil? && @user_pro.profile.present? %>
+													<img src="<%= $image_global_path%><%= @user_pro.profile.url(:thumb) %>" width="" />
+												<%else%>
+													<% if !@user_pro.user_photo.present?.nil? && @user_pro.user_photo.present? %>
+														<img src="<%= $image_global_path%><%= @user_pro.user_photo.url(:thumb) %>" width="" />
+													<%else%>
+														<img src="<%= $image_global_path%>/assets/profile/user_icon.png" width="" />
+													<%end%>
+												<%end%>					
+												
+											<% end %>
+										</td>
+										<td align="left" valign="middle" class="card_head"><div style="width:174px;" class="truncateText">
+											<% if !@user_pro.nil? && @user_pro.present? %>
+												<%= @user_pro.business_name %>
+											<%else%>
+												<% if !@user.nil? && @user.present? %>
+													<%= @user.user_name %>
+												<%end%>
+											<% end %></div>
+										</td>
+									    </tr>
+									</table>
+								    </td>                                   
+								</tr>
+							    </table>
+							</td>
+						    </tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<% end %>
+		</div> <!-- make scrollable end -->
+		<% end %>
+	</div>
+</div>
+
+
+
+

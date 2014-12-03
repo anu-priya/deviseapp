@@ -1,0 +1,178 @@
+<link rel="stylesheet" type="text/css" href="/assets/login/login_new.css" />
+
+<link rel="stylesheet" href="/assets/contacts_users_new/contact_user.css" type="text/css" />
+
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css" />
+<script class="jsbin" src="/assets/event/jquery.min.js"></script>
+<script class="jsbin" src="/assets/event/jquery-ui.min.js"></script>
+
+<script language="javascript"> 
+  function closepopup() {
+    parent.contactImportPage.hide();
+  }
+</script>
+<script language="javascript"> 
+function processForm(form) { 
+    $.ajax( {
+        type: 'POST',
+        url: "import",
+        data: $(form).serialize(),
+        success: function(data) {
+            $('#message').html(data);
+        }
+    } );
+    return false;
+}
+</script>
+
+<script type="text/javascript" src="/assets/jquery.form.js"></script>
+
+<div id="contact_container" class="popupContainer">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Import Contacts</div>
+          </div>
+
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> <img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" /> </a>
+          </div>
+        </div>
+        <div class="centerCont contactNew" id="ImportContactContainer">
+        	<div id="error_message" style="display:block;" align="center">
+			 <span style="color: #fc8989;font-size: 12px; font-family:arial; position:relative; left:12px; top:20px;">Username and Password not matching</span>
+			</div>
+        	<%= form_tag({:action => 'import', :id => @user}, {:method => 'post', :remote => true}) do %>
+			<%#= form_tag :action => 'import' {:remote => true}) do %>
+			<input type="hidden" name="from" id="from" value="<%= cookies[:from] %>">
+			  <div style="display:none; width:675px; margin:0 auto; margin-top:40px; margin-bottom:50px;" id="gmail_logo">
+					<a href="javascript:void(0)" title="" id="gmail" onclick="display_login(this.id)"><img src="/assets/contact/import_icon_gmail.png" alt="link" /></a>
+					<a href="javascript:void(0)" title="" id="yahoo" onclick="display_login(this.id)"><img src="/assets/contact/yahoo_icon.png" alt="link" /></a>
+					<a href="javascript:void(0)" title="" id="hotmail" onclick="display_login(this.id)"><img src="/assets/contact/hotmail_icon.png" alt="link" /></a>
+			    </div>
+
+				<div id="contact_login" style="display:block; width:880px;">
+				  <div class="paddingTop10" style="width:536px; padding-top:40px; margin:0 auto;">
+					<div class="lt leftSideField" style="width:108px;">Email</div>
+					<input type="text" name="login" id="login" class="lt textbox" maxlength="50" tabindex="1" onfocus="$('#error_message').css('display','none');">
+					<div class="clear"></div>
+				  </div>
+	
+				  <div class="clear"></div>
+				  <div class="errorDiv" style="display:none; margin-left:173px;">
+					<div class="lt leftSideField" style="width:108px;">&nbsp;</div>
+					<div class="lt" id="login_id_error"></div>
+					<div class="clear"></div>
+				  </div>
+				  <div class="clear"></div>
+	
+				  <div class="paddingTop10" style="width:536px; margin:0 auto;">
+					<div class="lt leftSideField" style="width:108px;">Password</div>
+					<input type="password" name="password" id="password" class="lt textbox" maxlength="25" tabindex="2">
+					<div class="clear"></div>
+				  </div>
+	
+				  <div class="clear"></div>
+				  <div class="errorDiv" style="display:none; margin-left:173px;">
+					<div class="lt leftSideField" style="width:108px;">&nbsp;</div>
+					<div class="lt" id="pass_id_error"></div>
+					<div class="clear"></div>
+				  </div>
+				  <div class="clear"></div>
+	
+				<div class="paddingTop10" style="width:538px; padding:15px 0 40px; margin-left:173px;">
+					<div class="lt leftSideField" style="width:108px;">&nbsp;</div>
+					<%#= submit_tag '#{image_tag("Login_small.png", :width=>70)}' %>
+					<%= image_submit_tag("/assets/login/login_button.png", :height => "37", :width => '97', :onclick => "return get_contact_id();" ) %>
+					<a href="javascript:void(0)" title=""><image src="/assets/login/cancel_button.png" alt="" onclick="closepopup()"/></a>
+					<div class="clear"></div>
+				</div>
+		</div>
+				
+			<% end %>
+			<div class="clear"></div>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popupContainerBottom" style="margin-top:0px;"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>
+
+<!--ajax loader -->
+<div id='loadingmessage' style='display:none;margin-top:-203px;float:left;margin-left:462px;' align="center">
+  <img src='/assets/ajax-loader.gif'/>
+</div>
+
+<script type="text/javascript">
+function display_login(id){
+	$("#from").val(id);
+	$("#gmail_logo").css("display","none");
+	$("#contact_login").css("display","block");
+}
+
+function get_contact_id(id){
+    var txtboxValue=$("#from").val();
+	$("#from").val(txtboxValue);
+	//$("#error_message").css("display","block");
+	var login_user = $("#login").val();
+	var login_pass = $("#password").val();
+	
+	$("#login_id_error").parent().css("display","none");
+	$("#pass_id_error").parent().css("display","none");
+	
+	$("#login").css("border","1px solid #BDD6DD");
+	$("#password").css("border","1px solid #BDD6DD");
+	
+	login_user = login_user.replace(/^\s+|\s+$/g, "");
+	login_pass = login_pass.replace(/^\s+|\s+$/g, "");
+	
+	$("#login_id_error").html("");
+    $("#pass_id_error").html("");
+
+    var errorFlag = false;
+	
+    if(login_user == ""){
+        $("#login").css("border","1px solid #fc8989");
+        $("#login_id_error").html("Please enter your Email");
+        $("#login_id_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	
+	else if(!validateCorrectEmail(login_user)){
+		$("#login").css("border","1px solid #fc8989");
+		$("#login_id_error").html("Please enter a valid Email");
+		$("#login_id_error").parent().css("display","block");
+		errorFlag = true;
+	}
+
+    if(login_pass == ""){
+        $("#password").css("border","1px solid #fc8989");
+        $("#pass_id_error").html("Please enter your password");
+        $("#pass_id_error").parent().css("display","block");
+        errorFlag = true;
+    }
+	if(errorFlag){
+        return false;
+    }
+    return true;
+	
+}
+function validateName(elementValue){	
+    /*var alphaExp = /^([a-zA-Z]+([ ]{0,1}[a-zA-Z]))+$/;*/
+    var alphaExp = /^[a-zA-Z ]*$/;
+    return alphaExp.test(elementValue);
+}
+function validateCorrectEmail(elementValue){
+    var emailPattern = /^([a-zA-Z0-9]+([~{|}._-]{0,1}[a-zA-Z0-9]+)*)@(([a-zA-Z0-9]+([._-]{0,1}[a-zA-Z0-9]+)*)+(?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,3})?)$/;
+    return emailPattern.test(elementValue);
+}
+
+</script>
+

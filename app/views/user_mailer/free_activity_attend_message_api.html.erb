@@ -1,0 +1,60 @@
+<table cellspacing="0" cellpadding="0" style="width:98%; margin:12px;">   
+	<tr>
+    	<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;">
+			Hi <%= @created_user.user_name%>,
+			</td>
+	</tr>
+	<tr>
+    	<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;">
+			This Email is to confirm that your activity <%if @activity.present?%> <%=@activity.activity_name %>!<% end %> attented successfully!. The payment details are listed below.
+		</td>
+	</tr>
+	<tr>
+		<td align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;">
+			<table cellspacing="0" cellpadding="0" width="566"  border="0" style="border:1px solid #CED6D9;">
+			<tr><td  width="133" height="25" align="left" valign="middle" style="border-bottom:1px solid #EEEEEE; "><strong>&nbsp;Activity user </strong></td>
+				<td  width="425" align="left" valign="middle" style="border-bottom:1px solid #EEEEEE; ">
+			     <%@created_user.user_name if !@created_user.nil? %>
+				</td>
+			</tr>
+			<tr>
+				<td align="left" height="25"  valign="middle" style="border-bottom:1px solid #EEEEEE; "><strong>&nbsp;Activity Name</strong></td>
+				<td align="left" valign="middle" style="border-bottom:1px solid #EEEEEE; "><%=@activity.activity_name%></td>
+					
+			</tr>
+			<tr>
+				<td align="left" height="25"  valign="middle" style="border-bottom:1px solid #EEEEEE; "><strong>&nbsp;Price</strong></td>
+				<td align="left" valign="middle" style="border-bottom:1px solid #EEEEEE; "><%=@amount%></td>
+					
+			</tr>
+			<tr>
+				<td align="left" height="25"  valign="middle" style="border-bottom:1px solid #EEEEEE; "><strong>&nbsp;Message</strong></td>
+				<td align="left" valign="middle" style="border-bottom:1px solid #EEEEEE; "><%=@message%></td>
+					
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;">
+			For any help with your account, you can read our comprehensive list of FAQ's <a href="<%=$image_global_path%>/faq" target="_blank">www.famtivity.com/FAQ</a> or contact our Support team <a href="<%=$image_global_path%>" target="_blank">www.famtivity.com/support</a>
+		</td>
+	</tr>
+	<tr>
+		<td align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;">
+			&nbsp;
+		</td>
+	</tr>
+	<tr>
+		<td align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;padding-top:20px;">
+			Your Famtivity Team
+		</td>
+	</tr>
+	
+</table>

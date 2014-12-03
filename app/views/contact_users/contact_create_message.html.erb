@@ -1,0 +1,484 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css" />
+<link rel="stylesheet" type="text/css" href="/assets/share_activity/share_acitivity_detail.css" />
+<link rel="stylesheet" type="text/css" href="/assets/share_activity/share_activity.css" />
+
+<!-- email editor -->
+<link rel="stylesheet" type="text/css" href="/assets/email_editor/kube.css" />
+<link rel="stylesheet" type="text/css" href="/assets/email_editor/screen.css" />
+<link rel="stylesheet" type="text/css" href="/assets/email_editor/redactor.css" />
+
+<script src="/assets/email_editor/jquery-1.9.1.min.js"></script>
+<script src="/assets/email_editor/global.js"></script>
+<script src="/assets/email_editor/prettify.js"></script>
+<script src="/assets/email_editor/redactor.js"></script>
+<script type="text/javascript" src="/assets/jquery.cookie.js"></script>
+<!-- Jquery Multi File Upload -->
+<script type="text/javascript" src="/assets/jquery.uploadfile.min.js"></script>
+<link rel="stylesheet" href="/assets/uploadfile.css" type="text/css" />
+<!-- end -->
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#redactor_content').redactor({ focus: true });
+        $(".loadDiv_img").css("display","none");		
+    });
+  
+</script>
+<script language="javascript">
+function closepopup() {
+	parent.popCreateMessagePage.hide();
+}
+
+function close_popup() { 
+   $('#cre_message').ajaxSubmit({
+     success: function(data) {
+     $('#loading').show();
+      },
+     dataType: 'script'
+    });
+}
+
+</script>
+<style type="text/css">
+.setfeedbackDiv {
+  background: none repeat scroll 0 0 #EDF1F2;
+  color: #444444;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
+  margin: 15px auto 0;
+  padding: 15px;
+  width: 500px;
+}
+
+#cre_message .setImgBorder {
+  position: relative;
+  z-index: 4;
+}
+#cre_message .FileUpload {
+  height: 31px;
+  margin-top: 14px;
+  position: relative;
+  width: 170px;
+}
+#cre_message .BrowserHidden {
+    color: #999999;
+    cursor: pointer;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    height: 16px;
+  left: -149px;
+    top: -88px;
+    -moz-opacity:0;
+    filter:alpha(opacity:0);
+    opacity:0;
+    position: relative;
+    width: 151px;
+    z-index: 2;
+  .left:-10px;
+    .top: -17px;
+
+}
+
+#cre_message .BrowserVisible {
+  height: 27px;
+  left: -179px;
+  position: absolute;
+  top: -15px;
+  width: 191px;
+  z-index: 3;
+}
+#cre_message .FileField {
+  border: 1px solid #FFFFFF;
+  color: #999999;
+  display: block;
+  height: 26px;
+  margin: -2px 0 0 286px;
+  padding: 0 5px;
+  position: relative;
+  width: 306px;
+  word-wrap: break-word;
+  z-index: 3;
+}
+#cre_message .browse {
+  color: #5099AC;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+  font-size: 14px;
+  position: relative;
+  top: -149px;
+  left:-10px;
+  width: 124px;
+  .top: -71px;
+  .left:-10px;
+  z-index: 1;
+}
+@media \0screen {
+  #cre_message .BrowserHidden {
+    color: #999999;
+    cursor: pointer;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    height: 19px;
+    left:6px;
+    top: -88px;
+    filter:alpha(opacity:0);
+    opacity:100;
+    position: relative;
+    width: 100px;
+    z-index: 2;
+}
+#cre_message .browse {
+  color: #5099AC;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+  font-size: 14px;
+  position: relative;
+    top: -148px;
+  left:-5px;
+  width: 124px;
+  z-index: 1;
+}
+
+}
+  @media screen and (-webkit-min-device-pixel-ratio:0){
+#cre_message .BrowserHidden {
+  left: 12px;
+  top:-84px;
+  position:relative;
+  border:1px solid red;
+  height:11px;
+    font-size: 5px;
+    margin-left:-1px;
+    width:81px;
+}
+
+#cre_message .browse {
+    color: #5099AC;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    margin-left: 10px;
+    position: relative;
+    top: -138px;
+  left:-17px;
+    width: 124px;
+    z-index: 1;
+}
+
+}
+</style>
+
+
+<div id="new_act_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Create New Message</div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> <img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" /> </a>
+          </div>
+        </div>
+          <div align="center"  class="setfeedbackDiv" id="header_message" style="margin: 20px auto 0;width: 325px; font-weight:bold;">Please fill out all the required fields.</div>
+             <div class="centerCont" id="c_msg" style="padding:15px 0 20px 0;">
+
+                 <form id="cre_message" name="cre_message" target="_parent" action="send_message" method="post" enctype="multipart/form-data">
+                    <input type="hidden"  name="pass_msg" id="pass_msg" value="ct_msg"/>
+                    <input type="hidden"  name="fb_ids" id="fb_ids" value="<%=@fb_id if !@fb_id.nil? %>"/>
+                      <div class="paddingTop10" id="createactivity"> 
+                        <div class="paddingTop10">
+                          <div class="lt leftSideField">To<span class="required">*</span></div>
+                          <input type="text" class="lt textboxDiv" name="cre_to_msg" id="cre_to_msg" value="<%= @email_value%>"/>
+                          <div class="clear"></div>
+                          </a>
+                        </div>
+                        
+                        <div class="clear"></div>
+                        <div class="errorDiv" style="display:none">
+                            <div class="lt leftSideField">&nbsp;</div>
+                            <div class="lt" id="cre_send_to_error"></div> 
+                        </div>
+        
+                        <div class="clear"></div>
+                        <table width="880" height="34" border="0" cellpadding="1" cellspacing="0" style="margin-top:10px;">
+                          <tr>
+                            <td width="195" align="left" class="setfont_share"><span style="margin-left:70px;">Subject</span><span class="required">*</span></td>
+                            <td width="495">  <input type="text" name="subject_cre" id="subject_cre" class="lt textbox" value="<%if !current_user.nil? && !current_user.user_name.nil?%><%=current_user.user_name %> has invited you to Famtivity!<%end%>"  maxlength="50"/></td>
+                          </tr>
+                        </table>
+                        <div class="errorDiv" style="display:none">
+                          <div class="lt leftSideField">&nbsp;</div>
+                          <div class="lt" id="cre_subject_error"></div>
+                        </div>
+                        <div class="clear"></div>
+                          <div class="clear"></div>
+                        </div>
+                        <div class="clear"></div>
+                        <table width="880" height="34" border="0" cellpadding="1" cellspacing="0" style="margin-top:10px;">
+                          <tr>
+                              <input type="hidden" name="msg" id="msg" value="" />
+                            <td width="151" class="setfont_share" align="left" valign="top"><span style="margin-left:70px; position:absolute;">Message<span class="required">*</span></span></td>
+                            <td width="495"> <!--<textarea class="textArea" name="sd_message" id="sd_message" value="" onchange="removeunwantedSpace('message',this.value)" onfocus="focusChangeBorderColor('message')" onblur="blurChangeBorderColor('message')"></textarea>
+                            Hi, <%="\n\n"%>Please join me on famtivity, the family activity network! <%="\n"%>I think you'll really enjoy it.<%="\n\n"+current_user.user_name.titlecase%>-->
+                            <div id="page" style="padding: 0 19px; margin-left: 155px;">
+                                
+                            <div class="row">
+                                <div class="threequarter centered">
+                                <div id="redactor_content">
+                                     
+                                    Hi , <br/><br/> Please join me on famtivity, the family activity network! <br/>
+                                    I think you'll really enjoy it.<br/><br/><%=current_user.user_name.titlecase%>
+                                </div>        
+                            
+                            </div>
+                            </div>
+                            
+                            </td>
+                          </tr>
+                        </table>
+        
+                        <div class="errorDiv" style="display:none">
+                          <div class="lt leftSideField">&nbsp;</div>
+                          <div class="lt" id="cre_message_error"></div>
+                        </div>
+                        <div class="clear"></div>
+                     <div class="paddingTop10">
+              <div class="lt leftSideField">&nbsp;</div>
+              <div class="lt setImgBorder">
+                <!--<img  src="/assets/register/icon.png" alt="Nature">-->
+                <!--<input type="file" style="display:none;" onchange="dispPhotoName()" readonly="readonly" class="FileField" id="photo" name="activity_image" accept="image/*">-->
+              </div>
+              <div class="lt"><!--a href="#" title="" class="changeProf" tabindex="88" onClick="selectFile()">Change Picture</a-->
+                <!--<div class="lt FileUpload">
+                <input type="file" style=".width:100px;left:0px;" name="create_message" class="BrowserHidden" id="photo" size="21" onchange="document.getElementById('photo1').value =this.value;fakepath(this.value);" accept="image/*" style="margin-top:0px;">
+                <div style="border:none;" class="BrowserVisible">
+                  <input type="text" style="border:1px solid #ffffff;" readonly="readonly" class="FileField" id="photo1" name="photo1">
+    
+                </div>
+                <span style="cursor:pointer; position:relative; display:inline-block;" tabindex="88" class="browse"><b>Attach File</b></span>
+                <div class="clear"></div>
+                </div>-->
+				<div id="fileuploader">Upload</div>
+              </div>
+               <div class="clear"></div>
+            </div>
+
+            
+                        <div class="clear"></div>
+                        <div class="buttonDiv">
+                          <div class="lt leftSideField">&nbsp;</div>
+                          <div class="lt">
+                            <!--<input type="image" src="/assets/login/send_button.png"  style="float:left; position: relative; display:inline-block; "/></a>-->
+                            <input type="image"  id="send_message" src="/assets/login/send_button.png"  style="float:left; position: relative; display:inline-block; "/></a>
+
+                            <a href="#" style="float:left; position: relative; display:inline-block; margin-left:4px;"><img src="/assets/login/cancel_button.png"  alt="" onClick="closepopup()"/></a>
+                            <span id='loading' class="load-new"><img src='/assets/loading_small.gif'/></span>
+                          </div>
+                          <div class="clear"></div>
+                        </div>
+                </form>
+                </div>
+
+   <div id="invite_success" style="display:none;">
+
+               <div style="margin-top:20px;" align="center" class="fts16" >Your message has been sent successfully.</div>
+              <div class="buttons" align="center">
+                <a href="javascript:void(0)" onClick="closepopup();" style="margin-top:25px;"><img src="/assets/register/ok_btn.png" alt="" style="margin-top:20px;"/></a>
+                <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+
+      <div class="clear"></div>
+    </div>
+
+
+              </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function()
+{
+$("#fileuploader").uploadFile({
+url:"/contact_users/add_files_to_temp",
+multiple:true,
+fileName:"my_file",
+onSuccess:function(files,data,xhr)
+{
+}
+
+});
+});
+function fakepath(filepath)
+{
+	inputNode = filepath.replace('C:\\fakepath\\', '');	
+	var pos = filepath.lastIndexOf( filepath.charAt( filepath.indexOf(":")+1) );
+	var filename = filepath.substring( pos+1);
+	
+	var ua=navigator.userAgent;
+	if(ua.indexOf("Firefox")!=-1){ 
+		$("#photo1").val(filepath); 
+	} 
+	else {
+		$("#photo1").val(filename);
+	}
+}
+$(document).ready(function(){
+  $('#loading').hide();  
+
+
+$('#send_message').click(function (){
+   $("#redactor_content").find("p").remove();
+
+    var subject_cre = $("#subject_cre").val();
+    var cre_to_msg = $("#cre_to_msg").val();
+    //var subjectLen = $.trim(subject).length;
+    // $("#redactor_content").css("height","30px");
+     $("#redactor_content").find("p").remove();
+     
+
+     var message = $("#txt_msg").val();
+     $("#msg").val(message);
+    //$("#send_to_msg").css("border","1px solid #CDE0E6");
+    $("#subject_cre").css("border","1px solid #BDD6DD");
+    $("#redactor_content").css("border","none");
+   
+    $("#cre_send_to_error").html("");
+    $("#cre_subject_error").html("");
+    $("#cre_message_error").html("");
+   
+    $("#cre_send_to_error").parent().css("display","none");
+    $("#cre_subject_error").parent().css("display","none");
+    $("#cre_message_error").parent().css("display","none");
+   
+    var errorFlag = false;
+    if(cre_to_msg ==""){
+        $("#cre_to_msg").css("border","1px solid    #fc8989");
+        $("#cre_send_to_error").parent().css("display","block");
+        $("#cre_send_to_error").html("Please enter one contact");
+        errorFlag = true;
+    }
+    if(cre_to_msg!="")
+    {
+        if(!validateCorrectEmail_Group(cre_to_msg)){
+        $("#cre_to_msg").css("border","1px solid #fc8989");
+        $("#cre_send_to_error").parent().css("display","block");
+        $("#cre_send_to_error").html("Please enter a valid email address(Use comma separated value for mutiple email)");
+        errorFlag = true;
+        }
+    }
+
+    if(subject_cre == ""){
+        $("#subject_cre").css("border","1px solid #fc8989");
+        $("#cre_subject_error").html("Please enter a subject");
+        $("#cre_subject_error").parent().css("display","block");
+        errorFlag = true;
+    }
+    if(message == "" ){
+        $("#redactor_content").css("border","1px solid #fc8989");
+        $("#cre_message_error").html("Please enter a message for the share activity");
+        $("#cre_message_error").parent().css("display","block");
+        errorFlag = true;
+    }
+
+    if(errorFlag){
+         return false;       
+      }
+      else
+      {
+
+            $('#cre_message').ajaxSubmit({
+                    success: function(data) { },
+                    dataType: 'script'
+        });
+        $("#header_message").hide();    
+        $("#invite_success").css("display","block");
+        $("#invite_success").css("margin-top","20px");
+        $("#cre_message").css("display","none");
+       return false;
+    }      
+
+    });
+});
+
+
+
+
+function Trim(str)
+{  while(str.charAt(0) == (" ") )
+  {  str = str.substring(1);
+  }
+  while(str.charAt(str.length-1) == " " )
+  {  str = str.substring(0,str.length-1);
+  }
+  return str;
+}
+
+function validateCorrectEmail_Group(elementValue){
+    flag=true;
+    var emailSplitComma= elementValue.split(",");
+    if(emailSplitComma.length>0)
+    {
+        for(i=0;i<emailSplitComma.length; i++)
+        {
+            if(Trim(emailSplitComma[i])!="")
+            {
+                email=Trim(emailSplitComma[i]);
+                var emailPattern = /^([a-zA-Z0-9]+([~{|}`^?=+*'#$!%._-]{0,1}[a-zA-Z0-9]+)*)@(([a-zA-Z0-9]+([._-]{0,1}[a-zA-Z0-9]+)*)+(?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,3})?)$/;
+                if(emailPattern.test(email) == false)
+                {
+                    flag=false;       
+                }
+               
+                else
+                {
+                   $("#cre_send_to_error").hide();
+                   //$("#send_to_msg").css("border","1px solid    #BDD6DD");
+                    $("#cre_send_to_error").parent().css("display","none");
+                }
+            }
+       
+        }
+    }
+    else
+    {
+        var emailPattern = /^([a-zA-Z0-9]+([~{|}`^?=+*'#$!%._-]{0,1}[a-zA-Z0-9]+)*)@(([a-zA-Z0-9]+([._-]{0,1}[a-zA-Z0-9]+)*)+(?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,3})?)$/;
+        if(emailPattern.test(email) == false)
+        {
+            flag=false;
+           
+        }
+       
+        else
+        {
+           $("#cre_send_to_error").hide();
+           //$("#send_to_msg").css("border","1px solid    #BDD6DD");
+           $("#cre_send_to_error").parent().css("display","none");
+        }
+    }
+    if(!flag)
+    {
+       $("#cre_send_to_error").show();
+       return false;
+      
+    }
+    else
+    {
+        return true;
+    }
+   
+    }
+
+</script>
+

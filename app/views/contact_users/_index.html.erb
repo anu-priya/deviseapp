@@ -1,0 +1,183 @@
+<div class="topContainer cont_head" id="contact_header" style="margin-top:50px;">
+		<%= render :partial=>"contact_users/contact_header" %>
+                  </div>
+<div class="centerContainer contactlist">
+<%unless @contact_groups.blank?%>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+	<tr>
+<!-- select all show by section started-->
+	  <td align="left" class="topContactText" valign="middle">
+		<div style="padding: 5px 0px 0px 0px;">
+		<input type="hidden" name="groups_all" id="groups_all" value="0" />
+		<span class="lt topContact">&nbsp;</span>                            
+		<span  class="checkboxImg" style="top:0px; position:relative;margin-right: 1px;">
+		  <a href="javascript:void(0)" title="" id="select_group" onclick="selectAnyGroup('select',0)" style="display: none"><img src="/assets/provider_event_list/top_checkbox_selected.png" alt=""/></a>
+		  <a href="javascript:void(0)" title="" id="not_select_group" onclick="selectAnyGroup('not_select',1)" ><img src="/assets/provider_event_list/top_checkbox_normal.png" alt=""/></a>
+		</span>
+		<span class="menuText setLt" style=" color: #5AA3B6;font-size: 14px;padding-left: 7px;"><b>Groups</b></span>
+		<span class="pipeSymbol" style="position: relative;top: -1px;">|</span>
+		<span class="pipeSymbol" style="height: 25px;font-size: 14px;">
+		<div id="grp_frnd_ct" class="contact_menu_style" style="margin-top: 2px;">
+		  <ul style="margin: 0px;">
+			<li style="padding: 5px 3px;">
+			 <a href="#" class="top_menu_icon menuText" style="color: #5AA3B6;width: 75px; width:auto;">
+			   <span id="txt-group-type"><b>Show By</b></span>
+			   <span style="margin-left: 2px;display: inline-block;">
+				 <img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/>
+			   </span>
+			 </a>
+			 <ul class="sub-menu menu_group" style="height: auto;width: 120px;">
+				<li><a href="javascript:void(0)" onclick="all_filter('all'); _gaq.push(['_trackEvent','Parent Module', 'clickContact','All Friends']);" id="all" style="padding-top:10px;">All Contacts</a></li>                                   
+			  </ul>
+			</li>
+		  </ul>
+		  <div class="clear"></div>
+		</div>
+	  <!-- <span>please check your csv file</span>-->
+	  </span>
+	  <span class="pipeSymbol" style="position: relative;top: -1px;">|</span>
+	  <span class="pipeSymbol" style="height: 25px;font-size: 14px;">
+	  <div id="menu_group" class="contact_menu_style">
+	       <ul type="none">
+		<li style="padding: 5px 3px;">
+		   <a href="#" id="group_menu" class="menuText top_menu_icon" style="color: #5AA3B6;width: 75px;">
+		     <span><b>Create New Group</b></span>
+		     <span style="margin-left: 2px;display: inline-block;">
+		       <img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/>
+		     </span>
+		   </a>
+		   <ul class="sub-menu menu_group" style="padding: 5px 0px 0px;width: 200px;">
+			<div class="crte_grp">
+			<li class="menupadding" id="new_group_create">
+				<div>
+				<input class="lt txtbox_create" type="textbox" name="contact_group_name" id="contact_group_name" style="width: 180px;">	
+				</div>
+				<span id="grp_error_msg" style="color:red;"></span>
+				<div class="clear"></div>
+			</li>
+			</div>
+			<li><a href="#" style="padding:0px;"><span class="underLine" style="left: -2px;margin-bottom: -5px;width: 202px;"></span></a></li>
+			<li class="menupadding">
+			     <a class="lt" style="margin-right: 5px;margin-left:-2px;margin-top:-5px;" href="javascript:void(0)"><img width="54px" height="28px" src="/assets/contact/save_button.png" alt="" onclick="grp_create(); _gaq.push(['_trackEvent','Parent Module', 'clickContactGroup','Save']);"/></a>	
+			     <a href="javascript:void(0)" style="margin-top:-5px;"><img src="/assets/contact/close_button.png" alt="" onclick="grp_cancel(); _gaq.push(['_trackEvent','Parent Module', 'clickContactGroup','Cancel']);"/></a>
+			  </li>
+		   </ul>
+		</li>
+	       </ul>
+	   <div class="clear"></div>
+	      </div>	
+	</span>
+		</div>
+	  </td>
+<!--select all show by section started-->
+	 
+	</tr>
+  </table>
+<%end%>
+<div class="contactListContainer" id="group_list_member">
+<div id="delete-group-msg" style="display:none;color:green;margin-left: 380px;font-weight: bold;">Your group has been deleted.</div>
+<div id="delete-msg" style="display:none;color:green;margin-left: 380px;font-weight: bold;">The contact has been deleted.</div>
+<div id="create-msg" style="display:none;color:green;margin-left: 380px;font-weight: bold;">Your group has been created.</div>
+<div id="contact_user_index" style="padding:5px 15px;">
+<%= render :partial=>"contact_users/contact_group" %>
+</div>
+<div class="clear"></div>
+</div>
+<form name="contact_user" id="contact_user" action="" method="post">
+  <table cellspacing="0" cellpadding="0" border="0" width="100%">
+	<tr>
+<!-- select all show by section started-->
+	  <td align="left" class="topContactText" valign="middle">
+		<div style="padding: 5px 0px 0px 0px;">
+		<input type="hidden" name="contacts" id="contacts" value="0" />
+		<span class="lt topContact">&nbsp;</span>                            
+		<span  class="checkboxImg" style="top:0px; position:relative;margin-right: 1px;">
+		  <a href="javascript:void(0)" title="" id="select" onclick="selectAnyCont('select',0)" style="display: none"><img src="/assets/provider_event_list/top_checkbox_selected.png" alt=""/></a>
+		  <a href="javascript:void(0)" title="" id="not_select" onclick="selectAnyCont('not_select',1)" ><img src="/assets/provider_event_list/top_checkbox_normal.png" alt=""/></a>
+		</span>
+		<span class="menuText setLt" style=" color: #5AA3B6;font-size: 14px;padding-left: 7px;"><b>Friends</b></span>
+		<span class="pipeSymbol" style="position: relative;top: -1px;">|</span>
+		
+		<span class="pipeSymbol" style="height: 25px;font-size: 14px;">
+		<div id="menu_contact" class="contact_menu_style">
+		  <ul style="margin: 0px;">
+			<li style="padding: 5px 3px;"><a href="#" class="menuText top_menu_icon" style="color: #5AA3B6;width: 75px;height: 20px; width:auto;"><span id="txt-mem-type"><b>Show By</b></span><span style="margin-left: 2px;display: inline-block;"><img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/></span></a>
+			  <ul id="grp-sub-menu" class="sub-menu menu_group" style="height: auto;width: 120px;">
+				<li class="menupadding"><a href="javascript:void(0)" onclick="contact_filter('all');" id="all" style="padding-top:5px;">All</a></li>
+				<li class="menupadding"><a href="javascript:void(0)" onclick="contact_filter('non_member');" id="non-mem" style="padding-top:5px;">Non-Member</a></li>
+				<li class="menupadding"><a href="javascript:void(0)" onclick="contact_filter('member');" id="mem" style="padding-top:5px;">Member</a></li>
+				<li class="menupadding"><a href="javascript:void(0)" onclick="contact_filter('friend');" id="friend" style="padding-top:5px;">Friend</a></li>                                    
+			  </ul>
+			</li>
+<li><a href="javascript:void(0)" onclick="send_multi_req();" class=" menuText" style="height: 20px;margin: 1px 0 0 0px;padding: 3px 5px;color: #13849B;width: auto;display:none;" id="text-type">Send Invite to Join</a></li>
+		  </ul>
+		  <div class="clear"></div>
+		</div>
+							</span>
+							<span class="pipeSymbol" style="position: relative;top: -1px;">|</span>
+                            <span class="pipeSymbol" style="height: 25px;font-size: 14px;">
+							<div id="menu_group_friend" class="contact_menu_style" style="margin-top: -3px;">
+							  <ul type="none">
+								<li style="padding: 5px 3px;">
+								  <a href="#" id="group_menu" class="menuText top_menu_icon" style="color: #5AA3B6;width: 75px;height: 20px; width:auto;">
+								    <span><b>Add to Group</b></span>
+								    <span style="margin-left: 2px;display: inline-block;">
+								      <img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/>
+								    </span>
+								  </a>
+								  <ul class="sub-menu menu_group" style="padding: 5px 0px 0px;width: 180px;height:auto;">
+									<div class="grp_menu">
+									  <input id="groupmenu_ids" name="grp_ids" type="hidden" value="" />
+									  <% if !@contact_groups.blank?%>
+									    <div id="group-list" class="group-scroll-pane-category">
+										  <%i=1%>
+										  <% @contact_groups.each do |group|%>
+											<li class="menupadding">
+											<div style="margin-right:0px;width: 25px;" class="lt checkbox setstyle">
+												<input id="groupmenu_<%=i%>" class="groupmenu_checkbox_value" type="hidden" value="<%= group.group_id %>"/>
+												<input id="groupmenu_checkbox_<%=i%>" class="groupmenu_checkbox" type="hidden" value="0"/>
+												<a style="display: none;position: relative;top: -4px;" href="javascript:void(0)" title="" class="groupmenu_checkbox_selected" id="groupmenu_checkbox_selected_<%=i%>" data="<%=i%>" ><img src="/assets/register/checkbox_selected.png" alt=""/></a>
+												<a style="position: relative;top: -4px;" href="javascript:void(0)" title="" class="groupmenu_checkbox_normal" id="groupmenu_checkbox_normal_<%=i%>" data="<%=i%>"><img src="/assets/register/checkbox_normal.png" alt=""/></a>
+											</div>
+											<div class="scText fts12" title="<%= group.group_name%>"><%= truncate(group.group_name,length: 10, omission: "...")%></div>
+											<div class="clear"></div>
+											</li>
+											<%i=i+1%>
+										  <%end%>
+										</div>
+									  <%else%>
+									    <span style="margin-left: 12px;"><b>No Groups Available</b></span>
+									  <%end%>
+									</div>
+									<li><a href="#" style="padding:0px;"><span class="underLine" style="left: -2px;margin-bottom: -5px;width: 182px;"></span></a></li>
+									<li class="menupadding">
+								            <% if !@contact_groups.blank?%><a class="lt" style="margin-right: 5px;margin-left:-2px;margin-top:-5px;" href="javascript:void(0)"><img width="54px" height="28px" src="/assets/contact/save_button.png" alt="" onclick="assign_user_to_groups(); _gaq.push(['_trackEvent','Parent Module', 'clickContactGroup','Save']);"/></a><%end%>
+								            <a href="javascript:void(0)" style="margin-top:-5px;"><img src="/assets/contact/close_button.png" alt="" onclick="grp_close(); _gaq.push(['_trackEvent','Parent Module', 'clickContactGroup','Close']);"/></a>
+								          </li>
+								  </ul>
+								</li>
+							  </ul>
+                            </div>
+	  <!-- <span>please check your csv file</span>-->
+	  </span>
+		</div>
+	  </td>
+<!--select all show by section started-->
+	 
+	</tr>
+  </table>
+  <div>
+  
+  <div id="share-success" style="display:none;color:green;font-size: 14px; padding-top: 10px;" align="center">Your invite has been sent successfully!</div>
+  <div id="share-fail" style="display:none;color:green;font-size: 14px; padding-top: 10px;" align="center">Oops something went wrong. Please invite again</div>
+
+   <div id="friend_list_member" class="contactListContainer">
+		<div id="delete-msg" style="display:none;color:green;">Friend has been deleted successfully</div>
+	<div id="contact_list_member" style="padding:0px 15px;">
+	  <%= render :partial=>"contact_users/contact_user" %>
+	</div>
+  </div>
+</form>
+</div>
+<div class="clear"></div>
+</div>

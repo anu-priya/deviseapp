@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Row type:</b>
+  <%= @activity_row.row_type %>
+</p>
+
+<p>
+  <b>Subcateg:</b>
+  <%= @activity_row.subcateg_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @activity_row.user_id %>
+</p>
+
+<p>
+  <b>Inserted date:</b>
+  <%= @activity_row.inserted_date %>
+</p>
+
+<p>
+  <b>Modified date:</b>
+  <%= @activity_row.modified_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_activity_row_path(@activity_row) %> |
+<%= link_to 'Back', activity_rows_path %>

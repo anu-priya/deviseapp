@@ -1,0 +1,29 @@
+<h1>Listing contact_groups</h1>
+
+<table>
+  <tr>
+    <th>Group</th>
+    <th>Group name</th>
+    <th>Inserted date</th>
+    <th>Modified date</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @contact_groups.each do |contact_group| %>
+  <tr>
+    <td><%= contact_group.group_id %></td>
+    <td><%= contact_group.group_name %></td>
+    <td><%= contact_group.inserted_date %></td>
+    <td><%= contact_group.modified_date %></td>
+    <td><%= link_to 'Show', contact_group %></td>
+    <td><%= link_to 'Edit', edit_contact_group_path(contact_group) %></td>
+    <td><%= link_to 'Destroy', contact_group, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Contact group', new_contact_group_path %>

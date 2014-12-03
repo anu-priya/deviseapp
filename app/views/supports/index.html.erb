@@ -1,0 +1,39 @@
+<h1>Listing supports</h1>
+
+<table>
+  <tr>
+    <th>Email address</th>
+    <th>Support type</th>
+    <th>Labels</th>
+    <th>Comments</th>
+    <th>Support content type</th>
+    <th>Support file size</th>
+    <th>Support updated at</th>
+    <th>Inserted at</th>
+    <th>Modified at</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @supports.each do |support| %>
+  <tr>
+    <td><%= support.email_address %></td>
+    <td><%= support.support_type %></td>
+    <td><%= support.labels %></td>
+    <td><%= support.comments %></td>
+    <td><%= support.support_content_type %></td>
+    <td><%= support.support_file_size %></td>
+    <td><%= support.support_updated_at %></td>
+    <td><%= support.inserted_at %></td>
+    <td><%= support.modified_at %></td>
+    <td><%= link_to 'Show', support %></td>
+    <td><%= link_to 'Edit', edit_support_path(support) %></td>
+    <td><%= link_to 'Destroy', support, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Support', new_support_path %>

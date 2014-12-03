@@ -1,0 +1,135 @@
+<%=javascript_include_tag "global/checkbox","event/provider_event_list"%>
+<script type="text/javascript">
+
+var id_arr= new Array();
+  $(document).ready(function () {
+    
+    initARC('provider_discount_list','altCheckboxOn','altCheckboxOff');
+    selectAny();
+  });
+  function before_delete(a){
+    var a;
+    pop_delete_dicount('/activity_detail/delete_discount?id='+a)
+  }
+  function before_shedule_delete(a){
+    var a;
+    pop_shedule_delete_activity('/activities/shedule_delete?id='+a)
+  }
+  //get mutiple check box id and store to hidden field
+   function getchk_discount(curr_actid,span_)
+   {
+    curr_actid = curr_actid.split("&")[0];
+    id_arr.push(curr_actid);
+    
+    var classes=$("#lbl_"+curr_actid).attr("class");
+    
+   if(classes=="altCheckboxOn")
+       {
+        for (i=0;i<=id_arr.length;i++)
+        {
+          if (curr_actid==id_arr[i])
+          {
+            id_arr.splice(i,1);
+          }
+         // alert(id_arr);
+        }
+       $("#lbl_"+curr_actid).removeClass('altCheckboxOn'); 
+        $("#lbl_"+curr_actid).addClass('altCheckboxOff'); 
+        
+       }
+      else{
+        $("#lbl_"+curr_actid).removeClass('altCheckboxOff'); 
+        $("#lbl_"+curr_actid).addClass('altCheckboxOn'); 
+       
+      }
+      values_duplicates=jQuery.unique(id_arr);
+      $("#actid_chk").val(values_duplicates);
+   }
+  function getchk_discount1(curr_actid,span_)
+  {  	
+    curr_actid = curr_actid.split("&")[0]
+    span_index=$(".checkboxImg").index(span_);
+    chk_staus=$(".checkboxImg:eq("+span_index+") label").attr('class');
+    if(chk_staus=="altCheckboxOn")
+    {
+      //add selected checkbox id
+      txt_id=$("#actid_chk").val();
+      selected_ids=txt_id+","+curr_actid;
+      $("#actid_chk").val(selected_ids);
+    }
+    else
+    {
+      //remove the id
+      txt_id=$("#actid_chk").val();
+      selected_ids=txt_id.replace(","+curr_actid,'');
+      $("#actid_chk").val(selected_ids);
+      $('#select').css('display','none');
+      $('#not_select').css('display','inline-block');
+      $('#pe').val(0);
+    }
+    alert(selected_ids);
+  }
+</script> 
+<form name="provider_discount_list" id="provider_discount_list">
+  <input type="hidden" id="actid_chk" name="actid_chk" value="" />
+  <input type="hidden" id="page" name="page" value="1" />
+  <div id="providerEventList">
+    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+      <tr>
+        <td align="left" width="25%" class="headText setPadLt">Discount Type</td>
+        <td align="left" width="11%" class="headText">Quantity Field</td>
+        <td align="left" width="12%" class="headText">Valid Date</td>
+        <td align="left" width="12%" class="headText">Discount Price</td>
+        <td align="left" width="25%" class="headText">Notes</td>
+        <td align="left" width="10%" class="headText">Action</td>
+      </tr>
+      <%i = 0%>
+      <%if @pro_fees.length > 0%>
+        <%@pro_fees.each do |pr|%>
+          <%i = i + 1%>
+          <%if i.even? %>
+            <tr class="setBg1" id="disc-act-<%=pr.provider_discount_type_id%>">
+            <%else%>
+            <tr class="setBg2" id="disc-act-<%=pr.provider_discount_type_id%>">
+            <%end%>
+            <td align="left" class="contentText setPadLt activityName">
+              <input type="checkbox" value="violin" name="pe1" id="pe1" style="position: absolute; left: -1000px;" />
+              <span onclick="getchk_discount('<%=pr.provider_discount_type_id%>&;page=1',this)" class="checkboxImg" id="chk_span"><label id="lbl_<%=pr.provider_discount_type_id%>" class="altCheckboxOff">&nbsp;</label></span>
+              <span onclick="" title="testativity" class="blueText checkboxText"><%=pr.discount_name%></span>
+            </td>
+            <td align="left" class="contentText"><% if pr.quantity == true %><span class="yes_bg"></span><%else%>-<%end%></td>
+            <td align="left" class="contentText"><%if pr.valid_date == true%><span class="yes_bg"></span><%else%>-<%end%></td>
+            <td align="left" class="contentText"><span class="yes_bg"></span></td>
+            <td align="left" class="contentText "><% if !pr.note.nil? && pr.note!="" %><%= pr.note %><%else%>-<%end%></td>
+            <td align="right" class="contentText">
+              <a class="lt edit_bg" onclick="edit_provider_discount_type('<%= pr.provider_discount_type_id %>')" title="Edit discount" href="javascript:void(0)"></a>
+              <a class="lt delete_bg" onclick="before_delete('<%=pr.provider_discount_type_id if !pr.provider_discount_type_id.nil?%>&page=<% if !params[:page].nil? && params[:page].present? %><%=params[:page]%><%else%>1<%end%>');" title="Delete discount" href="javascript:void(0)"></a>
+            </td> 
+
+          </tr>
+        <%end%>
+      <%else%>
+
+        <!-- no records -->
+        <tr>
+          <td colspan="6" class="no_activities" style="text-align:center;height: 500px;">
+            No records
+          </td>
+        </tr>
+      <%end%>
+
+
+      <!--  if search, no results found -->
+      <tr>
+        <td colspan="6" class="no_activities" style="text-align:center;height: 500px;display:none;">
+				Sorry we found no results for your search.
+        </td>
+      </tr>
+
+
+    </table>
+    <div class="pro_pagination" style=" margin: 25px 0 80px;">
+      <%= will_paginate @pro_fees  if ! @pro_fees.nil? &&  @pro_fees!='' &&  @pro_fees.present?%>
+    </div>
+  </div>
+</form>

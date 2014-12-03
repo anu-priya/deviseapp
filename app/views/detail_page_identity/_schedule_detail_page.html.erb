@@ -1,0 +1,559 @@
+<%#@school_rep = SchoolRepresentative.where("activity_id=?",@activity.activity_id).last%>
+<%@school_rep = SchoolRepresentative.fetch_by_activity_id(@activity.activity_id).last%>
+<%rep_perm_type = ActivityDetPermission(@school_rep,current_user.user_id,@activity) if !current_user.nil? && current_user.present?%>
+<div class="info-container">
+<h2 class="detail-form-header">SCHEDULES</h2>
+
+
+<%if @act_schedules && @act_schedules.present?%>
+    <%j=@act_schedules.count%>
+    <%i=1%>
+   
+<%@act_schedules.each do |act_sched|%>
+
+<%if (i==1 && act_sched.schedule_mode.downcase=='any time')%><%i=j%><%end%>
+<%if i<=j%>
+<%chk_for_anywhere = (act_sched.schedule_mode.downcase=='any where')%>
+<div class="schedule-container"><!--Schedule Repeat Loop start-->
+	<!-- Schedule left container start -->
+	<div class=<%=(chk_for_anywhere) ? "left-schedule-container-anywhere" : "left-schedule-container"%>>
+		<!-- sched-calendar-top portion start -->
+		<div class=<%=(chk_for_anywhere) ? "sched-date-top-anywhere" : "sched-date-top"%>>
+			<%if act_sched.schedule_mode.downcase=='schedule' && act_sched.start_date%>
+			<%sched_start_date = act_sched.start_date%>
+			<div class="sched-date-left">
+				<span id="schedule-cal-date"><%=sched_start_date.strftime("%d")%></span>
+				<span id="schedule-month"><%=sched_start_date.strftime("%^b")%></span>
+			</div>
+			<%end%>
+			<div class="sched-date-right">
+				<span>
+				<%if act_sched.schedule_mode.downcase!='any where'%>
+					<%if act_sched.schedule_mode.downcase=='by appointment'%>
+						<%=act_sched.schedule_mode%>
+					<%elsif act_sched.schedule_mode.downcase=='any time' && @activity.created_by.downcase=='parent'%>
+						Any Time
+					<%elsif ((act_sched.schedule_mode.downcase=='schedule') || (act_sched.schedule_mode.downcase=='whole day'))%>
+						<%=render "activity_detail/display_schedule_format",:act_sched => act_sched%>
+					<%end%>
+				<%end%>
+				</span>
+				
+				<%if act_sched.schedule_mode.downcase=='any time' && @activity.created_by.downcase=='provider'%>
+				<%anytimesch = AnyTimeScheduleDisplay(@activity)%>
+				<%anytime_days = anytimesch[1]%><!-- closed days -->
+				<%anytimesch && anytimesch[0] && anytimesch[0].each do |t_sch| %>
+				<div class="anytime_text"><%=t_sch%></div>
+				<%end%>					
+					<%if anytime_days && anytime_days.present?%>
+					<div class="sched-month">
+						Closed On: 
+						<span class=<%=anytime_days.include?('mon') ? "normal-day" : "selected-day"%>>M</span>
+						<span class=<%=anytime_days.include?('tue') ? "normal-day" : "selected-day"%>>T</span>
+						<span class=<%=anytime_days.include?('wed') ? "normal-day" : "selected-day"%>>W</span>
+						<span class=<%=anytime_days.include?('thu') ? "normal-day" : "selected-day"%>>T</span>
+						<span class=<%=anytime_days.include?('fri') ? "normal-day" : "selected-day"%>>F</span>
+						<span class=<%=anytime_days.include?('sat') ? "normal-day" : "selected-day"%>>S</span>
+						<span class=<%=anytime_days.include?('sun') ? "normal-day" : "selected-day"%>>S</span>
+					</div>
+					<%end%>
+				<%end%>
+			</div>
+			<% if !current_user.nil? && current_user.present?%>
+			<!-- Online form section start -->
+			<%act_form = ActivityForm.where("form_id IS NOT NULL and active_status=true and activity_id=?",@activity.activity_id )%>
+			<%@participant=form_attendees_list(@activity.activity_id,@activity.schedule_mode,act_sched.schedule_id,current_user.user_id)%>
+			<%@formlist = form_list_attend(@activity.activity_id)%>
+			<%if !@participant.nil? && @participant.present? && @participant.length > 0 &&  !@formlist.nil? && @formlist.present? && @formlist.length > 0 && !act_form.nil? && act_form.present?%>
+			<div class="fill-form" id="form_fill" onmouseover="open_formpopup('<%=act_sched.schedule_id%>')" onmouseout="">&nbsp;<b>Fill the Online Form</b>
+				<div id="formpopup_container_<%=act_sched.schedule_id%>" class="fill_form_container form_cal_pop">		
+					<div class="fill_form_close"><a href="javascript:void(0);" onclick="close_formpopup('<%=act_sched.schedule_id%>')" title=""><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%></a></div>
+					<div class="fill_form_arrow"><%=image_tag("/assets/event/dropdown_arrow.png", :width=>"20", :height=>"12", :border=>"0")%></div>
+					<div class="fill_form_container_inn">
+					<%@participant.each do |pval|%>
+					<div class="ftcBlue3c fill_form_block">			
+					<b><%=pval['participant_name']%></b>
+					<div class="fill_form_top"></div>
+					<div class="clear"></div>
+					<table cellspacing="0" cellpadding="0" border="0" class="activity_network" style="padding:0;" width="100%"> 
+					<%@formlist.each do |fval|%>	
+					<%if !fval.nil? && !fval.form_id.nil? %>
+					<!-- check form is filled or not if filled to show blue color image and remove clickable option or gray color image-->
+					<%@filled_flag=form_filled_participant(@activity.activity_id,@activity.schedule_mode,act_sched.schedule_id,current_user.user_id,fval["form_id"],pval["participant_id"])%>											
+					<tr height="25">
+						<td align="left" nowrap="nowrap" class="ftcBlue3c fts12" valign="top" width="80%">							
+							<%if @filled_flag%>
+							<!--<a href="/preview_parent_required_form?frmid=&actid=&partid=&mode=parent&scheid=&fview=u&v=0"  target="_blank" title="" class="ftcBlue3c"></a>-->
+							<a style="text-align:left;" href="/parent_required_form?frmid=<%= Base64.encode64("#{fval['form_id']}")%>&fpid=<%= Base64.encode64("#{current_user.user_id}") %>&actid=<%= Base64.encode64("#{@activity.activity_id}")%>&partid=<%= Base64.encode64("#{pval['participant_id']}")%>&fview=u&mode=<%= Base64.encode64("parent") %>&scheid=<%= Base64.encode64("#{act_sched.schedule_id}")%>" title="" target="_blank" class="ftcBlue3c"><%=fval["title"]%></a>
+							<%else%>
+							<!-- first time only fill the form -->									
+							<a style="text-align:left;" href="/parent_required_form?frmid=<%= Base64.encode64("#{fval['form_id']}")%>&actid=<%= Base64.encode64("#{@activity.activity_id}")%>&partid=<%= Base64.encode64("#{pval['participant_id']}")%>&mode=<%= Base64.encode64("parent") %>&scheid=<%= Base64.encode64("#{act_sched.schedule_id}")%>"  target="_blank" title="" class="ftcBlue3c"><%=fval["title"]%></a>
+							<%end%>
+						</td>
+						<td align="right" class="<%if @filled_flag %>required_forms_icon_select<%else%>required_forms_icon_normal<%end%>" valign="top" width="20%"></td>							
+					</tr>	
+					<%end%>				
+					<%end%>
+					</table>
+					<div class="clear"></div>
+					</div>
+					<%end%>
+					</div>
+				</div>
+			</div>
+			<%end%>
+			<!-- Online form section end -->
+			<!-- attending section start -->
+				<%if !@participant.nil? && @participant.present? && @participant.length > 0 %>
+					<div class="attending-button"><span>Attending</span></div>
+				<%end%>
+			<%end%>
+			<!-- attending section end -->
+		</div>
+		<!-- sched-calendar-top portion end -->
+		<!-- sched-calendar-bottom portion start -->
+		<div class="sched-info">
+			<div class="scheduled-address"><!-- address section start-->
+				<div class="act-location">
+					<%addr = ActivityAddress(@activity)%>
+				<span class="truncatetitle" style="width:147px;" title="<%=(@activity.schedule_mode != "Any Where" && addr && addr.present?) ? addr[0] : ""%>">
+					<%if @activity.schedule_mode == "Any Where"%>
+					Anywhere
+					<%else%>
+					<%=(addr && !addr.nil? && addr.present? && addr[0] && addr[0].present?) ? addr[0] : ''%><br/>
+					<%=(addr && !addr.nil? && addr.present? && addr[1] && addr[1].present?) ? addr[1] : ''%><br/>
+					<%=(addr && !addr.nil? && addr.present? && addr[2] && addr[2].present?) ? addr[2] : ''%>
+					<%end%>
+				</span>
+				</div>
+			</div><!-- address section end-->
+			<!-- No: of participants section start-->
+			<div class="no-of-participants"><span>No of participants <%=((act_sched && !act_sched.no_of_participant.nil? && act_sched.no_of_participant!=0) ? act_sched.no_of_participant : 'N/A')%></span></div>
+			<!-- No: of participants section end-->
+			<!-- Notes section start-->
+			<%if act_sched && !act_sched.note.nil? && act_sched.note.present? && act_sched.note != "Notes:" && !@activity.price_type.nil? && ((@activity.price_type=="1")||(@activity.price_type=="2"))%>
+			<div class="schedule-notes">Notes
+				<div class="detailHover" style="width:434px;cursor: default;">
+					<p class="detailToparrow" style="left: 96%;"></p>
+					<p class="ftcBlue3c fts16" align="center"><b>Notes</b></p>
+					<p class="detailnoteDesc"><%=act_sched.note%></p>
+				</div>
+			</div>
+			<%end%>
+			<!-- Notes section end-->
+			<!-- Calendar section start-->
+			<%scheduled_appointment = (@activity && @activity.created_by.downcase=='parent' && @activity.schedule_mode.titlecase=="Any Time") || (act_sched && act_sched.schedule_mode.downcase=='by appointment') ||  (act_sched && act_sched.schedule_mode.downcase=='any where') %>
+			<%if !@mode.nil? && @mode.present? && @mode=='parent' && !scheduled_appointment%>
+			<div id='calendarHover_<%=act_sched.schedule_id%>' onmouseover="dispcalen('<%=act_sched.schedule_id%>')" onmouseout="dispcalen('<%=act_sched.schedule_id%>')" class="add-to-calendar">Add to Calendar
+			      <div class="calenderHoverdiv form_cal_pop" id='calenderHoverdiv_<%=act_sched.schedule_id%>' style="width:295px;">
+				<p class="calToparrow"><%=image_tag("/assets/activity_schedule/top_arrow.png", :width=>"15", :height=>"12", :border=>"0")%></p>
+				<span style="display:inline-block; padding-bottom:6px;border-bottom:1px solid #D6DAD9;width:100%;">
+				  <div style="float:left;">
+				    <span class="" style="font-size:12px; color:#3D8EA3; padding-left:85px;"><b>Add to Calendar</b></span>
+				  </div>
+				  <div style="float:right; padding-left:2px; padding-right:10px;cursor:pointer;">
+				    <span onclick="calClose('<%=act_sched.schedule_id%>');"><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%></span>
+				  </div>
+				</span>
+
+				<table align="center" width="100%">
+				  <tr>
+				    <td align="center">
+				       <a href="javascript:void(0);" title="" onclick="closeform_cal();<%if current_user && current_user.present?%>add_fam_calender('<%=@activity.activity_id%>','<%=cookies[:uid_usr]%>','<%=act_sched.schedule_id%>');<%else%>login_feature_detail('<%=@activity.activity_id%>','<%=@test_cooki%>');<%end%>" class="calIcon calImg"><%=image_tag("/assets/activity_detail_view/Famtivity_Calender.png", :width=>"75", :height=>"75")%><br/><label>Famtivity</label></a>
+				      <a href="javascript:void(0)" id="authorize-button" onclick="closeform_cal();<%if current_user && current_user.present?%>handleAuthClick();setSchedId('<%=act_sched.schedule_id%>');<%else%>login_feature_detail('<%=@activity.activity_id%>','<%=@test_cooki%>');<%end%>" class="calIcon calImg"><%=image_tag("/assets/activity_detail_view/Google_Calender.png", :width=>"75", :height=>"75")%><br/><label>Google</label></a>
+				    </td>
+				  </tr>
+				</table>
+			      </div>
+			</div>
+			<%end%>
+			<!-- Calendar section end-->
+			<!-- Discount Section start-->
+			<% schedule_price = (act_sched.schedule_mode.downcase=='any time' || act_sched.schedule_mode.downcase=='by appointment' || chk_for_anywhere ) ? SchedulePriceAnyTime(@activity) : SchedulePrice(act_sched)%>
+			<%# check_discount = (act_sched.schedule_mode.downcase=='any time'||'by appointment') ? ChecForDiscountAnyTime(@activity) : ChecForDiscount(act_sched) %>
+			<% check_discount = ChecForDiscount(act_sched.schedule_id,@activity.activity_id,act_sched.schedule_mode.downcase) %>
+			<%if ((check_discount && check_discount.present?) || (@activity && @activity.discount_eligible))%>
+			<div class="detailDiscount multi_<%=act_sched.schedule_id%>" onmouseover="discounthover('<%=act_sched.schedule_id%>')" onmouseout="discounthover('<%=act_sched.schedule_id%>')">Discount
+			    <div class="detailHover">
+			      <p class="detailToparrow" style="left: 50%;"></p>
+			      <%if @activity.discount_eligible.present? && @activity.discount_type.present?%>
+				<p class="withDiscountTxtWrap">
+				
+				
+				  <span class="fts18 ftcGray56">Get <label class="fts40 ftcRedff"><b><%=@activity.discount_type%><%= (number_with_precision @activity.discount_eligible, :precision => 2).gsub(/\.00$/, "")%></b></label>&nbsp;Off</span>
+				  <span class="fts18 ftcBlue63" style="padding: 10px 0px 15px;display: block;"><b>With Discount Dollars</b></span>
+				</p>
+			      <%end%>
+
+			      <%@val_date=activity_valid_date(@activity.activity_id) if !@activity.nil? && !@activity.activity_id.nil?%>
+			      <%#if !@val_date.nil? && !@val_date[0].nil? %><!-- Chcek discount valid date if start-->
+			       <% if check_discount && check_discount.present?%>
+				<div class="DiscountListWrap">
+				  <span class="titleTxtspecial fts15" style="padding-left:5px;"><b>Special Discounts</b></span>
+				  <%if schedule_price[0]>1%>
+				    <span class="listSPecialspace" style="text-align:center; width:435px; padding1:10px 0px 0px; display:block; margin:0 auto;">
+				      <a href="javascript:void(0);" title="" class="ftcBlue63 clkenable multi_<%=act_sched.schedule_id%>"><b>Click on Price Details to view the total discount</b></a>
+				    </span>
+				  <%else%>
+					<div style="margin:0 10px 0 10px; width:410px;">
+					    <table cellpadding="0" cellspacing="2" width="410" border="0">
+					 
+					      <%single_price_discounts = schedule_price[1].fetch_activity_discount_price if schedule_price && schedule_price[1] %>
+					      <% single_price_discounts && single_price_discounts.each do |dis_p|%>
+						<%sh_discount = ShowDiscount(dis_p)%>
+						<tr>
+						  <td align="left" valign="top" width="150" class="discount_name"><%=(sh_discount && !sh_discount[0].nil?) ? sh_discount[0] : ''%></td>
+						  <td width="10"></td>
+						  <td align="left" valign="top" width="80" nowrap class="disocunt_price"><%=(sh_discount && !sh_discount[1].nil?) ?sh_discount[1] : ''%></td>
+						  <td width="10"></td>
+						  <td align="left" valign="top" width="150" class="discount_qty"><%=(sh_discount && !sh_discount[2].nil?) ? sh_discount[2] : ''%></td>
+						</tr>
+					      <%end%>
+					    </table>
+					</div>
+				  <%end%>
+				</div>
+			      <% end %>
+			      <%#end%><!-- Chcek discount valid date if end-->
+			    </div>
+			</div>
+			<%end%>
+			<!-- Discount Section end-->
+			
+		</div>
+		<script>
+		 //discount mouse over function calling
+		      function discounthover(schid){
+				var act_id = schid;
+			
+			      var id = "multi_price_"+act_id;
+			      var clk_id="multi_"+act_id;
+			      $('.multi_'+act_id).click(function(){
+				$("#"+id+" div").show();
+				$('.'+clk_id+' div').hide();
+			      });
+					    
+			      $('#'+id).mouseout(function(){
+				$('#'+id+' div').hide();
+			      });
+			      $('#'+id).mouseover(function(){ 
+				$('#'+id+' div').show();
+				$('.'+clk_id+' div').hide();
+			      });
+			      $('.'+clk_id).mouseover(function(){
+				$('.'+clk_id+' div').show();
+				$('.detailPriceTxtMulti div').hide();
+			      });
+			      $('.'+clk_id).mouseout(function(){
+				$('.'+clk_id+' div').hide();
+			      });
+		      }
+		
+		      //add calender mouse over function calling
+		      function dispcalen(sid){
+                      $('#calendarHover_'+sid).mouseover(function(){
+			//~ $('.fill_form_container').hide();
+                        //~ $('.calenderHoverdiv').hide();
+                        $('#calenderHoverdiv_'+sid).css('display','block');
+                      });
+		      
+		       $('#calendarHover_'+sid).mouseout (function(){
+                        $('#calenderHoverdiv_'+sid).css('display','none');
+                      });
+		      }
+				      
+                    function calClose(id) {
+                      $('#calenderHoverdiv_'+id).css('display','none');
+                    }
+		//online form popup
+		function open_formpopup(sid){	
+			$('.calenderHoverdiv').hide();
+			$('.fill_form_container').hide();
+		  $('.downloadcontent').hide();
+			$('#formpopup_container_'+sid).css('display','block');	
+		}
+		function close_formpopup(sid){
+			$('#formpopup_container_'+sid).hide();
+		}
+		</script>
+		<!-- sched-calendar-bottom portion end -->
+	</div>
+	<!-- Schedule left container end -->
+	<!-- Schedule right container start -->
+	<div class="right-schedule-container" style="<%if chk_for_anywhere%>border-left:1px solid #DADADA;<%end%>">
+		<!--div class="price-detail">$70</div-->
+		<!--div class="buy-now-button">Buy Now</div-->
+		
+<!-- Price detail start -->
+
+<div class=<%=(schedule_price[0] > 1) ? 'price-detail'  : 'act-price'%> onmouseover="discounthover('<%=act_sched.schedule_id%>')">
+<% if (schedule_price[0] > 1)%>
+<div class="detailnoteButton" id="multi_price_<%=act_sched.schedule_id%>" style="margin-top: -24px;"><b>Price Details</b>
+	<div class="detailHover">
+	  <p class="detailToparrow" style="left: 90%;"></p>
+	  <%# all_prices = (act_sched.schedule_mode.downcase=='any time' || act_sched.schedule_mode.downcase=='by appointment' || act_sched.schedule_mode.downcase=='any where') ? ActivityPrice.where("activity_id=?",@activity.activity_id) : act_sched.activity_prices%>
+	  <% all_prices = (act_sched.schedule_mode.downcase=='any time' || act_sched.schedule_mode.downcase=='by appointment' || act_sched.schedule_mode.downcase=='any where') ? ActivityPrice.fetch_by_activity_id(@activity.activity_id) : act_sched.fetch_activity_prices%>
+	  <% all_prices.each do |p|%>
+	    <% mPrice = MultiPrice(p)%>
+	    <%multi_discount = p.fetch_activity_discount_price if p && p.fetch_activity_discount_price %>
+
+	    <div class="schdDetailWrapper"><!--Repeat Loop-->
+	      <div style="margin:0 10px 0 10px; width:410px;">
+	      <table cellpadding="0" cellspacing="0" width="100%">
+		<tr>
+		  <td align="left" width="25%" valign="top" ><p class="fts12 ftcBlue3c schdTxt">Payment Period</p></td>
+		  <td align="left" valign="top"><p class="fts12 ftcGrayb9 schdTxt"><%=(p.payment_period == 'Class Card') ? mPrice[0]+mPrice[1] : mPrice[0]%></p></td>
+		  <td align="left"  width="15%" valign="top"><p class="fts12 ftcBlue3c schdTxt">Price</p></td>
+		  <td align="left"  width="25%" valign="top"><p class="fts12 ftcRedff schdTxt">$<%=number_with_precision p.price, :precision => 2 if !p.nil? && !p.price.nil?%></p></td>
+		</tr>
+		<% multi_discount && multi_discount.each do |discount|%>
+		<%# dis_types = Displaydiscount(p) %>
+		  <%dis_types = ShowDiscount(discount)%>
+		  <%if dis_types%>
+		    <tr>
+		      <td align="left" valign="top"><p class="fts12 ftcBlue3c schdTxt">Discount Type</p></td>
+		      <td align="left" valign="top"><p class="fts12 ftcGrayb9 schdTxt lt" style="float:left;"><%=(dis_types && !dis_types[0].nil?) ? dis_types[0] : ''%></p>
+			<a style="width:auto;float:left;" href="javascript:void(0);" title="" class="detailfeeshoverchkboxhelp lt"><%=image_tag("/assets/provider_register/help.png", :width=>"17", :height=>"17")%>
+			  <p>A discount for those participants who sign up early</p></a>
+		      </td>
+		      <td align="left" valign="top"><p class="fts12 ftcBlue3c schdTxt">Discount</p></td>
+		      <td align="left" valign="top"><p class="fts12 ftcGrayb9 schdTxt"><span class="ftcRedff"><%=(dis_types && !dis_types[1].nil?) ?dis_types[1] : ''%> &nbsp; </span><%=(dis_types && !dis_types[2].nil?) ? dis_types[2] : ''%></p></td>
+		    </tr>
+		  <%end%>
+		<%end%>
+	      </table>
+	      </div>
+	    </div>
+	  <%end%>
+	</div>
+</div>
+<% else %>
+	<%if !@activity.price_type.nil? && ((@activity.price_type=="1")||(@activity.price_type=="2"))%>
+		<p><b><%=(schedule_price && schedule_price[1] && !schedule_price[1].nil? && !schedule_price[1].price.nil?) ? "$#{(number_with_precision schedule_price[1].price, :precision => 2).gsub(/\.00$/, "")}" : ''%></b></p>
+	<% end %>
+<% end %>
+</div>
+<!-- Price detail end -->
+
+	<!-- Edit, delete, buynow Button start -->
+		<%if (current_user && @activity.created_by.downcase=='provider' && @mode=='provider' && rep_perm_type && EditDelPermission(@school_rep,current_user.user_id,@activity,'edit'))%>
+		<a href="javascript:void(0)" onclick="pop_edit_activity('/edit_activity?activity_id=<%=@activity.activity_id if !@activity.nil?%>'); _gaq.push(['_trackEvent', 'Provider Module', 'clickActivity','Edit Activity','<%=@activity.activity_id if !@activity.nil?%>']);" title="Edit activity"><%=image_tag("/assets/tickets/edit_actitvity.png", :width=>"86", :height=>"30")%></a>
+		<%elsif (current_user && @activity.created_by.downcase=='provider' && @mode=='admin')%>
+		<a href="javascript:void(0)" onclick="pop_edit_activity('/edit_activity?activity_id=<%=@activity.activity_id if !@activity.nil?%>'); _gaq.push(['_trackEvent', 'Provider Module', 'clickActivity','Edit Activity','<%=@activity.activity_id if !@activity.nil?%>']);" title="Edit activity"><%=image_tag("/assets/tickets/edit_actitvity.png", :width=>"86", :height=>"30")%></a>
+		<%elsif (current_user && @use_act && !@use_act.nil? && current_user.user_id == @use_act.user_id && @activity.created_by.downcase=='parent')%>
+		<a href="javascript:void(0)" onclick="pop_edit_activity('/edit_activity_parent?activity_id=<%=@activity.activity_id if !@activity.nil?%>'); _gaq.push(['_trackEvent', 'Provider Module', 'clickActivity','Edit Activity','<%=@activity.activity_id if !@activity.nil?%>']);" title="Edit activity"><%=image_tag("/assets/tickets/edit_actitvity.png", :width=>"86", :height=>"30")%></a>
+		<%else%>
+		<%@purchase_flag = false%>
+		<%@purchase_flag = (!@activity.nil? && @activity.present? && !@activity.purchase_url.nil? && @activity.purchase_url!='' && @activity.purchase_url.present?) ? true : false%>
+		<% curr_userid = current_user.user_id if !current_user.nil?%>
+		<%@purchase_btn=get_purchase_status(@activity.activity_id,curr_userid)%>
+			<%if !@purchase_btn.nil?%>
+				<%if @purchase_btn == 'buy now'%>
+					 <a class="buy-now-button" <% if @purchase_flag%>target="_blank" href="<%= @activity.purchase_url %>" <% else %> href="javascript:void(0)" onclick="<%if !current_user.nil?%>pop_add_participant('/activities/add_participant?activity_id=<%=@activity.activity_id%>&activity_schedule_id=<%=act_sched.schedule_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>&total_paticipant=<%=@part[1] if !@part.nil?%>&can_attend=<%=@part[0] if !@part.nil?%>');<%else%>guest_feature('<%=@activity.activity_id%>','<%=act_sched.schedule_id%>','<%=@form_present %>');<%end%>_gaq.push(['_trackEvent', 'Parent Module',  'clickBuyNow','Buy Now',<%=@activity.activity_id%>]);"<% end%> title="Buy Now">
+						Buy Now
+					 </a>
+					 <!--div class="buy-now-button">Buy Now</div-->
+				<%elsif @purchase_btn == 'edit'%>
+					<a href="javascript:void(0)" onClick="pop_edit_activity('/edit_activity_parent?activity_id=<%= @activity.activity_id%>')" title="Edit"><%=image_tag("/assets/card_images/edit_btn.png", :width=>"65", :height=>"23", :border=>"0")%></a>
+				<%elsif @purchase_btn == 'attend'%>
+					<a class="buy-now-button" <% if @purchase_flag%>target="_blank" href="<%= @activity.purchase_url %>" <% else %> href="javascript:void(0)" onclick="<%if !current_user.nil?%>pop_add_participant('/activities/add_participant?activity_id=<%=@activity.activity_id%>&activity_schedule_id=<%=act_sched.schedule_id%>&before_login_value=<%= @before_login_value if !@before_login_value.nil? && @before_login_value.present?%>&total_paticipant=<%=@part[1] if !@part.nil?%>&can_attend=<%=@part[0] if !@part.nil?%>');<%else%>guest_feature('<%=@activity.activity_id%>','<%=act_sched.schedule_id%>','<%=@form_present %>');<%end%>_gaq.push(['_trackEvent', 'Parent Module',  'clickBuyNow','Buy Now',<%=@activity.activity_id%>]);"<% end%> title="Attend">
+						Attend
+					</a>
+				<%end%>
+			<%end%>
+		<%end%>
+	<!-- Edit, delete, buynow Button end -->
+
+	</div>
+	<!-- Schedule right container end -->
+	<div style="clear:both;"></div>
+</div><!--Schedule Repeat Loop end-->
+<%end%>
+<%i=i+1%>
+<%end%>
+<%else%>
+<div style="padding-top:10px;font-family:'open_sansregular';font-size:14px;color: #595959;">Schedule has been expired, please contact provider.</div>
+<%end%>
+
+</div>
+
+<!--GOOGLE CALENDAR FUNCTIONALITIES-->
+		          <%client_Id = gcal_client_ids%> <!-- from activity_detail helper -->
+			<input type='hidden' name='act-name' id='act-name' value='<%=@activity.activity_name%>'/>
+			<input type='hidden' name='act-desc' id='act-desc' value='<%=@activity.description%>'/>
+			<input type='hidden' name='act-city' id='act-city' value='<%=@activity.city%>'/>
+			<input type='hidden' id='set_sched_id' value=''/>
+<script>
+//GOOGLE CALENDAR FUNCTIONALITIES START
+
+function setSchedId(sched_id){
+$("#set_sched_id").val(sched_id);
+}
+
+// Insert the JS from above, here.
+var apiKey = '<%=client_Id[0]%>';
+var clientId = '<%=client_Id[1]%>';
+var scopes = '<%=client_Id[2]%>';   
+var update_hr = '<%=client_Id[3]%>' // To update the hours as per the time zone for localhost,dev,uat,live from activity_detail helper
+var update_min = '<%=client_Id[4]%>' // To update the hours as per the time zone for localhost,dev,uat,live from activity_detail helper
+ //~ function handleClientLoad() {
+  //~ gapi.client.setApiKey(apiKey);
+  //~ window.setTimeout(checkAuth,1);
+  //~ checkAuth();
+//~ }
+
+
+function checkAuth() {
+  gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true},
+      handleAuthResult);
+}
+
+function handleAuthResult(authResult) {
+  var authorizeButton = document.getElementById('authorize-button');
+  if (authResult) {
+    //~ authorizeButton.style.visibility = 'hidden';
+    makeApiCall();
+  } else {
+    authorizeButton.style.visibility = '';
+    authorizeButton.onclick = handleAuthClick;
+   }
+}
+
+function handleAuthClick(event) {
+  gapi.auth.authorize(
+      {client_id: clientId, scope: scopes, immediate: false},
+      handleAuthResult);
+  return false;
+}
+
+function makeApiCall() {
+var act_sched_id = $("#set_sched_id").val();
+      $.ajax({
+        url:'/googleCalAdd',
+        data: {
+	    "sched_id": act_sched_id
+        },
+        success:function(data){
+	  if(data){
+	        t_data = data.split('#');
+		g_data = t_data[0].split('@');
+                test_any_start = $.parseJSON(g_data[0]);
+                test_any_end = $.parseJSON(g_data[1]);
+               if(test_any_start instanceof Array && test_any_end instanceof Array){ //check whether it is an array or not
+			for (i = 0; i < test_any_start.length; i++) {
+			addtoGooglCal(g_data,test_any_start[i],test_any_end[i],update_hr,update_min,t_data) //adding the event to google calendar
+			}
+	       }
+	       else
+	       {
+	       addtoGooglCal(g_data,g_data[0],g_data[1],update_hr,update_min,t_data) //adding the event to google calendar
+		}
+	 }
+        }
+    });
+}
+
+
+function addtoGooglCal(g_data,strt_date,endd_date,update_hr,update_min,t_data){
+		var start_date_bef = new Date(parseInt(strt_date)); 
+		var end_date_bef = new Date(parseInt(endd_date));  
+				
+		//FOR LOCAL
+		//~ var s_date = start_date_bef;
+		//~ var e_date = end_date_bef;
+
+		// FOR DEV/UAT/LIVE (can be used for local too)
+		var s_date = setHoursTest(start_date_bef,update_hr,update_min);
+		var e_date = setHoursTest(end_date_bef,update_hr,update_min);
+
+		var rep_end_date = g_data[2];
+		var rep_val =g_data[3];
+		var check_repeat = g_data[4];
+		var rep_end_occur = g_data[5];
+		var rep_every_occur = g_data[6];
+		var rep_on = t_data[1];	
+		var time_z = g_data[7];
+		var act_name = $("#act-name").val();
+		var act_desc = $("#act-desc").val();
+		var act_city = $("#act-city").val();
+		if (check_repeat=="true")
+		{
+		var recc = "RRULE:FREQ="+rep_val
+		if(rep_val=='WEEKLY' || rep_val=='DAILY' || rep_val=='MONTHLY' )
+		{
+		var repeat_on = rep_on
+		if(repeat_on!='')
+		{
+		var recc =  recc.concat(";BYDAY="+repeat_on)
+		}
+		}
+			  if(rep_every_occur!='')
+			  {
+			 var recc = recc.concat(";INTERVAL="+rep_every_occur)
+			  }
+			  if(rep_end_occur!='')
+			  {
+			 var recc = recc.concat(";COUNT="+rep_end_occur)
+			  }
+			  if(rep_end_date!="")
+			  {
+			  var recc = recc.concat(";UNTIL="+rep_end_date)
+			  }
+			  var resource = {	
+			  "summary": act_name,
+			  "location": act_city,
+			  "description": act_desc,
+			  "start": {
+			    "dateTime":s_date,
+			   "timeZone":time_z,
+			  },
+			  "end": {
+			    "dateTime":e_date,
+			   "timeZone":time_z,
+			  }, 
+				   "recurrence": [
+				    //~ "RRULE:FREQ=WEEKLY;UNTIL=20131201T160000Z"
+				    recc
+				  ]	
+			};
+		}
+		else
+		{
+		 var resource = {	
+		  "summary": act_name,
+		  "location": act_city,
+		  "description": act_desc,
+		  "start": {
+		    "dateTime":s_date,
+		   "timeZone":time_z,
+		  },
+		  "end": {
+		    "dateTime":e_date,
+		   "timeZone":time_z,
+		  }, 
+		};
+		}
+		gapi.client.load('calendar', 'v3', function() {
+		var request = gapi.client.calendar.events.insert({
+		  'calendarId': 'primary',
+		  'resource': resource
+		});
+
+		request.execute(function(resp) {
+		console.log(resp);
+		window.open(resp.htmlLink,'_newtab');
+		});
+		 });
+}
+
+
+ function setHoursTest(date,updatehr,updatemin)
+ {
+	var update_hour = date.setHours(date.getHours()-parseInt(updatehr));
+	var te_date = new Date(update_hour); 
+	var update_min = te_date.setMinutes(te_date.getMinutes()-parseInt(updatemin));
+	var up_date = new Date(update_min);
+	return up_date
+ }
+ //GOOGLE CALENDAR FUNCTIONALITIES END
+                      </script>

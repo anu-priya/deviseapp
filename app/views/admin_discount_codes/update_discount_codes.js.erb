@@ -1,0 +1,15 @@
+<%if @admin_discount_code.save%>
+  parent.$(".flash-message").html("Discount Code has been Updated Successfully");
+  var win=$(window.parent).width();
+  var con=parent.$(".flash_content").width();
+  var leftvalue=((win/2)-(con/2))
+  parent.$(".flash_content").css("left",leftvalue+"px");
+  parent.$(".flash_content").css("top","67px");
+  parent.$('.flash_content').fadeIn().delay(10000).fadeOut();
+  parent.$("#act-list-<%=@admin_discount_code.admin_discount_id%>").replaceWith("<%=escape_javascript(render 'single_discount_code')%>")
+  parent.editdiscountPage.hide();
+<%else%>
+  $("#discount_code").css("border","1px solid #fc8989");
+  $("#discount_code_error").html("Discount Code already exist");
+  $("#discount_code_error").parent().css("display","block");
+<%end%>

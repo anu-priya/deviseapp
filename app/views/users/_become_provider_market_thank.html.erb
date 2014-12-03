@@ -1,0 +1,18 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up_success.css" />
+<script language="javascript">
+  $(document).ready(function(){
+    $("html, body", window.parent.document).animate({ scrollTop: 0 }, 100);
+  });
+  function closepopup() {
+	parent.parentLoginPage.hide();
+	//parent.parent.location.reload(true);
+	parent.parent.location.href += "";
+  }
+</script>
+
+<div align="center" style="height:230px;">
+  <p class="successText" style="padding:60px 0; text-align:center; width:662px;">Awesome! You are now a provider with Famtivity!</p>
+  <div class="clear"></div>
+  <%= link_to image_tag("/assets/register/ok_btn.png", :border => 0), root_path, :target => "_parent" %>
+  <a href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.city.nil? %>" target="_parent" title=""><img src="/assets/register/switch_to_provider.png" /></a>
+</div>

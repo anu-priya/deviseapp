@@ -1,0 +1,450 @@
+<link rel="stylesheet" type="text/css" href="/assets/login/login_new.css" />
+
+<link rel="stylesheet" href="/assets/contacts_users_new/contact_user.css" type="text/css" />
+
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css" />
+<script class="jsbin" src="/assets/event/jquery.min.js"></script>
+<script class="jsbin" src="/assets/event/jquery-ui.min.js"></script>
+<!-- DHTML Modal Effect -->
+<link rel="stylesheet" href="/assets/global/overlay/windowfiles/dhtmlwindow.css" type="text/css" />
+<link rel="stylesheet" href="/assets/global/overlay/modalfiles/modal.css" type="text/css" />
+
+<script type="text/javascript" src="/assets/global/overlay/windowfiles/dhtmlwindow.js"></script>
+<script type="text/javascript" src="/assets/global/overlay/modalfiles/modal.js"></script>
+
+
+
+<script language="javascript"> 
+$(document).ready(function(){
+	parent.document.getElementById("emptyContact").style.display="none";
+});
+  function closepopup() {
+    var y_value = $("#yahoo_id").val();
+    if(y_value == "1"){
+      parent.location.reload(true);
+    }
+    else{
+      parent.contactImportPage.hide();
+    }
+    parent.document.getElementById("emptyContact").style.display="block";
+  }
+</script>
+<script language="javascript"> 
+  function processForm(form) {
+    $.ajax( {
+      type: 'POST',
+      url: "import",
+      data: $(form).serialize(),
+      success: function(data) {
+        $('#message').html(data);
+      }
+    } );
+    return false;
+  }
+
+  function pop_gmail_imports(){
+    popupWindow = window.open('../contacts/gmail','name','width=930,height=650,scrollbars=yes');
+    // popupWindow = window.open('../contacts/gmail','name','width=930,height=650,scrollbars=yes');
+    return false;
+  }
+
+
+  function pop_yahoo_import(){
+    popupWindow = window.open('../contacts/yahoo','name','width=930,height=650,scrollbars=yes');
+    return false;
+  }
+
+  function pop_facebook_import(){
+    popupWindow = window.open('../contacts/facebook','name','width=930,height=650,scrollbars=yes');
+    return false;
+  }
+
+  function pop_hotmail_import(){
+    popupWindow = window.open('../contacts/hotmail','name','width=930,height=650,scrollbars=yes');
+    return false;
+  }
+
+  function pop_import_facebook(){
+    popupWindow = window.open('../contacts/facebook','name','width=930,height=650,scrollbars=yes');
+    return false;
+  }
+
+  function invite_friend(){
+    parent.contactImportPage.hide();
+    parent.pop_invite_friend_check('/invite_friend_famtivity?check_invite=invite');
+
+  }
+  var csv_import;
+  function pop_csv_import(url) {
+	
+	csv_import = dhtmlmodal.open("csv_upload_container","iframe",url,"", "width=910px,height=500px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+	    $("html, body").animate({
+	        scrollTop: 0
+	    }, 100);	    
+	    return false;
+  }
+  
+   
+</script>
+<style type="text/css">
+  /*loading image */
+  #dvLoading
+  {
+    background: transparent url(/assets/ajax-loader.gif) no-repeat center center;
+    height: 50px;
+    width: 50px;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    margin: -25px 0 0 -25px;
+  }
+  /* 29 Aug 2013 ---- import contacts*/
+  .sIcons{
+    width: 700px;
+    margin:0 auto;
+  }
+  .sIcons .sIconsR1{
+    margin-top:22px;
+  }
+  .sIcons .sIconsR2{
+    margin-bottom:12px;
+  }
+  .sIcons .icons{
+    width:250px;
+    display:inline-block;
+  }
+  .blueText{
+    color:#5AA3B6;
+    font-weight:bold;
+  }
+  .line{
+    border-top:1px solid #eeeeee;
+    height:0px;
+    width:710px;
+    margin:0 auto;
+  }
+  .buttonsDiv{
+    margin-top:20px;
+    width: 500px;
+  }
+
+</style>
+<script type="text/javascript" src="/assets/jquery.form.js"></script>
+
+<div id="contact_container" class="">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Import &amp; Invite Friends</div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> <img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" /> </a>
+          </div>
+        </div>
+        <input type="hidden" id="yahoo_id" value="">
+        <div class="centerCont contactNew" id="ImportContactContainer">
+<%#= form_tag({:action => 'import', :id => @user}, {:remote => true}) do %>
+<%#= form_tag({:action => 'import', :id => @user}, {:method => 'get', :remote => true}) do %>
+<%# form_tag :action => :list , :method=>:get, :remote=>true  do %>
+<%#= form_tag  contact_users_import_path,  :method => "get", :remote => true do %>
+          <form name="parent_register" id="parent_register" action="import" method="post">
+
+<%#= form_tag :action => 'import' {:remote => true}) do %>
+            <input type="hidden" name="from" id="from" value="">
+            <div style="width:700px; margin:0 auto; margin-top:30px;" id="gmail_logo">
+              <div>
+                <p class="importTopBG">Invite your friends and get<b class="ftcRedff" style="font-size:16px;">&nbsp;$1.00 Discount Dollars&nbsp;</b>for every friend that joins.</p>
+                <div class="sIcons" align="center">
+                  <div class="sIconsR1">
+                    <div class="icons">
+                      <table cellspacing="0" cellpadding="0" border="0">
+                        <tr>
+                          <td width="22">
+                            <input type="radio" name="socialnetworks" class="networks" id="gmail" value="gmail" />
+                          </td>
+                          <td width="48">
+                            <a href="javascript:void(0)" title=""><img src="/assets/contact/gmail_icon.png" width="39" height="40" alt="link" /></a>
+                          </td>
+                          <td>
+                            <a href="javascript:void(0)" title=""><span class="blueText">Gmail</span></a>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="icons">
+                      <table cellspacing="0" cellpadding="0" border="0">
+                        <tr>
+                          <td width="22">
+                            <input type="radio" name="socialnetworks" class="networks" id="facebook" value="facebook" />
+                          </td>
+                          <td width="48">
+                            <a href="javascript:void(0)" title=""><img src="/assets/contact/social_facebook_icon.png" width="39" height="40" alt="link" /></a>
+                          </td>
+                          <td>
+                            <a href="javascript:void(0)" title="" ><span class="blueText">Facebook</span></a>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="icons"></div>
+                  </div>
+                  <div class="sIconsR2">
+                    <div class="icons" style="width:267px;">
+                      <table cellspacing="0" cellpadding="0" border="0">
+                        <tr>
+                          <td width="22">
+                            <input type="radio" name="socialnetworks" class="networks" id="yahoo" value="yahoo" />
+                          </td>
+                          <td width="48">
+                            <a href="javascript:void(0)" title="" ><img src="/assets/contact/yahoo_icon.png" width="39" height="40" alt="link" /></a>
+                          </td>
+                          <td>
+                            <a href="javascript:void(0)" title=""><span class="blueText">Yahoo</span></a>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="icons">
+                      <table cellspacing="0" cellpadding="0" border="0">
+                        <tr>
+                          <td width="22">
+                            <input type="radio" name="socialnetworks" class="networks" id="hotmail" value="hotmail" />
+                          </td>
+                          <td width="48">
+                            <a href="javascript:void(0)" title=""><img src="/assets/contact/live_hotmail_icon.png" width="39" height="40" alt="link" /></a>
+                          </td>
+                          <td>
+                            <a href="javascript:void(0)" title=""><span class="blueText">Live/Hotmail</span></a>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+		    
+                  </div>
+		  <div class="sIconsR2">
+                    <div class="icons" style="width:267px;">
+                      <table cellspacing="0" cellpadding="0" border="0" width="105">
+                        <tr>
+                          <td width="22">
+                            <input type="radio" name="socialnetworks" class="networks" id="csv" value="csv" />
+                          </td>
+                          <td width="48">
+                            <a href="javascript:void(0)" title="" ><img src="/assets/contact/CSV_Icon.png" width="40" height="41" alt="link" /></a>
+                          </td>
+                          <td>
+                            <a href="javascript:void(0)" title=""><span class="blueText">CSV</span></a>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+		    <div class="icons">
+                      <table cellspacing="0" cellpadding="0" border="0"  style="display: none;">
+                        <tr>
+                          <td width="22">
+                            <input type="radio" name="socialnetworks" class="networks" id="hotmail" value="hotmail" />
+                          </td>
+                          <td width="48">
+                            <a href="javascript:void(0)" title="" ><img src="/assets/contact/live_hotmail_icon.png" width="39" height="40" alt="link" /></a>
+                          </td>
+                          <td>
+                            <a href="javascript:void(0)" title=""><span class="blueText">Live/Hotmail</span></a>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="line"></div>
+                <div class="buttonsDiv">
+                  <a href="javascript:void(0)" title="" onclick="select_network(); _gaq.push(['_trackEvent','Parent Module', 'clickContact','Import']);"><img src="/assets/contact/import_button.png" height ="39" width = "111" /></a>
+                  <a href="javascript:void(0)" title=""><img src="/assets/contact/cancel_button.png" height ="39" width = "111" alt="" onclick="closepopup()"/></a>
+                </div>
+
+                <!--<a href="/contacts/gmail" title="" id="gmail" ><img src="/assets/contact/import_icon_gmail.png" alt="link" /></a>-->
+                <!--a href="javascript:void(0)" title="" id="gmail" onclick="display_login(this.id)"><img src="/assets/contact/import_icon_gmail.png" alt="link" /></a>
+                <!--<a href="javascript:void(0)" title=""   style="padding-left:15px;" onclick="parent.contactImportPage.hide(); parent.pop_facebook_import('/auth/facebook');" ><img src="/assets/contact/facebook_box.png" alt="link" /></a>
+                <a href="javascript:void(0);" title=""   style="padding-left:15px;" onclick="pop_facebook_import('/auth/facebook');" ><img src="/assets/contact/facebook_box.png" alt="link" /></a>-->
+                <!--a href="javascript:void(0);" title=""   style="padding-left:15px;" onclick="pop_facebook_import()" ><img src="/assets/contact/facebook_box.png" alt="link" /></a>
+
+<%#=link_to "Log in with Facebook",'/contacts/facebook', :class => "popup", :"data-width" => 600, :"data-height" => 400%>
+
+              </div>
+              <div style="padding-top:20px;">
+                <a href="javascript:void(0);" onclick="pop_yahoo_import();"><img src="/assets/contact/yahoo_icon.png" alt="link" /></a>
+                <!--<a href="/contacts/yahoo" title="" id="yahoo" ><img src="/assets/contact/yahoo_icon.png" alt="link" /></a>
+                  <a href="javascript:void(0)" title="" id="yahoo" onclick="display_login(this.id)"><img src="/assets/contact/yahoo_icon.png" alt="link" /></a>-->
+                <!--a href="javascript:void(0)" title="" id="hotmail" style="padding-left:15px;" onclick="display_login(this.id)"><img src="/assets/contact/hotmail_icon.png" alt="link" /></a-->
+              </div>
+            </div>
+
+            <div id="contact_login" style="display:none; width:880px;">
+              <div class="paddingTop10" style="width:536px; padding-top:40px; margin:0 auto;">
+                <div class="lt leftSideField" style="width:108px;">Email<span class="required">*</span></div>
+                <input type="text" name="login" id="login" class="lt textbox" maxlength="50" tabindex="1">
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none; margin-left:173px;">
+                <div class="lt leftSideField" style="width:108px;">&nbsp;</div>
+                <div class="lt" id="login_id_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10" style="width:536px; margin:0 auto;">
+                <div class="lt leftSideField" style="width:108px;">Password<span class="required">*</span></div>
+                <input type="password" name="password" id="password" class="lt textbox" maxlength="25" tabindex="2">
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none; margin-left:173px;">
+                <div class="lt leftSideField" style="width:108px;">&nbsp;</div>
+                <div class="lt" id="pass_id_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10" style="width:538px; padding:15px 0 40px; margin-left:173px;">
+                <div class="lt leftSideField" style="width:108px;">&nbsp;</div>
+
+<%#= submit_tag '#{image_tag("Login_small.png", :width=>70)}' %>
+<%#= image_submit_tag("/assets/login/login_button.png", :height => "37", :width => '97', :onclick => "return get_contact_id();" ) %>
+
+                <input src="/assets/login/login_button.png" type="image" height ="37" width = "97" value="Save"  onClick="return get_contact_id();"/>
+                <a href="javascript:void(0)" title=""><image src="/assets/login/cancel_button.png" alt="" onclick="display_social_net()"/></a>
+                <div class="clear"></div>
+              </div>
+            </div>
+          </form>
+<%# end %>
+
+          <div id="my_import">
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popupContainerBottom" style="margin-top:0px;"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>
+
+<!--ajax loader -->
+<div id='loadingmessage' style='display:none;margin-top:-203px;float:left;margin-left:462px;' align="center">
+  <img src='/assets/ajax-loader.gif'/>
+</div>
+
+<script type="text/javascript">
+
+  function select_network() {
+    var val = $(".networks:checked").val();
+    if (val=='gmail')
+    {
+      pop_gmail_imports();
+    }
+    else if(val=='facebook')
+    {
+      pop_import_facebook();
+    }
+    else if(val=='yahoo')
+    {
+      pop_yahoo_import();
+    }
+    else if(val=='hotmail')
+    {
+      pop_hotmail_import();
+    }
+    else if(val=='csv')
+    {
+      pop_csv_import('/csv_import');
+    }
+  }
+
+
+  function display_login(id){
+    $("#from").val(id);
+    $("#gmail_logo").css("display","none");
+    $("#contact_login").css("display","block");
+  }
+
+  function display_social_net(){
+    $("#contact_login").css("display","none");
+    $("#gmail_logo").css("display","block");
+    $(".networks").prop('checked', false);
+  }
+
+  function get_contact_id(id){
+    var txtboxValue=$("#from").val();
+    $("#from").val(txtboxValue);
+  
+    var login_user = $("#login").val();
+    var login_pass = $("#password").val();
+  
+    $("#login_id_error").parent().css("display","none");
+    $("#pass_id_error").parent().css("display","none");
+  
+    $("#login").css("border","1px solid #BDD6DD");
+    $("#password").css("border","1px solid #BDD6DD");
+  
+    login_user = login_user.replace(/^\s+|\s+$/g, "");
+    login_pass = login_pass.replace(/^\s+|\s+$/g, "");
+  
+    $("#login_id_error").html("");
+    $("#pass_id_error").html("");
+
+    var errorFlag = false;
+  
+    if(login_user == ""){
+      $("#login").css("border","1px solid #fc8989");
+      $("#login_id_error").html("Please enter your Email");
+      $("#login_id_error").parent().css("display","block");
+      errorFlag = true;
+    }
+  
+    else if(!validateCorrectEmail(login_user)){
+      $("#login").css("border","1px solid #fc8989");
+      $("#login_id_error").html("Please enter a valid Email");
+      $("#login_id_error").parent().css("display","block");
+      errorFlag = true;
+    }
+
+    if(login_pass == ""){
+      $("#password").css("border","1px solid #fc8989");
+      $("#pass_id_error").html("Please enter your password");
+      $("#pass_id_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    if(errorFlag){
+      return false;
+    }
+    return true;
+  
+  }
+  function validateName(elementValue){
+    /*var alphaExp = /^([a-zA-Z]+([ ]{0,1}[a-zA-Z]))+$/;*/
+    var alphaExp = /^[a-zA-Z ]*$/;
+    return alphaExp.test(elementValue);
+  }
+  function validateCorrectEmail(elementValue){
+    var emailPattern = /^([a-zA-Z0-9]+([~{|}._-]{0,1}[a-zA-Z0-9]+)*)@(([a-zA-Z0-9]+([._-]{0,1}[a-zA-Z0-9]+)*)+(?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,3})?)$/;
+    return emailPattern.test(elementValue);
+  }
+
+</script>
+<div id="dvLoading"></div>
+
+<script>
+  //$(window).load(function(){
+  //  $('#dvLoading').fadeOut(1000);
+  //~ });
+
+</script>

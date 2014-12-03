@@ -1,0 +1,149 @@
+<%@use = User.find_by_user_id(@activity.user_id) if !@activity.nil?%>
+<%if !@use.nil? && !@use.user_profile.nil? && !@use.user_profile.business_name.nil? && @use.user_type=="P"%>
+  <%use_name = @use.user_profile.business_name if !@use.nil? && !@use.user_profile.business_name.nil?%>
+<%else%>
+  <%use_name = @use.user_name if !@use.nil?%>
+<%end%>
+<!--meta tag added for search  landing page-->
+<%met_name = " #{@activity.city} " + " #{use_name} " + " #{@activity.activity_name}"%>
+<%act_desc = "#{@activity.description}" + " #{@activity.city}"%>
+<%act_key = "#{@activity.city} " +" #{@activity.activity_name}" , " #{use_name}" + " #{@activity.activity_name}", "#{met_name}" %>
+<%#= display_meta_tags :title=> met_name,:description=> act_desc,:keywords => [" #{@activity.city} " +" #{@activity.activity_name}" , " #{use_name}" +" #{@activity.activity_name}","#{met_name}"] %>
+<%
+      meta :title => met_name,
+     :description => act_desc,
+     :keywords =>  act_key
+%>
+
+<%=stylesheet_link_tag "global/pop_up","activity_view_detail/activity_details","event_index/event_index","activity_view_detail/paymentDetail", :media => "all"%>
+<%=javascript_include_tag "global/jquery-1.8.3.min", "acitivity_view_details/schedule_price","acitivity_view_details/activity_validation","ga_social_tracking"%>
+
+<script language="javascript">
+  var activityDeletePage;
+  function closepopup() {
+    parent.activityDetailsPage.hide();
+  }
+  var addparticipantpage;
+
+
+  function before_login_closepopup() {
+    parent.window.location.href = "/";
+  }
+
+  function pop_add_participant(url){
+    addparticipantpage = dhtmlmodal.open("Add Participant","iframe",url,"", "width=910px,height=1600px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; border:1px solid red; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100)
+    return false;
+  }
+  $(document).ready(function(){
+    $("#detail_fb").hide();
+     avoid_background();
+ });
+
+
+   $(window).load(function () {
+    avoid_background();
+   });
+
+ function avoid_background() {
+    var detailheight=$('#new_act_container').height();
+    parent.$('#popupframe').css('width', '94%');
+    parent.$('#popupframe').css('height', detailheight+'px');
+  $('#new_act_container').css('overflow', 'hidden'); 
+ }
+  
+</script> 
+
+<script src="https://connect.facebook.net/en_US/all.js" async=""></script>
+<script src="https://www.google-analytics.com/ga.js" async="" type="text/javascript"></script>
+<!-- Load Twitter JS-API asynchronously -->
+<script>
+(function(){
+var twitterWidgets = document.createElement('script');
+twitterWidgets.type = 'text/javascript';
+twitterWidgets.async = true;
+twitterWidgets.src = '//platform.twitter.com/widgets.js';
+// Setup a callback to track once the script loads.
+twitterWidgets.onload = _ga.trackTwitter;
+document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+})();
+</script>
+<!-- added pixel for conversion tracking-->
+<script type="text/javascript">
+	var fb_param = {};
+	fb_param.pixel_id = '6009203206329';
+	fb_param.value = '0.00';
+	fb_param.currency = 'USD';
+	(function(){
+		var fpw = document.createElement('script');
+		fpw.async = true;
+		fpw.src = '//connect.facebook.net/en_US/fp.js';
+		var ref = document.getElementsByTagName('script')[0];
+		ref.parentNode.insertBefore(fpw, ref);
+	})();
+</script>
+<noscript><%=image_tag("https://www.facebook.com/offsite_event.php?id=6009203206329&amp;value=0&amp;currency=USD", :width=>"1", :height=>"1", :style=>"display:none;")%>
+</noscript>
+<!-- end of pixel for conversion tracking-->
+  <div id="activity_new">
+    <%= render :partial =>"activity_detail/activitynew_details" %>
+  </div>
+  <!-- login feature popup start -->
+<div id="login_use_feature">
+  <div class="content_popup" style="display:none;"><br>You need to login to use this feature<br><br>
+  <span class="b-close" id="loginFeature"><a href="javascript:void(0)" title=""><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38")%></a></span>
+  <a href="javascript:void(0);" title=""><span class="b-close"><%=image_tag("/assets/landing/cancel_button.png", :width=>"101", :height=>"35", :style=>"border:0px;")%></span></a>
+</div>
+</div>
+<!-- login feature popup end -->
+
+
+
+  <script language="javascript">
+     //login feature bpopup displayed
+	function login_feature(act)
+	{ 
+	var activity_id=act;
+	var before_login_value=beforelogin;
+	$('#login_use_feature').bPopup(function(){
+		$( "#loginFeature" ).click(function(){
+		//~ pop_Login('/login?activity_id='+activity_id+'&before_login_value='+before_login_value);
+		pop_Login('/login?activity_id='+activity_id);
+		});
+	});
+	}
+	
+	
+    function save_to_favour(){
+      $.post("/activity_favorites/add_favorite", {"activity_id":$('#activity_id').val(),"user_id":$('#user_id').val()}, null, "json");
+    }
+    $('.dispSessionDiv li a').mouseover(function (){
+      $(this).parent().parent().parent("li").children('a:first').addClass('selectedSessionDiv');
+    
+    });
+    $('.dispSessionDiv li a').mouseout(function (){
+      $(this).parent().parent().parent("li").children('a:first').removeClass('selectedSessionDiv');
+      
+    });
+
+    <!-- Google Analytics Site Tracking Information (Dont Remove) -->
+
+    var _gaq = _gaq || [];_gaq.push(['_setAccount', 'UA-37198261-1']);_gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+
+</body>
+<style type="text/css">
+  .setfeedbackDiv {
+    background: none repeat scroll 0 0 #EDF1F2;
+    color: #444444;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    padding: 8px;
+    width: 250px;
+  }
+</style> 

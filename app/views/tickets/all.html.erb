@@ -1,0 +1,336 @@
+<%=stylesheet_link_tag "header/header","event_index/menu","global/overlay/windowfiles/dhtmlwindow","global/overlay/modalfiles/modal", :media => "all"%>
+<%=javascript_include_tag "header/header","tickets/tickets","global/checkbox","event_index/event_index","global/overlay/windowfiles/dhtmlwindow","global/overlay/modalfiles/modal","pagination","event_index/macfix","event_index/jquery.dropdownPlain"%>
+<link type="text/css" rel="stylesheet" href="/assets/tickets/tickets.css?v=1" />
+<link rel="stylesheet" type="text/css" href="/assets/event_index/event_index.css?v=1" />
+<script type="text/javascript">
+
+  var editTicketPage;
+  var viewTicketPage;
+  
+
+  function pop_edit_ticket(url){
+    editTicketPage = dhtmlmodal.open("Edit Ticket","iframe",url," ", "width=950px,height=850px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    return false;
+  }
+   function pop_newedit_ticket(url){
+    neweditTicketPage = dhtmlmodal.open("Edit Ticket","iframe",url," ", "width=950px,height=850px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    return false;
+  }
+   function pop_view_ticket(url){
+    viewTicketPage = dhtmlmodal.open("View Ticket","iframe",url," ", "width=950px,height=760px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    return false;
+  }
+  function pop_delete_activity(url){
+    activityDeletePage = dhtmlmodal.open("Delete Activity","iframe",url," ", "width=900px,height=400px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    return false;
+  }
+  function before_delete_all(){
+    //~ alert('delete data checking');
+    //a = $("#actid_chk").val();
+    if (a=='')
+    {
+      pop_delete_activity_empty('/activities/delete_activity_empty')
+    }
+    else
+    {
+      var a;
+      pop_delete_activity('/activities/delete_activity?id='+a)
+    }
+  }
+
+
+</script>
+<style type="text/css">
+  #providerEventList .topContainer .leftMenus {
+    padding-left: 6px;
+    padding-top: 3px;
+    width: 398px;
+}
+</style>
+
+<div id="event_index_container">
+  <div class="headerPart1" style="position:fixed; top:0px; width:100%;">
+    <div align="center"><a href="/provider_activites" title="">
+      <%= image_tag("/assets/event_index/famtivity_logo_parent.png", size: "110x35")%>
+    </a></div>
+    <div class="lt" style="margin-top:-42px; margin-left:-20px; width:340px;">
+      <div class="selectedCity1_123" id="location" style="float: left; display: inline-block;">
+        <div id="mydiv">
+          <ul class="dropdown">
+            <li class="firstDiv"><a href="#" id="GoToDiv" class="Title" style="color:#5099AC;">
+                <div><span id="city_value" style="float:left; display: inline-block;margin-top:1px;"><%if !session[:city].nil?%><%= session[:city] %>
+                    <%else%><%=cookies[:city_new_usr]%>
+                    <%end%></span> <span style="float:left; display: inline-block; margin-left: 5px;">
+                    <%= image_tag("/assets/event_index/dropdown_arrow.png", size: "7x4", id:"arrow1")%>
+                  </span>
+                </div>
+                <div class="clear"></div>
+              </a>
+              <ul class="sub_menu" style="">
+                <li><a href="#" id="GoToDiv">
+                    <div style="margin-top:-16px; .margin-top:-6px; margin-left: -10px;" class="TotalDiv">
+                      <div><%= image_tag("/assets/event_index/locotion_dropdown_box_top.png", size: "464x2")%>
+                       </div>
+                      <div class="locationDivCenter">
+                        <div class="ftSz14_discount" style="float: left; display: inline-block; padding-top: 4px; cursor: default;">Enter Zip Code</div>
+
+                        <div class="Setlt"><input type="text" id="zp" name="zp" class="event_search"/></div>
+                        <div class="GoButton">
+                          <%= image_tag("/assets/event_index/go_button.png", size: "33x26", :onClick => "filter_by_zip_code()" )%>
+                        </div>
+                        <div class="clear"></div>
+                        <div style="width:443px; margin-top: 20px;">
+                          <div class="dashedLineDiv Setlt"></div>
+                          <div class="Setlt" style="width: 32px; margin: -8px 0 0 10px; color:#353736; font-size: 12px; cursor: default;">Or</div>
+                          <div class="dashedLineDiv Setlt"></div>
+                        </div>
+                        <div class="clear"></div>
+                        <div style="width:439px; margin-top: 10px;">
+                          <div class="ftSz14_discount" style="float: left; display: inline-block;">Choose City</div>
+                          <div class="ftSz14_discount" style="float: right; display: inline-block;">United States <span style="display: inline-block; top: -1px; position: relative;">
+                            <%= image_tag("/assets/event_index/dropdown_arrow.png", size: "7x4", id: "arrow1")%>
+                            </span></div>
+                        </div>
+                        <div>
+                          <%= image_tag("/assets/event_index/horiz_line.png", size: "443x3", style: "margin-top: 10px;")%>
+                        </div>
+                        <div class="clear"></div>
+                        <table cellpadding="0" cellspacing="0" class="description" style="color: #313332; margin-top: 10px;">
+                          <tr>
+                            <td width="175" height="30"><span <%if session[:city]=="New York"%>class ="on"<%else%>  class="off"<%end%>id="st_1" onclick="filter_state(this.innerHTML,1);">New York</span></td>
+                            <td width="175" height="30"><span  <%if session[:city]=="Dallas"%>class ="on"<%else%>  class="off"<%end%> id="st_2" onclick="filter_state(this.innerHTML,2);">Dallas</span></td>
+                            <td width="175" height="30"><span  <%if session[:city]=="Seattle"%>class ="on"<%else%>  class="off"<%end%> id="st_3" onclick="filter_state(this.innerHTML,3);">Seattle</span></td>
+                          </tr>
+                          <tr>
+                            <td width="175" height="30"><span <%if session[:city]=="Los Angeles"%>class ="on"<%else%>  class="off"<%end%> id="st_4" onclick="filter_state(this.innerHTML,4);" >Los Angeles</span></td>
+                            <td width="175" height="30"><span <%if session[:city]=="San Jose"%>class ="on"<%else%>  class="off"<%end%> id="st_5" onclick="filter_state(this.innerHTML,5);" >San Jose</span></td>
+                            <td width="175" height="30"><span <%if session[:city]=="Chicago"%>class ="on"<%else%>  class="off"<%end%> id="st_6"  onclick="filter_state(this.innerHTML,6);" >Chicago</span></td>
+                          </tr>
+                          <tr>
+                            <td width="175" height="30"><span <%if session[:city]=="Detroit"%>class ="on"<%else%>  class="off"<%end%> id="st_7"  onclick="filter_state(this.innerHTML,7);" >Detroit</span></td>
+                            <td width="175" height="30"><span  <%if session[:city]=="Philadelphia"%>class ="on"<%else%>  class="off"<%end%> id="st_8"  onclick="filter_state(this.innerHTML,8);" >Philadelphia</span></td>
+                            <td width="175" height="30"><span  <%if session[:city]=="Houston"%>class ="on"<%else%>  class="off"<%end%> id="st_9"  onclick="filter_state(this.innerHTML,9);" >Houston</span></td>
+                          </tr>
+                          <tr>
+                            <td width="175" height="30"><span  <%if session[:city]=="San Antonio"%>class ="on"<%else%>  class="off"<%end%> id="st_10"  onclick="filter_state(this.innerHTML,10);" >San Antonio</span></td>
+                            <td width="175" height="30"><span  <%if session[:city]=="San Diego"%>class ="on"<%else%>  class="off"<%end%> id="st_11"  onclick="filter_state(this.innerHTML,11);" >San Diego</span></td>
+                            <td width="175" height="30"><span <%if session[:city]=="San Francisco"%>class ="on"<%else%>  class="off"<%end%> id="st_12"  onclick="filter_state(this.innerHTML,12);" >San Francisco</span></td>
+                          </tr>
+                          <tr>
+                            <td width="175" height="30"><span  <%if session[:city]=="Walnut Creek"%>class ="on"<%else%>  class="off"<%end%> id="st_13"  onclick="filter_state(this.innerHTML,13);" >Walnut Creek</span></td>
+                          </tr>
+                        </table>
+                        <div class="clear"></div>
+                      </div>
+                      <div>
+                        <%= image_tag("/assets/event_index/locotion_dropdown_box_bottom.png", size: "446x9", style: "top: -7px; .top:0px; position:relative;")%>
+                        </div>
+                    </div>
+                  </a></li>
+
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="setDateDiv">
+        <input type="hidden" id="datepicker" class="datePicker"/>
+        <!--<a href="javascript:void(0)" title="" id="datePickerOver" class="datePickerOver" onmouseOver="dispDate()"><span id="month"></span>&nbsp;<span id="date"></span><img id="date_arrow" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -2px; left:4px;" height="4" width="7"></a>-->
+    <a href="javascript:void(0)" title="" id="datePickerOver" class="datePickerOver" onmouseOver="dispDate()">
+          <%if !session[:date].nil?%>
+              <span><%= Date.parse(session[:date]).strftime("%b")%></span>&nbsp;<span><%= Date.parse(session[:date]).strftime("%d")%></span>
+            <%else%>
+                <span id="month"></span>&nbsp;<span id="date"></span>
+            <%end%>
+    <%= image_tag("/assets/event_index/dropdown_arrow.png", size: "7x4", style: "position: relative; top: -1px; left:3px;",id: "date_arrow")%>
+    </a>
+      </div>
+
+
+      <div class="selectedCity2" style="float: left; margin-left: 10px;.margin-left: 10px; margin-top:3px; display: inline-block;">
+        <div id="menu" class="actDivMenu">
+          <ul>
+            <li><a href="#" class="actDiv">Activities<span class="actImg">
+              <%= image_tag("/assets/event_index/dropdown_arrow.png", size: "7x4", style: "position: relative; top: -1px;",id: "arrow1")%>
+            </span></a>
+              <ul class="sub-menu dispProviderActivityDiv" style="height:84px;.margin-top:26px; .margin-left:-91px;">
+                <li><a href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? %>">Activites</a></li>
+                <li><a href="/activity_provider_schedule">Schedule</a></li>
+                <li><a href="#">FamPass</a></li>
+              </ul>
+            </li>
+          </ul>
+          <div class="clear"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <table cellpadding="0" class="headerDivRight" cellspacing="0" width="466" border="0" style="float:right; display:inline-block; margin-top:-33px; .margin-top:-30px;">
+      <tr>
+        <td align="right" valign="" width="300">
+
+           <!--profile image dynamically modified on 29dec12-->
+    <%if current_user.user_type=="P" %>
+        <%@profile_data=current_user.user_profile if !current_user.user_profile.nil?%>
+             <%if !@profile_data.profile_file_name.nil? && @profile_data.profile.present?%>
+             <%= image_tag @profile_data.profile.url(:thumb),  :width => '21', :height => '21', :style =>"top:-8px; position:relative;", :alt => "Profile image"%>
+             <%else%>
+                     <span>
+                      <%= image_tag("/assets/event_index/photo_register.png", style: "top:-8px; position:relative;")%>
+                    </span>
+         <%end%>
+    <%else%>
+          <span><%= image_tag("/assets/event_index/photo_register.png", style: "top:-8px; position:relative;")%>
+          </span>
+    <%end%>
+
+          <span id="user_menu" class="UserDivMenu">
+            <ul>
+              <li>
+          <!--modified the user_name based on type on 29dec12-->
+          <%if current_user.user_type=="P" %>
+                <a href="" class="userDiv" style="color: #4495AE; border: 1px solid #DBEEF4;"><%= current_user.user_profile.business_name if !current_user.nil? && !current_user.user_profile.business_name.nil? && !current_user.user_profile.nil? %><span class="actImg">
+                  <%= image_tag("/assets/event_index/dropdown_arrow.png", style: " position: relative; top: -1px;", id:"arrow1", size:"7x4")%>
+                </span></a>
+         <%else%>
+          <a href="" class="userDiv" style="color: #4495AE; border: 1px solid #DBEEF4;"><%= current_user.user_name if !current_user.nil? %><span class="actImg">
+            <%= image_tag("/assets/event_index/dropdown_arrow.png", style: " position: relative; top: -1px;", id:"arrow1", size:"7x4")%>
+          </span></a>
+         <%end%>
+                <ul class="sub-menu dispParentUserDiv" style="height:116px;.margin-top:30px; right:0px;" align="right">
+                  <li style="border:1px #B1D7E3 solid;margin-bottom:3px;background-color:#EDF2F5;"><a href="/event_index" style="padding-top:8px;color:#E24C4B;"><b>Switch to Parent</b></a></li>
+                  <li><a href="/provider_profile">Profile</a></li>
+                  <li><a href="/change_password">Change Password</a></li>
+                  <li><a href="/logout">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="clear"></div>
+          </span>
+
+        </td>
+        <td width="33" align="left">
+          <div><a href="/contact_users" title="">
+             <%= image_tag("/assets/event_index/contacts_icon.png", size:"28x26", :onmouseover =>'$(this.src="/assets/event_index/contacts_icon_over.png")', :onmouseout => '$(this.src="/assets/event_index/contacts_icon.png")'  )%>
+          </a></div>
+        </td>
+        <td width="6" align="left"><div><a href="javascript:void(0)" title="">
+          <%= image_tag("/assets/event_index/divider_top.png", size:"1x17")%>
+        </a></div></td>
+        <td width="31" align="left"><div><a href="javascript:void(0)" title="">
+          <%= image_tag("/assets/event_index/message_icon.png", size:"26x24", :onmouseover =>'$(this.src="/assets/event_index/message_icon_over.png")', :onmouseout => '$(this.src="/assets/event_index/message_icon.png")'  )%>
+          </a></div></td>
+        <td width="1" align="left"><div><a href="javascript:void(0)" title="">
+          <%= image_tag("/assets/event_index/divider_top.png", size:"1x17")%></a></div></td>
+        <td >
+
+          <div id="service_menu" class="serviceDivMenu">
+            <ul>
+              <li>
+                <a href="" class="serviceDiv" style="color: #4495AE; border: 1px solid #DBEEF4; width:65px;">Service<span class="actImg">
+                  <%= image_tag("/assets/event_index/dropdown_arrow.png", size:"7x4" ,id: "arrow1", style:" position: relative; top: -1px;")%>
+                </span></a>
+                <ul class="sub-menu dispParentServiceDiv" style="height:135px; margin-left:-66px;.margin-top:28px; .margin-left:-147px;">
+                  <li><a href="/how_it_works" style="padding-top:8px;">How it works</a></li>
+                  <li><a href="#">Support</a></li>
+                  <li><a href="#">Terms of Service</a></li>
+                  <li><a href="#">Privacy Policy</a></li>
+                  <li><a href="#">Invite Your Provider</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="clear"></div>
+          </div>
+
+        </td>
+      </tr>
+    </table>
+ <div class="clear"></div>
+   </div>
+<div class="clear"></div>
+  <form name="provider_event_list" id="provider_event_list">
+    <div id="providerEventList" style="margin-top:46px;">
+      <div class="topContainer sponsorship">
+        <table cellspacing="0" cellspadding="0" border="0" width="100%">
+          <tr>
+            <td align="left" height="40">
+              <div class="leftMenus">
+                <span class="pipeSymbol">
+                  <div id="menu" class="actionDivMenu" style="top:-2px;">
+                    <ul>
+                     
+                    </ul>
+                    <div class="clear"></div>
+                  </div>
+                </span>
+              </div>
+            </td>
+            <td align="center" height="40">
+              <a href="#" class="menuText menuText1 selectedMenuText" title="">FamPass</a>
+              <span class="dot menuText">&bull;</span>
+              <a href="/accept_tickets" class="menuText menuText1" title="">Accept FamPass</a>
+            </td>
+            <td align="right" height="40"><div class="searchDiv"></div></td>
+        </tr>
+      </table>
+    </div>
+    <div class="centerContainer" id="provider_partial_event_list" >
+
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    initARC('provider_event_list','altCheckboxOn','altCheckboxOff');
+    selectAny();
+  });
+  function before_delete(a){
+    var a;
+    pop_delete_activity('/activities/delete_activity?id='+a)
+  }
+
+
+</script>
+
+<div id="list" class="tickesViewPage">
+
+  <table cellspacing="0" cellspadding="0" border="0" width="100%">
+    <tr>
+      <td align="left" width="20%" class="headText setPadLt">Ticket Name</td>
+      <td align="left" width="20%" class="headText">Ticket Image</td>
+    </tr>  
+
+    <% @activities.each do |act| %>
+    
+      <tr class="setBg1">
+        <td align="left" width="%" class="contentText setPadLt"><%= act.activity_name %>
+        </td>
+
+        <td align="left" width="20%" class="contentText">
+           <div class="ticketContainer view_ticketType1">
+             <div class="row1">
+                    <a href="javascript:void(0)" title="Edit" class="lt setRt" onClick="pop_newedit_ticket('/ticket_newedit')" >
+                      <%= image_tag("/assets/activity_ticket/ticket_top.png", size:"141x180")%>
+                    </a>
+              </div>
+            </div>
+        </td>
+          <div class="clear">
+          </div>
+      </tr>
+    <% end %>
+  </table>
+    <%#= will_paginate @activities %>
+      <div class="pro_pagination">
+          <%= will_paginate @activities%>
+      </div>
+<!-- End -->
+
+  </form>
+  <div class="clear"></div>
+  <div class="footer">
+    <div class="border"></div>
+    <div class="footerConts">&copy; Copyright 2012 famtivity Inc.</div>
+  </div>
+</div>
+

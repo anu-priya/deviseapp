@@ -1,0 +1,56 @@
+<!-- user activate account feature popup start -->
+<input type="hidden" id="user_id_delete" name="user_id_delete" value="<%=current_user.user_id if !current_user.nil? && current_user.present?%>"/>
+<div id="activate_account_feature" style="display:none;">
+  <div id="UserAct">
+    <div id="UserAccountActivate" style="font-weight:bold;font-family: 'open_sansregular',Sans-Serif;">Activate your Account</div>
+    <div id="UserCloseAct">
+	<a class="delimg imageall b-close" title="" href="javascript:void(0)"></a>
+    </div>
+  </div>
+  <div class="content_popup" style="padding: 0px 25px 10px 25px;font-family: 'open_sansregular',Sans-Serif;">
+    <!--br>Activate your account now to promote and sell your activities on Famtivity. By activating , your Famtivity account will automatically debit <span style="color:#FF0013"><%#if current_user && current_user.present? && !current_user.manage_plan.nil? && current_user.manage_plan == "market_sell" %>$ 29.95<%#elsif current_user && current_user.present? && !current_user.manage_plan.nil? && current_user.manage_plan == "market_sell_manage" %>$ 49.95<%#elsif current_user && current_user.present? && !current_user.manage_plan.nil? && current_user.manage_plan == "market_sell_manage_plus" %>$ 99.95<%#end%></span> to renew <%#if current_user && current_user.present? && !current_user.manage_plan.nil? && current_user.manage_plan == "market_sell" %>Market &amp; Sell plan<%#elsif current_user && current_user.present? && !current_user.manage_plan.nil? && current_user.manage_plan == "market_sell_manage" %>Market Sell &amp; Manage plan<%#elsif current_user && current_user.present? && !current_user.manage_plan.nil? && current_user.manage_plan == "market_sell_manage_plus" %>Market Sell &amp; Manage Plus plan<%#end%>. To change your plan, click on "Activate &amp; Change Plan"<br><br-->
+    <%if (current_user && current_user.present? && !current_user.user_plan.nil? && !current_user.manage_plan.present? && (current_user.user_plan.downcase == "sell" || current_user.user_plan.downcase == "curator")) || (current_user && current_user.present? && !current_user.user_plan.nil? && current_user.manage_plan.present? && (!current_user.is_partner.nil? && current_user.is_partner==TRUE || current_user.manage_plan.downcase == "school"))  %>
+      <br><b>If you upgrade your account to the Market and Sell plan, your credit card will be charged <span style="color:#FF0013">$29.95</span> on account activation</b><br><br>
+    <%else%>
+      <%@user_renew_pro = provider_renew_limit(current_user.user_id) if !current_user.nil? && !current_user.user_id.nil?%>
+      <%if !@user_renew_pro.nil? && @user_renew_pro.present? && @user_renew_pro!=''%>
+        <br><b>On activation, your current plan will still be valid if it hasn't expired yet. After it expires, your plan will be renewed every month. You can deactivate or cancel your account at any time.</b><br><br>
+      <%else%>
+        <br><b>By activating your Famtivity account, your Credit Card will be charged <span style="color:#FF0013">$ 29.95</span>. Your plan will renew monthly and you can deactivate or cancel your account at any time.</b><br><br>
+      <%end%>
+    <%end%>
+    <table width="100%">
+      <tr><td valign="top">
+          <span><a class="save-button" href="javascript:void(0)" onclick="<%if (current_user && current_user.present? && !current_user.user_plan.nil? && !current_user.manage_plan.present? && (current_user.user_plan.downcase == "sell" || current_user.user_plan.downcase == "curator")) || (current_user && current_user.present? && !current_user.user_plan.nil? && current_user.manage_plan.present? && (!current_user.is_partner.nil? && current_user.is_partner==TRUE || current_user.manage_plan.downcase == "school"))  %>user_activate_and_change();<%else%>user_activate_call();<%end%>" title="">Activate</a></span>
+          <!--a href="javascript:void(0);" onclick="user_activate_and_change();" title="" ><span class="b-close"><img src="/assets/detailed_view/activate_and_change.png" alt="" border="0"/></span></a-->
+          <a class="cancel-button" href="javascript:void(0);" title=""><span class="b-close">Maybe Later</span></a>
+          <span id="loading_img_act" style="display:none; position:relative; top:10px;"><%=image_tag("/assets/loading.gif")%></span>
+        </td></tr>
+    </table>
+  </div>
+</div>
+<!-- user activate account feature feature popup end -->
+
+<!-- deactivate success popup start -->
+<div id="user_activated_success" style="display:none;">
+  <div class="content_popup" style="display:block;font-family: 'open_sansregular',Sans-Serif;"><br>Your account has been activated.<br><br>
+    <span class="b-close"><a class="save-button" href="javascript:void(0)" onclick="activate_update_div();"  title="" style="height:26px;"><span class="b-close">OK</span></a></span>
+  </div>
+</div>
+<!-- deactivate success popup end -->
+
+<!-- activate account failure popup start -->
+<div id="user_activated_failure" style="display:none;">
+  <div class="content_popup" style="display:block;font-family: 'open_sansregular',Sans-Serif;"><br><b>Sorry. we are unable to process the transaction. Please check your card details or try again later.</b><br><br>
+    <span class="b-close"><a class="save-button" href="javascript:void(0)" onclick="check_cc_details();"  title=""><span class="b-close">OK</span></a></span>
+  </div>
+</div>
+<!-- activate account failure popup end -->
+
+<!-- deactivate success popup start -->
+<div id="deactivate_user_activity" style="display:none;">
+  <div class="content_popup" style="display:block;font-family: 'open_sansregular',Sans-Serif;"><br><b>Your account is currently deactivated. Please activate your account to complete this step.</b><br><br>
+    <span class="b-close"><a class="save-button" href="javascript:void(0)" title=""><span class="b-close">OK</span></a></span>
+  </div>
+</div>
+<!-- deactivate success popup end -->

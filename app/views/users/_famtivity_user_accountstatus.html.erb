@@ -1,0 +1,54 @@
+<style>
+.bordercol1{
+	border:2px solid #E2EAEC;
+}
+.bordercol2{
+	border:2px solid #E2EAEC;
+	border-left:none;
+}
+.borderTop{
+	border-top:none;
+}
+.fontStyle{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+}
+.headingColor{
+	color:#4AA3B6;
+	padding-left:10px;
+}
+.dataColor{
+	color:#000000;
+	padding-left:10px;
+}
+.dataColor1{
+	color:#666666;
+	padding-left:10px;
+}
+.fontBold{
+	font-weight:bold;
+}
+</style>
+
+<!--admin user--><!--get the selluser_list from landing helper by rajkumar --> 
+<table cellspacing="0" cellpadding="0" border="0" width="60%">
+	<tr height="30">
+		<td class="fontStyle headingColor fontBold bordercol1" width="25%">Email</td>
+		<td class="fontStyle headingColor fontBold bordercol2" width="30%">User Name</td>
+	</tr>
+	<%if @users_list && !@users_list.nil? && @users_list.present? && @users_list!=''%>
+		<%@users_list.each do |user|%>
+			<tr height="30">
+				<td class="fontStyle dataColor bordercol1 borderTop" width="25%"><%=user.email_address if !user.nil? && !user.email_address.nil?%></td>
+				<td class="fontStyle dataColor bordercol2 borderTop" width="30%"><%=user.user_name if !user.nil? && !user.user_name.nil? %></td>
+			</tr>
+		<%end%>
+	<%else%>
+		<tr height="30">
+			<td class="fontStyle dataColor bordercol1 borderTop" width="25%">No users</td>
+			<td class="fontStyle dataColor bordercol2 borderTop" width="30%">No users</td>
+		</tr>
+	<%end%>
+</table><br><br>
+
+

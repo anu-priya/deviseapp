@@ -1,0 +1,228 @@
+
+		<div class="listPriceDetails" style="width:100%;">
+		<%@is_promo = ProviderDiscountCode.where("activity_id=?",@activity.activity_id).last%>
+		<%if @is_promo && !@is_promo.nil? && @is_promo.present?%>
+		<div class="promoCodeDiv">
+		<span class="promoCodeText">Promo Code
+			<div id="provider_event_list" style="display:inline-block;width: 25px;">
+				<div id="menu_active" class="lt ActiveDivMenu" style="top:6px;">
+				  <ul>
+				    <li><%= image_tag "/assets/provider_register/help.png", :style=>"cursor: pointer;", :alt=>""%>
+				      <ul style="width: 338px;left:17px;" class="sub-menu dispParticipantToll">
+					<li>You can use promo codes to avail discounts or offers.</li>
+				      </ul>
+				    </li>
+				  </ul>
+				  <div class="clear"></div>
+				</div>
+			</div>
+		</span>		
+		<input type="text" onfocus="if (this.value=='Enter Promo Code') { this.value = '';$(this).css('color','#444444');}" onblur="if (this.value==''){ this.value = 'Enter Promo Code';$(this).css('color','#999999');}" id="disp_code" name="disp_code" value="Enter Promo Code" class="promoCodeBox">                                     
+		<a href="javascript:void(0)" tabindex="22" id='show_apply' onClick="DispCode()" class="applyButton"><%= image_tag "/assets/checkout/apply.png", :alt=>""%></a>
+                    <a href="javascript:void(0)" id='disabled_apply' tabindex="22" class="applyButton"  style="display:none;"><%= image_tag "/assets/checkout/disable_apply.png", :alt=>"" %></a>
+		<span id="disp_code_msg" class="promoCodeText disp_code_msg" style="width: auto;"></span>
+		</div>
+		<%end%>
+		
+		
+                  <table cellpadding="0" cellspacing="0" width="100%" border="0">
+		  <input type="hidden" id="orig_act_price" value=''></input>
+                    <tr class="listTotproceed">
+			<td width="465" align="left" colspan="2"><p class="ftcGrayPr listPriceDetailspad">Activity Price</p></td>			
+			<td  width="10" align="left"><p class="ftcGrayPr">=&nbsp;&nbsp;</p></td>
+			<td width="25" align="left"><p class="ftcGrayPr">$<span class="ftcGrayPr" id="act_price"></span></p></td>			
+		</tr>
+                    <tr class="listTotproceed">
+			<td colspan="2"><p class="ftcGrayPr listPriceDetailspad dct_prc">Discount</p></td>
+			<td><p class="ftcGrayPr dct_prc">=&nbsp;&nbsp;</p></td>
+			<td><p class="ftcGrayPr dct_prc"><span class="ftcGrayPr dct_prc" id="prc_dct"></span></p></td>			
+		</tr>
+		<%if @other_fees && !@other_fees.nil? && @other_fees.present?%>
+                    <tr class="listTotproceed">
+			<td colspan="4"><p class="ftcGrayPr listPriceDetailspad"><b>Other Fees:</b></td>
+		</tr>
+		    <%i=1%>
+		<%@other_fees && @other_fees.each do |fee|%>
+                    <tr class="listTotproceed">		    
+			    <td width="5" align="left"><p class="ftcGrayPr listPriceDetailspad check_other_fee"  style=""><input type="checkbox" class="lt" style="position:relative;top:-6px;" id="chk_box_cond_<%=i%>" name="chk_box_cond_<%=i%>" onchange="optional_price_check(<%=fee.provider_fee_type_id%>,<%=i%>,<%=fee.quantity%>);" <%if fee && fee.fee_mandatory%>disabled="disabled" checked="true"<%end%>/></p></td>
+			    <td width="460" align="left">
+				    <p class="ftcGrayPr listPriceDetailspad lt" style="padding-left:0px;margin-left:0px;"><%=fee.fee_name if fee && fee.present? && fee.fee_name && fee.fee_name.present?%></p>
+				        <div id="provider_event_list" style="display:inline-block;">
+					<div id="menu_active" class="lt ActiveDivMenu" style="top:6px;">
+					  <ul>
+					    <li><%= image_tag "/assets/provider_register/help.png", :style=>"cursor: pointer;position:relative;top:-6px;margin-left:5px;", :alt=>''%>
+					      <ul style="width: 338px;left:17px;" class="sub-menu dispParticipantToll">
+						<li><%=fee.note%></li>
+					      </ul>
+					    </li>
+					  </ul>
+					  <div class="clear"></div>
+					</div>
+				       </div>
+				    <%if fee.quantity%><div style="float:left;padding-left:3px;width:50px;"><input type='text' id='txt_qty_<%=i%>' value='1' maxlength="4" onKeyPress="return isNumberKey(event);" onblur='chg_Fees(<%=fee.provider_fee_type_id%>,<%=fee.price%>,<%=i%>)' <%if !fee.fee_mandatory%>style="display:none;"<%end%> style="width:50px;margin-right:5px;"/></div><%end%>
+			    </td>
+			    <td width="10" align="left"><p class="ftcGrayPr">=</p></td>
+			    <td width="25" align="left">$<span style="display: inline-block;width: 100px;" class="ftcGrayPr" id="price_<%=fee.provider_fee_type_id%>"><%=(fee && fee.present? && fee.price && fee.price.present? && fee.fee_mandatory) ? (number_with_precision fee.price, :precision => 2) : 0 %></span></td>			   
+		 </tr>
+		<input type="hidden" id="fee_orig_price_<%=fee.provider_fee_type_id%>" value="<%=fee.price%>"/>
+		<input type="hidden" id="chk_box_cond_hidden_<%=i%>" value="<%=fee.provider_fee_type_id%>"/>
+		<%i=i+1%>
+		<%end%>		
+		<%end%>
+		<tr><td></td><td><p id="err_mssg_cal" style="display:none;">Quantity is invalid.</p></td></tr>
+                    <!--<tr class="listTotproceed"><td width="75%"><p class="ftcGrayPr listPriceDetailspad">Costume Deposits</p></td><td width="5%"><p class="ftcGrayPr">=</p></td><td width="20%"><p class="ftcGrayPr">$10</p></td></tr>
+                    <tr class="listTotproceed"><td width="75%"><p class="ftcGrayPr listPriceDetailspad">Material Fee</p></td><td width="5%"><p class="ftcGrayPr">=</p></td><td width="20%"><p class="ftcGrayPr">$15</p></td></tr>-->
+                    <tr style="height:50px;">
+		    <td class="borTopposition" colspan="2"><p class="listPriceDetailspad totalAmtFnt">Total Amount</p></td>
+		    <td class="borTopposition"><p class="ftcGrayPr">=&nbsp;&nbsp;</p></td>
+		    <td class="borTopposition"><p class="totalAmtFnt" style="color:#FE1214;">$<span class="ftcGrayPr" id="prc_dct_tot" style="color:#FE1214;"></span></p></td>
+		</tr>
+                  </table>
+                </div>
+				
+		
+<script>
+  $(document).ready(function() {
+    <%if @ttl_cnt && @summary_count%>
+	$('#act_price').html('<%=number_with_precision(@ttl_cnt, :precision => 2)%>');
+	$('#orig_act_price').val('<%=number_with_precision(@ttl_cnt, :precision => 2)%>');
+	$('#prc_dct_tot').html('<%=number_with_precision(@summary_count, :precision => 2)%>');
+	$('#discount_header').hide();$('#discount_val').hide();$('.dct_prc').hide();
+	<%if @discount_value && !@discount_value.nil? && @discount_value!='' %>
+	$('#discount_header').show();
+	$('.dct_prc').show();
+	$('#discount_val').show();
+          $('#participant_discount').html('$<%=number_with_precision(@discount_value, :precision => 2) %>');
+	$('#prc_dct').html('$<%=number_with_precision(@discount_value, :precision => 2)%>');
+	<%end%>
+	<%end%>
+	checkedOtherPrices();
+	});
+
+function checkedOtherPrices(){ 
+	var checkStr = "";
+	var other_fee_ids ;
+	var checkboxCount = $(".check_other_fee input:checkbox").length;		
+	for(var i=1;i<=checkboxCount;i++){
+		if($("#chk_box_cond_"+i).attr('checked')){
+			var other_fee_ids =  $("#chk_box_cond_hidden_"+i).val();
+			var qty = $("#txt_qty_"+i).val();
+			if (qty==undefined){qty = 0;}
+			checkStr += other_fee_ids+'&'+qty+",";
+		}
+	}
+	$("#other_fee_id").val(checkStr);	
+}
+function optional_price_check(type_id,i_val,qty_type) {
+var checked_cond =$("#chk_box_cond_"+i_val).is(':checked') ? 1 : 0;
+var orig_price = parseFloat($("#fee_orig_price_"+type_id).val());
+var fee_pri = parseFloat($("#price_"+type_id).html());
+var ttll_amt = parseFloat($("#prc_dct_tot").html());
+var cal = '';
+	if(checked_cond == 1){
+	        if (qty_type==true){
+		$("#txt_qty_"+i_val).css('display','block');
+		$("#txt_qty_"+i_val).css('width','50px');
+		$("#txt_qty_"+i_val).val(1);
+		}
+		$("#price_"+type_id).html(orig_price.toFixed(2));
+		cal = ttll_amt+orig_price;
+		$("#prc_dct_tot").html(cal.toFixed(2));
+	}
+	else
+	{
+		$("#txt_qty_"+i_val).hide();
+		$("#price_"+type_id).html(0);
+		cal = ttll_amt-fee_pri;	
+		$("#prc_dct_tot").html(cal.toFixed(2));
+	}
+	checkedOtherPrices();	
+}
+
+
+function chg_Fees(type_iid,fess_price,i_val)
+{
+
+$("#err_mssg_cal").hide();
+var cal_amt='';
+var tt_amt='';
+var qty = $("#txt_qty_"+i_val).val();
+var fee_price = parseFloat($("#price_"+type_iid).html());
+var ttll_amt = parseFloat($("#prc_dct_tot").html());
+if (qty!=0){
+var cal_amt = qty*fess_price;
+$("#price_"+type_iid).html(cal_amt.toFixed(2));
+var tt_amt = (cal_amt + (ttll_amt-fee_price))
+$("#prc_dct_tot").html(tt_amt.toFixed(2));
+	checkedOtherPrices();	
+
+}
+else{
+	if (qty == ''){
+		$("#txt_qty_"+i_val).val(1);
+		var qty = 1;
+		var cal_amt = qty*fess_price;
+		$("#price_"+type_iid).html(cal_amt.toFixed(2));
+		var tt_amt = (cal_amt + (ttll_amt-fee_price))
+		$("#prc_dct_tot").html(tt_amt.toFixed(2));
+		checkedOtherPrices();
+	}
+	else if (qty == 0){
+		$("#txt_qty_"+i_val).val(1);
+		var qty = 1;
+		var cal_amt = qty*fess_price;
+		$("#price_"+type_iid).html(cal_amt.toFixed(2));
+		var tt_amt = (cal_amt + (ttll_amt-fee_price))
+		$("#prc_dct_tot").html(tt_amt.toFixed(2));
+		checkedOtherPrices();
+	}
+	else
+	{
+		$("#err_mssg_cal").css('display','block');
+		$("#err_mssg_cal").css('color','red');
+		$("#err_mssg_cal").html('Quantity is invalid');
+	}
+}
+
+}
+
+
+function DispCode(){
+var dp_code = $("#disp_code").val();
+var tot_amt = parseFloat($("#prc_dct_tot").html());
+var act_price = parseFloat($('#act_price').html());
+      $.ajax({
+        url:'/checkout/checkDiscountCode',
+        data: {
+	    "disp_code": dp_code,
+	    "act_id": "<%=@activity.activity_id%>"
+        },
+        success:function(data){
+	  if(data=='false'){
+	  $("#disp_code_msg").html('Invalid Code.');
+	 }
+	 else
+	 {
+         $("#disp_code_msg").html('Discount Code applied successfully.');
+	 $("#show_apply").hide();
+	 $("#disabled_apply").show();
+	 $("#discount_code_app").val();
+	 alert(data);
+	 var disc_p = parseFloat(data);
+	 var amt_val = tot_amt-disc_p;
+	 var act_val = act_price-disc_p;
+	 amt_val = (amt_val < 0) ? 0 : amt_val
+	 act_val = (act_val < 0) ? act_price : act_val	
+	 if(amt_val <= 0) 
+	 {
+		 $("#pay_amt").val('proceed');
+	 }
+	 $("#prc_dct_tot").html(amt_val.toFixed(2));
+	 $('#act_price').html(act_val);
+	 $("#discount_code").val(dp_code);
+	
+	 }
+        }
+    }); 
+}
+</script>

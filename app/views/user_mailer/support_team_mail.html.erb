@@ -1,0 +1,17 @@
+<table cellpsacing="0" cellpadding="0">
+            <tr>
+              <td style="padding:12px;">
+                <p>Dear Support Team .The below user send a mail recently.</p>
+		<%if !@s_type.nil?%><strong>Support type:</strong> <p><%=@s_type if !@s_type.nil? %></p><%end%>
+		<%if !@email.nil?%><strong>Email: </strong><p><%=@email if !@email.nil? %></p><%end%>
+		<%if !@label.nil?%><strong>Lable:</strong> <p><%=@label if !@label.nil? %></p><%end%>
+		 <%if !@message.nil?%><strong>Message:</strong><p><%=@message if !@message.nil?%></p><%end%>
+		<%if@url.present? && !@url.nil? && @url!=''%>
+		Click below for image url:<p><%=@url if !@url.nil?%></p>
+		<%end%>
+              </td>
+            </tr>
+</table>
+<p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;padding-top:20px;">Your Famtivity Team.</p>
+
+     

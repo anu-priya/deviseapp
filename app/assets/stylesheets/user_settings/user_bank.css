@@ -1,0 +1,235 @@
+@charset "utf-8";
+/* CSS Document */
+
+	.radiobutton_wrapper{
+	position: relative;
+	top:0px;
+	width: 100px;
+	float:left;
+	}
+	.radiobutton_wrapper input[type="radio"] {
+	opacity:0;
+	height: 22px;
+	width: 22px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	}
+	.radiobutton_wrapper input[type = radio] + label{
+	background:url('/assets/provider_settings/radio_normal.png') no-repeat;
+	/*background-image: url('/assets/policies/radio_buttons.png');
+	background-repeat:no-repeat;
+	background-size:24px auto;
+	background-position: 0px -72px;*/
+	height: 22px;
+	width: 22px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	}
+	.radiobutton_wrapper input[ type = radio ]:checked + label{
+	background:url('/assets/provider_settings/radio_selected.png') no-repeat;
+	/*background-image: url('/assets/policies/radio_buttons.png');
+	background-repeat:no-repeat;
+	background-size:24px auto;
+	background-position: 0px -49px;*/
+	height: 22px;
+	width: 22px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+	}
+
+/*************************************
+  
+    payment register details css
+
+************************************/
+.require_info{
+	width:950px;
+	margin:0 auto;
+	font-size:18px;
+	font-family:Arial, Helvetica, sans-serif;
+	color:#186171;
+}
+
+#choose_text{
+	width:280px; 
+	padding-left:66px;
+	top:-20px;
+	position:relative;
+
+}
+#plan_text{
+	width:177px;
+	top:-20px;
+	position:relative;
+}
+#payment_text{
+	width:123px;
+	padding-left:84px;
+	top:-20px;
+	position:relative;
+}
+.RegiserDivPayment{
+	width:870px;
+	/*margin:0 auto;*/
+	margin-top:20px;
+}
+.RtDiv{
+	border1:1px solid blue;
+	width:568px;
+}
+.setTop10{
+	margin-top:10px;
+}
+.setTop20{
+	margin:20px 0 20px 0;
+}
+
+.setTop15{
+	margin:15px 0 15px 0;
+}
+
+.setTextBox_street{
+	border: 1px solid #BDD6DD;
+    color: #999999;
+    font-size: 13px;
+    height: 28px;
+    padding: 0 4px;
+    width: 272px;
+	.height: 23px;
+	.width: 272px;
+	.padding:5px 0 0 4px;
+	width: 270px\0/IE9;
+}
+
+/**********use bank details ************/
+.payhead{
+	font-weight:bold;
+	font-size: 20px;
+	color: #347d91;
+	padding: 10px 10px 20px 0px;
+	}
+.choosetpe{
+	width:200px;
+	padding:0px 0px 22px 0px;
+}
+.radioTxt{
+	padding-left: 29px;
+	position: relative;
+	top: -3px;
+	font-size:16px;
+	}
+ .checktxt{
+	 width:807px;
+	 background:#f6f6f6;
+	 padding:10px;
+	 text-align:center;
+	 margin-top: 15px;
+	 font-size:13px;
+ }
+ #provider_info_text{
+	width:258px;
+	color:#585858;
+	font-size:14px;
+}
+.SetFtSz14{
+	font-size:13px;
+	color:#585858;
+}
+.required {
+    color: #fe3c3c;
+    display: inline-block;
+    font-size: 13px;
+    left: 0;
+    position: relative;
+    top: 0;
+}
+.setTextBox{
+	border: 1px solid #d4d4d4;
+    color: #585858;
+    font-size: 14px;
+	font-family: 'open_sansregular',Sans-Serif;
+    height: 28px;
+    padding: 0 4px;
+    width: 558px;
+}
+ .drop_down_bank{
+	border: 1px solid #d4d4d4;
+	height: 28px;	   
+	padding: 3px 0 2px;
+	width: 282px;
+	font-family: 'open_sansregular',Sans-Serif;
+	font-size:14px;
+ }
+ .savebtnclr{
+	 margin-right: 5px;
+	 margin-left:15px;
+	 outline:none;
+ }
+ .cancelclr{
+	 background:#5eb0c6;
+ }
+ .bnkinfo{
+	 width:807px;
+	 background:#f6f6f6;
+	 padding:10px;
+	 text-align:center;
+	 margin-top: 15px;
+	 display:none;
+	 font-size:13px;
+	 }
+.businness_font {
+    color: #585858;
+    font-size: 20px;
+}
+.checkboxCont a:focus{
+    outline:1px dotted #6a6a6a;
+}
+.checkboxCont{
+    display: inline-block;
+    color:#347D91;
+    font-size:13px;
+    position:relative;
+    top:7px;
+    left:7px;
+	font-weight:normal;
+}
+.checkboxCont a,.checkboxCont a:hover{
+    color:#347d91;
+}
+
+.checkbox{
+    display: inline-block;
+    float:left;
+    width: 19px;
+    height: 21px;
+    position:relative;
+    left:0px;
+}
+.checkbox a{
+    display: inline-block;
+    float:left;
+    width: 19px;
+    height: 21px;
+    position:relative;
+    top:3px;
+    left:0px;
+}
+.leftchk{
+	margin-left:-6px;
+}
+.loading_image{
+    height: 50px;
+    width: 50px;	
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 60%;
+    margin: -17px 0 0 42px;
+	}
+/**********use bank details ************/

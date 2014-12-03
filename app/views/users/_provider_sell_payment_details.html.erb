@@ -1,0 +1,402 @@
+<div id="register_outerContainer">
+  <div class="Provider_innerContainer">
+    <div class="ProviderCenterContent1" style="margin: 0 auto;">
+      <!-- <form name="RegiserPayment" method="post" onsubmit="return ChekRegValidation();">-->
+      <div class="require_info" align="center"><b>REQUIRED INFORMATION FOR ELECTRONIC FUND TRANSFERS</b></div>
+      <div class="RegiserDivPayment" style="width:908px; margin:0 auto; padding-bottom:20px;">
+        <div>
+          <div class="lt" id="provider_info_text">Provider Information</div>
+          <div class="lt RtDiv" style="height:21px;">&nbsp;</div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="setTop10" style="margin-top:20px;">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Supplier Code</b></span><span class="required">*</span></div>
+          <div class="lt RtDiv"><input type="text" name="s_code" value="Enter your unique supplier code" onfocus="if ( this.value == 'Enter your unique supplier code') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter your unique supplier code'}" id="s_code" class="setTextBox" tabindex="1"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="errorDiv" style="display:none">
+          <div class="lt" id="provider_info_text">&nbsp;</div>
+          <div class="lt RtDiv" id="s_code_error"></div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="setTop10">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Legal Name</b></span><span class="required">*</span></div>
+          <div class="lt RtDiv"><input type="text" name="l_name" id="l_name" class="setTextBox" value="First and Last name" onfocus="if( this.value == 'First and Last name') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='First and Last name'}" tabindex="2"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="errorDiv" style="display:none">
+          <div class="lt" id="provider_info_text">&nbsp;</div>
+          <div class="lt RtDiv" id="legal_name_error"></div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="setTop10">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Tax Code</b></span><span class="required">*</span></div>
+          <div class="lt RtDiv"><input type="text" name="t_code" id="t_code" class="setTextBox" value="Enter your tax code" onfocus="if( this.value == 'Enter your tax code') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter your tax code'}" tabindex="3"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="errorDiv" style="display:none">
+          <div class="lt" id="provider_info_text">&nbsp;</div>
+          <div class="lt RtDiv" id="tax_code_error"></div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="setTop15">
+          <div class="lt" id="provider_info_text">Address</div>
+          <div class="lt RtDiv" style="height:21px;">&nbsp;</div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="setTop10" style="margin-top:20px;">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Street &amp; Number</b></span><span class="required">*</span></div>
+          <div class="lt RtDiv">
+            <input type="text" name="street_reg" id="street_reg" class="setTextBox_street" tabindex="4" value="Enter street address" onfocus="if( this.value == 'Enter street address') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter street address'}">
+            <input type="text" name="number_reg" id="number_reg" class="setTextBox_street" tabindex="5" value="Enter number" onfocus="if( this.value == 'Enter number') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter number'}">
+          </div>
+          <div class="clear"></div>
+        </div>
+
+
+        <div class="errorDiv" id="stree_number" style="display:none;">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+          <div class="lt RtDiv">
+            <span  class="lt RtDiv" id="street_error" style="width:285px; .width:280px; border:1px solid #E9F4F7;" ></span>
+            <span  class="lt RtDiv" style="width:270px; border:1px solid #E9F4F7;" id="number_error" ></span>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="setTop10">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>State &amp; City</b></span><span class="required">*</span></div>
+          <div class="lt RtDiv">
+            <div class="lt" style="width:286px; .width:283px;">
+              <div class="selectBoxStateReg" onkeydown="selectBankStateUsrRegKeyDown(event)" onmouseover="flagreg1=true;" onmouseout="flagreg1=false;">
+                <input type="hidden" id="state_reg" name="state_reg" value=""/>
+                <div id="reg_Statefield" class="selectDiv" style="line-height:23px;" tabindex="6">--Choose State--</div>
+              </div>
+
+              <div class="dropDownDivProviderStateReg" id="dropDownDivBank1" style="display:none;">
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Alabama',this)" tabindex="">Alabama</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Alaska',this)" tabindex="">Alaska</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Arizona',this)" tabindex="">Arizona</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Arkansas',this)" tabindex="">Arkansas</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('California',this)" tabindex="">California</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Colorado',this)" tabindex="">Colorado</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Connecticut',this)" tabindex="">Connecticut</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('District of Columbia',this)" tabindex="">District of Columbia</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Florida',this)" tabindex="">Florida</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Georgia',this)" tabindex="">Georgia</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Hawaii',this)" tabindex="">Hawaii</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Idaho',this)" tabindex="">Idaho</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Illinois',this)" tabindex="">Illinois</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Indiana',this)" tabindex="">Indiana</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Iowa',this)" tabindex="">Iowa</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Kansas',this)" tabindex="">Kansas</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Kentucky',this)" tabindex="">Kentucky</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Louisiana',this)" tabindex="">Louisiana</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Maryland',this)" tabindex="">Maryland</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Massachusetts',this)" tabindex="">Massachusetts</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Michigan',this)" tabindex="">Michigan</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Minnesota',this)" tabindex="">Minnesota</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Mississippi',this)" tabindex="">Mississippi</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Missouri',this)" tabindex="">Missouri</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Montana',this)" tabindex="">Montana</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Nebraska',this)" tabindex="">Nebraska</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Nevada',this)" tabindex="">Nevada</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('New Hampshire',this)" tabindex="">New Hampshire</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('New Jersey',this)" tabindex="">New Jersey</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('New Mexico',this)" tabindex="">New Mexico</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('New York',this)" tabindex="">New York</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('North Carolina',this)" tabindex="">North Carolina</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('North Dakota',this)" tabindex="">North Dakota</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Ohio',this)" tabindex="">Ohio</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Oklahoma',this)" tabindex="">Oklahoma</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Oregon',this)" tabindex="">Oregon</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Pennsylvania',this)" tabindex="">Pennsylvania</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Rhode Island',this)" tabindex="">Rhode Island</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('South Carolina',this)" tabindex="">South Carolina</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('South Dakota',this)" tabindex="">South Dakota</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Tennessee',this)" tabindex="">Tennessee</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Texas',this)" tabindex="">Texas</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Utah',this)" tabindex="">Utah</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Virginia',this)" tabindex="">Virginia</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Washington',this)" tabindex="">Washington</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegValue('Wisconsin',this)" tabindex="">Wisconsin</a>
+              </div>
+            </div>
+            <div class="lt" style="width:278px; .width:270px;">
+              <div class="selectBoxCityReg" onkeydown="selectBankCityUsrRegKeyDown(event)" onmouseover="flagreg2=true;" onmouseout="flagreg2=false;">
+                <input type="hidden" id="city_reg" name="city_reg" value=""/>
+                <div id="reg_Cityfield" class="selectDiv" style="line-height:23px;" tabindex="7">--Choose City--</div>
+                <input type="hidden" id="city_reg" name="city_reg" value=""/>
+
+              </div>
+
+              <div class="dropDownDivProviderCityReg" id="dropDownDivBank2" style="display:none;">
+
+              </div>
+            </div>
+
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="errorDiv" id="city_state" style="display:none;">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+          <div class="lt RtDiv">
+            <span  class="lt RtDiv" id="state_error" style="width:285px; border:1px solid #E9F4F7;"></span>
+            <span  class="lt RtDiv" style="width:270px; border:1px solid #E9F4F7;"  id="city_error" ></span>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+
+        <div class="setTop10">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Zip Code</b></span><span class="required">*</span></div>
+          <div class="lt RtDiv"><input type="text" name="z_code" id="z_code" class="setTextBox" tabindex="8" value="Enter zip code" onfocus="if( this.value == 'Enter zip code') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter zip code'}"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="errorDiv" style="display:none;">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+          <div class="lt RtDiv" id="zip_error"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="setTop15">
+          <div class="lt" id="provider_info_text">Bank Information</div>
+          <div class="lt RtDiv" style="height:21px;">&nbsp;</div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="setTop10" style="margin-top:20px;">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Bank Name</b></span><span class="required">*</span></div>
+          <div class="lt RtDiv"><input type="text" name="bank_name" id="bank_name" class="setTextBox" tabindex="9" value="Name of bank" onfocus="if( this.value == 'Name of bank') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Name of bank'}"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="errorDiv" style="display:none;">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+          <div class="lt RtDiv" id="bank_name_error"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="setTop10">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Account Name</b></span><span class="required">*</span></div>
+          <div class="lt RtDiv"><input type="text" name="w_transfer" id="w_transfer" class="setTextBox" tabindex="10" value="Enter the Rounting number" onfocus="if( this.value == 'Enter the Rounting number') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter the Rounting number'}"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="errorDiv" style="display:none;">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+          <div class="lt RtDiv" id="wire_transfer_error"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="setTop10">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Routing number for wire transfers</b></span><span class="required">*</span></div>
+          <div class="lt RtDiv"><input type="text" name="c_house" id="c_house" class="setTextBox" tabindex="11" maxlength="9" value="Enter the Routing number" onfocus="if( this.value == 'Enter the Routing number') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter the Routing number'}"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="errorDiv" style="display:none;">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+          <div class="lt RtDiv" id="clear_house_error"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="setTop10">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Account Number</b></span><span class="required">*</span></div>
+          <div class="lt RtDiv"><input type="text" name="acc_number" id="acc_number" class="setTextBox" tabindex="12" value="Enter your account number" onfocus="if( this.value == 'Enter your account number') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter your account number'}"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="errorDiv" style="display:none;">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+          <div class="lt RtDiv" id="acc_number_error"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="setTop10">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Swift Code</b></span><span class="required">*</span></div>
+          <div class="lt RtDiv"><input type="text" name="swift_code" id="swift_code" class="setTextBox" tabindex="13" maxlength="11" value="Enter the swift code" onfocus="if( this.value == 'Enter the swift code') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter the swift code'}"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="errorDiv" style="display:none;">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+          <div class="lt RtDiv" id="swift_code_error"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="setTop15">
+          <div class="lt" id="provider_info_text">Bank Address</div>
+          <div class="lt RtDiv" style="height:21px;">&nbsp;</div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="setTop10" style="margin-top:20px;">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Street &amp; Number</b></span><span class="required">*</span></div>
+          <div class="lt RtDiv">
+            <input type="text" name="street_bank_code" id="street_bank_code" class="setTextBox_street" tabindex="14" value="Enter street address" onfocus="if( this.value == 'Enter street address') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter street address'}">
+            <input type="text" name="number_bank_code" id="number_bank_code" class="setTextBox_street" tabindex="15" value="Enter number" onfocus="if( this.value == 'Enter number') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter number'}">
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="errorDiv" id="bank_stree_number" style="display:none;">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+          <div class="lt RtDiv">
+            <span  class="lt RtDiv" id="street_bank_error" style="width:285px; .width:280px; border:1px solid #E9F4F7;" ></span>
+            <span  class="lt RtDiv" style="width:270px; border:1px solid #E9F4F7;" id="number_bank_error" ></span>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+
+        <div class="setTop10">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>State &amp; City</b></span><span class="required">*</span></div>
+          <div class="lt RtDiv">
+            <div class="lt" style="width:286px;">
+              <div class="selectBoxStateBankReg" onkeydown="selectStateBankUsrKeyDown(event)" onmouseover="flagreg3=true;" onmouseout="flagreg3=false;">
+                <input type="hidden" id="bank_state" name="bank_state" value=""/>
+                <div id="bank_Statefield" class="selectDiv" style="line-height:23px;" tabindex="16">--Choose State--</div>
+              </div>
+
+              <div class="dropDownDivProviderStateBankReg" id="dropDownDivBank3" style="display:none;">
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Alabama',this)" tabindex="">Alabama</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Alaska',this)" tabindex="">Alaska</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Arizona',this)" tabindex="">Arizona</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Arkansas',this)" tabindex="">Arkansas</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('California',this)" tabindex="">California</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Colorado',this)" tabindex="">Colorado</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Connecticut',this)" tabindex="">Connecticut</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('District of Columbia',this)" tabindex="">District of Columbia</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Florida',this)" tabindex="">Florida</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Georgia',this)" tabindex="">Georgia</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Hawaii',this)" tabindex="">Hawaii</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Idaho',this)" tabindex="">Idaho</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Illinois',this)" tabindex="">Illinois</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Indiana',this)" tabindex="">Indiana</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Iowa',this)" tabindex="">Iowa</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Kansas',this)" tabindex="">Kansas</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Kentucky',this)" tabindex="">Kentucky</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Louisiana',this)" tabindex="">Louisiana</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Maryland',this)" tabindex="">Maryland</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Massachusetts',this)" tabindex="">Massachusetts</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Michigan',this)" tabindex="">Michigan</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Minnesota',this)" tabindex="">Minnesota</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Mississippi',this)" tabindex="">Mississippi</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Missouri',this)" tabindex="">Missouri</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Montana',this)" tabindex="">Montana</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Nebraska',this)" tabindex="">Nebraska</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Nevada',this)" tabindex="">Nevada</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('New Hampshire',this)" tabindex="">New Hampshire</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('New Jersey',this)" tabindex="">New Jersey</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('New Mexico',this)" tabindex="">New Mexico</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('New York',this)" tabindex="">New York</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('North Carolina',this)" tabindex="">North Carolina</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('North Dakota',this)" tabindex="">North Dakota</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Ohio',this)" tabindex="">Ohio</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Oklahoma',this)" tabindex="">Oklahoma</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Oregon',this)" tabindex="">Oregon</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Pennsylvania',this)" tabindex="">Pennsylvania</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Rhode Island',this)" tabindex="">Rhode Island</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('South Carolina',this)" tabindex="">South Carolina</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('South Dakota',this)" tabindex="">South Dakota</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Tennessee',this)" tabindex="">Tennessee</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Texas',this)" tabindex="">Texas</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Utah',this)" tabindex="">Utah</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Virginia',this)" tabindex="">Virginia</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Washington',this)" tabindex="">Washington</a>
+                <a href="javascript:void(0)"  rel="1" title="" onclick="setStateProviderRegBankValue('Wisconsin',this)" tabindex="">Wisconsin</a>
+
+              </div>
+            </div>
+            <div class="lt" style="width:278px;">
+              <div class="selectBoxCityBankReg" onkeydown="selectCityBankUsrKeyDown(event)" onmouseover="flagreg4=true;" onmouseout="flagreg4=false;">
+                <input type="hidden" id="bank_city" name="bank_city" value=""/>
+                <div id="bank_Cityfield" class="selectDiv" style="line-height:23px;" tabindex="17">--Choose City--</div>
+              </div>
+
+              <div class="dropDownDivProviderCityBankReg" id="dropDownDivBank4" style="display:none;">
+              </div>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="errorDiv" id="city_bank_state" style="display:none;">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+          <div class="lt RtDiv">
+            <span  class="lt RtDiv" id="state_bank_error" style="width:285px; border:1px solid #E9F4F7;"></span>
+            <span  class="lt RtDiv" style="width:270px; border:1px solid #E9F4F7;"  id="city_bank_error" ></span>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+
+        <div class="setTop10">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Zip Code</b></span><span class="required">*</span></div>
+          <div class="lt RtDiv"><input type="text" name="bank_z_code" id="bank_z_code" class="setTextBox" tabindex="18" value="Enter zip code" onfocus="if( this.value == 'Enter zip code') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter zip code'}"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="errorDiv" style="display:none;">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+          <div class="lt RtDiv" id="bank_zip_error"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="setTop15">
+          <div class="lt" id="provider_info_text">Fax Information</div>
+          <div class="lt RtDiv" style="height:21px;">&nbsp;</div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="setTop10" style="margin-top:20px;">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Fax Number</b></span><span class="required">*</span></div>
+          <div class="lt RtDiv"><input type="text" name="fax_num" id="fax_num" class="setTextBox" tabindex="19" value="Enter a fax number" onfocus="if( this.value == 'Enter a fax number') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter a fax number'}"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="errorDiv" style="display:none;">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+          <div class="lt RtDiv" id="fax_error"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="setTop10">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Address Name</b></span><span class="required">*</span></div>
+          <div class="lt RtDiv"><input type="text" name="address_name" id="address_name" class="setTextBox" tabindex="20" value="First and Last name" onfocus="if( this.value == 'First and Last name') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='First and Last name'}"></div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="errorDiv" style="display:none;">
+          <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+          <div class="lt RtDiv" id="address_name_error"></div>
+          <div class="clear"></div>
+        </div>
+
+
+        <div class="setTop10" style="margin-top:20px;">
+          <div class="lt" id="provider_info_text">&nbsp;</div>
+          <div class="lt RtDiv">
+            <input type="submit" id="register_button"  width="95" height="33" alt="" class="lt loginButton" tabindex="24" value="" title="Register" onclick="return ChekRegValidation(); _gaq.push(['_trackEvent', 'Registration', 'clickProviderSellthroughRegister', 'Sell Through Registration']);"/>
+            <a href="javascript:void(0)" title="" onkeydown="cancelKeyDown(event)" tabindex="22" style="margin-left:5px;" onclick="clear_payment_values();"><img src="/assets/register/cancel.png"></a>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+      <!-- </form>-->
+    </div>
+
+  </div>
+
+</div>
+</div>

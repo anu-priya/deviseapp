@@ -1,0 +1,497 @@
+<%=stylesheet_link_tag "activity_view_detail/activity_details","event_index/event_index","global/pop_up","contacts_users/jquery-ui", :media => "all"%>
+<%=javascript_include_tag "auto_complete/jquery-ui","jquery.form"%>
+
+<style>
+#event_index_container{
+	border:none;
+
+}
+.b-modal{
+	border:none !important;
+}
+#providerEventList .headText{
+	height:25px;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+</style>
+<script language="javascript" type="text/javascript" src="/assets/event/activity_network.js"></script>
+
+<div id="new_act_container">
+	<div class="popupContainer">
+	<div class="popupContainerTop"></div>
+	<div class="popupContainerCenter">
+		<div class="innerContainer">
+			<div class="headTab">
+				<div class="heading">
+					<div class="headCont">Activity Network</div>
+				</div>
+				<div class="closeButton"><a href="javascript:void(0)" onClick="closepopup()" title=""><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15")%></a></div>
+			</div>
+			<div class="centerCont activity_network" id="activity_scroll">
+			  <input type="hidden" name="activity_id" id="invite_activity_id" value="<%=@activity.activity_id if !@activity.nil?%>"/>
+			<%school_rep = schoolRepFind(@activity.activity_id,current_user.user_id) if current_user.present?%>
+				<!-- 	Block1 Activity Vendor	-->
+				<div class="part1">					
+					<div class="titNameActivity" style="padding:10px;">
+						<div class="lt providerImg">
+							 <div class="providerImgBorder">
+								<%=(current_user && current_user.present? && current_user.user_profile && current_user.user_profile.present?) ? (image_tag(current_user.user_profile.user_photo.url(:small), :width => 45, :height => 45)) : image_tag('/assets/profile/user_icon_69.png',:width => 45, :height => 45) %>
+							</div>
+						</div>
+						<div class="lt">
+							<p class="actHedtxt"><%=@activity.activity_name if @activity && !@activity.nil? && @activity.activity_name && !@activity.activity_name.nil?%></p>
+							<span class="proftz12"><b><%=current_user.user_profile.business_name if current_user && !current_user.nil? && current_user.user_profile && !current_user.user_profile.nil? && current_user.user_profile.business_name && !current_user.user_profile.business_name.nil?%></b></span>
+							<span class="proftz12"><b>Powered by</b></span>				
+							<span class="proftz12"><b><%=current_user.user_name if current_user && !current_user.nil? && current_user.user_name && !current_user.user_name.nil?%></b>&nbsp;</span>	
+							<%#email_add=current_user.email_address if current_user && !current_user.nil? && current_user.email_address && !current_user.email_address.nil?%>
+							<!--<span class="ftcBlue3c"><a href="mailto:<%#=email_add%>" title=<%#=email_add%> class="flink"><nobr><%#=email_add%></nobr></a>&nbsp;</span>-->
+							<span class="ftcGray55"><b><%=','+current_user.user_profile.phone if current_user && current_user.nil? && current_user.user_profile && !current_user.user_profile.nil? && current_user.user_profile.phone && !current_user.user_profile.phone.nil?%></b></span>
+						</div>
+						<div class="clear"></div>
+					</div>					
+				</div>
+				<!-- 	Block1 Activity Representative	-->
+				<%if school_rep && !school_rep.nil?%>
+				<%user = User.find(school_rep.representative_id)%>
+				<div class="part1">					
+					<div class="titNameActivity titNameActivity1" style="padding:10px;">
+						<div class="lt providerImg">
+							 <div class="providerImgBorder">
+								<%=(user && user.present? && user.user_profile && user.user_profile.present?) ? (image_tag(user.user_profile.user_photo.url(:small), :width => 45, :height => 45)) : image_tag('/assets/profile/user_icon_69.png',:width => 45, :height => 45) %>
+							</div>
+						</div>
+						<div class="lt">
+							<p class="actHedtxt">Represented By</p>
+							<span class="proftz12"><b><%=user.user_profile.business_name if user && !user.nil? && user.user_profile && !user.user_profile.nil? && user.user_profile.business_name && !user.user_profile.business_name.nil?%></b></span>
+							<%#email_a=user.email_address if user && !user.nil? && user.email_address && !user.email_address.nil?%>
+							<!--<span class="ftcBlue3c"><a href="mailto:<%#=email_a%>" title=<%#=email_a%> class="flink"><nobr><%#=email_a%></nobr></a>&nbsp;</span>-->
+							<span class="ftcGray55"><b><%=','+user.user_profile.phone if user && user.nil? && user.user_profile && !user.user_profile.nil? && user.user_profile.phone && !user.user_profile.phone.nil?%></b></span>
+						</div>
+						<div class="clear"></div>
+					</div>					
+				</div>
+				<%else%>
+				<div style="border-bottom:1px solid #E8E8E8;"></div>
+				<%end%>
+				<div class="setBorder">
+					<!-- 	Block2	-->
+					<div class="part2 schedule">
+						<%j=0%>						
+						<%for i in 0..(@activity_schedules.length-1)%>							
+						<%prevj=j%>
+						<%nextj=j+2%>
+						<input type="hidden"  value="<%=(i<0) ? '' : @activity_schedules[i-1].schedule_id%>" id="schedule_prev_id_<%=j%>"/>
+						<input type="hidden"  value="<%=@activity_schedules[i].schedule_id%>" id="schedule_curr_id_<%=j%>"/>
+						<input type="hidden"  value="<%=(i+1>(@activity_schedules.length-1)) ? '' : @activity_schedules[i+1].schedule_id%>" id="schedule_next_id_<%=j%>"/>
+						
+						<div class="schd_cont" id="schd_cont_<%=j%>">
+						<table cellspacing="0" cellpadding="0" border="0" class="topArea">
+						<tr>						
+							<td width="50" align="center"><a id="schedPrev_<%=j%>" class="schedPrev" title="" onclick="showShedule(<%=prevj%>,<%=(i<0) ? '' : @activity_schedules[i-1].schedule_id%>)" href="javascript:void(0)" ><%=image_tag("/assets/event/previous_arrow.png", :width=>"23", :height=>"23")%></a></td>
+							<td width="769" class="schd_cont_main">
+								<div class="ftcBlue fts15"><%=render "/activity_detail/display_schedule_format",:act_sched => @activity_schedules[i]%></div>								
+								<div class="ftcBlue fts15"><%if @activity_schedules[i] && @activity_schedules[i].activity_repeat && @activity_schedules[i].activity_repeat.last%><%=RepeatDisplays(@activity_schedules[i].activity_repeat.last)%><%end%></div>
+							</td>
+							<td width="50" align="center"><a id="schedNext_<%=j%>" class="schedNext"title="" onclick="showShedule(<%=nextj%>,<%=(i+1>(@activity_schedules.length-1)) ? '' : @activity_schedules[i+1].schedule_id%>)" href="javascript:void(0)"><%=image_tag("/assets/event/next_arrow.png", :width=>"23", :height=>"23")%></a></td>
+						</tr>
+						</table>
+						</div>
+						<%j=j+1%>	
+						<%end%>												
+					
+						<div class="clear"></div>
+						<div class="rt sched_pagination ftcBlue fts12">
+							<div class="lt"><a href="javascript:void(0)" title="" class="ftcBlue schedPrev" onclick="prevData()">Prev</a>&nbsp;</div>
+							<div class="lt display_num">&nbsp;&nbsp;&nbsp;</div>
+							<div class="lt"><a href="javascript:void(0)" title="" class="ftcBlue schedNext" onclick="nextData()">Next</a></div>
+							<div class="clear"></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<!-- 	Block3	-->
+					<div class="part3">
+						<div class="menuArea">
+						       
+							
+						      <div class="lt sendMsgNormal" id="sendMsgId" onmouseover="displaySendMsg()" onmouseout="hideSendMsg()">
+						          <input class="lt" type="checkbox" name="network_all" id="network_all" value=""  onchange="select_network_all()" />
+							<div class="lt ftcBlue fts14 check_select_all" id="select_all_network"><b>Select All</b></div>
+						       </div>
+							<!--<div class="lt ftcBlue fts14 pipeSymbol">|</div>-->
+							<!--div class="lt ftcBlue fts14 "><a title="" href="#"><img src="/assets/event/delete_image.png"></a></div>
+							<div class="lt ftcBlue fts14 check_select_all"><b>Delete</b></div>
+							<div class="lt ftcBlue fts14 pipeSymbol">|</div-->							
+							<!--<div class="lt sendMsgNormal" id="sendMsgId" onmouseover="displaySendMsg()" onmouseout="hideSendMsg()">
+								<div class="lt ftcBlue fts14 send_meg_icon"><a title="" href="#"><img src="/assets/contact/send_message.png"></a></div>
+								<div class="lt ftcBlue fts14 check_select_all"><b>Send Message</b></div>
+								<div class="lt dropdown_arrow"><img src="/assets/event_index/dropdown_arrow.png" alt="" height="4" width="7"/></div>
+							<!--</div>-->
+								<div class="sendmsgButton">
+									<!--<a href="javascript:void(0)" title="" onclick="pop_participant_message_form('/participant_message');"><img src="/assets/event/msg_send_button.png" alt="" /></a>-->
+									<a href="javascript:void(0)" title="" onclick="messageSend();"><%=image_tag("/assets/event/send_message_active.png", :width=>"105", :height=>"29")%></a>
+								</div>
+							<div class="displaySendMsgDiv" style="display:none" onmouseover="displaySendMsg()" onmouseout="hideSendMsg()">							          
+								<!--div class="sendmsgSelectAll">
+									<input class="lt" type="checkbox" name="sendmsg_all" id="sendmsg_all" value="" onchange="select_sendmsg_all()" value="" />
+									<span align="left" class="lt mangersText" style="color:#4595AE">Select All</span>
+									<div class="clear"></div>
+								</div-->
+								<input type="hidden" name="sendmsg_all" id="sendmsg_all" value=""/>
+								<div class="displaySendMsgCheck">
+								<%for i in 0..(@activity_schedules.length-1)%>
+									<div class="sendmsgSelectAny">
+										<input class="lt" type="hidden" id="sucd_sendmsg_id_<%=i%>" value="<%=@activity_schedules[i].schedule_id%>" />
+										<!-- Default select schedule <input class="lt" type="checkbox" class="sucd_sendmsg" value="<% if (@activity_schedules[i].schedule_id == @schedule_id)%><%=@schedule_id%><%end%>"  name="sendmsg_<%=i%>" id="sendmsg_<%=i%>" onchange="select_send_msg('<%=i%>','<%=@activity_schedules[i].schedule_id%>')" <% if (@activity_schedules[i].schedule_id == @schedule_id)%>checked = "checked"<%end%> />-->
+										<input class="lt act_schedule_list_<%=@activity_schedules[i].schedule_id%> all_sched_list" type="checkbox"  value="<% if (@activity_schedules[i].schedule_id == @schedule_id)%><%=@schedule_id%><%end%>"  name="sendmsg_<%=i%>" id="sendmsg_<%=i%>" onchange="select_send_msg('<%=i%>','<%=@activity_schedules[i].schedule_id%>')"/>
+										<span align="left" class="lt mangersText" style="color:#4595AE" id="sendmsg_text_<%=i%>"><%=render "/activity_detail/display_schedule_format",:act_sched => @activity_schedules[i]%></span>
+										<div class="clear"></div>
+									</div>
+								<%end%>
+								</div>
+								<div id="eror-msg" class="errorDiv" style="display:none;padding:5px 3px 0 10px ;">Select any one attendees</div>
+								<!--div class="sendmsgButton"-->
+									<!--<a href="javascript:void(0)" title="" onclick="pop_participant_message_form('/participant_message');"><img src="/assets/event/msg_send_button.png" alt="" /></a>-->
+									<!--a href="javascript:void(0)" title="" onclick="messageSend();"><img src="/assets/event/msg_send_button.png" alt="" /></a>
+								</div-->
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<!--Entire schedule details need to change according to schedule-->
+					<div id='refresh_schedules_'>
+					    <%=render 'single_schedule_list'%>
+					    
+					<div class="clear"></div>
+					</div>
+					<!--Entire schedule details need to change according to schedule-->
+					<div class="clear"></div>
+				</div>
+			</div>
+		<div class="clear"></div>
+		</div>		
+	</div>
+	<div class="clear"></div>
+	</div>
+	<div class="popupContainerBottom"></div>
+	<div class="clear"></div>
+</div>
+
+<!-- invitemanager popup start -->
+<div id="invitemanager">
+	<div class="content_popup" style="display:block;"><br>Your Invite has been sent successfully<br><br>
+	<span class="b-close"><a href="javascript:void(0)" title=""><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38")%></a></span>
+	</div>
+</div>
+<!-- invitemanager popup end -->
+<!-- assignedmanager popup start -->
+<div id="assignedmanager">
+	<div class="content_popup" style="display:block;"><br>You successfully assigned the activity to the manager<br><br>
+	<span class="b-close"><a href="javascript:void(0)" onclick="location.reload(true);" title=""><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38")%></a></span>
+	</div>
+</div>
+<!-- assignedmanager popup end -->
+<!-- unassignedmanager popup start -->
+<div id="un_assignedmanager">
+	<div class="content_popup" style="display:block;"><br>You successfully unassigned the activity to the manager<br><br>
+	<span class="b-close"><a href="javascript:void(0)" onclick="location.reload(true);" title=""><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38")%></a></span>
+	</div>
+</div>
+<!-- unassignedmanager popup end -->
+
+<!-- inviteattendees popup start -->
+<div id="messageSuccess">
+	<div class="content_popup" style="display:block;"><br>Your Invitation has been sent successfully<br><br>
+	<span class="b-close"><a href="javascript:void(0)" onclick="attendees_close();" title=""><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38")%></a></span>
+	</div>
+</div>
+<!-- inviteattendees popup end -->
+
+<!--offline participants added start -->
+<div id="offlinePartiSuccess" style="display:none;">
+	<div class="content_popup" style="display:block;"><br>Attendees have been added successfully<br><br>
+	<span class="b-close"><a href="javascript:void(0)" onclick="attendees_close();" title=""><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38")%></a></span>
+	</div>
+</div>
+<!-- offline participants added end -->
+
+
+<!-- delete alert popup start -->
+<div id="Delete_alert" style="display:none;">
+	<input type="hidden" name="delete_id" id="delete_id" value=""/>
+	<div class="content_popup" style="display:block;"><br>Would you like to delete this attendee?<br><br>
+	<span class="b-close"><a href="javascript:void(0)" onclick="attendees_delete();" title=""><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38")%></a></span>
+	<span class="b-close"><a href="javascript:void(0)" title=""><%=image_tag("/assets/landing/cancel_button.png", :width=>"101", :height=>"35")%></a></span>
+	</div>
+</div>
+
+
+<!-- delete alert popup end -->
+<!-- unassinged alert popup start -->
+<div id="unassign_alert" style="display:none;">
+	<div class="content_popup" style="display:block;"><br>Do you want to unassigned all managers of this schedule(s)?<br><br>
+	<span class="b-close"><a href="javascript:void(0)" onclick="unassined_manager();" title=""><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38")%></a></span>
+	<span class="b-close"><a href="javascript:void(0)" title=""><%=image_tag("/assets/landing/cancel_button.png", :width=>"101", :height=>"35")%></a></span>
+	</div>
+</div>
+
+
+<!-- delete alert popup end -->
+
+<script language="javascript">
+
+function attendees_close(){
+	            $("#messageSuccess").hide();
+				var sh_id = $("#sh_id").val();
+				$.ajax({
+				    type: "POST",
+				    url: "/activity_network",
+				    data: {"sh_id": sh_id, "pending":"yes" },
+				    dataType : 'script',
+				    iframe: 'true',
+				    cache: false,
+				    success: function(data){
+					//$('#messageSuccess').bPopup({fadeSpeed:100,followSpeed:100,opacity:0.8,positionStyle: 'absolute',modalClose: false});
+				   	 }
+				  	});
+}
+
+// closepopup
+function closepopup(){
+	parent.activityNetworkkPage.hide();
+}
+//To send message 
+function messageSend(){
+var a_email_ids = $("#attndees_email").val();
+var m_email_ids = $("#manger_mailid").val();
+var pending_email_ids = $("#pending_invitees_mailid").val();
+var sched_ids = $("#sendmsg_all").val();
+
+if (a_email_ids=='' && m_email_ids=='' && pending_email_ids=='' && sched_ids=='')
+{
+$("#eror-msg").show();
+displaySendMsg();
+}
+else if(a_email_ids!='' || m_email_ids!='' || pending_email_ids!='' || sched_ids!='')
+{
+pop_participant_message_form('/participant_message?a_email_ids='+a_email_ids+'&schedule_ids='+sched_ids+'&m_email_ids='+m_email_ids+'&p_email_ids='+pending_email_ids);
+}
+}
+
+function validate_invite_attendees(){
+	 errorFlag = false;
+	 //var ss=$("#total_value").val();
+	 //alert(ss);
+	var attendees_parent_email = $("#attendees_parent_email").val();
+	var parent_message = $("#invite_parent_message").val();
+
+	$("#attendees_parent_email").css("border","1px solid #CDE0E6");
+	$("#attendees_parent_email_error").html("");
+	$("#attendees_parent_email_error").parent().css("display","none");
+	
+	$("#invite_parent_message").css("border","1px solid #CDE0E6");
+	$("#invite_parent_message_error").parent().css("display","none");
+	$("#invite_parent_message_error").html("");
+
+	attendees_parent_email = attendees_parent_email.replace(/^\s+|\s+$/g, "");
+    if(attendees_parent_email == "" || attendees_parent_email=="jhonjoe@gmail.com,smith@yahoo.com"){
+			$("#attendees_parent_email").css("border","1px solid #fc8989");
+			$("#attendees_parent_email_error").parent().css("display","block");
+			$("#attendees_parent_email_error").html("Please enter a  email address");
+			errorFlag = true;
+		}
+	else if(!validateCorrectEmailAttendees(attendees_parent_email)){
+            $("#attendees_parent_email").css("border","1px solid #fc8989");
+            $("#attendees_parent_email_error").html("Please enter a valid email address(Use comma separated value for mutiple email)");
+            $("#attendees_parent_email_error").parent().css("display","block");
+            errorFlag = true;
+        }
+	
+		//~ if(!validateCorrectEmailtest(send_to)){
+			//~ $("#msg_send_to").css("border","1px solid #fc8989");
+			//~ $("#send_to_error").parent().css("display","block");
+			//~ $("#send_to_error").html("Please enter a valid email address(Use comma separated value for mutiple email)");
+			//~ errorFlag = true;
+		//~ }
+	
+       if(parent_message == "" || parent_message=="Enter Message"){
+			$("#invite_parent_message").css("border","1px solid #fc8989");
+			$("#invite_parent_message_error").parent().css("display","block");
+			$("#invite_parent_message_error").html("Please enter a message");
+			errorFlag = true;
+	}
+
+//~ var lengthDiv = $('.createDynamicDivs font table').length;
+//~ var len = $('.createDynamicDivs font ').length;
+//~ var j=[];
+//~ for(i=0;i<=(len+1);i++){
+//~ j.push(i);
+//~ }
+//~ $('#total_value').val(j);
+
+//~ if(lengthDiv==0){
+//~ d = $("#txt_count").val();
+//~ db_count = parseInt(d);
+//~ } 
+//~ else
+//~ {
+//~ d = $("#txt_count").val();
+//~ db_count = parseInt(d)+parseInt(len);
+//~ }
+//~ var incDiv = db_count;
+//~ var cDiv = $("#txt_count").val();
+//~ var msg='';
+//~ for(var i=cDiv;i<=incDiv;i++){
+//~ var participant_name = $('#participant_name_'+i).val();
+//~ var age = $('#age_'+i).val();
+//~ var gender = $('#gender_'+i).val();
+//~ if(participant_name == ''){ 
+//~ msg+='enter participant name';
+//~ }
+//~ if(age == ''){
+//~ if(msg!=''){
+//~ msg+=', select age';
+//~ }
+//~ else{
+//~ msg+='select gender';
+//~ }
+//~ }
+//~ if(gender == ''){
+//~ if(msg!=''){
+//~ msg+=', select gender';
+//~ }
+//~ else{
+//~ msg+='select gender';
+//~ }
+//~ }
+//~ var msg1='Please '; 
+//~ if(msg!=''){
+//~ $('#errorDiv_'+i).show();
+//~ $('#errorDiv_'+i).html(msg1+msg);
+//~ errorFlag = true;
+//~ }
+//~ else{
+//~ $('#errorDiv_'+i).hide();
+//~ $('#errorDiv_'+i).html();
+//~ }
+
+//~ }
+
+      
+       if(errorFlag){
+        return false;
+      }
+      else{
+
+		  $.ajax({
+				    type: "POST",
+				    url: "/invite_attend",
+				    data: $('#invite_parent').serialize(),
+				    dataType : 'html',
+				    iframe: 'true',
+				    cache: false,
+				    success: function(data){
+				    	$('html, body', window.parent.document).animate({scrollTop:0}, 'slow');
+						$('#messageSuccess').bPopup({fadeSpeed:100,followSpeed:100,opacity:0.8,position: [241, 100], positionStyle: 'absolute',modalClose: false });
+				   	 }
+				  	});
+
+  		return false;
+      }
+
+}
+
+function attendees_delete(){
+	var id=$("#delete_id").val();
+	var sh_id=$("#sh_id").val();
+	var acti_id=$("#invite_activity_id").val();
+      $("#partiicai_"+id).remove();
+      $.ajax({
+        type: "POST",
+        url: "attendees_destroy",
+        data: {
+          "id": id, "sh_id":sh_id, "acti_id":acti_id
+        },
+        dataType : 'script',
+        success: function(data){
+
+        }
+      }); 
+      
+    }
+
+//Validate Single Email
+    //~ function validateCorrectEmail(elementValue){  
+    //~ var emailPattern = /^([a-zA-Z0-9]+([~{|}`^?=+*'#$!%._-]{0,1}[a-zA-Z0-9]+)*)@(([a-zA-Z0-9]+([._-]{0,1}[a-zA-Z0-9]+)*)+(?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,3})?)$/;
+    //~ return emailPattern.test(elementValue);
+//~ }
+
+function validateCorrectEmailAttendees(elementValue){  
+	flag=true;
+	tot_len = elementValue.length;
+	search_len = tot_len-2;
+	to_chk_rem = elementValue.substring(search_len,tot_len);
+	check_for_comma= jQuery.inArray( ",", to_chk_rem )
+	if (check_for_comma!=-1){
+		e=elementValue.substring(0,elementValue.length-2); 
+	}
+	else{
+		e=elementValue
+	}
+	var emailSplitComma= e.split(",");
+	if(emailSplitComma.length>0)
+	{
+		for(i=0;i<emailSplitComma.length; i++)
+		{
+			
+			//if(Trim(emailSplitComma[i])!="")
+			//{
+				email=Trim(emailSplitComma[i]);
+				var emailPattern = /^([a-zA-Z0-9]+([~{|}`^?=+*'#$!%._-]{0,1}[a-zA-Z0-9]+)*)@(([a-zA-Z0-9]+([._-]{0,1}[a-zA-Z0-9]+)*)+(?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,4}(?:\.[a-zA-Z]{2,3})?)$/;				
+				if(emailPattern.test(email) == false)
+				{
+					flag=false;		
+				}
+				else
+				{
+					$("#attendees_parent_email").css("border","1px solid #CDE0E6");
+					$("#attendees_parent_email_error").parent().css("display","none");
+					$("#attendees_parent_email_error").html("");				  
+				}
+			//}
+			//else{
+			//	flag=false;	
+			//}
+
+		
+		}
+	}
+	else
+	{
+		var emailPattern = /^([a-zA-Z0-9]+([~{|}`^?=+*'#$!%._-]{0,1}[a-zA-Z0-9]+)*)@(([a-zA-Z0-9]+([._-]{0,1}[a-zA-Z0-9]+)*)+(?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,4}(?:\.[a-zA-Z]{2,3})?)$/;
+		if(emailPattern.test(email) == false)
+		{
+			flag=false;
+			
+		}
+		else
+		{
+			$("#attendees_parent_email").css("border","1px solid #CDE0E6");
+			$("#attendees_parent_email_error").parent().css("display","none");
+			$("#attendees_parent_email_error").html("");
+		}
+	}
+	if(!flag)
+	{
+		$("#attendees_parent_email_error").html("Please enter valid email");
+		return false;   
+	}
+	else
+	{
+		return true;
+	}
+	
+}
+
+</script>

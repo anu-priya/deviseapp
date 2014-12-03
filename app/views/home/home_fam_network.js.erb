@@ -1,0 +1,8 @@
+<% if !@fam_post.nil? && @fam_post.present? %>
+	$("#fam_more").css("display","block");
+	
+<%else%>
+	$("#fam_more").css("display","none");
+	
+<%end%>
+$('#fam-content').html("<%=escape_javascript(render 'home/fam_network')%>");

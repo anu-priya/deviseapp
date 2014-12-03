@@ -1,0 +1,61 @@
+<!-- Provider Activity detail section start-->
+				<table cellspacing="0" cellpadding="0" style="width:100%;margin:0 auto;">   
+					<% if !@user.nil? && !@user.user_name.nil?%>
+					<tr>
+						<td height="30" width="130" class="tdalign">Contact Name</td>
+						<td height="30" class="tdright"><%= @user.user_name if !@user.nil?%></td>
+					</tr>
+					<%end%>
+					<% if !@user.nil? && !@user.email_address.nil?%>
+					<tr>
+						<td height="30"  class="tdalign">Email</td>
+						<td height="30" class="tdright blue"><%= @user.email_address if !@user.nil?%></td>
+					</tr>
+					<%end%>
+					<%if !@user_profile.nil? && !@user_profile.website.nil? && @user_profile.website.present? &&  @user_profile.website!=''%>
+					<tr>
+						<td height="30"  class="tdalign">Website</td>
+						<td height="30" class="tdright blue">							
+							<a href="<%if !@user_profile.nil? && !@user_profile.website.nil? && @user_profile.website.first(4)=="http"%><%=@user_profile.website%><%else%>http://<%=@user_profile.website if !@user_profile.nil? && !@user_profile.website.nil?%><%end%>" onclick="activity_web_count();" title="<%=@user_profile.website if !@user_profile.nil? && !@user_profile.website.nil?%>" target="_blank" class="flink" style="text-align:left;"><%if !@user_profile.nil? && !@user_profile.website.nil? && @user_profile.website.present?%><%=truncate(@user_profile.website, :length =>44, :omission => '... ') if !@user_profile.nil? && !@user_profile.website.nil?%><%end%></a>
+						</td>
+					</tr>
+					<% end %>
+					<%if !@user_profile.nil? && @user_profile.mobile && @user_profile.mobile!=''%>
+					<tr>
+						<td height="30"  class="tdalign">Mobile Number</td>
+						<td height="30" class="tdright"><%= @user_profile.mobile%></td>
+					</tr>
+					<%end%>
+					<%if !@user_profile.nil? && @user_profile.phone && @user_profile.phone!=''%>
+					<tr>
+						<td height="30"  class="tdalign">Phone Number</td>
+						<td height="30" class="tdright"><%= @user_profile.phone%></td>
+					</tr>
+					<%end%>
+					<tr>
+						<td height="30"  class="tdalign">
+							<div style="border-bottom:1px dashed #DADADA;"></div>
+						</td>
+						<td height="30"  class="tdalign">
+							<div style="border-bottom:1px dashed #DADADA;"></div>
+						</td>
+					</tr>
+					<tr>
+						<td height="30"  class="tdalign">Address</td>
+						<td height="30" class="tdright"><%= @user_profile.address_1 if !@user_profile.nil? && @user_profile.address_1%><% if !@user_profile.address_2.nil? && @user_profile.address_2.present?%>,&nbsp;<%= @user_profile.address_2%><%end%></td>
+					</tr>
+					<%if !@user_profile.nil? && @user_profile.city%>
+					<tr>
+						<td height="30"  class="tdalign">City</td>
+						<td height="30" class="tdright"><%= @user_profile.city%></td>
+					</tr>
+					<%end%>
+					<%if !@user_profile.nil? && @user_profile.state%>
+					<tr>
+						<td height="30"   class="tdalign">State</td>
+						<td height="30" class="tdright"><%= @user_profile.state%>
+					</td>
+					</tr>
+					<%end%>
+				</table>
+<!-- Provider Activity detail section end-->

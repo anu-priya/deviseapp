@@ -1,0 +1,116 @@
+<div style="padding: 20px 8px 15px 0px;">
+  <table border="0" cellpadding="0" cellspacing="0" width="300">
+    <tr>
+      <td align="left" valign="middle" height="28">
+        <span class="upload_link">Activity Forms</span>
+      </td>
+    </tr>
+    <tr>
+      <td  align="left" valign="middle" height="8">
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="middle">
+        <a href="javascript:void(0);" title="" class="pdfupload" onClick="ageprompt(); _gaq.push(['_trackEvent','Provider Module', 'clickForm','Upload Required Form']);"><%= image_tag("/assets/provider_settings/upload.png", :align=>"left") %>&nbsp;Upload Required Form <img src="/assets/provider_register/help.png" align="top" alt=""onmouseover="upload_helptxt_show();" onmouseout="upload_helptxt_hide();" /></a>
+        <div id="uhelptext" style="display:none; position:absolute;float:left; z-index:1000;" onmouseover="upload_helptxt_show();" onmouseout="upload_helptxt_hide();" class="frm_helpText">
+				Upload the required form to join your activities. <br>This document will download by the participants.
+        </div>
+      </td>
+    </tr>
+    <tr>
+
+      <td align="left" valign="middle">
+        <div class="showdownloadfile" id="show-download" style="margin-left:22px; margin-top:6px; padding-top:6px;"><!--Download file-->
+          <table cellpadding="0" cellspacing="0" width="100%">
+            <% @policy_file && @policy_file.each do |p_file|%>
+              <%name = p_file.pdf_file_name%>
+              <tr id="p_fil_<%=p_file.policy_file_id%>">
+                <td width="8%"><img src="/assets/policies/pdf_icon.png" width="21" height="26" alt=""/></td>
+                <td width="84%" style="padding-left: 5px;"><p class="pdfupload"><%=((name.length>20) ? (name[0, 20] + "..." + name[-6, 6]) : name)%></p></td>
+                <td align="left"><a href="/download_policy?id=<%=p_file.policy_file_id%>" title="Download"><%= image_tag("/assets/provider_settings/policy_download.png") %></a></td>
+                <td align="center" width="10%" valign="top"><p class="pdfupload" style="font-size: 16px;padding-top: 5px;color:#e3e3e3;">|</p></td>
+                <td align="right"><a href="javascript:void(0);" onclick="del_p_file(<%=p_file.policy_file_id%>);" title="Delete"><%= image_tag("/assets/provider_settings/policy_delete.png") %></a></td>
+              </tr>
+              <tr><td colspan="5" height="10"></td></tr>
+            <%end%>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+<div style="border-top:1px dotted #BCC1A1">					
+  <%=render :partial => "forms/form_list" %>
+</div>
+<input type="hidden" name="del_file" id="dele_file" value="0" />	
+
+<div id="ppdeletefile" style="display:none;">
+  <div class="ppdeletefile">
+    <div style="padding:20px;">
+      <div class="p1" align="center">Are you sure you want to delete this file?</div><br/>
+      <div class="buttons" align="center">
+        <a href="javascript:void(0);" title="" class="le save-button" onclick="del_success()">OK</a>
+        <a href="javascript:void(0);" title="" class="le cancel-button" onclick="closedelpopup()">Cancel</a>
+      </div>
+    </div>
+  </div>
+  <div id="pdfuploadpop" style="display:none;">
+    <div class="pdfuploadpop">
+      <div style="padding:20px;">
+        <div class="p1" align="center">Your file has been uploaded</div><br/>
+        <div class="buttons" align="center">
+          <a href="javascript:void(0);" title="" class="le save-button" onclick="closedelpopup()">OK</a>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      function del_p_file(data){
+        $("#dele_file").val(data);
+        ppdelete=dhtmlmodal.open('agebox', 'div', 'ppdeletefile', 'Age Check', 'width=545px,height=250px,left=45%,top=300px,resize=0,scrolling=0');
+        var winwidt = $(window).width();
+        var winheight = $(window).height();
+        //alert(winwidt+" "+winheight);
+        $('#agebox').css({'left':((winwidt-545)/2),'top':((winheight-250)/2)});
+      }
+
+      function closedelpopup()
+      {
+        ppdelete.hide();
+      }
+
+
+      function del_success(){
+        var val =  $("#dele_file").val();
+        $.ajax({
+          data: {"id": val},
+          url: "/policy_file_delete",
+          success: function(data){
+            if (data)
+            {
+              ppdelete.hide();
+              $("#p_fil_"+val).remove();
+            }
+            else
+            {
+              return false;
+            }
+          }
+        });
+      }
+      function upload_helptxt_show()
+      {
+        $('#uhelptext').css('display','inline-block');
+      }
+      function upload_helptxt_hide()
+      {
+        $('#uhelptext').hide();
+      }
+      $(document).ready(function(){
+    <%if !@val.nil? && @val.present? && @val=="success"%>
+          ppdelete=dhtmlmodal.open('agebox', 'div', 'pdfuploadpop', 'Age Check', 'width=545px,height=250px,left=45%,top=300px,resize=0,scrolling=0');
+          var winwidt = $(window).width();
+          var winheight = $(window).height();
+          $('#agebox').css({'left':((winwidt-545)/2),'top':((winheight-250)/2)});
+    <%end%>
+      });
+    </script>

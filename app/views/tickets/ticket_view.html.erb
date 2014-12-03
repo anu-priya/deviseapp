@@ -1,0 +1,164 @@
+<%=stylesheet_link_tag "global/pop_up","tickets/ticket_view", :media => "all"%>
+
+
+<script language="javascript">
+  function closepopup() {
+    parent.viewTicketPage.hide();
+  }
+</script>
+
+<div id="new_act_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">
+							Activity Ticket
+            </div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""><%= image_tag("/assets/global/pop_up/button_close.png", size:"15x15")%></a>
+          </div>
+        </div>
+        <div id ="view_ticket">
+            <div class="centerCont">		  
+				<div class="lt imageLt">
+				
+					<!--  Type 1 Ticket --->
+					<div class="ticketContainer" id="viewTicket1">
+						<div class="row1">
+						  <div class="lt col1"><span class="whiteText"><b>21</b><br/><span class='whiteTextSmall'>Augest</span></span></div>
+						  <div class="lt col2"><span class="whiteText"><b>2:00 pm</b><br/><span class='whiteTextSmall'>Start time</span></span></div>
+						  <div class="lt col3"><span class="whiteText"><b>6:00 pm</b><br/><span class='whiteTextSmall'>End time</span></span></div>
+						</div>	
+						<div class="row2"><span class='actName'>Kids Art School</span></div>
+						<div class="row3"><img src="/assets/tickets/view_page_ticket_image11.png" width="221" height="174" alt="" /></div>	
+						<div class="contRow">
+							<div class="head">Kids Art School</div>
+							<div class="desp" style="font-size:11px;">Lorim ipsum dolor sit amet,<Br/> consectetur adipicsing elit.</div>
+							<div class="head">Venue</div>
+							<div class="desp">No.16, world cross street, Near white house city, us. Pn:8900450050</div>	
+							<div class="clear"></div>
+							<div>
+								<div class="lt priceCode">
+									<div class="head">Price</div>
+									<div class="redText">$15.00/-</div>							
+								</div>
+								<div class="lt priceCodert">
+									<div class='ticketText'>FamPass Code</div>
+									<img src="/assets/tickets/ticket_code.png" width="92" height="43" alt="" class='lt ticketCodeImg' />							
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="clear"></div>		
+						</div>
+						<div class="clear"></div>							
+					</div>
+					
+					<!--  Type 2 Ticket --->
+					<div class="ticketContainer" id="viewTicket2" style='display:none;'>
+						<div class="row1 setbottomBorder">
+						  <div class="lt col1 setOrgBg"><span class="whiteText"><b>21</b><br/><span class='whiteTextSmall'>Augest</span></span></div>
+						  <div class="lt col2 setOrgBg setleftBorder"><span class="whiteText"><b>2:00 pm</b><br/><span class='whiteTextSmall'>Start time</span></span></div>
+						  <div class="lt col3 setOrgBg setleftBorder"><span class="whiteText"><b>6:00 pm</b><br/><span class='whiteTextSmall'>End time</span></span></div>
+						</div>	
+						<div class="row2 setOrgBg"><span class='actName'>Kids Art School</span></div>
+						<div class="row3"><img src="/assets/tickets/view_page_ticket_image22.png" width="221" height="174" alt="" /></div>	
+						<div class="contRow redBottom">
+							<div class="head">Kids Art School</div>
+							<div class="desp" style="font-size:11px;">Lorim ipsum dolor sit amet,<Br/> consectetur adipicsing elit.</div>
+							<div class="head">Venue</div>
+							<div class="desp">No.16, world cross street, Near white house city, us. Pn:8900450050</div>	
+							<div class="clear"></div>
+							<div>
+								<div class="lt priceCode">
+									<div class="head">Price</div>
+									<div class="redText">$15.00/-</div>							
+								</div>
+								<div class="lt priceCodert">
+									<div class='ticketText'>FamPass Code</div>
+									<img src="/assets/tickets/ticket_code.png" width="92" height="43" alt="" class='lt ticketCodeImg' />							
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="clear"></div>		
+						</div>
+						<div class="clear"></div>							
+					</div>
+					
+					<!--  Type 3 Ticket --->
+					<div class="ticketContainer" id="viewTicket3" style='border:none;display:none;'>						
+						<div class="type3Inner liteBlueBottom">
+							<img src="/assets/tickets/view_page_ticket_image33.png" width="182" height="63" alt="" align="center" />							
+							<div class="head">Kids Art School</div>
+							<div class="desp" style="font-size:11px;">Lorim ipsum dolor sit amet,<Br/> consectetur adipicsing elit.</div>
+							<div class="head">Venue</div>
+							<div class="desp">No.16, world cross street, Near white house city, us. Pn:8900450050</div>	
+							<div class="head">Date</div>
+							<div class="desp">21 Augest 2012</div>
+							<div class="head">Time</div>
+							<div class="desp">2.00pm to 6.00pm</div>
+							<div class="head">Details</div>
+							<div class="desp">Lorem ipsum dolor sit amet, con sectetur adipicsing elit. Lorem ips um dolor sitamet.</div>
+							<div class="clear"></div>							
+							<div>
+								<div class="lt priceCode">
+									<div class="head">Price</div>
+									<div class="redText">$15.00/-</div>							
+								</div>
+								<div class="lt priceCodert">
+									<div class='ticketText'>FamPass Code</div>
+									<img src="/assets/tickets/ticket_code.png" width="92" height="43" alt="" class='lt ticketCodeImg' />							
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="clear"></div>		
+						</div>
+						<div class="clear"></div>							
+					</div>
+					
+					
+				</div>
+				
+				<div class="lt contRt">
+					<div class="detailDiv">
+						<div class="detailInner">
+							<div class="row1">
+								<div class="grayText">Ticket Name</div>
+								<div class="blueText">Sports Activity</div>
+								<div class="clear"></div>
+								<div class="grayText">Activity Name</div>
+								<div class="blueText">Cricket</div>
+								<div class="clear"></div>
+								<div class="grayText">Address</div>
+								<div class="blueText">Event Academy, Stevenson St, San Francisco</div>
+								<div class="clear"></div>
+							</div>
+							<div class="row1" style="border:none;">
+								<div class="grayText">Created On</div>
+								<div class="blueText">Mon 8/6/2012 04:30 PM</div>
+								<div class="clear"></div>								
+							</div>									
+						</div>
+						<div class="clear"></div>						
+					</div>
+					<div class="clear"></div>	
+				</div>
+				<div class="clear"></div>
+				<div class="buttonDivs">
+					<a href="javascript:void(0)" title=""><img src="/assets/tickets/download.png" alt="" /></a>
+					<a href="javascript:void(0)" title=""><img src="/assets/tickets/print.png" alt="" /></a>
+					<a href="javascript:void(0)" title=""><img src="/assets/tickets/cancel_small.png" width="103" height="36" alt="" onClick="closepopup()" /></a>	
+				</div>
+		    </div>
+		</div>
+      </div>  
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+</div>
+			  

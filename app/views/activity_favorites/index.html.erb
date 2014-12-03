@@ -1,0 +1,33 @@
+<h1>Listing activity_favorites</h1>
+
+<table>
+  <tr>
+    <th>Favorite</th>
+    <th>Activity</th>
+    <th>Activity name</th>
+    <th>User</th>
+    <th>Inserted date</th>
+    <th>Modified date</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @activity_favorites.each do |activity_favorite| %>
+  <tr>
+    <td><%= activity_favorite.favorite_id %></td>
+    <td><%= activity_favorite.activity_id %></td>
+    <td><%= activity_favorite.activity_name %></td>
+    <td><%= activity_favorite.user_id %></td>
+    <td><%= activity_favorite.inserted_date %></td>
+    <td><%= activity_favorite.modified_date %></td>
+    <td><%= link_to 'Show', activity_favorite %></td>
+    <td><%= link_to 'Edit', edit_activity_favorite_path(activity_favorite) %></td>
+    <td><%= link_to 'Destroy', activity_favorite, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Activity favorite', new_activity_favorite_path %>

@@ -1,0 +1,54 @@
+<%=javascript_include_tag "global/checkbox"%>
+<%if !@fam_user_list.nil? && @fam_user_list.count>0%>
+<table cellspacing="0" cellpadding="0" border="0" width="100%" style="border:1px solid #E9EDEE;">	
+          <!--tr class="setBg2"-->
+	  <!--display for admin users-->
+	  <%#if (@user_type && @user_type.present? && @user_type!="" && @user_type == "all") || (@user_type.nil?) %>
+		<!--admin lists-->
+		<%#=@fam_user_list%>
+		
+		<%i=0%>
+		<tr>
+			<td align="left" width="100" class="headText setPadLt">User_name</td>
+			<td align="left" width="110" class="headText">Email_address</td>
+			<td align="left" width="50" class="headText">Business_name</td>
+			<td align="left" width="100" class="headText">Adresss</td>
+		</tr>
+		<% @fam_user_list.each do|c|%>
+
+			<%#if i.even? %>
+            <tr class="setBg1">
+            <%#else%>
+            <!--tr class="setBg2"-->
+            <%#end%>
+
+			<td align="left" width="100" title="<%=c.user_name if !c.user_name.nil?%>" class="contentText setPadLt activityName"><%=truncate(c.user_name, :length =>28, :omission => '... ') if !c.user_name.nil?%></td>
+			<td align="left" width="110" title="<%=c.email_address if !c.email_address.nil?%>" class="contentText"><%=truncate(c.email_address, :length =>30, :omission => '... ') if !c.email_address.nil?%></td>
+			<td align="left" width="50" title="<%=c.user_profile.business_name if !c.user_profile.nil? && !c.user_profile.business_name.nil?%>" class="contentText"><%=truncate(c.user_profile.business_name, :length =>28, :omission => '... ') if !c.user_profile.nil? && !c.user_profile.business_name.nil? && c.user_profile.business_name!="No Value"%></td>
+			<td align="left" width="100" class="contentText">
+				<%if !c.user_profile.nil? %>
+				<%if !c.user_profile.address_1.nil? && c.user_profile.address_1.present? && c.user_profile.address_1!="No Value"%>
+					<%=c.user_profile.address_1 %>,&nbsp;
+				<%end%>
+				<%if !c.user_profile.city.nil? && c.user_profile.city.present? && c.user_profile.city!="No Value" && c.user_profile.city!="select" && c.user_profile.city!="Enter City"%>
+					<%=c.user_profile.city %>,&nbsp;
+				<%end%>
+				<%if !c.user_profile.state.nil? && c.user_profile.state.present? && c.user_profile.state!="No Value"%>
+					<%=c.user_profile.state %>
+				<%end%>
+		
+				<%end%>
+			</td>
+		  </tr>
+		  <%i=i+1%>
+		   <!--tr class="setBg2">
+			<td align="left" width="80" class="contentText setPadLt activityName"></td>
+			<td align="left" width="180" class="contentText"></td>
+		  </tr-->
+		  <!--provider lists-->
+		  
+		  <!--parent lists-->
+		  <%end%>
+
+</table>
+	<%end%>

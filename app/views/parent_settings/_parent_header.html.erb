@@ -1,0 +1,21 @@
+<div class="menuSelection">
+	<div class="divheading">
+		<a class="<%if params[:action]=="activity_parent_schedule"%>innerMenuSelection fntfiftn<%else%>alink fntfiftn<%end%>" href="/activity_parent_schedule?mode=parent" onclick="_gaq.push(['_trackEvent','Parent Module', 'clickMyAccounts','My Scheduled'])">Schedule</a>
+	</div>
+	<div  class="dottedone">&nbsp;<span class="middt" <%if params[:action] == "parent_profile"%>style="color:#DC1F1B;"<%end%>>&middot;</span>&nbsp;</div>
+	<div class="divheading">
+		<a class="<%if params[:action]=="parent_profile"%>innerMenuSelection fntfiftn<%else%>alink fntfiftn<% end%>"  href="/parent_profile"  onclick = "_gaq.push(['_trackEvent','Parent Module', 'clickSettings','Profile']);">Profile</a>
+	</div>
+	<div  class="dottedone">&nbsp;<span class="middt" <%if params[:action] == "parent_settings"%>style="color:#DC1F1B;"<%end%>>&middot;</span>&nbsp;</div>
+	<div class="divheading">
+		<a class="<%if params[:action]=="parent_settings"%>innerMenuSelection fntfiftn<%else%>alink fntfiftn<% end%>"  href="/parent_settings"  onclick = "_gaq.push(['_trackEvent','Parent Module', 'clickSettings','Settings']);">Settings</a>
+	</div>
+	<div class="dottedone">&nbsp;<span class="middt" <%if (params[:controller] == "discount_dollars" && params[:action]=="index")%>style="color:#DC1F1B;"<%end%>>&middot;</span>&nbsp;</div>
+	<div class="divheading">
+		<a class= <%if (params[:controller] == "discount_dollars" && params[:action]=="index" )%>"innerMenuSelection fntfiftn"<%else%>"alink fntfiftn"<% end%>  href="/discount_dollars?mode=parent"  onclick = "_gaq.push(['_trackEvent','Parent Module', 'clickSettings','Discount Dollars']);">Discount Dollars</a>
+	</div>
+	<div class="dottedone">&nbsp;<span class="middt" <%if params[:action] == "change_password"%>style="color:#DC1F1B;"<%end%>>&middot;</span>&nbsp;</div>
+	<div class="divheading">
+		<a class="<%if params[:action]=="change_password"%>innerMenuSelection fntfiftn<%else%>alink fntfiftn<% end%>" href="change_password?mode=parent" <%if params[:action]=="change_password"%>style="color:#E24C4B;"<%end%> onclick = "_gaq.push(['_trackEvent','Parent Module', 'clickSettings','Password']);">Password</a>
+	</div>
+</div>

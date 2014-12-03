@@ -1,0 +1,30 @@
+<div class="TopListText" align="center">
+	<% get_controller = params[:controller]%>
+	<% get_action = params[:action]%>
+	<%if !current_user.nil? && current_user.user_type=="P" %>	
+	<span><a href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? %>" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity List']);">Activity List</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/provider_activites" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity Cards']);">Activity Cards</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/provider_activity_discount" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity Discount']);">Activity Discount</a></span><span class="dot menuText">&bull;</span>
+	<span><a href="/activity_provider_schedule" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Schedule']);">Schedule</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/provider_profile" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Business Info']);">Business Info</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/provider_policies" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Policies']);">Policies</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/provider_plan" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Plan']);">Plan</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/change_password" class="menuText <%if get_action && get_action=='change_password'%>selected_text<%end%>" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Change Password']);">Password</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/provider_settings" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Settings']);">Settings</a></span>
+	<span class="dot menuText">&bull;</span>
+	<%if !params[:mode].nil? && params[:mode].downcase == 'parnt' %>
+	<span><a href="/discount_dollars" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Dollars']);">Discount Dollars</a></span>	
+	<span class="dot menuText">&bull;</span>
+	<%end%>	
+	<span><a href="/transaction" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Reports']);">Reports</a></span>
+	<span class="dot menuText">&bull;</span>
+	      <span><a href="javascript:void(0);" class="menuText" title="" onClick="pop_provider_embed_Detail('activity_detail/provider_embedded_link?activity_id=<%= get_embed_data if current_user.present? %>'); _gaq.push(['_trackEvent','Provider Module', 'clickSettings','Embed Link']);">Embed Link</a></span>
+	<%end%>
+</div>  

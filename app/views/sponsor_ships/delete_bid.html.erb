@@ -1,0 +1,34 @@
+<%= stylesheet_link_tag "global/pop_up_success" %>
+<script language="javascript">
+  function closepopup(){
+    parent.activityDeletePage.hide();
+  }
+  
+  //delete the activity id while clicking the cross image button
+  function delete_activity(){
+    var delete_id = $('#to_delete').val();
+    $.post("del_bid", {"id":delete_id}, null, "script");
+  }
+  
+</script> 
+<div id="delete_actvity">
+  <div class="popupContainer">
+    <div class="headTab" style="border:none;">
+      <div class="heading">
+      </div>    <div class="clear"></div>
+    </div>
+    <div align="center">
+      <!--to get the current activity id for delete the record from the db-->
+      <input type="hidden" id="to_delete" value="<%= @to_delete %>"/>
+      <!--modified by rajkumar-->
+      <p class="successText">Do you want to delete the Activity</p>
+      <div class="clear"></div>
+      <div style="margin-top:20px;">
+        <a href="javascript:void(0)" onClick="delete_activity(); _gaq.push(['_trackEvent','Provider Module', 'clickSponsorship','Delete Bid Success'])">
+         <%= image_tag("/assets/detailed_view/yes_button.png", height: '39', width: '103') %></a>
+        <a href="#" onClick="closepopup()">
+          <%= image_tag("/assets/detailed_view/no_button.png", height: '39', width: '103') %></a>
+      </div>
+    </div>
+  </div>
+</div>

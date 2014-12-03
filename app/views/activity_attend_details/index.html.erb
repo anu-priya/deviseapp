@@ -1,0 +1,49 @@
+<h1>Listing activity_attend_details</h1>
+
+<table>
+  <tr>
+    <th>Attend</th>
+    <th>Participant name</th>
+    <th>Dob</th>
+    <th>Age range</th>
+    <th>Gender</th>
+    <th>Schedule</th>
+    <th>Image content type</th>
+    <th>Image file size</th>
+    <th>Image updated at</th>
+    <th>Price</th>
+    <th>Activity</th>
+    <th>User</th>
+    <th>Inserted date</th>
+    <th>Modified date</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @activity_attend_details.each do |activity_attend_detail| %>
+  <tr>
+    <td><%= activity_attend_detail.attend_id %></td>
+    <td><%= activity_attend_detail.participant_name %></td>
+    <td><%= activity_attend_detail.dob %></td>
+    <td><%= activity_attend_detail.age_range %></td>
+    <td><%= activity_attend_detail.gender %></td>
+    <td><%= activity_attend_detail.schedule_id %></td>
+    <td><%= activity_attend_detail.image_content_type %></td>
+    <td><%= activity_attend_detail.image_file_size %></td>
+    <td><%= activity_attend_detail.image_updated_at %></td>
+    <td><%= activity_attend_detail.price %></td>
+    <td><%= activity_attend_detail.activity_id %></td>
+    <td><%= activity_attend_detail.user_id %></td>
+    <td><%= activity_attend_detail.inserted_date %></td>
+    <td><%= activity_attend_detail.modified_date %></td>
+    <td><%= link_to 'Show', activity_attend_detail %></td>
+    <td><%= link_to 'Edit', edit_activity_attend_detail_path(activity_attend_detail) %></td>
+    <td><%= link_to 'Destroy', activity_attend_detail, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Activity attend detail', new_activity_attend_detail_path %>

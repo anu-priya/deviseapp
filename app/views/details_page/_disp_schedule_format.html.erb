@@ -1,0 +1,77 @@
+   <% se_date = Time.now.strftime("%Y-%m-%d") %>
+   <% share = ''%>
+   <% share = act_sched%>
+   <%add_repeat = (act_sched && act_sched.fetch_activity_repeat && act_sched.fetch_activity_repeat.last) ? RepeatDisplays(act_sched.fetch_activity_repeat.last) : ""%>
+         <%if (!share.start_date.nil? && !share.end_date.nil?) || !share.start_date.nil?%>
+	    <% repeat=share.fetch_activity_repeat.last if !share.activity_repeat.last.nil? %>
+	    <% if repeat%>
+		<%strt_date = share.start_date%>
+		<% strt_date_format = share.start_date.strftime("%Y-%m-%d")%>
+		<% if !repeat.ends_on.nil? || !repeat.end_occurences.nil?%>
+			<%if !repeat.ends_on.nil?%>
+				<%end_date = repeat.ends_on%>
+			<%else%>
+				<% if !repeat.repeats.nil?%>
+					<%daily_e_date=""%>
+					<% if repeat.repeats.downcase=="daily" %>
+						<%end_date = share.start_date + (repeat.repeat_every.to_i * repeat.end_occurences.to_i).days%>
+				          <%elsif repeat.repeats.downcase=="weekly" %>
+						<%end_date = share.start_date + (repeat.repeat_every.to_i * repeat.end_occurences.to_i * 7).days%>
+				          <%elsif repeat.repeats.downcase=="monthly" %>
+						<%end_date = share.start_date + (repeat.repeat_every.to_i * repeat.end_occurences.to_i).months%>
+				          <%elsif repeat.repeats.downcase=="yearly" %>
+						<%end_date = share.start_date + (repeat.repeat_every.to_i * repeat.end_occurences.to_i).years%>
+				          <%end%>
+				<%end%>
+			<%end%>
+		 <% end_date_format = end_date.strftime("%Y-%m-%d") if !end_date.nil?%>
+			<% if (strt_date_format== end_date_format) %>	
+				<%# disply_date = strt_date.strftime("%b %d, %Y")+', '+ share.start_time.strftime("%l:%M %p")+' - '+share.end_time.strftime("%l:%M %p")%>
+				<%=(strt_date_format == se_date) ? 'Ongoing, '+add_repeat : add_repeat %>
+			  <%else%>
+				<%#if !repeat.ends_on.nil?%>
+				 <%# disply_date = strt_date.strftime("%b %d, %Y")+', '+ share.start_time.strftime("%l:%M %p")+' - '+share.end_time.strftime("%l:%M %p")%>
+				 <%#else%>
+				 <%# disply_date = strt_date.strftime("%b %d, %Y")+', '+ share.start_time.strftime("%l:%M %p") +' - '+share.end_time.strftime("%l:%M %p")%>
+				 <%#end%>
+<%if !strt_date_format.nil? && !end_date_format.nil? && ((se_date > strt_date_format && se_date < end_date_format) || (se_date == strt_date_format)  || (se_date == end_date_format))%>
+				 <%='Ongoing, '+add_repeat%>
+				 <%else%>
+				 <%=add_repeat%>
+				 <%end%>
+			<%end%>
+		<% elsif(repeat.ends_never==true)%>
+				         <%#if se_date && strt_date_format && strt_date_format <= se_date%>
+						<%# disply_date = 'Ongoing, '+strt_date.strftime("%b %d, %Y")+', '+ share.start_time.strftime("%l:%M %p")+' - '+share.end_time.strftime("%l:%M %p")%>
+					<%#else%>
+						<%# disply_date = strt_date.strftime("%b %d, %Y")+', '+ share.start_time.strftime("%l:%M %p") + ' - '+share.end_time.strftime("%l:%M %p")%>
+					<%#end%>
+
+			<%=(se_date && strt_date_format && strt_date_format <= se_date) ? 'Ongoing, '+add_repeat : add_repeat%>
+		<%end%>
+	    <%else%>
+		<%if (!share.start_date.nil? && !share.end_date.nil?)%>
+			  <% strt_date = share.start_date%>
+			  <% end_date = share.end_date%>
+			  <% strt_date_format = share.start_date.strftime("%Y-%m-%d")%>
+			  <% end_date_format = share.end_date.strftime("%Y-%m-%d")%>
+			<% if (strt_date_format== end_date_format) %>
+				<%# disply_date = strt_date.strftime("%b %d, %Y")+', '+ share.start_time.strftime("%l:%M %p") + ' - '+((!share.end_time.nil?) ? share.end_time.strftime("%l:%M %p") : '')%>
+				<%=(strt_date_format == se_date) ? 'Ongoing, '+add_repeat : add_repeat %>
+			  <%else%>
+				 <%# disply_date = strt_date.strftime("%b %d, %Y")+' - '+end_date.strftime("%b %d")+', '+end_date.strftime("%Y")+', '+share.start_time.strftime("%l:%M %p") +' - '+((!share.end_time.nil?) ? share.end_time.strftime("%l:%M %p") : '')%>
+				 <%=((se_date > strt_date_format && se_date < end_date_format) || (se_date == strt_date_format)  || (se_date == end_date_format) ? 'Ongoing, '+add_repeat : add_repeat ) %>
+			<%end%>
+	       <%elsif(!share.start_date.nil? && share.end_date.nil?)%>
+	                    <% strt_date = share.start_date%>
+			<% strt_date_format = share.start_date.strftime("%Y-%m-%d")%>
+			<%# if share.start_date.strftime("%Y-%m-%d")== se_date%>
+				<%# disply_date = 'Ongoing, '+strt_date.strftime("%b %d, %Y")+', '+ share.start_time.strftime("%l:%M %p") + ' - '+((!share.end_time.nil?) ? share.end_time.strftime("%l:%M %p") : '')%>
+			<%#else%>
+				<%#disply_date = strt_date.strftime("%b %d, %Y")+', '+ share.start_time.strftime("%l:%M %p") + ' - '+((!share.end_time.nil?) ? share.end_time.strftime("%l:%M %p") : '')%>
+			<%#end%>
+			<%#=disply_date+add_repeat%>
+			<%=(share.start_date.strftime("%Y-%m-%d")== se_date) ? 'Ongoing, '+add_repeat : add_repeat%>
+	       <%end%>
+	    <%end%>
+	<%end%>

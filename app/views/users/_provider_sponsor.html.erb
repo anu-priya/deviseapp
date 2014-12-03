@@ -1,0 +1,998 @@
+<link rel="stylesheet" type="text/css" href="/assets/register_new/register_pop.css" />
+<link rel="stylesheet" type="text/css" href="/assets/register_new/provider_register_pop.css" />
+<!--avoid to type text in browse textbox-->
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    $("#sp_browse_photo").keyup(function(){
+      var sp_browse_photo=$("#sp_browse_photo").val();
+      $("#sp_browse_photo").val("");
+    });
+  });
+
+  $(document).ready(function(){
+    $("#sp_browse_photo").keydown(function(){
+      var sp_browse_photo=$("#sp_browse_photo").val();
+      $("#sp_browse_photo").val("");
+    });
+  });
+</script>
+<script type="text/javascript" src="/assets/register/provider_register_update_pop.js"></script>
+<script type="text/javascript" src="/assets/jquery.form.js"></script>
+<div align="center" style="border-bottom:1px solid #ddebee;">
+  <div style="margin:10px 0 10px 0;">
+    <a href="#" class="menuText" title="" onclick="show_parent_register(); _gaq.push(['_trackEvent', 'Registration', 'clickParentRegistration']);">Parent</a>
+    <span class="dot menuText">&bull;</span>
+    <a href="#" class="menuText" title="" onclick="show_provider_plan(); _gaq.push(['_trackEvent', 'Registration', 'clickProviderSignup']);" style="color:#fe0003;"><b>Provider</b></a>
+  </div>
+</div>
+
+<div id="register_outerContainer">
+  <div class="Provider_innerContainer" style="width:870px;">
+    <div id="signupDiv" style="padding-bottom:10px;">
+      <div class="setTopPosition">
+        <div class="lt" id="setImage"></div>
+        <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_1active.png" id="img1" align="top" class="circleNumber"></a></div>
+        <div class="lt" id="setImage1"></div>
+        <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_2inactive.png" id="img2_spo" align="top" class="circleNumber"></a></div>
+        <div class="lt" id="setImage2"></div>
+        <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_3active.png" id="img3_spo" align="top" class="circleNumber"></a></div>
+        <div class="lt" id="setImage"></div>
+        <div class="clear"></div>
+        <div style="margin-top:3px;">
+          <div class="lt setfont12" id="choose_text" style="font-weight:normal;">Choose Plan</div>
+          <div class="lt setfont12" id="plan_text" style="font-weight:bold;"><span id="spo_up">Set up Profile</span></div>
+          <div class="lt setfont12" id="payment_text" style="font-weight:normal;"><span id="spo_add">Credit Card Details</span></div>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ProviderCenterContent" id="provider_sponsor" style="margin-bottom:0px; background:none;">
+      <!--<div align="center" class="setfeedbackDiv" style="width:325px;font-weight:bold;"><span class="required">*</span>&nbsp;Please fill out required fields.</div>-->
+      <div class="innerMarketDiv" style="padding: 0px 10px 0 5px; width:870px;">
+        <div id="user_name_wrong_sponsor" style="display: none;color: #FC8989;font-size: 12px; .margin:10px 0 10px 16px;"></div>
+        <form id="provider_sponsor_final" name="provider_sponsor_final" action="/provider_sponsor_submit" method="post" enctype="multipart/form-data">
+
+          <div id="sponsor_first" style="display:block;">
+            <div>
+              <div class="lt" style="width: 426px; margin-left:18px;">
+                <p class="head" style="color:#186171;">Register</p>
+                <div class="marginTop14_provider">
+                  <div class="lt leftSideField">Name<span class="required">*</span></div>
+                  <input type="text" name="sp_name" id="sp_name"  value="<% if !current_user.nil? && !current_user.user_name.nil? %><%=current_user.user_name%><%else%>Eg: John Smith<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Eg: John Smith'){this.value=''; this.style.color='#444444'; this.style.border1='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Eg: John Smith'}" tabindex="1" maxlength="25">
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sp_name_error"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="marginTop15">
+                  <div class="lt leftSideField">Password<span class="required">*</span></div>
+                  <input type="password" name="sp_password" id="sp_password" value="<% if !current_user.nil? && !current_user.user_password.nil? %><%= Base64.decode64("#{current_user.user_password}")%><%else%>password<% end %>"  class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'password'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='password'}" tabindex="3">
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sp_password_error" style="width:281px;"></div>
+                </div>
+                <div class="clear"></div>
+
+                <div class="marginTop15">
+                  <div class="lt leftSideField">Business Name<span class="required">*</span></div>
+                  <input type="text" name="sb_name" id="sb_name"  value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil? %><%=current_user.user_profile.business_name%><%else%>Enter the name of your business<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Enter the name of your business'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter the name of your business'}" tabindex="5" maxlength="50">
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sb_name_error"></div>
+                </div>
+                <div class="clear"></div>
+
+
+                <div class="marginTop15" >
+                  <div class="lt leftSideField">Owner</div>
+
+                  <input type="text" name="sp_owner_firstname" id="sp_owner_firstname" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.owner_first_name.nil? %><%=current_user.user_profile.owner_first_name%><%else%>First name<% end %>" class="lt textbox_ownerprovider" style="outline:none;" onfocus="if(this.value == 'First name'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='First name'}" tabindex="7" maxlength="25">
+
+                  <input type="text" name="sp_owner_lastname" id="sp_owner_lastname" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.owner_last_name.nil? %><%=current_user.user_profile.owner_last_name%><%else%>Last name<% end %>" class="lt textbox_ownerprovider" style="outline:none; margin-left:5px;" onfocus="if(this.value == 'Last name'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Last name'}" tabindex="8" maxlength="25">
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sp_owner_firstname_error" style="display: inline-block; float: left;width: 124px;"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt" id="sp_owner_lastname_error" style="display: inline-block; float: right; margin-right:15px;width: 138px;"></div>
+                  <div class="lt" style="margin-left: 8px;"></div>
+                </div>
+                <div class="clear"></div>
+
+              </div>
+
+
+              <div class="lt" style="width: 413px; padding: 20px 0 0 0px;">
+                <div class="marginTop15" style="width:442px;">
+                  <div class="lt leftSideField">Email<span class="required">*</span></div>
+                  <% if !current_user.nil? && !current_user.email_address.nil? %>
+                   <input type="text" name="sp_email" id="sp_email" disabled="disabled" value="<% if !current_user.nil? && !current_user.email_address.nil? %><%=current_user.email_address%><%else%>Eg:john@gmail.com<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Eg:john@gmail.com'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Eg:john@gmail.com'}" tabindex="2" >
+                  <%else %>
+                  <input type="text" name="sp_email" id="sp_email"  value="<% if !current_user.nil? && !current_user.email_address.nil? %><%=current_user.email_address%><%else%>Eg:john@gmail.com<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Eg:john@gmail.com'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Eg:john@gmail.com'}" tabindex="2" >
+                  <%end %>
+                  <div class="clear"></div>
+                </div>
+
+                <div id="error_explanation" class="errorDiv" style="display:none;">
+                  <div class="lt leftSideField">&nbsp;</div>
+
+                  <div class ="setStyleEmail"></div>
+
+                </div>
+
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sp_email_error"></div>
+                </div>
+                <div class="clear"></div>
+
+                <div class="marginTop15" style="width:442px;">
+                  <div class="lt leftSideField">Confirm Password<span class="required">*</span></div>
+                  <input type="password" name="sp_confirm_password" id="sp_confirm_password" value="<% if !current_user.nil? && !current_user.user_password.nil? %><%=current_user.user_password%><%else%>password<% end %>"  class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'password'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='password'}" tabindex="4" >
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sp_confirm_password_error"></div>
+                </div>
+                <div class="clear"></div>
+
+                <div class="marginTop14" style="width:442px;">
+                  <div class="lt leftSideField">Business Logo</div>
+                  <div class="lt FileUpload">
+                    <input type="file" accept="image/*" onchange="document.getElementById('sp_browse_photo').value =this.value;fakepath(this.value);" size="21" id="photo" class="BrowserHidden" name="activity_image">
+                    <div class="BrowserVisible" style="border:none;">
+                      <input type="text" name="sp_browse_photo" id="sp_browse_photo" class="FileField" tabindex="6" />
+                    </div>
+                    <span class="browse"><img src="/assets/register/browse.png" width="76" height="30" /></span>
+                    <div class="clear"></div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sb_logo_error"></div>
+                </div>
+                <p class="msg" style=" color: #FC8989; font-size: 12px;  font-weight: normal;margin-left: 135px;"></p>
+                <div class="clear"></div>
+
+
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="p_admin_firstname_error" style="display: inline-block; float: left; width: 150px;"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt" id="p_admin_lastname_error" style="display: inline-block; float: right; margin-right:8px;width: 150px;"></div>
+                  <div class="lt" style="margin-left: 8px;"></div>
+                </div>
+                <div class="clear"></div>
+
+                <div class="errorDiv" style="display:none">
+                  <div class="lt errorDivProvider" id="admin_provider_error" style="margin-left: 160px;"></div>
+                </div>
+                <div class="clear"></div>
+
+              </div>
+              <div class="clear"></div>
+
+            </div>
+            <div>
+              <div class="lt" style="width: 416px;  margin-top: -10px; margin-left:18px;">
+                <p class="head" style="margin:20px 0 0 0; color:#186171;">Address</p>
+                <div class="marginTop14">
+                  <div class="lt leftSideField">Address Line 1<span class="required">*</span></div>
+                  <input type="text" name="sp_address1" id="sp_address1" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.address_1.nil? %><%=current_user.user_profile.address_1%><%else%>Enter address<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Enter address'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter address'}" tabindex="9" maxlength="50" >
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sp_address1_error"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="marginTop14">
+                  <div class="lt leftSideField">Country<span class="required">*</span></div>
+                  <div class="lt customCity">
+                    <div class="selectBoxPCountry" id="spo_country" onkeydown="selectCountryUsrKeyDown(event)" onmouseover="flag7=true;" onmouseout="flag7=false;">
+
+                      <input type="hidden" id="s_country" name="country" value="United States"/>
+                      <div id="s_Countryfield" class="selectDiv" style="line-height:23px; color:#444444;" tabindex="11">United States</div>
+
+                    </div>
+
+                    <div class="dropDownDivProviderCountry" id="dropDownDiv7" style="display:none;">
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setCountryProviderSponsorValue('United States')" tabindex="">United States</a>
+
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sp_country_error"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="marginTop14" id="city_height">
+                  <div class="lt leftSideField">City<span class="required">*</span></div>
+                  <div class="lt customCity">
+                    <div class="selectBoxPCity" id="spo_city" onkeydown="selectCityUsrKeyDown(event)" onmouseover="flag6=true;" onmouseout="flag6=false;">
+
+                      <input type="hidden" id="s_city" name="city" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.city.nil? %><%=current_user.user_profile.city%><%else%><%= @city %><% end %>"/>
+                      <div id="s_Cityfield" class="selectDiv" style="line-height:23px;" tabindex="13"><% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.city.nil? %><%=current_user.user_profile.city%><%else%>--Choose city--<% end %></div>
+
+                    </div>
+
+                    <div class="dropDownDivProviderCity" id="dropDownDiv6" style="display:none;">
+                       <%@cities = City.where("state_id = 1 and country_id = 1").order("city_name Asc")%>
+                      <%@cities.each do |cit|%>
+                        <a href="javascript:void(0)" onclick="setDropDownValueSponsorReg1('<%= cit.city_name %>')" title=""><%= cit.city_name %></a>
+                      <%end%>
+                    </div>
+                  </div>
+
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none" id="cityError">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sp_city_error"></div>
+                </div>
+                <div class="clear"></div>
+
+
+                <div class="marginTop14">
+                  <div class="lt leftSideField">Time Zone</div>
+                  <div class="lt customCity">
+                    <div class="selectBoxPTime" onkeydown="selectTimeUsrKeyDown(event)" onmouseover="flag8=true;" onmouseout="flag8=false;">
+
+                      <input type="hidden" id="s_time" name="time" value="Pacific Time Zone"/>
+                      <div id="s_timefield" class="selectDiv" style="line-height:23px; color:#444444;" tabindex="15">Pacific Time Zone</div>
+                    </div>
+
+                    <div class="dropDownDivProviderCountry" id="dropDownDiv8" style="display:none; height:103px; overflow-y:scroll;">
+<!--                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-11:00) Midway Island, Samoa',this)" tabindex="">(GMT-11:00) Midway Island, Samoa</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-10:00) Hawaii-Aleutian',this)" tabindex="">(GMT-10:00) Hawaii-Aleutian</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-10:00) Hawaii',this)" tabindex="">(GMT-10:00) Hawaii</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-09:30) Marquesas Islands',this)" tabindex="">(GMT-09:30) Marquesas Islands</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-09:00) Gambier Islands',this)" tabindex="">(GMT-09:00) Gambier Islands</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-09:00) Alaska',this)" tabindex="">(GMT-09:00) Alaska</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-08:00) Tijuana, Baja California',this)" tabindex="">(GMT-08:00) Tijuana, Baja California</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-08:00) Pitcairn Islands',this)" tabindex="">(GMT-08:00) Pitcairn Islands</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-08:00) Pacific Time (US and Canada)',this)" tabindex="">(GMT-08:00) Pacific Time (US and Canada)</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-07:00) Mountain Time (US and Canada)',this)" tabindex="">(GMT-07:00) Mountain Time (US and Canada)</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-07:00) Chihuahua, La Paz, Mazatlan',this)" tabindex="">(GMT-07:00) Chihuahua, La Paz, Mazatlan</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-07:00) Arizona',this)" tabindex="">(GMT-07:00) Arizona</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-06:00) Saskatchewan, Central America',this)" tabindex="">(GMT-06:00) Saskatchewan, Central America</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-06:00) Guadalajara, Mexico City, Monterrey',this)" tabindex="">(GMT-06:00) Guadalajara, Mexico City, Monterrey</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-06:00) Easter Island',this)" tabindex="">(GMT-06:00) Easter Island</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-06:00) Central Time (US and Canada)',this)" tabindex="">(GMT-06:00) Central Time (US and Canada)</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-05:00) Eastern Time (US and Canada)',this)" tabindex="">(GMT-05:00) Eastern Time (US and Canada)</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-05:00) Cuba',this)" tabindex="">(GMT-05:00) Cuba</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-05:00) Bogota, Lima, Quito, Rio Branco',this)" tabindex="">(GMT-05:00) Bogota, Lima, Quito, Rio Branco</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-04:30) Caracas',this)" tabindex="">(GMT-04:30) Caracas</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-04:00) Santiago',this)" tabindex="">(GMT-04:00) Santiago</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-04:00) La Paz',this)" tabindex="">(GMT-04:00) La Paz</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-04:00) Faukland Islands',this)" tabindex="">(GMT-04:00) Faukland Islands</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-04:00) Brazil',this)" tabindex="">(GMT-04:00) Brazil</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-04:00) Atlantic Time (Goose Bay)',this)" tabindex="">(GMT-04:00) Atlantic Time (Goose Bay)</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-04:00) Atlantic Time (Canada)',this)" tabindex="">(GMT-04:00) Atlantic Time (Canada)</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-03:30) Newfoundland',this)" tabindex="">(GMT-03:30) Newfoundland</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-03:00) UTC-3',this)" tabindex="">(GMT-03:00) UTC-3</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-03:00) Montevideo',this)" tabindex="">(GMT-03:00) Montevideo</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-03:00) Miquelon, St. Pierre',this)" tabindex="">(GMT-03:00) Miquelon, St. Pierre</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-03:00) Greenland',this)" tabindex="">(GMT-03:00) Greenland</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-03:00) Buenos Aires',this)" tabindex="">(GMT-03:00) Buenos Aires</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-03:00) Brasilia',this)" tabindex="">(GMT-03:00) Brasilia</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-02:00) Mid-Atlantic',this)" tabindex="">(GMT-02:00) Mid-Atlantic</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-01:00) Cape Verde Is',this)" tabindex="">(GMT-01:00) Cape Verde Is</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT-01:00) Azores',this)" tabindex="">(GMT-01:00) Azores</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT) Greenwich Mean Time : Belfast',this)" tabindex="">(GMT) Greenwich Mean Time : Belfast</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT) Greenwich Mean Time : Dublin',this)" tabindex="">(GMT) Greenwich Mean Time : Dublin</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT) Greenwich Mean Time : Lisbon',this)" tabindex="">(GMT) Greenwich Mean Time : Lisbon</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT) Greenwich Mean Time : London',this)" tabindex="">(GMT) Greenwich Mean Time : London</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT) Monrovia, Reykjavik',this)" tabindex="">(GMT) Monrovia, Reykjavik</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna',this)" tabindex="">(GMT+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague',this)" tabindex="">(GMT+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+01:00) Brussels, Copenhagen, Madrid, Paris',this)" tabindex="">(GMT+01:00) Brussels, Copenhagen, Madrid, Paris</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+01:00) West Central Africa',this)" tabindex="">(GMT+01:00) West Central Africa</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+01:00) Windhoek',this)" tabindex="">(GMT+01:00) Windhoek</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+02:00) Beirut',this)" tabindex="">(GMT+02:00) Beirut</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+02:00) Cairo',this)" tabindex="">(GMT+02:00) Cairo</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+02:00) Gaza',this)" tabindex="">(GMT+02:00) Gaza</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+02:00) Harare, Pretoria',this)" tabindex="">(GMT+02:00) Harare, Pretoria</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+02:00) Jerusalem',this)" tabindex="">(GMT+02:00) Jerusalem</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+02:00) Minsk',this)" tabindex="">(GMT+02:00) Minsk</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+02:00) Syria',this)" tabindex="">(GMT+02:00) Syria</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+03:00) Moscow, St. Petersburg, Volgograd',this)" tabindex="">(GMT+03:00) Moscow, St. Petersburg, Volgograd</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+03:00) Nairobi',this)" tabindex="">(GMT+03:00) Nairobi</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+03:30) Tehran',this)" tabindex="">(GMT+03:30) Tehran</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+04:00) Abu Dhabi, Muscat',this)" tabindex="">(GMT+04:00) Abu Dhabi, Muscat</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+04:00) Yerevan',this)" tabindex="">(GMT+04:00) Yerevan</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+04:30) Kabul',this)" tabindex="">(GMT+04:30) Kabul</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+05:00) Ekaterinburg',this)" tabindex="">(GMT+05:00) Ekaterinburg</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+05:00) Tashkent',this)" tabindex="">(GMT+05:00) Tashkent</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi',this)" tabindex="">(GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+05:45) Kathmandu',this)" tabindex="">(GMT+05:45) Kathmandu</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+06:00) Astana, Dhaka',this)" tabindex="">(GMT+06:00) Astana, Dhaka</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+06:00) Novosibirsk',this)" tabindex="">(GMT+06:00) Novosibirsk</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+06:30) Yangon (Rangoon)',this)" tabindex="">(GMT+06:30) Yangon (Rangoon)</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+07:00) Bangkok, Hanoi, Jakarta',this)" tabindex="">(GMT+07:00) Bangkok, Hanoi, Jakarta</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+07:00) Krasnoyarsk',this)" tabindex="">(GMT+07:00) Krasnoyarsk</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi',this)" tabindex="">(GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+08:00) Irkutsk, Ulaan Bataar',this)" tabindex="">(GMT+08:00) Irkutsk, Ulaan Bataar</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+08:00) Perth',this)" tabindex="">(GMT+08:00) Perth</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+08:45) Eucla',this)" tabindex="">(GMT+08:45) Eucla</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+09:00) Osaka, Sapporo, Tokyo',this)" tabindex="">(GMT+09:00) Osaka, Sapporo, Tokyo</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+09:00) Seoul',this)" tabindex="">(GMT+09:00) Seoul</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+09:00) Yakutsk',this)" tabindex="">(GMT+09:00) Yakutsk</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+09:30) Adelaide',this)" tabindex="">(GMT+09:30) Adelaide</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+09:30) Darwin',this)" tabindex="">(GMT+09:30) Darwin</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+10:00) Brisbane',this)" tabindex="">(GMT+10:00) Brisbane</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+10:00) Hobart',this)" tabindex="">(GMT+10:00) Hobart</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+10:00) Vladivostok',this)" tabindex="">(GMT+10:00) Vladivostok</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+10:30) Lord Howe Island',this)" tabindex="">(GMT+10:30) Lord Howe Island</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+11:00) Solomon Is., New Caledonia',this)" tabindex="">(GMT+11:00) Solomon Is., New Caledonia</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+11:00) Magadan',this)" tabindex="">(GMT+11:00) Magadan</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+11:30) Norfolk Island',this)" tabindex="">(GMT+11:30) Norfolk Island</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+12:00) Anadyr, Kamchatka',this)" tabindex="">(GMT+12:00) Anadyr, Kamchatka</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+12:00) Auckland, Wellington',this)" tabindex="">(GMT+12:00) Auckland, Wellington</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+12:00) Fiji, Kamchatka, Marshall Is',this)" tabindex="">(GMT+12:00) Fiji, Kamchatka, Marshall Is</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+12:45) Chatham Islands',this)" tabindex="">(GMT+12:45) Chatham Islands</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+13:00) Nukualofa',this)" tabindex="">(GMT+13:00) Nuku'alofa</a>
+                      <a href="javascript:void(0)"  rel="1" title="" onclick="setTimeSponosrProviderValue('(GMT+14:00) Kiritimati',this)" tabindex="">(GMT+14:00) Kiritimati</a>
+-->                    </div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="p_time_error"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="marginTop15">
+                  <div class="lt leftSideField">Mobile</div>
+                  <input type="text" name="sp_mobile" id="sp_mobile"  value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.mobile.nil? %><%=current_user.user_profile.mobile%><%else%>Enter your mobile number<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Enter your mobile number'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter your mobile number'}" tabindex="17" maxlength="50" >
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField" style="width:133px;">&nbsp;</div>
+                  <div class="lt" id="sp_mobile_error" style="width:281px;"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="marginTop15">
+                  <div class="lt leftSideField">Web Address</div>
+                  <input type="text" name="sp_web_addrs"  id="sp_web_addrs" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.website.nil? %><%=current_user.user_profile.website%><%else%>Enter the URL of your website<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Enter the URL of your website'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter the URL of your website'}" tabindex="19" maxlength="50" >
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sp_web_addrs_error"></div>
+                </div>
+                <div class="clear"></div>
+<!--                <div class="marginTop12">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt">
+                    <input type="hidden" name="sp_agree_provider" id="sp_agree_provider" value="" />
+                    <span  class="checkbox">
+                      <a href="javascript:void(0)" title="" class="checkbox" id="sp_checkbox_selected" onclick="dispCheckboxImg_sp('sp_checkbox_selected')" onkeydown="ag_cb_keydown(event,'sp_checkbox_selected')" style="display: none" tabindex="21"><img src="/assets/register/checkbox_selected.png" alt=""/></a>
+                      <a href="javascript:void(0)" title="" id="sp_checkbox_normal" onclick="dispCheckboxImg_sp('sp_checkbox_normal')" onkeydown="ag_cb_keydown(event,'sp_checkbox_normal')" tabindex="20"><img src="/assets/register/checkbox_normal.png" alt=""/></a>
+                      <a href="javascript:void(0)" title="" id="sp_checkbox_error" onclick="dispCheckboxImg_sp('sp_checkbox_error')" onkeydown="ag_cb_keydown(event,'sp_checkbox_error')"  tabindex="22" style="display: none"><img src="/assets/register/checkbox_error.png" alt=""/></a>
+                    </span>
+                  <p class="lt checkboxCont">I agree to the <a href="provider_terms_of_service" onkeydown="termsKeyDown(event)" title="" tabindex="21" target="_blank">Famtivity Terms of Service</a> <span style="color: #307193;">&amp;</span> <a href="provider_privacy_policy" onkeydown="termsKeyDown(event)" title="" tabindex="21" target="_blank">Privacy Policies</a></p>
+                    <div class="clear"></div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+
+                <div class="errorDiv" style="display:none">
+                  <div class="lt errorDivProvider" id="sp_agree_provider_error" style="margin-left: 160px;"></div>
+                </div>
+                <div class="clear"></div>
+-->                <div class="paddingTop20">
+                  <div class="lt leftSideField" style="width:132px;">&nbsp;</div>
+                  <div style="width: 400px;*margin:-20px 0 0 131px; position: relative;">
+                    <a href="javascript:void(0)" class="lt loginButton"   title="Register" width="95" height="33" style="display:inline-block; position:relative;"><input type="submit" value="" id="register_button" style="background:url('/assets/register/next_button.png');"  tabindex="24" width="95" height="33" alt="" onclick="return validate_sponsor_register();"/></a>
+                    <div class="cancel"><a href="javascript:void(0)" title="" tabindex="25" style="display:inline-block; position:relative;" onclick="closepopup()"><img src="/assets/login/cancel_button.png"  alt="" class="lt" /></a></div>
+
+                    <div class="clear"></div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <div class="marginTop14">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <p class="alreadyText">Already have an account?  <a href="javascript:void(0)" title="" style="padding-left:5px;" tabindex="26" onclick="parent.parentLoginPage.hide(); parent.pop_Login('/login')">Login</a></p>
+                  <div class="clear"></div>
+                </div>
+
+
+              </div>
+              <div class="lt" style="width: 418px; margin-top: -24px; margin-left:10px;">
+                <p class="head" style="margin-top: 20px;">&nbsp;</p>
+                <div class="marginTop15" style="width: 442px;">
+                  <div class="lt leftSideField">Address Line 2</div>
+                  <input type="text" name="address2" id="address2" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.address_2.nil? %><%=current_user.user_profile.address_2%><%else%>Enter address<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Enter address'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter address'}" tabindex="10" maxlength="50" >
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none;">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="address2_error"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="marginTop14" style="width: 443px;">
+                  <div class="lt leftSideField">State<span class="required">*</span></div>
+                  <div class="lt customCity">
+                    <div class="selectBoxPState" id="spo_state" onkeydown="selectStateUsrKeyDown(event)"  onmouseover="flag5=true;" onmouseout="flag5=false;">
+
+                      <input type="hidden" id="s_state" name="state" value="California"/>
+                      <div id="s_Statefield" class="selectDiv" style="line-height:23px; color:#444444;" tabindex="12">California</div>
+
+
+                    </div>
+
+                    <div class="dropDownDivProviderState" id="dropDownDiv5" style="display:none;">
+
+
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sp_state_error"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="marginTop14" style="width: 442px;">
+                  <div class="lt leftSideField">Zip Code<span class="required">*</span></div>
+                  <input type="text" name="sp_zipcode" id="sp_zipcode" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.zip_code.nil? %><%=current_user.user_profile.zip_code%><%else%>Enter zip code<% end %>"  class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Enter zip code'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter zip code'}" tabindex="14" maxlength="50" >
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sp_zipcode_error"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="marginTop15" style="width: 442px;">
+                  <div class="lt leftSideField">Phone<span class="required">*</span></div>
+                  <input type="text" name="sp_phone" id="sp_phone" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.phone.nil? %><%=current_user.user_profile.phone%><%else%>Enter your phone number<% end %>"  class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Enter your phone number'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter your phone number'}" tabindex="16" maxlength="12" >
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField" style="width:133px;">&nbsp;</div>
+                  <div class="lt" id="sp_phone_error" style="width:281px;"></div>
+                </div>
+
+                <div class="clear"></div>
+                <div class="marginTop15" style="width: 442px;">
+                  <div class="lt leftSideField">Fax</div>
+                  <input type="text" name="sp_fax" id="sp_fax" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.fax.nil? %><%=current_user.user_profile.fax%><%else%>Enter your fax number<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Enter your fax number'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter your fax number'}" tabindex="18" maxlength="50" >
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sp_fax_error"></div>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </div>
+          </div>
+          <div id="sponsorpaymentDiv" style="display:none;">
+            <%= render :partial =>'pop_provider_payment_details' %>
+            <div class="clear"></div>
+          </div>
+
+
+        </form>
+
+        <div class="clear"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!--ajax loader -->
+<div class='loading_image' style='display:none;' align="center">
+  <img src='/assets/ajax-loader.gif'/>
+</div>
+<style>
+  .loading_image{
+    height: 50px;
+    width: 50px;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 25%;
+    margin: -25px 0 0 -25px;
+  }
+</style>
+
+<!--#include virtual="/icom_includes/bizo/tag.html"-->
+
+<!-- START VIBRANT --><!--#include virtual="/includes/Vibrant.html" --><!-- END VIBRANT -->
+
+<script language="JavaScript" type="text/javascript">
+function fakepath(filepath)
+{
+	inputNode = filepath.replace('C:\\fakepath\\', '');	
+	var pos = filepath.lastIndexOf( filepath.charAt( filepath.indexOf(":")+1) );
+	var filename = filepath.substring( pos+1);
+	
+	var ua=navigator.userAgent;
+	if(ua.indexOf("Firefox")!=-1){ 
+		$("#sp_browse_photo").val(filepath); 
+	} 
+	else {
+		$("#sp_browse_photo").val(filename);
+	}
+}
+  var gDomain="www.qsstats.com";
+  var gDcsId="dcs17vxkl10000wkxczu5l0wa_9y2e";
+  var gFpc="WT_FPC";
+  var gConvert=true;
+  var gFpcDom = "webreference.com";
+  if ((typeof(gConvert) != "undefined") && gConvert && (document.cookie.indexOf(gFpc + "=") == -1) && (document.cookie.indexOf("WTLOPTOUT=")==-1)) {
+    document.write("<SCR"+"IPT TYPE='text/javascript' SRC='http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+"/"+gDcsId+"/wtid.js"+"'><\/SCR"+"IPT>");
+  }
+  function dcsAdditionalParameters() {}
+  $(document).ready(function(){
+
+
+
+
+  });
+
+
+  function validate_sponsor_register(){
+    var sp_name = $("#sp_name").val();
+    //sp_name = sp_name.replace(/^\s+|\s+$/g, "");
+    var sp_password = $("#sp_password").val();
+    var sp_confirm_password = $("#sp_confirm_password").val();
+    var sp_email=$("#sp_email").val();
+    var sb_name= $("#sb_name").val();
+    sb_name = sb_name.replace(/^\s+|\s+$/g, "");
+    var sp_browse_photo=$("#sp_browse_photo").val();
+    var sp_address1=$("#sp_address1").val();
+    sp_address1 = sp_address1.replace(/^\s+|\s+$/g, "");
+    var sp_owner_firstname=$("#sp_owner_firstname").val();
+    var sp_owner_lastname=$("#sp_owner_lastname").val();
+    sp_owner_firstname = sp_owner_firstname.replace(/^\s+|\s+$/g, "");
+    sp_owner_lastname = sp_owner_lastname.replace(/^\s+|\s+$/g, "");
+    var s_state=$("#s_state").val();
+    var s_city=$("#s_city").val();
+    var sp_zipcode=$("#sp_zipcode").val();
+    var s_country=$("#s_country").val();
+    var sp_time = $("#sp_time").val();
+    var sp_phone=$("#sp_phone").val();
+    var sp_mobile=$("#sp_mobile").val();
+    var sp_fax=$("#sp_fax").val();
+    var sp_web_addrs=$("#sp_web_addrs").val();
+   // var sp_agree_provider = $("#sp_agree_provider").val();
+	 
+	 
+	 
+    $("#sp_name").css("border","1px solid #BDD6DD");
+    $("#sb_name").css("border","1px solid #BDD6DD");
+    $("#sp_password").css("border","1px solid #BDD6DD");
+    $("#sp_confirm_password").css("border","1px solid #BDD6DD");
+    $("#sp_browse_photo").css("border","1px solid #BDD6DD");
+    $("#sp_owner_firstname").css("border","1px solid #BDD6DD");
+    $("#sp_owner_lastname").css("border","1px solid #BDD6DD");
+    $("#sp_admin_firstname").css("border","1px solid #BDD6DD");
+    $("#sp_admin_lastname").css("border","1px solid #BDD6DD");
+    $("#sp_time").css("border","1px solid #BDD6DD");
+    $("#sp_web_addrs").css("border","1px solid #BDD6DD");
+    $("#sp_email").css("border","1px solid #BDD6DD");
+    $("#sp_phone").css("border","1px solid #BDD6DD");
+    $("#sp_mobile").css("border","1px solid #BDD6DD");
+    $("#sp_fax").css("border","1px solid #BDD6DD");
+    $("#sp_address1").css("border","1px solid #BDD6DD");
+    $("#address2").css("border","1px solid #BDD6DD");
+   // $("#sp_agree_provider").css("border","1px solid #BDD6DD");
+    $("#sp_zipcode").css("border","1px solid #BDD6DD");
+    $("#spo_country").css("border","none");
+    $("#spo_state").css("border","none");
+    $("#spo_city").css("border","none");
+
+
+
+    $("#sp_name_error").html("");
+    $("#sb_name_error").html("");
+    $("#sp_password_error").html("");
+    $("#sp_confirm_password_error").html("");
+    $("#sp_owner_firstname_error").html("");
+    $("#sp_owner_lastname_error").html("");
+    $("#sp_email_error").html("");
+    $("#sb_logo_error").html("");
+    $("#p_admin_firstname_error").html("");
+    $("#p_admin_lastname_error").html("");
+    $("#sp_address1_error").html("");
+    $("#address2_error").html("");
+    $("#sp_state_error").html("");
+    $("#sp_city_error").html("");
+    $("#sp_zipcode_error").html("");
+    $("#sp_country_error").html("");
+    //$("#sp_agree_provider_error").html("");
+    $("#sp_time_error").html("");
+    $("#sp_phone_error").html("");
+    $("#sp_mobile_error").html("");
+    $("#sp_fax_error").html("");
+    $("#sp_web_addrs_error").html("");
+
+
+    $("#sp_name_error").parent().css("display","none");
+    $("#sb_name_error").parent().css("display","none")
+    $("#sp_email_error").parent().css("display","none");
+    $("#sp_password_error").parent().css("display","none");
+    $("#sp_confirm_password_error").parent().css("display","none");
+    // $("#p_owner_firstname_error").parent().css("display","none");
+    $("#sp_owner_lastname_error").parent().css("display","none");
+    $("#sb_logo_error").parent().css("display","none");
+    //$("#p_admin_firstname_error").parent().css("display","none");
+    $("#p_admin_lastname_error").parent().css("display","none");
+    $("#admin_provider_error").parent().css("display","none");
+    $("#sp_address1_error").parent().css("display","none");
+    $("#address2_error").parent().css("display","none");
+    $("#sp_state_error").parent().css("display","none");
+    $("#sp_city_error").parent().css("display","none");
+    $("#sp_zipcode_error").parent().css("display","none");
+    $("#sp_country_error").parent().css("display","none");
+    //$("#sp_agree_provider_error").parent().css("display","none");
+    $("#sp_time_error").parent().css("display","none");
+    $("#sp_phone_error").parent().css("display","none");
+    $("#sp_mobile_error").parent().css("display","none");
+    $("#sp_fax_error").parent().css("display","none");
+    $("#sp_web_addrs_error").parent().css("display","none");
+	
+
+  
+    var errorFlag = false;
+
+    if(sp_name == "" || sp_name == "Eg: John Smith"){
+      $("#sp_name").css("border","1px solid #fc8989");
+      $("#sp_name_error").html("Please enter your name");
+      $("#sp_name_error").parent().css("display","block");
+      errorFlag = true;
+    }
+/*    else if(!validateName(sp_name)){
+      $("#sp_name").css("border","1px solid #fc8989");
+      $("#sp_name_error").html("Please Use Only Alphabets");
+      $("#sp_name_error").parent().css("display","block");
+      errorFlag = true;
+    }
+*/    else if(sp_name.length>25){
+      $("#sp_name").css("border","1px solid #fc8989");
+      $("#sp_name_error").html("Please Do Not Exceed 25 Characters");
+      $("#sp_name_error").parent().css("display","block");
+      errorFlag = true;
+    }
+	
+    if (sp_password == "" ||  sp_password == "password"){
+      $("#sp_password").css("border","1px solid #fc8989");
+      $("#sp_password_error").html("Please enter your password");
+      $("#sp_password_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    else if(sp_password.length<8){
+      $("#sp_password").css("border","1px solid #fc8989");
+      $("#sp_password_error").html("Please enter a password with a minimum of 8 characters");
+      $("#sp_password_error").parent().css("display","block");
+      errorFlag = true;
+    }
+	
+    if(sp_confirm_password =="" || sp_confirm_password =="password"){
+      $("#sp_confirm_password").css("border","1px solid #fc8989");
+      $("#sp_confirm_password_error").html("Please confirm your password");
+      $("#sp_confirm_password_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    else if(sp_confirm_password != sp_password){
+      $("#sp_confirm_password").css("border","1px solid #fc8989");
+      $("#sp_confirm_password_error").html("Please enter the correct confirm password");
+      $("#sp_confirm_password_error").parent().css("display","block");
+      errorFlag = true;
+    } 
+    if(sp_email == "" || sp_email=="Eg:john@gmail.com"){
+      $("#sp_email").css("border","1px solid #fc8989");
+      $("#sp_email_error").html("Please enter your Email");
+      $("#sp_email_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    else if(!validateCorrectEmail(sp_email)){
+      $("#sp_email").css("border","1px solid #fc8989");
+      $("#sp_email_error").html("Please enter a valid Email");
+      $("#sp_email_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    /*    else if(!validateDot(sp_email)){
+      $("#sp_email").css("border","1px solid #fc8989");
+      $("#sp_email_error").html("Please enter a valid Email");
+      $("#sp_email_error").parent().css("display","block");
+      errorFlag = true;
+    }
+     */
+    if(sb_name =="" || sb_name == "Enter the name of your business"){
+      $("#sb_name").css("border","1px solid #fc8989");
+      $("#sb_name_error").html("Please enter your business name");
+      $("#sb_name_error").parent().css("display","block");
+      errorFlag = true;
+    }
+
+    /*else if(!validateName(sb_name)){
+      $("#sb_name").css("border","1px solid #fc8989");
+      $("#sb_name_error").html("Please Use Only Alphabets");
+      $("#sb_name_error").parent().css("display","block");
+      errorFlag = true;
+    }*/
+    else if(sb_name.length>50){
+      $("#sb_name").css("border","1px solid #fc8989");
+      $("#sb_name_error").html("Please Do Not Exceed 50 Characters");
+      $("#sb_name_error").parent().css("display","block");
+      errorFlag = true;
+    }
+	
+/*    if(sp_browse_photo == ""){
+      $("#sp_browse_photo").css("border","1px solid #fc8989");
+      $("#sb_logo_error").parent().css("display","block");
+      $("#sb_logo_error").html("Please select a logo for your business");
+      errorFlag = true;
+    }
+*/    if(sp_browse_photo != ""){
+      var val_spo = validateBrowse_spo();
+      if(!val_spo){
+        $('#sb_logo_error').html('Please select a logo for your business');
+        errorFlag = true;
+      }
+    }	
+    if(sp_owner_firstname != "First name" ){
+      if(!validateName(sp_owner_firstname)){
+        $("#sp_owner_firstname").css("border","1px solid #fc8989");
+        $("#sp_owner_firstname_error").parent().css("display","block");
+        $("#sp_owner_firstname_error").html("Please enter a valid name");
+        errorFlag = true;
+      }
+      if(sp_owner_firstname.length>25){
+        $("#sp_owner_firstname").css("border","1px solid #fc8989");
+        $("#sp_owner_firstname_error").parent().css("display","block");
+        $("#sp_owner_firstname_error").html("Please Do Not Exceed 25 Characters");
+        errorFlag = true;
+
+      }
+    }
+
+    if(sp_owner_lastname != "Last name" ){
+      if(!validateName(sp_owner_lastname)){
+        $("#sp_owner_lastname").css("border","1px solid #fc8989");
+        $("#sp_owner_lastname_error").parent().css("display","block");
+        $("#sp_owner_lastname_error").html("Please enter a valid name");
+        errorFlag = true;
+      }
+
+    }	
+	
+    if(sp_address1 == "" || sp_address1 == "Enter address"){
+      $("#sp_address1").css("border","1px solid #fc8989");
+      $("#sp_address1_error").parent().css("display","block");
+      $("#sp_address1_error").html("Please enter your address");
+	
+      errorFlag = true;
+    }
+		
+    if(s_country == "" || s_country == "--Choose country--"){
+      $("#spo_country").css("border","1px solid #fc8989");
+      $("#sp_country_error").parent().css("display","block");
+      $("#sp_country_error").html("Please select the country");
+      errorFlag = true;
+    }
+		
+    if(s_state == "" || s_state == "--Choose state--"){
+      $("#spo_state").css("border","1px solid #fc8989");
+      $("#sp_state_error").parent().css("display","block");
+      $("#sp_state_error").html("Please select the state");
+      errorFlag = true;
+    }
+
+    if(s_city == "" || s_city == "--Choose city--"){
+      $("#spo_city").css("border","1px solid #fc8989");
+      $("#sp_city_error").parent().css("display","block");
+      $("#sp_city_error").html("Please select the city");
+      errorFlag = true;
+    }
+		
+    if(sp_zipcode == "Enter zip code"){
+      $("#sp_zipcode").css("border","1px solid #fc8989");
+      $("#sp_zipcode_error").parent().css("display","block");
+      $("#sp_zipcode_error").html("Please enter your zip code");
+      errorFlag = true;
+    }
+    else if(!validateZipcode(sp_zipcode)){
+      $("#sp_zipcode").css("border","1px solid #fc8989");
+      $("#sp_zipcode_error").html("Please enter a valid zip code");
+      $("#sp_zipcode_error").parent().css("display","block");
+      errorFlag = true;
+    }
+	
+    /*	if((sp_phone=="Enter your phone number" && sp_mobile=="Enter your mobile number") || (sp_phone!="Enter your phone number" || sp_mobile!="Enter your mobile number")){
+                  if(!validate_Phone(sp_phone) && !validate_Mobilephone(sp_mobile)){
+            $("#sp_mobile").css("border","1px solid #fc8989");
+            $("#sp_mobile_error").html("Please enter mobile number as xxx-xxx-xxxx Digit format");
+            $("#sp_mobile_error").parent().css("display","block");
+                        $("#sp_phone").css("border","1px solid #fc8989");
+            $("#sp_phone_error").parent().css("display","block");
+            $("#sp_phone_error").html("Please enter phone number as xxx-xxx-xxxx Digit format");
+                        errorFlag = true;
+                }
+        }
+     */
+    if(sp_phone=="Enter your phone number" || sp_phone==""){ 	
+      $("#sp_phone").css("border","1px solid #fc8989");
+      $("#sp_phone_error").parent().css("display","block");
+      $("#sp_phone_error").html("Please enter your phone number");
+      errorFlag = true;
+    }
+    if(sp_phone!=""){
+      if(validatePhone(sp_phone)){
+        $("#sp_phone").css("border","1px solid #fc8989");
+        $("#sp_phone_error").parent().css("display","block");
+        $("#sp_phone_error").html("Please enter a valid phone number");
+        errorFlag = true;
+      }
+    }
+	
+    /*    if(sp_mobile=="Enter your mobile number" || sp_mobile==""){
+      $("#sp_mobile").css("border","1px solid #fc8989");
+      $("#sp_mobile_error").html("Please enter your mobile number");
+      $("#sp_mobile_error").parent().css("display","block");
+      errorFlag = true;
+    }
+     */
+
+
+    if(sp_mobile !=""){
+      if(validatePhone(sp_mobile)){
+        $("#sp_mobile").css("border","1px solid #fc8989");
+        $("#sp_mobile_error").html("Please enter a valid mobile number");
+        $("#sp_mobile_error").parent().css("display","block");
+        errorFlag = true;
+      }
+    }
+
+    if(sp_web_addrs !="Enter the URL of your website"){
+      if(!ValidateWebsiteAddressSpo(sp_web_addrs)){
+        $("#sp_web_addrs").css("border","1px solid #fc8989");
+        $("#sp_web_addrs_error").parent().css("display","block");
+        $("#sp_web_addrs_error").html("Please enter your URL");
+        errorFlag = true;
+      }
+    }
+	 
+    if(sp_fax !="Enter your fax number"){
+      if(isNaN(sp_fax)){
+        $("#sp_fax").css("border","1px solid #fc8989");
+        $("#sp_fax_error").parent().css("display","block");
+        $("#sp_fax_error").html("Please enter your fax number");
+        errorFlag = true;
+      }
+    }
+
+    /*    if(sp_fax == "" || sp_fax == "Enter Your Fax Number"){
+      $("#sp_fax").css("border","1px solid #fc8989");
+      $("#sp_fax_error").parent().css("display","block");
+      $("#sp_fax_error").html("Please enter fax number");
+      errorFlag = true;
+    }
+    else if(isNaN(sp_fax)){
+      $("#sp_fax").css("border","1px solid #fc8989");
+      $("#sp_fax_error").parent().css("display","block");
+      $("#sp_fax_error").html("Please enter a valid fax number");
+      errorFlag = true;
+    }
+
+    if(sp_web_addrs == "" || sp_web_addrs== "Enter the URL of your website"){
+      $("#sp_web_addrs").css("border","1px solid #fc8989");
+      $("#sp_web_addrs_error").parent().css("display","block");
+      $("#sp_web_addrs_error").html("Please enter your URL");
+      errorFlag = true;
+    }
+	
+    else if(!ValidateWebAddress(sp_web_addrs)){
+      $("#sp_web_addrs").css("border","1px solid #fc8989");
+      $("#sp_web_addrs_error").parent().css("display","block");
+      $("#sp_web_addrs_error").html("Please enter your URL");
+      errorFlag = true;
+    }
+     
+    if (sp_agree_provider == ""){
+      $('#sp_checkbox_error').css('display','block');
+      $('#sp_checkbox_normal').css('display','none');
+      $("#sp_agree_provider_error").html("Please check the terms of service box");
+      $("#sp_agree_provider_error").parent().css("display","block");
+      //$("#p_checkbox_normal").css("border","1px solid #fc8989");
+      errorFlag = true;
+    }	
+		*/		
+    if(errorFlag){	
+      return false;
+    }
+    else{
+      var p_email = $("#sp_email").val();
+      $('.loading_image').show();
+      $.ajax({
+        type: "POST",
+        url: "users/user_exist",
+        data: {
+          "email": p_email
+        },
+        dataType : 'json',
+        iframe: 'true',
+        cache: false,
+        success: function(data){
+          if (data=="failed"){
+            $('.loading_image').hide();
+            $("#sp_email").css("border","1px solid #fc8989");
+            $("#sp_email_error").html("This Email is already registered with Famtivity.<br/> Please enter a different Email address.");
+            $("#sp_email_error").parent().css("display","block");
+          }
+          else{
+            $('.loading_image').hide();
+            $("#sponsor_first").css("display","none");
+            $("#sponsorpaymentDiv").css("display","block");
+            $("#img3_spo").attr("src","/assets/provider_register/step_3inactive.png");
+            $("#spo_add").css("font-weight","bold");
+            $("#img2_spo").attr("src","/assets/provider_register/step_2active.png");
+            $("#spo_up").css("font-weight","normal");
+          }
+        }
+      });
+      return false;
+    }
+  
+  }
+
+
+  function validateBrowse_spo(){
+    var fup = document.getElementById('sp_browse_photo');
+    var fileName = fup.value;
+    var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+    if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg" || ext == "JPG" || ext == "png" || ext == "PNG")
+    {
+      //errorFlag = false;
+      return true;
+    }
+    else
+    {        
+      $('#sb_logo_error').parent().css("display","block");
+      $("#sp_browse_photo").css("border","1px solid #fc8989");
+      $('#sb_logo_error').html('Please Check The Format Of Your Logo');
+      return false;
+    }
+  }
+ 
+  function ValidateWebsiteAddressSpo() {
+    var url = document.getElementById('sp_web_addrs').value;
+    var urlIsValid =       ValidateWebAddressSpo(url);      //alert("Website Address is valid?:" +urlIsValid );
+    return urlIsValid ;
+  }
+    
+
+  function ValidateWebAddressSpo(url) {
+    var webSiteUrlExp = /^(([\w]+:)?\/\/)?(([\d\w]|%[a-fA-f\d]{2,2})+(:([\d\w]|%[a-fA-f\d]{2,2})+)?@)?([\d\w][-\d\w]{0,253}[\d\w]\.)+[\w]{2,4}(:[\d]+)?(\/([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)*(\?(&?([-+_~.\d\w]|%[a-fA-f\d]{2,2})=?)*)?(#([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)?$/;
+    if (webSiteUrlExp.test(url)) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+
+</script>
+

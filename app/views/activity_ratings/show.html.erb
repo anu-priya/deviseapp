@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Rating:</b>
+  <%= @activity_rating.rating_id %>
+</p>
+
+<p>
+  <b>Rating count:</b>
+  <%= @activity_rating.rating_count %>
+</p>
+
+<p>
+  <b>Activity:</b>
+  <%= @activity_rating.activity_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @activity_rating.user_id %>
+</p>
+
+<p>
+  <b>Inserted date:</b>
+  <%= @activity_rating.inserted_date %>
+</p>
+
+<p>
+  <b>Modified date:</b>
+  <%= @activity_rating.modified_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_activity_rating_path(@activity_rating) %> |
+<%= link_to 'Back', activity_ratings_path %>

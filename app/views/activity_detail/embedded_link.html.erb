@@ -1,0 +1,47 @@
+<%=stylesheet_link_tag "global/pop_up","share_activity/share_acitivity_detail","share_activity/share_activity", :media => "all"%>
+<%=javascript_include_tag "global/to_mail","global/checkbox","share_activity/share_activity","share_activity/validate"%>
+<script language="javascript">
+  function closepopup(){
+    parent.embedPage1.hide();
+  }
+</script>
+
+<div id="new_act_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Embed</div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title="">
+              <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%>
+            </a>
+          </div>
+        </div>
+        <div class="centerCont">
+          <div class="paddingTop10">
+            <div class="lt leftSideField">Via a Link</div>
+            <input type="text" name="subject" id="subject" class="lt textbox" value="<%= $app_url %>" onchange="removeunwantedSpace('subject',this.value)" onfocus="focusChangeBorderColor('subject')" onblur="blurChangeBorderColor('subject')" maxlength="50"/>
+            <div class="clear"></div>
+          </div>
+          <div class="paddingTop10" style="padding:20px 0 40px 0;">
+            <div class="lt leftSideField">Embed</div>
+	    <%activitylink = activity_link_format(@activity,@act_user)%> <!-- Activity Link formation - From application helper link formation-->
+	    
+		<%fnd_url = "#{request.protocol}#{request.host}"%>
+	    <%image_url = ((fnd_url == "https://www.famtivity.com") || (fnd_url=="https://famtivity.com") || (fnd_url=="http://famtivity.com") || (fnd_url=="http://www.famtivity.com")) ? @img_path : $app_url+@img_path%>
+	   <textarea class="textArea" name="message" id="message" value="" onchange="removeunwantedSpace('message',this.value)" onfocus="focusChangeBorderColor('message')" onblur="blurChangeBorderColor('message')" style="height:192px;"><div style='padding-bottom: 2px; line-height: 0px'><a href='<%= $app_url %>/<%=activitylink%>' target='_blank'><%=image_tag("#{image_url}", :style=>"border:0px;")%></a></div></textarea>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+</div>

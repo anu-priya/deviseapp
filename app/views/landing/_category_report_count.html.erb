@@ -1,0 +1,177 @@
+<style>
+  .bordercol1{
+    border:2px solid #E2EAEC;
+  }
+  .bordercol2{
+    border:2px solid #E2EAEC;
+    border-left:none;
+  }
+  .borderTop{
+    border-top:none;
+  }
+  .fontStyle{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:14px;
+  }
+  .headingColor{
+    color:#4AA3B6;
+  }
+  .dataColor{
+    color:#807E7E;
+  }
+  .fontBold{
+    font-weight:bold;
+  }
+</style>
+
+<table cellspacing="0" cellpadding="0" border="0" width="60%">
+  <tr height="30">
+    <td class="fontStyle headingColor fontBold bordercol1" width="20%">City</td>
+    <td class="fontStyle headingColor fontBold bordercol2" width="20%">Category</td>
+    <td class="fontStyle headingColor fontBold bordercol2" width="20%">Activities Count</td>
+    <td class="fontStyle headingColor fontBold bordercol2" width="20%">Provider Count</td>
+  </tr>
+  <tr height="30">
+    <td class="fontStyle dataColor bordercol1 borderTop" width="30%"><%= params[:city_name] %></td>
+    <td class="fontStyle dataColor bordercol2 borderTop" width="30%"><%= params[:cat] %></td>
+    <%if !@total.nil? && @total!="" && @total.present?%><td class="fontStyle dataColor bordercol2 borderTop"><%= @total if !@total.nil? && @total!="" && @total.present? %></td><%else%><td class="fontStyle dataColor bordercol2 borderTop">0</td><%end%>
+    <%if !@total_provider.nil? && @total_provider!="" && @total_provider.present?%><td class="fontStyle dataColor bordercol1 borderTop" width="30%"><%=@total_provider%></td><%else%><td class="fontStyle dataColor bordercol2 borderTop">0</td><%end%>
+  </tr>
+</table>
+
+<!--allcities and all categories-->
+<br/><br/>
+<%if !params[:cat].nil? && !params[:city_name].nil? && params[:city_name].downcase=="all cities" && params[:cat].downcase=="all categories"%>
+  <% @ac_cat = Activity.find(:all,:conditions=>["cleaned = ? and lower(active_status) = ? ",true,'active'],:select =>"DISTINCT lower(trim(category)) as category").uniq %>
+
+  <table cellspacing="0" cellpadding="0" border="0" width="60%">
+
+    <%!@ac_cat.nil? && @ac_cat!="" && @ac_cat.present? && @ac_cat.each do |cate|%>
+
+      <%@ac_cate_count = Activity.find(:all,:conditions=>["lower(category) = ?  and cleaned = ? and lower(active_status) = ? ",cate.category.downcase,true,'active']).uniq if !cate.nil? && !cate.category.nil? %>
+      <!--subcategories based on all the categories start-->
+      <% @ac_sub_cat = Activity.find(:all,:conditions=>["lower(category) = ? and cleaned = ? and lower(active_status) = ? ",cate.category.downcase,true,'active'],:select =>"DISTINCT lower(trim(sub_category)) as sub_category").uniq if !cate.nil? && !cate.category.nil? %>
+      <br/><table cellspacing="0" cellpadding="0" border="0" width="60%">
+        <%if !@ac_sub_cat.nil? && @ac_sub_cat!="" && @ac_sub_cat.present? %>
+          <tr height="50">
+            <td  colspan="2" class="fontStyle headingColor fontBold bordercol1" width="30%">Category : <font color="#807E7E"><%=cate.category.capitalize if !cate.nil? && !cate.category.nil?%></font>
+              <div style="padding-top:7px;">Activities Count : <font color="#807E7E"><%=@ac_cate_count.length if !@ac_cate_count.nil? && @ac_cate_count!="" && @ac_cate_count.present?%></font></div></td>
+          </tr>
+        <%end%>
+        <% if !@ac_sub_cat.nil? && @ac_sub_cat!=""%>
+          <tr>
+            <td class="fontStyle headingColor fontBold bordercol1" width="30%" style="border-top:none;">Subcategory</td>
+            <td class="fontStyle headingColor fontBold bordercol2" width="30%"  style="border-top:none;">Activities Count</td>
+          </tr>
+        <%end%>
+        <%!@ac_sub_cat.nil? && @ac_sub_cat!="" && @ac_sub_cat.each do |sval|%>
+          <tr>
+            <td class="fontStyle dataColor bordercol1 borderTop" width="30%"><%=sval.sub_category.capitalize if !sval.nil? && !sval.sub_category.nil?%></td>
+            <%@ac_sub_count = Activity.find(:all,:conditions=>["lower(sub_category) = ? and lower(category) = ? and cleaned = ? and lower(active_status) = ? ",sval.sub_category.downcase,cate.category.downcase,true,'active']).uniq if !sval.nil? && !sval.sub_category.nil? && !cate.nil? && !cate.category.nil?%>
+            <td class="fontStyle dataColor bordercol2 borderTop" width="30%">
+              <%=@ac_sub_count.length if !@ac_sub_count.nil? && @ac_sub_count!="" && @ac_sub_count.present?%>
+            </td>
+          </tr>
+        <%end%><!--sub cat do end-->
+      </table>
+      <!--subcategories based on all the categories start-->
+    <%end%><!--do end-->
+  </table>
+  <!--selected city with all categories start-->
+<%elsif !params[:cat].nil? && !params[:city_name].nil? && params[:city_name].downcase!="all cities" && params[:cat].downcase=="all categories"%>
+  <% @ac_cat = Activity.find(:all,:conditions=>["cleaned = ? and lower(active_status) = ? and lower(city) = ? ",true,'active',params[:city_name].downcase],:select =>"DISTINCT lower(trim(category)) as category").uniq %>
+  <br/><table cellspacing="0" cellpadding="0" border="0" width="60%">
+
+    <%!@ac_cat.nil? && @ac_cat!="" && @ac_cat.present? && @ac_cat.each do |cate|%>
+
+      <%@ac_cate_count = Activity.find(:all,:conditions=>["lower(category) = ? and lower(city) = ?  and cleaned = ? and lower(active_status) = ? ",cate.category.downcase,params[:city_name].downcase,true,'active']).uniq if !cate.nil? && !cate.category.nil? && !params[:city_name].nil? %>
+      <br/><table cellspacing="0" cellpadding="0" border="0" width="60%">
+
+        <tr height="50">
+          <td  colspan="2" class="fontStyle headingColor fontBold bordercol1" width="30%">Category : <font color="#807E7E"><%=cate.category.capitalize if !cate.nil? && !cate.category.nil?%></font>
+            <div style="padding-top:7px;">Activities Count : <font color="#807E7E"><%=@ac_cate_count.length if !@ac_cate_count.nil? && @ac_cate_count!="" && @ac_cate_count.present?%></font></div></td>
+        </tr>
+        <!--subcategories based on all the categories and selected city start-->
+        <% @ac_sub_cat = Activity.find(:all,:conditions=>["lower(category) = ? and lower(city) = ? and cleaned = ? and lower(active_status) = ? ",cate.category.downcase,params[:city_name].downcase,true,'active'],:select =>"DISTINCT lower(trim(sub_category)) as sub_category").uniq if !cate.nil? && !cate.category.nil? && !params[:city_name].nil? %>
+
+
+        <%if !@ac_sub_cat.nil? && @ac_sub_cat!="" && @ac_sub_cat.present? %>
+          <tr>
+            <td class="fontStyle headingColor fontBold bordercol1" width="30%" style="border-top:none;">Subcategory</td>
+            <td class="fontStyle headingColor fontBold bordercol2" width="30%" style="border-top:none;">Activities Count</td>
+          </tr>
+        <%end%>
+
+        <%!@ac_sub_cat.nil? && @ac_sub_cat!="" && @ac_sub_cat.each do |sval|%>
+          <tr>
+            <td class="fontStyle dataColor bordercol1 borderTop" width="30%"><%=sval.sub_category.capitalize if !sval.nil? && !sval.sub_category.nil?%></td>
+            <%@ac_sub_count = Activity.find(:all,:conditions=>["lower(sub_category) = ? and lower(category) = ? and lower(city) = ? and cleaned = ? and lower(active_status) = ? ",sval.sub_category.downcase,cate.category.downcase,params[:city_name].downcase,true,'active']).uniq if !sval.nil? && !sval.sub_category.nil? && !cate.nil? && !cate.category.nil? && !params[:city_name].nil?%>
+            <td class="fontStyle dataColor bordercol2 borderTop" width="30%">
+              <%=@ac_sub_count.length if !@ac_sub_count.nil? && @ac_sub_count!="" && @ac_sub_count.present?%>
+            </td>
+          </tr>
+        <%end%><!--sub cat do end-->
+      </table>
+      <!--subcategories based on all the categories start-->
+    <%end%><!--do end-->
+  </table>
+  <!--selected city with all categories end-->
+  <!--selected category with all cities start-->
+<%elsif !params[:cat].nil? && !params[:city_name].nil? && params[:city_name].downcase=="all cities" && params[:cat].downcase!="all categories"%>
+  <% @ac_cat = Activity.find(:all,:conditions=>["cleaned = ? and lower(active_status) = ? and lower(category) = ? ",true,'active',params[:cat].downcase],:select =>"DISTINCT lower(trim(city)) as city").uniq %>
+  <br/><table cellspacing="0" cellpadding="0" border="0" width="60%">
+
+    <%!@ac_cat.nil? && @ac_cat!="" && @ac_cat.present? && @ac_cat.each do |cate|%>
+
+      <%@ac_cate_count = Activity.find(:all,:conditions=>["lower(category) = ? and lower(city) = ?  and cleaned = ? and lower(active_status) = ? ",params[:cat].downcase,cate.city.downcase,true,'active']).uniq if !cate.nil? && !cate.city.nil? && !params[:cat].nil? %>
+
+      <br/><table cellspacing="0" cellpadding="0" border="0" width="60%">
+
+        <tr height="50">
+          <td  colspan="2" class="fontStyle headingColor fontBold bordercol1" width="30%">City : <font color="#807E7E"><%=cate.city.capitalize if !cate.nil? && !cate.city.nil?%></font>
+            <div style="padding-top:7px;">Activities Count : <font color="#807E7E"><%=@ac_cate_count.length if !@ac_cate_count.nil? && @ac_cate_count!="" && @ac_cate_count.present?%></font></div></td>
+        </tr>
+        <!--subcategories based on all the categories and selected city start-->
+        <% @ac_sub_cat = Activity.find(:all,:conditions=>["lower(category) = ? and lower(city) = ? and cleaned = ? and lower(active_status) = ? ",params[:cat].downcase,cate.city.downcase,true,'active'],:select =>"DISTINCT lower(trim(sub_category)) as sub_category").uniq if !cate.nil? && !cate.city.nil? && !params[:cat].nil? %>
+        <table cellspacing="0" cellpadding="0" border="0" width="60%">
+          <%if !@ac_sub_cat.nil? && @ac_sub_cat!="" && @ac_sub_cat.present? %>
+            <tr>
+              <td class="fontStyle headingColor fontBold bordercol1" width="30%" style="border-top:none;">Subcategory</td>
+              <td class="fontStyle headingColor fontBold bordercol2" width="30%" style="border-top:none;">Activities Count</td>
+            </tr>
+          <%end%>
+
+          <%!@ac_sub_cat.nil? && @ac_sub_cat!="" && @ac_sub_cat.each do |sval|%>
+            <tr>
+              <td class="fontStyle dataColor bordercol1 borderTop" width="30%"><%=sval.sub_category.capitalize if !sval.nil? && !sval.sub_category.nil?%></td>
+              <%@ac_sub_count = Activity.find(:all,:conditions=>["lower(sub_category) = ? and lower(category) = ? and lower(city) = ? and cleaned = ? and lower(active_status) = ? ",sval.sub_category.downcase,params[:cat].downcase,cate.city.downcase,true,'active']).uniq if !sval.nil? && !sval.sub_category.nil? && !cate.nil? && !cate.city.nil? && !params[:cat].nil?%>
+              <td class="fontStyle dataColor bordercol2 borderTop" width="30%">
+                <%=@ac_sub_count.length if !@ac_sub_count.nil? && @ac_sub_count!="" && @ac_sub_count.present?%>
+              </td>
+            </tr>
+          <%end%><!--sub cat do end-->
+        </table>
+        <!--subcategories based on all the categories start-->
+      <%end%><!--do end-->
+    </table>
+    <!--selected category with all cities end-->
+    <!--particular city name and category start-->
+  <%elsif (!params[:cat].nil? && !params[:city_name].nil? && params[:city_name].downcase != "all cities" && params[:cat].downcase != "all categories")%>
+    <% @ac_sub = Activity.find(:all,:conditions=>["lower(category) = ? and lower(city) = ? and cleaned = ? and lower(active_status) = ? ",params[:cat].downcase,params[:city_name].downcase,true,'active'],:select =>"DISTINCT lower(trim(sub_category)) as sub_category").uniq if !params[:cat].nil? && !params[:city_name].nil? %>
+    <br/><table cellspacing="0" cellpadding="0" border="0" width="60%">
+      <tr>
+        <td class="fontStyle headingColor fontBold bordercol1" width="30%">Subcategories</td>
+        <td class="fontStyle headingColor fontBold bordercol2" width="30%">Activities Count</td>
+      </tr>
+
+      <%!@ac_sub.nil? && @ac_sub.each do |sval|%>
+        <tr>
+          <td class="fontStyle dataColor bordercol1 borderTop" width="30%"><%=sval.sub_category.capitalize if !sval.nil? && !sval.sub_category.nil?%></td>
+          <%@ac_sub_count = Activity.find(:all,:conditions=>["lower(sub_category) = ? and lower(category) = ? and lower(city) = ? and cleaned = ? and lower(active_status) = ? ",sval.sub_category.downcase,params[:cat].downcase,params[:city_name].downcase,true,'active']).uniq if !sval.nil? && !sval.sub_category.nil? && !params[:cat].nil? && !params[:city_name].nil?%>
+          <td class="fontStyle dataColor bordercol2 borderTop" width="30%">
+            <%=@ac_sub_count.length if !@ac_sub_count.nil? && @ac_sub_count!="" && @ac_sub_count.present?%>
+          </td>
+        </tr>
+      <%end%>
+    </table>
+  <%end%>

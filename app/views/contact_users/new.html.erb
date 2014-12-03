@@ -1,0 +1,869 @@
+<link rel="stylesheet" href="/assets/contacts_users/contact_user.css" type="text/css" />
+<script type="text/javascript" src="/assets/contacts_users/contact_user.js"></script>
+<script type="text/javascript" src="/assets/settings/select_option.js"></script>
+
+<script type="text/javascript" src="/assets/global/checkbox.js"></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+    initARC('create_contact','altCheckboxOn','altCheckboxOff');
+  });
+
+    $(window).load(function(){
+    //$('#loading').fadeOut(1000);
+  });
+</script>
+
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css" />
+<script class="jsbin" src="/assets/event/jquery.min.js"></script>
+<script class="jsbin" src="/assets/event/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/assets/jquery.form.js"></script>
+
+<script language="javascript"> 
+$(document).ready(function(){
+parent.document.getElementById("emptyContact").style.display="none";
+//dropDown_group();
+});
+
+
+function closepopup() { 
+  var stateObj = {
+    foo: "bar"
+  };
+  if(navigator.appName=="Microsoft Internet Explorer")
+  {
+    window.location.hash='';
+  }
+  else
+  {
+    parent.history.replaceState(stateObj, "", "<%=@fam_last if !@fam_last.nil?%>");
+  } 
+  parent.newContactPage.hide();
+  parent.document.getElementById("emptyContact").style.display="block";
+  
+}
+
+function number(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57 ) && (charCode != 46 ) ){
+        //alert("Allow only Numbers");
+        return false;     
+    }
+    return true;
+}
+  //set automatically go to next textbox
+  function movetoNext(current, nextFieldID) {
+
+    if (current.value.length >= current.maxLength) {
+      document.getElementById(nextFieldID).focus();
+    }
+    return true;
+  }
+</script>
+<style type="text/css">
+.setfeedbackDiv {
+    background: none repeat scroll 0 0 #EDF1F2;
+    color: #444444;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    margin: 15px auto 0;
+    padding: 15px;
+    width: 500px;
+  }
+
+    #dropdwon  {
+    width: 540px;
+    height: auto;
+    border: 1px solid #ccc;
+  
+   cursor: pointer;
+  }
+  #drop_textbox{
+        width: 540px;
+        height: 30px;
+        background: url("/assets/contact/dropdown_arrow.png") no-repeat right center;
+        border: 1px solid #ccc;
+       
+
+  }
+ 
+  .drop_normal{
+    float: left;
+  }
+  .elements_name{
+    float: left;
+  }
+  .text_in_box{
+      width: 300px;
+        height: 40px;
+        border: 1px solid;
+  }
+  #input_text_box{
+    width: 500px;
+    float: left;
+    height: 24px;
+    margin-top: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+    font-family: 'open_sansregular',Sans-Serif;
+  }
+.checkbox{
+  display: inline-block;
+  float: left;
+  width: 19px;
+  height: 21px;
+  position: relative;
+  top: -7px;
+  left: 0px;
+}
+.checkbox a{
+  display: inline-block;
+  float: left;
+  width: 19px;
+  height: 21px;
+  position: relative;
+  top: 3px;
+  left: 0px;
+}
+.setfeedbackDiv {
+  background: none repeat scroll 0 0 #EDF1F2;
+  color: #444444;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
+  margin: 15px auto 0;
+  padding: 15px;
+  width: 500px;
+}
+
+ #list_edit_grp_drop{
+    display: none;
+    min-height:0px;
+    max-height: 100px;
+    overflow-y: auto;
+    float: left;
+    border-bottom:1px solid #ccc;
+    border-left:1px solid #ccc;
+    border-right:1px solid #ccc;
+    width: 540px;
+   
+  }
+a:focus{
+  outline: 1px dotted #666;
+}
+#contact_container .profilePhText{
+  margin-right:8px;
+  color:#999999; 
+  height: 25px; 
+  width: 50px;
+  padding: 0px 4px; 
+  font-size: 12px; 
+  border: 1px solid #CDE0E6;
+  color: #999999;
+  font-family: 'open_sansregular',Sans-Serif;
+}
+@media \0screen {
+    #contact_container .profilePhText{
+        padding:6px 4px 0px 4px;
+        height:21px;
+    }
+}
+@media \0screen {
+  #contact_container  .textboxIE8{
+        padding:6px 4px 0px 4px;
+        height:21px;
+    }
+}
+@media \0screen {
+  #contact_container  .FileField{
+        padding-top:6px;
+        height:20px;
+    }
+}
+@media \0screen {
+    .contactNew .browse{
+      top: -30px;
+    }
+}
+.img_box{
+       font-family:'open_sansregular',Sans-Serif; font-size:14px; display:inline;
+       background:#f43737 ;height:20px; padding:5px; color:#fff; border:1px solid red;}
+
+.contact-ok{
+  display:inline-block;
+  position:relative;
+  top:-10px;
+  width:70px;
+  background:#f82b2b;
+  margin-right: 3px;
+  font-family: 'open_sansregular';
+}
+.contact-cancel{
+  display:inline-block;
+  position:relative;
+  top:-10px;
+  width:70px;
+  background:#5eb0c6;
+  border:1px solid #5eb0c6;
+  font-family: 'open_sansregular';
+}
+
+</style>
+
+<div id="dvLoading"></div>
+
+<div id="contact_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont new_font">Add New Contact</div>
+          </div>
+          <div class="closeButton">
+            <a class="blueText delplus contact_all" href="javascript:void(0)" title="" onclick="closepopup()" style="top: 15px;left: 10px;background-size: 27px auto;"></a>
+            <!--a href="javascript:void(0)" onClick="closepopup()" title=""> <img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" /> </a-->
+          </div>
+        </div>
+        <div class="centerCont contactNew" id="ad_contact">
+              <div align="center" class="setfeedbackDiv" style="margin: 20px auto 0;width: 325px; font-weight:bold;display:none;">Please fill out all the required fields.</div>
+          <form id="create_contact" name="create_contact" target="_parent" action="contact_create" method="post" enctype="multipart/form-data">
+            <div class="paddingTop10"></div>
+            <div class="paddingTop10">
+              <div class="lt leftSideField">Upload Image</div>
+    <div>
+      <div class="file_hidden_cont">
+        <input type="text" name="photo1" id="photo1" class="file_input_cont" readonly="readonly"/>
+      </div>
+      <div class="file_upload">
+        <input type="file"  name="activity_image[datafile]"  id="photo" accept="image/*" onChange="document.getElementById('photo1').value =this.value;fakepath(this.value);" tabindex="1" />
+      </div>  
+    </div>
+    <!--<div class="lt FileUpload" style="border:none;">
+      <input type="file" accept="image/*" onchange="document.getElementById('photo1').value =this.value;fakepath(this.value);" size="21" id="photo" class="BrowserHidden" name="activity_image[datafile]" style=".width:220px;"/>
+      <div class="BrowserVisible" style="border:none;">
+        <input type="text" name="photo1" id="photo1" class="FileField"  readonly="readonly" tabindex="1"/>
+      </div>
+      <span class="browse"><img src="/assets/register/browse.png" width="76" height="30" /></span>
+      <div class="clear"></div>
+    </div>-->
+
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="photo_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Name<span class="required">*</span></div>
+                <!--<input type="text" name="contact_name" id="contact_name" class="lt textbox" maxlength="25" tabindex="2" style="position:relative;"/>-->
+                <input type="text" name="contact_name" id="contact_name" class="lt textbox textboxIE8" maxlength="50" tabindex="2" value="Eg:john" style="outline:none;color:#999999; position:relative;" onFocus="if(this.value == 'Eg:john') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onBlur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Eg:john'}"/>
+               <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="contact_name_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Email<span class="required">*</span></div>
+                <input type="text" name="contact_email" id="email_id" class="lt textbox textboxIE8" maxlength="50" tabindex="3" style="outline:none;color:#999999;" value="Eg:john@gmail.com" onFocus="if(this.value == 'Eg:john@gmail.com') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onBlur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Eg:john@gmail.com'}"/>
+
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="email_id_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Mobile Number</div>
+              <input type="text" name="profile_phone_1" id="profile_phone_1" value="xxx" class="lt profilePhText" onfocus="if(this.value == 'xxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxx'}" tabindex="4" maxlength="3"  onkeyup="movetoNext(this, 'profile_phone_2')" onKeyPress="return number(event);"> 
+
+                  <div class="lt setHyphen" style="padding-top: 5px;margin-right:7px;">-</div>
+
+                  <input type="text" name="profile_phone_2" id="profile_phone_2" value="xxx" class="lt profilePhText" onfocus="if(this.value == 'xxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxx'}" tabindex="5" maxlength="3" onkeyup="movetoNext(this, 'profile_phone_3')" onKeyPress="return number(event);">
+
+                  <div class="lt setHyphen" style="padding-top: 5px;margin-right:7px;">-</div>
+
+                  <input type="text" name="profile_phone_3" id="profile_phone_3" value="xxxx" class="lt profilePhText" onfocus="if(this.value == 'xxxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxxx'}" tabindex="6" maxlength="4" onkeyup="movetoNext(this, 'sell_phone_4')" onKeyPress="return number(event);">
+                <div class="clear"></div>
+              </div>
+        
+
+
+
+        <div class="paddingTop10" style="display:block;">
+        <div class="lt leftSideField">Select Network</div>
+
+
+
+        <div id="right-check-box" style="width: 541px;float: left;">
+
+
+     <div class="lt gender">
+        <%i=1%>
+        <%j=1%>
+        <%f=8%>
+        <div id="drop_textbox" onclick="show_edit_grp_dropdown();">
+	<div id="input_text_box" title="<%= @group_names.join(",") if !@group_names.nil?%>"><%= !@group_names.nil? ? truncate(@group_names.join(","),length: 53) : "-- Select Network --"%></div>
+	<input type="hidden" name="edit_group_ids" id="edit_grp_ids" value="<%= @group_ids.join(",") if !@group_ids.nil?%>"/></div>
+          <input type="hidden" value="false" name="update_group_ids" id="update_group_ids">
+       </div>
+
+        <%if !@u_groups.blank?%>
+         <div id="list_edit_grp_drop" >
+            <table cellpadding="0" cellspacing="5" border="0" width="100%">
+               <%i=1%>
+               <tr>
+               <% @u_groups && @u_groups.each do |group|%>
+              <td>
+               <div class="elements drop_normal">
+                <input type="checkbox" name="drop_selected" data="<%= group.group_id%>" value="<%= group.group_name%>" onclick="selected_group()" <%if !@group_names.nil? && @group_names.include?(group.group_name)%>checked<%end%>>
+               </div>
+               <div class="elements_name new_font" style="margin-left: 10px;" title="<%= group.group_name%>"><%= truncate(group.group_name, length:20)%></div>
+              </td>
+              <%if i%2==0 %>
+              </tr><tr>
+              <%end%>
+               <%i = i.to_i+1%>
+               <%end%>
+               </tr>
+            </table>
+         </div>
+        <%end%>
+    </div> 
+
+    </div>   
+
+
+
+
+
+      <div class="clear"></div>
+      </div>
+        
+        
+      <!--<div class="paddingTop10" id="add_group" style="display:none">
+                <div class="lt leftSideField">Group Name<span class="required">*</span></div>
+                <input type="text" name="group_name_text" class="lt textbox" maxlength="50" tabindex="3" style="outline:none;color:#999999;" value="" />
+        <div class="clear"></div>
+        <a href="javascript:void(0)" class="lt leftSideField"  onclick="group_hide();">Cancel</a>
+              </div>-->   
+        
+        
+                     
+              <div class="clear"></div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="mobile_no_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+             <div class="clear"></div>
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_phone_error" style="width:200px; border:1px solid #fff;"></div>
+                <div class="lt" id="profile_mobile_error" style="width:183px; border:1px solid #fff;"></div>
+                <div class="lt" id="profile_fax_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+               <div class="paddingTop10">
+                <div class="lt leftSideField">&nbsp;</div>
+            <input type="hidden" id="select_invite" name="select_invite" value="">
+             <span  class="checkbox">
+                     <a href="javascript:void(0)" title="" class="checkbox" id="c_checkbox_selected" onclick="dispCheckboxImg('c_checkbox_selected')" onkeydown="ag_cb_keydown(event,'c_checkbox_selected')" style="display: none" tabindex="6"><img src="/assets/register/checkbox_selected.png" alt=""/></a>
+                     <a href="javascript:void(0)" title="" id="c_checkbox_normal" onclick="dispCheckboxImg('c_checkbox_normal')"  tabindex="7" style="display:inline-block; position:relative;"><img src="/assets/register/checkbox_normal.png" alt="" /></a>
+                     <a href="javascript:void(0)" title="" id="c_checkbox_error" onclick="dispCheckboxImg('c_checkbox_error')" onkeydown="ag_cb_keydown(event,'c_checkbox_error')"  tabindex="8" style="display: none"><img src="/assets/register/checkbox_error.png" alt=""/></a>
+                   </span>
+           
+            <span class="create_join" >Invite to join famtivity</span>
+                <div class="clear"></div>
+              </div>
+              
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="invite_contact_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="buttonDiv">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+
+
+                 <div class="lt">
+                    <span id="new_img" style="display:none;"><img  src="/assets/contact/save_button_new.png" /></span>
+                    <span ><input type="image" id="save_img"  src="/assets/contact/save_button_new.png" width="113" height="41"  tabindex="8" style="position:relative;"/></span>
+        
+                  <!--<input type="image" src="/assets/contact/save_button_new.png" width="113" height="41"  tabindex="8" style="position:relative;"/>-->
+
+                  <a href="javascript:void(0)" onClick="closepopup()" onkeydown="cancelActivityClearData(event)"><img src="/assets/contact/cancel_button_new.png" alt="" tabindex="9" /></a>
+                  <span id='loading' class="load-new" style="margin-top: 8px;"><img src='/assets/loading.gif'/></span>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div id="ad_success" style="display:none;">
+          <div style="margin-top:20px;" align="center" >Contact created successfully.</div>
+              <div class="buttons" align="center">
+                <a href="javascript:void(0)" onClick="close_popup();"><img src="/assets/register/ok_btn.png" alt="" style="margin-top:20px;"/></a>
+                <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>
+
+<script type="text/javascript" language="javascript">
+$("#group_create").click(function(){
+    $("#group_drop").hide();
+    $("#add_group").show();
+  });
+
+
+function group_display()
+{ 
+var text = $("#group").val();
+  if (text == "new_group")
+  {
+    $("#group_drop").hide();
+    $("#group_create").hide();
+    $("#add_group").show();
+  }
+}
+
+function group_hide()
+{
+  $("#add_group").hide();
+  $("#group_drop").show();
+  $("#group_create").show();
+}
+
+function fakepath(filepath)
+{
+  inputNode = filepath.replace('C:\\fakepath\\', ''); 
+  var pos = filepath.lastIndexOf( filepath.charAt( filepath.indexOf(":")+1) );
+  var filename = filepath.substring( pos+1);
+  
+  var ua=navigator.userAgent;
+  if(ua.indexOf("Firefox")!=-1){ 
+    $("#photo1").val(filepath); 
+  } 
+  else {
+    $("#photo1").val(filename);
+  }
+}
+  var error_Flag_ajax=true;
+  //~ $(document).ready(function (){
+
+    $('#create_contact').submit(function (){
+    //$('#save_img').hide();
+    //$('#new_img').show();
+      var photo = $("#photo").val();
+      var contact_name= $("#contact_name").val();
+      var email_id= $("#email_id").val();
+      var mobile_no = $("#mobile_no").val();
+      var select_invite = $("#select_invite").val();
+      var profile_phone_1 =  $("#profile_phone_1").val();
+      var profile_phone_2 =  $("#profile_phone_2").val();
+      var profile_phone_3 =  $("#profile_phone_3").val();
+      //var gender = $("#gender").val();
+  
+      var errorFlag = false;
+      
+      //$("#photo1").css("border","1px solid #CDE0E6");
+      //$("#photo_error").html("");
+      //$("#photo_error").parent().css("display","none");
+      $("#contact_name").css("border","1px solid #CDE0E6");
+      $("#contact_name_error").html("");
+      $("#contact_name_error").parent().css("display","none");
+      $("#email_id").css("border","1px solid #CDE0E6");
+      $("#email_id_error").html("");
+      $("#email_id_error").parent().css("display","none");
+      $("#profile_phone_1").css("border","1px solid #BDD6DD");
+      $("#profile_phone_2").css("border","1px solid #BDD6DD");
+      $("#profile_phone_3").css("border","1px solid #BDD6DD");
+      $("#mobile_no_error").parent().css("display","none");
+      $("#mobile_no_error").html("");     
+      $("#select_invite").css("border","1px solid #BDD6DD");
+      $("#select_invite").html("");
+      $("#invite_contact_error").parent().css("display","none");
+      //$(".gender .selectBoxCity").css("background","url('/assets/create_new_activity/select_box_bg.png') no-repeat");
+      //$("#gender_error").html("");
+      //$("#gender_error").parent().css("display","none");
+
+      profile_phone_1 = profile_phone_1.replace(/^\s+|\s+$/g, "");
+      profile_phone_2 = profile_phone_2.replace(/^\s+|\s+$/g, "");
+      profile_phone_3 = profile_phone_3.replace(/^\s+|\s+$/g, "");
+  
+     /*   photo = photo.replace(/^\s+|\s+$/g, "");
+    
+    
+      if(photo == "" ){
+        $("#photo1").css("border","1px solid #fc8989");
+        $("#photo_error").html("Please choose contact image");
+        $("#photo_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      
+      else if(photo != ""){
+        val=validateBrowse();
+        if(!val){
+          $("#photo1").css("border","1px solid #fc8989");
+          $('#photo_error').html('Please upload valid image');
+          $("#photo_error").parent().css("display","block");
+          errorFlag = true;
+        }
+      } */
+    
+      contact_name = contact_name.replace(/^\s+|\s+$/g, "");
+      if(contact_name == "" || contact_name == "Eg:john" ){
+        $("#contact_name").css("border","1px solid #fc8989");
+        $("#contact_name_error").html("Please enter friend name");
+        $("#contact_name_error").parent().css("display","block");
+        errorFlag = true;
+      }
+     /* else if(validateName(contact_name) == "" ){
+        $("#contact_name").css("border","1px solid #fc8989");
+        $("#contact_name_error").html("Please enter valid contact name");
+        $("#contact_name_error").parent().css("display","block");
+        errorFlag = true;
+      }*/
+      email_id = email_id.replace(/^\s+|\s+$/g, "");
+      if(email_id == "" || email_id == "Eg:john@gmail.com" ){
+        $("#email_id").css("border","1px solid #fc8989");
+        $("#email_id_error").html("Please enter an Email");
+        $("#email_id_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(!validateCorrectEmail(email_id)){
+        $("#email_id").css("border","1px solid #fc8989");
+        $("#email_id_error").html("Please enter a valid Email");
+        $("#email_id_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      if(profile_phone_1!="" && profile_phone_2=="" && profile_phone_3==""){
+    $("#profile_phone_2").css("border","1px solid #fc8989");
+    $("#profile_phone_3").css("border","1px solid #fc8989");
+    $("#mobile_no_error").parent().css("display","block");
+    $("#mobile_no_error").html("Please enter a valid mobile number");
+    errorFlag = true;
+  }
+  if(profile_phone_1=="" && profile_phone_2!="" && profile_phone_3==""){
+    $("#profile_phone_1").css("border","1px solid #fc8989");
+    $("#profile_phone_3").css("border","1px solid #fc8989");
+    $("#mobile_no_error").parent().css("display","block");
+    $("#mobile_no_error").html("Please enter a valid mobile number");
+    errorFlag = true;
+  }
+  if(profile_phone_1=="" && profile_phone_2=="" && profile_phone_3!=""){
+    $("#profile_phone_1").css("border","1px solid #fc8989");
+    $("#profile_phone_2").css("border","1px solid #fc8989");
+    $("#mobile_no_error").parent().css("display","block");
+    $("#mobile_no_error").html("Please enter a valid mobile number");
+    
+    errorFlag = true;
+  }
+   if(profile_phone_1!="" && profile_phone_2!="" && profile_phone_3==""){   
+    $("#profile_phone_3").css("border","1px solid #fc8989");
+    $("#mobile_no_error").parent().css("display","block");
+    $("#mobile_no_error").html("Please enter a valid mobile number");
+    errorFlag = true;
+  }
+  if(profile_phone_1=="" && profile_phone_2!="" && profile_phone_3!=""){
+    $("#profile_phone_1").css("border","1px solid #fc8989");
+    $("#mobile_no_error").parent().css("display","block");
+    $("#mobile_no_error").html("Please enter a valid mobile number");
+    errorFlag = true;
+  }
+  if(profile_phone_1!="" && profile_phone_2=="" && profile_phone_3!=""){    
+    $("#profile_phone_2").css("border","1px solid #fc8989");
+    $("#mobile_no_error").parent().css("display","block");
+    $("#mobile_no_error").html("Please enter a valid mobile number");
+    errorFlag = true;
+  }
+  
+      if(profile_phone_1!="" && profile_phone_2!="" && profile_phone_3!=""){    
+  if(isNaN(profile_phone_1)&& profile_phone_1!="xxx"){
+    $("#profile_phone_1").css("border","1px solid #fc8989");
+    $("#mobile_no_error").parent().css("display","block");
+    $("#mobile_no_error").html("Please enter a valid mobile number");
+    errorFlag = true;
+  }
+  if(profile_phone_1.length<3){
+    $("#profile_phone_1").css("border","1px solid #fc8989");
+    $("#mobile_no_error").parent().css("display","block");
+    $("#mobile_no_error").html("Please enter a valid mobile number");
+    errorFlag = true;
+  }
+  if(isNaN(profile_phone_2) && profile_phone_2!="xxx"){
+    $("#profile_phone_2").css("border","1px solid #fc8989");
+    $("#mobile_no_error").parent().css("display","block");
+    $("#mobile_no_error").html("Please enter a valid mobile number");
+    errorFlag = true;
+  }
+  if(profile_phone_2.length<3){
+    $("#profile_phone_2").css("border","1px solid #fc8989");
+    $("#mobile_no_error").parent().css("display","block");
+    $("#mobile_no_error").html("Please enter a valid mobile number");
+    errorFlag = true;
+  }
+  if(isNaN(profile_phone_3) && profile_phone_3!="xxxx"){
+    $("#profile_phone_3").css("border","1px solid #fc8989");
+    $("#mobile_no_error").parent().css("display","block");
+    $("#mobile_no_error").html("Please enter a valid mobile number");
+    errorFlag = true;
+  }
+  if(profile_phone_3.length<4){
+    $("#profile_phone_3").css("border","1px solid #fc8989");
+    $("#mobile_no_error").parent().css("display","block");
+    $("#mobile_no_error").html("Please enter a valid mobile number");
+    errorFlag = true;
+  }
+
+    if(profile_phone_1=="000" &&  profile_phone_2=="000" && profile_phone_3=="0000"){
+    $("#profile_phone_1").css("border","1px solid #fc8989");
+    $("#profile_phone_2").css("border","1px solid #fc8989");
+    $("#profile_phone_3").css("border","1px solid #fc8989");
+    $("#mobile_no_error").parent().css("display","block");
+    $("#mobile_no_error").html("Please enter a valid mobile number");
+    errorFlag = true;
+  }
+  if(profile_phone_1!="xxx" && profile_phone_1.length>=3 &&  profile_phone_2=="xxx" && profile_phone_3=="xxxx"){
+    $("#profile_phone_2").css("border","1px solid #fc8989");
+    $("#profile_phone_3").css("border","1px solid #fc8989");
+    $("#mobile_no_error").parent().css("display","block");
+    $("#mobile_no_error").html("Please enter a valid mobile number");
+    errorFlag = true;
+  }
+
+if(profile_phone_1=="xxx" && profile_phone_2!="xxx" && profile_phone_2.length>=3 && profile_phone_3=="xxxx"){
+    $("#profile_phone_1").css("border","1px solid #fc8989");
+    $("#profile_phone_3").css("border","1px solid #fc8989");
+    $("#mobile_no_error").parent().css("display","block");
+    $("#mobile_no_error").html("Please enter a valid mobile number");
+    errorFlag = true;
+  }
+
+  if(profile_phone_1=="xxx" && profile_phone_3!="xxxx" && profile_phone_3.length>=4 && profile_phone_2=="xxx"){
+    $("#profile_phone_1").css("border","1px solid #fc8989");
+    $("#profile_phone_2").css("border","1px solid #fc8989");
+    $("#mobile_no_error").parent().css("display","block");
+    $("#mobile_no_error").html("Please enter a valid mobile number");
+    errorFlag = true;
+  }
+
+  if(profile_phone_1!="xxx" && profile_phone_1.length>=3 && profile_phone_3!="xxxx" && profile_phone_3.length>=4 && profile_phone_2=="xxx"){
+    $("#profile_phone_2").css("border","1px solid #fc8989");
+    $("#mobile_no_error").parent().css("display","block");
+    $("#mobile_no_error").html("Please enter a valid mobile number");
+    errorFlag = true;
+  }
+  if(profile_phone_2!="xxx" && profile_phone_2.length>=3 && profile_phone_3!="xxxx" && profile_phone_3.length>=4 && profile_phone_1=="xxx"){
+    $("#profile_phone_1").css("border","1px solid #fc8989");
+    $("#mobile_no_error").parent().css("display","block");
+    $("#mobile_no_error").html("Please enter a valid mobile number");
+    errorFlag = true;
+  }
+  if(profile_phone_1!="xxx" && profile_phone_1.length>=3 && profile_phone_2!="xxx" && profile_phone_2.length>=3 && profile_phone_3=="xxxx"){
+    $("#profile_phone_1").css("border","1px solid #fc8989");
+    $("#mobile_no_error").parent().css("display","block");
+    $("#mobile_no_error").html("Please enter a valid mobile number");
+    errorFlag = true;
+  }
+
+   /* if(profile_phone_1=="xxx" &&  profile_phone_2=="xxx" && profile_phone_3=="xxxx"){
+        //alert("v2");
+    $("#profile_phone_1").css("border","1px solid #CDE0E6");
+    $("#profile_phone_2").css("border","1px solid #CDE0E6");
+    $("#profile_phone_3").css("border","1px solid #CDE0E6");
+    $("#mobile_no_error").hide();
+
+    errorFlag = true;
+  }*/
+  }
+
+
+      /*else if(!validateDot(email_id)){
+        $("#email_id").css("border","1px solid #fc8989");
+        $("#email_id_error").html("Please enter valid email id");
+        $("#email_id_error").parent().css("display","block");
+        errorFlag = true;
+      }*/
+      /*mobile_no = mobile_no.replace(/^\s+|\s+$/g, "");
+      if(mobile_no == ""){
+        $("#mobile_no").css("border","1px solid #fc8989");
+        $("#mobile_no_error").html("Please enter valid mobile number");
+        $("#mobile_no_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(isNaN(mobile_no) ){
+        $("#mobile_no").css("border","1px solid #fc8989");
+        $("#mobile_no_error").html("Please enter valid mobile number");
+        $("#mobile_no_error").parent().css("display","block");
+        errorFlag = true;
+      }*/
+      
+      /*gender = gender.replace(/^\s+|\s+$/g, "");
+      if(gender == "" || gender == "Select" ){
+        $(".gender .selectBoxCity").css("background","url('/assets/create_new_activity/select_box_error_bg.png') no-repeat");
+        $("#gender_error").html("Please select gender");
+        $("#gender_error").parent().css("display","block");
+        errorFlag = true;
+      }*/
+     
+      if(errorFlag){
+        //$('#save_img').show();
+        return false;
+      }
+      else{
+        //$('#new_img').show();
+      $.ajax({
+        type: "POST",
+        url: "/check_contact_invite",
+        data: {"email": email_id},
+        dataType : 'json',
+        iframe: 'true',
+        cache: false,
+        success: function(data)
+        {
+            if (data=="success")
+            {    //$('#new_img').hide();  
+                 //$('#save_img').show();
+                 if (select_invite == "")
+                   {
+                       $('#c_checkbox_error').css('display','block');
+                       $('#c_checkbox_normal').css('display','none');
+                       $("#invite_contact_error").html("Please check the invite");
+                       $("#invite_contact_error").parent().css("display","block");
+                       //$("#p_checkbox_normal").css("border","1px solid #fc8989");
+                   }  
+                 else
+                   {
+                    frmsubmit(email_id)
+                   }
+            }
+            else
+            {            
+              frmsubmit(email_id)
+            }
+        }
+      });
+
+        return false;
+      }
+    });
+  //~ });
+
+function frmsubmit(email_id)
+{
+  //inner loop start
+              //$('#new_img').show();
+              $('#loading').show();
+              $.ajax({
+                type: "POST",
+                url: "/check_contact_exist",
+                data: {"email": email_id },
+                dataType : 'json',
+                iframe: 'true',
+                cache: false,
+                success: function(data){
+                  if (data=="failed"){
+                    //$('#new_img').hide();
+                    //$('#//').show();
+                    $('#loading').hide();
+                    $("#email_id").css("border","1px solid #fc8989");
+                    $("#email_id_error").html("This Email is already added please enter another Email.");
+                    $("#email_id_error").parent().css("display","block");
+                  }
+                  else if(data=="same_user"){
+                    //$('#new_img').hide();
+                    //$('#save_img').show();
+                    $('#loading').hide();
+                    $("#email_id").css("border","1px solid #fc8989");
+                    $("#email_id_error").html("You are logged in this email address.");
+                    $("#email_id_error").parent().css("display","block");
+                  }
+                  else{            
+                    //$('#new_img').show();
+                    //$('#save_img').hide();
+                    // $('#loading').show();
+                    setTimeout("$('#loading').hide();",2000)
+                    $("#create_contact").ajaxSubmit({target: '#ad_contact'});
+                  }
+                }
+              });
+//inner loop end
+}
+  
+  function validateBrowse(){
+    var fup = document.getElementById('photo');
+    var fileName = fup.value;
+    var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+    if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg" || ext == "JPG" || ext == "png" || ext == "PNG")
+    {
+      //errorFlag = false;
+      return true;
+    }
+    else
+    {
+      $('#photo_error').parent().css("display","block");
+      $("#photo1").css("border","1px solid #CDE0E6");
+      $('#photo_error').html('Please select the valid file');
+      return false;
+    }
+  }
+  
+
+function dispCheckboxImg(imgName){
+     if(imgName == 'c_checkbox_normal'){
+         //alert("test");
+         $('#c_checkbox_normal').css('display','none');
+         $('#c_checkbox_error').css('display','none');
+         $('#c_checkbox_selected').css('display','block');
+         $('#select_invite').val(1);
+     }
+     else if(imgName == 'c_checkbox_error'){
+         $('#c_checkbox_normal').css('display','none');
+         $('#c_checkbox_error').css('display','none');
+         $('#c_checkbox_selected').css('display','block');
+         $('#select_invite').val(1);
+     }
+     else{
+         $('#c_checkbox_selected').css('display','none');
+         $('#c_checkbox_normal').css('display','block');
+         $('#c_checkbox_error').css('display','none');
+         $('#select_invite').val('');
+
+        }
+}
+
+
+
+</script>
+

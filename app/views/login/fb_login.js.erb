@@ -1,0 +1,29 @@
+<%if @register == "success"%>
+  var fb_param = {};
+  fb_param.pixel_id = '6009203206329';
+  fb_param.value = '0.00';
+  fb_param.currency = 'USD';
+  (function(){
+  var fpw = document.createElement('script');
+  fpw.async = true;
+  fpw.src = '//connect.facebook.net/en_US/fp.js';
+  var ref = document.getElementsByTagName('script')[0];
+  ref.parentNode.insertBefore(fpw, ref);
+  })();
+<%end%>
+<%if !@old_plan.nil? && @old_plan == "curator" %>
+var cur_path_val=window.location.pathname
+  if ((cur_path_val=="/home")||(cur_path_val=="/"))
+  {
+    pop_Parent_Login('/parent_register?curator_val=facebook');
+  }
+  else{
+   parent.parentLoginPage.hide();
+   parent.pop_Parent_Login('/parent_register?curator_val=facebook');
+  }
+<%elsif cookies[:role_usr] == "P"%>
+  parent.window.location.href = "provider?fb=<%= @from_fb %>";
+<%else%>
+  parent.window.location.href = "/?fb=<%= @from_fb %>";
+<%end%>
+

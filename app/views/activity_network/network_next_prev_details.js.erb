@@ -1,0 +1,4 @@
+$(".sendmsgSelectAny input:checkbox").attr('checked',false);
+$("#eror-msg").hide();
+$("#sendmsg_all").val("");
+$('#refresh_schedules_').html("<%=escape_javascript(render :partial => 'single_schedule_list')%>");

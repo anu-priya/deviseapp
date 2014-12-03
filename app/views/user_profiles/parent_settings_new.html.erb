@@ -1,0 +1,804 @@
+<%= javascript_include_tag "global/checkbox" %>
+<script type="text/javascript">
+  $(document).ready(function () {
+    initARC('settings','altCheckboxOn','altCheckboxOff');
+  });
+</script>
+<%=stylesheet_link_tag "header/header","profile/profile","landing/how_it_works", :media => "all"%>
+<%= javascript_include_tag "header/header","global/checkbox","settings/contact_list","settings/select_option","event_index/macfix","event_index/jquery.dropdownPlain" %>
+<style type="text/css" id="page-css">
+  /* Styles specific to this particular page */
+  .scroll-pane
+  {
+    width: 100%;
+    height: 185px;
+    overflow: auto;
+  }
+  .horizontal-only
+  {
+    height: auto;
+    max-height: 185px;
+  }
+</style>
+<script type="text/javascript" id="sourcecode">
+  $(function(){
+    $('.scroll-pane').jScrollPane();
+  });
+</script>
+
+<%=stylesheet_link_tag "custom_scroll/jquery.jscrollpane","event/jquery.ui.datepicker","event/jquery.ui.theme","global/overlay/windowfiles/dhtmlwindow","global/overlay/modalfiles/modal", :media => "all"%>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<%= javascript_include_tag "custom_scroll/jquery.mousewheel","custom_scroll/jquery.jscrollpane.min","custom_scroll/demo","event/event","event/jquery.ui.core","event/jquery.ui.datepicker","global/overlay/windowfiles/dhtmlwindow","global/overlay/modalfiles/modal" %>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  //get mutiple check box id and store to hidden field
+  function getchk_actid(curr_actid,span_)
+  {
+    span_index=$(".checkboxImg").index(span_);
+    chk_staus=$(".checkboxImg:eq("+span_index+") label").attr('class');
+    if(chk_staus=="altCheckboxOn")
+    {
+      //add selected checkbox id
+      txt_id=$("#actid_chk").val();
+      if(txt_id=="")
+      { selected_ids=curr_actid; 	}
+      else{ selected_ids=txt_id+","+curr_actid; 	}
+      $("#actid_chk").val(selected_ids);
+	  
+    }
+    else
+    {
+      //remove the id
+      txt_id=$("#actid_chk").val();
+      selected_ids=txt_id.replace(curr_actid,'');
+      $("#actid_chk").val(selected_ids);
+      $('#select').css('display','none');
+      $('#not_select').css('display','inline-block');
+      $('#row').val(0);
+    }
+  }
+
+});
+  var newActivityPage;
+  var EditparentprofilePage;
+  var activitySupportPage;
+  var inviteproviderPage;
+  var becomeproviderPage;
+  var activityFeedbackPage;
+  
+  function pop_new_activity(url){
+    newActivityPage = dhtmlmodal.open("Event New Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+  function pop_provider_edit_profile(url){
+    EditparentprofilePage = dhtmlmodal.open("Edit Password ","iframe",url,"", "width=896px,height=2000px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+  //support form popup
+  function pop_support_form(url){
+    activitySupportPage = dhtmlmodal.open("Delete Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+  
+  //invite provider popup
+    function pop_invite_provider(url){
+    inviteproviderPage = dhtmlmodal.open("Edit Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+		
+    return false;
+  }
+
+  //Become a provider popup
+    function pop_become_provider(url){
+    becomeproviderPage = dhtmlmodal.open("Edit Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+		
+    return false;
+  }
+   //feedback form
+    function pop_feedback_form(url){
+    activityFeedbackPage = dhtmlmodal.open("Delete Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+		
+    return false;
+  }
+
+</script>
+
+<div id="event_index_container">
+
+<input type="hidden" id="actid_chk" name="actid_chk" value="" />
+  <div class="headerPart1">
+    <div align="center"><a href="/event_index" title="">
+      <%= image_tag("/assets/event_index/famtivity_logo_parent.png", size:"110x35")%>
+    </a></div>
+    <table cellpadding="0" class="headerDivRight" cellspacing="0" width="429" border="0" style="float:right; display:inline-block; margin-top:-33px; .margin-top:-30px;">
+      <tr>
+        <td align="right" width="300">
+
+         <!--profile image dynamically modified on 29dec12-->
+        <%if !current_user.nil? && !current_user.user_profile.nil?%>
+          <%@profile_data=current_user.user_profile if !current_user.user_profile.nil?%>
+          <%if !@p_f.nil? && @p_f!=""%>
+            <%= image_tag @p_f,  :width => '21', :height => '21', :style =>"top:-8px; position:relative;", :alt => "Profile image"%>
+          <%else%>
+            <span>
+              <%= image_tag("/assets/event_index/photo_register.png", style:"top:-8px; position:relative;")%>
+            </span>
+          <%end%>
+        <%elsif !current_user.nil?%>
+          <span>
+            <%= image_tag("/assets/event_index/photo_register.png", style:"top:-8px; position:relative;")%>
+          </span>
+        <%end%>
+	
+          <span id="user_menu" class="UserDivMenu">
+            <ul>
+              <li>
+                <a href="" class="userDiv" style="color: #4495AE; border: 1px solid #DBEEF4;"><%= current_user.user_name %><span class="actImg">
+                  <%= image_tag("/assets/event_index/dropdown_arrow.png", style:"position: relative; top: -1px;", id: "arrow1", size:"7x4")%>
+                </span></a>
+                <ul class="sub-menu dispParentUserDiv" style=".margin-top:30px; right:0px;" align="right">
+                  <%if current_user.user_type=="U" %>
+                     <li style="border:1px #B1D7E3 solid;background-color:#EDF2F5;"><a href="#" style="padding-top:8px;color:#E24C4B;" onclick="pop_become_provider('/become_provider');" title=""><b>Become a Provider</b></a></li>
+                  <%else%> 
+                    <li style="border:1px #B1D7E3 solid;background-color:#EDF2F5;"><a href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? %>" style="padding-top:8px;color:#E24C4B;"><b>Switch to Provider</b></a></li>
+                  <%end%> 
+                  <li><a href="javascript:void(0)" onclick="pop_new_activity('/create_new_activity')">Add My New Activity</a></li>
+                  <li><a href="/activity_parent_schedule" style="border-bottom:1px #B1D7E3 solid;">My Scheduled</a></li>
+				<!-- <li style="border-bottom:1px #B1D7E3 solid;"><a href="#">My Map</a></li>
+				  <li style="border-bottom:1px #B1D7E3 solid; margin-bottom: 10px; margin-left: 8px; margin-top: -13px; width: 132px; display:inline-block;"><a href="#" style="width:132px; display:inline-block;">&nbsp;</a></li>-->
+				  <li><a href="/parent_profile">Profile</a></li>
+				  <li><a href="/parent_settings">Settings</a></li>
+                  <li><a href="/logout">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="clear"></div>
+          </span>
+
+        </td>
+        <td width="33" align="left">
+          <div><a href="/contact_users" title="">
+            <%= image_tag("/assets/event_index/contacts_icon.png",  size:"28x26", :onmouseover => '$(this.src="/assets/event_index/contacts_icon_over.png")', :onmouseout => '$(this.src="/assets/event_index/contacts_icon.png")')%>
+          </a></div>
+        </td>
+        <td width="0" align="left"><div><a href="javascript:void(0)" title="">
+          <%= image_tag("/assets/event_index/divider_top.png", size:"1x17")%>
+        </a></div></td>
+<!--        <td width="31" align="left"><div><a href="/contact_users" title=""><img src="/assets/event_index/message_icon.png" width="26" height="24" /  onmouseover='$(this.src="/assets/event_index/message_icon_over.png")' onmouseout='$(this.src="/assets/event_index/message_icon.png")'></a></div></td>
+        <td width="1" align="left"><div><a href="javascript:void(0)" title=""><img src="/assets/event_index/divider_top.png" width="1" height="17" /></a></div></td>
+-->
+        <td >
+
+          <div id="service_menu" class="serviceDivMenu" style="display:none;">
+            <ul>
+              <li>
+                <a href="" class="serviceDiv" style="color: #4495AE; border: 1px solid #DBEEF4; width:65px;">Service<span class="actImg">
+                   <%= image_tag("/assets/event_index/dropdown_arrow.png", size:"7x4", id: "arrow1", style: "position: relative; top: -1px;")%>
+                 </span></a>
+                <ul class="sub-menu dispParentServiceDiv" style="margin-left:-66px;.margin-top:28px; .margin-left:-147px;">
+                  <li><a href="/how_it_works" style="padding-top:8px;">How it works</a></li>
+				            <li><a href="#" onclick="pop_invite_provider('/invite_provider?aclick=parent');">Invite Your Provider</a></li>
+                    <!--<%if current_user.user_type=="U" %>
+                    <li><a href="#" onclick="pop_become_provider('/become_provider');" title="">Become a Provider</a></li>
+                    <%end%>-->
+                  <li><a href="javascript:void(0)" title="" onclick="pop_feedback_form('/feedback');" class="lt setRt">Feedback</a></li>
+                  <li><a href="/terms_of_service">Terms of Service</a></li>
+                  <li><a href="/privacy_policy">Privacy Policy</a></li>
+				  <li><a href="/about_us">About</a></li>
+				  <li><a href="/contact_us">Contact</a></li>
+				  <li><a href="http://www.famtivity.com/blog/">Blog</a></li>
+				  <li><a href="/faq">FAQ</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="clear"></div>
+          </div>
+
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div id="how_it_worksDiv" class="SettingsDiv" style="padding-bottom:0px;">
+  <form name="settings" id="settings" action="/create_setting" data-remote="true" method="post">
+    <div class="TopListText" align="center" style="width:118px; marign:0 auto; padding: 10px 0 29px 50px; .padding: 10px 0 10px 50px;">
+      <span class="lt"><a href="/parent_profile" class="menuText">Profile</a></span>
+      <span class="dot menuText">&bull;</span>
+      <span class="lt"><a href="/parent_settings" class="menuText"><b>Settings</b></a></span>
+    </div>
+    <div class="clear"></div>
+    <div class="setTopBprder" style="padding-top:8px;"></div>
+	<!-- famtivity contacts hidden field-->
+	<input type="hidden" id="famti_contact" name="famti_contact" value=""/>
+    <div class="dottedDiv" style="position:relative;"> 
+          <div class="Title" id="sharedText"><b>Sharing Settings</b></div>
+	  </div>
+	  
+	  <!--setting successfull message-->
+	  <div class="paddingTop10_settings">
+        <div class="lt leftSideField">&nbsp;</div>
+        <!--successful message -->
+        <div class="success_setting_info" style="display:none;color:green;">Your details are saved successfully!</div>
+	<div class="success_setting_info_false" style="display:none;color:red;">Please choose atleast one value!</div>
+        <div class="clear"></div>
+      </div>
+	  
+       <div class="Title ActivityTopSetting"><b>Activity Settings</b></div>
+	   <%r_d=1%>
+	   <%f=5%>
+	   <%s_v=1%>
+	   <%s_vid=1%>
+	   <%v_to=1%>
+	   <%contact_inc=1%>
+	   <%@s_i =0%>
+	   <%@setting_name.each do |s_name|%>
+	    <input type="hidden" name="setting_user" value="parent"/>	
+	   <input type="hidden" name="setting_detail_count" value="<%=@setting_name.length if !@setting_name.nil? %>"/>	
+	   <input type="hidden" name="setting_detail<%=v_to%>" value="<%=s_name.info_id if !s_name.info_id.nil? %>"/>	
+	   
+	    <div class="SettingsRow1" id="fam_contact">
+			<div class="leftSettingDiv">
+				<p><%=s_name.setting_name if !s_name.setting_name.nil? && !s_name.nil? %>:</p>
+			</div>
+			<div class="centerDropdown"> 
+				<div class="settingsDropdown" onmouseover="flag<%=f%>=true;" onmouseout="flag<%=f%>=false;">
+		<%if @activity_settings!=[] && !@activity_settings.blank? && @activity_settings !=" " && !@activity_settings.nil? && @activity_settings.present? && @activity_settings.any? && !@activity_settings.empty?%>
+			
+			<%if !@activity_settings[@s_i].nil? && !@activity_settings[@s_i].contact_user.nil?%>
+				<%if @activity_settings[@s_i].contact_user !="" && !@activity_settings[@s_i].contact_user.nil? && !@activity_settings[@s_i].nil? && @activity_settings[@s_i] != ""%>
+				<input type="hidden" id="contact_id_<%=v_to%>" name="contact_id_<%=v_to%>" value="<%=@activity_settings[@s_i].contact_user %>"/>
+				<%else%>
+				<input type="hidden" id="contact_id_<%=v_to%>" name="contact_id_<%=v_to%>" value=""/>
+				<%end%>
+			<%else%>
+			<input type="hidden" id="contact_id_<%=v_to%>" name="contact_id_<%=v_to%>" value=""/>
+			<%end%>
+			<%if !@activity_settings[@s_i].nil? && !@activity_settings[@s_i].type_id.nil?%>
+				<%if @activity_settings[@s_i].type_id!="" && !@activity_settings[@s_i].type_id.nil? && !@activity_settings[@s_i].nil?%>
+				    <input type="hidden" id="visible_to_<%=v_to%>" name="visible_to_<%=v_to%>" value="<%=@activity_settings[@s_i].type_id %>"/>
+				<%else%>
+				<input type="hidden" id="visible_to_<%=v_to%>" name="visible_to_<%=v_to%>" value=""/>
+				<%end%>
+			<%else%>
+				<input type="hidden" id="visible_to_<%=v_to%>" name="visible_to_<%=v_to%>" value=""/>
+			<%end%>
+			<%if !@activity_settings[@s_i].nil? && !@activity_settings[@s_i].info_id.nil?%>
+				<%if @activity_settings[@s_i].info_id!="" && !@activity_settings[@s_i].info_id.nil? && !@activity_settings[@s_i].nil?%>
+				<input type="hidden" id="type_id_<%=v_to%>" name="type_id_<%=v_to%>" value="<%=@activity_settings[@s_i].info_id %>"/>
+				<%else%>
+				<input type="hidden" id="type_id_<%=v_to%>" name="type_id_<%=v_to%>" value=""/>
+				<%end%>
+			<%else%>
+				<input type="hidden" id="type_id_<%=v_to%>" name="type_id_<%=v_to%>" value=""/>
+			<%end%>
+			
+		<%else%>
+		<input type="hidden" id="contact_id_<%=v_to%>" name="contact_id_<%=v_to%>" value=""/>
+		<input type="hidden" id="visible_to_<%=v_to%>" name="visible_to_<%=v_to%>" value=""/>	
+		<input type="hidden" id="type_id_<%=v_to%>" name="type_id_<%=v_to%>" value=""/>
+		<%end%>	
+		
+		
+                    <div id="visible_to_field_<%=v_to%>" class="selectDiv" style="line-height:23px;">
+		     <%if @activity_settings !="" && !@activity_settings.nil? && @activity_settings.present?%>
+			<%if !@activity_settings[@s_i].nil? && !@activity_settings[@s_i].type_id.nil? && !@activity_settings[@s_i].info_id.nil?%>			
+				<%@value_type = ActivitySettingsType.find_by_type_id(@activity_settings[@s_i ].type_id) if @activity_settings[@s_i ].type_id!=""%>	
+				<% if @activity_settings[@s_i ].info_id==s_name.info_id%>
+					<%if @value_type!="" && !@value_type.nil? && @value_type.present? && !@value_type.value_type.nil? %>
+					<%=@value_type.value_type %>
+					<%else%>
+					Famtivity Everyone
+					<%end%>
+				<%else%>
+					Famtivity Everyone
+				<%end%>
+			<%else%>
+				Famtivity Everyone
+			<%end%>
+		<%else%>
+				Famtivity Everyone
+		<%end%>
+		</div>
+		
+				</div>
+                  <div class="dropDownDivSettingVisible" id="dropDownDiv<%=f%>" style="display:none;">		
+		<a href="javascript:void(0)"  rel="1" title="" id="set_value<%=s_vid%>" onclick="setvalue('Famtivity Everyone',this.id,'<%=s_v%>','<%=f%>', '1', '<%=s_name.info_id%>')" tabindex="">Famtivity Everyone</a>
+		<a href="javascript:void(0)"  rel="1" title="" id="set_value<%=s_vid+1%>" class="f_contacts<%=f%>"  onclick="setvalue('Famtivity Contacts',this.id,'<%=s_v%>','<%=f%>', '2','<%=s_name.info_id%>')" style="border:1px solid #fff; background:#fff;" tabindex="">Famtivity Contacts <span style=" position: relative; top: -1px;">
+      <%= image_tag("/assets/event_index/dropdown_arrow.png", size:"7x4")%>
+    </span></a>
+		<a href="javascript:void(0)"  rel="1" title="" id="set_value<%=s_vid+2%>" onclick="setvalue('Just Me',this.id,'<%=s_v%>','<%=f%>', '3','<%=s_name.info_id%>')" tabindex="">Just Me</a>
+
+			 </div>
+					<!--contact menu-->
+                    <div id="dispContactDiv" class="dispNone dispContactDiv_<%=f%>">
+		    <div class="dispContactDiv">
+		    
+                    <div class="topBox">
+                      <input type="hidden" name="activity_id" value="werwe">
+                      <div class="groupRow">
+                        <div class="lt groupRowLeft">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="contact" onclick="selectedContact('<%=f%>')"><input id="contact<%=f%>" name="contact<%=f%>" type="checkbox" value=""><label for="contact<%=f%>">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Contacts</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt groupRowLeft" style="border:none; display:none;">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="group" onclick="selectedGroup()"><input id="group" name="group" type="checkbox" value=""><label for="group">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Groups</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="contactNamesRow">
+                        <div class="lt contactRowLeft" id="contactList_<%=f%>">
+                          <table cellpadding="0" cellspacing="" border="0">
+			  
+		<%if @contact.present? && !@contact.nil?%>
+				  <%@contact.each do |cont_user|%>
+				    <tr>
+				<%if @activity_settings !="" && !@activity_settings.nil? && @activity_settings.present?%>
+				<%if !@activity_settings[@s_i].nil? && !@activity_settings[@s_i].contact_user.nil?%>
+					<% selected_list = (@activity_settings[@s_i].contact_user).split(",") if !@activity_settings[@s_i].contact_user.nil? && @activity_settings[@s_i].contact_user!='' %>
+						      <%  if !@activity_settings[@s_i].contact_user.nil? && @activity_settings[@s_i].contact_user!=''%> 	 
+								<%if !selected_list.nil? && selected_list!=""%>
+									<% if selected_list.include?("#{cont_user.contact_id}") %>	
+											<% @chk_value = "checked" %>	
+									<% else %>	
+										<% @chk_value = "" %>	
+									<% end %> 
+								<%end%>
+						   <% else %>	  			   
+								<% @chk_value = "" %>			
+						    <%end%>
+					<%end%>
+				<%end%>
+				      <td class="contactFr"><input id="c<%=contact_inc%>" name="c<%=contact_inc%>" type="checkbox"  <%= @chk_value %> value="<%=cont_user.contact_id if !cont_user.contact_id.nil? && !cont_user.nil?%>">
+				     <label class="altCheckboxOff" for="c<%=contact_inc%>">&nbsp;</label>
+			
+				  </td>
+				
+				      <td><p class="checkboxCont">
+				     <%=cont_user.contact_name if !cont_user.nil? && !cont_user.contact_name.nil?%></p></td>
+				    </tr>
+				<%contact_inc=contact_inc+1%>
+				<%end%>   
+		<%else%>
+		No Contacts.
+		<%end%>
+                          </table>
+                        </div>                      
+                      </div>
+		<%if @contact.present? && !@contact.nil?%>
+                      <div class="buttonRow">
+                        <a href="javascript:void(0)" title="" class="lt" id="save_<%=f%>" onclick="addcontactnames('<%=f%>',this.id,'<%=v_to%>')">
+                           <%= image_tag("/assets/settings/popup_save_button.png", size:"67x32")%>
+                        </a>
+                      </div>
+		<%end%>
+                    </div>
+                    <div class="bottomBox"></div>
+                  </div>
+		  </div>
+		   </div>
+		   
+		   <% if s_name.social_flag==TRUE && s_name.social_flag!="" && !s_name.social_flag.nil? && !s_name.nil?%>
+			<div class="lastSettingDiv">
+					<%if @activity_settings !="" && !@activity_settings.nil? && @activity_settings.present?%>
+						<% if !@activity_settings[@s_i].nil? && @activity_settings[@s_i ].social_id!="" && !@activity_settings[@s_i ].social_id.nil?%>
+						<input type="hidden" id="social_id_<%=v_to%>" name="social_id_<%=v_to%>" value="<%=@activity_settings[@s_i ].social_id if @activity_settings[@s_i ].social_id!="" && !@activity_settings[@s_i ].social_id.nil?%>"/>
+						<%else%>
+						<input type="hidden" id="social_id_<%=v_to%>" name="social_id_<%=v_to%>" value=""/>
+						<%end%>
+					<%else%>
+					<input type="hidden" id="social_id_<%=v_to%>" name="social_id_<%=v_to%>" value=""/>
+					<%end%>
+					<%@social.each do |social_img|%>
+						<div class="lt social" style="width:70px;">
+						          <div>     
+							<%if @activity_settings !="" && !@activity_settings.nil? && @activity_settings.present?%>
+								<%  if !@activity_settings[@s_i].nil? && !@activity_settings[@s_i].social_id.nil? && @activity_settings[@s_i].social_id!=''%> 	
+									<% selected_list_fb = (@activity_settings[@s_i].social_id).split(",") if !@activity_settings[@s_i].social_id.nil? && @activity_settings[@s_i].social_id!='' %>
+									<% if selected_list_fb.include?("#{social_img.social_id}") %>	
+									<% @chk_value = "checked" %>	
+									<% else %>	
+									<% @chk_value = "" %>	
+									<% end %> 
+								<% else %>	  			   
+								<% @chk_value = "" %>			
+								<%end%>
+							<%end%>
+									  <input id="row<%=r_d%>" name="row" type="checkbox" <%= @chk_value %> value="facebook"/>
+									  <span id="chk_span" class="checkboxImg" onclick="get_fb_value('<%=r_d%>','<%=social_img.social_id%>')"><label id="s<%=r_d%>" class="altCheckboxoff" for="row<%=r_d%>">&nbsp;</label></span>
+								  </div>
+							<div><%= image_tag social_img.social.url(:small) if !social_img.social.url.nil? %></div>
+						</div>
+						<%r_d=r_d+1%>
+					<%end%>
+			
+				</div>
+		<%end%><!--flag end-->
+				<div class="clear"></div>
+				
+		</div>
+		<%f=f+1%>
+		<%s_v=s_v+1%>
+		<%s_vid=s_vid+2%>
+		<%s_vid=s_vid+1%>
+		<%v_to=v_to+1%>
+		<% @s_i=@s_i +1  %>
+	  <%end%>
+				
+				<!--save button here-->
+				<div class="lt" style="margin-left:28px;"> 
+				<input type="image" src="/assets/settings/save_button.png" width="113" height="41" alt="" />
+
+				<!--<a href="javascript:void(0)" onClick="clearpasswordfields()" onkeydown="cancelActivityClearData(event)"><img src="/assets/settings/cancel_button.png"  width="113" height="41" alt="" /></a>-->
+				</div>
+				<div class="clear"></div>
+				<!--save button div end-->
+		</form>
+		
+		
+		<div class="setdividerImage"></div>
+		
+		<!-- Block User Part -->
+			 <div class="block_user_div">
+			  <form name="block_user" id="block_user" action="/blocked_user" method="post" data-remote="true">
+			  <div class="Title" style="margin-left:-15px"><b>Block Users</b></div>
+			     <div class="inner_block">
+			     	<p class="block_text">Once you block someone, that person can no longer interact with you on Famtivity.</p>
+				
+				<div class="paddingTop10_settings">
+				<div class="lt leftSideField">&nbsp;</div>
+				<!--successful message -->
+				<div class="block_user_info" style="display:none;color:green;">You have successfully blocked the user</div>
+				<div class="clear"></div>
+				</div>
+
+					<div class="formDiv">
+					
+					  <div style="padding-top:10px;">
+						<div class="lt leftSideField">Name</div>
+						<input type="text" name="block_name" value="" id="block_name" class="lt textbox_block" maxlength="25" />
+						<div class="clear"></div>
+					  </div>
+					  
+					  <div class="clear"></div>
+					  <div class="errorDiv" style="display:none">
+						<div class="lt leftSideField">&nbsp;</div>
+						<div class="lt" id="block_name_error"></div>
+						<div class="clear"></div>
+					  </div>
+					  <div class="clear"></div>
+					  
+					  <div style="padding-top:10px;">
+						<div class="lt leftSideField">Email</div>
+						<input type="text" name="block_email" value="" id="block_email" class="lt textbox_block" maxlength="25" />
+						<div class="clear"></div>
+					  </div>
+					  
+					  <div class="clear"></div>
+					  <div class="errorDiv" style="display:none">
+						<div class="lt leftSideField">&nbsp;</div>
+						<div class="lt" id="block_email_error"></div>
+						<div class="clear"></div>
+					  </div>
+					  <div class="clear"></div>
+					  
+					  <div style="padding-top:10px;">
+						<div class="lt leftSideField">&nbsp;</div>
+						<input type="image" src="/assets/settings/block_button.png" width="73" height="35" alt="" />
+						<div class="clear"></div>
+					  </div>
+					
+					</div>
+				 </div>
+				 </form>
+			  </div>
+		
+		<!--change password part-->
+		
+    <div class="dottedDiv" style="position:relative; margin-top:23px;"> 
+          <div class="Title" id="sharedText"><b>Change Password</b></div>
+	  </div>
+		
+ <div class="top_info_text" style="width:829px; margin:0;">
+  <div id="change_password">
+    <input id="pwd" name="pwd" type="hidden" value="<%=  Base.decode64("#{current_user.user_password}")%>" />
+    <form name="change_password_form" id="change_password_form" action="/update_userpassword" method="post" data-remote="true">
+
+      <div class="paddingTop10_settings" style="width:829px;">
+       
+        <div class="clear"></div>
+      </div>
+      <div class="paddingTop10_settings"></div>
+      <div class="paddingTop10_settings"></div>
+      <div class="paddingTop10_settings">
+        <div class="lt leftSideField" style="margin-left:7px;">&nbsp;</div>
+        <div class="setLockBg">
+          <div style="float:left; display:inline-block;">
+             <%= image_tag("/assets/profile/privacy_lock.png")%>
+          </div>
+          <div class="lock_text" align="center">To Change your password, enter your current password in the field below</div>
+        </div>
+        <div class="clear"></div>
+      </div>
+
+
+      <div class="paddingTop10_settings">
+        <div class="lt leftSideField">&nbsp;</div>
+        <!--successful message -->
+        <div class="success_update_info" style="display:none;color:green;">Your password was successfully updated</div>
+        <div class="clear"></div>
+      </div>
+
+      <div class="paddingTop10_settings">
+        <div class="lt leftSideField" style="margin-left:6px;">Current Password</div>
+        <input type="password" name="user_password" id="current_password" value="" class="lt textbox" maxlength="25" onfocus="if(this.value == ''){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value=''}"/>
+        <div class="clear"></div>
+      </div>
+
+      <div class="clear"></div>
+      <div class="errorDiv" style="display:none">
+        <div class="lt leftSideField" style="margin-left:21px;">&nbsp;</div>
+        <div class="lt" id="current_password_error"></div>
+        <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+
+      <div class="paddingTop10_settings">
+        <div class="lt leftSideField" style="margin-left:6px;">New Password</div>
+        <input type="password" name="new_pass" id="new_pass" value="" class="lt textbox" onfocus="if(this.value == ''){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value=''}"/>
+        <div class="clear"></div>
+      </div>
+
+      <div class="clear"></div>
+      <div class="errorDiv" style="display:none">
+        <div class="lt leftSideField" style="margin-left:21px;">&nbsp;</div>
+        <div class="lt" id="new_pass_error"></div>
+        <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+
+      <div class="paddingTop10_settings">
+        <div class="lt leftSideField" style="margin-left:6px;">Confirm New Password</div>
+        <input type="password" name="confirm_pass" id="confirm_pass" value="" class="lt textbox" maxlength="15" onfocus="if(this.value == ''){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value=''}"/>
+        <div class="clear"></div>
+      </div>
+
+      <div class="clear"></div>
+      <div class="errorDiv" style="display:none">
+        <div class="lt leftSideField" style="margin-left:21px;">&nbsp;</div>
+        <div class="lt" id="confirm_password_error"></div>
+        <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+      <div class="buttonDiv">
+        <div class="lt leftSideField" style="margin-left:20px;">
+          &nbsp;
+        </div>
+        <div class="lt"> 
+          <input type="image" src="/assets/settings/save_button.png" width="113" height="41" alt="" />
+
+          <a href="javascript:void(0)" onClick="clearpasswordfields()" onkeydown="cancelActivityClearData(event)">
+            <%= image_tag("/assets/settings/cancel_button.png", size:"113x41")%>
+          </a>
+        </div>
+        <div class="clear"></div>
+      </div>
+
+    </form>
+  </div>
+ <div style="height:20px;"></div>
+
+</div>
+
+	  <div class="clear"></div>
+<div class="clear"></div>
+
+
+</div>
+
+<script>
+
+//calling the ajax function when submiting the change-password form.
+//onSubmit="return change_password_validation()"
+$(document).ready(function() {
+    $('#change_password_form').submit(function (){
+    
+         var current_password= $("#current_password").val();
+      var new_password= $("#new_pass").val();
+      var confirm_password = $("#confirm_pass").val();
+      var pwd = $("#pwd").val();
+
+      $("#current_password").css("border","1px solid #BDD6DD");
+      $("#new_pass").css("border","1px solid #BDD6DD");
+      $("#confirm_pass").css("border","1px solid #BDD6DD");
+
+      $("#current_password_error").html("");
+      $("#new_pass_error").html("");
+      $("#confirm_password_error").html("");
+
+      $("#current_password_error").parent().css("display","none");
+      $("#new_pass_error").parent().css("display","none")
+      $("#confirm_password_error").parent().css("display","none");
+
+
+      var errorFlag = false;
+
+      $("#current_password").css("border","1px solid #CDE0E6");
+      $("#current_password_error").html("");
+      $("#current_password_error").parent().css("display","none");
+      $("#new_pass").css("border","1px solid #CDE0E6");
+      $("#new_pass_error").html("");
+      $("#new_pass_error").parent().css("display","none");
+      $("#confirm_pass").css("border","1px solid #CDE0E6");
+      $("#confirm_password_error").html("");
+      $("#confirm_password_error").parent().css("display","none");
+
+      current_password = current_password.replace(/^\s+|\s+$/g, "");
+      if(current_password == ""  || current_password =="password"){
+        $("#current_password").css("border","1px solid #fc8989");
+        $("#current_password_error").html("Please enter current password");
+        $("#current_password_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(current_password != pwd ){
+       // alert(pwd);
+        //alert(current_password);
+        $("#current_password").css("border","1px solid #fc8989");
+        $("#current_password_error").html("Please enter your correct current password");
+        $("#current_password_error").parent().css("display","block");
+        errorFlag = true;
+      }
+
+      new_password = new_password.replace(/^\s+|\s+$/g, "");
+      if(new_password == "" || new_password == "newpassword"){
+        $("#new_pass").css("border","1px solid #fc8989");
+        $("#new_pass_error").html("Please enter new password");
+        $("#new_pass_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(new_password.length<8){
+        $("#new_pass").css("border","1px solid #fc8989");
+        $("#new_pass_error").html("Must Have At least 8 Characters");
+        $("#new_pass_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(new_password == current_password){
+        $("#new_pass").css("border","1px solid #fc8989");
+        $("#new_pass_error").html("Your new password should be different");
+        $("#new_pass_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      confirm_password = confirm_password.replace(/^\s+|\s+$/g, "");
+      if(confirm_password == "" || confirm_password == "newpassword"){
+        $("#confirm_pass").css("border","1px solid #fc8989");
+        $("#confirm_password_error").html("Please enter confirm password");
+        $("#confirm_password_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(confirm_password != new_password){
+        $("#confirm_pass").css("border","1px solid #fc8989");
+        $("#confirm_password_error").html("Please enter the correct confirm password");
+        $("#confirm_password_error").parent().css("display","block");
+        errorFlag = true;
+      }
+
+      if(errorFlag){
+        return false;
+      }
+      else{
+       $.post($(this).attr('action'), $(this).serialize(), null, "script");
+       return false;
+      }
+    });
+    
+    //this function called when you submit the block form
+      $('#block_user').submit(function (){
+    
+   
+	  var block_name= $("#block_name").val();
+	  var block_email= $("#block_email").val();
+	  
+	  $("#block_name").css("border 1px solid #BDD6DD");
+	  $("#block_email").css("border 1px solid #BDD6DD");
+	  
+	  $("#block_name_error").parent().css("display","none");
+	  $("#block_email_error").parent().css("display","none");
+	  
+	  $("#block_name_error").html();
+	  $("#block_email_error").html();
+	  
+	  var errorFlag=false;
+	  
+	  if(block_name == ""){
+        $("#block_name").css("border 1px solid #fc8989");
+		$("#block_name_error").html("Please enter the name");
+		$("#block_name_error").parent().css("display","block");
+		errorFlag=true;
+      }
+	  
+	  else if(!validateName(block_name)){
+        $("#block_name").css("border 1px solid #fc8989");
+		$("#block_name_error").html("Please enter the name");
+		$("#block_name_error").parent().css("display","block");
+		errorFlag=true;
+      }
+	  
+	  if(block_email == ""){
+                $("#block_email").css("border 1px solid #fc8989");
+		$("#block_email_error").html("Please enter the email");
+		$("#block_email_error").parent().css("display","block");
+		errorFlag=true;
+      }
+	 else if(!validateCorrectEmail(block_email)){
+                $("#block_email").css("border 1px solid #fc8989");
+		$("#block_email_error").html("Please Check The Email Address Entered");
+		$("#block_email_error").parent().css("display","block");
+		errorFlag=true;
+      }
+	  if(errorFlag)
+	  {
+		  	return false;
+	  }
+	  else{
+		    $.post($(this).attr('action'), $(this).serialize(), null, "script");
+		    return false;
+		} 
+    });
+    
+     $('#settings').submit(function (){
+      $.post($(this).attr('action'), $(this).serialize(), null, "script");
+      return false;
+    });
+    
+  });
+</script>

@@ -1,0 +1,1102 @@
+<%=javascript_include_tag "global/checkbox","event_index/event_index","event_index/menu","event/provider_list_update","global/overlay/windowfiles/dhtmlwindow","global/overlay/modalfiles/modal","pagination","admin/admin"%>
+<%=stylesheet_link_tag "global/overlay/windowfiles/dhtmlwindow","global/overlay/modalfiles/modal","event_index/event_index","event/event","event_index/menu","admin/admin", :media => "all"%>
+
+<script type="text/javascript">
+
+  $(document).ready(function () {
+    selectAny();
+  });
+</script>
+<script type="text/javascript">
+
+  var newActivityPage;
+  var shareActivityPage;
+  var activityDetailsPage;
+  var addparticipantpage;
+  var editActivityPage;
+  var secureCheckoutPage;
+  var proceedCheckoutPage;
+  var shareActivityPagethank;
+  var activityDeletePage;
+  var embedPage;
+  var emailPage;
+  var activityDeletePageEmpty;
+ 
+
+
+  function pop_Activity_Detail(url){
+    activityDetailsPage = dhtmlmodal.open("Activity Detail ","iframe",url,"", "width=903px,height=960px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    /*	var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+     */
+    var pagewidth=$(window).width();
+    var conWidth=$("#new_act_container").width();
+    var pageHeight=$(window).width();
+    var conHeight=$("#new_act_container").width();
+    $("#new_act_container").css('position','relative');
+    $("#new_act_container").css('left',(parseInt(pagewidth -conWidth) / 2) + 'px');
+    return false;
+  }
+
+  function pop_email_Detail(url){
+    emailPage = dhtmlmodal.open("Activity Detail ","iframe",url,"", "width=903px,height=960px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+
+
+  function pop_embed_Detail(url){
+    embedPage = dhtmlmodal.open("Embed Activity ","iframe",url," ", "width=950px,height=960px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+  function pop_add_participant(url){
+    addparticipantpage = dhtmlmodal.open("Add Participant","iframe",url,"", "width=903px,height=370px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; border:1px solid red; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+
+  }
+
+  function pop_secure_checkout(url){
+    secureCheckoutPage = dhtmlmodal.open("Add Participant","iframe",url,"", "width=903px,height=570px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+
+  }
+
+  function pop_proceed_checkout(url){
+    proceedCheckoutPage = dhtmlmodal.open("proceed_to_checkout","iframe",url," ", "width=903px,height=570px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+  function pop_share_activity(url){
+    shareActivityPage = dhtmlmodal.open("Share Activity","iframe",url," ", "width=903px,height=650px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    var pagewidth=$(window).width();
+    var conWidth=$("#new_act_container").width();
+    var pageHeight=$(window).width();
+    var conHeight=$("#new_act_container").width();
+    $("#new_act_container").css('position','relative');
+    $("#new_act_container").css('left',(parseInt(pagewidth -conWidth) / 2) + 'px');
+
+    //set height for iframe div
+    /*   var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+        var pagewidth=$(window).width();
+        var conWidth=$(".drag-contentarea").width();
+        var pageHeight=$(window).width();
+        var conHeight=$(".drag-contentarea").width();
+    $(".drag-contentarea").css("position","relative");
+        $(".drag-contentarea").css('left',(parseInt(pagewidth -conWidth) / 2) + 'px');
+     */    return false;
+
+
+  }
+
+  function pop_new_activity(url){
+    newActivityPage = dhtmlmodal.open("Event New Activity","iframe",url," ", "width=950px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+  function pop_edit_activity(url){
+    editActivityPage = dhtmlmodal.open("Edit Activity","iframe",url," ", "width=950px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+  function pop_share_activity_thank(url){
+    shareActivityPagethank = dhtmlmodal.open("Share Activity","iframe",url," ", "width=903px,height=570px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+  function pop_delete_activity(url){
+    activityDeletePage = dhtmlmodal.open("Delete Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+  function pop_delete_activity_empty(url){
+    activityDeletePageEmpty = dhtmlmodal.open("Delete Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+
+
+  function raise_a_flag(activity_id,rais_val){
+    var report = document.getElementById('raiseFlag_'+ activity_id).value;
+    var view = $("#view_det").val();
+
+    $.ajax({
+      type: "POST",
+      url: "admin/raise_flag_update",
+      data: {
+        "view":view,
+        "approve":rais_val,
+        "desc":report,
+        "activity_id":activity_id
+      },
+      success: function(data){
+
+      },
+      dataType: "json"
+    });
+
+    document.getElementById('raise_popup_'+ activity_id).style.display="none";
+    if ((rais_val==true) || (rais_val =="true")){
+      $('#approve_'+activity_id).replaceWith('<span id="approve_'+activity_id+'"><img src="/assets/admin/tig_image.png" class="tig_image"><span class="ftSz12" style="left: 4px; position: relative; top: 6px;vertical-align: top;">Approved</span></span>');
+      $('#raised_'+activity_id).replaceWith('<span id="raised_'+activity_id+'"><a href="javascript:void(0)" id='+activity_id+' title="" style="margin-left:9px;" onclick="showPop('+activity_id+','+activity_id+');"><img src="/assets/admin/raise_a_flag_button.png"></a></span>');
+    }else{
+      $('#approve_'+activity_id).replaceWith('<span id="approve_'+activity_id+'"><img src="/assets/admin/approve_button.png" onclick="raise_a_flag('+activity_id+',true);"></span>');
+      $('#raised_'+activity_id).replaceWith('<span id="raised_'+activity_id+'"><img src="/assets/admin/tig_image.png" class="tig_image"><span class="ftSz12" style="left: 4px; position: relative; top: 6px;vertical-align: top;">Raised</span></span>');
+    }
+  }
+
+
+
+  function raise_a_flag_provider(user_id,raise_val){
+    $.ajax({
+      type: "POST",
+      url: "admin/raise_flag_provider_update",
+      data: {
+        "approve":raise_val,
+        "user_id":user_id
+      },
+      success: function(data){
+
+      },
+      dataType: "json"
+    });
+
+    if ((raise_val==true) || (raise_val =="true")){
+      $('#user_approve_'+user_id).html('<span><a href="javascript:void(0)" title="" onclick="raise_a_flag_provider('+user_id+',false)"><img  src="/assets/admin/raise_a_flag_button.png"></a></span>');
+    }else{
+      $('#user_approve_'+user_id).html('<span><a href="javascript:void(0)" title="" onclick="raise_a_flag_provider('+user_id+',true)"><img  src="/assets/admin/approve_button.png"></a></span>');
+    }
+  }
+
+  function before_delete_all(del){
+    a = $("#actid_chk").val();
+    if (a=='')
+    {
+      pop_delete_activity("/admin/delete_activity?id="+a+"&prop="+del)
+    }
+    else
+    {
+      var a;
+      pop_delete_activity("/admin/delete_activity?id="+a+"&prop="+del)
+    }
+  }
+
+  function filter_by_admin_date(){
+    var date_from = $("#act_from_alt").val();
+    var date_to = $("#act_to_alt").val();
+    var view = $("#view_det").val();
+    if (Date.parse(date_from) > Date.parse(date_to)) {
+      $(".topContainer").css('height','70px');
+      $("#dateError").show();
+      $("#dateError").html("Invalid date range. Start date cannot be after end date.");
+      return false;
+    }
+    else{
+      $(".topContainer").css('height','40px');
+      $("#dateError").hide();
+      $("#dateError").html("");
+
+      $.get("admin/index_update",{
+        "view":view,
+        "date_from":date_from,
+        "date_to":date_to,
+        "cat_zc":"date"
+      }, null, "script");
+    }
+  }
+
+  function filter_by_admin_date1(){
+    var cret_date =   $("#cre_date_alt").val();
+    var view = $("#view_det").val();
+    $.get("admin/index_update",{
+      "view":view,
+      "cat_zc":"created_date",
+      "date_from":cret_date
+    }, null, "script");
+  }
+
+
+  function filter_by_admin_category(cat){
+    var view = $("#view_det").val();
+    $.get("admin/index_update",{
+      "view":view,
+      "cat":cat,
+      "cat_zc":"category"
+    }, null, "script");
+
+  }
+  function setCategory(cat){
+    var len = cat.length;
+
+    for(var i=0;i<len;i++){
+      if(len<25){
+        $('#filter_by_admin_sub_category_name').html(cat);
+      }
+      else{
+        var val = cat.slice(0,24)
+        var value = val+"...";
+        $('#filter_by_admin_sub_category_name').html(value);
+      }
+    }
+  }
+
+  function filter_admin_state(category,idinc)
+  {
+    var view = $("#view_det").val();
+    $.get("admin/index_update",{
+      "view":view,
+      "city":category
+    }, null, "script");
+    $("#city_value").html(category);
+    $('#event_index_container .headerPart1 ul.dropdown ul').css('visibility','hidden');
+    $('#event_index_container .headerPart1 ul.dropdown ul .description span').addClass('off');
+    $('#event_index_container .headerPart1 ul.dropdown ul .description span#st_'+idinc).removeClass('off');
+    $('#event_index_container .headerPart1 ul.dropdown ul .description span#st_'+idinc).addClass('on');
+    $("#setActivity").html('All Activity');
+    $(".actDiv").css('width','85px');
+    $("#filter_admin_category").css('display','none');
+    $("#filter_admin_date").css('display','none');
+    $("#filter_admin_date1").css('display','none');
+  }
+
+  function filter_admin()
+  {
+    var view = $("#view_det").val();
+    $.get("admin",{"view":view}, null, "script");
+    $("#city_value").html(category);
+    $('#event_index_container .headerPart1 ul.dropdown ul').css('visibility','hidden');
+    $('#event_index_container .headerPart1 ul.dropdown ul .description span').addClass('off');
+    $('#event_index_container .headerPart1 ul.dropdown ul .description span#st_'+idinc).removeClass('off');
+    $('#event_index_container .headerPart1 ul.dropdown ul .description span#st_'+idinc).addClass('on');
+    $("#setActivity").html('All Activity');
+    $(".actDiv").css('width','85px');
+    $("#filter_admin_category").css('display','none');
+    $("#filter_admin_date").css('display','none');
+    $("#filter_admin_date1").css('display','none');
+
+  }
+  function ndisp_provider(){
+    $("#providers").css('display','none');
+    $("#curators").css('display','none');
+  }
+  function disp_provider(){
+    $("#providers").css('display','block');
+    $("#curators").css('display','none');
+  }
+  function disp_curator(){
+    $("#providers").css('display','none');
+<%if !@curator_by.nil? && @curator_by.present? %>
+      $("#curators").css('display','block');
+<%end%>
+  }
+  
+  
+  /*Curators sub menu*/
+
+<%if !@curator_by.nil? && @curator_by.present? %>
+    $(function(){
+      $('.by_curator').hover(function (){
+        $("#curators").css('display','block');
+        $(".dispProviderActivityDiv").css('display','block');
+      });
+    });
+    $(function(){
+      $('#curators').hover(function (){
+        $('.actDivMenu ul li a:first').addClass('selectedActDiv');
+      }, function(){
+        $('.actDivMenu ul li a:first').removeClass('selectedActDiv');
+        $(".dispProviderActivityDiv").css('display','none');
+      });
+    });
+    $(function(){
+      $('#activity').hover(function (){
+        $(".dispProviderActivityDiv").css('display','block');
+      }, function(){
+        $(".dispProviderActivityDiv").css('display','none');
+      });
+    });
+<%end%>
+  
+  //show raise flag popup
+  function showPop(num,val){
+    if(val == num){
+      $('#raise_popup_'+val).css("display","block");
+    }
+    else{
+      $('#raise_popup_'+val).css("display","none");
+    }
+  }
+
+  /*  $(document).ready(function() {
+
+$(".textarea_admin").change(function(){
+
+var value = $(this).val();
+
+alert(value);
+
+});
+
+});
+   */  //ajax call function for searching the data for admin use
+
+function admin_search_ajax_call()
+  {
+    var search_text= $("#event_search").val()
+    var view = $("#view_det").val();
+    $('#loadingmessage').show();
+    $.ajax({
+      url: "/search_admin_index",
+      data: {
+          "view":view,
+          "search_text_admin": search_text
+        },
+      dataType: "script"
+    });
+    }
+
+
+function keypress(e) {
+    var evt = (evt) ? evt : ((event) ? event : null);
+    var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+    if ((evt.keyCode == 13)  &&  (node.id=="event_search"))  {
+      admin_search_ajax_call();
+      return false;
+    }
+    // other stuff
+}
+
+  function search_ajax_call()
+  {
+    var search_text= $("#event_search").val()
+    var view = $("#view_det").val();
+
+    $('#loadingmessage').show();
+    $.get("/search_admin_index",{
+      "view":view,
+      "search_text_admin": search_text
+    }, function(data){
+      $('#loadingmessage').hide();
+    }, "script");
+  }
+
+  //this function called while click the enter button for search the data..
+  function enter_key_press_for_search(evt) {
+    var evt = (evt) ? evt : ((event) ? event : null);
+    var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+    if ((evt.keyCode == 13)  &&  (node.id=="event_search"))  {
+      admin_search_ajax_call();
+      return false;
+    }
+  }
+  document.onkeypress =  enter_key_press_for_search; //calling the function while press the enter key...
+
+</script>
+<style>
+  #providerEventList{
+    background:#F6F8F7;
+  }
+  #providerEventList .topContainer .leftMenus{
+    /* width:100%;*/
+  }
+  #providerEventList .topContainer span.num_Act{
+    color: #807E7E;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    position: relative;
+    top: 0px;
+    left:6px;
+    .top: 2px;
+  }
+  @media \0screen{
+    #providerEventList .topContainer span.num_Act{
+      top: 0px;
+    }
+  }
+  #providerEventList .topContainer .pipeSymbol{
+    position:static;
+    vertical-align:inherit;
+    .position:relative;
+    .top:-1px;
+    vertical-align:inherit;
+  }
+  #menu {
+    display: inline-block;
+    position: relative;
+    top: 4px;
+    .top: -3px;
+    left:10px;
+  }
+  .dateDiv{
+    display: inline-block;
+    position:relative;
+    width:100px;
+    height:29px;
+    padding:0px 5px 0px 5px;
+    border:1px solid #CDE0E6;
+    background:#F6F8F7;
+  }
+  .dateTextbox{
+    display: inline-block;
+    float:left;
+    width:70px;
+    .width:67px;
+    height:16px;
+    color:#959292;
+    font-size:13px;
+    margin-top:5px;
+    outline:none;
+    overflow: hidden;
+    border:1px solid #F6F8F7;
+    background:#F6F8F7;
+  }
+  .StrtDte{
+    float: left;
+    display: inline-block;
+    height:31px;
+  }
+  .StrtTxt{
+    float: left;
+    display: inline-block;
+    font-size: 13px;
+    color: #959292;
+    margin-top: 7px;
+  }
+  .ToTxt{
+    font-size: 15px;
+    color: #626262;
+    display:inline-block;
+    padding:0 5px 0 5px;
+  }
+  .CalenderDiv{
+    width: 297px;
+    float: left;
+    display:inline-block;
+    .margin-top:6px;
+  }
+  @media \0screen{
+    .CalenderDiv{
+      margin-top:3px;
+    }
+    #field{
+      float:none;
+    }
+  }
+
+  .setColor{
+    color:#4c92b4;
+  }
+  #filter_admin_category{
+    .margin-top:8px;
+  }
+  #providerEventList .topContainer .event_search{
+    width:190px;
+  }
+  #providerEventList .topContainer .searchDiv{
+    width:280px;
+  }
+  #providerEventList .topContainer .checkboxImg{
+    top:5px;
+    .top:7px;
+  }
+  .dispProviderCatDiv{
+    width: 700px;
+  }
+  .eventmoreContainer .centerContainer{
+    width: 700px;
+  }
+  .eventmoreContainer .innerContainer{
+    width: 700px;
+  }
+  #acc #nested .accDiv{
+    width: 688px;
+  }
+  #acc #nested .accDiv h3{
+    width: 680px;
+  }
+  #acc #nested .acc-content{
+    width: 661px;
+  }
+  #acc #nested .acc-content .inner_acc-content{
+    width:203px;
+  }
+  #providerEventList .topContainer .menuText{
+    font-weight:bold;
+  }
+  #acc #nested .acc-content{
+    height: 96px;
+  }
+  #acc #nested .acc-content .inner_acc-content{
+    height:26px;
+    margin:0;
+  }
+  #event_index_container .Setlt{
+    height:auto;
+    margin:0;
+  }
+  #event_index_container .grayColorText{
+    color: #807E7E;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight:normal;
+  }
+  #event_index_container .setSportsText{
+    cursor:pointer;
+    width:auto;
+    margin: 15px 0;
+  }
+  #event_index_container .setSportsText:hover{
+    cursor:pointer;
+    width:auto;
+    margin: 15px 0;
+  }
+  #event_index_container .errorDiv{
+    margin:5px 0 0 10px;
+    color:#fc8989;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+  }
+  #event_index_container .provider_menu{
+    float:left;
+    height:240px;
+    overflow-y:auto;
+    margin: -37px 0 0 140px;
+    font-size:13px;
+    background:#F6F8F7;
+    color:#959292;
+    border:1px solid #C2DDE4;
+    padding: 10px 10px 0 0;
+  }
+  #event_index_container .curator_menu{
+    float:left;
+    height:240px;
+    overflow-y:auto;
+    margin: -62px 0 0 140px;
+    font-size:13px;
+    background:#F6F8F7;
+    color:#959292;
+    border:1px solid #C2DDE4;
+    padding: 10px 10px 0 0;
+  }
+  #event_index_container .provider_menu a,
+  #event_index_container .curator_menu a{
+    color:#959292;
+    display:block;
+    white-space: nowrap;
+    text-decoration:none;
+    padding:5px 10px 5px 8px;
+  }
+  #event_index_container .provider_menu a:hover,
+  #event_index_container .curator_menu a:hover{
+    display:block;
+    white-space: nowrap;
+    text-decoration:none;
+    padding:5px 10px 5px 8px;
+    color:#F97C0E;
+  }
+  @media \0screen{
+    #menu {
+      top: 4px;
+    }
+  }
+  #providerEventList .topContainer{
+    width:100%;
+    height:40px;
+    background:#F6F8F7;
+    padding-top:10px;
+    margin-top: -20px;
+    .margin-top:0px;
+  }
+  #menu li:hover ul.sub-menu {
+    display: block;
+    z-index: 2147483647;
+    position: absolute;
+    left: 0;
+    width: auto;
+  }
+  #event_index_container .GoButton{
+    left: 7px;
+    top: 2px;
+  }
+  .actionDiv{
+  margin: 0px !important;
+}
+#menu ul.sub-menu{
+  margin: 0 !important;
+}
+.pipeSymbol ul li a.actDiv{
+  margin: 0 !important;
+}
+
+</style>
+
+
+<!--autocomplete-->
+<%=javascript_include_tag "auto_complete/jquery-1.8.3","auto_complete/jquery-ui"%>
+<!--thils style for search box width fixed-->
+<style>
+  #ui-id-1 {
+    width:200px;
+    overflow: hidden;
+  }
+</style>
+<script>
+  var availableTags=new Array();
+<%if !@activities.nil?%>
+  <%@activities.each do |auto_complete|%>
+      availableTags.push('<%= auto_complete.activity_name %>');
+  <%end%>
+<%end%>
+
+  //$(function() {
+  //$( "#event_search" ).autocomplete({
+  //source: availableTags,
+  //maxRows: 12
+  //});
+  //});
+
+  //this funtion for autocomplete while entered the text by the user dont remove this by rajkumar
+  /*$(function() {
+    $( "#event_search" ).autocomplete({
+      minLength: 1,
+      source: function(request, response) {
+        var results = $.ui.autocomplete.filter(availableTags, request.term);
+        response(results.slice(0, 8));
+      }
+    });
+  });*/
+
+  //clear autocomplete input..
+  function clearAutoCompleteInput() {
+    $("#event_search").val('');
+  }
+</script>
+<!--mac fix-->
+<%=javascript_include_tag "event_index/macfix","event_index/jquery.dropdownPlain","create_new_activity/jquery.ui.core","create_new_activity/jquery.ui.datepicker","event_more/menu"%>
+<%=stylesheet_link_tag "create_new_activity/jquery.ui.theme","create_new_activity/jquery.ui.datepicker", :media => "all"%>
+
+<script language="javascript">
+
+  $(function() {
+    $("#act_from").datepicker({
+      showOn : "button",
+      buttonImage : "/assets/create_new_activity/date_icon.png",
+      buttonImageOnly : true,
+      dateFormat : "m/d/yy",
+      altField : "#act_from_alt",
+      altFormat : "yy-m-d"
+    });
+  });
+  $(function() {
+    $("#act_to").datepicker({
+      showOn : "button",
+      buttonImage : "/assets/create_new_activity/date_icon.png",
+      buttonImageOnly : true,
+      dateFormat : "m/d/yy",
+      altField : "#act_to_alt",
+      altFormat : "yy-m-d"
+    });
+  });
+  $(function() {
+    $("#cre_date").datepicker({
+      showOn : "button",
+      buttonImage : "/assets/create_new_activity/date_icon.png",
+      buttonImageOnly : true,
+      dateFormat : "m/d/yy",
+      altField : "#cre_date_alt",
+      altFormat : "yy-m-d"
+    });
+  });
+
+  var curTime = new Date();
+  var cdate = curTime.getDate();
+  var cmonth = curTime.getMonth();
+  var cyear = curTime.getFullYear();
+  cmonth = parseInt(cmonth) + 1;
+  var weekday = new Array(7);
+  weekday[0] = "Sun";
+  weekday[1] = "Mon";
+  weekday[2] = "Tue";
+  weekday[3] = "Wed";
+  weekday[4] = "Thu";
+  weekday[5] = "Fri";
+  weekday[6] = "Sat";
+  var cday = curTime.getDay();
+  var incval = parseInt(cday) + 1;
+  var cday = weekday[cday];
+
+  //var cuday = cday + " " + cmonth + "/" + cdate + "/" + cyear;
+  var cuday = cmonth + "/" + cdate + "/" + cyear;
+  var date_value = cdate + "-" + cmonth + "-" + cyear;
+
+
+  $('#act_from').val(date_value);
+  $('#act_from_alt').val(cuday);
+  $('#act_to').val(date_value);
+  $('#act_to_alt').val(cuday);
+
+
+  $('#cre_date').val(date_value);
+  $('#cre_date_alt').val(cuday);
+
+</script>
+<body id="CategoriesBarPage">
+
+  <div id="event_index_container"><input type="hidden" id="view_det" value="gallery">
+<!--form id="event_more" name="event_more" action="#"-->
+    <form name="provider_event_list" id="provider_event_list" style="margin-top:70px;">
+      <div id="providerEventList">
+        <div class="topContainer">
+          <table cellspacing="0" cellpadding="0" border="0" width="99%" style="position:absolute; z-index:1;">
+            <tr>
+              <td align="left" width="18%" height="40" nowrap>
+                <table cellpadding="0" cellspacing="0">
+                  <tr>
+                    <!--                  <td nowrap width="98">
+                                        <div class="setMTop1">
+                                          <input type="hidden" name="pe" id="pe" value="0" />
+                                          <span  class="checkboxImg" style="margin-left:10px;">
+                                            <a href="javascript:void(0)" title="" id="select" onClick="selectAny('select',0)" style="display: none"><img src="/assets/provider_event_list/top_checkbox_selected.png" alt=""/></a>
+                                            <a href="javascript:void(0)" title="" id="not_select" onClick="selectAny('not_select',1)" ><img src="/assets/provider_event_list/top_checkbox_normal.png" alt=""/></a>
+                                          </span>
+                                          <span class="menuText setLt setColor setMoz"><b>Select All</b></span>
+                                        </div>
+                                      </td>
+                                      <td nowrap>
+                                        <div class="setMTop2" style="display:none;"><span class="pipeSymbol">|</span></div>
+                                      </td>-->
+                    <td nowrap width="80">
+                      <span class="pipeSymbol">
+                        <div id="menu" class="actionDivMenu">
+                          <ul>
+                            <li><a href="#" class="actionDiv menuText"><b>Action</b><span class="actImg"><img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/></span></a>
+                              <ul class="sub-menu dispProviderActionDiv" style="height:64px;z-index:100000;">
+                                <li><a href="#" onClick="before_delete_all('to_delete')" style="padding-top:10px;" >Delete</a></li>
+                                <li><a href="javascript:void(0)" title="" id="select" onClick="before_delete_all('featured')">Make as Featured</a></li>
+                              </ul>
+                            </li>
+                          </ul>
+                          <div class="clear"></div>
+                        </div>
+                      </span>
+                    </td>
+                    <td id="activity" width="100" align="left">
+                      <span class="pipeSymbol">
+                        <div class="actDivMenu" id="menu">
+                          <ul>
+                            <li><a style="width:85px;display:block;.top:-2px;height:20px;margin-top:0px;" class="actDiv" href="#" onmouseover="ndisp_provider()"><span class="menuText"><b id="setActivity">All Activity</b></span><span class="actImg"><img width="7" height="4" style=" position: relative; top: -1px;" alt="" src="/assets/event_index/dropdown_arrow.png" id="arrow1"></span></a>
+                              <ul style="width:140px;height:auto !important;z-index:100000;" class="sub-menu dispProviderActivityDiv">
+                                <li><a href="javascript:void(0)" title="" id="select" onClick="activity_admin('approve')" onmouseover="ndisp_provider()">Provider Card</a></li>
+                                <li><a href="javascript:void(0)" title="" id="select" onClick="activity_admin('activity')" onmouseover="ndisp_provider()">All Activity</a></li>
+                                <li><a href="javascript:void(0)" title="" id="select" onClick="activity_admin('category')" onmouseover="ndisp_provider()">By Category</a></li>
+                                <li><a href="javascript:void(0)" title="" id="select" onClick="activity_admin('date')" onmouseover="ndisp_provider()">By Date</a></li>
+                                <li><a href="javascript:void(0)" title="" id="select" onClick="activity_admin('created_date')" onmouseover="ndisp_provider()">By Created Date</a></li>
+                                <li><a href="javascript:void(0)" title="" id="select" onClick="activity_admin('next_7_days')" onmouseover="ndisp_provider()">Next 7 days</a></li>
+                                <li><a href="javascript:void(0)" title="" id="select" onClick="activity_admin('approved')" onmouseover="ndisp_provider()">Approved</a></li>
+                                <li><a href="javascript:void(0)" title="" id="select" onClick="activity_admin('unapproved')" onmouseover="ndisp_provider()">UnApproved</a></li>
+                                <li><a href="javascript:void(0)" title="" id="select" class="by_curator" onClick="activity_admin('by_curator')" onmouseover="ndisp_provider()">By Curator</a></li>
+                                <!--<li><a href="javascript:void(0)" title="" id="select" class="by_provider"  onmouseover="disp_provider()">By Provider</a></li>-->
+                                <li><a href="javascript:void(0)" title="" id="select" class="by_provider" onClick="activity_admin('by_provider')" onmouseover="ndisp_provider()">By Provider</a></li>
+
+
+                              </ul>
+                            </li>
+                          </ul>
+                          <div class="clear"></div>
+                        </div>
+                      </span>
+                    </td>
+
+                    <td nowrap="">
+                      <div style="display:none;width:250px;" id="filter_by_provider">
+                        <div class="catDivMenu" id="menu" style=".margin-left:35px;display:block;top: 0px;">
+                          <select name="provider_list" id="provider_list_view" style="opacity: 1;padding: 0px;position: inherit;width: 200px;border:solid 1px;" onChange="activity_provider()">
+                            <option value=""> </option>
+                            <%if !@provider_by.nil? %>
+                              <%@provider_by.each do |pr|%>
+                                <option value="<%= pr.user_id %>"><%= pr.email_address %></option>
+                              <%end%>
+                            <%end%>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="clear"></div>
+		<!--provider card approve and unapprove cards-->
+		 <div style="display:none;width:250px;" id="filter_by_provider_card_filter">
+                        <div class="catDivMenu" id="menu" style=".margin-left:35px;display:block;top: 0px;">
+                          <select name="provider_list" id="provider_card_view" style="opacity: 1;padding: 0px;position: inherit;width: 200px;border:solid 1px;" onChange="activity_provider_card()">
+			  <option value="select">--Select--</option>
+			  <option value="Approved">Approved</option>
+                                <option value="UnApproved">UnApproved</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div style="display:none;width:250px;" id="filter_by_curator">
+                        <div class="catDivMenu" id="menu" style=".margin-left:35px;display:block;top: 0px;">
+                          <select name="provider_list" id="curator_list_view" style="opacity: 1;padding: 0px;position: inherit;width: 200px;border:solid 1px;" onChange="activity_provider()">
+                            <option value=""> </option>
+                            <%if !@curator_by.nil? %>
+                              <%@curator_by.each do |pr|%>
+                                <option value="<%= pr.user_id %>"><%= pr.email_address %></option>
+                              <%end%>
+                            <%end%>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="clear"></div>
+
+                      <div class="pipeSymbol" style="display:none;width:198px;" id="filter_admin_category">
+                        <div class="catDivMenu" id="menu" style=".margin-left:35px;">
+                          <ul>
+                            <li><a class="catDiv" style="width:190px;" href="#"><b><span class="menuText" id="filter_by_admin_sub_category_name">Academics</span></b><span class="actImg"><img id="arrow1" src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px;" height="4" width="7"/></span></a>
+                              <ul class="sub-menu dispProviderCatDiv" style="height:auto;">
+                                <div class="eventmoreContainer">
+                                  <div class="centerContainer" style="margin-top:5px;" >
+                                    <div class="innerContainer">
+
+                                      <div id="Activity_acc" style=".margin-top:20px; ">
+                                        <ul class="acc" id="acc">
+                                          <li>
+                                            <div class="acc-section">
+                                              <div class="acc-content">
+                                                <ul class="acc" id="nested">
+                                                  <%ac = 1%>
+                                                  <%sc = 1%>
+                                                  <%if !@accordion.nil? %>
+                                                    <%@accordion.each do |s|%>
+                                                      <%if s.category !="Select" && !s.category.nil? && s.category !="select" && s.category !=""%>
+                                                        <li style="position:static;float:none;" class="acc<%=ac%>" onClick="setCategory('<%= s.category.capitalize %>')">
+                                                          <span id="acc<%=ac%>" class="accDiv" onClick="accDiv('<%=ac%>')">
+                                                            <h3><span class="lt setImgIconNormal"></span><p class="lt head"><%= s.category.capitalize %><font class="grayColorText">&nbsp;(<%= s.category_count %>)</font></p></h3>
+                                                          </span>
+                                                          <%@acc_sub =Activity.find_by_sql("SELECT DISTINCT lower(trim(sub_category)) as sub_category,count(sub_category) as sub_category_count FROM activities WHERE (lower(category)= lower('#{s.category}')) GROUP BY sub_category") %>
+                                                          <div class="acc-section" style="display:hidden;">
+                                                            <div class="acc-content scroll-pane">
+                                                              <%@acc_sub.each do |st|%>
+                                                                <!-- Second Title Cricket Inner Set -->
+                                                                <div class="inner_acc-content">
+                                                                  <div class="Setlt">
+                                                                    <div class="setSportsText grayColorText" onclick="filter_by_admin_category('<%= st.sub_category.capitalize%>')"><%= st.sub_category.capitalize%>&nbsp;(<%=  st.sub_category_count%>)</div>
+                                                                  </div>
+                                                                </div>
+                                                                <!-- Second Title Cricket End Inner Set -->
+                                                                <%sc = sc+1%>
+                                                              <%end%>
+                                                              <div class="clear"></div>
+                                                            </div>
+                                                          </div>
+                                                        </li>
+                                                        <%ac = ac+1%>
+                                                      <%end%>
+                                                    <%end%>
+                                                  <%end%>
+                                                </ul>
+                                              </div>
+                                            </div>
+                                          </li>
+                                        </ul>
+                                      </div>
+
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </ul>
+
+                            </li>
+                          </ul>
+                          <div class="clear"></div>
+                        </div>
+                      </div>
+                      <div class="clear"></div>
+                      <div class="pipeSymbol num_Act" id="filter_admin_date" style="display:none;width:332px;">
+                        <div class="CalenderDiv">
+                          <div class="StrtTxt ToTxt menuText">From</div>
+                          <div class="StrtDte">
+                            <div class="dateDiv">
+                              <input type="text"  id="act_from" name="act_from" class="dateTextbox" value="25/1/2013" readonly="readonly" style="margin-right:3px;" tabindex="61"/>
+                              <input type="hidden" id="act_from_alt" name="act_from_alt" value="2013-1-25"/>
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+                          <div>
+                            <div class="StrtTxt ToTxt menuText">To</div>
+                            <div class="StrtDte">
+                              <div class="dateDiv">
+                                <input type="text"  id="act_to" name="act_to" class="dateTextbox" value="31/1/2013" readonly="readonly" style="margin-right:3px;" tabindex="62"/>
+                                <input type="hidden" id="act_to_alt" name="act_to_alt" value="2013-1-31"/>
+                              </div>
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+                        </div>
+
+                        <div class="GoButton"><a href="javascript:void(0)" title="" onClick="filter_by_admin_date()"><img src="/assets/event_index/go_button.png" width="33" height="26" /></a></div>
+                        </span>
+                        <div class="clear"></div>
+                      </div>
+                      <div class="clear"></div>
+
+                      <div class="pipeSymbol num_Act" id="filter_admin_date1" style="display:none;width:150px;">
+                        <div class="CalenderDiv" style='width:111px;'>
+                          <div class="StrtDte">
+                            <div class="dateDiv">
+                              <input type="text"  id="cre_date" name="cre_date" class="dateTextbox" value="25/1/2013" readonly="readonly" style="margin-right:3px;" tabindex="61"/>
+                              <input type="hidden" id="cre_date_alt" name="cre_date_alt" value="2013-1-25"/>
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+                        </div>
+
+                        <div class="GoButton"><a href="javascript:void(0)" title="" onClick="filter_by_admin_date1()"><img src="/assets/event_index/go_button.png" width="33" height="26" /></a></div>
+                        </span>
+                        <div class="clear"></div>
+                      </div>
+                      <div class="clear"></div>
+                    </td>
+                    <td nowrap>
+                      <span class="pipeSymbol num_Act" id="no_of_users">No.of Activities&nbsp;:&nbsp;<span id="total_no_activities"><%= @act.length if @act%></span></span>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td nowrap>
+                <div>
+                  <div class="viewDivMenu" id="menu_view">
+                    <ul>
+                      <li><a style="width:48px;display:block;.top:-2px; margin-left:7px;" class="viewactDiv" href="#"><span class="menuText"><b id="setActivity">View</b></span><span class="actImg"><img width="7" height="4" style=" position: relative; top: -1px;" alt="" src="/assets/event_index/dropdown_arrow.png" id="arrow1"></span></a>
+                        <ul style="height:56px;margin-left:7px;z-index:100000;" class="submenu_view dispviewDiv">
+                          <li><a href="javascript:void(0)" title="" id="select" onClick="activity_admin_view('list'); _gaq.push(['_trackEvent','Admin Module', 'clickAdminSettings','List View']);">List View</a></li>
+                          <li><a href="javascript:void(0)" title="" id="select" onClick="activity_admin_view('gallery'); _gaq.push(['_trackEvent','Admin Module', 'clickAdminSettings','Thumbnail View']);">Thumbnail View</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </td>
+              <td align="right" height="40" nowrap>
+
+                <!--basic search for admin page-->
+
+                <div class="searchDiv" align="right">
+                   <div id='loadingmessage' style='display:none;margin-left: -10px;margin-top: 7px;position: absolute;' align="center">
+                      <img src='/assets/loading_small.gif'/>
+                    </div>
+                  <input type="text" id="event_search"  onChange="clearAutoCompleteInput()" name="event_search" value="" class="lt event_search" onkeypress="keypress(this.event)"/>
+                  <a href="#" onclick="admin_search_ajax_call()" class="lt" title=""><img src="/assets/header/search_icon.png" width="26" height="26" alt="" /></a><!-- <a href="#" onclick="search_ajax_call()" class="lt" title=""><img src="/assets/provider_event_list/arrow_search.png" width="30" height="26" alt="" /></a> -->
+                  <div class="clear"></div>
+                </div>
+              </td>
+            </tr>
+          </table>
+          <div id="dateError" class="errorDiv" style="display:none"></div>
+        </div>
+        <div class="centerContainer" id="provider_partial_event_list" >
+
+          <%= render :partial=>"admin_gallery_view" %>
+
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!--ajax loader -->
+ 
+  <!--  <div class="footer">
+      <div class="border"></div>
+      <div class="footerConts">&copy; Copyright 2012 famtivity Inc.</div>
+    </div>
+  --></body>
+<script type="text/javascript">
+  var nestedAccordion=new TINY.accordion.slider("nestedAccordion");
+  nestedAccordion.init("nested","h3",1,0,"acc-selected");
+</script>
+
+<script type="text/javascript">
+  // Initialize the plugin with no custom options
+  $(document).ready(function () {
+    // None of the options are set
+    $('#nested .acc1 #acc1 h3 span').addClass('setImgIconSelected');
+    $('#nested .acc1 #acc1 h3 span').removeClass('setImgIconNormal');
+  });
+</script>

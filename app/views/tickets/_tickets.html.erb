@@ -1,0 +1,138 @@
+<%=javascript_include_tag "global/checkbox"%>
+<script type="text/javascript">
+  $(document).ready(function () {
+  initARC('tickets','altCheckboxOn','altCheckboxOff');
+    selectAny();
+  });
+
+
+  function before_delete(a){ 
+    var a;
+    pop_delete_activity('/activities/delete_activity?id='+a)
+  }
+  
+  //get mutiple check box id and store to hidden field
+  function getchk_actid(curr_actid,span_)
+  {   
+    span_index=$(".checkboxImg").index(span_);
+    chk_staus=$(".checkboxImg:eq("+span_index+") label").attr('class');
+    if(chk_staus=="altCheckboxOn")
+    {
+      //add selected checkbox id
+      txt_id=$("#actid_chk").val();
+      if(txt_id=="")
+      { selected_ids=curr_actid;  }
+      else{ selected_ids=txt_id+","+curr_actid;   }
+      $("#actid_chk").val(selected_ids);
+    }
+    else
+    {
+      //remove the id
+      txt_id=$("#actid_chk").val();
+      selected_ids=txt_id.replace(curr_actid,'');
+      $("#actid_chk").val(selected_ids);
+      $('#select').css('display','none');
+      $('#not_select').css('display','inline-block');
+      $('#pe').val(0);
+
+    }
+  }
+</script>
+
+<form name="tickets" id="tickets">
+  <input type="hidden" id="actid_chk" name="actid_chk" value="" />
+
+    <div id="providerEventList" style="margin-top:46px;">
+      <div class="topContainer sponsorship">
+        <table cellspacing="0" cellspadding="0" border="0" width="100%">
+          <tr>
+            <td align="left" height="40">
+              <div class="leftMenus">
+                <span class="pipeSymbol">
+                  <div id="menu" class="actionDivMenu" style="top:-2px;">
+                    <ul>
+                     
+                    </ul>
+                    <div class="clear"></div>
+                  </div>
+                </span>
+              </div>
+            </td>
+            <td align="center" height="40">
+              <a href="#" class="menuText menuText1 selectedMenuText" title="">FamPass</a>
+              <span class="dot menuText">&bull;</span>
+              <a href="/accept_tickets" class="menuText menuText1" title="">Accept FamPass</a>
+            </td>
+            <td align="right" height="40"><div class="searchDiv"></div></td>
+        </tr>
+      </table>
+    </div>
+
+<div id="list" class="tickesViewPage">
+
+  <table cellspacing="0" cellspadding="0" border="0" width="100%">
+    <tr>
+      <td align="left" width="20%" class="headText setPadLt">Ticket Name</td>
+      <td align="left" width="80%" class="headText">Ticket Image</td>      
+    </tr>  
+  <%if !@activities.nil? && @activities!=""%>
+  <%i = 0%>
+  <%if @activities.length > 0 %>
+    <%@activities && @activities.each do |act|%>
+      <%i = i + 1%>
+      <%if i.even? %>
+        <tr class="setBg2">
+        <%else%>
+        <tr class="setBg1">
+        <%end%>
+    <%# @activities.each do |act| %>
+    
+    <tr class="setBg1">
+    <td align="left" width="20%" class="contentText setPadLt"><%= act.activity_name %></td>
+     
+    <td align="left" width="80%" class="contentText">
+      <a href="javascript:void(0)" onClick="pop_show_ticket('activities/<%=act.id%>')" title = "Click here to view the Ticket">
+       <div class="ticketContainer view_ticketType2">
+        <div class="row1 setbottomBorder">
+          <div class="lt col1 setOrgBg"><span class="whiteText"> <%=act.activity_schedule.last.start_date.strftime("%d %b") if !act.activity_schedule.last.start_date.nil?%>
+          </span>
+          </div>
+          <div class="lt col2 setOrgBg setleftBorder"><span class="whiteText"><%=act.activity_schedule.last.start_time.strftime("%I:%M%P") if !act.activity_schedule.last.start_time.nil?%></br>Start Time</span>
+          </div>
+          <div class="lt col3 setOrgBg setleftBorder"><span class="whiteText"><%=act.activity_schedule.last.end_time.strftime("%I:%M%P") if !act.activity_schedule.last.end_time.nil?%><br/>End Time</span>
+          </div>
+        </div>
+        <div class="row2 setOrgBg"><span class='actName'><%= act.activity_name %></span>
+        </div>
+        <div class="row3">
+          <%= image_tag("/assets/tickets/view_page_ticket_image2.png", size: "141x109")%>
+        </div>
+        <div class="clear">
+        </div>
+      </div>
+      </a>        
+    </td>
+    
+      </tr>
+    <%end%>
+
+    <%else%>
+      <tr class="setBg1">
+        <td width="40%" colspan="7" class="no_activities" style="text-align:center;height: 500px;">There are no activities.</td>
+      </tr>
+    <%end%>
+  
+  
+  <%else%>
+    <tr class="setBg1">
+      <td width="40%" colspan="7" class="no_activities" style="text-align:center;height: 500px;">There are no activities for searched results.</td>
+    </tr>
+  <%end%>
+</table>
+<div class="pro_pagination">
+
+  <%= will_paginate @activities%>
+  
+</div>
+
+  </form>

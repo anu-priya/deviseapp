@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Activity:</b>
+  <%= @activity_bid.activity_id %>
+</p>
+
+<p>
+  <b>Bid amount:</b>
+  <%= @activity_bid.bid_amount %>
+</p>
+
+<p>
+  <b>No clicks:</b>
+  <%= @activity_bid.no_clicks %>
+</p>
+
+<p>
+  <b>Total bid amount:</b>
+  <%= @activity_bid.total_bid_amount %>
+</p>
+
+<p>
+  <b>Balance budget:</b>
+  <%= @activity_bid.balance_budget %>
+</p>
+
+<p>
+  <b>City:</b>
+  <%= @activity_bid.city_id %>
+</p>
+
+<p>
+  <b>Userid:</b>
+  <%= @activity_bid.userid %>
+</p>
+
+<p>
+  <b>Bid status:</b>
+  <%= @activity_bid.bid_status %>
+</p>
+
+
+<%= link_to 'Edit', edit_activity_bid_path(@activity_bid) %> |
+<%= link_to 'Back', activity_bids_path %>

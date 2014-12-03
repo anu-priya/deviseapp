@@ -1,0 +1,54 @@
+<%=stylesheet_link_tag "profile/profile","landing/how_it_works","dropdown/dropdown-dot", :media => "all"%>
+<%=javascript_include_tag "custom_scroll/demo","event/event","dropdown/jquery-dropdown-dot","dropdown/drop-dot"%>
+<script type="text/javascript"> 
+  $(document).ready( function() {
+     //$('#u_0_0').css('display','none');
+      $("#u_0_0").hide();
+      $(".pluginSkinLight").hide();
+      $(".pluginFontHelvetica").hide();
+
+  });
+  var EditparentprofilePage; 
+  var popEditPage;
+  var editProfilePage;   
+  var changeEmailPage;
+   function pop_provider_edit_profile(url){
+    EditparentprofilePage = dhtmlmodal.open("Edit Password ","iframe",url,"", "width=1013px,height=2000px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);
+	return false;
+  }
+  function pop_edit(url){
+    popEditPage = dhtmlmodal.open("Delete Activity","iframe",url," ", "width=1007px,height=600px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    return false;
+  }
+
+  function pop_edit_activity(url){
+    editProfilePage = dhtmlmodal.open("Edit Activity","iframe",url," ", "width=950px,height=1530px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);    
+    return false;
+  }
+  function pop_change_email(url){
+    changeEmailPage = dhtmlmodal.open("Edit Password ","iframe",url,"", "width=555px,height=400px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);   
+    return false;
+  }
+</script>
+
+<%= render "parent_header"%>
+
+  <div class="wrapper_contianer_inner_login">
+    <div class="clear"></div>
+    <!--added partial file for profile in form view-->
+    <div <%if @pro == "profile"%> style="display:none;"<%end%>>
+      <div class="staic_inner">
+	<div class="page_head">   
+		<div class="head_line" style="top:27px;"></div>
+		<h1 class="search_head">Profile&nbsp;</h1>
+	</div><br>
+	      <div class="boxContainer">
+		<%=render :partial=>"parent_profile"%>
+	      </div>
+    </div>
+    </div>
+    </div>

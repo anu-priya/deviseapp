@@ -1,0 +1,207 @@
+@charset "UTF-8";
+
+/* OTHER FIXES
+---------------------------------------------- */
+#PriorAndNext .position {width: 145px;}
+.pinComments {background-color: #f3f3f3;}
+.PinComments .comment {border-left: 0 solid #ccc !important; border-right: 0 solid #ccc !important; border-top: 0 solid #ccc !important;}
+#PinAddComment #PinInputArea {width: 553px;}
+#pin_closeup_comment {top: 1px;}
+#highlighter.closeupComment {color: #fff;}
+#highlighter {top: 2px; font-family: "helvetica neue", arial, sans-serif;}
+#highlighter b {font-weight: normal;}
+#BookmarkletaddAPinContainer #PinInputArea {width: 388px;}
+#PinPinner {min-width: 613px;}
+#AboutLeft li a .pointer {background-image: none;}
+#CreateBoard input.collaborator_name {padding: 9px 0px 9px 5px;}
+/* IE can't handle a PNG background with an alpha filter
+   so we just show and hide the backgrounds */
+#AboutLeft li a .normal, #AboutLeft li a .hover { visibility: hidden; }
+#AboutLeft li a:hover .hover, #AboutLeft li .loaded .normal { visibility: visible; }
+
+/* Remove blank space under pins without comments on home in IE.
+   IE renders blank divs the height of their font-size.
+   The long term solution
+   is not to show the blank container comments unless there are comments*/
+.pinComments .pinComments_comments  {font-size: 0;}
+.pinComments .pinComments_comments div {font-size: 10px;}
+
+/* This is causing a big black box on top of the button instead of a shadow. */
+/* .clickable.disabled {-ms-filter:"progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=0,Color=#221919)"; filter: progid:DXImageTransform.Microsoft.Shadow(color=#221919,direction=0);} */
+
+
+/* GENERAL
+---------------------------------------------- */
+  /* IE's default input font is a slab-serif. We don't want that. */
+  input, textarea {font-family: sans-serif;}
+  #PinPinner {min-width: 550px;}
+
+  /* Button Fixes */
+  .Button span { white-space: nowrap; }
+  .Button:hover span,
+  .actions .Button:hover span {border: 1px solid #777777;}
+  .actions .Button11.WhiteButton em {*top: -2px;}
+  button.Button {*overflow: visible;}
+  .pin .WhiteButton.Button11 {border: 1px solid #bbb; padding: 6px 8px;}
+  #ScrollToTop {border-width: 1px 1px 0 1px; *width: auto;}
+
+  /* Why won't this work???? */
+  #BoardButton .Button span:hover {border: 1px solid #2A1919;}
+
+  /* Emulate box-shadow */
+  .modal {border-width: 0px 1px 2px; border-style: solid; border-color: #dedcdd #c9c7c8 #c9c7c8;}
+  .modal.PaddingLess {border-width: 0px 1px 2px;}
+  a.close {border-left: 1px solid #C9C7C8;}
+  /*
+    a.close span {border-right: 1px solid #c9c7c8;}
+  */
+
+  /* Emulate CSS gradient */
+  .header.lg {background: url(../images/ie-modal-header-bg.png);}
+
+  /* First comment breaking */
+  .comments .convo {overflow: visible;}
+
+  /* IE does not support rgba */
+  #ContextBar,
+  #BoardMeta,
+  #LoadingPins {border: double #d1cdcd; border-width: 3px 0;}
+  body .Megaphone .Sheet {border: 1px solid #c8c298;}
+
+
+
+/* PROFILE
+---------------------------------------------- */
+  /* Fixes a bug with IE where boxes with padding also have their background padded, resulting in
+  inconsistency in the white background of certain elements */
+  #PinCaption,
+  #PinAddComment,
+  .WhiteContainer {background: #fff;}
+  #profile #ContextBar { border-bottom: 1px solid #c6bfbf; }
+
+
+/* CLOSEUP
+---------------------------------------------- */
+  /* Fixes a display bug where the comment box is too wide */
+  #CloseupComment {width: 477px !important;}
+
+  /* Background positioning in IE sucks */
+  .CloseupLeft .pin .ImgLink {background-position: center 8px;}
+
+
+/* BOARD
+---------------------------------------------- */
+  /* Box-sizing breaking box sizes */
+  #CreateBoard input#BoardName {float:right; margin-right:25px; min-width:347px;}
+
+
+/* HOME
+---------------------------------------------- */
+  /* Fixes a bug where the profile image for a pinner spans the entire pin container */
+  .attribution .ImgLink {width: 30px;}
+
+  /* No box-shadow in IE7 and IE8. These borders simulate the effect. */
+
+  #Header {border-bottom: 2px solid #C9C7C8;}
+  #Navigation li ul {*top: 44px;}
+  #CategoriesBar {border-bottom: 2px solid #c9c7c8;}
+  #CategoriesBar li ul {*top: 31px; border-top: 1px solid #adaaaa;}
+  .pin, .pinBoard .board, .notification.boardInvite {border-width: 1px 1px 2px; border-style: solid; border-color: #dedcdd #c9c7c8 #c9c7c8;}
+  .pinBoard { border: none; }
+  .pinBoard .followBoard .Button span { left: 1px; right: 1px; top: 1px; }
+
+/* REPIN
+---------------------------------------------- */
+  /* Fixes a visual bug where the Facebook label text wraps underneath the checkbox. */
+  .facebook.colorless {width: 100px;}
+
+  /* Fixes IE8 not supporting RGBA or opacity in CSS */
+  .overlay {background: #fff; filter: alpha(opacity=93);}
+
+  /* Devil IE7 stacking context bug */
+  #Repin li.noMarginBottom .fff {width: 300px;}
+
+  /* IE7 textarea width */
+  textarea.DescriptionTextarea {*width: 92%}
+
+  /* Board List not on top layer. */
+  .BoardPicker {filter: 0 !important; z-index: 9999;}
+
+
+/* USER REPORTING AND BLOCKING
+---------------------------------------------- */
+.report-user.shadow-dropdown {border: 1px solid #c9c7c8;}
+
+
+/* INVITE
+---------------------------------------------- */
+  /* This fixes .WhiteContainer displaying on top of everything. */
+  .FixedContainer {position: relative; z-index: 2;}
+  .WhiteContainer {position: absolute; border-width: 1px 1px 2px; border-style: solid; border-color: #dedcdd #c9c7c8 #c9c7c8;}
+  .CloseupRight .WhiteContainer {position: relative;}
+
+  /* box-sizing preventing us from getting correct widths */
+  #EmailContainer .EmailFields input {width: 280px !important; min-width: 280px !important;}
+  .EmailMessage textarea {width: 92% !important;}
+
+  .person {width: 100%;}
+
+
+/* PROFILE
+---------------------------------------------- */
+#ProfileSidebar {margin-top: 59px; border-width: 1px 1px 2px; border-style: solid; border-color: #dedcdd #c9c7c8 #c9c7c8;}
+
+.ProfileInfo #editDescription textarea { width: 475px; }
+.ProfileHeader .FixedContainer { z-index: 102; }
+
+#SecretTitle { *float: left; }
+#SecretTitle h1 { *display: inline; }
+
+#HiddenBoards { background: rgb(230, 230, 230)\9; }
+#profile .pinBoard.emptyBoard:hover,
+#profile .pinBoard.emptyBoard.boardWithMemo { background-color: transparent\9; }
+#profile .pinBoard.emptyBoard:hover .buttonLocation,
+#profile .pinBoard.emptyBoard.boardWithMemo .buttonLocation { background-color: rgb(210, 210, 210)\9; }
+
+/* FORM
+---------------------------------------------- */
+  /* Scrape Pin input */
+  #ScrapePin .scrapePin input {*width: 380px !important; display: inline !important;}
+
+  /* .Static li's use rgba for borders which isn't supported. Also, IE7 doesn't support border-style: double, but this
+     emulates it on forms. */
+  .StaticForm h3, .StaticForm .ButtonHeading {border-bottom: 1px solid #ccc;}
+  .StaticForm .ControlGroups {border-top: 1px solid #ccc; margin-top: 1px;}
+  .StaticForm .ControlGroups > li {border-top: 1px solid #fff; border-bottom: 1px solid #ccc;}
+
+
+/* NEW REPIN
+--------------------------------------------------------------------------------------- */
+.copyRepin #Repin2, .simpleRepin #Repin2 {border-width: 0px 1px 2px; border-style: solid; border-color: #dedcdd #c9c7c8 #c9c7c8;}
+#Repin2 .BoardList .wrapper { height: auto !important; position: relative; }
+
+/* DISCOVER ORIENTATION
+--------------------------------------------------------------------------------------- */
+#DiscoverPage .loading .container { border: 1px solid #eee; border-bottom-color: #ddd; }
+#DiscoverPage .FooterBar { border-top: 1px solid #ddd; }
+
+/* BOARD PICKER
+----------------------------------------------------------------------------------------*/
+.BoardPicker.NoBoards .CreateBoard input {width: 265px\9; *width: 240px;}
+
+
+/* POPUP
+----------------------------------------------------------------------------------------*/
+.popup_arrow_up {-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='#c9c7c8'), progid:DXImageTransform.Microsoft.Matrix(M11=-0.70710678, M12=0.70710678, M21=-0.70710678, M22=-0.70710678,sizingMethod='auto expand')"; filter: progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='#c9c7c8'), progid:DXImageTransform.Microsoft.Matrix(M11=-0.70710678, M12=0.70710678, M21=-0.70710678, M22=-0.70710678,sizingMethod='auto expand');}
+.popup_arrow_right {-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='#c9c7c8'), progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678,sizingMethod='auto expand')"; filter: progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='#c9c7c8'), progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678,sizingMethod='auto expand');}
+.popup_arrow_down {-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='#c9c7c8'), progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=-0.70710678, M21=0.70710678, M22=0.70710678,sizingMethod='auto expand')"; filter: progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='#c9c7c8'), progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=-0.70710678, M21=0.70710678, M22=0.70710678,sizingMethod='auto expand');}
+.popup_arrow_left {-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='#c9c7c8'), progid:DXImageTransform.Microsoft.Matrix(M11=-0.70710678, M12=0.70710678, M21=-0.70710678, M22=-0.70710678,sizingMethod='auto expand')"; filter: progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='#c9c7c8'), progid:DXImageTransform.Microsoft.Matrix(M11=-0.70710678, M12=0.70710678, M21=-0.70710678, M22=-0.70710678,sizingMethod='auto expand');}
+
+/* Memos
+----------------------------------------------------------------------------------------*/
+.memo {border-width: 1px 1px 2px; border-style: solid; border-color: #dedcdd #c9c7c8 #c9c7c8;}
+
+/* NOTIFICATIONS
+----------------------------------------------------------------------------------------*/
+.pinBoard .dismissButton { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter: alpha(opacity=0); background: #000; }
+.pinBoard:hover .dismissButton { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter: alpha(opacity=100); }

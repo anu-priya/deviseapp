@@ -1,0 +1,363 @@
+<%=stylesheet_link_tag "event_index/event_index","event_index/menu", :media => "all"%>
+<%=javascript_include_tag "event_more/checkbox","pagination"%>
+
+<script type="text/javascript">
+var sel_arr=new Array();
+  $(document).ready(function () {
+    selectAny();
+  });
+  function selectall(x,y){
+      if(x=='select'){
+          sel_arr.length=0;
+        $("#select").css("display","none");
+         $("#not_select").css("display","block");
+          $('.altCheckboxOn').each(function() {
+              //alert( this.id );
+              curr_actid=(this.id).split('_');
+               $("#lbl_"+curr_actid[1]).addClass('altCheckboxOff'); 
+              $("#lbl_"+curr_actid[1]).removeClass('altCheckboxOn'); 
+
+            });
+
+    }
+    else{
+      sel_arr.length=0;
+        $("#not_select").css("display","none");
+          $("#select").css("display","block");
+          $('.altCheckboxOff').each(function() {
+              //alert( this.id );
+              curr_actid=(this.id).split('_');
+              sel_arr.push(curr_actid[1]);
+               $("#lbl_"+curr_actid[1]).removeClass('altCheckboxOff'); 
+              $("#lbl_"+curr_actid[1]).addClass('altCheckboxOn'); 
+       
+
+            });
+          $("#actid_chk").val(sel_arr);
+
+    }
+  }
+</script>
+<!--thils style for search box width fixed-->
+<style>
+  #ui-id-1 {
+    width:270px;
+    overflow: hidden;
+  }
+
+  .create_pop_ups
+  {
+    width: 880px;
+    height: 400px;
+    background: #fff;
+    border: 2px solid #D7DADB;
+    top: 100px;
+    position: absolute;
+    z-index: 9999;
+    left: 25%;
+    top: 20%;
+
+  }
+  .create_head{
+    width: 96.6%;
+
+    text-align: center;
+    font-size: 20px;
+    color: #28889a;
+    border-bottom: 1px solid #cbd1d2;
+    padding: 15px;
+    text-transform: capitalize;
+
+  }
+  .inner_body_popup{
+    width: 80%;
+    margin: 0 auto;
+    height: 350px;
+  }
+  .inner_header_contents{
+
+    width: 98%;
+    text-align: center;
+    margin: 0 auto;
+    font: 14px;
+    background: #e7edee;
+    padding: 10px;
+    color: #575656;
+    font-size: 13px;
+    margin-top: 10px;
+  }
+  .inner_body_contents{
+
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    font: 14px;
+    background: #f7f9f8;
+    padding: 1px;
+    color: #575656;
+    font-size: 13px;
+    margin-top: 10px;
+    border: 1px solid #cbd1d2;
+  }
+  .inner_body_contents table {
+    padding: 10px;
+  }
+
+  .inner_body_contents table tr td{
+    padding: 3px;
+    text-align: left;
+  }
+  #error_feee,#error_disc{
+    color: #ff0000;
+  }
+  #close_fee_pop{
+    float: right;
+  }
+  .inner_body_contents .textbox{
+    display: inline-block;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    height: 28px;
+    padding: 1px 4px 0;
+    width: 535px;
+    color: #999999;
+    border: 1px solid #BDD6DD;
+
+  }
+</style>
+
+<div class="clear"></div>
+<!-- form name="provider_event_list" id="provider_event_list" style="height:730px;" -->
+<div id="providerEventList" style="margin-top:45px;">
+  <div class="topContainer">
+
+    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+      <tr>
+        <%if !current_user.nil? && current_user.user_type.downcase=='p'%>
+          <td align="left" height="40" width="12%">
+            <div class="leftMenus" style="width:260px;">
+              <span><a class="menuText addText" title="" onclick="display_popup();" href="javascript:void(0)"><b>Add</b></a></span>
+              <span class="plusImg">+</span>
+              <input type="hidden" name="pe" id="pe" value="0" />
+              <span  class="checkboxImg">
+                <a href="javascript:void(0)" title="" id="select" onclick="selectall('select',0)" style="display: none"><%=image_tag("/assets/provider_event_list/top_checkbox_selected.png", :width=>"18", :height=>"18", :style=>"border:0px;")%></a>
+                <a href="javascript:void(0)" title="" id="not_select" onclick="selectall('not_select',1)" ><%=image_tag("/assets/provider_event_list/top_checkbox_normal.png", :width=>"18", :height=>"18", :style=>"border:0px;")%></a>
+              </span>
+              <span class="menuText setLt"><b>Select All</b></span>
+              <span class="pipeSymbol" style="margin: 0 1px 0 5px; ">|</span>
+              <span class="pipeSymbol">
+                <div id="menu" class="actionDivMenu" style="top:-3px;.top:-6px;">
+                  <span><a href="#" title="" onclick="before_delete_all()"><%=image_tag("/assets/event/delete_image.png", :width=>"13", :height=>"13", :style=>"margin-top:2px;vertical-align:top;")%></a><a href="#" class="menuText" style=" height: 20px; margin: 1px 0 0 -9px;  padding: 4px 5px 3px 15px; .padding: 6px 5px 3px 15px; width: 55px;" onclick="before_delete_all('multiple')"><b>Delete</b></a></span>
+                  <div class="clear"></div>
+                </div>
+
+              </span>
+            </div>
+          </td>
+        <%end%>
+        <td align="center" height="40" width="<%if !current_user.nil? && current_user.user_type.downcase=='p'%>76%<%else%>100%<%end%>">
+          <%if !current_user.nil? && current_user.user_type.downcase=='p'%>
+            <span><a href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?  %>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil? %>" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity List']);">Activity List</a></span>
+            <span class="dot menuText">&bull;</span>
+            <span><a href="/provider_activites" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity Cards']);">Activity Cards</a></span>
+            <span class="dot menuText">&bull;</span>
+            <span><a href="/provider_activity_discount" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity Discount']);"><b>Activity Discount</b></a></span>
+            <span class="dot menuText">&bull;</span>
+            <span><a href="/activity_provider_schedule" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Schedule']);">Schedule</a></span>
+            <span class="dot menuText">&bull;</span>
+            <span><a href="/provider_profile" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Business Info']);">Business Info</a></span>
+            <span class="dot menuText">&bull;</span>
+            <span><a href="/provider_policies" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Policies']);">Policies</a></span>
+            <span class="dot menuText">&bull;</span>
+            <span><a href="/provider_plan" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Plan']);">Plan</a></span>
+            <span class="dot menuText">&bull;</span>
+            <span><a href="/change_password" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Password']);">Password</a></span>
+            <span class="dot menuText">&bull;</span>
+            <span><a href="/provider_settings" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Settings']);">Settings</a></span>
+            <span class="dot menuText">&bull;</span>
+            <span><a href="/transaction" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Reports']);">Reports</a></span>
+            <span class="dot menuText">&bull;</span>
+            <span><a href="javascript:void(0);" class="menuText" title="" onClick="pop_provider_embed_Detail('activity_detail/provider_embedded_link?activity_id=<%= @act_id %>'); _gaq.push(['_trackEvent','Provider Module', 'clickSettings','Embed Link']);">Embed Link</a></span>
+          <%else%>
+            <span><a href="/parent_profile" class="menuText" onclick="_gaq.push(['_trackEvent','Parent Module', 'clickSettings','Profile']);">Profile</a></span>
+            <span class="dot menuText">&bull;</span>
+            <span><a href="/change_password?mode=parent" class="menuText" onclick="_gaq.push(['_trackEvent','Parent Module', 'clickSettings','Password']);">Password</a></span>
+            <span class="dot menuText">&bull;</span>
+            <span><a href="/discount_dollars?mode=parent" class="menuText" onclick="_gaq.push(['_trackEvent','Parent Module', 'clickSettings','Discount Dollars']);">Discount Dollars</a></span>
+            <span class="dot selectedMenuText">&bull;</span>
+            <span><a href="/parent_settings" class="menuText" onclick="_gaq.push(['_trackEvent','Parent Module', 'clickSettings','Settings']);">Settings</a></span>
+          <%end%>
+        </td>
+        <td align="right" height="40" width="12%"></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="centerContainer" id="provider_partial_event_list">
+    <%= render "provider_activity_discount_list"%>
+  </div>
+</div>
+<!--/form-- >
+
+<!-- ajax loader -->
+<div id='loadingmessage' style='display:none;margin-top:-424px' align="center"><%=image_tag("/assets/ajax-loader.gif", :width=>"32", :height=>"32", :style=>"border:0px;")%></div>
+<div id="popup_container"></div>
+<div id="edit_disc_type"></div>
+
+<div id="create_disc_creat_pop" class="create_pop_ups" style="display: none">
+  <div class="create_head">
+    <b> create new discount type</b><a  id="close_fee_pop" title="" onclick="cancel_display_popup();" href="javascript:void(0)"> <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%> </a>
+  </div>
+  <div id="create_discounttype_success" style="display:none; width:80%; margin:0 auto;color:#ff0000">Discount Type has been Created Successfully</div>
+  <div id="create_discounttype_failure" style="display:none; width:80%; margin:0 auto;color:#ff0000">Discount Type has been already exists!</div>
+ 
+  <div class="inner_body_popup">
+
+    <div class="inner_body_contents">
+      <table cellpadding="5" cellspacing="0" border="0">
+        <tr>
+          <td colspan="4"><b>Discount type</b></td>
+        </tr>
+        <tr>
+          <td width="300"><input type="text" class="textbox" style="width: 300px" onfocus="if (this.value=='Enter Discount type') { this.value = '';$(this).css('color','#444444');}" onblur="if (this.value==''){ this.value = 'Enter Discount type';$(this).css('color','#999999');}" id="create_disc_name" name="create_disc_name" value="Enter Discount type"></td>
+          <td><input type="checkbox" id="create_disc_quantity" name="create_disc_quantity" value="1"/> <b>Quantity field</b></td>
+          <td><input type="checkbox" id="create_disc_valid" name="create_disc_valid" value="1"/> <b>Valid date</b></td>
+          <td><input type="checkbox" id="create_disc_price" name="create_disc_price" value="1"/><b> Discount price</b></td>
+        <input type="hidden" id="selected_div_create" name="selected_div_create" value="0"/>
+        </tr>
+        <tr>
+          <td colspan="4"><textarea class="textbox" style="width: 670px;height: 50px;"name="create_disc_notes" onfocus="if (this.value=='Enter notes') { this.value = '';$(this).css('color','#444444');}" onblur="if (this.value==''){ this.value = 'Enter notes';$(this).css('color','#999999');}">Enter notes</textarea> </td>
+
+        </tr>
+        <tr id="parent_did_type_eror" style="display: none;">
+          <td colspan="4" id="dis_type_error"></td>
+        <tr>
+          <td>
+            <a onclick="save_new_discount_options(); _gaq.push(['_trackEvent', 'Provider Module', 'clickDiscount','Save']);"><%=image_tag("/assets/create_new_activity/save.png", :width=>"113", :height=>"41", :style=>"border:0px;")%></a>
+            <a onclick="cancel_display_popup(); _gaq.push(['_trackEvent', 'Provider Module', 'clickDiscount','Cancel']);"><%=image_tag("/assets/create_new_activity/cancel.png", :width=>"113", :height=>"41", :style=>"border:0px;")%></a>
+          </td>
+        </tr>
+      </table>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  function save_new_discount_options()
+  {
+
+    var cdisc_name= $('#create_disc_name').val();
+
+    var er_flag;
+    var errorq='';
+    if(cdisc_name==""||cdisc_name=="Enter Discount type")
+    {
+      errorq+=' Please enter  discount code name';
+      er_flag=0;
+    }
+    if(er_flag==0){
+
+      $('#parent_did_type_eror').css("display","block");
+      $('#dis_type_error').css("display","block");
+      $('#dis_type_error').text(errorq);
+
+    }
+    else{
+      var disc_quantity = $("#create_disc_quantity").is(':checked');
+      var disc_valid_date = $("#create_disc_valid").is(':checked');
+      var discount_price = $("#create_disc_price").is(':checked');
+      var note = $("#create_disc_notes").val();
+      $.ajax({
+        type: "POST",
+        url: "activity_detail/provider_discount_type",
+        data: {
+          "real":"yes",
+          "disc_valid_date":disc_valid_date,
+          "disc_name": cdisc_name,
+          "disc_quantity":disc_quantity,
+          "discount_price":discount_price,
+          "note":note
+        },
+        dataType : 'script'
+      });
+
+
+      $('#parent_did_type_eror').css("display","none");
+      $('#dis_type_error').css("display","none");
+      $('#dis_type_error').text('');
+
+    }
+  }
+
+
+
+  function edit_provider_discount_type(id){
+    $("#edit_disc_type").html("<div id='loadingmessage' style='margin-top:-424px' align='center'><img src='assets/ajax-loader.gif'/></div>")
+    $("#edit_disc_creat_pop").css("display","block");
+    $("#edit_disc_creat_pop").css("opacity","1");
+    $("#providerEventList").css("opacity","0.3");
+    $(".provider_header").css("opacity","0.3");
+    $.ajax({
+      type: "POST",
+      url: "activity_detail/edit_discount_type",
+      data: {
+        "cu_value": id
+      },
+      dataType : 'script'
+    });
+
+  
+  }
+
+
+
+
+
+  function edit_display_popup(){
+    $("#edit_disc_creat_pop").css("display","block");
+    $("#edit_disc_creat_pop").css("opacity","1");
+    $("#providerEventList").css("opacity","0.3");
+    $(".provider_header").css("opacity","0.3");
+
+  }
+  
+  function cancel_edit_display_popup(){
+    $("#edit_disc_creat_pop").css("display","none");
+    $("#edit_disc_creat_pop").css("opacity","0");
+    $("#providerEventList").css("opacity","1");
+    $(".provider_header").css("opacity","1");
+
+  }
+
+
+  
+  function display_popup(){
+    $("#create_disc_creat_pop").css("display","block");
+    $("#create_disc_creat_pop").css("opacity","1");
+    $("#providerEventList").css("opacity","0.3");
+    $(".provider_header").css("opacity","0.3");
+
+  }
+
+  function cancel_display_popup(){
+    $("#create_disc_creat_pop").css("display","none");
+    $("#create_disc_creat_pop").css("opacity","0");
+    $("#providerEventList").css("opacity","1");
+    $(".provider_header").css("opacity","1");
+
+  }
+
+  function before_delete_all(mul){
+   var li= mul
+   var a = $("#actid_chk").val();
+   page = $("#page").val();
+   if (a!=""){
+   pop_delete_dicount('/activity_detail/delete_discount?mul='+li+'&id='+a+'&page='+page+'')
+    }
+    else {
+      pop_delete_dicount('/activity_detail/delete_discount?&id='+a)
+    }
+
+  }
+</script>

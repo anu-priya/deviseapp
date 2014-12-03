@@ -1,0 +1,15 @@
+$("#total_length_act").val(<%= @tpage %>);
+$("#load_more").css('display','none');
+$("#curren_set").val('<%= params[:search_set_p] %>');
+<%if params['ajax_rqst']== 'true'%>
+$('#search_reset').hide();
+$('#search_event_index').html('<%= escape_javascript(render(:partial => 'activities/search_result_reset')) %>');
+<%else%>
+<%if @search_cu =="yes"%>
+$('#fsearch_count').html('('+<%=@search_count%>+')');
+<%end%>
+<%if params[:search_set_p] == "2" && params[:page]== 1%>
+count = 2
+<%end%>
+$('.right_container').append('<%= escape_javascript(render(:partial => 'activities/basic_search')) %>');
+<%end%>

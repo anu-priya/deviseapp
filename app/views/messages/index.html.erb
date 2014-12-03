@@ -1,0 +1,157 @@
+<script type="text/javascript" src="/assets/event_more/checkbox.js"></script>
+<link rel="stylesheet" type="text/css" href="/assets/message/message.css?v=1" />
+<script type="text/javascript" src="/assets/message/message.js"></script>
+<script type="text/javascript" src="/assets/message/add_message.js"></script>
+<link rel="stylesheet" type="text/css" href="/assets/accordion/jquery-ui.css" />
+<link rel="stylesheet" href="/assets/fam_network/uploadfile.css" type="text/css" />
+<script type="text/javascript" src="/assets/fam_network/jquery.uploadfile.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/assets/custom_scrollbar/mCustomScrollbar.min.css" />
+<script src="/assets/custom_scrollbar/mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript">
+//message communication count start (don't remove)
+$(document).ready(function () {
+$(".ui-accordion-content").css("height","auto");
+var first_msg_id = "<%=@first_mess.message_id if !@first_mess.nil?%>";
+
+//$("#list_circle_"+first_msg_id).addClass("blue_circleimage");
+$.ajax({
+        url:'/message_thread_listing',
+        data: {
+            "message_id": "<%=@first_mess.message_id if !@first_mess.nil?%>",
+            "user_mode": "<%=@mode%>"
+        },
+        success:function(data){
+            $.ajax({
+                url:'/message_thread_listing',
+                data:{ "count": "msg_count"},
+                    success:function(data){
+            if (data==0)
+            {   $(".message_count").hide();
+                $("#notification_msg_count_"+first_msg_id).hide();  
+                $("#message_count_icon").css("background","url('/assets/message/message_plain.png')no-repeat center center")
+                $("#msg").hide();
+            }
+            else{       
+                    $("#notification_msg_count_"+first_msg_id).hide();
+                    $("#msg_subject_"+first_msg_id).removeClass("msgsubject");
+                    if (data>9)
+                       { var cnt="9+"}
+                    else
+                       { var cnt=data }
+                    $("#msg").text(cnt);
+                }
+                    }
+             });
+        }
+    }); 
+
+  <%if (!@create_msg.nil? && @create_msg.present?)%>
+        <%if @create_msg==true%>
+        $(".flash-message").html("Message has been sent successfully");
+        <%end%>
+    var win=$(window).width();
+    var con=$(".flash_content").width();
+    var leftvalue=((win/2)-(con/2))
+    $(".flash_content").css("left",leftvalue+"px");
+    $(".flash_content").css("top","9%");
+    $('.flash_content').fadeIn().delay(10000).fadeOut();
+    <%end%>  
+
+});
+//message communication count end (don't remove)
+</script>
+<script>
+$(function() {
+// <%#if params[:rep_id] && params[:rep_id].present? && !params[:rep_id].nil? && @first_mess && @first_mess.present? && !@first_mess.nil?%>
+<%if @first_mess && @first_mess.present? && !@first_mess.nil?%>
+    show_msg_detail_list('<%=@first_mess.message_id%>','<%=@mode%>','<%=@first_mess.message_type%>');
+<%end%>
+});
+//To delete messages
+function deleteMessage(u_id){
+    var msg_ids_del = $("#actid_chk").val();
+    $.ajax({
+        url:'/message_delete',
+        data: {
+            "msg_ids": msg_ids_del,
+            "user_id": u_id
+        },
+        dataType: 'script'
+     
+    }); 
+    
+}
+
+function deleteMessageThread(){
+    var thread_id = $("#thrd_delete_id").val();
+    var mode = $("#user_mode").val();
+    var msg_id = $("#msg_id").val();
+    $.ajax({
+        url:'/message_thread_delete',
+        data: {
+            "msg_thrd_id": thread_id,
+            "mode":mode
+        },
+        dataType: 'script'
+        /* success:function(data){
+            alert(data);
+        msg = data.split('$')
+            if (msg[0]=='true'){
+                $("#error-message").css("display","block");
+                //~ window.location.reload();
+        if (msg[1]=='last'){
+        window.location.reload();   
+        }
+        else{
+        window.location.href='/messages?mode='+mode+'&rep_id='+msg_id
+        }
+            }
+        } */
+    });
+}
+</script>
+
+<div class="clear"></div>
+
+<div class="wrapper_static">	
+	<div class="wrapper_inner">
+		<div id="msgoutercontainer" >
+			<div class="topContainer" style="position:relative;padding-top:10px; <%if !@msg_list.present?%> border:1px solid #DBEEF4;<%end%>">
+				<!-- To disable the menus when no messages  -->
+				<%= render "message_header"%>
+			</div>
+		</div>
+		<div class="clear"></div> 
+		<div id="error-message" style="color:green;font-size: 14px;margin-left: 14px;display:none;">Messages are deleted successfully.</div>		
+		<div id="provider_partial_event_list">
+			<%= render "message_list"%>
+		</div>		
+	</div>          
+</div>
+
+
+<!-- ajax loader  -->
+<div id='loadingmessage' style='display:none;margin-top:-424px' align="center"><img src='/assets/ajax-loader.gif'/></div>
+<div id="popup_container"></div>
+    
+<!-- delete alert popup start  -->
+
+<div id="message_delete_alert" style="display:none;color: #111111;padding:25px;border: 2px solid #D7DADB;background-color:#FFFFFF;opacity:2.0;width: 452px;">
+    <div class="content_popup" style="display:block;"><br><span class="new_font" id="del_msg"></span><br><br>
+        <span class="b-close"><a href="javascript:void(0)" onclick="deleteMessage('<%=current_user.user_id%>')" title=""><div class="button_box msg-ok" >OK</div></a></span>
+        <span class="b-close"><a href="javascript:void(0)" title=""><div class="button_box msg-cancel">Cancel</div></a></span>
+    </div>
+</div>
+
+<!-- before delete alert popup start -->
+<div id="message_before_delete_alert" style="display:none;color: #111111;padding:25px;border: 2px solid #D7DADB;background-color:#FFFFFF;opacity:2.0;width: 452px;">
+    <div class="content_popup new_font" style="display:block;"><br>Select atleast one message.<br><br>
+        <span class="b-close"><a href="javascript:void(0)" onclick="closepopup();" title="">
+        <div class="button_box msg-ok" >OK</div>
+            <!-- img src="/assets/register/ok_btn.png" /--></a></span>
+    </div>
+</div>
+
+
+
+

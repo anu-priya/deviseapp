@@ -1,0 +1,66 @@
+<link rel="stylesheet" href="/assets/contacts_users/contact_user.css" type="text/css" />
+<script type="text/javascript" src="/assets/contacts_users/contact_user.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css" />
+<script class="jsbin" src="/assets/event/jquery.min.js"></script>
+<script class="jsbin" src="/assets/event/jquery-ui.min.js"></script>
+<style type="text/css">
+.img_box{
+       font-family:'open_sansregular',Sans-Serif; font-size:14px; display:inline;
+       background:#f43737 ;height:20px; padding:5px; color:#fff; border:1px solid red;}
+
+.contact-ok{
+  display:inline-block;
+  position:relative;
+  top:-10px;
+  width:70px;
+  background:#f82b2b;
+  margin-right: 3px;
+  font-family: 'open_sansregular';
+}
+.contact-cancel{
+  display:inline-block;
+  position:relative;
+  top:-10px;
+  width:70px;
+  background:#5eb0c6;
+  border:1px solid #5eb0c6;
+  font-family: 'open_sansregular';
+}
+
+</style>
+<script language="javascript">
+  function closepopup_delete() {
+    parent.deleteContactPageEmpty.hide();	
+  }
+  $(document).ready(function() {
+    var del = $('#to_delete').val();
+    var s = del.split(",")
+    $('#con_name').html($('#'+s[0]).html());
+
+  });
+  
+  function delete_contact(){
+    var raj = $('#to_delete').val();
+    if (raj!=" ")
+    {
+    $.post("destroy", {"id":raj}, null, "script");
+    }
+    else
+    {
+   parent.deleteContactPageEmpty.hide();
+    }
+  }
+
+
+
+</script>
+
+<div class="deletePopupContainer">
+  <div class="p1 new_font" align="center">Please select atleast one <%= params[:type]=="groups" && params[:id] != "" && params[:groupid] == "" ? "group" : "friend"%> to <%= params[:type]=="contacts" ? "delete" : "assign"%>.</div>
+  <div class="buttons" align="center">
+    <input type="hidden" id="to_delete" value="<%= @to_delete %>">
+    <a href="javascript:void(0)" onClick="closepopup_delete();"><div class="img_box contact-ok">OK</div><!--img src="/assets/register/ok_btn.png" alt=""/--></a>
+  </div>
+</div>
+

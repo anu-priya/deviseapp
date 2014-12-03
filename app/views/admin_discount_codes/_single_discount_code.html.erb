@@ -1,0 +1,36 @@
+<tr class="setBg<%=cookies[:set_colour]%>" id="act-list-<%=@admin_discount_code.admin_discount_id%>">
+  
+  <td align="left" width="25%" class="contentText setPadLt activityName">
+    <span class="blueText checkboxText"><%= @admin_discount_code.discount_name %><%=  cookies[:set_colour] %></span></td>
+  <td align="left" width="11%" class="contentText"><span><%= @admin_discount_code.discount_code %></span></td>
+  <td align="left" width="11%" class="contentText"><span>$<%= number_with_precision @admin_discount_code.discount_amount, :precision => 2 %></span></td>
+  <td align="left" width="11%" class="contentText"><span><%= @admin_discount_code.discount_max %></span></td>
+  <td align="left" width="7%" class="contentText"><span><%= @admin_discount_code.discount_sign %>/<%= @admin_discount_code.discount_max %></span></td>
+  <td align="left" width="15%" class="contentText"><span>
+      <%if !@admin_discount_code.discount_start_date.nil? && !@admin_discount_code.discount_end_date.nil?%>
+        <%= @admin_discount_code.discount_start_date.strftime("%b %d, %Y") %> to <%= @admin_discount_code.discount_end_date.strftime("%b %d, %Y") %>
+      <%else%> Never Expires
+      <%end%></span></td>
+  <td align="left" width="11%" class="contentText">
+    <input type="hidden" id="discount_stat_<%=@admin_discount_code.admin_discount_id%>" name="discount_stat" value="" />
+    <div id="menu_active" class="lt ActiveDivMenu">
+      <ul>
+        <li><a href="#" class="active_Div ActiveDiv"><span id="gender_setVal_<%=@admin_discount_code.admin_discount_id%>"><%=@admin_discount_code.discount_status if !@admin_discount_code.discount_status.nil?%></span><span><%=image_tag("/assets/event_index/dropdown_arrow.png", :alt=>"", :style=>"position: relative; top: -1px; left:5px;", :height=>"4", :width=>"7")%></span></a><ul class="sub-menu dispActiveDiv">
+            <li><a href="javascript:void(0)" onclick="setdiscountVal('Active',<%=@admin_discount_code.admin_discount_id%>)">Active</a></li>
+            <li><a href="javascript:void(0)" onclick="setdiscountVal('Inactive',<%=@admin_discount_code.admin_discount_id%>)">Inactive</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="clear"></div>
+    </div>
+  </td>
+  <td align="left" width="14%" class="contentText">
+    <a href="javascript:void(0)" title="Edit discount code" onclick="pop_edit_discount('/edit_discount?discount_id=<%=@admin_discount_code.admin_discount_id%>&cat=<%= params[:cat] %>&cat_zc=<%= params[:cat_zc] %>&page=<% if !params[:page].nil? && params[:page].present? %><%=params[:page]%><%else%>1<%end%>&edit_from=admin_list_event&set_color=<%=cookies[:set_colour]%>')"  class="lt setRt"><%=image_tag("/assets/provider_event_list/edit_icon.png", :alt=>"", :height=>"26", :width=>"29")%></a>
+    <a href="javascript:void(0)" title="Delete discount code" onclick="before_discount_delete('/admin_delete_discount?discount_id=<%=@admin_discount_code.admin_discount_id %>&page=<% if !params[:page].nil? && params[:page].present? %><%=params[:page]%><%else%>1<%end%>')" class="lt"><%=image_tag("/assets/provider_event_list/delete_icon.png", :alt=>"", :height=>"26", :width=>"29")%></a>
+  </td>
+  <%if cookies[:set_colour] == "2"%>
+    <% cookies[:set_colour] = "1" %>
+  <%else%>
+    <% cookies[:set_colour] = "2" %>
+  <%end%>
+</tr>

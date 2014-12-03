@@ -1,0 +1,60 @@
+<%get_city = a[:user_pro].city.downcase.gsub(/\s/,'-') if a[:user_pro].city && !a[:user_pro].city.nil? && a[:user_pro].city.present?%>
+<%providerlink = (!a[:user_pro].nil? && get_city && !get_city.nil? && !a[:user_pro].nil? && !a[:user_pro].slug.nil?) ? ( ((check_for_state(a[:user_pro].city)) ? get_city+url_state_value : get_city)+"/"+a[:user_pro].slug) : ('')%>
+
+<div class="card_width">
+	<div style="position:relative;">
+		<div align="center" class="image_act_usr">
+			<table border="0" cellpadding="0" cellspacing="0" width="285" align="center">
+			<tr><td align="center" valign="middle" height="203">
+			  <a href="/<%= providerlink %>" title="" onclick="" >
+			    <%if !a[:user_pro].nil? && !a[:user_pro].card_file_name.nil? && !a[:user_pro].card.nil? && is_file_exists(a[:user_pro].card.path(:pro_card))%>
+			      <%= image_tag a[:user_pro].card.url(:pro_card), :alt=>"#{a[:user_pro].business_name if a[:user_pro] && a[:user_pro].business_name}, #{a[:user_pro].city if a[:user_pro] && a[:user_pro].city}, CA"  if !a[:user_pro].card.url(:pro_card).nil?%>
+			 <%else%>
+			      <%= image_tag "/assets/card/no_image.png", :alt=>"#{a[:user_pro].business_name if a[:user_pro] && a[:user_pro].business_name}, #{a[:user_pro].city if a[:user_pro] && a[:user_pro].city}, CA"%>
+			    <%end%>
+			 </a>
+			</td></tr>
+			</table>	  
+		</div>
+		<div class="card_logo">
+			<div align="left" class="lt logo_left" >
+				<div class="card_logo_inner">
+				<table border="0" cellpadding="0" cellspacing="0" align="center" width="100%">
+				<tr>
+				  <td align="center" valign="middle" width="100%" height="52">
+				    <%if !a[:user_pro].nil? && !a[:user_pro].profile_file_name.nil? && !a[:user_pro].profile.nil?%>
+				      <%= image_tag a[:user_pro].profile.url(:medium), :alt=>"#{a[:user_pro].business_name if a[:user_pro] && a[:user_pro].business_name}, #{a[:user_pro].city if a[:user_pro] && a[:user_pro].city}, CA", :align=>"absbottom", :style=>"max-height:100%; max-width:100%;" if !a[:user_pro].profile.url(:medium).nil?%>
+				    <%else%>
+				      <%= image_tag "/assets/profile/default_logo.png", :alt=>"#{a[:user_pro].business_name if a[:user_pro] && a[:user_pro].business_name}, #{a[:user_pro].city if a[:user_pro] && a[:user_pro].city}, CA", :align=>"absbottom"%>
+				    <%end%>
+				  </td>
+				</tr>
+				</table>
+				</div>
+			</div>
+			<div align="right" class="rt">
+			<a href="/<%= providerlink %>" class="card_link" title="" onclick="_gaq.push(['_trackEvent','Parent Module', 'Provider Card', <%= a[:user_pro].business_name if a[:user_pro] && a[:user_pro].business_name%>]);"><div class="card_pay">View More</div></a>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="card_content">
+		<div class="lt card_content_inner">
+			<div class="lt card_space">&nbsp;
+			</div>
+			<div align="right" class="lt card_content_city cardtext_wrap">
+				<% if (a && a[:user_pro].address_1 !="" && !a[:user_pro].address_1.nil?) && (a && a[:user_pro].address_2 !="" && !a[:user_pro].address_2.nil?)%>
+				<%address1=a[:user_pro].address_1+', '+a[:user_pro].address_2%>
+				<%elsif (a && a[:user_pro].address_1 !="" && !a[:user_pro].address_1.nil?) %>
+				<%address1=a[:user_pro].address_1%>
+				<%end%>
+				<a class="card_link" title="<%= a[:user_pro].city %>" target="_blank" href="https://maps.google.com/maps?q=<%=address1+', ' if address1 && address1!=''%><%= a[:user_pro].city if (a && a[:user_pro].city !="" && !a[:user_pro].city.nil?) %><%=', '+a[:user_pro].state if (a && a[:user_pro].state !="" && !a[:user_pro].state.nil?)%><%=', '+a[:user_pro].zip_code if (a && a[:user_pro].zip_code !="" && !a[:user_pro].zip_code.nil?)%>&t=m&z=12"><span class="city_icon" >&nbsp;</span><span><%= a[:user_pro].city %></span></a>
+			</div>
+			<div class="clear"></div>
+			<div class="lt card_bus_name">
+				<h2><div class="cardtext_wrap"><a href="/<%= providerlink %>" class="card_link" title="<%=a[:user_pro].business_name%>"><%= a[:user_pro].business_name %></a></div></h2>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>

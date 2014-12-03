@@ -1,0 +1,264 @@
+<%= stylesheet_link_tag "event_index/event_index" %>
+<%= stylesheet_link_tag "event_index/menu" %>
+<%= javascript_include_tag "sponsor_ships/billing_sponsorship" %>
+<%= javascript_include_tag "global/checkbox" %>
+<%= javascript_include_tag "event_index/event_index" %>
+<%= javascript_include_tag "event/provider_list_update" %>
+<script type="text/javascript">
+   var activityDeletePage;
+  var embedPage;
+  var emailPage;
+  var activityDeletePageEmpty;
+  var bideditActivityPage;
+
+  function filter_sponsor_ship(category,idinc)
+  {
+
+    $.get("/sponsor_ships/billing_sponsorship_update",{
+      "city":category,
+      "cat_zc":"city"
+    }, null, "script");
+    $("#city_value").html(category);
+    $('#event_index_container .headerPart1 ul.dropdown ul').css('visibility','hidden');
+    $('#event_index_container .headerPart1 ul.dropdown ul .description span').addClass('off');
+    $('#event_index_container .headerPart1 ul.dropdown ul .description span#st_'+idinc).removeClass('off');
+    $('#event_index_container .headerPart1 ul.dropdown ul .description span#st_'+idinc).addClass('on');
+  }
+
+  function filter_by_zip_code(){
+    var zip_code = document.getElementById("zp").value;
+    $.get("/sponsor_ships/billing_sponsorship_update",{
+      "zip_code":zip_code,
+      "cat_zc":"zip"
+    }, null, "script");
+  } 
+  function bid_edit_activity(url){
+    bideditActivityPage = dhtmlmodal.open("Bid Edit","iframe",url," ", "width=950px,height=750px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    return false;
+  }
+  function pop_delete_activity(url){
+    activityDeletePage = dhtmlmodal.open("Delete Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    return false;
+  }
+  <!--modified by rajkumar-->
+  function pop_delete_activity_empty(url){
+    activityDeletePageEmpty = dhtmlmodal.open("Delete Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);   
+    return false;
+  }
+   
+  function before_delete_all(){
+    //~ alert('delete data checking');
+    a = $("#actid_chk").val();
+    if (a=='')
+    {
+      pop_delete_activity_empty('/activities/delete_activity_empty')
+    }
+    else
+    {
+      var a;
+      pop_delete_activity('/sponsor_ships/delete_bid?id='+a)
+    }
+  }
+
+
+</script>
+<style>
+  #provider_event_list .dispActiveDiv li a{
+    width:58px;
+  }
+  #provider_event_list .dispActiveDiv li a:hover{
+    width:58px;
+  }
+
+  .editIcon .editText{
+    margin:0 10px 0 5px;
+  }
+  .editIcon .editRedDiv{
+    background:#EDF1F2;
+    width:220px;
+    height:29px;
+    padding:0px 12px 0px 5px;
+  }
+  .editIcon .editRedDiv p{
+    font-size: 12px;
+    font-family:Arial, Helvetica, sans-serif;
+    color:#E44C4B;
+  }
+</style>
+
+<div id="event_index_container">
+  <div class="headerPart1" style="position:fixed; top:0px; width:100%;">
+    <div align="center"><a href="javascript:void(0)" title="" style="position:relative; left:-8px;" onclick="pop_feedback_form('/feedback');">
+           <%= image_tag("/assets/landing/beta_feedback_button.png") %>
+      </a><a href="/provider_activites" title="">
+        <%= image_tag("/assets/event_index/famtivity_logo_parent.png", height: '35', width: '110') %>
+      </a><a href="/how_it_works" title="" style="margin:6px 0 0 10px;">
+        <%= image_tag("/assets/landing/how_it_works_new.png") %>
+      </a></div>
+
+    <div class="selectedCity2" style="float: left; margin-top:-40px; margin-left:20px; display: inline-block;">
+      <div id="menu" class="actDivMenu">
+        <ul>
+          <li><a href="#" onClick="_gaq.push(['_trackEvent', 'Provider Module', 'View Activities']);" class="actDiv">Go To<span class="actImg">
+                <%= image_tag("/assets/event_index/dropdown_arrow.png",id: "arrow1",style: "position: relative; top: -1px;", height: '4',width: '7') %>
+               </span></a>
+            <ul class="sub-menu dispProviderActivityDiv" style="height:84px;.margin-top:26px; .margin-left:-91px;">
+              <li><a href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? %>" onClick="_gaq.push(['_trackEvent', 'Provider Module', 'View Activities']);">Activites</a></li>
+              <li><a href="/activity_provider_schedule" onClick="_gaq.push(['_trackEvent', 'Provider Module', 'View Schedule'])";>Schedule</a></li>
+              <li><a href="/tickets" onClick="_gaq.push(['_trackEvent', 'Provider Module', 'View Tickets']);" >FamPass</a></li>
+            </ul>
+          </li>
+        </ul>
+        <div class="clear"></div>
+      </div>
+
+    </div>
+    <table cellpadding="0" class="headerDivRight" cellspacing="0" width="355" border="0" style="float:right; display:inline-block; margin-top:-33px; .margin-top:-28px;">
+      <tr>
+        <td align="right" valign="" width="300">
+
+          <!--profile image dynamically modified on 29dec12-->
+
+                 <!--profile image dynamically modified on 29dec12-->
+           <!--   <%if !current_user.nil? && !current_user.user_profile.nil?%>
+           <%@profile_data=current_user.user_profile if !current_user.user_profile.nil?%>
+         <%if !@p_f.nil? && @p_f!=""%>
+        <%= image_tag @p_f,  :width => '21', :height => '21', :style =>"top:-8px; position:relative;"%>
+         <%else%>
+        <span><img src="/assets/event_index/photo_register.png"  style="top:-8px; position:relative;"/></span>
+        <%end%>
+    <%elsif !current_user.nil?%>
+    <span><img src="/assets/event_index/photo_register.png"  style="top:-8px; position:relative;"/></span>
+              <%end%>-->
+           <% if !current_user.user_profile.nil? %>
+            <% if !current_user.user_profile.profile_file_name.nil? %>
+                 <%= image_tag(current_user.user_profile.profile.url(:small), :width => '21', :height => '21', :style =>"top:-8px; position:relative;") %>
+            <% else %>
+                <span><img src="/assets/profile/user_icon.png" height="21" width="21" style="top:-8px; position:relative;"/></span>
+            <%end%>
+         <% end %>
+
+
+          <span id="user_menu" class="UserDivMenu">
+            <ul>
+              <li>
+                <!--modified the user_name based on type on 29dec12-->
+                <%if current_user.user_type=="P" %>
+                    <a href="" class="userDiv" style="color: #4495AE; border: 1px solid #DBEEF4;">
+			<%if !current_user.nil? && !current_user.user_profile.business_name.nil?%>
+				<%if current_user.user_profile.business_name.length<= 15%>
+				<%= current_user.user_profile.business_name.capitalize if !current_user.nil? && !current_user.user_profile.business_name.nil? && !current_user.user_profile.nil? %>
+				<%else%>
+				<%= current_user.user_profile.business_name[0..14].capitalize if !current_user.nil? && !current_user.user_profile.business_name.nil?%>..
+				<%end%>
+			<%end%>
+		<span class="actImg">
+                  <%= image_tag "/assets/event_index/dropdown_arrow.png",  :width => '4', :height => '7', :style =>"position: relative; top: -1px;",:id=>"arrow1"%></span></a>
+                  <%else%>
+                    <a href="" class="userDiv" style="color: #4495AE; border: 1px solid #DBEEF4;">
+			<%if !current_user.nil? && !current_user.user_name.nil?%>
+				<%if !current_user.nil? && current_user.user_name.length<= 15%>
+				<%= current_user.user_name.capitalize if !current_user.nil? %>
+				<%else%>
+				<%= current_user.user_name[0..14].capitalize if !current_user.nil? %>..
+				<%end%>
+			<%end%>
+		    <span class="actImg"><%= image_tag "/assets/event_index/dropdown_arrow.png",  :width => '4', :height => '7', :style =>"position: relative; top: -1px;",:id=>"arrow1"%></span></a>
+                  <%end%>
+                <ul class="sub-menu dispParentUserDiv" style=".margin-top:30px; right:0px;" align="right">
+                  <li style="border:1px #B1D7E3 solid;background-color:#EDF2F5;"><a href="/event_index" style="padding-top:8px;color:#E24C4B;"><b>Switch to Parent</b></a></li>
+                  <li><a href="/provider_profile" title="">Business Info</a></li>
+                  <li><a href="/transaction" title="">Transaction</a></li>
+                  <li><a href="/provider_plan" title="">Plan</a></li>
+                  <li><a href="/billing_sponsorship" title="">Sponsorship</a></li>
+                  <li><a href="/provider_settings" title="">Settings</a></li>
+                  <li><a href="/logout" title="">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="clear"></div>
+          </span>
+
+        </td>
+        <td width="68" align="left">
+          <div id="contact_menu" class="contactDivMenu">
+            <ul>
+              <li>
+	      <%if !current_user.nil? && current_user.present? %>
+                <a href="/contact_users" class="contactDiv" style="color: #4495AE; border: 1px solid #DBEEF4; width:40px;"><img id="contact_img" src="assets/contact/contacts_icon_new.png" alt="" /><span class="actImg"><%= image_tag "/assets/event_index/dropdown_arrow.png",  :width => '4', :height => '7', :style =>"position: relative; top: -11px;",:id=>"arrow1"%></span></a>
+                <ul class="sub-menu dispParentContactDiv" style="margin-top:-1px;">
+                  <li><a href="javascript:void(0)" onclick="pop_invite_friendPage('/invite_friend')" style="padding-top:8px;" title="" onclick="_gaq.push(['_trackEvent','Parent Module', 'clickServices','Invite a friend']);">Invite a friend</a></li>
+                  <li><a href="javascript:void(0)" title="" onclick="pop_new_contact('/contact_users/new'); _gaq.push(['_trackEvent','Parent Module', 'clickContact','Create New contact']);">Create New contact</a></li>
+                  <li><a href="/contact_users" title="" onclick= "_gaq.push(['_trackEvent','Parent Module', 'clickContact','Go to contacts']);">Go to contacts</a></li>
+                </ul>
+		<%end%>
+              </li>
+            </ul>
+            <div class="clear"></div>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+  <form name="provider_event_list" id="provider_event_list" style="height:730px;">
+    <div id="providerEventList" style="margin-top:46px;">
+      <div class="topContainer sponsorship">
+        <table cellspacing="0" cellpadding="0" border="0" width="100%">
+          <tr>
+            <td align="left" height="40">
+              <div class="leftMenus">
+                <div class="lt editIcon">
+                  <table cellspacing="0" cellpadding="0" border="0">
+                      <% if !current_user.nil? && !current_user.user_plan.nil? && current_user.user_plan != 'free'%>
+                    <tr>
+                      <%if !@mon.nil?%>
+                      <td><a href="javascript:void(0)" title="" onclick="bid_edit_activity('/edit_bid'); _gaq.push(['_trackEvent','Provider Module', 'clickSponsorship','Edit Bid'])"><img src="assets/provider_event_list/edit_icon.png" alt="" /></a></td>
+                      <td><a href="javascript:void(0)" title="" onclick="bid_edit_activity('/edit_bid'); _gaq.push(['_trackEvent','Provider Module', 'clickSponsorship','Edit Bid'])" class="lt editText menuText">Edit Bid</a></td>
+                      <td>
+                        <div class="lt editRedDiv">
+                          <p>Monthly Budget $<%= @mon.monthly_budget %>, Bid Amount $<%= @mon.bid_amount %></p>
+                        </div>
+                      </td>
+                      <%else%>
+                       <td><a href="javascript:void(0)" title="" onclick="pop_new_activity('/bid_setup'); _gaq.push(['_trackEvent','Provider Module', 'clickSponsorship','Edit Bid'])"><img src="assets/provider_event_list/edit_icon.png" alt="" /></a></td>
+                      <td><a href="javascript:void(0)" title="" onclick="pop_new_activity('/bid_setup'); _gaq.push(['_trackEvent','Provider Module', 'clickSponsorship','Edit Bid'])" class="lt editText menuText">Add Bid</a></td>
+                      <%end%>
+                    </tr>
+		<%end%>
+                  </table>
+                </div>
+              </div>
+            </td>
+            <td align="center" height="40">
+              <a href="/provider_profile" class="menuText menuText1" title="">Business Info</a>
+              <span class="dot menuText">&bull;</span>
+              <a href="/provider_policies" class="menuText menuText1" title="">Policies</a>
+              <span class="dot menuText">&bull;</span>
+              <a href="/transaction" class="menuText menuText1" title="">Transactions</a>
+              <span class="dot menuText">&bull;</span>
+              <a href="/payment_setup" class="menuText menuText1" title="">Payments Setup</a>
+              <span class="dot menuText">&bull;</span>
+              <a href="/provider_plan" class="menuText menuText1" title="">Plan</a>
+              <span class="dot menuText">&bull;</span>
+              <a href="/billing_sponsorship" class="menuText menuText1 selectedMenuText" title="">Sponsorship</a>
+              <span class="dot menuText">&bull;</span>
+              <a href="/provider_settings" class="menuText menuText1" title="">Settings</a>
+            </td>
+            <td align="right" height="40">
+              <div class="searchDiv"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="centerContainer" id="provider_partial_event_list" >
+        <%= render "sponsor_div" %>
+      </div>
+    </div>
+  </form>
+  <div class="clear"></div>
+

@@ -1,0 +1,166 @@
+<table cellspacing="0" cellpadding="0" border="0" style="width:98%; margin:12px; font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;">
+
+  <tr>
+    <td align="left" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;">
+      <table cellspacing="0" cellpadding="0" border="0" style="width:98%; margin:12px; font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;">
+        <!--new changes starting here-->
+        <tr>
+          <td align="left" valign="top" height="24" style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;">
+            <%= image_tag("#{@image_path}/assets/message/message_icon_m.png",style:"padding:10px;", size:"92x83", align:"middle")%>
+          </td>
+
+          <td align="left" valign="top" height="24" style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;">
+
+            <table cellspacing="0" cellpadding="0" style="padding:5px;">
+              <tr>
+                <td align="left" valign="top" height="24" style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;">
+                  <strong>Hi <%= @contact.contact_name %>,</strong>
+                </td>
+              </tr>
+              <tr>
+                <td height="10"></td>
+              </tr>
+              <tr>
+                <td style="color:#444444;font-family:Arial, Helvetica, sans-serif; font-size:15px;" align="left" valign="top">
+                  By accepting this invitation you&rsquo;ll become friends with <b><%= @from_user.user_name %></b> and be a member of the <b><%= @network.group_name if @network %></b> network. Get $20 Discount Dollars just for joining.
+                </td>
+              </tr>
+            </table>
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;">
+      <table cellspacing="0" cellpadding="0" border="0" style="width:98%; margin:12px; font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;border:1px solid #ccc;">
+        <!--new changes starting here-->
+        <tr>
+          <td align="left" valign="top" height="24" style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;width:87px;">
+            <!--display the image dynamically-->
+		<% if !@from_user.nil? && !@from_user.user_profile.nil? && !@from_user.user_profile.profile.blank? %>
+    <%= image_tag("#{@image_path}/#{@from_user.user_profile.profile.url(:small) unless @from_user.user_profile.nil? && @from_user.user_profile.profile.nil?}",style:"border:none;padding:10px;")%>
+		<%elsif !@from_user.nil? && !@from_user.user_profile.nil? && !@from_user.user_profile.user_photo.blank?%>
+		<%= image_tag("#{@image_path}/#{@from_user.user_profile.profile.url(:small) unless @from_user.user_profile.nil? && @from_user.user_profile.profile.nil?}",style:"border:none;padding:10px;")%>
+		<% else %>
+		<%= image_tag("#{@image_path}/assets/profile/user_icon.png",style:"padding:10px;", size:"87x75", align:"middle")%>
+		<%end%>
+          </td>
+
+          <td align="left" valign="top" height="24" style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;">
+
+            <table cellspacing="0" cellpadding="0" style="padding:5px;">
+              <tr>
+                <td align="left" valign="top" height="24" style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;">
+                  <strong><%= @from_user.user_name %></strong>
+                </td>
+              </tr>
+              <tr>
+                <td height="10"></td>
+              </tr>
+	      <tr>
+                <td height="10" style="border-bottom:1px dashed #999;"></td>
+              </tr>
+	      <tr>
+                <td height="10"></td>
+              </tr>
+              <tr>
+                <td style="color:#444444;font-family:Arial, Helvetica, sans-serif; font-size:15px;" align="left" valign="top">
+                <%=raw @message if @message && @message.present? && !@message.nil?%>
+                </td>
+              </tr>
+              <tr>
+                <td height="20" style="border-bottom:1px dashed #999;"></td>
+              </tr>
+              <tr>
+                <td height="15"></td>
+              </tr>
+              <tr>
+                <td align="left" valign="middle">
+                  <a href="<%=URI::decode(@url) if !@url.nil? && @url.present? && @url!=''%>" alt="<%=URI::decode(@url) if !@url.nil? && @url.present? && @url!=''%>" title="" target="_blank" >
+                    <%= image_tag("#{@image_path}/assets/contact/join_network.png",size:"193x34",alt:"Accept", border:"0")%>
+                    </a>&nbsp;&nbsp;
+                </td>
+              </tr>
+
+            </table>
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td height="20" style="border-bottom:1px dashed #999;"></td>
+  </tr>
+  <tr>
+    <td height="10"></td>
+  </tr>
+  <tr>
+    <td style="color:#333333;" align="left" valign="top">
+	Our Family Activity Network helps you to:
+    </td>
+  </tr>
+  <tr>
+    <td height="10"></td>
+  </tr>
+
+  <tr>
+    <td>
+      <table cellpadding="0" cellpadding="0" style="margin-left:10px;">
+        <tr>
+          <td height="30">
+            <%= image_tag("#{@image_path}/assets/landing_banner/selection.png", size:"12x12")%>
+          </td>
+          <td style="padding-left:6px;">Find awesome activities and sign-up instantly</td>
+        </tr>
+        <tr>
+          <td height="30">
+            <%= image_tag("#{@image_path}/assets/landing_banner/selection.png", size:"12x12")%>
+          </td>
+          <td style="padding-left:6px;">Get discounts from local providers</td>
+        </tr>
+        <tr>
+          <td height="30">
+            <%= image_tag("#{@image_path}/assets/landing_banner/selection.png", size:"12x12")%>
+          </td>
+          <td style="padding-left:6px;">Share favorite activities, photos, messages and more</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td height="20" style="border-bottom:1px dashed #999;"></td>
+  </tr>
+  <tr>
+    <td height="10"></td>
+  </tr>
+
+  <tr>
+    <td>
+      <div style="padding1: 15px 0px 15px 5px;">
+        <p style="color: #4495B0;font-size: 14px;font-family: Arial,Helvetica,sans-serif;">Take a Tour</p>
+        <div style="border: 1px solid #EFEFEF;background: #FBFBFB;margin: 7px 0px;padding: 10px 10px 10px 10px;display: inline-block;">
+					 Here&rsquo;s a brief tutorial video to help get you started: <br>
+          <div style="float: left;width: 231px; height:146px;border: 1px solid #E2E2E2;background: #FFFFFF;padding: 7px;margin-right: 10px; margin-top:8px;">
+            <a href="http://www.youtube.com/watch?v=XQj0hdpvdA8" title="" target="_blank">
+              <%= image_tag("http://www.famtivity.com/assets/landing/lanVideo1.png")%>
+            </a>
+          </div>
+        </div>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td height="10"></td>
+  </tr>
+
+  <tr>
+    <td height="24" align="left" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#444444;">Have fun!</td>
+  </tr>
+  <tr>
+    <td  align="left"  height="24" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;">Your Famtivity Team</td>
+  </tr>
+</table>

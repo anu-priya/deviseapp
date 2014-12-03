@@ -1,0 +1,43 @@
+<%=stylesheet_link_tag "register/provider_register","create_new_activity_new/create_new_activity","register_new/provider_register_pop","register_new/register_pop","global/pop_up", :media => "all"%>
+<%=javascript_include_tag "register/sponsor_select_option","register/register","register/validate","register/provider_register_update"%>
+<script>
+  function closepopup() {
+    parent.sell_Page.hide();
+  }
+</script>
+
+<div id="new_act_container1">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont" id="headtxt">
+					<!--<%#if !current_user.nil? && current_user.user_transaction.nil?%>Credit Card Information<%#else%>Bank Information<%#end%>-->
+					Add Payment Details
+            </div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> <%= image_tag("/assets/global/pop_up/button_close.png", size:"15x15")%> </a>
+          </div>
+        </div>
+
+
+        <div id="register_outerContainer">
+ <div>
+  <%= render :partial =>'get_credit_card_info' %>
+  <div class="clear"></div>
+</div>
+	
+  </div>   
+   </div>
+      <div class="clear"></div>
+	   
+    </div>
+    <div class="clear"></div>
+   <div class="popupContainerBottom1"></div>
+
+  </div>
+</div>
+

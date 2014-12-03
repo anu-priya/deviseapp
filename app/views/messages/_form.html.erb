@@ -1,0 +1,403 @@
+
+
+<style type="text/css">
+  /*.ui-autocomplete {height: 120px;overflow-y: auto; overflow-x: hidden;width: 540px !important;}*/
+/*.ui-autocomplete {
+height: 120px;
+overflow-y: auto;
+overflow-x: hidden;
+width: 780px !important;
+margin-top: 10px;
+} */
+
+.ui-autocomplete {
+height: 120px;
+overflow-y: auto;
+overflow-x: hidden;
+width: 790px !important;
+margin-top: 10px;
+}
+
+div.file_upload {
+  background:url('/assets/fam_networks/camera_icon.png') no-repeat;
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  height: 21px;
+  margin-top: -18px;
+}
+.file_upload input {
+  cursor: pointer;
+  font-size: 100px;
+  filter: alpha(opacity=1);
+  -moz-opacity: 0.01;
+  opacity: 0.01;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.file_upload .button {
+  cursor: pointer;
+  padding: 0px 18px;
+}
+</style>
+      <input type='hidden' name='for_reply_thrd_id' id='for_reply_thrd_id' value=<%=(@thrd_id && @thrd_id.present? && !@thrd_id.nil?) ? @thrd_id : ''%>>
+      <input type='hidden' name='for_reply_type' id='for_reply_type' value=<%=(@type && @type.present? && !@type.nil?) ? @type : ''%>>
+      <input type="hidden" name="testData" id="testData" value="" />
+              <div class="paddingTop10" id="createactivity">
+        
+   <div class="<% if @type=='forward' && @msg && @msg.message_card && @msg.message_card.url(:original) && @msg.message_card.url(:original)!="/message_cards/original/missing.png"%>forward_img_new_posts<%elsif params[:action]=='new'%>forward_new_posts<%else%>forward_reply_posts<%end%>">
+      <div class="image_up" id="sendto_text_dv">
+        <input type="text" name="send_to" id="msg_send_to" class="file_input_reg" autocomplete='on' value="<%=if (@res_viewer && @res_viewer.present? && !@res_viewer.nil?) 
+          @res_viewer
+          elsif @friends
+            @friends.join(', ')
+          elsif @selected_emails
+            @selected_emails.join(', ')
+          else
+            'To*'
+          end%><%if !@friends.nil?&& @friends.count>=1%>, <%end%>" style="width: 740px;z-index:0 !important;color:#999999" onblur="if(this.value==''){this.value='To*';this.style.color='#999999'}"  onfocus="if(this.value=='To*'){this.value='';this.style.color='#444444'}"/>
+        <span id='autoloading' style='display:none;margin-left:7px;float:left;margin-top:7px;'><img src='/assets/loading_small.gif'/></span>
+        </div>
+
+  <div class="errorDiv" style="display:none">
+    <div class="lt" id="send_to_error"></div>
+  </div>
+       <div class="space10"></div>
+       <!--div class="image_up"-->
+  <!--span style="margin-right:0px;" class="lt checkbox setstyle">
+    <a tabindex="6" style="display: none;" onclick="dispCheck('checkbox_selected')"  id="checkbox_selected" class="checkbox_selected_s" title="" href="javascript:void(0)"><img alt="" src="/assets/register/checkbox_selected.png"></a>
+    <a tabindex="6" onclick="dispCheck('checkbox_normal')"  id="checkbox_normal" class="checkbox_normal_s" title="" href="javascript:void(0)" style="display: inline-block;"><img alt="" src="/assets/register/checkbox_normal.png"></a>
+    <input type="hidden" value="" id="show_msg_card" name="show_msg_card">
+  </span>
+  <span style="position: relative; left: 5px; top: 5px;color:#3D8EA3;">Also post to my public provider feed</span-->
+       <!--/div-->
+      <div class="space10"></div>
+      <div class="image_up" id="subject_text_dv">
+      <%if @type && @type.present? && !@type.nil? && (@type=='reply' || @type=='reply_all')%>
+        <input type="text" name="subject" id="subject" class="file_input_reg" style="width: 740px;z-index:0 !important;color:#999999"onblur="if(this.value==''){this.value='Enter your Subject*';this.style.color='#999999'}" value='<%=(@msg && @msg.present? && !@msg.nil? && @msg.subject && @msg.subject.present? && !@msg.subject.nil?) ? @msg.subject : 'Enter your Subject*'%>' readonly onfocus="if(this.value=='Enter your Subject*'){this.value='';this.style.color='#444444'}"/>
+      <%else%>
+       <input type="text" name="subject" id="subject" class="file_input_reg" style="width: 740px;z-index:0 !important;color:#999999"onblur="if(this.value==''){this.value='Enter your Subject*';this.style.color='#999999'}"value='<%=(@msg && @msg.present? && !@msg.nil? && @msg.subject && @msg.subject.present? && !@msg.subject.nil?) ? @msg.subject : 'Enter your Subject*'%>' onfocus="if(this.value=='Enter your Subject*'){this.value='';this.style.color='#444444'}"/>
+      <%end%>
+      </div>
+      
+  <div class="errorDiv" style="display:none">
+      <div class="lt" id="subject_error"></div>
+  </div> 
+<div class="clear"></div>
+     <%if (params[:action]=='new' || (@type && @type=='forward'))%>
+      <div class="success_text">
+        <!--message-->
+        <div id="right_col">
+    <% if @type=='forward' && @msg && @msg.message_card && @msg.message_card.url(:original) && @msg.message_card.url(:original)!="/message_cards/original/missing.png"%>
+                    <div class="lt hideimage" >
+                      <div class="lt setImgBorder">
+                        <% if @msg && @msg.message_card && @msg.message_card.url(:original)%>
+                          <%= image_tag @msg.message_card.url(:original), :width => '84', :height => '85' if !@msg.message_card.url(:original).nil?%>
+                        <%else%>
+                          <img src="/assets/event_edit_activity/photo_pic.png" width="84" height="85" alt=""/>
+                        <%end%>
+                      </div>
+                    <div class="clear"></div>
+                      <div onclick="clickedme()"class="browse1" tabindex="21" style="cursor:pointer; position:relative; display:inline-block;font-size:14px;float: left;"><b>Change Picture</b></div>
+                    </div>
+    <div id="change_image" <% if (@type=='forward' && @msg && @msg.message_card && @msg.message_card.url(:original))%>style="display:none"<%end%>>
+    <div class="image_up" id="h_image">
+            <div class="file_hidden_reg" style="width: 740px;">
+              <input type="text" name="messager_photo" id="messager_photo" class="file_input_reg" readonly="readonly"  style="width: 740px;z-index:0 !important;"onblur="if(this.value==''){this.value='Image for the Post';this.style.color='#999999'}" value="Image for the Post" onfocus="if(this.value=='Image for the Post'){this.value='';this.style.color='#444444'}"/>
+            </div>
+            <div class="file_upload" style="z-index:0 !important; ">
+              <input type="file" name="messager_image" id="messager_image" accept="image/*"  size="21"  onChange="document.getElementById('messager_photo').value=this.value;fakepath(this.value);" tabindex="6" />
+     </div> 
+     </div>
+          </div>
+  <%else%>
+  <div class="image_up" id="h_image">
+    <div class="file_hidden_reg" style="width: 740px;">
+              <input type="text" name="messager_photo" id="messager_photo" class="file_input_reg" onclick="browser_click()" readonly="readonly"  style="cursor:pointer;width: 740px;z-index:0 !important;"onblur="if(this.value==''){this.value='Image for the Post';this.style.color='#999999'}" value="Image for the Post" onfocus="if(this.value=='Image for the Post'){this.value='';this.style.color='#444444'}"/>
+            </div>
+            <div class="file_upload" style="z-index:0 !important; ">
+              <input type="file" name="messager_image" id="messager_image" accept="image/*"  size="21"  onChange="document.getElementById('messager_photo').value=this.value;fakepath(this.value);" tabindex="6" />
+            </div>
+     </div> 
+  <%end%>
+        </div>
+      </div>
+        <div class="errorDiv" style="display:none">
+    <div class="lt" id="messager_photo_error"></div>
+  </div>
+      <%end%>
+      <div class="space10"></div>
+      <div class="input_fields" id="msg_content_err">
+        <input type="hidden" name="cmt" id="cmt" value="" />
+        <textarea name="message_text" id="message_content" onblur="if(this.value==''){this.value='Enter your Message*';this.style.color='#999999'}" onfocus="if(this.value=='Enter your Message*'){this.value='';this.style.color='#444444'}"><%=(@msg_thrd && @msg_thrd.present? && !@msg_thrd.nil? && @msg_thrd.content && @msg_thrd.content.present? && !@msg_thrd.content.nil? && @type=='forward') ?  raw(@msg_thrd.content) : 'Enter your Message*'%></textarea>
+      </div>
+  <div class="errorDiv" style="display:none">
+    <div class="lt" id="message_error"></div>
+  </div>
+    </div>
+        <div class="clear"></div>
+
+       <div class="space10"></div>
+    <div class="clear"></div>
+<div class="fwd_message" style="position:relative;">
+    <div class="create_new_posts_imgs">
+      <div class="post_inner_imgs ">
+        <!--div id="photo_border" class="single_img selct_borders " onclick="change_invite_tabs('photo')"-->
+        <div id="photo_border" class="single_img selct_borders">
+          <div class=" common photo photo_normal_select"></div>
+          <div class=" common_txt photo_txt text_span_select">photos/videos/files</div>
+        </div>
+        <!--<div id="document_border" class="single_img " onclick="change_invite_tabs('document')">
+          <div class=" common document document_normal"></div>
+          <div class=" common_txt document_txt text_span">documents</div>
+        </div>-->
+      </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="tabs_slides">
+      <div class="space30"></div>
+      <div id="photo" class="inner_tabs">
+        <div class="upload_heading uplodad_photos" style="<%if @type=='forward' && @files && @files.present?%>display:block<%else%>display:none<%end%> " onclick="upload_photo(); _gaq.push(['_trackEvent','Parent Module', 'clickFriending','Upload Photo']);">upload more</div>
+        
+  <div class="uploding" style="<%if @type=='forward' && @files && @files.present?%>display:none<%else%>display:block<%end%> ">
+    
+          <div class="first_half">
+            <!--div  id="fileuploader" class="upload_header "  >
+
+            upload photos/ videos
+
+          </div-->
+            <div class="upload_photo"  onclick="upload_photo(); _gaq.push(['_trackEvent','Parent Module', 'clickFriending','Upload Photo']);" >
+
+              <div class="upload_header ">
+       upload photos/ videos/ files     
+              </div>
+              <div class="upload_img"  >
+
+              </div>
+
+            </div>
+          </div>
+    
+          <div class="second_half">
+            <div class="import_photo"   > 
+              <div class="upload_header ">
+       import photos/ videos      
+              </div>
+              <div class="import_from">
+                <div id="facebooks" class="import_icons"> </div>
+                <div id="gmailplus" class="import_icons"> </div>
+                <div id="dit_dots" class="import_icons"> </div>
+                <div id="dropbox"class="import_icons"> </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <div  id="fileuploader" class="upload_header "  >
+
+        </div>
+  <%if @type=='forward' && @files && @files.present?%>
+  <input type="hidden" id="forw_mess_delete" value="" name="forward_msg_del">
+  <div style="vertical-align:top;"  id="ajax-upload-wrap_fileuploader" class="statusbar ajax-upload-wrap">
+    <%if @type=='forward' && @files && @files.present?%>
+      <%@files.each do |mf|%>
+      <div class="ajax-file-upload-statusbar" id="fwd_msg_<%=mf.message_file_id%>">
+        <div class="ajax-file-upload-filename"><img width="11" height="11" alt="Delete" src="/assets/message/attach_icon.png">&nbsp;<%=mf.message_file_file_name%></div>
+        <div class="ajax-file-upload-delets" onclick="delMessFile(<%=mf.message_file_id%>);" title="Delete"  style="display: block;"></div>
+      </div>
+          <%end%>
+
+    <%end%>
+  <%end%>
+   </div>
+      </div>
+      <div class="clear"></div>
+
+
+      <div id="tab_3" class="inner_tabs" style="display:none">
+      </div>
+      <div class="clear"></div>
+      <div id="tab_4" class="inner_tabs" style="display:none">
+      </div>
+      <div class="clear"></div>
+      <div id="tab_5" class="inner_tabs" style="display:none">
+      </div>
+
+
+      <div class="space15"></div>
+      <div class="pc_buttons" style="margin-top: 20px;">
+        <a class="save-button" href="javascript:void(0)" onclick="send_message('<%=@mode%>'); _gaq.push(['_trackEvent','Parent Module', 'clickMessages','Send Message']);" onkeydown="continueKeyDown(event)">Post</a>             
+        <a class="cancel-button" href="javascript:void(0)" onclick="close_msg(); _gaq.push(['_trackEvent','Parent Module', 'clickMessages','Cancel Message']);" onkeydown="cancelKeyDown(event)">Cancel</a>     
+        <span id="loadingmessage" style="display:none;position: relative;top: -29px;left: 150px;width: 28px;"> 
+          <img src="/assets/loading.gif"/>
+        </span>  
+
+       <!--  <div id="post_button" onClick="send_message('<%=@mode%>'); _gaq.push(['_trackEvent','Parent Module', 'clickMessages','Send Message']);"></div>
+       <div id="cancel_button" onClick="close_msg(); _gaq.push(['_trackEvent','Parent Module', 'clickMessages','Cancel Message']);"></div>-->
+        
+        <!--div class="rightMenus rt ">
+          Go to <a href="/parent_settings?mode=parent" target="_blank" style="color:#FF3330;cursor:pointer;">Settings</a> to get emails as SMS text messages!
+        </div-->
+      </div>
+    </div>
+</div>
+</div>
+              </div>
+        <div class="clear"></div>
+<script>
+//form page script moved
+
+function browser_click(){
+   $('#messager_image').click();
+ }
+  function upload_photo(){
+    var id=$('.file_uploder').attr("id");
+    $('#'+id).click();
+ 
+  }
+  function upload_document(){
+    var id=$('.file_uploder').attr("id");
+    $('#'+id).click();
+  }
+function clickedme(){
+    $(".hideimage").hide();
+    $("#change_image").show();
+    $(".forward_img_new_posts").css('height','320px');
+    $(".popupContainer").css('height','950px');
+    //~ $(' #new_act_container .setTop').css('top','0px');
+        //~ $(".fwd_message").css('top','75px');
+
+}
+
+$(document).ready(function()
+{
+$("#fileuploader").uploadFile({
+url:"/add_to_temp",
+multiple:true,
+fileName:"myfile",
+onSuccess:function(files,data,xhr)
+{
+}
+
+});
+});
+
+$(document).ready(function (){ 
+  var test = $("#msg_send_to");
+  var len = $("#msg_send_to").val().length;
+  <%if ((params[:action]!='reply_message_form') ||(!params[:type].nil? && params[:type]=="forward"))%>
+    $("#msg_send_to").focus();
+    <%else%>
+    //~ $('#redactor_content').redactor({ focus: true });
+    setTimeout(function(){ $('#message_content').focus();}, 1);
+    <%end%>
+     test[0].setSelectionRange(len, len);
+});
+  
+function addUserComplete(val){
+  $.ajax({
+      url:'/get_group_users',
+      data: {
+      "user_data":val
+      },
+      success:function(data){
+        if (data!=''){
+        $("#autoloading").hide();
+        $("#testData").val(data);
+        t=$("#testData").val();
+        t1=$("#msg_send_to").val();
+        t2=t+','+t1;
+        $("#msg_send_to").val(t2);
+        }
+      }
+    });
+    
+    
+}
+
+function close_msg(){
+  <%if !params[:action].nil? && params[:action]=="reply_message_form"%>
+    msg="<%=params[:message_id]%>"
+    mode="<%=params[:mode]%>"
+   window.location.href = "/messages?mode="+mode+"&rep_id="+msg
+  <%else%>
+  if (history.length > 1){
+    history.go(-1);return false;
+  }
+  else
+  {
+    window.location.href = "/"
+  }
+  <%end%>
+} 
+
+
+</script>
+
+<script src="/assets/auto_complete/jquery-ui.js"></script>
+<script type="text/javascript">
+//~ Added Autocomplete functionality for famitvity share
+  function split( val ) {
+    return val.split( /,\s*/ );
+  }
+  function extractLast( term ) {
+    return split( term ).pop();
+  }
+  $( "#msg_send_to" ).autocomplete({
+    minLength: 1,
+    position: {
+        my: 'right top',
+        at: 'right bottom',
+        of: $('#sendto_text_dv'),
+        offset: '0 5',
+        }, 
+    source: function(request, response) {
+    jQuery.get("/message_email", {
+             query: extractLast( request.term )
+    }, function(data){
+      //~ response(data.slice(0, 8)); 
+      response(data); 
+          });
+  },
+  focus: function() {
+          return false;
+        },
+  select: function( event, ui ) {
+    var emailPattern = /^([a-zA-Z0-9]+([~{|}`^?=+*'#$!%._-]{0,1}[a-zA-Z0-9]+)*)@(([a-zA-Z0-9]+([._-]{0,1}[a-zA-Z0-9]+)*)+(?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,4}(?:\.[a-zA-Z]{2,3})?)$/;
+    var terms = split( this.value );
+    // remove the current input
+    terms.pop();
+    if(emailPattern.test(ui.item.value) == false){
+    $("#autoloading").show();
+    addUserComplete(ui.item.value);
+    }
+    else{
+        // add the selected item
+    terms.push( ui.item.value );
+    }
+    // add placeholder to get the comma-and-space at the end
+    terms.push( "" );
+    this.value = terms.join( ", " );
+    return false;
+  }
+  });
+  //ie8 key enter fixes 
+  $("#msg_send_to").keypress(function(e) {
+    if(e.which == 13)
+    {
+      e.preventDefault();
+    }
+  });
+       //Autocomplete dropdown scroll fixes
+  $(window).scroll(function() {
+    $("#ui-id-1").hide();
+  });
+//~ end of autocomplete
+</script>
+<script src="/assets/autocomplete/jquery.autocomplete.js"></script>

@@ -1,0 +1,416 @@
+<%=stylesheet_link_tag "event_index/event_index","event/event","event_index/menu","admin/admin", :media => "all"%>
+<style>
+  #providerEventList{
+    background:#F6F8F7;
+  }
+  #providerEventList .topContainer .leftMenus{
+    /* width:100%;*/
+  }
+  #providerEventList .topContainer span.num_Act{
+    color: #807E7E;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    position: relative;
+    top: 0px;
+    left:6px;
+    .top: 2px;
+  }
+  @media \0screen{
+    #providerEventList .topContainer span.num_Act{
+      top: 0px;
+    }
+  }
+  #providerEventList .topContainer .pipeSymbol{
+    position:static;
+    vertical-align:inherit;
+    .position:relative;
+    .top:-1px;
+    vertical-align:inherit;
+  }
+  #menu {
+    display: inline-block;
+    position: relative;
+    top: 4px;
+    .top: -3px;
+    left:10px;
+  }
+  .dateDiv{
+    display: inline-block;
+    position:relative;
+    width:100px;
+    height:29px;
+    padding:0px 5px 0px 5px;
+    border:1px solid #CDE0E6;
+    background:#F6F8F7;
+  }
+  .dateTextbox{
+    display: inline-block;
+    float:left;
+    width:70px;
+    .width:67px;
+    height:16px;
+    color:#959292;
+    font-size:13px;
+    margin-top:5px;
+    outline:none;
+    overflow: hidden;
+    border:1px solid #F6F8F7;
+    background:#F6F8F7;
+  }
+  .StrtDte{
+    float: left;
+    display: inline-block;
+    height:31px;
+  }
+  .StrtTxt{
+    float: left;
+    display: inline-block;
+    font-size: 13px;
+    color: #959292;
+    margin-top: 7px;
+  }
+  .ToTxt{
+    font-size: 15px;
+    color: #626262;
+    display:inline-block;
+    padding:0 5px 0 5px;
+  }
+  .CalenderDiv{
+    width: 298px;
+    float: left;
+    display:inline-block;
+    .margin-top:6px;
+  }
+  @media \0screen{
+    .CalenderDiv{
+      margin-top:3px;
+    }
+    #field{
+      float:none;
+    }
+  }
+
+  .setColor{
+    color:#4c92b4;
+  }
+  #filter_admin_category{
+    .margin-top:8px;
+  }
+  #filter_by_provider{
+    .margin-top:8px;
+  }
+  #providerEventList .topContainer .event_search{
+    width:190px;
+  }
+  #providerEventList .topContainer .searchDiv{
+    width:280px;
+  }
+  #providerEventList .topContainer .checkboxImg{
+    top:5px;
+    .top:7px;
+  }
+  .dispProviderCatDiv{
+    width: 700px;    
+  }
+  .eventmoreContainer .centerContainer{
+    width: 700px;
+  }
+  .eventmoreContainer .innerContainer{
+    width: 700px;
+  }
+  #acc #nested .accDiv{
+    width: 688px;
+  }
+  #acc #nested .accDiv h3{
+    width: 680px;
+  }
+  #acc #nested .acc-content{
+    width: 661px;
+  }
+  #acc #nested .acc-content .inner_acc-content{
+    width:203px;
+  }
+  #providerEventList .topContainer .menuText{
+    font-weight:bold;
+  }
+  #acc #nested .acc-content{
+    height: 96px;
+  }
+  #acc #nested .acc-content .inner_acc-content{
+    height:26px;
+    margin:0;
+  }
+  #event_index_container .Setlt{
+    height:auto;
+    margin:0;
+  }
+  #event_index_container .grayColorText{
+    color: #807E7E;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight:normal;
+  }
+  #event_index_container .setSportsText{
+    cursor:pointer;
+    width:auto;
+    margin: 15px 0;
+  }
+  #event_index_container .setSportsText:hover{
+    cursor:pointer;
+    width:auto;
+    margin: 15px 0;
+  }
+  #event_index_container .errorDiv{
+    margin:5px 0 0 10px;
+    color:#fc8989;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+  }
+  #event_index_container .provider_menu{
+    float:left;    
+    height:240px;
+    overflow-y:auto;
+    margin: -27px 0 0 140px;	
+    font-size:13px;
+    background:#F6F8F7;
+    color:#959292;
+    border:1px solid #C2DDE4; 
+    padding: 10px 10px 0 0;
+  }
+  #event_index_container .provider_menu a{	
+    color:#959292;
+    display:block;
+    white-space: nowrap;
+    text-decoration:none;
+    padding:5px 10px 5px 8px;
+  }
+  #event_index_container .provider_menu a:hover{
+    display:block;
+    white-space: nowrap;
+    text-decoration:none;
+    padding:5px 10px 5px 8px;	
+    color:#F97C0E;
+  }
+  @media \0screen{
+    #menu {
+      top: 4px;
+    }
+  }
+  #event_index_container .status_menu{
+    float:left;    
+    height:240px;
+    overflow-y:auto;
+    margin: -27px 0 0 140px;	
+    font-size:13px;
+    background:#F6F8F7;
+    color:#959292;
+    border:1px solid #C2DDE4; 
+    padding: 10px 10px 0 0;
+  }
+  #event_index_container .status_menu a{	
+    color:#959292;
+    display:block;
+    white-space: nowrap;
+    text-decoration:none;
+    padding:5px 10px 5px 8px;
+  }
+  #event_index_container .status_menu a:hover{
+    display:block;
+    white-space: nowrap;
+    text-decoration:none;
+    padding:5px 10px 5px 8px;	
+    color:#F97C0E;
+  }
+#providerEventList .topContainer{
+    width:100%;
+    height:40px;
+    background:#F6F8F7;
+	padding-top:10px;
+	.margin-top:0px;
+}
+
+#menu li:hover ul.sub-menu {
+	display: block;
+	z-index: 2147483647;
+	position: absolute;
+	left: 0;
+	 width: auto;
+}
+#event_index_container .GoButton{
+	left: 7px;
+	 top: 2px;
+}
+.actionDiv{
+  margin: 0px !important;
+}
+#menu ul.sub-menu{
+  margin: 0 !important;
+}
+.pipeSymbol ul li a.actDiv{
+  margin: 0 !important;
+}
+.trans_link
+{
+ color:#4AA3B6;
+ font-size:14px;
+ font-weight:bold;
+}
+.trans_link a
+{
+ color:#4AA3B6;
+ text-decoration:none;
+}
+.hoveredmenu
+{
+    width:94px;
+    height:22px;
+    padding: 0px 5px 3px 5px;
+    border:1px solid #A9D3E1;
+    border-bottom:none;
+    background:#E6F5F8;
+    font-weight:bold;
+    margin:0px 0 0 -9px;
+}
+
+.transDivMenu1 ul{
+text-align: left;
+  display: inline;
+  margin: 0;
+  padding: 15px 4px 17px 0;
+  list-style: none;
+}
+.transDivMenu1  ul li{
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+.transDivMenu1 ul li:hover {
+  background: #F6F8F7;
+  border:1px solid #A9D3E1;
+}
+.transDivMenu1 ul li ul li:hover {
+  background: #F6F8F7;
+  color: #fff;
+  border:none;
+}
+.transDivMenu1 ul li ul {
+  padding: 0;
+  position: absolute;
+  top: 28px;
+ /* left: 8;*/
+  width: 150px;
+  display:none;
+   visibility: hidden;
+   border:1px solid #A9D3E1;
+  }
+  .transDivMenu1 ul li ul li { 
+  background: #F6F8F7; 
+   display: block; 
+  color: #fff;
+  }
+  
+ .transDivMenu1  ul li ul li:hover { color:#f97c0e; }
+.transDivMenu1 ul li:hover ul {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+</style>
+
+<style>
+  #ui-id-1 {
+    width:200px;
+    overflow: hidden;
+  }
+  .count_color{
+  color:red;
+  }
+</style>
+<%=stylesheet_link_tag "global/jquery.ui.datepicker","global/jquery.ui.theme", :media => "all"%>
+<%=javascript_include_tag "global/jquery.ui.core","global/jquery.ui.datepicker"%>
+<script type="text/javascript">
+  function submitFormCat(){
+    city_name = $('#city_name').val();
+    cat  = $('#cat').val();
+    $('.loading_page_admin').css("display","block");
+    $.ajax({
+      type: 'get',
+      url: "/admin/category_reports",
+      dataType: 'script',
+      data: {"city_name":city_name, "cat":cat},
+      success: function(data){ $('.heading_text').show();},
+      complete: function (){   }
+    });
+    return false;
+  }
+</script>
+
+<body id="CategoriesBarPage">
+  <div id="event_index_container"><input type="hidden" id="view_det" value="view">
+      <div id="providerEventList" style="margin-top:65px;">
+	<input type="hidden" id="user_type_val" name="user_type_val" value=""/>
+	<!--filter div started here-->
+        <div class="topContainer1 sponsorship" style="height:30px;">
+        <table width="100%" cellspacing="0" border="0" cellpadding="0">
+		<tbody>
+		<tr>
+			<input type="hidden" id="total_length_admin" name="total_length_admin" value="<%= @total if @total %>"/>
+			<input type="hidden" id="total_length_providers" name="total_length_providers" value="<%= @total_provider_l if @total_provider_l %>"/>
+			<td align="left" valign="middle" colspan="2">
+				<div style="width:100%;float:left;">
+						<div style="float:left; width:150px;">
+							<select name="city_name" id="city_name" style="height:25px;">
+								<%@cities = (@city.compact.reject { |c| c.empty? }).sort%>
+								<option value="All Cities">All Cities</option>
+								<%@cities  && @cities.each do |cit|%>
+								<option value="<%=cit if cit && !cit.nil? && !cit.empty?%>"><%=cit if cit && !cit.nil? && !cit.empty?%></option>
+								<%end%>
+							</select>
+						</div>
+						     
+						<div style="float:left; width:200px;">
+							<select name="cat" id="cat" style="height:25px;">
+								<%@categories = (@category.compact.reject { |c| c.empty? }).sort%>
+								<option value="All Categories">All Categories</option>
+								<%@categories  && @categories.each do |cat|%>
+								<option value="<%=cat if cat && !cat.nil? && !cat.empty?%>"><%=cat if cat && !cat.nil? && !cat.empty?%></option>
+								<%end%>
+							</select>
+						</div>
+						
+						<div style="float:left; width:40px;">
+							<!--input type="text" name="search_plan" id="search_plan" style="width:65px;color:#999999; border:1px solid #BDD6DD;height:25px;" value=""-->
+							<input type="button" onclick="submitFormCat();" name="plan_search" id="plan_search" value="Go">
+						</div>
+						<div class='loading_page_admin' style="display:none;float:left;padding-top:5px;">
+							<span><%=image_tag("/assets/loading_small.gif", :width=>"16", :height=>"16")%></span>
+						</div>
+					<div style="float:left; width:180px;padding:5px;">
+						<span class="fts14" style="color: #4AA3B6;font-weight:bold;">Activities Count  : </span><span class='count_color' id='activity_counts_l'><%if !@total.nil? && @total!="" && @total.present? %><%=@total%><%else%>0<%end%></span>
+					</div>
+					<div style="float:left;border-right:1px solid #4AA3B6;position:relative;top:5px;">&nbsp;&nbsp;</div>
+					<div style="float:left; width:180px;padding:5px 0px 0px 40px">
+						<span class="fts14" style="color: #4AA3B6;font-weight:bold;">Provider Count  : </span><span class='count_color' id='activity_counts_providers'><%if !@total_provider_l.nil? && @total_provider_l!="" && @total_provider_l.present? %><%=@total_provider_l%><%else%>0<%end%></span>
+					</div>
+				</div>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+      </div>
+      <!--filter div ending here-->
+     <div class="clear"></div>
+      
+	<!--div table started here-->
+		<div class="centerContainer" id="provider_partial_category_list" style="height:1000px;" >
+		<%= render :partial=>"admin/category_reports" %>
+		</div>
+		
+	<!--div table ending here-->
+      </div>
+  </div>
+  
+  <div class="clear"></div>
+</body>

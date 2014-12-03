@@ -1,0 +1,364 @@
+<script type="text/javascript" src="/assets/contacts_users_new/contact_user.js"></script>
+<div id="error_reslt" style="display:none;color:green;font-size: 14px; padding-top: 10px;" align="center">Please check your CSV file.</div>
+<div id="success_reslt" style="display:none;color:green;font-size: 14px; padding-top: 10px;" align="center"></div>
+
+<div>  
+  <input id="net_contact_names" name="net_contact_names" type="hidden" value="" />
+  <% if !@fam.nil? && @fam.present? %>
+    <%if @fam.length>0 %>
+      <%i = 1%>
+<div class="list">
+          <table cellspacing="0" cellpadding="0" border="0">
+            <tr>
+              <td width="28" class="activityName" align="left">
+                <input id="contact_id_<%=i%>" class="contact_checkbox_value" type="hidden" value="<%= @fam_contact.contact_id if !@fam_contact.nil?%>"/>
+                <input id="net_contact_checkbox_<%=i%>" class="net_contact_checkbox" type="hidden" value="0"/>
+                <a href="javascript:void(0)" title="" class="net_contact_checkbox_selected" id="net_contact_checkbox_selected_<%=i%>" data="<%=i%>" style="display: none"><img src="/assets/contact/selected_checkbox.png" alt=""/></a>
+                <a href="javascript:void(0)" title="" class="net_contact_checkbox_normal" id="net_contact_checkbox_normal_<%=i%>" data="<%=i%>"><img src="/assets/contact/normal_checkbox.png" alt=""/></a>
+              </td>
+              <td  align="left">
+                <a href="#" onclick="network_owner('<%=@fam_group.group_id if !@fam_group.nil? && !@fam_group.group_id.nil?%>');" id="popimg_<%=%>" data="<%=%>" title="">
+                  <input type="hidden" id="pop_<%=%>" value="network" />
+                  <div class="comments_owner_img">
+                      <div style="overflow:hidden;height: 55px;margin-top: 10px;">
+                        <table cellpadding="0" cellspacing="0"  height="100%" >
+                          <tr>
+                            <td valign="middle" align="center">
+                             <div id="owner_image" style="width:45px;">
+                              <%if @fam_owner.user_profile.present? && !@fam_owner.user_profile.profile_file_name.nil?%>
+                              <%= image_tag @fam_owner.user_profile.profile.url(:original), :width => "49", :height => "52", :alt=>"Loading..." if !@fam_owner.user_profile.profile.url(:original).nil?%>
+                              <%elsif @fam_owner.user_profile.present? && !@fam_owner.user_profile.user_photo.nil?%>
+                               <%= image_tag @fam_owner.user_profile.user_photo.url(:original), :width => "49", :height => "52", :alt=>"Loading..." if !@fam_owner.user_profile.user_photo.url(:original).nil?%>
+                              <%else%>
+                              <img style="width:auto;height:auto;max-width:100%;" src="/assets/default/user_msg_default_Image.png">
+                              <%end%>
+                            </div>
+                            </td>
+                          </tr>
+                        </table>
+                    </div>
+                    <div class="image_circle blue_circleimage " style="width: 55px;height: 99px;margin: 0;top: -10px;right: 15px;">
+                    </div>
+                    <div class="clear"></div>
+                    <P class="constatus contact_all fam_hover_img"></P>
+                    <P class="constatus contact_all fam_normal_img"></P>
+                    <div class="ftcBlue postedbyname"><%#=name%></div>
+                </div>
+              </a>
+              </td>
+              <td width="200" align="left">
+                <span class="new_font contact-name" id="" style="cursor:pointer;" onclick="network_owner('<%=@fam_group.group_id if !@fam_group.nil? && !@fam_group.group_id.nil?%>');" title="<%= @fam_owner.user_name %>"><%= @fam_owner.user_name if !@fam_owner.nil? && !@fam_owner.user_name.nil?%></span></br>
+                    <span class="nameText new_font con-type" style="font-size: 13px;" >Owner</span></br>
+                </td>
+            </tr>
+          </table>
+        </div>
+
+      <%if !params[:page].nil? && params[:page].present?%>
+        <%i =((params[:page].to_i*@perpage.to_i)-@perpage.to_i)+1 %>
+      <%elsif%>
+        <%i = 2%>
+      <%end%>
+      <%@fam.each do |con|%>
+      <!-- checking email start -->
+      <%if !con.nil? && !con.contact_email.nil?&& con.contact_email.present? && con.contact_email!=current_user.email_address%>
+        <div class="list">
+          <table cellspacing="0" cellpadding="0" border="0">
+            <tr>
+              <td width="28" class="activityName" align="left">
+               <input id="contact_id_<%=i%>" class="contact_checkbox_value" type="hidden" value="<%= con.contact_id %>"/>
+                <input id="net_contact_checkbox_<%=i%>" class="net_contact_checkbox" type="hidden" value="0"/>
+                <a href="javascript:void(0)" title="" class="net_contact_checkbox_selected" id="net_contact_checkbox_selected_<%=i%>" data="<%=i%>" style="display: none"><img src="/assets/contact/selected_checkbox.png" alt=""/></a>
+                <a href="javascript:void(0)" title="" class="net_contact_checkbox_normal" id="net_contact_checkbox_normal_<%=i%>" data="<%=i%>"><img src="/assets/contact/normal_checkbox.png" alt=""/></a>
+              </td>
+              <td  align="left">
+                <a href="#" class="popimg-click" id="popimg_<%=con.contact_id%>" data="<%=con.contact_id%>" title="">
+                  <input type="hidden" id="pop_<%=con.contact_id%>" value="network" />
+                  <div class="comments_owner_img">
+                <div style="overflow:hidden;height: 55px;margin-top: 10px;">
+                  <table cellpadding="0" cellspacing="0"  height="100%" >
+                    <tr>
+                      <td valign="middle" align="center">
+                       <div id="owner_image" style="width:45px;">
+                        <img style="width:auto;height:auto;max-width:100%;" src="
+                        <%if !con.contact_file_name.nil? && con.contact.present?%>
+                        <%=con.contact.url(:original)%>
+                        <%else%>
+                        /assets/default/user_msg_default_Image.png
+                        <%end%>"><!---change the user image-->
+                      </div>
+                      </td>
+                    </tr>
+                  </table>
+              </div>
+        <!--div class="circleimage"-->
+        <div class="image_circle blue_circleimage " style="width: 55px;height: 99px;margin: 0;top: -10px;right: 15px;"></div>
+        <div class="clear"></div>
+                    <%if !con.contact_user_type.nil? && con.contact_user_type.present? && con.contact_user_type.downcase == "non_member"%>
+                      <P class="constatus contact_all fam_hover_img"></P>
+                    <%else%>
+                      <P class="constatus contact_all fam_normal_img"></P>
+                    <%end%>
+                <div class="ftcBlue postedbyname"><%#=name%></div>
+        </div>
+                </a>
+              </td>
+              <td width="200" align="left">
+                <span class="new_font contact-name" id="<%=con.contact_id%>" style="cursor:pointer;" onclick="view_friend('<%=con.contact_id%>','network');" title="<%if !con.nil? && !con.contact_name.nil?%><%=con.contact_name%><%elsif !con.nil? && !con.contact_email.nil?%><%name=con.contact_email.split("@")%><%=name[0]%><%end%>"><%if !con.nil? && !con.contact_name.nil?%><%=truncate(con.contact_name, :length =>20, :omission => "... ")%><%elsif !con.nil? && !con.contact_email.nil?%><%name=con.contact_email.split("@")%><%=name[0]%><%end%></span></br>
+
+                <%if !@status_id.nil?&& @status_id.present?%>
+                <%@fam_friend=ContactUserGroup.where("contact_group_id ='#{@status_id}'and contact_user_id='#{con.contact_id}'and fam_accept_status=true").last%>
+                <%#@fam_member=ContactUserGroup.where("contact_group_id ='#{@status_id}'and contact_user_id='#{con.contact_id}'and fam_accept_status!=true").last%>
+                <%@meb=User.where("email_address=?",con.contact_email)%>
+                  <%if !@fam_friend.nil? && @fam_friend.present?%>
+                      <span class="nameText new_font con-type" style="font-size: 13px;" >friend</span></br>
+                  <%elsif !@meb.nil? && @meb.present?%>
+                      <span class="nameText new_font con-type" style="font-size: 13px;" >member</span></br>
+                  <%else%>
+                      <span class="nameText new_font con-type" style="font-size: 13px;" >non_member</span></br>
+                  <%end%>
+                <%else%>
+                  <%if ((@key_word!="non_member") && (@key_word!="member") && (@key_word!="friend"))%>
+                    <%if con.contact_user_type.present?%>
+                      <span class="nameText new_font con-type" style="font-size: 13px;" ><%=display_member_type(con.contact_user_type)%></span></br>
+                    <%end%>
+                  <%end%>
+                <%end%>
+                <%if !@meb.nil? && @meb.present? && !@fam_friend%>
+                        <% if con.contact_user_type =="facebook" %>
+                            <!-- <a class="send-list"style="font-size: 13px;">Post on wall</a> -->
+                        <%else%>
+                            <span class="invite-list" style="font-size: 13px;">Invited |
+                            <a href="javascript:void(0)"  id="send-friend-<%=con.id%>" data="<%=con.id%>" onclick="send_single_group_req('<%=con.contact_id%>','<%=con.contact_email%>','<%=@fam_group.group_id if !@fam_group.nil? && !@fam_group.group_id.nil?%>');" class="nameText send-friend-inv" style="color: #13849B;font-size: 13px;">Send Again</a></span>
+                        <%end%>
+                <%elsif !@fam_friend.nil? && @fam_friend.present?%>
+                <%elsif @click=="groups" && con.contact_user_type!="friend"%>
+                  <% cont_group = ContactUserGroup.where("contact_user_id = ? and contact_group_id = ?",con.contact_id,params[:id]).last %>
+                  <%if cont_group.fam_accept_status == true %>
+                    <%if !cookies[:fam_network].nil?%>
+                      <span class="send-list">Accepted</span>
+                    <%else%>
+                      Member
+                    <%end%>
+                  <%else%>
+                    <% if con.contact_user_type =="facebook" %>
+                      <!-- <a class="send-list"style="font-size: 13px;">Post on wall</a> -->
+                    <%else%>
+                      <span class="new_font" style="display:inline-block;font-size: 13px;">Invited |
+                      <a href="javascript:void(0)"  onclick="send_single_group_req('<%=con.contact_id%>','<%=con.contact_email%>','<%=@fam_group.group_id if !@fam_group.nil? && !@fam_group.group_id.nil?%>');" class="" style="color: #13849B;font-size: 12px;"> Send Again</a></span>
+                    <%end%>
+                  <%end%>
+                <% else %>
+                  <%if  !con.contact_user_type.nil? && con.contact_user_type.present? && con.contact_user_type == "member"%>
+                    <%if con.contact_type=="facebook"%>
+                    <%else%>
+                      <% if con.invite_status == true  %>
+                        <span class="invite-list" style="font-size: 13px;">Invited |
+                          <a href="javascript:void(0)"  id="send-friend-<%=con.id%>" data="<%=con.id%>" onclick="send_single_group_req('<%=con.contact_id%>','<%=con.contact_email%>','<%=@fam_group.group_id if !@fam_group.nil? && !@fam_group.group_id.nil?%>');" class="nameText send-friend-inv" style="color: #13849B;font-size: 13px;">Send Again</a></span>
+                      <% else%>
+                        <a href="javascript:void(0)"  id="send-friend-<%=con.id%>" data="<%=con.id%>" onclick="send_single_group_req('<%=con.contact_id%>','<%=con.contact_email%>','<%=@fam_group.group_id if !@fam_group.nil? && !@fam_group.group_id.nil?%>');" class="nameText send-friend-inv send-list" style="font-size: 13px;color: #13849B;">Send Friend Request</a>
+                      <% end %>
+                    <%end%>
+
+                  <%elsif !con.contact_user_type.nil? && con.contact_user_type.present? && (con.contact_user_type == "non_member")%>
+                    <%desc="Join me on Famtivity, the family activity network! I think you will really enjoy it.  "%>
+                    <%if con.contact_type=="facebook"%>
+                    <%else%>
+                      <span class="invite-list" style="font-size: 13px;">Invited |
+                          <a href="javascript:void(0)"  id="send-new-<%=con.id%>" data="<%=con.id%>" onclick="send_single_group_req('<%=con.contact_id%>','<%=con.contact_email%>','<%=@fam_group.group_id if !@fam_group.nil? && !@fam_group.group_id.nil?%>');" class="nameText " style="color: #13849B;font-size: 13px;"> Send Again</a></span>
+                    <%end%>
+                  <%end%>
+                <%end%>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <% i= i.to_i+1 %>
+        <%elsif con.contact_email.nil?&& !con.contact_email.present? %>
+          <div class="list">
+          <table cellspacing="0" cellpadding="0" border="0">
+            <tr>
+              <td width="28" class="activityName" align="left">
+               <input id="contact_id_<%=i%>" class="contact_checkbox_value" type="hidden" value="<%= con.contact_id %>"/>
+                <input id="net_contact_checkbox_<%=i%>" class="net_contact_checkbox" type="hidden" value="0"/>
+                <a href="javascript:void(0)" title="" class="net_contact_checkbox_selected" id="net_contact_checkbox_selected_<%=i%>" data="<%=i%>" style="display: none"><img src="/assets/contact/selected_checkbox.png" alt=""/></a>
+                <a href="javascript:void(0)" title="" class="net_contact_checkbox_normal" id="net_contact_checkbox_normal_<%=i%>" data="<%=i%>"><img src="/assets/contact/normal_checkbox.png" alt=""/></a>
+              </td>
+              <td  align="left">
+                <a href="#" class="popimg-click" id="popimg_<%=con.contact_id%>" data="<%=con.contact_id%>" title="">
+                  <input type="hidden" id="pop_<%=con.contact_id%>" value="network" />
+                  <div class="comments_owner_img">
+                <div style="overflow:hidden;height: 55px;margin-top: 10px;">
+                  <table cellpadding="0" cellspacing="0"  height="100%" >
+                    <tr>
+                      <td valign="middle" align="center">
+                       <div id="owner_image" style="width:45px;">
+                        <img style="width:auto;height:auto;max-width:100%;" src="
+                        <%if !con.contact_file_name.nil? && con.contact.present?%>
+                        <%=con.contact.url(:original)%>
+                        <%else%>
+                        /assets/default/user_msg_default_Image.png
+                        <%end%>"><!---change the user image-->
+                      </div>
+                      </td>
+                    </tr>
+                  </table>
+              </div>
+        <!--div class="circleimage"-->
+        <div class="image_circle blue_circleimage " style="width: 55px;height: 99px;margin: 0;top: -10px;right: 15px;"></div>
+        <div class="clear"></div>
+                    <%if !con.contact_user_type.nil? && con.contact_user_type.present? && con.contact_user_type.downcase == "non_member"%>
+                      <P class="constatus contact_all fam_hover_img"></P>
+                    <%else%>
+                      <P class="constatus contact_all fam_normal_img"></P>
+                    <%end%>
+                <div class="ftcBlue postedbyname"><%#=name%></div>
+        </div>
+                </a>
+              </td>
+              <td width="200" align="left">
+                <span class="new_font contact-name" id="<%=con.contact_id%>" style="cursor:pointer;" onclick="view_friend('<%=con.contact_id%>','network');" title="<%if !con.nil? && !con.contact_name.nil?%><%=con.contact_name%><%elsif !con.nil? && !con.contact_email.nil?%><%name=con.contact_email.split("@")%><%=name[0]%><%end%>"><%if !con.nil? && !con.contact_name.nil?%><%=truncate(con.contact_name, :length =>20, :omission => "... ")%><%elsif !con.nil? && !con.contact_email.nil?%><%name=con.contact_email.split("@")%><%=name[0]%><%end%></span></br>
+
+                <%if !@status_id.nil?&& @status_id.present?%>
+                <%@fam_friend=ContactUserGroup.where("contact_group_id ='#{@status_id}'and contact_user_id='#{con.contact_id}'and fam_accept_status=true").last%>
+                <%#@fam_member=ContactUserGroup.where("contact_group_id ='#{@status_id}'and contact_user_id='#{con.contact_id}'and fam_accept_status!=true").last%>
+                <%@meb=User.where("email_address=?",con.contact_email)%>
+                  <%if !@fam_friend.nil? && @fam_friend.present?%>
+                      <span class="nameText new_font con-type" style="font-size: 13px;" >friend</span></br>
+                  <%elsif !@meb.nil? && @meb.present?%>
+                      <span class="nameText new_font con-type" style="font-size: 13px;" >member</span></br>
+                  <%else%>
+                      <span class="nameText new_font con-type" style="font-size: 13px;" >non_member</span></br>
+                  <%end%>
+                <%else%>
+                  <%if ((@key_word!="non_member") && (@key_word!="member") && (@key_word!="friend"))%>
+                    <%if con.contact_user_type.present?%>
+                      <span class="nameText new_font con-type" style="font-size: 13px;" ><%=display_member_type(con.contact_user_type)%></span></br>
+                    <%end%>
+                  <%end%>
+                <%end%>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <% i= i.to_i+1 %>
+          
+      <%end%>
+    <!-- checking email end -->
+      <%end%>
+    <%else%>
+
+    <%end%>
+
+  <%else%>
+    <div style="width:98%;display:block;text-align:center;">
+    
+    </div>
+  <%end%>
+</div>
+
+
+<script type="text/javascript">
+  $( document ).ready(function() {
+    FB.getLoginStatus(function(response) {
+      if (response.status === 'connected') {
+        var uid = response.authResponse.userID;
+        var accessToken = response.authResponse.accessToken;
+      } else if (response.status === 'not_authorized') {
+      } else {
+      }
+    });
+  });
+
+
+  function send_invite(cid,gid){
+    $.ajax({
+      type: "POST",
+      url: "contact_users/req_multi_email",
+      data: {"ids": cid, "request": "new_invite", "group_id":gid },
+      dataType : 'script',
+    });
+  }
+ 
+ 
+function network_owner(id){
+pop_view_contact('/contact_users/contact_detail?network_owner_id='+id+'&user_type=network_owner');
+}
+   
+  $(".popimg-click").click(function(){
+    var test = this.id;
+    var val = $("#"+test).attr('data');
+    var user_type = $("#pop_"+val).val();
+    pop_view_contact('/contact_users/contact_detail?id='+val+'&user_type='+user_type);
+  });
+  function view_friend(val,type){
+    pop_view_contact('/contact_users/contact_detail?id='+val+'&user_type='+type);
+  }
+  //IE8 issue fixes
+  
+$(".net_contact_checkbox_selected").click(function(){
+    var test = this.id;
+    var val = $("#"+test).attr('data');
+    netdispCheckSelected(val);
+  });
+  
+  $(".net_contact_checkbox_normal").click(function(){
+    var test = this.id;
+    var val = $("#"+test).attr('data');
+    netdispCheckNormal(val);
+  });
+
+
+function netdispCheckSelected(incVal){
+    $('#select').css('display','none');
+    $('#not_select').css('display','inline-block');
+    $('#pe').val(0);
+    
+    $('#net_contact_checkbox_selected_'+incVal).css('display','none');
+    $('#net_contact_checkbox_normal_'+incVal).css('display','inline-block');
+    $('#net_contact_checkbox_'+incVal).val(0);
+    joinVal();
+}
+function netdispCheckNormal(incVal){
+    $('#net_contact_checkbox_selected_'+incVal).css('display','inline-block');
+    $('#net_contact_checkbox_normal_'+incVal).css('display','none');
+    $('#net_contact_checkbox_'+incVal).val(1);
+    joinVal();
+}
+function joinVal(){
+    var input_val='';
+    var input_id ='';
+    var joinStr2 ='';
+    var net_input_box_length=$('input.net_contact_checkbox').length;
+    for(var i=1;i<=net_input_box_length;i++)
+    {    
+        input_val = $('#net_contact_checkbox_'+i).val();
+        if(input_val!=0){
+            input_id = $('#contact_id_'+i).val();
+            joinStr2 += input_id+",";
+        }
+    }
+    $('#net_contact_names').val(joinStr2);
+}
+
+  function send_single_group_req(id,email,grp_id)
+  {
+    $.ajax({
+      type: "POST",
+      url: '/invite_mail',
+      data: {"toemailaddress":email,"redactor_content":"","con_id":id,"grp_id":grp_id}, // serializes the form's elements.
+      dataType: "script",
+      success: function(data)
+      {
+        $("#success_message").css("display","block").fadeOut(5000);
+      }
+    })
+    //pop_mail_contact('/contact_users/req_multi_email?ids='+id+'&request='+request_invite)
+  }
+
+
+</script>
+
+
+
+

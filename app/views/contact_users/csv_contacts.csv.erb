@@ -1,0 +1,10 @@
+<%- headers = ["Name", "Email", "Mobile Number"] -%>
+<%= CSV.generate_line(headers).strip %>
+<%if !@con_group.nil? && @con_group.length > 0 %>
+  <% @con_group.each do |con|%>
+      <%- row = [con[0],con[1],con[2]]-%>
+      <%= CSV.generate_line(row).html_safe.strip%>
+  <%end%>
+<%else%>
+  Sorry we found no results
+<%end%>

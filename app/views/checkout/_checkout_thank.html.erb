@@ -1,0 +1,189 @@
+<%=stylesheet_link_tag "header/header","global/pop_up","checkout/checkout", :media => "all"%>
+<style type="text/css">
+  #checkout .checkoutLt{
+    float:none;
+    margin-left: -3px;
+  }
+  @media \0screen {
+    #checkout .set_style_1,#checkout .set_style_2,#checkout .set_style_3{
+      height:20px;
+    }
+  }
+</style>
+<script>
+  $(document).ready(function() {
+  avoid_background();
+  });
+
+  $(window).load(function () {
+    avoid_background();
+   });
+
+ function avoid_background() {
+  <%if @trans && @trans.payment_status = "Success"%>
+    parent.$('#popupframe').css('height', '37%');
+  <%else%>
+    parent.$('#popupframe').css('height', '13%');
+  <%end%>
+  $('#class_popup_frame').css('overflow', 'hidden'); 
+ }
+  function closepopup() {
+    parent.$('#popupframe').css('height', '100%');
+<%if @transaction_success =="success" ||  @close_div_popup=="success"%>
+    parent.$( "#autocomplete_appender1" ).hide();
+    parent.$('#search_value').val('Search 20,000 + Local Activities & Counting...');
+   <%end%>
+  
+    var test_val = '<%=params[:pay_discount_dollar]%>'
+    parent.addparticipantpage.hide();
+    if (test_val=='on')
+    {
+<% amt = get_balance(current_user.user_id) if current_user && current_user.present? && !current_user.nil?%>
+      parent.$("#current_credit_bal").html("$"+<%=amt%>)
+    }
+ //  parent.location.reload(true);
+  }
+  function before_login_closepopup() {
+    
+   // 
+    parent.addparticipantpage.hide();
+  }
+
+<%if @transaction_success =="success"%>
+<% profile_name = "" %>
+<%if !@user_profile.business_name.nil?%>
+<% profile_name = @user_profile.business_name%>
+<%end%>
+
+    _gaq.push(['_addTrans',
+
+      '<%= @trans.transaction_id %>',           // transaction ID - required
+
+      '<%= profile_name  %>',  // Provider Name
+
+      '<%= @act_price %>',          // total - required
+
+      '0',           // tax
+
+      '',              // shipping
+
+      '<%= @user_profile.city %>',       // city
+
+      '<%= @user_profile.state %>',     // state or province
+
+      '<%= @user_profile.country %>'             // country
+
+    ]);
+
+
+    _gaq.push(['_addItem',
+
+      '<%= @trans.transaction_id %>',           // transaction ID - required
+
+      '<%= @activity.activity_id %>',           // SKU/code/Activity ID - required
+
+      '<%= @activity.activity_name %>',        // product name
+
+      '<%= @activity.category %>',   // category or variation
+
+      '<%= @act_price %>',          // unit price - required
+
+      '<%= @part_det_id.length %>'               // quantity - required
+
+    ]);
+
+    _gaq.push(['_trackTrans']);
+<%end%>
+
+</script>
+<div class="popupContainerCenter">
+  <form id="secure_checkout" name="secure_checkout" action="#" method="post" enctype="multipart/form-data">
+    <div class="innerContainer">
+      <div class="headTab">
+        <div class="heading">
+          <%if @activity.price_type!="3"%>
+            <div class="headCont">Secure checkout</div>
+            <%else%>
+            <div class="headCont">Order Confirmation</div>
+          <%end%>
+        </div>
+        <div class="closeButton">
+          <%if !@before_login_value.nil? && @before_login_value.present?%>
+            <a href="javascript:void(0)" onClick="before_login_closepopup()" title=""><%= image_tag "/assets/global/pop_up/button_close.png", :alt=>"", :width=>"15", :height=>"15" %></a>
+          <%else%>
+            <a href="javascript:void(0)" onClick="closepopup()" title=""><%= image_tag "/assets/global/pop_up/button_close.png", :alt=>"", :width=>"15", :height=>"15" %></a>
+          <%end%>
+        </div>
+      </div>
+      <div id="new_act_container">
+        <%if @activity.price_type!="3"%>
+          <div id="checkout">
+            <div class="checkout_top">
+              <div class="set_style_1 checkoutLt" style="background:none;"><span class="number_1">1</span></div>
+              <div class="checkoutLt"><%= image_tag "/assets/checkout/line.png", :width=>"191", :height=>"1", :class=>"setLineImg"%></div>
+              <div class="set_style_2 checkoutLt" style="background:none;"><span class="number_1">2</span></div>
+              <div class="checkoutLt"><%= image_tag "/assets/checkout/line.png", :width=>"191", :height=>"1", :class=>"setLineImg"%></div>
+              <div class="set_style_3 checkoutLt" style="background:#CCE9EF;"><span class="number_1">3</span></div>
+            </div>
+            <div class="clear"></div>
+            <div class="checkout_top" style="margin-top:2px; .margin-top:7px;">
+              <div class="checkoutLt"><span class="number_1 chkout_ftSz12" style="margin:4px 0 0 -12px; .margin:0px 0 0 -12px; position:relative; display:block; width:60px; color:#7F7F7F;">My Cart</span></div>
+              <div class="checkoutLt"><span class="number_1 chkout_clr_ftSz12" style="margin-left:142px; color:#7F7F7F;">Place Order</span></div>
+              <div class="checkoutLt"><span class="number_1 chkout_clr_ftSz12" style="margin-left:125px; color:#2B91AF;">Order Confirmation</span></div>
+            </div>
+          </div>
+        <%end%>
+        <div class="centerCont">
+          <div class="clear"></div>
+          <div class="secure_inner_div">
+	  <%if @user.class.to_s == 'User'%>
+	  <%user_name = @user.user_name%>
+	  <%user_email = @user.email_address%>
+	  <%else%>
+	  <%user_name = @user.guest_name%>
+	  <%user_email = @user.guest_email%>
+	  <%end%>
+            <%if @activity.price_type=="3"%>
+                <div align="center" class="FtSz16" style="font-size:19px;color:#5099AC; margin:22px 0 22px 0;">Great, you are now signed up for this activity!</div>
+                <div align="center" class="FtSz16" style="font-size:15px;color:#000; margin:22px 0 22px 0;">We'll send a confirmation email to <%=user_email%></div>
+	  <%elsif @trans && @trans.payment_status = "Success"%>
+	      <div class="trans-success">
+		<span class="fts20 ftcBlue">Thank You !!!</span></br>
+		<span class="fts15 success_msg"><b><%=user_name%>,you just completed your payment.</span></b></br>
+		<span class="fts15 success_msg"><b><%=@trans_approve%></span></b></br>
+		<span class="fts15 success_msg"><b>We'll send a confirmation email to <%=user_email%></span></b>
+	      </div>
+            <%else%>
+              <div align="center" class="FtSz16" style="font-size:16px;color:#000; margin:14px 0 10px 0;"><%= @trans_approve %></div>
+            <%end%>
+	    
+	 <% if @trans && @trans.payment_status = "Success" %>
+			<table cellspacing="0" cellpadding="0" class="success_tab" style="border:1px solid #D6DADB;margin:0px auto;" width="90%">
+				<th>Activity Name</th>
+				<th>Transaction ID</th>
+				<th>Transaction Date</th>
+				<th>Price</th>
+				<th>Payment Type</th>
+				<tr style="border-top:1px solid #D6DADB;">
+					<td><%= @activity.activity_name%></td>
+					<td><%= @trans.transaction_id%></td>
+					<td><%= @trans.inserted_date.strftime("%a %m/%d/%Y")%></td>
+					<td>$<%= number_with_precision(@trans.amount, :precision => 2)%></td>
+					<td><%= @payment_type%></td>
+				<tr>
+			</table>
+	 <%end%>
+
+            <div style= <%if @trans && @trans.payment_status = "Success"%>"margin:26px 42px;"<%else%>"padding-bottom: 15px;margin:0px auto;width:10%";<%end%>>
+              <%if !@before_login_value.nil? && @before_login_value.present?%>
+                <a href="javascript:void(0)" onClick="before_login_closepopup();_gaq.push(['_trackEvent', 'Parent Module', 'clickAttendActivity','Order Confirmation Ok'])"><%= image_tag "/assets/checkout/ok_button.png", :alt=>"" %></a>
+              <%else%>
+                <a href="javascript:void(0)" onClick="closepopup();_gaq.push(['_trackEvent', 'Parent Module', 'clickAttendActivity','Order Confirmation Ok'])"><%= image_tag "/assets/checkout/ok_button.png", :alt=>""%></a>
+              <%end%>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,20 @@
+<%=stylesheet_link_tag "global/pop_up_success", :media => "all"%>
+<script language="javascript">
+  $(document).ready(function(){
+    $("html, body", window.parent.document).animate({ scrollTop: 0 }, 100);
+  });
+  function closepopup() {
+   //parent.parent.location.reload(true);
+    parent.editActivityPage.hide();
+    parent.location.href += "";
+  }
+</script>
+
+<div align="center" style="height:230px;">
+  <p class="successText" style="padding:60px 0; font-size: 17px;">You have successfully Edited your activity</p>
+  <div class="clear"></div>
+  <a href="javascript:void(0)" onClick="closepopup();_gaq.push(['_trackEvent', 'Parent Module', 'clickEditActivity','success','<%= @activity_profile_apf.activity_id %>'])" title=""><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38")%></a>
+</div>
+
+
+

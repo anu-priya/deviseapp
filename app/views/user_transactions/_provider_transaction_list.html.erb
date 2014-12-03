@@ -1,0 +1,265 @@
+<input type="hidden" value="" name="actid_chk" id="actid_chk"/>
+<table width="100%" cellspacing="0" border="0" cellpadding="0">
+  <tbody><tr><td>
+      <%if !@transactions.nil? && @transactions!="" && @transactions.present? %>
+      <table width="100%" cellspacing="0" border="0" cellpadding="0">
+  <tr>
+    <td cellspacing="0" border="0" cellpadding="0" style="border: none;">
+        <div class="first " style="width:35%">
+            <table cellspacing="0" border="0" cellpadding="0">
+                <tr>
+                     <td height ="50"class="headText" width="7%" valign="middle" align="left"><div  style="margin-right:10px;">Transaction ID</div></td>
+                     <td class="headText" width="5%" valign="middle" align="left"><div  style="margin-right:10px; ">Product ID</div></td>
+                     <td class="headText" width="5%" valign="middle" align="left"><div  style="margin-right:10px;">Product Name</div></td>
+                     <td class="headText" width="5%" valign="middle" align="left"><div  style="margin-right:10px;">Provider Name</div></td>
+                     <td class="headText" width="5%" valign="middle" align="left"><div  style="margin-right:10px;">Provider Email</div></td>
+                </tr>
+                <!---loop here---->
+
+                    <%i = 0%>
+                    <%if !@transactions.nil? && @transactions.length > 0 %>
+                      <%@transactions && @transactions.each do |tran|%>
+                        <%i = i + 1%>
+                            <%if i.even? %>
+                            <tr class="setBg2">
+                            <%else%>
+                            <tr class="setBg1">
+                            <%end%>
+                            <td align="left" class="contentText setPadLt activityName" width="7%" >
+                            <span onclick="pop_transaction_form('/transaction_detail?tran_id=<%=tran.trans_id%>')" class="blueText checkboxText"><%=tran.transaction_id%></span></td>
+                              <td align="left" class="contentText" width="5%" >
+                                <span class="contentText" style="border-bottom:none; margin-right:10px"><%=tran.activity_id%></span>
+                              </td>
+                              <td align="left" class="contentText" width="5%" ><div  style="margin-right:10px;"><%=tran.activity_name if !tran.nil? && !tran.activity_name.nil?%></div></td>
+                              <!--<td align="left" class="contentText" width="5%" ><div  style="margin-right:10px;"><%#=tran.description if !tran.nil? && !tran.description.nil?%></div></td>-->
+                              <td align="left" class="contentText" width="5%" ><div  style="margin-right:10px;"><%=tran.user_name if !tran.nil? && !tran.user_name.nil?%></div></td>
+                              <td align="left" class="contentText" width="5%" ><div  style="margin-right:10px;"><%=tran.email_address if !tran.nil? && !tran.email_address.nil?%></div></td>
+
+                          </tr>
+
+			    <%end%>
+			  <%end%>
+
+                        <!---loop here---->
+            </table>
+        </div>
+        <div class="second container" style="width:55%">
+            <div class="ot_second  scroll-pane horizontal-only" style="height:856pxwidth:676px;" >
+               <table width="1500" cellspacing="0" border="0" cellpadding="0">
+                <tr>
+		<td class="headText" width="7%" valign="middle" align="left"><div  style="margin-right:10px; width: 170px">Representative Name</div></td>
+		<td class="headText" width="7%" valign="middle" align="left"><div  style="margin-right:10px;">Representative Email</div></td>
+                     <td class="headText" width="7%" valign="middle" align="left"><div  style="margin-right:10px; ">Customer Name</div></td>
+                     <td class="headText" width="5%" valign="middle" align="left"><div  style="margin-right:10px;">Customer Phone</div></td>
+                     <td class="headText" width="9%" valign="middle" align="left"><div  style="margin-right:10px;">Contact information</div></td>
+                     <td class="headText" width="8%" valign="middle" align="left"><div  style="margin-right:10px;">Participant(s) Name</div></td>
+                     <td class="headText" width="5%" valign="middle" align="left"><div  style="margin-right:10px;">Voucher</div></td>
+                     <td class="headText" width="5%" valign="middle" align="left"><div  style="margin-right:10px; padding-left: 10px">Sale Price($)</div></td>
+                     <td class="headText " width="2%" valign="middle" align="left"><div  style="margin-right:10px;">Discount</div></td>
+                     <td class="headText " width="7%" valign="middle" align="left"><div  style="margin-right:10px;">Amount Charged($)</div></td>
+                     <td class="headText " width="10%" valign="middle" align="left"><div  style="margin-right:10px;width: 180px;">Minus Credit Card Fees (processing fee) 3%</div></td>
+		<td class="headText " width="10%" valign="middle" align="left"><div  style="margin-right:10px;width:100px">Famtivity Fee 2.5% or 0.99</div></td>
+		<td class="headText" width="7%" valign="middle" align="left"><div  style="margin-right:10px;">Famtivity&nbsp;Fee&nbsp;for Representative&nbsp;2.5&nbsp;or&nbsp;0.99</div></td>  		
+		 <td class="headText" width="7%" valign="middle" align="left"><div  style="margin-right:10px;">Provider Share%</div></td>
+		<td class="headText" width="7%" valign="middle" align="left"><div  style="margin-right:10px;">Representative Share%</div></td>
+
+
+                </tr>
+                  <!---loop here---->
+
+                    <%i = 0%>
+                    <%if !@transactions.nil? && @transactions.length > 0 %>
+                      <%@transactions && @transactions.each do |tran|%>
+                        <%i = i + 1%>
+                            <%if i.even? %>
+                            <tr class="setBg2">
+                            <%else%>
+                            <tr class="setBg1">
+                            <%end%>
+			<td  align="left" class="contentText" width="7%" >
+				<div  style="margin-right:10px;width: 170px" title="">
+					<!--  reprsentative details and share details-->
+					<%@rep_det=SchoolRepresentative.getrep_details(tran.activity_id) %>
+					<% if !@rep_det.nil? %>
+						<%@rep_flag=true%>
+						<%@rep_share=@rep_det[2]%>
+						<%@pro_share=@rep_det[3]%>
+					<%else%>
+						<%@rep_flag=false%>
+						<%@rep_share=0%>
+						<%@pro_share=100%>
+					<%end%>
+					<% if !@rep_det.nil? %>
+						<%=truncate(@rep_det[0], :length=>20, :omission=>'...')%>
+					<%else%>
+					-
+					<%end%>
+				</div>
+			</td>
+			<td  align="left" class="contentText" width="7%" >
+				<div  style="margin-right:10px;width: 170px" title="">					
+					<% if !@rep_det.nil? %>
+						<%=@rep_det[1]%>
+					<%end%>
+				</div>
+			</td>			
+                            <td  align="left" class="contentText" width="7%" ><div  style="margin-right:10px;width: 170px" title="<%=tran.customer_name%>"><%=truncate(tran.customer_name, :length=>40, :omission=>'...')%></div></td>
+                            <td  align="left" class="contentText" width="8%" ><div  style="margin-right:10px;"><%=tran.customer_phone%></div></td>
+                            <td  align="left" class="contentText" width="9%" ><div  style="margin-right:10px;" title="<%=tran.customer_address%>"><%=truncate(tran.customer_address, :length=>40, :omission=>'...')%></div></td>
+                            <td  align="left" class="contentText" width="8%" ><div  style="margin-right:10px;"><%=(!tran.participant_name.nil? && tran.participant_name[-1]==',') ? tran.participant_name.chop : tran.participant_name%></div></td>
+                            <td  align="left" class="contentText" width="5%" ><div  style="margin-right:10px;"><%=tran.ticket_code%></div></td>
+                            <td align="center" class="contentText" width="5%" ><div  style="margin-right:10px;"><%=tran.sale_price%></div></td>
+                            <td align="center" class="contentText " width="2%" ><div  style="margin-right:10px;"><%=tran.discount%></div></td>
+                            <td  align="center" class="contentText "><div  style="margin-right:10px;"><%=tran.amount%></div></td>
+                            <% fam_fee_amt = calculate_share_fee_for_both(tran.amount,tran.activity_id,@rep_flag,@rep_share,@pro_share,tran.inserted_date)%>			    
+			 <td  align="left" class="contentText " width="10%" ><div  style="margin-right:10px;width: 180px;text-align:center;"><%=fam_fee_amt[1]%></div></td>
+			<td  align="left" class="contentText " width="10%" ><div  style="margin-right:10px;"><%=fam_fee_amt[0] %></div></td>			
+			<td  align="center" class="contentText "><div  style="margin-right:10px;"><%=fam_fee_amt[3] if @rep_flag %></div></td>
+			<td  align="center" class="contentText "><div  style="margin-right:10px;"><%=fam_fee_amt[4].to_s+'%' if @rep_flag %></div></td>
+			<td  align="center" class="contentText "><div  style="margin-right:10px;"><%=fam_fee_amt[5].to_s+'%' if @rep_flag %></div></td>  
+			</tr>
+
+			 <%end%>
+		      <%end%>
+      <!---loop here---->
+               </table>
+            </div>
+        </div>
+        <div class="third" style="width:9%">
+          <table width="100%" cellspacing="0" border="0" cellpadding="0">
+            <tr>                
+		<td class="headText" width="7%" valign="middle" align="left"><div  style="margin-right:10px; margin-left:10px; ">Net&nbsp;Payable&nbsp;amount  for&nbsp;Provider($)</div></td>		 	  	
+		<td class="headText" width="7%" valign="middle" align="left"><div  style="margin-right:10px;">Net&nbsp;Payable&nbsp;amount  for&nbsp;Representative($)</div></td>
+            </tr>
+             <!---loop here---->
+                <%i = 0%>
+                    <%if !@transactions.nil? && @transactions.length > 0 %>
+                      <%@transactions && @transactions.each do |tran|%>
+                        <%i = i + 1%>
+                            <%if i.even? %>
+                            <tr class="setBg2">
+                            <%else%>
+                            <tr class="setBg1">
+                            <%end%>
+			<%@rep_det=SchoolRepresentative.getrep_details(tran.activity_id) %>
+			<% if !@rep_det.nil? %>
+				<%@rep_flag=true%>
+				<%@rep_share=@rep_det[2]%>
+				<%@pro_share=@rep_det[3]%>
+			<%else%>
+				<%@rep_flag=false%>
+				<%@rep_share=0%>
+				<%@pro_share=100%>
+			<%end%>
+                            <% fam_fee_amt = calculate_share_fee_for_both(tran.amount,tran.activity_id,@rep_flag,@rep_share,@pro_share,tran.inserted_date)%>
+			<td  align="center" class="contentText "><div  style="margin-right:10px;"><%=(number_with_precision fam_fee_amt[2], :precision => 2) %></div></td>  
+			<td  align="center" class="contentText "><div  style="margin-right:10px;"><%=(number_with_precision fam_fee_amt[6], :precision => 2) if @rep_flag %></div></td>  
+			
+                </tr>
+			    <%end%>
+			  <%end%>
+
+                        <!---loop here---->
+
+          </table>
+        </div>
+    </td>
+  </tr>
+</table></td></tr>
+
+      <%if @transactions.nil? || @transactions.length == 0 %>
+	<tr>
+	<td colspan="7"  style="border-bottom:1px solid #E9EDEE;"></td>
+     </tr>
+	<tr>
+      <!--  <td  align="left" class="headText setPadLt">Transaction ID</td>
+            <td  align="left" class="headText">Activity Name</td>
+            <td  align="left" class="headText">Billing Type</td>
+            <td  align="left" class="headText">Price</td>
+            <td  align="left" class="headText">Payment Type</td>
+            <td  align="left" class="headText">Pay Time</td>
+            <td  align="left" class="headText">Status</td>-->
+            <td class="headText setPadLt" width="7%" valign="middle" align="left"><div  style="margin-right:10px;">Transaction ID</div></td>
+            <td class="headText" width="5%" valign="middle" align="left"><div  style="margin-right:10px;">Product ID</div></td>
+            <td class="headText" width="5%" valign="middle" align="left"><div  style="margin-right:10px;">Description</div></td>
+            <td class="headText" width="7%" valign="middle" align="left"><div  style="margin-right:10px;">Customer Name</div></td>
+            <td class="headText" width="8%" valign="middle" align="left"><div  style="margin-right:10px;">Customer Phone</div></td>
+            <td class="headText" width="9%" valign="middle" align="left"><div  style="margin-right:10px;">Contact information</div></td>
+            <td class="headText" width="8%" valign="middle" align="left"><div  style="margin-right:10px;">Participant(s) Name</div></td>
+            <td class="headText" width="4%" valign="middle" align="left"><div  style="margin-right:10px;">Voucher</div></td>
+            <td class="headText" width="5%" valign="middle" align="left"><div  style="margin-right:10px;">Sale Price($)</div></td>
+            <td class="headText td_hide" width="4%" valign="middle" align="left"><div  style="margin-right:10px;">Discount</div></td>
+            <td class="headText td_hide" width="7%" valign="middle" align="left"><div  style="margin-right:10px;">Amount Charged($)</div></td>
+            <td class="headText td_hide" width="10%" valign="middle" align="left"><div  style="margin-right:10px;">Minus Credit Card Fees (processing fee) 3%</div></td>
+            <td class="headText td_hide" width="10%" valign="middle" align="left"><div  style="margin-right:10px;">Famtivity Fee 2.5% or 0.99</div></td>
+            <td class="headText td_hide" width="8%" valign="middle" align="left"><div  style="margin-right:10px;">Net Amount Payable($)</div></td>
+	    <td class="headText td_less" width="3%" valign="middle" align="left"><div  style="margin-right:10px;">
+		<a href="javascript:void(0)" class="headText" onclick="click_less()"  style="font-weight:normal;">More</a>
+	    </div></td>
+	    <td class="headText td_more" width="3%" valign="middle" align="left"><div  style="margin-right:10px;">
+		<a href="javascript:void(0)" class="headText" onclick="click_more()" style="font-weight:normal;">Less</a>
+	    </div></td>
+            <td class="headText td_hide" width="1%" valign="middle" align="left"><div  style="margin-right:10px;">&nbsp;</div></td>
+
+      <!--td  align="left" class="headText setPadLt">Customer Name</td>
+      <td  align="left" class="headText">Customer ID</td>
+      <td  align="left" class="headText">Amount</td>
+      <td  align="left" class="headText">Payment Method</td>
+      <td  align="left" class="headText">Authorization Code</td>
+      <td  align="left" class="headText">Date &amp; Time</td-->
+    </tr>
+           <tr>
+            <td width="40%" colspan="7" class="no_activities" style="text-align:center;height: 500px;">No reports available for your activities. Click user transaction report for all the users</td>
+          </tr>
+      <%end%>
+     <%else%>
+     <tr>
+	<td colspan="7"  style="border-bottom:1px solid #E9EDEE;"></td>
+     </tr>
+     <tr>
+      <!--  <td  align="left" class="headText setPadLt">Transaction ID</td>
+            <td  align="left" class="headText">Activity Name</td>
+            <td  align="left" class="headText">Billing Type</td>
+            <td  align="left" class="headText">Price</td>
+            <td  align="left" class="headText">Payment Type</td>
+            <td  align="left" class="headText">Pay Time</td>
+            <td  align="left" class="headText">Status</td>-->
+            <td class="headText setPadLt" width="7%" valign="middle" align="left"><div  style="margin-right:10px;">Transaction ID</div></td>
+            <td class="headText" width="5%" valign="middle" align="left"><div  style="margin-right:10px;">Product ID</div></td>
+            <td class="headText" width="5%" valign="middle" align="left"><div  style="margin-right:10px;">Description</div></td>
+            <td class="headText" width="7%" valign="middle" align="left"><div  style="margin-right:10px;">Customer Name</div></td>
+            <td class="headText" width="8%" valign="middle" align="left"><div  style="margin-right:10px;">Customer Phone</div></td>
+            <td class="headText" width="9%" valign="middle" align="left"><div  style="margin-right:10px;">Contact information</div></td>
+            <td class="headText" width="8%" valign="middle" align="left"><div  style="margin-right:10px;">Participant(s) Name</div></td>
+            <td class="headText" width="4%" valign="middle" align="left"><div  style="margin-right:10px;">Voucher</div></td>
+            <td class="headText" width="5%" valign="middle" align="left"><div  style="margin-right:10px;">Sale Price($)</div></td>
+            <td class="headText td_hide" width="4%" valign="middle" align="left"><div  style="margin-right:10px;">Discount</div></td>
+            <td class="headText td_hide" width="7%" valign="middle" align="left"><div  style="margin-right:10px;">Amount Charged($)</div></td>
+            <td class="headText td_hide" width="10%" valign="middle" align="left"><div  style="margin-right:10px;">Minus Credit Card Fees (processing fee) 3%</div></td>
+            <td class="headText td_hide" width="10%" valign="middle" align="left"><div  style="margin-right:10px;">Famtivity Fee 2.5% or 0.99</div></td>
+            <td class="headText td_hide" width="8%" valign="middle" align="left"><div  style="margin-right:10px;">Net Amount Payable($)</div></td>
+	    <td class="headText td_less" width="3%" valign="middle" align="left"><div  style="margin-right:10px;">
+		<a href="javascript:void(0)" class="headText" onclick="click_less()"  style="font-weight:normal;">More</a>
+	    </div></td>
+	    <td class="headText td_more" width="3%" valign="middle" align="left"><div  style="margin-right:10px;">
+		<a href="javascript:void(0)" class="headText" onclick="click_more()" style="font-weight:normal;">Less</a>
+	    </div></td>
+            <td class="headText td_hide" width="1%" valign="middle" align="left"><div  style="margin-right:10px;">&nbsp;</div></td>
+
+      <!--td  align="left" class="headText setPadLt">Customer Name</td>
+      <td  align="left" class="headText">Customer ID</td>
+      <td  align="left" class="headText">Amount</td>
+      <td  align="left" class="headText">Payment Method</td>
+      <td  align="left" class="headText">Authorization Code</td>
+      <td  align="left" class="headText">Date &amp; Time</td-->
+    </tr>
+    <tr>
+      <td width="40%" colspan="10" class="no_activities" style="text-align:center;height: 500px;">No reports available for your activities. Click user transaction report for all the users</td>
+    </tr>
+    <%end%>
+  </tbody>
+</table>
+<div class="pro_pagination" style="margin-right: 4%;">
+  <%= will_paginate @transactions if (!@transactions.nil? && !@transactions.empty?)%>
+</div>
+

@@ -1,0 +1,16 @@
+<table cellpsacing="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+      <!--h1 style="color:#4595B0;">Welcome to Famtivity!</h1-->
+      <p>Hi the below user sent a mail to you,</p>
+      <p>Name: <%=@name if !@name.nil?%></p>
+      <p>User type: <%=@user_type if !@user_type.nil?%></p>
+      <p>Email: <%=@user if !@user.nil?%></p>
+      <p>Phone: <%= @phone if !@phone.nil?%></p>
+      <p>Message: <%=@msg if !@msg.nil?%></p>
+      <p>&nbsp;</p>
+
+    </td>
+  </tr>
+</table>
+<p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;padding-top:20px;">Your Famtivity Team.</p>

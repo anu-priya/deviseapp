@@ -1,0 +1,29 @@
+<h1>Listing agerange_colors</h1>
+
+<table>
+  <tr>
+    <th>Color</th>
+    <th>Age range</th>
+    <th>Color code</th>
+    <th>User</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @agerange_colors.each do |agerange_color| %>
+  <tr>
+    <td><%= agerange_color.color_id %></td>
+    <td><%= agerange_color.age_range %></td>
+    <td><%= agerange_color.color_code %></td>
+    <td><%= agerange_color.user_id %></td>
+    <td><%= link_to 'Show', agerange_color %></td>
+    <td><%= link_to 'Edit', edit_agerange_color_path(agerange_color) %></td>
+    <td><%= link_to 'Destroy', agerange_color, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Agerange color', new_agerange_color_path %>

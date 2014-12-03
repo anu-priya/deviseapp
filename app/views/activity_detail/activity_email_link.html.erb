@@ -1,0 +1,90 @@
+<%=stylesheet_link_tag "global/pop_up","share_activity/share_acitivity_detail","share_activity/share_activity", :media => "all"%>
+<%=javascript_include_tag "global/to_mail","global/checkbox","share_activity/share_activity","email_activity/validate"%>
+
+<script language="javascript">
+  function closepopup(){
+    parent.emailPage.hide();
+  }
+</script>
+
+<div id="new_act_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Email this Activity</div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title="">
+              <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15")%>
+            </a>
+          </div>
+        </div>
+        <div class="centerCont">
+          <form id="email_activity" name="email_activity" action="#" method="post" onsubmit="return validateEmailActivity()">
+            <div class="paddingTop10">
+              <div class="lt leftSideField">Name</div>
+              <input type="text" name="activity_name" id="activity_name" class="lt textbox" value="" onchange="removeunwantedSpace('activity_name',this.value)" onfocus="focusChangeBorderColor('activity_name')" onblur="blurChangeBorderColor('subject')" maxlength="50"/>
+              <div class="clear"></div>
+            </div>
+            <div class="errorDiv" style="display:none">
+              <div class="lt leftSideField">&nbsp;</div>
+              <div class="lt" id="activity_name_error"></div>
+            </div>
+            <div class="clear"></div>
+
+            <div class="paddingTop10">
+              <div class="lt leftSideField">Email</div>
+              <input type="text" name="activity_email" id="activity_email" class="lt textbox" value="" onchange="removeunwantedSpace('activity_email',this.value)" onfocus="focusChangeBorderColor('activity_email')" onblur="blurChangeBorderColor('subject')" maxlength="50"/>
+              <div class="clear"></div>
+            </div>
+            <div class="errorDiv" style="display:none">
+              <div class="lt leftSideField">&nbsp;</div>
+              <div class="lt" id="activity_email_error"></div>
+            </div>
+            <div class="clear"></div>
+
+            <div class="paddingTop10">
+              <div class="lt leftSideField">Subject</div>
+              <input type="text" name="email_subject" id="email_subject" class="lt textbox" value="" onchange="removeunwantedSpace('email_subject',this.value)" onfocus="focusChangeBorderColor('email_subject')" onblur="blurChangeBorderColor('subject')" maxlength="50"/>
+              <div class="clear"></div>
+            </div>
+            <div class="errorDiv" style="display:none">
+              <div class="lt leftSideField">&nbsp;</div>
+              <div class="lt" id="email_subject_error"></div>
+            </div>
+            <div class="clear"></div>
+
+            <div class="paddingTop10" style="padding:20px 0 10px 0;">
+              <div class="lt leftSideField">Message</div>
+              <textarea class="textArea" name="email_message" id="email_message" value="" onchange="removeunwantedSpace('email_message',this.value)" onfocus="focusChangeBorderColor('email_message')" onblur="blurChangeBorderColor('message')" ></textarea>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="email_message_error"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="buttonDiv">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt">
+                  <input type="image" src="/assets/activity_detail_view/send_button.png" width="111" height="37" alt="" id="send" /></a>
+                  <a href="#"><%=image_tag("/assets/activity_ticket/cancel.png", :width=>"111", :height=>"37", :onclick=>"clearEmailFields();")%></a>
+                </div>
+                <div class="clear"></div>
+              </div>
+
+            </div>
+          </form>
+
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+</div>

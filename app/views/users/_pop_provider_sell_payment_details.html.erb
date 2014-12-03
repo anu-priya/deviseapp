@@ -1,0 +1,1162 @@
+<link rel="stylesheet" type="text/css" href="/assets/checkout/checkout.css" />
+
+<style type="text/css">
+  .RegiserDivPayment .checkboxCont a:hover{
+    /*text-decoration:underline;*/
+    color:#307193;
+  }
+</style>
+
+
+
+<!--<div align="center" style="border-bottom:1px solid #ddebee;">
+	<div style="margin:10px 0 10px 0;">
+	<a href="#" class="menuText" title="" onclick="show_parent_register()">Parent</a>
+	<span class="dot menuText">&bull;</span>
+	<a href="#" class="menuText" title="" onclick="show_provider_plan()" style="color:#fe0003;"><b>Provider</b></a>
+	</div>
+</div>
+-->
+<div id="register_outerContainer">
+  <div class="Provider_innerContainer" style="width:870px;">
+    <div id="signupDiv" >
+      <div style="width:293px; margin:0 auto;">
+        <!--<div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/register/credit_card_information.png" id="img_credit" align="top" class="circleNumber"></a></div
+        <div class="lt" id="setImage1" style="top:-12px; position:relative;"></div>
+        <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/register/bank_information_over.png" id="img_bank" align="top" class="circleNumber"></a></div>
+        <div style="margin-top:3px; width:400px;">-->
+        <!--<div class="lt setfont12" id="choose_text" style="font-weight:normal; padding-left:0px; margin-left:-61px; padding-top:5px;">Credit Card Information</div>-->
+        <!--<div class="lt setfont12" id="plan_text" style="font-weight:bold; width:144px; padding-top:5px;">Bank Information</div>
+        <div class="clear"></div>
+      </div>-->
+
+      </div>
+
+      <!--              <div class="setTopPosition">
+                      <div class="lt" id="setImage"></div>
+                      <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_1active.png" id="img1" align="top" class="circleNumber"></a></div>
+                      <div class="lt" id="setImage1"></div>
+                      <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_2active.png" id="img2" align="top" class="circleNumber"></a></div>
+                      <div class="lt" id="setImage2"></div>
+                      <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_3inactive.png" id="img3" align="top" class="circleNumber"></a></div>
+                      <div class="lt" id="setImage"></div>
+                      <div class="clear"></div>
+                      <div style="margin-top:3px;">
+                        <div class="lt setfont12" id="choose_text" style="font-weight:normal;">Choose Plan</div>
+                        <div class="lt setfont12" id="plan_text" style="font-weight:normal;">Set up Profile</div>
+                        <div class="lt setfont12" id="payment_text" style="font-weight:bold;">Add Payment Details</div>
+                        <div class="clear"></div>
+                      </div>
+                    </div>
+      -->			  </div>
+
+    <div class="Provider_innerContainer" style="width:817px;">
+      <div class="ProviderCenterContent" style="margin: 0 auto; background:none; width:821px;">
+
+
+
+        <div id="top">
+
+          <!--<div style="width:300px;margin:0 auto;">
+              <div class="lt setfont12" style="width:150px;float:left">
+                  Credit card information
+              </div>
+               <div class="lt setfont12" style="width:150px;float:left">
+                 <b>Bank information</b>
+              </div>
+              <div style="clear:both">&nbsp;</div>
+            </div>-->
+          <script type="text/javascript">
+            function check(type){
+              //alert(type);
+              if (type=="check")
+              {
+                $("#check").show();
+                $("#bank_user").hide();
+                $("#radio_value").val("check");
+                
+              }
+              else if (type=="bankinfo")
+              {
+                $("#bank_user").show();
+                $("#check").hide();
+                $("#radio_value").val("bankinfo");
+              }
+
+            }
+	    
+            $(document).ready(function(){
+              $("#bank_city").autocomplete({
+                minLength: 1,
+                source: "/fetch_city?state_value=true",
+                appendTo: $("#bank_city_autocomplete"),
+                select: function( event, ui ) {
+                  this.value = ui.item.value;
+                  return false;
+                }
+              });
+              $("#check_bank_city").autocomplete({
+                minLength: 1,
+                source: "/fetch_city?state_value=true",
+                appendTo: $("#check_bank_city_autocomplete"),
+                select: function( event, ui ) {
+                  this.value = ui.item.value;
+                  return false;
+                }
+              });
+            });
+          </script>
+
+
+          <div class="checkout_hide" id="checkout" style="padding-bottom:40px;">
+            <div class="checkout_top" style="width:240px;font-weight:normal">
+              <div class="set_style_1 checkoutLt" style="background: #FFFAFA"><span class="number_1">1</span></div>
+              <div class="checkoutLt"><img src="/assets/checkout/line.png" width="195" height="1" class="setLineImg"></div>
+              <div class="set_style_2 checkoutLt" style="background: #CCE9EF;"><span class="number_1">2</span></div>
+            </div>
+            <div class="clear"></div>
+            <div class="checkout_top" style="margin-top:2px; .margin-top:7px;width:400px;font-weight:normal">
+              <div class="checkoutLt"><span class="number_1 chkout_ftSz12" style="margin: 4px 0 0 25px;position: relative; width: 145px;display:block;">Credit Card Information</span></div>
+              <div class="checkoutLt"><span class="number_1 chkout_ftSz12" style="margin-left:84px;top:3px;"><b>Bank Confirmation</b></span></div>
+            </div>
+          </div>
+          <div style="width:100%;height:28px;"></div><div id="bank_infmation" class="setfont12" style="display:none;font-weight:bold;font-size: 17px;">Bank Information</div>
+
+          <div class="clear"></div>
+
+
+          <div class="setfont12" id="payment_text" style="font-weight:bold;font-size: 17px;width: 300px;padding: 22px 0px 0px 295px;">Choose payment method</div>
+
+          <div style="width:200px;margin:0 auto;padding:0px 0px 20px 0px;margin-bottom: 13px;">
+
+            <div class="radiobutton_wrapper">
+              <input type="radio" value="check" checked="checked" onclick="check('check');" name="gender">
+              <label></label>
+              <span class="radioTxt">Check</span>
+            </div>
+
+            <div class="radiobutton_wrapper">
+              <input type="radio" value="bankinfo" onclick="check('bankinfo');" name="gender">
+              <label></label>
+              <span class="radioTxt">Bank info</span>
+            </div>
+
+          </div>
+          <div id="check_helptext" style="width:640px;margin:0 auto;background:#EDF1F2;;padding:10px;text-align:center;margin-top: 15px;margin-bottom: 25px; font-weight: normal;">
+            Your address or Bank information is required so famtivity can pay you for any activities sold through famtivity or refunds, etc. that may due to you in the future.
+          </div>
+
+          <div id="bank_helptext" style="width:640px;margin:0 auto;background:#EDF1F2;;padding:10px;text-align:center;margin-top: 15px;margin-bottom: 25px;display:none; font-weight: normal;">
+            Your address or Bank information is required so famtivity can pay you for any activities sold through famtivity or refunds, etc. that may due to you in the future.
+          </div>
+
+        </div>
+
+
+        <div class="RegiserDivPayment" style="width:830px; margin:0 auto; padding-bottom:20px;">
+
+          <input type="hidden" name="radio_value" id="radio_value" value="check">
+
+
+          <div id="check"> <!--check start div-->
+
+            <div class="setTop10" style="margin-top:20px;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Payee Name</b></span><span class="required">*</span></div>
+              <div class="lt RtDiv"><input type="text" name="paye_name" id="paye_name" class="setTextBox" tabindex="9"  style="<%if !@bank_details.nil? && !@bank_details.payee_name.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.payee_name.nil?%><%=@bank_details.payee_name%><%else%>Enter payee name<%end%>" onfocus="if( this.value == 'Enter payee name') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter payee name'}"></div>
+              <div class="clear"></div>
+            </div>
+
+
+
+            <div class="errorDiv" style="display:none;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+              <div class="lt RtDiv" id="paye_name_error"></div>
+              <div class="clear"></div>
+            </div>
+
+
+            <div class="setTop10" style="margin-top:10px;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Business Name</b></span><span class="required">*</span></div>
+              <div class="lt RtDiv"><input type="text" name="c_business_name" id="c_business_name" class="setTextBox" tabindex="10"  style="<%if !@bank_details.nil? && !@bank_details.business_name.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.business_name.nil?%><%=@bank_details.business_name%><%else%>Enter business name<%end%>" onfocus="if( this.value == 'Enter business name') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter business name'}"></div>
+              <div class="clear"></div>
+            </div>
+
+
+
+            <div class="errorDiv" style="display:none;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+              <div class="lt RtDiv" id="business_name_error"></div>
+              <div class="clear"></div>
+            </div>
+
+
+
+            <div class="setTop10" style="margin-top:10px;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Number &amp; Street</b></span><span class="required"></span></div>
+              <div class="lt RtDiv"><input type="text" name="street_check_code" id="street_check_code" class="setTextBox" tabindex="11"  style="<%if !@bank_details.nil? && !@bank_details.street_address.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.street_address.nil?%><%=@bank_details.street_address%><%else%>Enter street number & street address<%end%>" onfocus="if( this.value == 'Enter street number & street address') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter street number & street address'}"></div>
+              <div class="clear"></div>
+            </div>
+
+
+
+
+            <div class="errorDiv" id="bank_stree_number" style="display:none;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+              <div class="lt RtDiv">
+
+                <span  class="lt RtDiv" style="width:285px; .width:280px; border:1px solid #fff;" id="number_bank_error" ></span>
+                <span  class="lt RtDiv" id="street_bank_error" style="width:270px; border:1px solid #fff;" ></span>
+              </div>
+              <div class="clear"></div>
+            </div>
+
+
+            <div class="setTop10">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Country &amp; State</b></span><span class="required">*</span></div>
+              <div class="lt RtDiv">
+                <div class="lt" style="width1:278px;">
+                  <select name="bank_country" id="bank_country" tabindex="12"  class="drop_down_bank">
+                    <option value="United State">United States</option>
+                  </select>
+                </div>
+                <div class="lt" style="width1:286px; margin-left:4px;">
+                  <select name="bank_state" id="bank_state" size="1" tabindex="13"  class="drop_down_bank">
+                    <option value="California">California</option>
+                  </select>
+                </div>
+              </div>
+              <div class="clear"></div>
+            </div>
+
+            <div class="errorDiv" style="display:none;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+              <div class="lt RtDiv">
+                <span  class="lt RtDiv" id="state_bank_error" style="width:285px; border:1px solid #fff;"></span>
+              </div>
+              <div class="clear"></div>
+            </div>
+
+
+            <div class="setTop10">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>City &amp; Zip Code</b></span><span class="required">*</span></div>
+              <div class="lt RtDiv">
+                <div class="lt" style="width1:278px;">
+                  <input type="text" name="check_bank_city" id="check_bank_city" class="lt textbox_provider_free" tabindex="14" value="Enter City" onfocus="if(this.value == 'Enter City') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter City'}">
+                  <div id="check_bank_city_autocomplete"></div>
+                </div>
+                <div class="lt" style="width1:286px; margin-left:4px;">
+                  <input type="text" name="check_z_code" id="check_z_code" class="setTextBox" tabindex="15"  style="width:271px;<%if !@bank_details.nil? && !@bank_details.bank_zip_code.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.bank_zip_code.nil?%><%=@bank_details.bank_zip_code%><%else%>Enter zip code<%end%>" onfocus="if( this.value == 'Enter zip code') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter zip code'}">
+
+                </div>
+              </div>
+              <div class="clear"></div>
+            </div>
+
+            <div class="errorDiv" style="display:none;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+              <div  class="lt" style="width:270px; border:1px solid #fff;"  id="check_bank_city_error"></div>
+              <div class="lt" style="margin-left: 8px;" id="check_zip_error"></div>
+              <div class="clear"></div>
+            </div>
+
+
+
+            <div class="clear"></div>
+            <div class="clear"></div>
+            <div class="setTop10" style="margin-top:20px;">
+              <div class="lt" id="provider_info_text" style="width:232px;">&nbsp;</div>
+              <div class="lt RtDiv">
+                <table>
+                  <tr>
+                    <td>
+                      <a href="javascript:void(0)" id="registerbutton_1" title="" style="display:none;"><img  src="/assets/register/register_button_over.png" style="margin-right: 0px;margin-left:25px;outline:none;" width="97" height="37" alt="" class="lt loginButton" tabindex="21" value="" title="Register"/></a>
+                      <a class="lt save-button" onclick="return ChekRegValidation(); provider_submit();  _gaq.push(['_trackEvent', 'Registration', 'clickProviderSellthroughRegister', 'Sell Through Registration']);" href="javascript:void(0)" id="register_button" title="" style="display:inline-block;text-decoration:none;">Register</a>
+		      <!--input type="submit" id="register_button" style="margin-right: 0px;margin-left:25px;outline:none;" width="97" height="37" alt="" class="lt loginButton" tabindex="21" value="" title="Register" /-->
+                      <a href="javascript:void(0)" title="" style="display:inline-block;text-decoration:none;" onkeydown="cancelKeyDown(event)" onclick="closepopup()" class="cancel-button">Cancel</a>
+                      <!--div class="cancel"><a href="javascript:void(0)" title="" onkeydown="cancelKeyDown(event)" tabindex="22" style="margin-left:-2px;outline:none;" onclick="closepopup()"><img src="/assets/login/cancel_button.png" width="97" height="37"></a></div>-->
+                    </td>
+                    <td>
+                      <span id="loadingmessage1" style="display:none;" align="center"><img src="assets/loading.gif"/></span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="clear"></div>
+            </div>
+
+
+
+          </div><!--check end div-->
+
+
+
+          <div id="bank_user" style="display:none"> <!--bank start div-->
+            <div class="setTop15">
+              <div class="lt" id="provider_info_text">Bank Information</div>
+              <div class="lt RtDiv" style="height:21px;">&nbsp;</div>
+              <div class="clear"></div>
+            </div>
+
+            <div class="setTop10" style="margin-top:20px;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Bank Name</b></span><span class="required">*</span></div>
+              <div class="lt RtDiv"><input type="text" name="bank_name" id="bank_name" class="setTextBox" tabindex="9" value="Name of bank" onfocus="if( this.value == 'Name of bank') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Name of bank'}"></div>
+              <div class="clear"></div>
+            </div>
+
+            <div class="errorDiv" style="display:none;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+              <div class="lt RtDiv" id="bank_name_error"></div>
+              <div class="clear"></div>
+            </div>
+
+            <div class="setTop10">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Account Name</b></span><span class="required">*</span></div>
+              <div class="lt RtDiv"><input type="text" name="account_name" id="account_name" class="setTextBox" tabindex="10" value="Enter your account name" onfocus="if( this.value == 'Enter your account name') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter your account name'}"></div>
+              <div class="clear"></div>
+            </div>
+
+            <div class="errorDiv" style="display:none;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+              <div class="lt RtDiv" id="clear_house_error"></div>
+              <div class="clear"></div>
+            </div>
+
+
+            <div class="setTop10">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Routing number for wire transfers</b></span><span class="required">*</span></div>
+              <div class="lt RtDiv"><input type="text" name="w_transfer" id="w_transfer" class="setTextBox" tabindex="11" value="Enter the routing number" onfocus="if( this.value == 'Enter the routing number') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter the routing number'}"></div>
+              <div class="clear"></div>
+            </div>
+
+            <div class="errorDiv" style="display:none;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+              <div class="lt RtDiv" id="wire_transfer_error"></div>
+              <div class="clear"></div>
+            </div>
+
+
+
+            <div class="setTop10">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Account Number</b></span><span class="required">*</span></div>
+              <div class="lt RtDiv"><input type="text" name="acc_number" id="acc_number" class="setTextBox" tabindex="12" value="Enter your account number" onfocus="if( this.value == 'Enter your account number') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter your account number'}"></div>
+              <div class="clear"></div>
+            </div>
+
+            <div class="errorDiv" style="display:none;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+              <div class="lt RtDiv" id="acc_number_error"></div>
+              <div class="clear"></div>
+            </div>
+
+            <!-- <div class="setTop10">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Swift Code</b></span><span class="required">*</span></div>
+              <div class="lt RtDiv"><input type="text" name="swift_code" id="swift_code" class="setTextBox" tabindex="13" maxlength="11" value="Enter the swift code" onfocus="if( this.value == 'Enter the swift code') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter the swift code'}"></div>
+              <div class="clear"></div>
+            </div>
+
+            <div class="errorDiv" style="display:none;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+              <div class="lt RtDiv" id="swift_code_error"></div>
+              <div class="clear"></div>
+            </div> -->
+
+            <div class="setTop15">
+              <div class="lt" id="provider_info_text">Bank Address</div>
+              <div class="lt RtDiv" style="height:21px;">&nbsp;</div>
+              <div class="clear"></div>
+            </div>
+
+            <div class="setTop10" style="margin-top:20px;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Number &amp; Street</b></span></div>
+              <div class="lt RtDiv">
+                <!--input type="text" name="number_bank_code" id="number_bank_code" class="setTextBox_street" tabindex="14" value="Enter number" onfocus="if( this.value == 'Enter number') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter number'}"-->
+                <input type="text" name="street_bank_code" id="street_bank_code" class="setTextBox" tabindex="15" value="Enter street number & street address" onfocus="if( this.value == 'Enter street number & street address') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter street number & street address'}">
+
+              </div>
+              <div class="clear"></div>
+            </div>
+
+            <div class="errorDiv" id="bank_stree_number" style="display:none;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+              <div class="lt RtDiv">
+                <span  class="lt RtDiv" style="width:285px; .width:280px; border:1px solid #fff;" id="number_bank_error" ></span>
+                <span  class="lt RtDiv" id="street_bank_error" style="width:270px; border:1px solid #fff;" ></span>
+
+              </div>
+              <div class="clear"></div>
+            </div>
+
+
+            <div class="setTop10">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>City &amp; State</b></span><span class="required">*</span></div>
+              <div class="lt RtDiv">
+                <div class="lt" style="width1:278px;">            
+                  <input type="text" name="bank_city" id="bank_city" class="lt textbox_provider_free" tabindex="16" value="Enter City" onfocus="if(this.value == 'Enter City') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter City'}">
+                  <div id="bank_city_autocomplete"></div>
+                </div>
+                <div class="lt" style="width1:286px; margin-left:4px;">
+                  <select name="bank_state" id="bank_state" size="1" tabindex="17"  class="drop_down_bank">
+                    <option value="California">California</option>
+                  </select>
+                </div>
+              </div>
+              <div class="clear"></div>
+            </div>
+
+            <div class="errorDiv" style="display:none;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+              <div class="lt RtDiv">
+                <span  class="lt RtDiv" style="width:270px; border:1px solid #fff;"  id="city_bank_error" ></span>
+                <span  class="lt RtDiv" id="state_bank_error" style="width:285px; border:1px solid #fff;"></span>
+              </div>
+              <div class="clear"></div>
+            </div>
+
+
+            <div class="setTop10">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Zip Code</b></span><span class="required">*</span></div>
+              <div class="lt RtDiv"><input type="text" name="bank_z_code" id="bank_z_code" class="setTextBox" tabindex="18" value="Enter zip code" onfocus="if( this.value == 'Enter zip code') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter zip code'}"></div>
+              <div class="clear"></div>
+            </div>
+
+            <div class="errorDiv" style="display:none;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+              <div class="lt RtDiv" id="bank_zip_error"></div>
+              <div class="clear"></div>
+            </div>
+
+            <!-- <div class="setTop15">
+              <div class="lt" id="provider_info_text">Fax Information</div>
+              <div class="lt RtDiv" style="height:21px;">&nbsp;</div>
+              <div class="clear"></div>
+            </div> -->
+
+            <!-- <div class="setTop10" style="margin-top:20px;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Fax Number </b></span><span class="required">*</span></div>
+              <div class="lt RtDiv"><input type="text" name="fax_num" id="fax_num" class="setTextBox" tabindex="19" value="Enter a fax number" onfocus="if( this.value == 'Enter a fax number') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter a fax number'}"></div>
+              <div class="clear"></div>
+            </div>
+
+            <div class="errorDiv" style="display:none;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+              <div class="lt RtDiv" id="fax_error"></div>
+              <div class="clear"></div>
+            </div> -->
+
+            <!-- <div class="setTop10">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Address Name</b></span><span class="required">*</span></div>
+              <div class="lt RtDiv"><input type="text" name="address_name" id="address_name" class="setTextBox" tabindex="20" value="First and Last name" onfocus="if( this.value == 'First and Last name') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='First and Last name'}"></div>
+              <div class="clear"></div>
+            </div>
+
+            <div class="errorDiv" style="display:none;">
+              <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+              <div class="lt RtDiv" id="address_name_error"></div>
+              <div class="clear"></div>
+            </div> -->
+
+            <!--div class="setTop10">
+              <div class="lt leftSideField" style="width:258px;">&nbsp;</div>
+              <div class="lt">
+                <input type="hidden" name="sell_agree_provider" id="sell_agree_provider" value="" />
+                <span  class="checkbox">
+                  <a href="javascript:void(0)" title="" class="checkbox" id="sell_checkbox_selected" onclick="dispCheckboxImg_sell('sell_checkbox_selected')" onkeydown="ag_cb_keydown(event,'sell_checkbox_selected')" style="display: none" tabindex="21"><img src="/assets/register/checkbox_selected.png" alt=""/></a>
+                  <a href="javascript:void(0)" title="" id="sell_checkbox_normal" onclick="dispCheckboxImg_sell('sell_checkbox_normal')" onkeydown="ag_cb_keydown(event,'sell_checkbox_normal')" tabindex="20"><img src="/assets/register/checkbox_normal.png" alt=""/></a>
+                  <a href="javascript:void(0)" title="" id="sell_checkbox_error" onclick="dispCheckboxImg_sell('sell_checkbox_error')" onkeydown="ag_cb_keydown(event,'sell_checkbox_error')"  tabindex="22" style="display: none"><img src="/assets/register/checkbox_error.png" alt=""/></a>
+                </span>
+                <p class="lt checkboxCont">I agree to the <a href="provider_terms_of_service" onkeydown="termsKeyDown(event)" title="" tabindex="21" target="_blank">Famtivity Terms of Service</a> <span style="color: #307193;">&amp;</span> <a href="provider_privacy_policy" onkeydown="termsKeyDown(event)" title="" tabindex="21" target="_blank">Privacy Policies</a></p>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <div class="errorDiv" id="checkboxError" style="display:none">
+              <div class="lt errorDivProvider" id="sell_agree_provider_errorr" style="margin-left: 256px;"></div>
+            </div-->
+            <div class="clear"></div>
+            <div class="setTop10" style="margin-top:20px;">
+              <div class="lt" id="provider_info_text" style="width:232px;">&nbsp;</div>
+              <div class="lt RtDiv">
+                <!--<a href="javascript:void(0)" title=""><input type="submit" id="register_button" style="margin-right: 5px;margin-left:25px;outline:none;" width="95" height="33" alt="" class="lt loginButton" tabindex="21" value="" title="Register" onclick="return ChekRegValidation(); _gaq.push(['_trackEvent', 'Registration', 'clickProviderSellthroughRegister', 'Sell Through Registration']);"/></a>
+                <div class="cancel"><a href="javascript:void(0)" title="" onkeydown="cancelKeyDown(event)" tabindex="22" style="margin-left:-2px;outline:none;" onclick="closepopup()"><img src="/assets/login/cancel_button.png"></a></div>-->
+                <a href="javascript:void(0)" id="registerbutton_3" title="" style="display:none;"><img  src="/assets/register/register_button_over.png" style="margin-right: 0px;margin-left:25px;outline:none;" width="97" height="37" alt="" class="lt loginButton" tabindex="21" value="" title="Register"/></a>
+                <a href="javascript:void(0)" id="registerbutton_4" title="" class="save-button lt" style="display:inline-block;text-decoration:none;" onclick="return ChekRegValidation(); provider_submit(); _gaq.push(['_trackEvent', 'Registration', 'clickProviderSellthroughRegister', 'Sell Through Registration']);">Register</a>
+	<!--input type="submit" id="register_button" style="margin-right: 0px;margin-left:25px;outline:none;" width="97" height="37" alt="" class="lt loginButton" tabindex="21" value="" title="Register" onclick="return ChekRegValidation(); provider_submit(); _gaq.push(['_trackEvent', 'Registration', 'clickProviderSellthroughRegister', 'Sell Through Registration']);"/-->
+                <a href="javascript:void(0)" title="" style="display:inline-block;text-decoration:none;" onkeydown="cancelKeyDown(event)" onclick="closepopup()" class="cancel-button lt">Cancel</a>
+                <div class="loadingmessage2" style="display:none;left: -45px;position: relative;top: -30px;" align="center">
+                  <img src='/assets/loading_small.gif' />
+                </div>
+              </div>
+              <div class="clear"></div>
+            </div>
+          </div> <!--bank end div-->
+       </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+ $("#registerbutton_4, #register_button").click(function () {
+    var stateObj = {
+      foo: "bar"
+    };
+    if(navigator.appName=="Microsoft Internet Explorer"){
+      window.location.hash="/";
+    }
+    else{
+       parent.history.pushState(stateObj, "Signup", "/provider_plan_sucess");
+    }
+  _gaq.push(['_trackPageview', '/provider_plan_sucess']);
+  });
+  
+  function check(type){
+    if (type=="check")
+    {
+      $("#check").show();
+      $("#bank_user").hide();
+      $("#check_helptext").show();
+      $("#bank_helptext").hide();
+      $("#radio_value").val("check"); 
+    }
+    else if (type=="bankinfo")
+    {
+      $("#bank_user").show();
+      $("#check").hide();
+      $("#check_helptext").hide();
+      $("#bank_helptext").show();
+      $("#radio_value").val("bankinfo");
+    }
+
+  }
+
+  function ChekRegValidation(){
+    var l_name =  $("#radio_value").val();
+    errorFlag = false;
+    if (l_name=="check")     // check if start
+    {
+      $("#bank_user").hide();
+      var paye_name = $("#paye_name").val();
+      var c_business_name = $("#c_business_name").val();
+      var check_z_code = $("#check_z_code").val();
+      var check_bank_city = $("#check_bank_city").val();
+      check_z_code = check_z_code.replace(/^\s+|\s+$/g, "");
+      paye_name = paye_name.replace(/^\s+|\s+$/g, "");
+      c_business_name = c_business_name.replace(/^\s+|\s+$/g, "");
+      $("#check_z_code").css("border","1px solid #BDD6DD");
+      $("#paye_name").css("border","1px solid #BDD6DD");
+      $("#c_business_name").css("border","1px solid #BDD6DD");
+        
+      if(paye_name == "" || paye_name == "Enter payee name"){
+        $("#paye_name").css("border","1px solid #fc8989");
+        $("#paye_name_error").html("Please enter payee name");
+        $("#paye_name_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      if(c_business_name == "" || c_business_name == "Enter business name" ){
+        $("#c_business_name").css("border","1px solid #fc8989");
+        $("#business_name_error").html("Please enter business name");
+        $("#business_name_error").parent().css("display","block");
+        errorFlag = true;
+      }
+
+      if(check_bank_city != "Enter City" || check_bank_city != ""){
+        if(!validateName(check_bank_city)){
+          $("#check_bank_city").css("border","1px solid #fc8989");
+          $("#check_bank_city_error").html("Please enter valid city");
+          $("#check_bank_city_error").parent().css("display","block");
+          errorFlag = true;
+        }
+      }
+	
+      if(check_z_code == "" || check_z_code == "Enter zip code"){
+        $("#check_z_code").css("border","1px solid #fc8989");
+        $("#check_zip_error").html("Please enter zipcode");
+        $("#check_zip_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(isNaN(check_z_code)){
+        $("#check_z_code").css("border","1px solid #fc8989");
+        $("#check_zip_error").html("Please enter number");
+        $("#check_zip_error").parent().css("display","block");
+        errorFlag = true;
+      }
+
+
+      if(errorFlag){
+        return false;
+      }
+      else{
+
+        $('#loadingmessage1').show();
+        //~ $('#registerbutton_1').css("display","inline-block");
+        //~ $('#register_button').css("display","none");
+        $('#register_button').removeClass('save-button');
+        $('#register_button').addClass('save-button-disabled');
+        $("#provider_seller_final").ajaxSubmit({
+          target: '#register_outerContainer',
+          dataType: 'json',
+          success: function(data)
+          { //console.log(data);
+            //alert(data);
+            var invite_friend=data
+            if (data=="failed"){
+              $('#loadingmessage1').hide();
+              pop_success_register('/register_status_message?reg_status=failed');
+            }
+            else if (data=="b_provider"){
+              $('#loadingmessage1').hide();
+              pop_success_register('/register_status_message?reg_status=b_provider');
+            }
+            else{
+              $('#loadingmessage1').hide();
+              pop_success_register('/register_status_message?reg_status='+invite_friend);
+            }
+          }
+                
+        });
+        $("#img3").attr("src","/assets/provider_register/step_3inactive.png");
+        $("#payment_text").css("font-weight","bold");
+        $("#img2").attr("src","/assets/provider_register/step_2active.png");
+        $("#plan_text").css("font-weight","normal");
+    
+        return false;
+
+      }
+
+    }   // check if end
+    if(l_name=="bankinfo")   // bank if start
+    { 
+      /*var s_code = $("#s_code").val();
+    var l_name = $("#l_name").val();
+    var t_code = $("#t_code").val();
+    var street_reg = $("#street_reg").val();
+    var number_reg = $("#number_reg").val();
+    var city_reg = $("#city_reg").val();
+    var state_reg = $("#state_reg").val();*/
+      var bank_state = $("#bank_state").val();
+      var bank_city = $("#bank_city").val();
+      //var z_code =  $("#z_code").val();
+      var bank_name =  $("#bank_name").val();
+      var w_transfer = $("#w_transfer").val();
+      var account_name = $("#account_name").val();
+      var acc_number = $("#acc_number").val();
+      /*var swift_code = $("#swift_code").val();*/
+      var street_bank_code = $("#street_bank_code").val();
+      //~ var number_bank_code = $("#number_bank_code").val();
+      var bank_z_code = $("#bank_z_code").val();
+      /*var fax_num = $("#fax_num").val();
+    var address_name = $("#address_name").val();*/
+      var sell_agree_provider = $("#sell_agree_provider").val();
+  
+
+      /*s_code = s_code.replace(/^\s+|\s+$/g, "");
+    l_name = l_name.replace(/^\s+|\s+$/g, "");
+    t_code = t_code.replace(/^\s+|\s+$/g, "");
+    street_reg = street_reg.replace(/^\s+|\s+$/g, "");
+    number_reg = number_reg.replace(/^\s+|\s+$/g, "");
+    city_reg = city_reg.replace(/^\s+|\s+$/g, "");
+    z_code = z_code.replace(/^\s+|\s+$/g, "");
+    state_reg = state_reg.replace(/^\s+|\s+$/g, "");*/
+      bank_state = bank_state.replace(/^\s+|\s+$/g, "");
+      bank_city = bank_city.replace(/^\s+|\s+$/g, "");
+      bank_name = bank_name.replace(/^\s+|\s+$/g, "");
+      w_transfer = w_transfer.replace(/^\s+|\s+$/g, "");
+      account_name = account_name.replace(/^\s+|\s+$/g, "");
+      acc_number = acc_number.replace(/^\s+|\s+$/g, "");
+      /*swift_code = swift_code.replace(/^\s+|\s+$/g, "");*/
+      street_bank_code = street_bank_code.replace(/^\s+|\s+$/g, "");
+      //~ number_bank_code = number_bank_code.replace(/^\s+|\s+$/g, "");
+      bank_z_code = bank_z_code.replace(/^\s+|\s+$/g, "");
+      /*fax_num = fax_num.replace(/^\s+|\s+$/g, "");
+    address_name = address_name.replace(/^\s+|\s+$/g, "");*/
+  
+      /*$("#s_code").css("border","1px solid #BDD6DD");
+    $("#l_name").css("border","1px solid #BDD6DD");
+    $("#t_code").css("border","1px solid #BDD6DD");
+    $("#street_reg").css("border","1px solid #BDD6DD");
+    $("#number_reg").css("border","1px solid #BDD6DD");
+    $("#city_reg").css("border","1px solid #BDD6DD");
+    $("#state_reg").css("border","1px solid #BDD6DD");
+    $("#z_code").css("border","1px solid #BDD6DD");*/
+      $("#bank_name").css("border","1px solid #BDD6DD");
+      $("#w_transfer").css("border","1px solid #BDD6DD");
+      $("#account_name").css("border","1px solid #BDD6DD");
+      $("#acc_number").css("border","1px solid #BDD6DD");
+      /*$("#swift_code").css("border","1px solid #BDD6DD");*/
+      $("#street_bank_code").css("border","1px solid #BDD6DD");
+      //~ $("#number_bank_code").css("border","1px solid #BDD6DD");
+      $("#bank_z_code").css("border","1px solid #BDD6DD");
+      /*$("#fax_num").css("border","1px solid #BDD6DD");
+    $("#address_name").css("border","1px solid #BDD6DD");*/
+      $(".selectBoxStateBankReg").css("border","none");
+      $(".selectBoxCityBankReg").css("border","none");
+      $(".selectBoxStateReg").css("border","none");
+      $(".selectBoxCityReg").css("border","none");
+      $("#sell_agree_provider").css("border","1px solid #BDD6DD");
+  
+
+      /*$("#s_code_error").html("");
+    $("#legal_name_error").html("");
+    $("#tax_code_error").html("");
+    $("#street_error").html("");
+    $("#number_error").html("");
+    $("#city_error").html("");
+    $("#state_error").html("");
+    $("#zip_error").html("");*/
+      $("#bank_name_error").html("");
+      $("#wire_transfer_error").html("");
+      $("#clear_house_error").html("");
+      $("#acc_number_error").html("");
+      //$("#swift_code_error").html("");
+      $("#street_bank_error").html("");
+      $("#number_bank_error").html("");
+      $("#city_bank_error").html("");
+      $("#state_bank_error").html("");
+      $("#bank_zip_error").html("");
+      /*$("#fax_error").html("");
+    $("#address_name_error").html("");*/
+      $("#sell_agree_provider_errorr").html("");
+
+  
+      /*$("#s_code_error").parent().css("display","none");
+    $("#legal_name_error").parent().css("display","none") 
+    $("#tax_code_error").parent().css("display","none");
+    $("#city_error").parent().parent().css("display","none");
+    $("#state_error").parent().parent().css("display","none");
+    $("#zip_error").parent().css("display","none");*/
+      $("#bank_name_error").parent().css("display","none");
+      $("#wire_transfer_error").parent().css("display","none");
+      $("#clear_house_error").parent().css("display","none");
+      $("#acc_number_error").parent().css("display","none");
+      //$("#swift_code_error").parent().css("display","none");
+      $("#street_bank_error").parent().css("display","none");
+      $("#number_bank_error").parent().css("display","none");
+      $("#street_bank_error").parent().parent().css("display","none");
+      $("#number_bank_error").parent().parent().css("display","none");
+      $("#city_bank_error").parent().parent().css("display","none");
+      $("#state_bank_error").parent().parent().css("display","none");
+      $("#bank_zip_error").parent().css("display","none");
+      /*$("#fax_error").parent().css("display","none");
+    $("#address_name_error").parent().css("display","none");*/
+      $("#checkboxError").css("display","none");
+  
+      var errorFlag = false;
+      /* if(s_code == "" || s_code == "Enter your unique supplier code"){
+      $("#s_code").css("border","1px solid #fc8989");
+      $("#s_code_error").html("Please enter your supplier code");
+      $("#s_code_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    else if(!validateName(s_code)){
+      $("#s_code").css("border","1px solid #fc8989");
+      $("#s_code_error").html("Please Use Only Alphabets");
+      $("#s_code_error").parent().css("display","block");
+      errorFlag = true;
+    }*/
+
+      /*if(l_name == "" || l_name == "First and Last name"){
+      $("#l_name").css("border","1px solid #fc8989");
+      $("#legal_name_error").html("Please enter your Legal name");
+      $("#legal_name_error").parent().css("display","block");
+      errorFlag = true;
+    }
+
+    else if(!validateName(l_name)){
+      $("#l_name").css("border","1px solid #fc8989");
+      $("#legal_name_error").html("Please Use Only Alphabets");
+      $("#legal_name_error").parent().css("display","block");
+      errorFlag = true;
+    }
+
+    if(t_code == "" || t_code == "Enter your tax code"){
+      $("#t_code").css("border","1px solid #fc8989");
+      $("#tax_code_error").html("Please enter your tax number");
+      $("#tax_code_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    else if(isNaN(t_code)){
+      $("#t_code").css("border","1px solid #fc8989");
+      $("#tax_code_error").html("Please enter number");
+      $("#tax_code_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    if(street_reg == "" || street_reg == "Enter street address"){
+      $("#street_reg").css("border","1px solid #fc8989");
+      $("#street_error").html("Please enter your street");
+      $("#street_error").css("display","block");
+      $("#stree_number").css("display","block");
+      errorFlag = true;
+    }
+
+    if(number_reg == "" || number_reg == "Enter number"){
+      $("#number_reg").css("border","1px solid #fc8989");
+      $("#number_error").html("Please enter your number");
+      $("#stree_number").css("display","block");
+      errorFlag = true;
+    }
+  
+  
+    if(isNaN(number_reg)){
+      $("#number_reg").css("border","1px solid #fc8989");
+      $("#number_error").html("Please enter your number");
+      $("#stree_number").css("display","block");
+      errorFlag = true;
+    }
+  
+    if(state_reg == "--Choose State--" || state_reg == ""){
+      //alert(state_reg);
+      $(".selectBoxStateReg").css("border","1px solid #fc8989");
+      $("#state_error").html("Please select the state");
+      $("#city_state").css("display","block");
+    
+      //$("#state_error").parent().parent().css("display","block");
+      errorFlag = true;
+    }
+
+    if(city_reg == "--Choose City--" || city_reg == ""){
+      $(".selectBoxCityReg").css("border","1px solid #fc8989");
+      $("#city_error").html("Please select the city");
+      $("#city_error").parent().parent().css("display","block");
+      errorFlag = true;
+    }
+  
+    if(z_code == "" || z_code == "Enter zip code"){
+      $("#z_code").css("border","1px solid #fc8989");
+      $("#zip_error").html("Please enter zipcode");
+      $("#zip_error").parent().css("display","block");
+      errorFlag = true;
+    }
+  
+    else if(isNaN(z_code)){
+      $("#z_code").css("border","1px solid #fc8989");
+      $("#zip_error").html("Please enter number");
+      $("#zip_error").parent().css("display","block");
+      errorFlag = true;
+    }*/
+      if(bank_name == "" || bank_name == "Name of bank"){
+        $("#bank_name").css("border","1px solid #fc8989");
+        $("#bank_name_error").html("Please enter bank name");
+        $("#bank_name_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(!validateName(bank_name)){
+        $("#bank_name").css("border","1px solid #fc8989");
+        $("#bank_name_error").html("Please Use Only Alphabets");
+        $("#bank_name_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      if(account_name == "" || account_name == "Enter your account name"){
+        $("#account_name").css("border","1px solid #fc8989");
+        $("#clear_house_error").html("Please enter account name");
+        $("#clear_house_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      //~ else if(!validateAName(account_name)){
+      //~ $("#account_name").css("border","1px solid #fc8989");
+      //~ $("#clear_house_error").html("Please Use Only Alphabets");
+      //~ $("#clear_house_error").parent().css("display","block");
+      //~ errorFlag = true;
+      //~ }
+    
+      if(w_transfer == "" || w_transfer == "Enter the routing number"){
+        $("#w_transfer").css("border","1px solid #fc8989");
+        $("#wire_transfer_error").html("Please enter the value");
+        $("#wire_transfer_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(isNaN(w_transfer)){
+        $("#w_transfer").css("border","1px solid #fc8989");
+        $("#wire_transfer_error").html("Please enter number");
+        $("#wire_transfer_error").parent().css("display","block");
+        errorFlag = true;
+      }
+
+      if(acc_number == "" || acc_number == "Enter your account number"){
+        $("#acc_number").css("border","1px solid #fc8989");
+        $("#acc_number_error").html("Please enter account number");
+        $("#acc_number_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(isNaN(acc_number)){
+        $("#acc_number").css("border","1px solid #fc8989");
+        $("#acc_number_error").html("Please enter number");
+        $("#acc_number_error").parent().css("display","block");
+        errorFlag = true;
+      }
+  
+      /*if(swift_code == "" || swift_code == "Enter the swift code"){
+      $("#swift_code").css("border","1px solid #fc8989");
+      $("#swift_code_error").html("Please enter swift code");
+      $("#swift_code_error").parent().css("display","block");
+      errorFlag = true;
+    }*/
+      /* if(street_bank_code == "" || street_bank_code == "Enter street address"){
+      $("#street_bank_code").css("border","1px solid #fc8989");
+      $("#street_bank_error").html("Please enter your bank&rsquo;s address");
+      $("#street_bank_error").css("display","block");
+      $("#bank_stree_number").css("display","block");
+      $("#street_bank_error").parent().css("display","block");
+      errorFlag = true;
+    }
+
+    if(number_bank_code == "" || number_bank_code == "Enter number"){
+      $("#number_bank_code").css("border","1px solid #fc8989");
+      $("#number_bank_error").html("Please enter street number");
+      $("#number_bank_error").css("display","block");
+      $("#bank_stree_number").css("display","block");
+      $("#number_bank_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    if(isNaN(number_bank_code)){
+      $("#number_bank_code").css("border","1px solid #fc8989");
+      $("#number_bank_error").html("Please enter street number");
+      $("#number_bank_error").css("display","block");
+      $("#bank_stree_number").css("display","block");
+      $("#number_bank_error").parent().css("display","block");
+      errorFlag = true;
+    }*/
+    
+    
+      if(bank_state == "" || bank_state == "--Choose State--"){
+        $(".selectBoxStateBankReg").css("border","1px solid #fc8989");
+        $("#state_bank_error").html("Please select the state");
+        $("#state_bank_error").parent().parent().css("display","block");
+        errorFlag = true;
+      }
+    
+      if(bank_city != "Enter City" || bank_city != ""){
+        if(!validateName(bank_city)){
+          $("#bank_city").css("border","1px solid #fc8989");
+          $("#city_bank_error").html("Please enter valid city");
+          $("#city_bank_error").parent().parent().css("display","block");
+          errorFlag = true;
+        }
+      }
+	
+      if(bank_z_code == "" || bank_z_code == "Enter zip code"){
+        $("#bank_z_code").css("border","1px solid #fc8989");
+        $("#bank_zip_error").html("Please enter zipcode");
+        $("#bank_zip_error").parent().css("display","block");
+        errorFlag = true;
+      }
+  
+      else if(isNaN(bank_z_code)){
+        $("#bank_z_code").css("border","1px solid #fc8989");
+        $("#bank_zip_error").html("Please enter number");
+        $("#bank_zip_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      /*if(fax_num == "" || fax_num == "Enter a fax number"){
+      $("#fax_num").css("border","1px solid #fc8989");
+      $("#fax_error").html("Please enter fax number");
+      $("#fax_error").parent().css("display","block");
+      errorFlag = true;
+    }
+  
+    else if(isNaN(fax_num)){
+      $("#fax_num").css("border","1px solid #fc8989");
+      $("#fax_error").html("Please enter number");
+      $("#fax_error").parent().css("display","block");
+      errorFlag = true;
+    }*/
+
+      /*if(address_name == "" || address_name == "First and Last name"){
+      $("#address_name").css("border","1px solid #fc8989");
+      $("#address_name_error").html("Please enter an address");
+      $("#address_name_error").parent().css("display","block");
+      errorFlag = true;
+    }
+
+      if (sell_agree_provider == ""){
+        $('#sell_checkbox_error').css('display','block');
+        $('#sell_checkbox_normal').css('display','none');
+        //$("#checkboxError").parent().css("display","block");
+        $("#checkboxError").css("display","block");
+        $("#sell_agree_provider_errorr").html("Please check the terms of service box");
+        errorFlag = true;
+      }*/
+
+      if(errorFlag){
+        return false;
+      }
+      else{
+        $('.loadingmessage2').show();
+        //~ $('#registerbutton_3').css("display","inline-block");
+        //~ $('#registerbutton_4').css("display","none");
+        $('#registerbutton_4').removeClass("save-button");
+        $('#registerbutton_4').addClass("save-button-disabled");
+        $("#provider_seller_final").ajaxSubmit({
+          target: '#register_outerContainer',
+          dataType: 'json',
+          success: function(data)
+          { //console.log(data);
+            //alert(data);
+            var invite_friend=data
+            if (data=="failed"){
+              $('#loadingmessage1').hide();
+              pop_success_register('/register_status_message?reg_status=failed');
+            }
+            else if (data=="b_provider"){
+              $('#loadingmessage1').hide();
+              pop_success_register('/register_status_message?reg_status=b_provider');
+            }
+            else{
+              $('#loadingmessage1').hide();
+              pop_success_register('/register_status_message?reg_status='+invite_friend);
+            }
+          }
+                
+        });
+        $("#img3").attr("src","/assets/provider_register/step_3inactive.png");
+        $("#payment_text").css("font-weight","bold");
+        $("#img2").attr("src","/assets/provider_register/step_2active.png");
+        $("#plan_text").css("font-weight","normal");
+    
+        return false;
+      }
+
+    }         // bank if end
+    
+  
+  }
+  function afterSuccessFirst()
+  {
+    $('#loadingmessage1').hide();
+    pop_success_activity('/register_status_message');  }
+  function afterSuccess()
+  {
+    $('.loadingmessage2').hide();
+  }
+  function validateName(elementValue){
+    var alphaExp = /^[a-zA-Z ]*$/;
+    return alphaExp.test(elementValue);
+  }
+  function validateAName(elementValue){
+    var alphaExp =  /^[a-zA-Z. ]*$/;
+    return alphaExp.test(elementValue);
+  }
+
+  function clear_payment_values(){
+	
+    /*$("#s_code").val('Enter your unique supplier code');
+    $("#l_name").val('First and Last name');
+    $("#t_code").val('Enter your tax code');
+    $("#street_reg").val('Enter street address');
+    $("#number_reg").val('Enter number');
+    $("#select_city_reg").val('--Choose City--');
+    $("#select_state_reg").val('--Choose State--');
+    $("#z_code").val('Enter zip code');*/
+    $("#bank_name").val('Name of bank');
+    $("#w_transfer").val('Enter the routing number');
+    $("#account_name").val('Enter your account name');
+    $("#acc_number").val('Enter your account number');
+    //$("#swift_code").val('Enter the swift code');
+    $("#street_bank_code").val('Enter street address');
+    //~ $("#number_bank_code").val('Enter number');
+    $("#select_state_bank_reg").val('--Choose City--');
+    $("#select_city_bank_reg").val('--Choose State--');
+    $("#bank_z_code").val('Enter zip code');
+    //$("#fax_num").val('Enter a fax number');
+    $("#address_name").val('First and Last name');
+    $("#reg_Statefield").html('--Choose State--');
+    $("#reg_Cityfield").html('--Choose City--');
+    $("#bank_Statefield").html('--Choose State--');
+    $("#bank_Cityfield").html('--Choose City--');
+    $("#dropDownDivBank2").html('');
+    $("#dropDownDivBank4").html('');
+	
+	
+    /*set color value while cancel*/
+    $("#select_city_reg").css("color","#999999");
+    $("#select_state_reg").css("color","#999999");
+    $("#reg_Statefield").css("color","#999999");
+    $("#reg_Cityfield").css("color","#999999");
+    $("#bank_Statefield").css("color","#999999");
+    $("#bank_Cityfield").css("color","#999999");
+    //$("#s_code").css("color","#999999");
+    $("#l_name").css("color","#999999");
+    $("#t_code").css("color","#999999");
+    $("#street_reg").css("color","#999999");
+    $("#number_reg").css("color","#999999");
+    $("#z_code").css("color","#999999");
+    $("#bank_name").css("color","#999999");
+    $("#w_transfer").css("color","#999999");
+    $("#account_name").css("color","#999999");
+    $("#acc_number").css("color","#999999");
+    //$("#swift_code").css("color","#999999");
+    $("#street_bank_code").css("color","#999999");
+    //~ $("#number_bank_code").css("color","#999999");
+    $("#bank_z_code").css("color","#999999");
+    //$("#fax_num").css("color","#999999");
+    $("#address_name").css("color","#999999");
+	
+    /*$("#s_code").css("border","1px solid #BDD6DD");
+    $("#l_name").css("border","1px solid #BDD6DD");
+    $("#t_code").css("border","1px solid #BDD6DD");
+    $("#street_reg").css("border","1px solid #BDD6DD");
+    $("#number_reg").css("border","1px solid #BDD6DD");
+    $("#select_city_reg").css("border","1px solid #BDD6DD");
+    $("#z_code").css("border","1px solid #BDD6DD");*/
+    $("#bank_name").css("border","1px solid #BDD6DD");
+    $("#w_transfer").css("border","1px solid #BDD6DD");
+    $("#account_name").css("border","1px solid #BDD6DD");
+    $("#acc_number").css("border","1px solid #BDD6DD");
+    //$("#swift_code").css("border","1px solid #BDD6DD");
+    $("#street_bank_code").css("border","1px solid #BDD6DD");
+    //~ $("#number_bank_code").css("border","1px solid #BDD6DD");
+    $("#bank_z_code").css("border","1px solid #BDD6DD");
+    //$("#fax_num").css("border","1px solid #BDD6DD");
+    $("#address_name").css("border","1px solid #BDD6DD");
+    $(".selectBoxStateBankReg").css("border","none");
+    $(".selectBoxCityBankReg").css("border","none");
+    $(".selectBoxStateReg").css("border","none");
+    $(".selectBoxCityReg").css("border","none");
+
+
+    //$("#s_code_error").html("");
+    $("#legal_name_error").html("");
+    $("#tax_code_error").html("");
+    $("#street_error").html("");
+    $("#number_error").html("");
+    $("#city_error").html("");
+    $("#state_error").html("");
+    $("#zip_error").html("");
+    $("#bank_name_error").html("");
+    $("#wire_transfer_error").html("");
+    $("#clear_house_error").html("");
+    $("#acc_number_error").html("");
+    //$("#swift_code_error").html("");
+    $("#street_bank_error").html("");
+    $("#number_bank_error").html("");
+    $("#city_bank_error").html("");
+    $("#state_bank_error").html("");
+    $("#bank_zip_error").html("");
+    //$("#fax_error").html("");
+    $("#address_name_error").html("");
+	
+    //$("#s_code_error").parent().css("display","none");
+    $("#legal_name_error").parent().css("display","none")	
+    $("#tax_code_error").parent().css("display","none");
+    $("#city_error").parent().parent().css("display","none");
+    $("#state_error").parent().parent().css("display","none");
+    $("#zip_error").parent().css("display","none");
+    $("#bank_name_error").parent().css("display","none");
+    $("#wire_transfer_error").parent().css("display","none");
+    $("#clear_house_error").parent().css("display","none");
+    $("#acc_number_error").parent().css("display","none");
+    //$("#swift_code_error").parent().css("display","none");
+    $("#street_bank_error").parent().css("display","none");
+    $("#number_bank_error").parent().css("display","none");
+    $("#street_bank_error").parent().parent().css("display","none");
+    $("#number_bank_error").parent().parent().css("display","none");
+    $("#city_bank_error").parent().parent().css("display","none");
+    $("#state_bank_error").parent().parent().css("display","none");
+    $("#bank_zip_error").parent().css("display","none");
+    //$("#fax_error").parent().css("display","none");
+    $("#address_name_error").parent().css("display","none");
+   
+	
+  }
+  $("#checkout").css("display","none");
+</script>

@@ -1,0 +1,43 @@
+<table cellpadding="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+	 <table cellpadding="0" cellpadding="0">
+	 	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="40"><b>Hi</b><% if !@activity.nil? && @activity.present? && !@activity.created_by.nil? && @activity.created_by.present? && @activity.created_by.downcase=='provider'%>
+				<% if !@activity_user.user_profile.nil? && @activity_user.user_profile.present? && @activity_user.user_profile!=''%>
+					<% if !@activity_user.user_profile.business_name.nil? && @activity_user.user_profile.business_name.present? && @activity_user.user_profile.business_name!=''%>
+						<b><%=@activity_user.user_profile.business_name %></b>,
+					<%else%>
+						<b><%=@activity_user.user_name%></b>,
+					<%end%>
+				<%else%>
+					<b><%=@activity_user.user_name%></b>,
+				<%end%>
+			<%else%>
+			<b><%=@activity_user.user_name%></b>,
+			<%end%></td>
+		</tr>
+	 	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="30"><%= @user.user_name if !@user.nil? && !@user.user_name.nil?%> has requested information about <%=@activity.activity_name unless @activity.nil? && @activity.activity_name.nil?%>. </td>
+		</tr>
+		<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="45">"<%=@msg if !@msg.nil?%>"</td>
+		</tr>
+		<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="30">You can reply to <%= @user.user_name if !@user.nil? && !@user.user_name.nil?%> at their email address <%= @user.email_address if !@user.nil? && !@user.email_address.nil?%></td>
+		</tr>
+		<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="30">Kindly,</td>
+		</tr>
+		<tr>
+			<td><span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;">Your Famtivity Team</span></td>
+		</tr>
+		<!--dont remove this-->
+		<!--tr>
+			<td>To change your email preferences, click here [LINK]</td>
+		</tr-->
+	</table>
+
+   </td>
+  </tr>
+</table>

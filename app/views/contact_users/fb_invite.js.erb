@@ -1,0 +1,5 @@
+<%if !@c_page.nil? && @c_page!=""%>
+$('#contact_list_member').html("<%=escape_javascript(render 'contact_user')%>");
+<%else%>
+$('.fb_list').html("<%= escape_javascript(render(:partial => "fb_user_list")) %>");
+<%end%>

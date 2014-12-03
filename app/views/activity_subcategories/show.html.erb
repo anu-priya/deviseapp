@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Subcateg:</b>
+  <%= @activity_subcategory.subcateg_id %>
+</p>
+
+<p>
+  <b>Subcateg name:</b>
+  <%= @activity_subcategory.subcateg_name %>
+</p>
+
+<p>
+  <b>Avatar file name:</b>
+  <%= @activity_subcategory.avatar_file_name %>
+</p>
+
+<p>
+  <b>Image content type:</b>
+  <%= @activity_subcategory.image_content_type %>
+</p>
+
+<p>
+  <b>Image file size:</b>
+  <%= @activity_subcategory.image_file_size %>
+</p>
+
+<p>
+  <b>Image updated at:</b>
+  <%= @activity_subcategory.image_updated_at %>
+</p>
+
+<p>
+  <b>Category:</b>
+  <%= @activity_subcategory.category_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_activity_subcategory_path(@activity_subcategory) %> |
+<%= link_to 'Back', activity_subcategories_path %>

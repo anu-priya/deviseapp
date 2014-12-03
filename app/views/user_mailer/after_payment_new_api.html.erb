@@ -1,0 +1,122 @@
+<table cellpadding="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+    <% user_name = ((@user.class.to_s=='User') ? @user.user_name : @user.guest_name)%>
+    <% user_email = ((@user.class.to_s=='User') ? @user.email_address : @user.guest_email)%>
+    <% act_user = User.find_by_user_id(@activity.user_id) %>
+ <p><strong>Hi <%= user_name%>,<strong></p>
+      <p>This Email is to confirm that you have joined the <%if @activity.present?%> <%=@activity.activity_name %>!<% end %> Your payment has been processed successfully! The payment details are listed below.</p>
+   
+	<p style="color:#4495ae;font-size: 15px;">Payment Details</p>
+	<table cellspacing="0" cellpadding="0" width="566"  border="0" style="border:1px solid #CED6D9;">
+	<tr><td  width="133" height="25" align="left" valign="middle" style="border-bottom:1px solid #EEEEEE;color: #999999;font-family:Arial, Helvetica, sans-serif;"><strong>&nbsp;Account Owner</strong></td>
+		<td  width="425" align="left" valign="middle" style="border-bottom:1px solid #EEEEEE;color:#5099AC;">
+	    <%=act_user.user_name %>
+		</td>
+	</tr>
+	<tr>
+		<td align="left" height="25"  valign="middle" style="border-bottom:1px solid #EEEEEE;color: #999999;font-family:Arial, Helvetica, sans-serif;"><strong>&nbsp;Activity Name</strong></td>
+		<td align="left" valign="middle" style="border-bottom:1px solid #EEEEEE;color:#5099AC;"><%=@activity.activity_name%></td>
+			
+	</tr>
+    <% if !@activity.nil? %>
+	<%@schedules = @activity.activity_schedule%>
+          <%if @activity.schedule_mode.downcase!='by appointment' && @activity.schedule_mode.downcase!='any where'%>
+	<tr>
+		<td align="left" height="25"  valign="middle" style="border-bottom:1px solid #EEEEEE;color: #999999;font-family:Arial, Helvetica, sans-serif;"><strong>&nbsp;Duration</strong></td>
+		<td align="left" valign="middle" style="border-bottom:1px solid #EEEEEE; ">
+			<div style="float:left; display:inline-block;color:#5099AC">
+				 <%if @schedules.count>0%>
+                    <%if @schedules.count==1%>
+                      <%@single_schedule = true%>
+                      <% act_sched = @schedules.last%>
+                      <%if act_sched.schedule_mode.downcase=='any time'%>
+                        <%anytimesch = AnyTimeSchedule(@activity)%>
+                        <%anytimesch && anytimesch[0] && anytimesch[0].each do |t_sch| %>
+                          <%=t_sch%><br/>
+                        <%end%>
+                        <%=(anytimesch && anytimesch[1] && anytimesch[1]!='') ? 'Closed On '+anytimesch[1] : ''%>
+                      <%elsif ((act_sched.schedule_mode.downcase=='schedule') || (act_sched.schedule_mode.downcase=='whole day'))%>
+                        <%=render "/activity_detail/display_schedule_format",:act_sched => act_sched%><%if act_sched && act_sched.activity_repeat && act_sched.activity_repeat.last%>,<%=RepeatDisplays(act_sched.activity_repeat.last)%><%end%>
+                      <%end%>
+                    <%elsif @schedules.count>1%>
+                      <%@multi_schedule = true%>
+                      <a href="<%= $image_global_path%>?mview=<%= @activity.activity_id %>&v=0" title="" target="_blank" style="color:#5099AC;text-decoration:none;">More Schedules</a>
+                    <%end%>
+                  <%end%>
+			</div>						
+		</td>
+	</tr>
+	<%end%>
+  <%end%>
+	<tr>
+		<td align="left" height="25"  valign="middle" style="border-bottom:1px solid #EEEEEE;color: #999999;font-family:Arial, Helvetica, sans-serif;"><strong>&nbsp;Amount</strong></td>
+		<td align="left" valign="middle" style="border-bottom:1px solid #EEEEEE;color:#5099AC;">$<%= number_with_precision @amount, :precision => 2 if !@amount.nil?%></td>
+			
+	</tr>
+	<tr>
+		<td align="left" height="25" valign="middle" style="border-bottom:1px solid #EEEEEE;color: #999999;font-family:Arial, Helvetica, sans-serif;"><strong>&nbsp;Billing Date</strong></td>
+		<td align="left" valign="middle" style="border-bottom:1px solid #EEEEEE;color:#5099AC;"><%= @trans.payment_date.strftime("%a %m/%d/%y") if !@trans.nil? && !@trans.payment_date.nil?%> </td>
+	</tr>
+	<tr>
+		<td align="left" height="25" valign="middle" style="color: #999999;font-family:Arial, Helvetica, sans-serif;"><strong>&nbsp;Transaction ID</strong></td>
+		<td align="left" valign="middle" style="color:#5099AC;"><%= @trans.transaction_id  if !@trans.nil? && !@trans.transaction_id.nil?%></td>
+	</tr>
+	<tr>
+		<td align="left" height="25" valign="middle" style="color: #999999;font-family:Arial, Helvetica, sans-serif;"><strong>&nbsp;Voucher</strong></td>
+		<td align="left" valign="middle" style="color:#5099AC;"><%= @ticket_code if !@ticket_code.nil?%></td>
+	</tr>
+	<tr>
+		<td align="left" height="25" valign="middle" style="color: #999999;font-family:Arial, Helvetica, sans-serif;"><strong>&nbsp;Credit Card</strong></td>
+		<td align="left" valign="middle" style="color:#5099AC;">Last 4 digit of  your credit card	<%= @card_last if !@card_last.nil? && @card_last.present?%></td>
+	</tr>
+	<!--tr>
+		<td align="left" height="25" valign="middle" ><strong>&nbsp;Duration </strong></td>
+		<td align="left" valign="middle" >&nbsp;</td>
+	</tr>
+	<!-- tr>
+		<td align="left" height="25" valign="middle" ><strong>&nbsp;Credit Card </strong></td>
+		<td align="left" valign="middle" >&nbsp;/td>
+	</tr -->
+	</table>
+
+
+<% if !@activity.nil? && !@activity.schedule_mode.nil? && @activity.schedule_mode=="By Appointment"%>
+
+<p style="margin-top: 30px;">Please contact the provider to setup your appointment time. The provider details are listed below:</p>
+
+ <p style="color:#4495ae;font-size: 15px;">Provider Details</p>
+<table cellspacing="0" cellpadding="0" width="566"  border="0" style="border:1px solid #CED6D9;">
+  <tr><td  width="133" height="25" align="left" valign="middle" style="border-bottom:1px solid #EEEEEE; "><strong>&nbsp;Provider:</strong></td>
+    <td  width="425" align="left" valign="middle" style="border-bottom:1px solid #EEEEEE; ">  
+      <% if !act_user.user_profile.business_name.nil?%><%= act_user.user_profile.business_name %><%else%><%=act_user.user_name%><%end%> 
+    </td>
+  </tr>
+  <tr>
+    <td align="left" height="25"  valign="middle" style="border-bottom:1px solid #EEEEEE; "><strong>&nbsp;Email Id:</strong></td>
+    <td align="left" valign="middle" style="border-bottom:1px solid #EEEEEE; "><%= act_user.email_address %></td>
+      
+  </tr>
+  <% if !act_user.user_profile.phone.nil?%>
+   <tr>
+     <td align="left" height="25" valign="middle" ><strong>&nbsp;Phone Number:</strong></td>
+     <td align="left" valign="middle" ><%= act_user.user_profile.phone %></td>
+   </tr>
+  <%end%>
+</table>  
+<%end%>
+
+<table cellspacing="0" cellpadding="0">
+<tr>
+<td>
+<p>For any help with your account, you can read our comprehensive list of FAQ's <a href="http://<%= $image_global_path%>/faq"><%= $image_global_path%>/faq</a> or contact our Support team <a href="<%= $image_global_path%>/contactus"><%= $image_global_path%>/support</a></p>
+</td>
+</tr>
+</table>
+	
+<p>Thanks</p>
+<p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;">Your Famtivity Team</p>
+   </td>
+  </tr>
+
+</table>

@@ -1,0 +1,14 @@
+  $("#remove_network_success").css("display","block");
+  $(".fam_network_edit").css("display","none");
+
+<%if params[:fam_del]=="yes"%>
+  $('#remove_network').css('display','none');
+  if (parent.$("#fam<%=params[:fam_id]%>").length > 0){
+  parent.$("#fam<%=params[:fam_id]%>").html("");
+  }
+  parent.$(".test<%=  @fam.group_name.downcase.gsub(/[^a-zA-Z0-9]/,"_") %>").hide();
+  $("#remove_member").html("The Famtivity network has been successfully deleted.");
+<%else%>
+  $('#remove_invities').css('display','none');
+  $("#remove_member").html("The selected members have been successfully removed.");
+<%end%>

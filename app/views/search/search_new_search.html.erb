@@ -1,0 +1,124 @@
+<%= stylesheet_link_tag "login/login_new" %>
+<%= stylesheet_link_tag "global/pop_up" %>
+<%= javascript_include_tag "login/login" %>
+<%= javascript_include_tag "login/validate" %>
+<%if (params[:zip_value_name] && params[:zip_value_name]!='') && !params[:x]%>
+  <%cityvalues = (cookies[:search_city]!='') ? (cookies[:search_city]) : (@cityvalue+', CA')%>
+<%else%>
+  <%cityvalues = (cookies[:search_city]!='') ? (cookies[:search_city]) : (@cityvalue+', CA')%>
+<%end%>
+
+<%searchkeywords = (@keyword && @keyword!='') ? (@keyword) : ('')%>
+<%
+@key_city=cityvalues.gsub(', CA','') 
+if !searchkeywords.nil? && searchkeywords.present?
+  meta :title => "#{searchkeywords.titlecase} - #{cityvalues} | Famtivity",
+    :description => "Activities for #{searchkeywords.titlecase}  #{cityvalues} - Browse through the latest activities and provider details",
+    :keywords => "#{@key_city} #{searchkeywords.titlecase}, #{searchkeywords.titlecase} in #{@key_city}, #{searchkeywords.titlecase} #{@key_city}"
+else
+  meta :title => "#{cityvalues} | Famtivity",
+    :description => "Activities for #{searchkeywords.titlecase}  #{cityvalues} - Browse through the latest activities and provider details",
+    :keywords => "#{@key_city} #{searchkeywords.titlecase}, #{searchkeywords.titlecase} in #{@key_city}, #{searchkeywords.titlecase} #{@key_city}"
+end
+%>
+
+<%= stylesheet_link_tag "global/jquery.ui.datepicker" %>
+<%= stylesheet_link_tag "search_new/search_new" %>
+<%= stylesheet_link_tag "custom_scrollbar/mCustomScrollbar.min" %>
+<div class="<%if current_user.nil? && !current_user.present?%>wrapper_contianer_inner<%else%>wrapper_contianer_inner_login<%end%>">
+  <div style="display:block;padding-left:15px;">
+    <span class="dp" style="font-size:16px;font-family:'open_sansregular';color:#fe3030;">
+      <div class="breadcrumb"><a href="/" title="Home">Home</a></div>
+    </span>
+    <span class="dp" style="font-size:16px;font-family:'open_sansregular';color:#515151;">&nbsp; > &nbsp;Search Results</span>
+    <div class="show_filter_box">
+      <a id="show_filter" <%if params[:show_fil]=="yes"%>style="display:none;"<%end%> onclick="$('#show_fil').val('yes');$('#advance_search').show();$('#hide_filter').show();$('#show_filter').hide();" href="javascript:void(0);" class="show_hid_filter_a show_hide_filter">Show Filter</a>
+      <a id="hide_filter" <%if params[:show_fil]=="yes"%>style="display:inline-block;"<%else%>style="display:none;"<%end%> onclick="$('#show_fil').val('');$('#advance_search').hide();$('#hide_filter').hide();$('#show_filter').show();" href="javascript:void(0);" class="show_hid_filter_a hide_show_filter" >Hide Filter</a>
+    </div>
+    <div class="dp search_bcategory"><a href="/categories" class="srch_bcry" title="Browse by Category">Browse by Category</a></div>
+    <div id="search_selectedval" ><%if !params[:city].nil? && params[:city].present? && params[:city]!=''%><span style='color:#4b98af;'>Selected Location(s) - </span><%= params[:city].gsub(",",", ") %><%end%>
+    </div>
+  </div>
+  <div id="advance_search" class="advance_search_main" <%if params[:show_fil]=="yes"%>style="display:block;"<%end%>>
+    <%= render :partial=>"search/advance_search" %>
+  </div>
+  <div class="feature_head">
+    <div class="page_head">
+      <div class="head_line"></div>
+      <div class="search_head"style="margin-top: 1px;">Search Results <span id="search_count" class="search_count">(<%=@search_count%>)</span>&nbsp;</div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div id="testsearch">
+    <div class="search_container" id="search_desc" style="margin-top:10px;">
+      <%if @search.results.length > 0%>
+        <%= render :partial=>"search_load" %>
+      <%else%>
+        <div width="100%" style="font-size:20px;text-align:center;">
+         <%= image_tag("/assets/search/search_cn_icon.jpg") %>
+        </div>
+        <div width="100%" style="font-size:20px;text-align:center;color:#585858;">
+          Sorry we found no results for your search.
+        </div>
+      <%end%>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div id="search_load" align="center" style="margin:10px auto;display: none;"><%= image_tag("/assets/loading.gif") %></div>
+  <div style="text-align:center;width:100%"><a onclick="search_load();" href="javascript:void(0);"><span style="<%if @search.results.total_pages <= 1%>display:none;<%else%>display: inline-block;<%end%>"  id="search_show" class="showtxt">Show More</span></a></div>
+</div>
+
+<!-- Login popup start bpopup-->
+  <div id="login_popup">
+  <div class="contnt">
+	
+  </div>
+  </div>
+<!-- Login popup end bpopup-->
+
+<%= javascript_include_tag "custom_scrollbar/mCustomScrollbar.concat.min" %>
+<%= javascript_include_tag "search_new/search_new" %>
+<script>
+  $("#date_start").datepicker({
+    showOn : "button",
+    buttonImage : "/assets/common/date_icon.png",
+    buttonImageOnly : true,
+    dateFormat: "M d, yy",
+    minDate: 0,
+    altField : "#date_start_alt",
+    altFormat : "yy-mm-dd",
+    onClose: function(selectedDate) {
+      $("#date_end").datepicker( "option", "minDate", selectedDate );
+      $("#date_all").attr('checked',false);
+      if ($("#date_end").val()=="")
+        $("#date_end").val('End Date')
+    }
+  });
+  $("#date_end").datepicker({
+    showOn: "button",
+    buttonImage: "/assets/common/date_icon.png",
+    buttonImageOnly: true,
+    dateFormat: "M d, yy",
+    minDate: 0,
+    altField : "#date_end_alt",
+    altFormat : "yy-mm-dd",
+    onClose: function(selectedDate) {
+      $("#date_all").attr('checked',false);
+    }
+  });
+<%if params[:start_dates]%>
+    $("#date_start").val('<%= params[:date_start] %>');
+    $("#date_start_alt").val('<%= params[:start_dates] %>');
+    $("#date_end").datepicker( "option", "minDate", '<%= params[:date_start] %>' );
+<%else%>
+    $("#date_start").val('Start Date');
+<%end%>
+<%if params[:end_dates]%>
+    $("#date_end").val('<%=  params[:date_end] %>');
+    $("#date_end_alt").val('<%= params[:end_dates] %>');
+<%else%>
+    $("#date_end").val('End Date');
+<%end%>
+
+  
+</script>

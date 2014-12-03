@@ -1,0 +1,26 @@
+<%if @school_rep && !@school_rep.nil?%>
+<%act = Activity.find(@school_rep.activity_id)%>	 
+<%rep_type = CheckUserSchoolType(@school_rep,current_user.user_id)%> 
+<div class="lt" style="width:130px;" id='set-permission-rep'>
+	<%if @school_rep && rep_type && rep_type=='representative' && (@school_rep.status.downcase=='pending')%>
+	  <a href="javascript:void(0)" class = 'display-disable-icons' title="Share activity" class="lt setRt"><%=image_tag("/assets/provider_event_list/sheare_disable_icon.png", :width=>"29", :height=>"26")%></a>
+	<%else%>
+            <a href="javascript:void(0)" title="Share activity" onclick="pop_share_activity('/share_activity?activity_id=<%=act.activity_id%>&mode=provider&act=index');_gaq.push(['_trackEvent', 'Provider Module', 'clickShareActivity',<%=act.activity_id%>])" class="lt setRt"><%=image_tag("/assets/event/sheare_icon.png", :width=>"29", :height=>"26")%></a>
+	<%end%>
+	<%if @school_rep && rep_type && rep_type=='representative' && (!@school_rep.edit_p || @school_rep.status.downcase=='pending')%>
+	  <a href="javascript:void(0)" class = 'display-disable-icons' title="Edit activity" class="lt setRt"><%=image_tag("/assets/provider_event_list/edit_disable_icon.png", :width=>"29", :height=>"26")%></a>
+	<%else%>
+            <a href="javascript:void(0)" title="Edit activity" onclick="pop_edit_activity('/edit_activity?activity_id=<%=act.activity_id%>&page=<% if !params[:page].nil? && params[:page].present? %><%=params[:page]%><%else%>1<%end%>&edit_from=prov_event');_gaq.push(['_trackEvent', 'Provider Module', 'clickEditActivity',<%=act.activity_id%>])"class="lt setRt"><%=image_tag("/assets/provider_event_list/edit_disable_icon.png", :width=>"29", :height=>"26")%></a>
+	<%end%> 
+	<%if @school_rep && rep_type && rep_type=='representative' && (!@school_rep.delete_p || @school_rep.status.downcase=='pending')%>
+	  <a href="javascript:void(0)" class = 'display-disable-icons' title="Delete activity"  class="lt"><%=image_tag("/assets/provider_event_list/delete_disable_icon.png", :width=>"29", :height=>"26")%></a>
+	<%else%>
+            <a href="javascript:void(0)" title="Delete activity" onclick="before_delete('<%=act.activity_id if !act.activity_id.nil?%>&page=<% if !params[:page].nil? && params[:page].present? %><%=params[:page]%><%else%>1<%end%>&del_action=index');_gaq.push(['_trackEvent', 'Provider Module', 'clickDeleteActivity',<%=act.activity_id%>])" class="lt"><%=image_tag("/assets/provider_event_list/delete_icon.png", :width=>"29", :height=>"26")%></a>
+	<%end%>
+	 <%if @school_rep && rep_type && rep_type=='representative'%>  
+	 <a href="javascript:void(0)" class = 'display-disable-icons' title="Save copy" style="padding-left: 3px;"  class="lt setRt"><%=image_tag("/assets/provider_event_list/save_disable_copy.png", :width=>"29", :height=>"26")%></a>
+           <%else%>	 
+            <a href="javascript:void(0)" title="Save copy" style="padding-left: 3px;" onclick="pop_edit_activity('/edit_activity?activity_id=<%=act.activity_id%>&page=<% if !params[:page].nil? && params[:page].present? %><%=params[:page]%><%else%>1<%end%>&edit_from=prov_event&s_copy=save_copy');_gaq.push(['_trackEvent', 'Provider Module', 'clickEditActivity',<%=act.activity_id%>])" class="lt setRt"><%=image_tag("/assets/provider_event_list/save_copy.png", :width=>"29", :height=>"26")%></a>
+	<%end%>
+</div>
+<%end%>

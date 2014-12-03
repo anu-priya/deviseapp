@@ -1,0 +1,41 @@
+ 
+          $('#add_partic_change').css('display', 'none');
+	<%if @both_discount!=''%>
+	$('#net_discounts').html("<%=escape_javascript(render 'activities/net_discount_participants')%>");
+	<%end%>
+	<%if @selected_disc%>
+	$("#netdiscount_id").val('<%=@selected_disc%>');
+	<%end%>
+	$("#attended_count").val("<%=@check_attend_parti_count%>");
+	$('#act_quanty').html('<%=@act_quanty if !@act_quanty.nil? %>');
+	var qty = $('#act_quanty').text(); var qtytrim = $.trim(qty);	   
+	if(qtytrim.length>0) {$('.act_qty').show();}else{$('.act_qty').hide();};
+         $('#check_out_total').css('display', 'block');$('#participant_count').html('<%=@no_of_part%>');
+         $('#participant_price').html('$<%=number_with_precision(@act_price , :precision => 2)%>');
+	$('#pay_period').html('<%=number_with_precision(@pay_period , :precision => 2) if !@pay_period.nil?%>');
+	var pay_period = $('#pay_period').text(); var pay_periodtrim = $.trim(pay_period); 
+	if(pay_periodtrim.length>0){$('.pay_mtd').show();}else{$('.pay_mtd').hide();};
+	$('#singleprice').html('$<%=number_with_precision(@act_price , :precision => 2)%>');
+          $('#participant_total').html('$<%=number_with_precision(@total_count , :precision => 2)%>');
+          $('#tt_amt').val('<%=@summary_count%>');
+	//~ $('#act_price').html('<%#=number_with_precision(@ttl_cnt, :precision => 2)%>');
+	//~ $('#orig_act_price').val('<%#=number_with_precision(@ttl_cnt, :precision => 2)%>');
+	//~ $('#prc_dct_tot').html('<%#=@total_count.round%>');
+	//~ $('#discount_header').hide();$('#discount_val').hide();$('.dct_prc').hide();
+	//~ <%#if @discount_value && !@discount_value.nil? && @discount_value!='' %>
+	//~ $('#discount_header').show();
+	//~ $('.dct_prc').show();
+	//~ $('#discount_val').show();
+          //~ $('#participant_discount').html('$<%#=number_with_precision(@discount_value, :precision => 2) %>');
+	//~ $('#prc_dct').html('$<%#=number_with_precision(@discount_value, :precision => 2)%>');
+	//~ <%#end%>
+	$('#summary_price').html("<%=escape_javascript(render 'checkout/checkout_other_fees',:locals=>{:@activity=>@activity})%>");
+	$('#guest_get_details').css('display','none');
+	$("#pay_discount_dollar").attr('checked',false);
+	//~ var participant_discount = $('#participant_discount').text(); 
+	//~ alert(participant_discount);
+	//~ var participant_discounttrim = $.trim(participant_discount); 
+	//~ alert(participant_discounttrim.length);
+          //~ if(participant_discounttrim.length>0){$('#discount_header').show();$('.dct_prc').show();
+          //~ $('#discount_val').show();}else{$('#discount_header').hide();$('#discount_val').hide();$('.dct_prc').hide();}
+	

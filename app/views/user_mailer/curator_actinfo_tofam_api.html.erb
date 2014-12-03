@@ -1,0 +1,64 @@
+<table cellpadding="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+	 <table cellpadding="0" cellpadding="0">
+	 	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="40" align="left" valign="top"><b>Hi Eileen,</b></td>
+		</tr>
+	 	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="30" align="left" valign="top">
+			This is to inform you that a provider, <%= @user.user_name if !@user.nil? && !@user.user_name.nil?%>, has taken ownership of their Famtivity account. We are no longer curating their account. Please get in touch with them to find out if they would like Famtivity to curate their account or if they would like to curate it themselves.
+			</td>
+		</tr>
+		<tr>
+			<td height="10" align="left" valign="top"></td>
+		</tr>
+		<tr>
+			<td align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="30">The Provider&rsquo;s account information is listed below:
+			</td>
+		</tr>
+		<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" align="left" valign="top">
+				<table style="border: 1px solid #e5e9eb;padding: 5px;" width="70%" cellspacing="0" cellpadding="0">				
+					<tr>
+						<td align="left" valign="middle" style="border-bottom:1px solid #F1F1F1; padding-left:10px;color: #999999;font-family:Arial, Helvetica, sans-serif;" height="30">Username: 
+						</td>
+						<td align="left" valign="middle" style="border-bottom:1px solid #F1F1F1; color:#3E8FA4;font-family:Arial, Helvetica, sans-serif;">
+						<%= @user.user_name.titlecase if !@user.nil? && !@user.user_name.nil?%> 
+						</td>
+					</tr>
+					<tr>
+						<td align="left" valign="middle" style="border-bottom:1px solid #F1F1F1; padding-left:10px;color: #999999;font-family:Arial, Helvetica, sans-serif;" height="30">Email: 
+						</td>
+						<td align="left" valign="middle" style="border-bottom:1px solid #F1F1F1; color:#3E8FA4;font-family:Arial, Helvetica, sans-serif;">
+						<%= @user.email_address if !@user.nil? && !@user.email_address.nil?%>
+						</td>
+					</tr>
+					<tr>
+						<td align="left" valign="middle" style="padding-left:10px;color: #999999;font-family:Arial, Helvetica, sans-serif;" height="30">Provider Plan: 
+						</td>
+						<td align="left" valign="middle" style="color:#3E8FA4;font-family:Arial, Helvetica, sans-serif;">
+						<% if !@user.nil?%><%=@user.manage_plan%><%end%>
+						</td>
+					</tr>					
+				</table>
+			</td>
+		</tr>	
+		<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="10" align="left" valign="middle"></td>
+		</tr>		
+		<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="30" align="left" valign="middle">Kindly,</td>
+		</tr>
+		<tr>
+			<td><span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;">Your Famtivity Team</span></td>
+		</tr>
+		<!--dont remove this-->
+		<!--tr>
+			<td>To change your email preferences, click here [LINK]</td>
+		</tr-->
+	</table>
+
+   </td>
+  </tr>
+</table>

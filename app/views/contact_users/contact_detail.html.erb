@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="/assets/contacts_users/contact_user.css" type="text/css" />
+<script type="text/javascript" src="/assets/contacts_users/contact_user.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css" />
+
+<script language="javascript">
+function closepopup(){
+	parent.viewContactPage.hide();
+}
+function editpopup(){
+	parent.viewContactPage.hide();	
+	pop_edit_contact('/contact_users/edit');
+}
+$(document).ready(function (){
+	$('#edit_contact_i').submit(function (){
+		$.post($(this).attr('action'), $(this).serialize(), null, "script");
+		return false;
+	});
+});
+</script>
+
+
+<div id="contact_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont" id="contact_header" style="margin-left: 20px;margin-top: 3px;">Friend Details</div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> <img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" /> </a>
+          </div>
+        </div>
+        <div id="raja">
+		  <%if ((params[:user_type] == "contacts")||(params[:user_type] == "network"))%>
+            <%= render :partial=>"detail_view" %>
+      <%elsif (params[:user_type] == "network_owner")%>
+            <%= render :partial=>"network_view" %>
+		  <%else%>
+		        <%= render :partial=>"user_view"%>
+		  <%end%>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>
+
+

@@ -1,0 +1,157 @@
+<%=stylesheet_link_tag "event_index/event_index","event_index/menu", :media => "all"%>
+<%=javascript_include_tag "pagination"%>
+
+<!--thils style for search box width fixed-->
+<style>
+  #ui-id-1 {
+    width:270px;
+    overflow: hidden;
+  }
+  /*discount banner style*/
+  .SetOfferBg_provider{
+		background:url("/assets/landing/specials_icon.png") no-repeat;
+		width:77px;
+		height:79px;
+		display:block;
+		position:absolute;
+		z-index:1000;
+		margin-left:-4px;
+}
+</style>
+
+<script> 
+  function filter_parent_update_state(state,id){
+    $.ajax({
+      url:'update_ses_date',
+      type:"get",
+      data: {
+        "state": state
+      },
+      success:function(data){
+
+      }
+    });
+  }
+
+  function filter_land_zip_code(){
+    var zip_code = document.getElementById("zp").value;
+    $.ajax({
+      url:'update_ses_date',
+      type:"get",
+      data: {
+        "zip_code": zip_code
+      },
+      success:function(data){
+
+      }
+    });
+
+  }
+
+  var newbidActivityPage;
+  var activityDeletePageEmpty;
+
+  function pop_bid_new_activity(url){
+    newbidActivityPage = dhtmlmodal.open("bid Setup","iframe",url," ", "width=950px,height=750px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    return false;
+  }
+  <!--modified by rajkumar-->
+  function pop_delete_activity_empty(url){
+    activityDeletePageEmpty = dhtmlmodal.open("Delete Activity","iframe",url," ", "width=450px,height=250px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+		
+    return false;
+  }
+  
+  function before_delete_all(){
+    //~ alert('delete data checking');
+    a = $("#actid_chk").val();
+    if (a=='')
+    {
+      pop_delete_activity_empty('/activities/delete_activity_empty')
+    }
+    else
+    {
+      var a;
+      pop_delete_activity('/activities/delete_activity?id='+a)
+    }
+  }
+ //ajax advance search submit form
+  /*$(document).ready(function() { 
+    $('#advanced_search_form').submit(function (){
+      $('#loadingmessage').show();
+      $.get($(this).attr('action'), $(this).serialize(), function(){$('#loadingmessage').hide();$('.search_submenu').hide();}, "script");
+      return false;
+    });
+  });*/
+  
+</script>
+
+<div class="clear"></div>
+<!-- form name="provider_event_list" id="provider_event_list" style="height:730px;" -->
+<div id="providerEventList" style="margin-top:46px;">
+  <div class="topContainer">
+    <table cellspacing="0" cellspacing="0" border="0" width="100%">
+      <tr>
+        <td align="left" height="40" width="12%">
+          <div class="leftMenus" style="width:120px;">
+            <span><a href="#" onclick="pop_new_activity('/create_new_activity');_gaq.push(['_trackEvent', 'Provider Module', 'clickAddActivity','Add New Activity']);" title="" class="menuText addText" ><b></b></span></a><span class="plusImg"></span>
+            <input type="hidden" name="pe" id="pe" value="0" />
+          </div>
+
+        </td>
+        <td align="center" height="40" width="76%">
+          <span><a href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?  %>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil? %>" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity List']);">Activity List</a></span>
+          <span class="dot menuText">&bull;</span>
+          <span><a href="/provider_activites" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity Cards']);"><b>Activity Cards</b></a></span>
+          <span class="dot menuText">&bull;</span>
+          <span><a href="/provider_activity_discount" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity Discount']);">Activity Discount</a></span><span class="dot menuText">&bull;</span>
+          <span><a href="/activity_provider_schedule" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Schedule']);">Schedule</a></span>
+          <span class="dot menuText">&bull;</span>
+          <span><a href="/provider_profile" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Business Info']);">Business Info</a></span>
+          <span class="dot menuText">&bull;</span>
+          <span><a href="/provider_policies" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Policies']);">Policies</a></span>
+          <span class="dot menuText">&bull;</span>
+          <span><a href="/provider_plan" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Plan']);">Plan</a></span>
+          <span class="dot menuText">&bull;</span>
+          <span><a href="/change_password" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Password']);">Password</a></span>
+          <span class="dot menuText">&bull;</span>
+          <span><a href="/provider_settings" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Settings']);">Settings</a></span>
+	  <span class="dot menuText">&bull;</span>	
+          <span><a href="/transaction" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Reports']);">Reports</a></span>
+	<span class="dot menuText">&bull;</span>
+          <span><a href="javascript:void(0);" class="menuText" title="" onClick="pop_provider_embed_Detail('activity_detail/provider_embedded_link?activity_id=<%= get_embed_data if current_user.present? %>'); _gaq.push(['_trackEvent','Provider Module', 'clickSettings','Embed Link']);">Embed Link</a></span>
+        </td>
+
+        <!--basic search for activity details-->
+
+      <input type="hidden" id="auto_details" value="<%=@auto_act%>"/>
+      <input type="hidden" id="uid" value="<%=cookies[:uid_usr]%>"/>
+
+
+      <td align="right" height="40" width="12%">
+      </td>
+
+      </tr>
+    </table>
+  </div>
+  <div class="centerContainer" id="provider_partial_event_list">
+
+    <%= render "provider_thumb_list"%>
+
+
+  </div>
+</div>
+<div id="popup_container"></div>
+<!--/form-- >
+<!-- ajax loader -->
+<div id='loadingmessage' style='display:none;margin-top:-424px' align="center">
+  <%=image_tag("/assets/ajax-loader.gif", :width=>"32", :height=>"32")%>
+</div>

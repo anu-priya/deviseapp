@@ -1,0 +1,30 @@
+<%=stylesheet_link_tag "global/pop_up_success", :media => "all"%>
+<!-- <link rel="stylesheet" type="text/css" href="/assets/global/pop_up_success.css" /> -->
+<script language="javascript">
+  $(document).ready(function(){
+    $("html, body", window.parent.document).animate({ scrollTop: 0 }, 100);
+  });
+function closepopup() {
+parent.activityFeedbackPage.hide();
+//parent.parent.location.reload(true);
+}
+</script>
+<div id="share_actvity_success">
+  <div class="popupContainer">
+    <div class="headTab">
+      <div class="heading">
+        <div class="headCont">Feedback Success</div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div align="center">
+      <p class="successText">Your information has been posted successfully!</p>
+      <div class="clear"></div>
+      <a href="#" onclick="closepopup()" title="">
+        <%= image_tag("/assets/checkout/ok_button.png", size: "99x38" )%>
+        <!-- <img src="/assets/checkout/ok_button.png" alt="" width="99" height="38" /> -->
+      </a>
+    </div>
+  </div>
+</div>
+

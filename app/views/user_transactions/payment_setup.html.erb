@@ -1,0 +1,158 @@
+<%=stylesheet_link_tag "profile/profile","landing/how_it_works", :media => "all"%>
+<%=javascript_include_tag "global/jquery-1.9.1.min","event/event" %>
+
+<script type="text/javascript">
+  var EditparentprofilePage;
+  var transactionPage;
+  var paymentsetupPage;
+ 
+  function pop_provider_edit_profile(url){
+    EditparentprofilePage = dhtmlmodal.open("Edit Password ","iframe",url,"", "width=896px,height=2000px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+  
+  //transaction popup
+  function pop_transaction_form(url){
+    transactionPage = dhtmlmodal.open("Edit Password ","iframe",url,"", "width=896px,height=2000px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+  
+  //provider payment popup
+  function pop_payment_form(url){
+    paymentsetupPage = dhtmlmodal.open("Edit Password ","iframe",url,"", "width=906px,height=992px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+  //invite a friend
+  function pop_invite_friendPage(url){
+    popInviteFriendPage = dhtmlmodal.open("Delete Activity","iframe",url," ", "width=1007px,height=600px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+  
+  
+
+</script>
+
+  <div id="how_it_worksDiv">
+     <div class="TopListText" align="center" style="width:100%; marign:0 auto; padding-top:21px; background:#F6F8F7;">
+	<span><a href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?%>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil?%>" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity List']);">Activity List</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/provider_activites" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity Cards']);">Activity Cards</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/activity_provider_schedule" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Schedule']);">Schedule</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/provider_profile" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Business Info']);">Business Info</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/provider_policies" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Policies']);">Policies</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/provider_plan" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Plan']);">Plan</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/change_password" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Password']);">Password</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/provider_settings" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Settings']);">Settings</a></span>
+	<span class="dot menuText">&bull;</span>
+	<span><a href="/transaction" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Reports']);">Reports</a></span>
+	<span class="dot menuText">&bull;</span>
+          <span><a href="javascript:void(0);" class="menuText" title="" onClick="pop_provider_embed_Detail('activity_detail/provider_embedded_link?activity_id=<%= get_embed_data if current_user.present? %>'); _gaq.push(['_trackEvent','Provider Module', 'clickSettings','Embed Link']);">Embed Link</a></span>
+	
+     <div class="clear"></div>
+     </div>
+    <div class="clear"></div>
+    <div class="setTopBprder" style="padding-top: 13px;"></div>
+
+    <div class="top_info_text" style="width:535px; margin-top:13px;">
+      <table cellpadding="0" cellspacing="0" border="0" width="540" style="margin: 0 auto;">
+        <tr>
+          <td  valign="top">
+            <div class="profileRt">
+              <table cellpadding="0" cellspacing="0" width="485" >
+                <tr>
+                  <td class="profile_font_border profile_font_rtColor" style="color:#5099AC;" colspan="2"><b>Credit Card Information</b></td>
+                </tr>
+                <tr>
+                  <td class="profile_font" height="26" width="175"><b>Cardholder Name</b></td>
+                  <td class="profile_font_rtColor" width="330"><%=  @payment_profile.params["payment_profile"]['bill_to']['first_name'] if @payment_profile.success? if !@payment_profile.nil?%> <%=  @payment_profile.params["payment_profile"]['bill_to']['last_name'] if @payment_profile.success?  if !@payment_profile.nil?%></td>
+                </tr>
+                <tr>
+                  <td class="profile_font" height="26" width="175"><b>Card Number</b></td>
+                  <td class="profile_font_rtColor" width="330"><%=  @payment_profile.params["payment_profile"]['payment']['credit_card']['card_number'] if @payment_profile.success?  if !@payment_profile.nil?%></td>
+                </tr>
+                <tr>
+                  <td class="profile_font_border" height="26" width="175"><b>Payment Type</b></td>
+                  <td class="profile_font_border profile_font_rtColor" width="330" style="color: #5099AC;">XXXX</td>
+                </tr>
+                <tr>
+                  <td class="profile_font" height="30" width="175"><b>Expiration Date</b></td>
+                  <td class="profile_font_rtColor" width="330">XXXX</td>
+                </tr>
+                <tr>
+                  <td class="profile_font" height="26" width="175"><b>CVC</b></td>
+                  <td class="profile_font_rtColor" width="330">XXX</td>
+                </tr>
+                <!--<tr>
+                  <td class="profile_font_border" height="26" width="175"><b>Billing Address</b></td>
+                  <td class="profile_font_border profile_font_rtColor" width="330" style="color: #5099AC;"><%#=  @payment_profile.params["payment_profile"]['bill_to']['address'] if @payment_profile.success?  if !@payment_profile.nil?%></td>
+                </tr>
+                <tr>
+                  <td class="profile_font" height="31" width="175"><b>City &amp; Zip Code</b></td>
+                  <td class="profile_font_rtColor" width="330" style="color: #5099AC;"><%#= @a = @payment_profile.params["payment_profile"]['bill_to']['city'] if @payment_profile.success?  if !@payment_profile.nil?%> <%# if !@payment_profile.nil? && @payment_profile.success?  && !@payment_profile.nil?%> & <%#end%><%#=  @payment_profile.params["payment_profile"]['bill_to']['zip'] if @payment_profile.success?  if !@payment_profile.nil?%></td>
+                </tr>
+                <tr>
+           
+                  <td class="profile_font" height="23" width="175"><b>State &amp; Country</b></td>
+                  <td class="profile_font_rtColor" width="330"><%#= @payment_profile.params["payment_profile"]['bill_to']['state'] if @payment_profile.success?  if !@payment_profile.nil?%> <%# if !@payment_profile.nil? && @payment_profile.success?  && !@payment_profile.nil?%> & <%#end%> <%#=  @payment_profile.params["payment_profile"]['bill_to']['country'] if @payment_profile.success?  if !@payment_profile.nil?%></td>
+                </tr>
+                <tr>
+                  <td class="profile_font" height="30" width="175"><b>Contact Number</b></td>
+                  <td class="profile_font_rtColor" width="330"><%#=  @payment_profile.params["payment_profile"]['bill_to']['phone_number'] if @payment_profile.success?  if !@payment_profile.nil?%></td>
+                </tr>
+                <tr>
+                  <td class="profile_font" height="30" width="175"><b>Email</b></td>
+                  <td class="profile_font_rtColor" width="330"><%#= current_user.email_address if !current_user.nil? if !@payment_profile.nil?%></td>
+                </tr>-->
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <%if @payment_detail.nil?%><p style="padding:10px 10px 0px 10px;" class="fts14 ftcRedff">Please enter your credit card details</p><%end%>
+      <!--<div class="edtiDiv" style="margin: 20px 0 100px 14px;"><a href="/get_credit_card_info" title="" onclick="pop_payment_form('/pop_provider_payment_details');"><img src="/assets/register/edit_button.png" ></a></div>-->
+      <div class="edtiDiv" style="margin: 20px 0 100px 14px;"><a href="/get_credit_card_info" title="">
+        <%= image_tag("/assets/register/edit_button.png")%>
+      </a></div>
+      <div class="clear"></div>
+    </div>
+
+  </div>
+
+
+</div>
+
+

@@ -1,0 +1,200 @@
+ <%
+meta :title => "About Famtivity - Kids Activities, Camps, Classes, Lessons",
+     :description => "Famtivity is a social networking for finding, buying, and sharing kids & children's activities, camps, classes, lessons, and sports",
+     :keywords => "About us, About famtivity, About kids activities"
+%>
+<%=stylesheet_link_tag "static/about_us", :media => "all"%>
+<!-- drop down menu-->
+
+ <div class="<%if current_user.nil? && !current_user.present?%>wrapper_contianer_inner<%else%>wrapper_contianer_inner_login<%end%>">
+
+	<div class="staic_inner">
+
+	
+	<div class="fam_press" style="border-bottom:none">
+		<div class="page_head">		
+			<div class="head_line"></div>
+			<div class="search_head">Famtivity in the Press&nbsp;</div>
+		</div><br><br>
+	<div style="width:100%;">
+		<div class="bnamelogo">
+			<a href="http://www.insidebayarea.com/news/ci_25995895/startups-ease-search-perfect-summer-camp" target="_blank" class="alinkdesc">
+				<div style="margin-top:4px;">
+					<%= image_tag("/assets/header/mercury-news.png", alt: "mercury news")%>
+				</div>
+			</a>
+			<div class="ftclr15">
+				<a href="http://www.insidebayarea.com/news/ci_25995895/startups-ease-search-perfect-summer-camp" target="_blank" class="clickableclr">Startups ease the search for the perfect summer camp</a>
+			</div>
+		</div>
+		
+		<div class="bnamelogo">
+			<a href="http://www.diablomag.com/March-2014/Apps-for-Families/" target="_blank" class="alinkdesc">
+				<div style="margin-top:8px;">
+					<%= image_tag("/assets/header/diablo-magazine.png", alt: "diablo magazine")%>
+				</div>
+				
+			</a>
+			<div class="ftclr15">
+				<a href="http://www.diablomag.com/March-2014/Apps-for-Families/" target="_blank" class="clickableclr">Start streamlining your family's activities</a>
+			</div>
+		</div>
+		<div class="bnamelogo">
+			<a href="http://www.parentspress.com/Parents-Press/January-2014/Tech-Time-Schedule-Kids-Activities-With-A-Click/" target="_blank" class="alinkdesc">
+				<div style="margin-top:19px;">
+					<%= image_tag("/assets/header/parent-press.jpg", alt: "parents press")%>
+				</div>
+				
+			</a>
+			<div class="ftclr15">
+				<a href="http://www.parentspress.com/Parents-Press/January-2014/Tech-Time-Schedule-Kids-Activities-With-A-Click/" target="_blank" class="clickableclr">Schedule Kids Activities with a Click 	</a>
+			</div>
+		</div>		
+		
+
+		<div class="bnamelogo">
+			<a href="http://www.contracostatimes.com/lafayette/ci_24870316/matching-kids-activities-schedules-walnut-creek-based-famtivity" target="_blank" class="alinkdesc">
+				<div style="margin-top:20px;">
+					<%= image_tag("/assets/header/contra-costa-times.jpg", alt: "contra costa times")%>
+				</div>
+				
+			</a>
+			<div class="ftclr15">
+				<a href="http://www.contracostatimes.com/lafayette/ci_24870316/matching-kids-activities-schedules-walnut-creek-based-famtivity" target="_blank" class="clickableclr">Matching Kids' Activities, Schedules: Famtivity Makes the Connection</a>
+			</div>
+		</div>
+		</div>
+		<div style="width:100%;">
+		<div class="bnamelogo">
+			<a href="http://claycord.com/2014/05/22/column-creative-space-on-claycord-famtivity-com/#comments" target="_blank" class="alinkdesc">
+				<div style="margin-top:15px;">
+					<%= image_tag("/assets/header/clay-cord.png", alt: "clay cord")%>
+				</div>
+				
+			</a>
+			<div class="ftclr15">
+				<a href="http://claycord.com/2014/05/22/column-creative-space-on-claycord-famtivity-com/#comments"  target="_blank" class="clickableclr">Claycord Days of Service: Hold the door open for somebody today.</a>
+			</div>
+		</div>
+	
+		</div>
+	</div>
+		<div class="clear"></div>
+
+	
+	 <div class="page_head">		
+			<div class="head_line"></div>
+			<h1 class="search_head">About Us&nbsp;</h1>
+	</div>
+		
+
+ <div class="clear"></div>
+ <p class="setcolor_about pbottm">Welcome to Famtivity. We&#39;re a group of busy folks (probably a lot like you) with families, pets, jobs, deadlines, bills, hobbies and a passion for enjoying free time. We like to inspire, explore, connect, learn and play (not always in that order).</p>
+ <p class="setcolor_about pbottm">Our Aha! moment was born out of frustration from finding and coordinating all the various activities for our kids. Until now, organizing activities had been a complex ordeal involving countless web searches, phone calls, e-mails and paperwork. Let&#39;s just say we were growing tired of tearing our hair out.</p>
+ <p class="setcolor_about pbottm">We believe there&#39;s a better way. Famtivity&#39;s mission is to simplify the process of finding, organizing and purchasing activities. We connect activity seekers with activity providers to create a network we call The Family Activity Network.</p>
+ <p class="setcolor_about pbottm">We know that activities are as diverse as the families and individuals seeking them.  We also know that activity providers benefit from connecting to their local communities of existing and potential clientele (we love a win-win).</p>
+ <p class="setcolor_about pbottm">Better yet, our core services are entirely free.</p>
+ <p class="setcolor_about pbottm">It&#39;s quite simple really. Famtivity&#39;s website, tablet and mobile apps help in the following ways:</p>
+ <span class="activities_head"><b>Activity seekers can:</b></span>
+ <ul class="abtlist">
+	<li><span>Search:</span> Find and view activities by customizable and targeted search criteria such as age, location, date and activity type.</li>
+	<li><span>Sign up:</span> Register and pay for activities.</li>
+	<li><span>Share:</span> Connect with your network of friends via Famtivity messaging and social networks. Share your activities, see who&#39;s attending, add photos, read and post reviews of activities and providers. </li>
+	<li><span>Schedule:</span> Add session dates to your calendar, coordinate classes and arrange carpools.</li>
+ </ul>
+  <span class="setcolor_about activities_head"><b>Activity providers can:</b></span>
+   <ul class="abtlist">
+	<li><span>Promote:</span> Publicize activity offerings to a wide yet local audience.</li>
+	<li><span>Market:</span> Sell activities directly to customers.</li>
+	<li><span>Manage:</span> Build and foster customer relationships for repeat business.</li>
+	<li><span>Share:</span> Post social media messages and photos securely within activity groups.</li>
+ </ul>
+   <p class="setcolor_about pbottm">Just about everyone at Famtivity is a parent, and our goal is to help parents and kids grow together to reach their highest potential.  We believe that parenting and enriching one&lsquo;s life is all about communication, cooperation, and love - and this understanding not only results in children&lsquo;s growth, but also the growth of parents themselves.  Our <a href="https://www.famtivity.com/blog" title="" style="color: #4495ae;" target="_blank">blog</a> shares insightful thinking and content that aligns with our values.</p>
+   <p class="setcolor_about pbottm">So join our community today. Famtivity makes organizing the fun part of life a whole lot easier (and you keep the hair on your head while doing it)!</p>
+   <!--<div style="border-top: 1px dashed #BCC1A1;width: 100%;margin: 10px 0px 5px;"></div>-->
+   <p class="setcolor_about">Famtivity is located in Walnut Creek, California - just outside of San Francisco.  For more information about our company, contact us at <a href="mailto:info@Famtivity.com" title="" style="color: #4495ae;">info@Famtivity.com</a> or call to: <a href="tel:+18883866479" style="color: #4495ae;" title="">+1 (888)-386-6479</a>.</p>
+	<!--div class="dvdshed"></div-->
+	<div class="loveFam" style="padding: 5px 0px 30px 0px;">
+		<div class="page_head">		
+			<div class="head_line"></div>
+			<div class="search_head">Why providers love Famtivity!&nbsp;</div>
+		</div>
+		<div class="providerFrame lt">
+			<table cellpadding="0" cellspacing="0" width="100%">
+				<tr>
+					<td width="18%"></td>
+					<td height="90"><p class="providermsg" style="margin-left: 20px;">Famtivity is the wave of the future</p></td>
+					<td width="25%" rowspan="2"></td>
+				</tr>
+				<tr>
+					<td align="right">
+						<%= image_tag("/assets/header/jenny-perry.png", alt: "jenny perry")%>
+					</td>
+					<td height="90">
+						<p class="providerName"><b>Jenny Perry</b></p>
+						<p class="providerType">Owner, The Ballet School</p>
+					</td>
+				</tr>
+			</table>			
+		</div>
+		<div class="providerFrame lt">
+			<table cellpadding="0" cellspacing="0" width="100%">
+				<tr>
+					<td width="18%"></td>
+					<td height="90"><p class="providermsg" style="margin-left: 19px;">Famtivity gets my business in front of thousands of parents.</p></td>
+					<td width="25%" rowspan="2"></td>
+				</tr>
+				<tr>
+					<td align="right">
+						<%= image_tag("/assets/header/lori-hoehn.png", alt: "lori hoehn")%>
+					</td>
+					<td height="90">
+						<p class="providerName"><b>Lori Hoehn</b></p>
+						<p class="providerType">Owner, Tat-It-Up</p>
+					</td>
+				</tr>
+			</table>			
+		</div>
+		<div class="providerFrame lt">
+			<table cellpadding="0" cellspacing="0" width="100%">
+				<tr>
+					<td width="18%"></td>
+					<td height="90"><p class="providermsg" style="margin-left: -5px;">Getting set-up was super simple and the staff were readily available to help.</p></td>
+					<td width="20%" rowspan="2"></td>
+				</tr>
+				<tr>
+					<td align="right">
+						<%= image_tag("/assets/header/image_emty.png", alt: "")%>
+					</td>
+					<td height="90">
+						<p class="providerName"><b>Stephanie Roberts</b></p>
+						<p class="providerType">Manager, Spun Studios</p>
+					</td>
+				</tr>
+			</table>			
+		</div>
+		<div class="providerFrame lt">
+			<table cellpadding="0" cellspacing="0" width="100%">
+				<tr>
+					<td width="18%"></td>
+					<td height="90"><p class="providermsg" style="margin-left: 20px;">Getting on board was a no brainer.</p></td>
+					<td width="25%" rowspan="2"></td>
+				</tr>
+				<tr>
+					<td align="right">
+						<%= image_tag("/assets/header/burke.png", alt: "burke")%>
+					</td>
+					<td height="90">
+						<p class="providerName"><b>TJ Burke</b></p>
+						<p class="providerType">Owner, Blue Note Entertainment</p>
+					</td>
+				</tr>
+			</table>			
+		</div>
+		<div class="clear"></div>
+	</div>
+	
+	</div>
+</div>
+
+

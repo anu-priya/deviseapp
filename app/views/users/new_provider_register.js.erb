@@ -1,0 +1,7 @@
+    $('#loadDivjax').hide();
+      $(".headCont").html('Sign-up as Provider <span class="fts14" style="position: relative;top: -3px;">(...& get <span class="ftcRed">$20</span> Credit!)</span>');
+      var stateObj = {
+      foo: "bar"
+     };
+      parent.history.pushState(stateObj, "Login", "/provider_register");
+      $('#ParentRegister').html("<%=escape_javascript(render 'provider_register_profile')%>");

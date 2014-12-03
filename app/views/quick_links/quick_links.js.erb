@@ -1,0 +1,15 @@
+$(".load_more").hide();
+var p_no='<%=@page_v%>';
+$("#page_no").val(p_no);
+/*$('#fsearch_count').html('('+<%=@search_count%>+')');*/
+<%if @activity_free%>
+  $('.right_container').append('<%= escape_javascript(render(:partial => '/activity_card/quick_link_hot')) %>');
+  <%if (@page_v + 1) <= (@activity_free && @activity_free.total_pages)%>
+    $('#showmorebtn').show();
+  <%else%>
+    $('#showmorebtn').hide();
+  <%end%>
+<%else%>
+  $('#showmorebtn').hide();
+<%end%>
+

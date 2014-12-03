@@ -1,0 +1,15 @@
+<%=stylesheet_link_tag "global/pop_up_success", :media => "all"%>
+<script language="javascript">
+  $(document).ready(function(){
+    $("html, body", window.parent.document).animate({ scrollTop: 0 }, 100);
+  });
+  function closepopup() {
+    parent.emailPage.hide();
+  }
+</script>
+
+<div align="center" style="height:230px;">
+  <p class="successText" style="padding:60px 0;">You have successfully shared this activity</p>
+  <div class="clear"></div>
+  <a href="javascript:void(0)" onClick="closepopup()" title=""><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38")%></a>
+</div>

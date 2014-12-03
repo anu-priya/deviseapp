@@ -1,0 +1,259 @@
+<link rel="stylesheet" href="/assets/landing/home.css" type="text/css"/>
+<link rel="stylesheet" href="/assets/sudo/style_new.css" type="text/css"/>
+
+<script src="/assets/landing_banner_slide/searchjquery.js" type="text/javascript"></script>
+<script src="/assets/scroller/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
+<script src="/assets/scroller/jquery.mousewheel.min.js" type="text/javascript"></script>
+<script src="/assets/scroller/jquery.smoothdivscroll-1.3-min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+var inc=0,total_img,refreshIntervalId,mytime,mytimeplay;
+
+  $(function(){
+    
+    $('.videoChg').click(function(){
+      var vv =$('.videoChg').index(this);
+      if (vv==0) {
+        $('.videoChg:eq('+(vv+1)+') img').attr('src','/assets/landing/Provider_normal.png');
+        $('.videoChg:eq('+(vv)+') img').attr('src','/assets/landing/Parent_select.png');
+        $('#videoplayerhm').html('<iframe width="393" height="247" src="//www.youtube.com/embed/XQj0hdpvdA8?autohide=1&rel=0" frameborder="0" allowfullscreen></iframe>');
+      }else if (vv==1) {
+        $('.videoChg:eq('+(vv-1)+') img').attr('src','/assets/landing/Parent_normal.png');
+        $('.videoChg:eq('+(vv)+') img').attr('src','/assets/landing/Provider_select.png');
+        $('#videoplayerhm').html('<iframe width="393" height="247" src="//www.youtube.com/embed/1BZqkeyMyDA?autohide=1&rel=0" frameborder="0" allowfullscreen></iframe>');
+      }else{
+        $('.videoChg:eq('+(0)+') img').attr('src','/assets/landing/Parent_select.png');
+        $('.videoChg:eq('+(1)+') img').attr('src','/assets/landing/Provider_normal.png');
+        $('#videoplayerhm').html('<iframe width="393" height="247" src="//www.youtube.com/embed/XQj0hdpvdA8?autohide=1&rel=0" frameborder="0" allowfullscreen></iframe>');
+      }
+    });
+    
+       total_img=$(".blogDesign .blog").size();      
+       for(cnt=1;cnt<total_img;cnt++){
+          $(".blog:eq("+cnt+")").css("display","none");
+          $(".blueDot:eq("+cnt+")").css({'border':' 1px solid #AED7E9','background':'#AED7E9'});
+       }
+       clearInterval(mytimeplay);
+       mytime=setInterval ( "doSomething()", 5000 );
+       
+});
+function doSomething(){
+       $(".blog:eq("+inc+")").fadeOut(700);
+       $(".blueDot:eq("+inc+")").css({'border':' 1px solid #AED7E9','background':'#AED7E9'});
+       inc++;
+       if(inc>=total_img)
+       inc=0;
+       $(".blog:eq("+inc+")").fadeIn(3000);         
+       $(".blueDot:eq("+inc+")").css({'border':' 1px solid #76BDDB','background':'#76BDDB'});        
+}
+
+function doSomethingplay(){
+	inc=inc;
+	$(".blog:eq("+inc+")").fadeOut(700);	
+	$(".blueDot:eq("+inc+")").css({'border':' 1px solid #AED7E9','background':'#AED7E9'});
+	inc++;
+	if(inc>=total_img)
+	inc=0;
+	$(".blog:eq("+inc+")").fadeIn(3000);
+	$(".blueDot:eq("+inc+")").css({'border':' 1px solid #76BDDB','background':'#76BDDB'}); 
+}
+
+function pause()
+{
+	clearInterval(mytime);
+	clearInterval(mytimeplay);
+}
+function resume()
+{
+	clearInterval(mytime);
+	clearInterval(mytimeplay);
+	mytime=setInterval ( "doSomething()", 5000 );
+}
+function play(number)
+{ 
+	clearInterval(mytime);
+	inc=number;
+	for(cnt=0;cnt<total_img;cnt++){
+		$(".blog:eq("+cnt+")").css("display","none");		
+		$(".blueDot:eq("+cnt+")").css({'border':' 1px solid #AED7E9','background':'#AED7E9'});
+	}
+	
+	$(".blog:eq("+inc+")").fadeIn(3000);  	
+	$(".blueDot:eq("+inc+")").css({'border':' 1px solid #76BDDB','background':'#76BDDB'}); 	
+
+	id=inc;
+	if(id==total_img){	
+		inc=0;
+	}
+	if(id<0 && id<total_img){
+		inc=parseInt(id)+parseInt(1);
+	}
+
+	mytimeplay=setInterval ( "doSomethingplay('"+inc+"')", 5000 );
+	
+}
+
+</script>
+<!--<div class="homeIndex">-->
+<div class="homeIndexafterlogin">
+  <div class="hmeTopbanner" style="display: none;">
+    <img src="/assets/landing/beforelogin.jpg" alt="" />
+  </div>
+  <div class="topBannerbgAfterlogin">
+    <img src="/assets/landing/afterlogin.jpg" alt="" />
+  </div>
+  <div class="hmeTopconntentwrap">
+    <div class="gtImg"><img src="/assets/landing/text.png" alt="" /></div>
+    <div class="logSearchBlogwrap">
+      <table cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td width="25%">
+            <div class="signupSocial signuosc">
+              <a href="javascript:void(0);" title="" class="disInblo"><img src="/assets/landing/famtivity_sign_up_button.png" alt=""/></a>
+              <span class="ftcGreen3c fts16 orTxt disInblo">or</span>
+              <a href="javascript:void(0);" title="" class="disInblo"><img src="/assets/landing/facebook_sign_up_button.png" alt=""/></a>
+              <p class="fts15 ftcRedff"><b>and get $5 Credit</b>&nbsp;<img src="/assets/provider_register/help.png" alt="" class="helpImghme" /></p>
+            </div>
+          </td>
+          <td width="50%" align="center">
+            <div class="homeSearchwrap">
+              <div class="fts24 ftcGreen3c">Easily find&nbsp;<img width="19" height="19" class="searchIcon" alt="" src="/assets/header/top_search_icon.png">, share&nbsp;<img width="21" height="19" class="searchIcon" alt="" src="/assets/header/top_share_icon.png">&nbsp;and&nbsp;manage&nbsp;<img width="20" height="22" class="searchIcon" alt="" src="/assets/header/calendar_icon.png">&nbsp;kids and family activities!</div>
+              <div class="searchBox">
+                <input type="text" name="search" class="lt hmsearch fts20 ftcGrayb9" onblur="if(this.value == ''){this.value='Search 20,000 + local activities and counting';}" onfocus="if(this.value=='Search 20,000 + local activities and counting'){this.value='';}" value="Search 20,000 + local activities and counting" />
+                <input type="image" src="/assets/landing/search_icon_n.png" class="lt hmsearchIcon"/>
+              </div>
+            </div>
+          </td>
+          <td width="25%" align="right">
+            <div class="signupSocial newsBlog">
+              <div class="topright_leftbox fts16 ftcGreen3c blogNews"  onmouseover="newspopup_show()" onmouseout="newspopup_hide()" >
+                <img width="30" height="30" alt="" src="/assets/landing/weekend_icon.png"><br><b>Weekend</b><br><span class="topright_blogred">Newsletter</span>
+              </div>              
+              <div class="lt fts16 ftcGreen3c blogWrap blogNews"><a target="_blank" title="Blog" href="http://blog.famtivity.com"><img width="34" height="32" alt="" src="/assets/landing/grow_icon.png"><br><b>Grow<br>Together</b> <span class="topright_blogred">Blog</span></a></div>
+              <div class="clear"></div>
+              <span class="newspopup_show"  onmouseover="newspopup_show()" onmouseout="newspopup_hide()" style="margin-top: 0px;right: 40px;top: 85px; " >
+                <div style="padding:20px 0 0 0px;">
+                  <div class="newsLetSub">Get Our Great Weekend Newsletter</div>
+                  <form name="banner_form" id="banner_form" method="post" onSubmit="return news_banner_validation()">
+                    <div>
+                      <div class="lt news_label">Email</div>
+                      <div class="lt" id="newsInputError"><input type="text" name="email" id="email"  value="Email address" class="news_inputBox" style="color:#999999;"  onfocus="if(this.value == 'Email address'){this.value=''; this.style.color='#444444'; }" onBlur="if (this.value == '') {this.style.color='#999999'; this.value='Email address'}" tabindex="1"></div>
+                      <div class="clear"></div>
+                    </div>
+                    <div style="margin-top:10px;">
+                      <div class="lt news_label">Location</div>
+                      <div class="lt" id="newsInputError">
+                        <input type="hidden" id="banner_location" name="banner_location" value=""/>
+                        <select name="banner_location_2" id="banner_location_2" class="news_setLocationWidth" tabindex="2">
+                          <option value="" selected="selected">--Choose Location--</option><% @fam_city = City.order(:city_name)%><% if !@fam_city.nil? && @fam_city!='' && @fam_city.present? %><%@fam_city.each do |cit|%><option value="<%=cit.city_name.html_safe %>"><%=cit.city_name.html_safe %></option><%end%><%end%>
+                        </select>
+                      </div>
+                      <div class="clear"></div>
+                    </div>
+                    <div style="height:8px;"></div>
+                    <div style="margin-top:6px;">
+                      <div class="lt news_label">&nbsp;</div>
+                      <div class="lt"><input type="image" value="" src="/assets/landing/sign_up_button.png" width="101" height="35" class="sign_mright" tabindex="3"><a href="javascript:void(0)" title="" onclick="close_newsletter()" tabindex="4"><img src="/assets/landing/cancel_button.png" width="101" height="35"></a></div>
+                      <div class="clear"></div>
+                    </div>
+                    <!-- <div style="height:8px;"></div> -->
+                    <div class="read_issue" align="right">
+                      <a href="http://famtivity.campaignonthecloud.com/page/web/weekend_newsletter" target="_blank" title="Read the current issue">Read the current issue</a>
+                      <a href="http://famtivity.campaignonthecloud.com/page/web/weekend_newsletter" target="_blank" title="Read the current issue"><img src="/assets/landing/weekend_read.png" width="71" height="53" style="margin-top:-33px;" border="0"></a>
+                    </div>
+                  </form>
+                </div>
+              </span>
+              
+            </div>            
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="howitwrkWrap" style="display: none;">
+      <p class="fts20 ftcGreen3c hwitTit">How it works</p>
+      <div class="hmVideowrap">
+        <div class="videoplayerhm" id="videoplayerhm">
+          <!--<img src="/assets/landing/Parent_hwitwrk.png" alt=""/>-->
+          <iframe width="393" height="247" src="//www.youtube.com/embed/XQj0hdpvdA8?autohide=2&rel=0" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="videoButton">
+          <a href="javascript:void(0);" title="" class="lt videoChg"><img src="/assets/landing/Parent_select.png" alt=""/></a>
+          <span class="lt fts25 ftcGrayb9 barSym">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+          <a href="javascript:void(0);" title="" class="lt videoChg"><img src="/assets/landing/Provider_normal.png" alt=""/></a>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
+  </div><!--Topbanner end-->  
+</div>
+<div class="homemiddleSection"><!--Middle banner -->
+    
+   
+    <div class="featurednew">
+      
+       <a name="featured"></a>
+      <div id="featured" class="scrollSection"><!-- Featured Row -->
+        <div class="dottedDiv" style="position:relative;"> <!-- dont remove the style properties in dottedDiv -->
+          <div class="lt"><table cellspacing="0" cellpadding="0" border="0" class="activityImage"><tr><td width="34" valign="middle"><img src="/assets/categories/featured.png" alt="" /></td><td class="Title_head" valign="middle" style="padding-right: 4px;"><b>Featured</b></td><td id="featured_count" class="Title_head" valign="middle" ></td></tr></table></div>
+          <div class="rt" id="GotoFeatured"><div id="jump_menu" class="jumpDivMenu"><ul><li><a href="javascript:void(0);" class="jumpDiv" style="color: #4495AE;">Jump To</a><ul class="sub-menu dispParentjumpDiv" style="margin-left:-62px;.margin-top:28px; .margin-left:-147px;"><% if !@jump_to_scroll.nil? && @jump_to_scroll.present? %><% @jump_to_scroll.each do |jval|%><%if !jval.nil? && jval.present? && jval!=''%><li><a class="test<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>" href="javascript:void(0);" onclick="jumpto('<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>'); _gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','<%=jval.downcase.gsub(/[^a-zA-Z0-9]/,"_")%>']);"><%=jval%></a></li><%end%><%end%><%end%></ul></li></ul></div></div>
+        </div>
+        
+        <div id="makeMeScrollablefeatured">
+        <div class="blogDesign">
+      <div class="blogInnDesign blog" style="display: block;">
+        <div class="blogImg"><center><img src="/assets/landing/event_image.jpg" alt="" height="270" /></center></div>
+        <div class="clear"></div>
+        <p class="fts14 ftcGreen3c blogFeTxt lt"><b><span class="ftcRedff">Blog</span> - Introducing Famtivity: The Family Activity Network</b></p>
+        <p class="fts13 ftcGray56 blogFeTxtpara">Welcome to Famtivity. We&rsquo;re a group of busy folks (probably a lot like you) with families, pets, jobs, deadlines, bills, hobbies and a passion for enjoying free time. We like to inspire, explore, connect, learn and play (not always in that order).</p>
+        <p class="fts13 ftcGray56 blogFeTxtpara">Our Aha! moment was born out of frustration from finding and coordinating all the various activities for our kids. Until now, organizing activities had been a complex ordeal involving countless web searches, phone calls, e-mails and paperwork. Let&lsquo;s just say we were growing tired of tearing our hair out.</p>
+        <p class="fts13 ftcGray56 blogFeTxtpara">We believe there&lsquo;s a better way. Famtivity&lsquo;s mission is to simplify the process of finding, organizing and purchasing activities. We connect activity seekers with activity providers to create a network we call The Family Activity Network.</p>
+      </div>
+      <div class="blogInnDesign blog">
+        <div class="blogImg"><img src="/assets/landing/event_image2.jpg" alt=""/></div>
+        <div class="clear"></div>
+        <p class="fts14 ftcGreen3c blogFeTxt lt"><b><span class="ftcRedff">Blog</span> - Introducing Famtivity: The Family Activity Network</b></p>
+        <p class="fts13 ftcGray56 blogFeTxtpara">Welcome to Famtivity. We&rsquo;re a group of busy folks (probably a lot like you) with families, pets, jobs, deadlines, bills, hobbies and a passion for enjoying free time. We like to inspire, explore, connect, learn and play (not always in that order).</p>
+        <p class="fts13 ftcGray56 blogFeTxtpara">Our Aha! moment was born out of frustration from finding and coordinating all the various activities for our kids. Until now, organizing activities had been a complex ordeal involving countless web searches, phone calls, e-mails and paperwork. Let&lsquo;s just say we were growing tired of tearing our hair out.</p>
+        <p class="fts13 ftcGray56 blogFeTxtpara">We believe there&lsquo;s a better way. Famtivity&lsquo;s mission is to simplify the process of finding, organizing and purchasing activities. We connect activity seekers with activity providers to create a network we call The Family Activity Network.</p>
+      </div>
+      <div class="blogInnDesign blog">
+        <div class="blogImg"><img src="/assets/landing/event_image3.jpg" alt="" /></div>
+        <div class="clear"></div>
+        <p class="fts14 ftcGreen3c blogFeTxt lt"><b><span class="ftcRedff">Blog</span> - Introducing Famtivity: The Family Activity Network</b></p>
+        <p class="fts13 ftcGray56 blogFeTxtpara">Welcome to Famtivity. We&rsquo;re a group of busy folks (probably a lot like you) with families, pets, jobs, deadlines, bills, hobbies and a passion for enjoying free time. We like to inspire, explore, connect, learn and play (not always in that order).</p>
+        <p class="fts13 ftcGray56 blogFeTxtpara">Our Aha! moment was born out of frustration from finding and coordinating all the various activities for our kids. Until now, organizing activities had been a complex ordeal involving countless web searches, phone calls, e-mails and paperwork. Let&lsquo;s just say we were growing tired of tearing our hair out.</p>
+        <p class="fts13 ftcGray56 blogFeTxtpara">We believe there&lsquo;s a better way. Famtivity&lsquo;s mission is to simplify the process of finding, organizing and purchasing activities. We connect activity seekers with activity providers to create a network we call The Family Activity Network.</p>
+      </div>
+      <div class="moreArticle">
+        <div class="lt">
+          <a href="javascript:void(0);" title="" onmouseover="pause()" onmouseout="resume()" onclick="play('0')" class="blueDot" style="border: 1px solid #76BDDB;background: #76BDDB;"></a>
+          <a href="javascript:void(0);" title="" onmouseover="pause()" onmouseout="resume()" onclick="play('1')" class="blueDot"></a>
+          <a href="javascript:void(0);" title="" onmouseover="pause()" onmouseout="resume()" onclick="play('2')" class="blueDot"></a>
+        </div>        
+        <a href="http://blog.famtivity.com" target="_blank" title="" class="ftcGreen3c fts14">More articles</a>
+      </div>
+    </div>
+        
+          
+          <%= render :partial =>"featured_row" %>
+        </div>
+        <div class="clear"></div>
+      </div>
+      
+    </div>  
+      
+</div>
+<script>
+  $(function(){
+    
+     $("#makeMeScrollablefeatured").smoothDivScroll({
+            mouseOverRightHotSpot: function () {
+              $("#makeMeScrollablefeatured").smoothDivScroll("getAjaxContent", "/landing/featured_activity", "addLast");
+            },mouseOverLeftHotSpot: function () {
+              $("#makeMeScrollablefeatured").smoothDivScroll("getAjaxContent", "/landing/featured_activity", "addLast");
+            }
+          });
+    });
+</script>

@@ -1,0 +1,492 @@
+<%= stylesheet_link_tag "activity_view_detail/paymentDetail.css" %>
+<%= stylesheet_link_tag "global/pop_up.css" %>
+<%= stylesheet_link_tag "activity_view_detail/activity_details.css" %>
+<%= javascript_include_tag "acitivity_view_details/schedule_price.js" %>
+<style>
+.moreDetailsText {
+    color: #5099AC;
+    font-size: 12px;
+}
+</style>
+<div class="clear"></div>
+
+<div id="eventListContainer" class="eventListContainer" style="<%if current_user%>margin-top:53px; margin-bottom: 36px;<% else %>margin-top:83px; margin-bottom: 36px;<% end%>"><!-- Start Default Activities List --><!-- Top Banner Slide Start-->
+  <div class="setouterstyle"><!--slider start-->    
+    <%= render :partial =>"common/top_banner" %>
+    <!--slider end--> <!--Header Slider-->
+    <%  @jump_to_scroll_first = []
+    #don't remove this. jump to drop down dynamically show
+    @jump_to_scroll_first.push("Featured")
+    @jump_to_scroll_first.push("Free")
+  %>
+    <% if !current_user.nil?
+      act_categ = ActivityCategory.where("lower(category_name) = 'default'").last
+      sub_cat = ActivitySubcategory.where(:category_id=>act_categ.category_id ).map(&:subcateg_id)
+      @row_default = ActivityRow.where(:subcateg_id => sub_cat,:user_id => current_user.user_id)
+      @row_default.each do |s|
+        @jump_to_scroll_first.push("#{s.row_type}")
+      end
+
+    end
+    @jump_to_scroll_first.push("Dance")
+    @jump_to_scroll_first.push("Music")
+    @jump_to_scroll_first.push("Sports")
+
+
+
+    @provider_activites.each do |s|
+      @jump_to_scroll_first.push(s) if !s.nil? && s.present? && s!=''
+    end if !@provider_activites.nil? && @provider_activites.present? && @provider_activites!=''
+    @follow_parent_user.each do |u|
+      @user = User.where("user_id = #{u}").last if !u.nil? && u.present? && u!=''
+      @jump_to_scroll_first.push(@user.user_name) if !@user.nil?
+    end if !@follow_parent_user.nil? && @follow_parent_user.present? && @follow_parent_user!=''
+    @follow_provider_user.each do |u|
+      @user = User.where("user_id = #{u}").last  if !u.nil? && u.present? && u!=''
+      @jump_to_scroll_first.push(@user.user_profile.business_name) if !@user.nil?
+    end if !@follow_provider_user.nil? && @follow_provider_user.present? && @follow_provider_user!=''
+    @jump_to_scroll = @jump_to_scroll_first.uniq
+  %>
+
+
+    <!--////////////////////////////////Start new search  ////////////////////////////////////////////-->
+    <div id="basic_Search" style="left: 0;position: absolute;right: 0;top: 250px;">
+      <form id="advanced_search_update" action="/search" name="advanced_search_update" method="get">
+
+        <div id="search_outer" align="center">
+          <div id="bS_outer">
+            <div id="ca_mp" class="bS_menus">
+			Camp
+              <div class="drop_dwon" id="camp">
+                <table width="125" border="0" align="left" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td width="86"  align="left" valign="top">
+                      <input type="hidden" value="" id="camp_range_1" name="camp_range_1"/>
+                      <input type="hidden" value="" id="camp_all"/>
+                      <span><input type="checkbox" name="a_all" value="a_all" id="a_all" class="checkbox12" onClick="camp_all_changes()"/></span><span class="inner_text">All</span>
+                    </td>
+                  </tr>
+                  <td width="88"  align="left" valign="top">
+                    <span><input type="checkbox" name="c_r1" value="specials" id="a_r1" class="checkbox12" onClick="camp_range_changes(1,this.value)"/></span><span class="inner_text">Specials</span>
+                  </td>
+                  <tr>
+                    <td width="96"  align="left" valign="top">
+                      <span><input type="checkbox" name="c_r4" value="camp" id="a_r4" class="checkbox12" onClick="camp_range_changes(4,this.value)"/></span><span class="inner_text">Camp</span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div id="category" class="bS_menus">
+			Category
+              <div class="drop_dwon" id="adv_category_detail">
+                <div style="height:275px; width:529px; overflow-y:scroll;overflow-x:hidden;">
+                  <%sub=1%>
+                  <input type="hidden" id="ad_sub_category_1" name="ad_sub_category_1" value=""/>
+                  <input type="hidden" id="ad_sub_category_id_1" name="ad_sub_category_id" value=""/>
+                  <%@accordion && @accordion.each do |s|%>
+                    <%if !s.category.nil? && !s.nil? && s.category!=""%>
+                      <div class="Adv_categoryText"><%=s.category.capitalize if !s.category.nil?%></div>
+                    <%end%>
+                    <div class="clear"></div>
+                    <%@ac_sub = Activity.find(:all,:conditions=>["lower(category) = ?",s.category.downcase],:select =>"DISTINCT lower(trim(sub_category)) as sub_category").uniq if !s.nil? && !s.category.nil?%>
+                    <%if @ac_sub.present? && @ac_sub!="" && !@ac_sub.nil?%>
+                      <div class="Adv_CategoryStyle">
+                        <%@ac_sub.each do |st|%>
+                          <%if !st.sub_category.nil? && !st.nil? && st.sub_category!=""%>
+                            <div class="Adv_sub_category"><span><input type="checkbox" name="ad_cate_<%=sub%>" id="ad_cate_<%=sub%>" value="" class="checkbox" onClick="get_subCat_id('<%=sub%>','<%=  st.sub_category.capitalize if !st.sub_category.nil? && !st.nil? && st.sub_category!=""%>')"></span><span class="inner_text"><%=  st.sub_category.capitalize if !st.sub_category.nil? && !st.nil? && st.sub_category!=""%></span></div>
+                            <%sub=sub+1%>
+                          <%end%>
+                        <%end%>
+                      </div>
+                    <%end%>
+                  <%end%>
+                </div>
+              </div>
+            </div>
+            <div id="age_range" class="bS_menus">
+              Age Range
+              <div class="drop_dwon" id="range_age">
+                <table width="270" border="0" align="left" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td width="86"  align="left" valign="top">
+                      <input type="hidden" value="" id="age_range7"/>
+                      <input type="hidden" value="" id="age_all"/>
+                      <input type="hidden" value="" id="age_r1"/>
+                      <input type="hidden" value="" id="age_r4"/>
+                      <input type="hidden" value="" id="age_r8"/>
+                      <span><input type="checkbox" name="aa_all" value="a_all" id="aa_all" class="checkbox" onClick="daterange_all_changes1()"/></span><span class="inner_text">All</span>
+                    </td>
+                  </tr>
+                  <td width="88"  align="left" valign="top">
+                    <span><input type="checkbox" name="aa_r1" value="0-3" id="aa_r1" class="checkbox1" onClick="date_range_changes1(1,this.value)"/></span><span class="inner_text">0 - 3</span>
+                  </td>
+                  <tr>
+                    <td width="96"  align="left" valign="top">
+                      <span><input type="checkbox" name="aa_r4" value="4-7" id="aa_r4" class="checkbox1" onClick="date_range_changes1(4,this.value)"/></span><span class="inner_text">4 - 7</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td  align="left" valign="top">
+                      <span><input type="checkbox" name="aa_r8" value="8-15" id="aa_r8" class="checkbox1" onClick="date_range_changes1(8,this.value)"/></span><span class="inner_text">8 +</span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div id="start_D"class="bS_menus">
+              <span id="start_dates_formate">Start Date</span><input type="hidden" name="start_dates" id="start_dates" value="" />
+              <div class="drop_dwon  " id="date_start" >
+              </div>
+            </div>
+            <div id="end_D" class="bS_menus">
+              <span id="end_dates_formate">End Date</span><input type="hidden" name="end_dates" id="end_dates" value="" />
+              <div class="drop_dwon  " id="date_end" >
+              </div>
+            </div>
+            <div  id="day_W"class="bS_menus">
+			Day of Week
+              <div class="drop_dwon" id="d_week">
+                <input type="hidden" name="age_rangera" id="age_rangera" value=""/>
+                <table cellpadding="0" cellspacing="0" border="0" width="270">
+                  <tr>
+                    <td width="83"  align="left" valign="top">
+                      <span><input type="checkbox" name="day_of_week_1" value="Mon" id="day_of_week_1" class="checkbox2"/></span><span class="inner_text">Monday</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td width="74"  align="left" valign="top">
+                      <span><input type="checkbox" name="day_of_week_2" value="Tue" id="day_of_week_2" class="checkbox2"/></span><span class="inner_text">Tuesday</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td width="113"  align="left" valign="top">
+                      <span><input type="checkbox" name="day_of_week_3" value="Wed" id="day_of_week_3" class="checkbox2"/></span><span class="inner_text">Wednesday</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td  align="left" valign="top">
+                      <span><input type="checkbox" name="day_of_week_4" value="Thu" id="day_of_week_4" class="checkbox2"/></span><span class="inner_text">Thursday</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td  align="left" valign="top">
+                      <span><input type="checkbox" name="day_of_week_5" value="Fri" id="day_of_week_5" class="checkbox2"/></span><span class="inner_text">Friday</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td  align="left" valign="top">
+                      <span><input type="checkbox" name="day_of_week_6" value="Sat" id="day_of_week_6" class="checkbox2"/></span><span class="inner_text">Saturday</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td  align="left" valign="top">
+                      <span><input type="checkbox" name="day_of_week_7" value="Sun" id="day_of_week_7" class="checkbox2"/></span><span class="inner_text">Sunday</span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div id="gend_r" class="bS_menus">
+			Gender
+              <div class="drop_dwon" id="gender">
+                <table border="0" cellpadding="0" cellspacing="0" width="129">
+                  <tr>
+                    <td  align="left" valign="top">
+                      <span><input type="radio" name="gender" id="sex" value="g_all" class="checkbox"/></span><span class="inner_text">Both</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td  align="left" valign="top">
+                      <span><input type="radio" name="gender" id="sex" value="Male" class="checkbox"/></span><span class="inner_text">Male</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td  align="left" valign="top">
+                      <span><input type="radio" name="gender" id="sex" value="Female" class="checkbox"/></span><span class="inner_text">Female</span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div class="bS_menu" id="zip_code">
+              <span id="zip_enter">Enter Zip Code</span><span id="zip_value" style="display: none"> <input type="text" id="zip_values" value="" name="zip_value_name" size="15"  onKeyPress="return number(event);"></span>&nbsp;(or)
+	   <!--<span id="zip_enter">Enter Zip Code</span><span id="zip_value" style="display: inline-block;"> <input type="text" id="zip_values" value="Enter Zip Code" name="zip_value_name" size="15"  onKeyPress="return number(event);" style = "color:#999999;"></span>&nbsp;(or)-->
+            </div>
+            <input type="hidden" id="city_search" value="" name="city_search_ra"/>
+            <div class="bS_menus" id="city_choose">
+              <span id="selectedCity">Choose City</span>
+              <div class="drop_dwon" id="chose_city">
+                <div style="width:500px;"><% @fam_city = City.order(:city_name)%><% if !@fam_city.nil? && @fam_city!='' && @fam_city.present? %><%@ci = 1 %><%@fam_city.each do |cit|%><div class="cityText" onclick="city_search('<%=cit.city_name%>')"><%=cit.city_name%></div><%@ci = @ci+1 %><%end%><%end%></div>
+              </div>
+            </div>
+            <div id="Price"class="bS_menus">
+	Price
+              <input type="hidden" name="age_range71_8"  id="age_range71_8" value=""/>
+              <div class="drop_dwon" id="chose_price">
+                <table border="0" cellpadding="0" cellspacing="0" width="129">
+                  <tr>
+                    <td  align="left" valign="top">
+                      <input type="hidden" value="" id="price_range"/>
+                      <span><input type="checkbox" name="p_all" value="p_all" id="price_all" class="checkbox" onClick="price_all_changes()"/></span><span class="inner_text">All</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td  align="left" valign="top">
+                      <span><input type="checkbox" name="a_f" value="free" id="price_free" class="checkbox3" onClick="price_range_changes()"/></span><span class="inner_text">Free</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td  align="left" valign="top">
+                      <span><input type="checkbox" name="paid" value="paid" id="price_paid" class="checkbox3" onClick="price_range_changes()"/></span><span class="inner_text">Paid</span>
+                    </td>
+                  </tr>
+                </table>
+
+              </div>
+
+              <!--  <span id="price_enter">price</span><span id="price_value" style="display: none"> <input type="text" id="price_values" value="" name="price_value" size="10"></span>-->
+            </div>
+            <div id="submit"class="bS_menu">
+              <input type="button" name="search" id="search_button" value="search" onClick="advance_search_navigate()" />
+            </div>
+          </div>
+        </div>
+        <!--div id="close_search">
+          <img src="/assets/search/close_icon.png"/>
+        </div-->
+
+      </form>
+      <div class="clear"></div>
+    </div>
+
+    <!--////////////////////////////////End of new search  ////////////////////////////////////////////-->
+
+
+
+        <div id="popup_container" style="top: 20px !important;">
+
+        </div>
+      </div>
+
+      <!--<div class="dottedDiv addFollowRow">  dont remove the style properties in dottedDiv
+        <div align="center" width="100%"><table cellspacing="0" cellpadding="0" border="0" class="activityImage" style="position: relative;padding: 0px 10px;"><tbody><tr><td><img src="/assets/header/following_img_blue.png" alt="" /></td><td align="center"  class="Title_head">&nbsp;&nbsp;&nbsp;<a title="" href="javascript:void(0)" style="color: #5099AC; display: inline-block;float: left;" onclick="show_follow()"><b><u>Click here to Follow more Feeds</u></b></a></td></tr></tbody></table></div>
+      </div> -->
+	<!--New follow cities-->
+		<form name="city_select_val" id="city_select_val" method="post" action="/">
+			<div class="dynamicLetdiv" id="alpha_val">
+			<input type="hidden" name="city_v" id="city_v" value=""/>
+			Browse Your Locations: <% ('A'..'Z').each do |alpha| %>
+			<a href="javascript:void(0);"  onclick="city_submit('<%=alpha%>');" style="<%=(params[:city_v] && params[:city_v]==alpha) ? "color: #2B91AF;" : ""%>" title=""><%=alpha%></a>
+			<%end%>  
+			</div>
+		</form>
+	<!--New follow cities-->
+      
+      
+      <div style="text-align:center;padding:10px 0px;border-bottom:1px dashed #666666;margin-bottom:10px;font-size:14px;" class="ftcGreen3c"> 
+         <a href="/cities/<%=params[:data] if params[:data] && !params[:data].nil?%>" title="" class="ftcGreen3c"><%=params[:data].titleize if params[:data] && !params[:data].nil?%></a> > <a href="/<%=((check_for_state(params[:city])) ? params[:city]+url_state_value : params[:city]) if params[:city] && !params[:city].nil?%>" title="" class="ftcGreen3c"><%=params[:city].titleize if params[:city] && !params[:city].nil?%></a> > <span class="ftcGray56">  <%=@user_profile.business_name if @user_profile && !@user_profile.nil? && !@user_profile.business_name.nil?%> </span>
+      </div>
+ <% if !params[:det_user_id]%>   
+<%if !@user.nil? && !@user.user_plan.nil? && @user.user_plan.downcase == 'curator'%> 
+<%=render "follow_city_provider_card",:test_path => 'f_city_provider_card'%>
+<%end%>
+
+      <!--City alphabet search--->
+      <div class="cityvalueDisplay" id="cityvalueDisplay" style="display:block;"> 
+       <%if @activities && @activities.present? && !@activities.nil?%>
+          <%@activities.each do |s|%>
+			 <%if s && s.present? && !s.nil?%>
+			         <%url_formed = "city/#{params[:data]}/#{params[:city]}/#{params[:profile_id]}"%>
+				<a href="#" onclick="pop_Activity_Detail_dhtml('/activitydetail_new?det=<%= s.activity_id %>&mode=parent&act=<%=url_formed%>','/activities/<%=s.city.gsub(/\s/,'-').downcase+url_state_value if s.city.present? %>/<%= s.activity_id if s.activity_id.present? %>-<%=s.activity_name.gsub(/\s/,'-').downcase if s.activity_name.present? %>');" value="<%=s.activity_name%>" title=""><%= s.activity_name %></a>
+			<%else%>
+				<span style="text-align:center;font-size:15px;">No results found.</span>
+			<%end%>
+          <%end%>
+        <%end%>
+	<div class="clear"></div>
+      </div>
+      
+ <%else%> 
+      <%=render 'follow_city_detail_pc'%>
+<%end%> 
+ 
+
+
+      
+
+
+      <!-- login feature popup start -->
+      <div id="login_use_feature">
+        <div class="content_popup" style="display:block;"><br>You need to login to use this feature<br><br>
+          <span class="b-close" id="loginFeature"><a href="javascript:void(0)" title=""> <%= image_tag("/assets/register/ok_btn.png") %></a></span>
+          <a href="javascript:void(0);" title=""><span class="b-close"><%= image_tag("/assets/landing/cancel_button.png") %></span></a>
+        </div>
+      </div><!-- login feature popup end -->
+      <script>
+         //city submit values
+	function city_submit(e)
+	{
+	var aa= $('#city_v').val(e);
+	document.forms['city_select_val'].submit();
+	}
+	
+        //show following button in bottom link
+        function show_follow()
+        {
+          $(".selectedCity23244").show();
+          $('#top_menu ul li ul, #top_menu ul li ul li').css("display","block");
+        }
+      
+        //login feature bpopup displayed
+        function login_feature(sav,actid)
+        {
+          var act=sav;
+          var activity_id=actid;
+	
+          $('#login_use_feature').bPopup({
+            fadeSpeed:100,
+            followSpeed:100,
+            opacity:0.8,
+            positionStyle: 'absolute',
+            modalClose: false
+          },function(){
+            $( "#loginFeature" ).click(function(){
+              pop_Login('/login?act='+act+'&activity_id='+actid);
+            });
+          });
+        }
+	
+        function login_feature_detail(act)
+        {
+          var activity_id=act;
+          $('#login_use_feature').bPopup({
+            fadeSpeed:100,
+            followSpeed:100,
+            opacity:0.8,
+            positionStyle: 'absolute',
+            modalClose: false
+          },function(){
+            $( "#loginFeature" ).click(function(){
+              pop_Login('/login?activity_id='+activity_id);
+            });
+          });
+        }
+        var array_fav = new Array();
+        var remove_fav = new Array();
+        var parent_add_fav = new Array();
+        var parent_remove_fav = new Array();
+        var provider_add_fav = new Array();
+        var provider_remove_fav = new Array();
+        var follow_add_fav = new Array();
+        var follow_remove_fav = new Array();
+        var followuser_add_fav = new Array();
+        var followuser_remove_fav = new Array();
+
+        function modifyText_ev(testVal){
+          if($("#subCat_"+testVal+" input").is(":checked")){
+            $(".add_favorite").css("display","block");
+            favorite_item = $("#subCat_"+testVal+" input").val();
+            array_fav.push(favorite_item);
+            $('#fav_val').val(array_fav);
+          }
+          else{
+            var remove_item = $("#subCat_"+testVal+" input").val();
+            var index = array_fav.indexOf(remove_item);
+            array_fav.splice(index, 1);
+            $('#fav_val').val(array_fav);
+            if (remove_fav.indexOf(remove_item) == -1){
+              remove_fav.push(remove_item);
+              $('#rem_fav_val').val(remove_fav);
+            }
+          }
+        }
+        //~ function add_favorite(){
+          //~ var cat_add_row = $('#fav_val').val();
+          //~ var cat_rem_row = $('#rem_fav_val').val();
+          //~ var provider_add_row = $('#provideradd_val').val();
+          //~ var provider_rem_row = $('#providerremove_val').val();
+          //~ var parent_add_row = $('#parentadd_val').val();
+          //~ var parent_rem_row = $('#parentremove_val').val();
+          //~ var follow_add_row = $('#followadd_val').val();
+          //~ var follow_rem_row = $('#followremove_val').val();
+          //~ var follow_you_add_row = $('#followuseradd_val').val();
+          //~ var follow_you_rem_row = $('#followuserremove_val').val();
+          //~ $.ajax({
+            //~ url:'/activity_subcategories/update_follow_row',
+            //~ type:"get",
+            //~ data: {"cat_add_row":cat_add_row,"cat_remove_row":cat_rem_row,"provider_add_row":provider_add_row,"provider_rem_row":provider_rem_row,"parent_add_row":parent_add_row,"parent_rem_row":parent_rem_row,"follow_add_row":follow_add_row,"follow_rem_row":follow_rem_row,"follow_you_add_row":follow_you_add_row,"follow_you_rem_row":follow_you_rem_row},
+            //~ success:function(data){
+            //~ }
+          //~ });
+        //~ }
+        //~ document.getElementById('#eventListContainer').display='block';
+      </script>
+      <script type="text/javascript">
+        function show_pop_up(exdays){
+          var exdate=new Date();
+          exdate.setDate(exdate.getDate() + exdays);
+          var c_value=escape(1) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+          document.cookie="show_again=" + c_value;
+          if(window.sessionStorage==undefined)
+          {
+          }
+          else{
+            sessionStorage.setItem("mySplashPage", "opened");
+          }
+        }
+        $(document).ready(function () {
+          $("#makeMeScrollablefeatured").smoothDivScroll({
+            mouseOverRightHotSpot: function () {
+              $("#makeMeScrollablefeatured").smoothDivScroll("getAjaxContent", "/landing/featured_activity", "addLast");
+            },mouseOverLeftHotSpot: function () {
+              $("#makeMeScrollablefeatured").smoothDivScroll("getAjaxContent", "/landing/featured_activity", "addLast");
+            }
+          });
+          $("#makeMeScrollablefree").smoothDivScroll({
+            mouseOverRightHotSpot: function () {
+              $("#makeMeScrollablefree").smoothDivScroll("getAjaxContent", "/landing/free_activity", "addLast");
+            },mouseOverLeftHotSpot: function () {
+              $("#makeMeScrollablefree").smoothDivScroll("getAjaxContent", "/landing/free_activity", "addLast");
+            },getContentOnLoad: {
+              method: "getAjaxContent",
+              content: "/landing/free_activity?page=1",
+              manipulationMethod: "replace"
+            }
+          });
+        })
+      </script>
+      <style type="text/css" id="page-css">
+        /* Styles specific to this particular page */
+        #banner_location_2  option{padding: 2px 8px;}
+        #banner_location_first option{padding: 2px 8px;}
+      </style>
+      <script type="text/javascript">
+        function macfix(){
+          var ua=navigator.userAgent;
+          if(ua.indexOf("Mac")!=-1)
+          {
+            if(ua.indexOf("Firefox")!=-1){
+              $('#marginLeftMac').css('border','1px solid red');
+              $('#marginLeftMac').css('position','relative');
+              $('#marginLeftMac').css('top','0px');
+            }
+            if(ua.indexOf("Safari")!=-1){
+              $('.center_bg_scroll').css('height','538px');
+            }
+          }
+        }
+        macfix();
+        $(document).ready(function () {
+<%if (!current_user.nil? && current_user.sign_in_count==1 && cookies[:first_import].nil?)%>
+      pop_contact_import('/contact_users/contact_import');
+  <%cookies[:first_import]='1'%>
+<%end%>
+  });
+  
+
+      </script>
+      <style type="" >
+        /*.autocomplete-suggestions { top:154px;}*/
+
+      </style>

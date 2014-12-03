@@ -1,0 +1,8 @@
+$("#other_fee_options").html("<%=escape_javascript(render 'create_provider_fee')%>");
+//$("#edit_fee_success").css("display","block").fadeOut(5000);
+$('#edit_fee_success').fadeIn().delay(3000).fadeOut();
+$('#loading_img3').css("display","none");
+setTimeout(function() {
+$('.popupContainer').css("opacity","1");
+$('#edit_other_pop').css("display","none");
+}, 2000);

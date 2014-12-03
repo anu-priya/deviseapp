@@ -1,0 +1,74 @@
+<%=stylesheet_link_tag "event_index/event_scroll", :media => "all"%>
+<div class="after_login_top">
+	<div class="wraper_inner_container">
+		<div class="content_title lt">
+			<div class="lt">Plan Transaction</div>
+			<div class="rt">
+				<div style="color: #2b91af; font-size: 14px;"><%= image_tag("/assets/policies/dwniconnormal.png")%>
+					<%if !@user_plan.nil? && @user_plan.length > 0 %>
+					<!--<a  href="/plan_report.csv" title="">CSV</a> |-->
+					<a  href="/plan_report.xls" title="">Excel</a>
+					<%else%>
+					<!--<a  href="javascript:void(0)" title="">CSV</a> |-->
+					<a  href="javascript:void(0)" title="">Excel</a>
+					<%end%>
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="tbl_containner">			
+				<table cellpadding="0" cellspacing="0" border="0" width="100%" class="tbl">
+					<tr>
+						<td align="left" valign="middle" class="tbl_headText" width="1%"></td>
+						<td align="left" valign="middle" class="tbl_headText" width="24%">
+						Transaction ID
+						</td>
+						<td align="left" valign="middle" class="tbl_headText" width="25%">
+						Transaction Date
+						</td>
+						<td align="left" valign="middle" class="tbl_headText" width="25%">
+						Plan Name
+						</td>
+						<td align="left" valign="middle" class="tbl_headText" width="24%">
+						Price
+						</td>
+						<td align="left" valign="middle" class="tbl_headText" width="1%"></td>
+					</tr>
+					<%if !@user_plan.nil? && @user_plan.length > 0 %>
+						<%i=0%>
+						<%@user_plan.each do |uval|%>
+						<%i = i + 1%>					
+						<tr class="<%if i.even? %>tbl_bg_white<%else%>tbl_bg_gray<%end%>">
+							<td align="left" valign="middle" class="tbl_tdbrd"></td>
+							<td align="left" valign="middle" height="30" class="tbl_tdbrd">
+								<%=uval["transaction_id"] if !uval["transaction_id"].nil? && uval["transaction_id"]!=''%>
+							</td>
+							<td align="left" valign="middle" class="tbl_tdbrd">
+								<%=uval["payment_date"].strftime("%b %d, %Y") if !uval["payment_date"].nil? && uval["payment_date"]!=''%>
+							</td>
+							<td align="left" valign="middle" class="tbl_tdbrd">
+								<%=uval["user_plan"] if !uval["user_plan"].nil? && uval["user_plan"]!=''%>
+							</td>
+							<td align="left" valign="middle" class="tbl_tdbrd">
+								<%="$#{(number_with_precision uval["amount"], :precision => 2)}" if !uval["amount"].nil? && uval["amount"]!=''%>
+							</td>
+							<td align="left" valign="middle" class="tbl_tdbrd"></td>
+						</tr>
+						<%end%>
+					<%else%>						
+						<tr>
+							<td align="left" valign="middle" width="1%"></td>
+							<td align="center" valign="middle" colspan="4" height="30">
+								Sorry we found no result
+							</td>
+							<td align="left" valign="middle" width="1%"></td>
+						</tr>
+					<%end%>
+				</table>
+			
+			<div class="pro_pagination" style="margin-top:5px; margin-right: 3%;"> 
+				<%= will_paginate @user_plan  if ! @user_plan.nil? &&  @user_plan!='' &&  @user_plan.present?%>
+			</div>
+		</div>
+	</div>
+</div>

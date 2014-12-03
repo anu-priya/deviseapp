@@ -1,0 +1,160 @@
+<%=javascript_include_tag "global/checkbox"%>
+<script type="text/javascript">
+  $(document).ready(function () {
+    initARC('providerEventList','altCheckboxOn','altCheckboxOff');
+    selectAny();
+    $("#myTable").tablesorter({
+      headers: { 
+            0:{sorter: false},4:{sorter: false},5:{sorter: false}, 
+            6:{sorter: false},7:{sorter: false},9: {sorter: false},
+        } 
+      }); 
+  });
+  //get mutiple check box id and store to hidden field
+  function getchk_actid(curr_actid,span_)
+  {
+    span_index=$(".checkboxImg").index(span_);
+	
+    chk_staus=$(".checkboxImg:eq("+span_index+") label").attr('class');
+    if(chk_staus=="altCheckboxOn")
+    {
+      //add selected checkbox id
+      txt_id=$("#actid_chk").val();
+      if(txt_id=="")
+      { selected_ids=curr_actid; 	}
+      else{ selected_ids=txt_id+","+curr_actid; 	}
+      $("#actid_chk").val(selected_ids);
+	  
+    }
+    else
+    {
+      //remove the id
+      txt_id=$("#actid_chk").val();
+      selected_ids=txt_id.replace(curr_actid,'');
+      $("#actid_chk").val(selected_ids);
+      $('#select').css('display','none');
+      $('#not_select').css('display','inline-block');
+      $('#pe').val(0);
+    }
+  }
+
+  var report_process_page;
+  function email_report_process(url){
+    report_process_page = dhtmlmodal.open("Email Report Process","iframe",url," ", "width=466px,height=290px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    return false;
+  }
+
+  function send_mail_report()
+  {
+  	var user_ids = $("#actid_chk").val();
+  	var email_mode = $('#email_mode').text();
+    var date_from = $('#act_from_alt1').val();
+  	url='/admin/metric_process?user_ids='+user_ids+'&email_mode='+email_mode+'&date_from='+date_from;
+  	email_report_process(url);
+  } 
+</script>
+<input type="hidden" id="actid_chk" name="actid_chk" value="" />
+<table class="tablesorter" cellspacing="1" cellpadding="0" border="0" width="100%" id="myTable">
+  <thead>
+    <tr>
+      <th align="middle" width="40" class="headersorttext setPadLt">S.No</td>
+      <th align="middle" width="115" class="headersorttext">
+        Business Name
+      </th>
+      <th align="middle" width="140" class="headersorttext">
+        Email Address
+      </th>
+      <th align="middle" width="115" class="headersorttext">
+        Activity Views
+      </th>
+      <th align="middle" width="100" class="headersorttext">Activity Clicks</th>
+      <th align="middle" width="70" class="headersorttext">DD Activities</th>
+      <th align="middle" width="70" class="headersorttext">Inactive</th>
+      <th align="middle" width="70" class="headersorttext">Expired</th>
+      <th align="middle" width="120" class="headersorttext">Provider Status</th>
+      <th align="middle" width="100" class="headersorttext">Email Changed?</th>
+    </tr>
+  </thead>
+  <tbody>
+  	<%if !@active_users.nil? && @active_users !="" %>
+  	<%slcount = 1%>
+  	<%i = 0%>
+	<%page=(params[:page].blank?) ? 1 : params[:page]%>
+	<%start_count = (page.to_i * 15 ) - 14 %>
+  	<%if @active_users.length > 0 %>
+        <%@active_users && @active_users.each do |act|%>
+          <%i = i + 1%>
+          <%if i.even? %>
+            <tr class="setBg2">
+          <%else%>
+            <tr class="setBg1">
+          <%end%>
+  			<td align="middle" width="40" class="contentText setPadLt activityName">
+          <input id="pe<%=act.user_id%>" name="pe<%= act.user_id%>" type="checkbox" value=""/>
+          <span id="chk_span" class="checkboxImg" onclick="getchk_actid('<%=act.user_id%>',this)">
+            <label id="lbl1" class="altCheckboxOff" for="pe<%=act.user_id%>">&nbsp;</label>
+          </span>
+  			<%#if @pva==1%>
+  			<%=start_count %>
+			<% start_count = start_count + 1 %>
+  			<%#else%>
+  			<%#=((@pva.to_i-1)*15)+slcount%>
+  			<%#end%>
+  			<%#if act && !act.nil? && !act.user_id.nil?%><%#=act.user_id %><%#end%>
+  			</td>
+  			<td align="middle" width="115" class="contentText">
+  				<%= act.business_name if act && !act.nil? && !act.business_name.nil?%>
+  			</td>
+  			<td align="middle" width="140" class="contentText">
+  				<%= act.email_address if act && !act.nil? && !act.email_address.nil?%>
+  			</td>
+
+        <td align="middle" width="115" class="contentText">
+          <%= user_tot_viewscount_list(act.user_id,@date_from,@date_to)%>
+        </td>
+
+        <td align="middle" width="100" class="contentText">
+          <%clicks = Activity.total_view_list(act.user_id).last%>
+          <%clicks_count = (clicks.nil? && clicks.blank?) ? 0 : (clicks.view_count.blank? ? 0 : clicks.view_count)%>
+          <%= clicks_count%>
+        </td>
+
+        <td align="middle" width="100" class="contentText">
+          <%= user_discount_dollar_act(act.user_id)%>
+        </td>
+
+        <td align="middle" width="100" class="contentText">
+          <%= user_inactive_act(act.user_id)%>
+        </td>
+
+        <td align="middle" width="100" class="contentText">
+          <%= user_expired_act(act.user_id)%>
+        </td>
+
+  			<td align="middle" width="100" class="contentText">
+  				<%= email_report_provider_status(act.user_id) if act && !act.nil? && !act.user_id.nil?%>
+  			</td>
+
+        <td align="middle" width="100" class="contentText"><%= email_status(act.user_id,act.email_address)%></td>
+
+        </tr>
+  		  <%slcount = slcount+1%>
+        	<%end%><!--do ending here-->
+      <%else%>
+        <tr class="setBg1">
+          <td width="40%" colspan="10" class="no_activities" style="text-align:center;height: 500px;">Sorry we found no results for your search.</td>
+        </tr>
+      <%end%>
+    <%else%>
+      <tr class="setBg1">
+        <td width="40%" colspan="10" class="no_activities" style="text-align:center;height: 500px;">Sorry we found no results for your search.</td>
+      </tr>
+    <%end%>
+  </tbody>
+</table>
+
+<div class="pro_pagination">
+<%= will_paginate @active_users if !@active_users.nil? &&  @active_users!='' && @active_users.present?%>
+</div>
+<br><Br><br><br><br>

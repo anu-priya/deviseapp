@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+<title>class Question - Rails Application Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>app/models/question.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">ActiveRecord::Base
+  
+</nav>
+
+    
+    
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./doc/README_FOR_APP.html">README_FOR_APP</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./ActivitiesController.html">ActivitiesController</a>
+  
+    <li><a href="./ActivitiesHelper.html">ActivitiesHelper</a>
+  
+    <li><a href="./Activity.html">Activity</a>
+  
+    <li><a href="./ActivityAttendDetail.html">ActivityAttendDetail</a>
+  
+    <li><a href="./ActivityAttendDetailsController.html">ActivityAttendDetailsController</a>
+  
+    <li><a href="./ActivityAttendDetailsHelper.html">ActivityAttendDetailsHelper</a>
+  
+    <li><a href="./ActivityBid.html">ActivityBid</a>
+  
+    <li><a href="./ActivityBidsController.html">ActivityBidsController</a>
+  
+    <li><a href="./ActivityBidsHelper.html">ActivityBidsHelper</a>
+  
+    <li><a href="./ActivityCategoriesController.html">ActivityCategoriesController</a>
+  
+    <li><a href="./ActivityCategoriesHelper.html">ActivityCategoriesHelper</a>
+  
+    <li><a href="./ActivityCategory.html">ActivityCategory</a>
+  
+    <li><a href="./ActivityClick.html">ActivityClick</a>
+  
+    <li><a href="./ActivityComment.html">ActivityComment</a>
+  
+    <li><a href="./ActivityCommentsController.html">ActivityCommentsController</a>
+  
+    <li><a href="./ActivityCommentsHelper.html">ActivityCommentsHelper</a>
+  
+    <li><a href="./ActivityCount.html">ActivityCount</a>
+  
+    <li><a href="./ActivityDetailController.html">ActivityDetailController</a>
+  
+    <li><a href="./ActivityDetailHelper.html">ActivityDetailHelper</a>
+  
+    <li><a href="./ActivityDiscountPrice.html">ActivityDiscountPrice</a>
+  
+    <li><a href="./ActivityFavorite.html">ActivityFavorite</a>
+  
+    <li><a href="./ActivityFavoritesController.html">ActivityFavoritesController</a>
+  
+    <li><a href="./ActivityFavoritesHelper.html">ActivityFavoritesHelper</a>
+  
+    <li><a href="./ActivityForm.html">ActivityForm</a>
+  
+    <li><a href="./ActivityNetworkController.html">ActivityNetworkController</a>
+  
+    <li><a href="./ActivityNetworkHelper.html">ActivityNetworkHelper</a>
+  
+    <li><a href="./ActivityNetworkPermission.html">ActivityNetworkPermission</a>
+  
+    <li><a href="./ActivityPrice.html">ActivityPrice</a>
+  
+    <li><a href="./ActivityPricesController.html">ActivityPricesController</a>
+  
+    <li><a href="./ActivityPricesHelper.html">ActivityPricesHelper</a>
+  
+    <li><a href="./ActivityRating.html">ActivityRating</a>
+  
+    <li><a href="./ActivityRatingsController.html">ActivityRatingsController</a>
+  
+    <li><a href="./ActivityRatingsHelper.html">ActivityRatingsHelper</a>
+  
+    <li><a href="./ActivityRepeat.html">ActivityRepeat</a>
+  
+    <li><a href="./ActivityRepeatsController.html">ActivityRepeatsController</a>
+  
+    <li><a href="./ActivityRepeatsHelper.html">ActivityRepeatsHelper</a>
+  
+    <li><a href="./ActivityRow.html">ActivityRow</a>
+  
+    <li><a href="./ActivityRowsController.html">ActivityRowsController</a>
+  
+    <li><a href="./ActivityRowsHelper.html">ActivityRowsHelper</a>
+  
+    <li><a href="./ActivitySchedule.html">ActivitySchedule</a>
+  
+    <li><a href="./ActivitySchedulesController.html">ActivitySchedulesController</a>
+  
+    <li><a href="./ActivitySchedulesHelper.html">ActivitySchedulesHelper</a>
+  
+    <li><a href="./ActivitySetting.html">ActivitySetting</a>
+  
+    <li><a href="./ActivitySettingsDetail.html">ActivitySettingsDetail</a>
+  
+    <li><a href="./ActivitySettingsType.html">ActivitySettingsType</a>
+  
+    <li><a href="./ActivityShared.html">ActivityShared</a>
+  
+    <li><a href="./ActivitySharedsController.html">ActivitySharedsController</a>
+  
+    <li><a href="./ActivitySharedsHelper.html">ActivitySharedsHelper</a>
+  
+    <li><a href="./ActivitySubcategoriesController.html">ActivitySubcategoriesController</a>
+  
+    <li><a href="./ActivitySubcategoriesHelper.html">ActivitySubcategoriesHelper</a>
+  
+    <li><a href="./ActivitySubcategory.html">ActivitySubcategory</a>
+  
+    <li><a href="./ActivityTotalCount.html">ActivityTotalCount</a>
+  
+    <li><a href="./ActivityTrack.html">ActivityTrack</a>
+  
+    <li><a href="./AdminController.html">AdminController</a>
+  
+    <li><a href="./AdminDiscountCode.html">AdminDiscountCode</a>
+  
+    <li><a href="./AdminDiscountCodesController.html">AdminDiscountCodesController</a>
+  
+    <li><a href="./AdminDiscountCodesHelper.html">AdminDiscountCodesHelper</a>
+  
+    <li><a href="./AdminHelper.html">AdminHelper</a>
+  
+    <li><a href="./AgeRangeColorsController.html">AgeRangeColorsController</a>
+  
+    <li><a href="./AgeRangeColorsHelper.html">AgeRangeColorsHelper</a>
+  
+    <li><a href="./AgerangeColor.html">AgerangeColor</a>
+  
+    <li><a href="./AgerangeColorsController.html">AgerangeColorsController</a>
+  
+    <li><a href="./AgerangeColorsHelper.html">AgerangeColorsHelper</a>
+  
+    <li><a href="./ApplicationController.html">ApplicationController</a>
+  
+    <li><a href="./ApplicationHelper.html">ApplicationHelper</a>
+  
+    <li><a href="./Authentication.html">Authentication</a>
+  
+    <li><a href="./AuthenticationsController.html">AuthenticationsController</a>
+  
+    <li><a href="./BlockUser.html">BlockUser</a>
+  
+    <li><a href="./CheckoutController.html">CheckoutController</a>
+  
+    <li><a href="./City.html">City</a>
+  
+    <li><a href="./CityGroup.html">CityGroup</a>
+  
+    <li><a href="./ContactGroup.html">ContactGroup</a>
+  
+    <li><a href="./ContactGroupsController.html">ContactGroupsController</a>
+  
+    <li><a href="./ContactGroupsHelper.html">ContactGroupsHelper</a>
+  
+    <li><a href="./ContactUser.html">ContactUser</a>
+  
+    <li><a href="./ContactUserGroup.html">ContactUserGroup</a>
+  
+    <li><a href="./ContactUsersController.html">ContactUsersController</a>
+  
+    <li><a href="./ContactUsersHelper.html">ContactUsersHelper</a>
+  
+    <li><a href="./Country.html">Country</a>
+  
+    <li><a href="./DefaultFilter.html">DefaultFilter</a>
+  
+    <li><a href="./DefaultFiltersController.html">DefaultFiltersController</a>
+  
+    <li><a href="./DefaultFiltersHelper.html">DefaultFiltersHelper</a>
+  
+    <li><a href="./DeletedSchedule.html">DeletedSchedule</a>
+  
+    <li><a href="./DetailPageIdentityHelper.html">DetailPageIdentityHelper</a>
+  
+    <li><a href="./DetailsPageController.html">DetailsPageController</a>
+  
+    <li><a href="./DetailsPageHelper.html">DetailsPageHelper</a>
+  
+    <li><a href="./DiscountDollarsController.html">DiscountDollarsController</a>
+  
+    <li><a href="./DiscountDollarsHelper.html">DiscountDollarsHelper</a>
+  
+    <li><a href="./EmbedController.html">EmbedController</a>
+  
+    <li><a href="./ErrorsController.html">ErrorsController</a>
+  
+    <li><a href="./FamFeeDetail.html">FamFeeDetail</a>
+  
+    <li><a href="./FamNetwork.html">FamNetwork</a>
+  
+    <li><a href="./FamNetworkGroup.html">FamNetworkGroup</a>
+  
+    <li><a href="./FamNetworkGroupsController.html">FamNetworkGroupsController</a>
+  
+    <li><a href="./FamNetworkGroupsHelper.html">FamNetworkGroupsHelper</a>
+  
+    <li><a href="./FamNetworkPost.html">FamNetworkPost</a>
+  
+    <li><a href="./FamNetworkPostsController.html">FamNetworkPostsController</a>
+  
+    <li><a href="./FamNetworkPostsHelper.html">FamNetworkPostsHelper</a>
+  
+    <li><a href="./FamNetworkRow.html">FamNetworkRow</a>
+  
+    <li><a href="./FamNetworksController.html">FamNetworksController</a>
+  
+    <li><a href="./FamNetworksHelper.html">FamNetworksHelper</a>
+  
+    <li><a href="./FamPost.html">FamPost</a>
+  
+    <li><a href="./FamPostsController.html">FamPostsController</a>
+  
+    <li><a href="./FamPostsHelper.html">FamPostsHelper</a>
+  
+    <li><a href="./FampassDetail.html">FampassDetail</a>
+  
+    <li><a href="./FamtivityNetworkMailer.html">FamtivityNetworkMailer</a>
+  
+    <li><a href="./FeaturedAuditLog.html">FeaturedAuditLog</a>
+  
+    <li><a href="./FeaturedAuditLogsController.html">FeaturedAuditLogsController</a>
+  
+    <li><a href="./FeaturedAuditLogsHelper.html">FeaturedAuditLogsHelper</a>
+  
+    <li><a href="./FollowingUser.html">FollowingUser</a>
+  
+    <li><a href="./Form.html">Form</a>
+  
+    <li><a href="./FormQuestion.html">FormQuestion</a>
+  
+    <li><a href="./FormResult.html">FormResult</a>
+  
+    <li><a href="./FormResultAnswer.html">FormResultAnswer</a>
+  
+    <li><a href="./FormsController.html">FormsController</a>
+  
+    <li><a href="./FormsHelper.html">FormsHelper</a>
+  
+    <li><a href="./GeneralTag.html">GeneralTag</a>
+  
+    <li><a href="./GuestDetail.html">GuestDetail</a>
+  
+    <li><a href="./HomeController.html">HomeController</a>
+  
+    <li><a href="./HomeHelper.html">HomeHelper</a>
+  
+    <li><a href="./InviteAttendees.html">InviteAttendees</a>
+  
+    <li><a href="./InvitesHelper.html">InvitesHelper</a>
+  
+    <li><a href="./InvitorList.html">InvitorList</a>
+  
+    <li><a href="./InvitorListHelper.html">InvitorListHelper</a>
+  
+    <li><a href="./LandingController.html">LandingController</a>
+  
+    <li><a href="./LandingHelper.html">LandingHelper</a>
+  
+    <li><a href="./LeadTransaction.html">LeadTransaction</a>
+  
+    <li><a href="./LoginController.html">LoginController</a>
+  
+    <li><a href="./LogoutController.html">LogoutController</a>
+  
+    <li><a href="./Manager.html">Manager</a>
+  
+    <li><a href="./Message.html">Message</a>
+  
+    <li><a href="./MessageFile.html">MessageFile</a>
+  
+    <li><a href="./MessageMailer.html">MessageMailer</a>
+  
+    <li><a href="./MessageThread.html">MessageThread</a>
+  
+    <li><a href="./MessageThreadViewer.html">MessageThreadViewer</a>
+  
+    <li><a href="./MessagesController.html">MessagesController</a>
+  
+    <li><a href="./MessagesHelper.html">MessagesHelper</a>
+  
+    <li><a href="./MonthlyBudget.html">MonthlyBudget</a>
+  
+    <li><a href="./MonthlyBudgetsController.html">MonthlyBudgetsController</a>
+  
+    <li><a href="./MonthlyBudgetsHelper.html">MonthlyBudgetsHelper</a>
+  
+    <li><a href="./NewsletterMailer.html">NewsletterMailer</a>
+  
+    <li><a href="./NewslettersController.html">NewslettersController</a>
+  
+    <li><a href="./NotificationDetail.html">NotificationDetail</a>
+  
+    <li><a href="./ParentNotification.html">ParentNotification</a>
+  
+    <li><a href="./ParentNotificationDetail.html">ParentNotificationDetail</a>
+  
+    <li><a href="./ParentSetting.html">ParentSetting</a>
+  
+    <li><a href="./ParentSettingDetail.html">ParentSettingDetail</a>
+  
+    <li><a href="./ParentSettingsController.html">ParentSettingsController</a>
+  
+    <li><a href="./Participant.html">Participant</a>
+  
+    <li><a href="./ParticipantsController.html">ParticipantsController</a>
+  
+    <li><a href="./ParticipantsHelper.html">ParticipantsHelper</a>
+  
+    <li><a href="./PaymentDetail.html">PaymentDetail</a>
+  
+    <li><a href="./PaymentDetailsController.html">PaymentDetailsController</a>
+  
+    <li><a href="./PaymentDetailsHelper.html">PaymentDetailsHelper</a>
+  
+    <li><a href="./PoliciesController.html">PoliciesController</a>
+  
+    <li><a href="./PoliciesHelper.html">PoliciesHelper</a>
+  
+    <li><a href="./Policy.html">Policy</a>
+  
+    <li><a href="./PolicyFile.html">PolicyFile</a>
+  
+    <li><a href="./PolicyType.html">PolicyType</a>
+  
+    <li><a href="./ProviderActivityFee.html">ProviderActivityFee</a>
+  
+    <li><a href="./ProviderActivityFeeType.html">ProviderActivityFeeType</a>
+  
+    <li><a href="./ProviderCount.html">ProviderCount</a>
+  
+    <li><a href="./ProviderDiscountCode.html">ProviderDiscountCode</a>
+  
+    <li><a href="./ProviderDiscountCodeType.html">ProviderDiscountCodeType</a>
+  
+    <li><a href="./ProviderDiscountType.html">ProviderDiscountType</a>
+  
+    <li><a href="./ProviderLead.html">ProviderLead</a>
+  
+    <li><a href="./ProviderListController.html">ProviderListController</a>
+  
+    <li><a href="./ProviderNotification.html">ProviderNotification</a>
+  
+    <li><a href="./ProviderNotificationDetail.html">ProviderNotificationDetail</a>
+  
+    <li><a href="./ProviderSetting.html">ProviderSetting</a>
+  
+    <li><a href="./ProviderSettingDetail.html">ProviderSettingDetail</a>
+  
+    <li><a href="./ProviderSettingsController.html">ProviderSettingsController</a>
+  
+    <li><a href="./ProviderSettingsHelper.html">ProviderSettingsHelper</a>
+  
+    <li><a href="./ProviderTransaction.html">ProviderTransaction</a>
+  
+    <li><a href="./ProviderTransactionLog.html">ProviderTransactionLog</a>
+  
+    <li><a href="./ProviderWebsiteTrack.html">ProviderWebsiteTrack</a>
+  
+    <li><a href="./Question.html">Question</a>
+  
+    <li><a href="./QuestionType.html">QuestionType</a>
+  
+    <li><a href="./QuestionValue.html">QuestionValue</a>
+  
+    <li><a href="./QuickLinksController.html">QuickLinksController</a>
+  
+    <li><a href="./QuickLinksHelper.html">QuickLinksHelper</a>
+  
+    <li><a href="./SchoolRepresentative.html">SchoolRepresentative</a>
+  
+    <li><a href="./SchoolRepresentativesController.html">SchoolRepresentativesController</a>
+  
+    <li><a href="./SearchController.html">SearchController</a>
+  
+    <li><a href="./SearchHelper.html">SearchHelper</a>
+  
+    <li><a href="./SendSMS.html">SendSMS</a>
+  
+    <li><a href="./Setting.html">Setting</a>
+  
+    <li><a href="./SettingsController.html">SettingsController</a>
+  
+    <li><a href="./SettingsHelper.html">SettingsHelper</a>
+  
+    <li><a href="./SmsStatus.html">SmsStatus</a>
+  
+    <li><a href="./SocialType.html">SocialType</a>
+  
+    <li><a href="./SponsorShip.html">SponsorShip</a>
+  
+    <li><a href="./SponsorShipsController.html">SponsorShipsController</a>
+  
+    <li><a href="./SponsorShipsHelper.html">SponsorShipsHelper</a>
+  
+    <li><a href="./State.html">State</a>
+  
+    <li><a href="./StaticController.html">StaticController</a>
+  
+    <li><a href="./Support.html">Support</a>
+  
+    <li><a href="./SupportsController.html">SupportsController</a>
+  
+    <li><a href="./SupportsHelper.html">SupportsHelper</a>
+  
+    <li><a href="./Ticket.html">Ticket</a>
+  
+    <li><a href="./TicketsController.html">TicketsController</a>
+  
+    <li><a href="./TicketsHelper.html">TicketsHelper</a>
+  
+    <li><a href="./TransactionDetail.html">TransactionDetail</a>
+  
+    <li><a href="./User.html">User</a>
+  
+    <li><a href="./UserBankDetail.html">UserBankDetail</a>
+  
+    <li><a href="./UserCalender.html">UserCalender</a>
+  
+    <li><a href="./UserCard.html">UserCard</a>
+  
+    <li><a href="./UserChild.html">UserChild</a>
+  
+    <li><a href="./UserChildrenController.html">UserChildrenController</a>
+  
+    <li><a href="./UserCredit.html">UserCredit</a>
+  
+    <li><a href="./UserDeactivateLog.html">UserDeactivateLog</a>
+  
+    <li><a href="./UserDebit.html">UserDebit</a>
+  
+    <li><a href="./UserDeletedAccount.html">UserDeletedAccount</a>
+  
+    <li><a href="./UserEmailChangeLog.html">UserEmailChangeLog</a>
+  
+    <li><a href="./UserMailer.html">UserMailer</a>
+  
+    <li><a href="./UserNotification.html">UserNotification</a>
+  
+    <li><a href="./UserProfile.html">UserProfile</a>
+  
+    <li><a href="./UserProfilesController.html">UserProfilesController</a>
+  
+    <li><a href="./UserProfilesHelper.html">UserProfilesHelper</a>
+  
+    <li><a href="./UserRow.html">UserRow</a>
+  
+    <li><a href="./UserSettingsHelper.html">UserSettingsHelper</a>
+  
+    <li><a href="./UserTransaction.html">UserTransaction</a>
+  
+    <li><a href="./UserTransactionsController.html">UserTransactionsController</a>
+  
+    <li><a href="./UserTransactionsHelper.html">UserTransactionsHelper</a>
+  
+    <li><a href="./UsersController.html">UsersController</a>
+  
+    <li><a href="./UsersHelper.html">UsersHelper</a>
+  
+    <li><a href="./WeekendActivity.html">WeekendActivity</a>
+  
+    <li><a href="./WeekendMailer.html">WeekendMailer</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Question</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

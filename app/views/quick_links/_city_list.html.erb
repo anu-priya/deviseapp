@@ -1,0 +1,49 @@
+          <%#if @city_list_all && @city_list_all.present? && !@city_list_all.nil?%>
+		<!--p class="ftcGreen3c fts20" style="padding:5px 0px 10px;text-align: left;margin:0px 70px;"><b>All Cities</b></p-->
+	<%#end%>
+	<!--div style="margin:0px 50px;">
+		<%#if @city_list_all && @city_list_all.present? && !@city_list_all.nil?%>
+			<%#@city_list_all.each do |s|%>
+			<%# list_link = url_format_city(s,request.url) %>
+			<a href="<%#=list_link%>" class="" style="width:180px;margin:0px 20px;display:inline-block;font-family:Arial;padding:10px 0px;font-size: 14px;color: #2B91AF;" value="<%#=s%>" title=""><%#= s %></a>
+			<%#end%>
+		<%#end%>
+	</div>
+	<div class="clear"></div><br-->
+	
+<%@citygroup.each do |getcity|%>
+<%@city_lists =getdynamic_cities(getcity.group_id) if getcity && getcity.group_id%>
+
+			<%if @city_lists && @city_lists.present? && !@city_lists.nil?%>
+				<div class="headblue" style="padding:5px 0px 10px;text-align: left;"><b><%=getcity.group_name if getcity && getcity.group_name%></b></div>
+			<%end%>
+			<%if @city_lists && @city_lists.present? && !@city_lists.nil?%>
+				<% city_len=@city_lists.length
+				  @per_section =(city_len/4).ceil
+				  @c_i=0
+				  @count =0
+				  %>	
+				<% (0..3).each do |val|%>
+				<div style="width:300px; float:left; margin-right:10px;" align="left">
+					<%(@c_i..@per_section).each do |s|%>	
+						<% if  !@city_lists[@count].nil? &&  @city_lists[@count].present? %>
+						<%@cstate =check_for_state_value(@city_lists[@count])%>
+						<div style="margin-bottom:10px;">						
+							<a href="/<%=@city_lists[@count].downcase.gsub(/\s/,'-')+@cstate%>" onclick="display_searchvalues('<%=@city_lists[@count]%><%if @cstate=="-ca"%>,CA<%end%>');" class="" style="width:180px;margin:0px 20px;display:inline-block;;padding:10px 0px;font-size: 14px;color: #2B91AF;" value="<%=@city_lists[@count]%>" title=""><%= @city_lists[@count]%></a>
+						</div>
+						<%end%>	
+						<%@count = @count + 1%>
+					<%end%>			
+				</div>
+				<%end%>			
+			<%end%>
+		
+	<div class="clear"></div><br>
+<%end%>
+<script type="text/javascript">
+function display_searchvalues(city)
+{
+	var citychoose = city;
+	var cityval=$("#zip_values").val(citychoose);
+}
+</script>

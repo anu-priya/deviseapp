@@ -1,0 +1,69 @@
+<%=stylesheet_link_tag "global/pop_up_success", :media => "all"%>
+<script language="javascript">
+  $(document).ready(function(){
+    $("html, body", window.parent.document).animate({ scrollTop: 0 }, 100);
+  });
+  function closepopup() {
+    parent.$( "#autocomplete_appender1" ).hide();
+     parent.$('#search_value').val('Search 20,000 + Local Activities & Counting...');
+  var test_act = "<%=@action%>"
+<%@share=ActivityRow.find_by_user_id_and_row_type(current_user.user_id,"Shared") if !current_user.nil?%>
+<%if !@share.nil? && @share.present?%>
+ //parent.parent.location.reload(true);
+   parent.shareActivityPage.hide();
+<%else%>
+  parent.shareActivityPage.hide();
+<%end%>
+
+	if(navigator.appName=="Microsoft Internet Explorer")
+	{
+	 if (test_act == 'landing_new' || test_act=='')
+	  {
+		//parent.parent.location.reload(true);
+		 parent.shareActivityPage.hide();
+	  }
+	  else
+	  {
+		history.replaceState(stateObj, "Activity Details", "/"+test_act);
+	   }
+        }
+        else
+        {
+	  if (test_act == 'landing_new')
+	  {
+		//parent.parent.location.reload(true);
+		 parent.shareActivityPage.hide();
+	  }
+	  else
+	  {
+		history.replaceState(stateObj, "Activity Details", "/"+test_act);
+	   }
+        }
+    //prent.parent.location.reload(true);
+
+  }
+</script>
+
+<div align="center" style="height:230px;">
+  <p class="successText" style="padding:60px 0;">You have successfully shared this activity</p>
+  <div class="clear"></div>
+  <a href="javascript:void(0)" onClick="closepopup()" title=""><span class="b-close"><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38")%></span></a>
+    <!--<%#if !@action.nil? && @action.present? && @action=="index" %>
+      <a href="event" target="_parent"><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38")%></a>
+  <%#elsif !@action.nil? && @action.present? && @action=="provider_activites" %>
+      <a href="provider_activites" target="_parent"><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38")%></a>
+  <%#elsif !@action.nil? && @action.present? && @action=="activity_provider_schedule" %>
+      <a href="activity_provider_schedule" target="_parent"><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38")%></a>
+  <%#elsif !@action.nil? && @action.present? && @action=="activity_parent_schedule" %>
+      <a href="activity_parent_schedule" target="_parent"><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38")%></a>
+  <%#else%>
+	<%#if !params[:act].nil? && params[:act].present? && params[:act]!=''%>
+		<a href="/<%#=params[:act]%>" target="_parent"><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38")%></a>
+	<%#else%>
+		<a href="/" target="_parent"><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38")%></a>
+	<%#end%>
+  <%#end%>-->
+</div>
+
+
+

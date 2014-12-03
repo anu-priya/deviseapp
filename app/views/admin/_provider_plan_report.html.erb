@@ -1,0 +1,82 @@
+<table cellpadding="0" cellspacing="0" border="0" width="100%" class="tbl">
+				<tr>
+					<td width="1%"  align="left" valign="middle" class="tbl_headText"></td>
+					<td width="14%" align="left" valign="middle" class="tbl_headText">
+					Transaction ID
+					</td>
+					<td width="14%" align="left" valign="middle" class="tbl_headText">
+					Transaction Date
+					</td>
+					<td width="14%" align="left" valign="middle" class="tbl_headText">
+					Provider Name
+					</td>
+					<td width="14%" align="left" valign="middle" class="tbl_headText">
+					Email ID
+					</td>
+					<td width="14%" align="left" valign="middle" class="tbl_headText">
+					Plan Name
+					</td>
+					<td width="14%" align="left" valign="middle" class="tbl_headText">
+					Price
+					</td>
+					<td width="14%" align="left" valign="middle" class="tbl_headText">
+					Plan Status
+					</td>
+					<td width="1%" align="left" valign="middle" class="tbl_headText"></td>					
+				</tr>
+				<%if !@user_plan.nil? && @user_plan.length > 0 %>
+					<%i=0%>
+					<%@user_plan.each do |uval|%>
+					<%i = i + 1%>					
+					<tr class="<%if i.even? %>tbl_bg_white<%else%>tbl_bg_gray<%end%>">
+						<td align="left" valign="middle" class="tbl_tdbrd"></td>
+						<td align="left" valign="middle" height="30" class="tbl_tdbrd">
+							<%= uval["transaction_id"]  if !uval["transaction_id"].nil? && uval["transaction_id"]!=''%>
+						</td>
+						<td align="left" valign="middle" class="tbl_tdbrd">
+							<%= uval["payment_date"].strftime("%b %d, %Y") if !uval["payment_date"].nil? && uval["payment_date"]!=''%>
+						</td>
+						<td align="left" valign="middle" class="tbl_tdbrd">
+							<%= uval["business_name"]  if !uval["business_name"].nil? && uval["business_name"]!=''%>
+						</td>
+						<td align="left" valign="middle" class="tbl_tdbrd">
+							<%= uval["email_address"]  if !uval["email_address"].nil? && uval["email_address"]!=''%>
+						</td>
+						<td align="left" valign="middle" class="tbl_tdbrd">
+							<%= uval["user_plan"] if !uval["user_plan"].nil? && uval["user_plan"]!=''%>
+						</td>
+						<td align="left" valign="middle" class="tbl_tdbrd">
+							<%= "$#{(number_with_precision uval["amount"], :precision => 2)}" if !uval["amount"].nil? && uval["amount"]!=''%>
+						</td>						
+						<td align="left" valign="middle" class="tbl_tdbrd">
+							
+								<% if uval["action_type"].blank?%>
+									New Signup
+								<%elsif uval["action_type"].downcase == 'upgrade' %>
+									Upgraded
+								<%elsif uval["action_type"].downcase == 'downgrade' %>
+									Downgraded
+								<%elsif uval["action_type"].downcase == 'auto_renewal' || uval["action_type"].downcase == 'plan-renewal' || uval["action_type"].downcase == 'activate-renewal'%>
+									Renewed
+								<%elsif uval["action_type"].downcase == 'deactivate' %>
+									Deactivate
+								<%end%>
+							
+						</td>
+						<td align="left" valign="middle" class="tbl_tdbrd"></td>
+					</tr>
+					<%end%>
+				<%else%>						
+					<tr>
+						<td align="left" valign="middle" width="1%"></td>
+						<td align="center" valign="middle" colspan="4" height="30">
+							Sorry we found no result
+						</td>
+						<td align="left" valign="middle" width="1%"></td>
+					</tr>
+				<%end%>
+			</table>
+			
+			<div class="pro_pagination" style="margin-top:5px; margin-right: 3%;"> 
+				<%= will_paginate @user_plan  if ! @user_plan.nil? &&  @user_plan!='' &&  @user_plan.present?%>
+			</div>

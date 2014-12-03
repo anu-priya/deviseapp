@@ -1,0 +1,420 @@
+<%=stylesheet_link_tag "global/jquery.ui.datepicker","global/jquery.ui.theme", :media => "all"%>
+ <%=javascript_include_tag "global/jquery-1.8.3.min", "global/jquery.ui.core","global/jquery.ui.datepicker"%>
+<style>
+
+  .create_pop_ups
+  {
+    width: 880px;
+    height: 400px;
+    background: #fff;
+    border: 2px solid #D7DADB;
+    top: 100px;
+    position: absolute;
+    z-index: 9999;
+    left: 25%;
+    top: 20%;
+
+  }
+  .create_head{
+    width: 96.6%;
+
+    text-align: center;
+    font-size: 20px;
+    color: #28889a;
+    border-bottom: 1px solid #cbd1d2;
+    padding: 15px;
+    text-transform: capitalize;
+
+  }
+  .inner_body_popup{
+    width: 80%;
+    margin: 0 auto;
+    height: 350px;
+  }
+  .inner_header_contents{
+
+    width: 98%;
+    text-align: center;
+    margin: 0 auto;
+    font: 14px;
+    background: #e7edee;
+    padding: 10px;
+    color: #575656;
+    font-size: 13px;
+    margin-top: 10px;
+  }
+  .inner_body_contents{
+
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    font: 14px;
+    background: #f7f9f8;
+    padding: 1px;
+    color: #575656;
+    font-size: 13px;
+    margin-top: 10px;
+    border: 1px solid #cbd1d2;
+  }
+  .inner_body_contents table {
+    padding: 10px;
+  }
+
+  .inner_body_contents table tr td{
+    padding: 3px;
+    text-align: left;
+  }
+  #error_feee,#error_disc{
+    color: #ff0000;
+  }
+  #close_fee_pop{
+    float: right;
+  }
+  .inner_body_contents .textbox{
+    display: inline-block;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    height: 28px;
+    padding: 1px 4px 0;
+    width: 535px;
+    color: #999999;
+    border: 1px solid #BDD6DD;
+
+  }
+  .discounttable td{padding: 3px;}
+  .discount_input{height: 25px;width: 210px;padding: 0 4px;border: 1px solid #E1E1E1;color: #999999;}
+  .inputdate{display: inline-block;position: relative;width: 170px;height: 28px;padding: 1px 3px 0;border: 1px solid #E1E1E1;background: #fff;}
+  .inputdate input{color: #999999;display: inline-block;float: left;width: 130px;height: 16px;margin-top: 5px;outline: none;overflow: hidden;border: 1px solid #ffffff;}
+  .to_text{margin: 0 10px;position: relative;top: 8px;}.error_row td{padding: 0;}
+</style>
+<div id="edit_disc_creat_pop" class="create_pop_ups" style="left:0px;width: 928px;">
+  <div class="create_head">
+    <b> Edit discount Code</b><a  id="close_fee_pop" title="" onclick="cancel_edit_display_popup();" href="javascript:void(0)"><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15")%></a>
+  </div>
+  <div id="edit_discountcode_success" style="display:none; width:80%; margin:0 auto;color:#ff0000">Discount Type has been Updated Successfully</div>
+  <div id="edit_discountcode_failure" style="display:none; width:80%; margin:0 auto;color:#ff0000">Discount Type has been already exists!</div>
+
+  <div>
+
+    <div>
+
+      <table class="discounttable" cellspacing="0" cellpadding="0" border="0" width="50%" align="center" style="height:auto;z-index:1;width:50%;background:white;margin: 0px auto;padding:20px 10px;">
+        <tr>
+          <td class="fts15 ftwt" style="color:#585858;"> Discount Code Name</td>
+          <td class="fts15 ftwt" style="color:#585858;"> Discount Code</td>
+          <td class="fts15 ftwt" style="color:#585858;"> Discount Amount</td>
+          <td class="fts15 ftwt" style="color:#585858;"> Maximum Sign-ups</td>
+        </tr>
+        <tr>
+          <td>
+            <input class="fts13 discount_input" type="text" name="discount_name" id="discount_name" value="<%= @admin_disc.discount_name %>"/>
+          </td>
+          <td>
+            <input class="fts13 discount_input" type="text" name="discount_code" id="discount_code" value="<%= @admin_disc.discount_code %>"/>
+          </td>
+          <td>
+            <input class="fts13 discount_input" type="text" name="discount_amt" id="discount_amt" value="<%= @admin_disc.discount_amount %>" maxlength="6" onkeypress="return isNumber(event)"/>
+          </td>
+          <td>
+            <input class="fts13 discount_input" type="text" name="discount_max" id="discount_max" value="<%= @admin_disc.discount_max %>" maxlength="6" onkeypress="return iskeynumber(event)"/>
+          </td>
+        </tr>
+        <tr class="error_row">
+          <td>
+            <div class="errorDiv" style="display:none">
+              <div class="lt leftSideField">&nbsp;</div>
+              <div class="lt" id="discount_name_error"></div>
+            </div>
+          </td>
+          <td>
+            <div class="errorDiv" style="display:none">
+              <div class="lt leftSideField">&nbsp;</div>
+              <div class="lt" id="discount_code_error"></div>
+            </div>
+          </td>
+          <td>
+            <div class="errorDiv" style="display:none">
+              <div class="lt leftSideField">&nbsp;</div>
+              <div class="lt" id="discount_amt_error"></div>
+            </div>
+          </td>
+          <td>
+            <div class="errorDiv" style="display:none">
+              <div class="lt leftSideField">&nbsp;</div>
+              <div class="lt" id="discount_max_error"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="fts15 ftwt" style="color:#585858;padding-top: 10px;">Valid up to</td>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <div class="inputdate lt">
+              <input class="fts13 discount_input" type="text"  id="valid_from" name="valid_from"  value="25/1/2013" readonly="readonly" />
+              <input type="hidden" id="valid_from_alt" name="valid_from_alt" value=""/>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="valid_from_error"></div>
+              </div>
+            </div>
+            <span class="to_text lt">To</span>
+            <div class="inputdate lt">
+              <input class="fts13 discount_input" type="text"  id="valid_to" name="valid_to"  value="31/1/2013" readonly="readonly" />
+              <input type="hidden" id="valid_to_alt" name="valid_to_alt" value=""/>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="valid_to_error"></div>
+              </div>
+            </div>
+            <span class="to_text lt">Or</span>
+            <div class="col1 lt" style="width:105px;position: relative;top: 3px;" >  
+              <input type="hidden" id="discount_expire" value="" name="discount_expire" />
+              <%=image_tag("/assets/provider_event_list/pro_checkbox_normal.png", :width=>"19", :height=>"21", :id=>"class_link_1", :onclick=>"checkbox('class_link_2');")%>
+              <%=image_tag("/assets/provider_event_list/pro_checkbox_selected.png", :width=>"19", :height=>"21", :id=>"class_link_2", :onclick=>"checkbox('class_link_1');", :style=>"display:none;")%>
+              <span style="bottom: 5px;position: relative;color: #4794AE;">Never Expires</span>
+            </div>
+          </td>
+        </tr>
+        <tr><td style="padding-top: 10px;"><%=image_tag("/assets/admin/update_code.png", :width=>"145", :height=>"35", :onclick=>"discount_code_update();")%></td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  function cancel_edit_display_popup(){
+    parent.editdiscountPage.hide();
+    
+  }
+  function checkbox(id){
+    if (id=="class_link_2")
+    {
+      $("#class_link_1").hide();
+      $("#class_link_2").show();
+      $("#discount_expire").val(1);
+    }
+    else
+    {
+      $("#class_link_2").hide();
+      $("#class_link_1").show();
+      $("#discount_expire").val(0);
+    }
+  }
+
+
+  function clear_date(id){
+    //$.datepicker._myClearDate('#date_start');
+    var currentDate = new Date();
+    $("#"+id).datepicker("setDate",currentDate);
+    if(id=='date_start')
+    {
+      $("#start_dates_formate").text("Start date");
+      $("#date_start").val('');
+    }
+    else if(id=='date_end')
+    {
+      $("#end_dates_formate").text("End date");
+      $("#end_dates").val('');
+    }
+  }
+  
+  function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57 ) && (charCode != 46 ) )  {
+      return false;
+    }
+    return true;
+  }
+
+
+  function iskeynumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57 )) {
+      return false;
+    }
+    return true;
+  }
+
+  $(".loadDiv").css("display","none");
+
+  $(function() {
+    $( "#valid_from" ).datepicker({
+      showOn : "button",
+      buttonImage : "/assets/create_new_activity/date_icon.png",
+      buttonImageOnly : true,
+      dateFormat : "m/d/yy",
+      minDate: 0,
+      altField : "#valid_from_alt",
+      altFormat : "yy-m-d",
+      onClose: function( selectedDate ) {
+        $( "#valid_to" ).datepicker( "option", "minDate", selectedDate );
+      }
+    });
+    $( "#valid_to" ).datepicker({
+      showOn : "button",
+      buttonImage : "/assets/create_new_activity/date_icon.png",
+      buttonImageOnly : true,
+      dateFormat : "m/d/yy",
+      minDate: 0,
+      altField : "#valid_to_alt",
+      altFormat : "yy-m-d",
+      onClose: function( selectedDate ) {
+        $( "#valid_from" ).datepicker( "option", "maxDate", selectedDate );
+      }
+    });
+  });
+
+
+  var curTime = new Date();
+  var cdate = curTime.getDate();
+  var cmonth = curTime.getMonth();
+  var cyear = curTime.getFullYear();
+  cmonth = parseInt(cmonth) + 1;
+  var weekday = new Array(7);
+  weekday[0] = "Sun";
+  weekday[1] = "Mon";
+  weekday[2] = "Tue";
+  weekday[3] = "Wed";
+  weekday[4] = "Thu";
+  weekday[5] = "Fri";
+  weekday[6] = "Sat";
+  var cday = curTime.getDay();
+  var incval = parseInt(cday) + 1;
+  var cday = weekday[cday];
+
+  //var cuday = cday + " " + cmonth + "/" + cdate + "/" + cyear;
+  var cuday = cmonth + "/" + cdate + "/" + cyear;
+  var date_value = cdate + "-" + cmonth + "-" + cyear;
+
+<%if !@admin_disc.discount_start_date.nil? && !@admin_disc.discount_end_date.nil?%>
+    $('#valid_from').val('<%= @admin_disc.discount_start_date.strftime("%-m/%d/%Y")%>');
+    $('#valid_from_alt').val('<%= @admin_disc.discount_start_date.strftime("%Y-%m-%d") %>');
+    $('#valid_to').val('<%= @admin_disc.discount_end_date.strftime("%-m/%d/%Y")%>');
+    $('#valid_to_alt').val('<%= @admin_disc.discount_end_date.strftime("%Y-%m-%d") %>');
+<%else%>
+    checkbox('class_link_2')
+    $('#valid_from').val(cuday);
+    $('#valid_from_alt').val(date_value);
+    $('#valid_to').val(cuday);
+    $('#valid_to_alt').val(date_value);
+<%end%>
+
+
+  function discount_code_update(){
+    var discount_name = $("#discount_name").val();
+    var discount_code = $("#discount_code").val();
+    var discount_max = $("#discount_max").val();
+    var discount_amt = $("#discount_amt").val();
+    var discount_start_date = $("#valid_from_alt").val();
+    var discount_end_date = $("#valid_to_alt").val();
+    var discount_expire =  $("#discount_expire").val();
+    var error_flag =false;
+    $("#discount_name").css("border","1px solid #E1E1E1");
+    $("#discount_code").css("border","1px solid #E1E1E1");
+    $("#discount_amt").css("border","1px solid #E1E1E1");
+    $("#discount_max").css("border","1px solid #E1E1E1");
+
+    $("#discount_name_error").html("");
+    $("#discount_code_error").html("");
+    $("#discount_max_error").html("");
+    $("#discount_amt_error").html("");
+
+    $("#discount_name_error").parent().css("display","none");
+    $("#discount_code_error").parent().css("display","none");
+    $("#discount_max_error").parent().css("display","none");
+    $("#discount_amt_error").parent().css("display","none");
+
+    if (discount_name =="" || discount_name == "Enter Name"){
+      $("#discount_name").css("border","1px solid #fc8989");
+      $("#discount_name_error").html("Please enter discount code name");
+      $("#discount_name_error").parent().css("display","block");
+      error_flag=true;
+    }
+    if (discount_code =="" || discount_code == "Enter Code" ){
+      $("#discount_code").css("border","1px solid #fc8989");
+      $("#discount_code_error").html("Please enter a discount code");
+      $("#discount_code_error").parent().css("display","block");
+      error_flag=true;
+    }
+    if (discount_max =="" || discount_max == "Enter Max-signup"){
+      $("#discount_max").css("border","1px solid #fc8989");
+      $("#discount_max_error").html("Please enter the max.signup limit");
+      $("#discount_max_error").parent().css("display","block");
+      error_flag=true;
+    }
+    if (discount_amt =="" || discount_amt == "Eg: $" ){
+      $("#discount_amt").css("border","1px solid #fc8989");
+      $("#discount_amt_error").html("Please enter the discount value");
+      $("#discount_amt_error").parent().css("display","block");
+      error_flag=true;
+    }
+
+    if (discount_amt !="" && discount_amt != "Eg: $" ){
+      if (discount_amt < 1){
+        $("#discount_amt").css("border","1px solid #fc8989");
+        $("#discount_amt_error").html("Please enter a discount value greater than 0");
+        $("#discount_amt_error").parent().css("display","block");
+        error_flag=true;
+      }
+
+    }
+
+    if (discount_max !="" && discount_max != "Enter Max-signup"){
+      if (discount_max < 1){
+        $("#discount_max").css("border","1px solid #fc8989");
+        $("#discount_max_error").html("You have entered an invalid signup limit");
+        $("#discount_max_error").parent().css("display","block");
+        error_flag=true;
+      }
+    }
+    if(discount_expire == 0){
+      if (discount_start_date==""){
+        $("#valid_from").css("border","1px solid #fc8989");
+        $("#valid_from_error").html("Please select a start date");
+        $("#valid_from_error").parent().css("display","block");
+        error_flag=true;
+      }
+      if (discount_end_date==""){
+        $("#valid_to").css("border","1px solid #fc8989");
+        $("#valid_to_error").html("Please select an end date");
+        $("#valid_to_error").parent().css("display","block");
+        error_flag=true;
+      }
+      if ((discount_start_date!="" )&&(discount_end_date!="" )) {
+        var date1 = Date.parse(discount_start_date);
+        var date2 = Date.parse(discount_end_date);
+        if (date1 > date2) {
+          $("#valid_to").css("border","1px solid #fc8989");
+          $("#valid_to_error").html("Please select valid end date");
+          $("#valid_to_error").parent().css("display","block");
+        }
+      }
+
+    }
+    if(error_flag){
+      return false;
+    }else{
+      $.ajax({
+        type: "post",
+        url: "admin_discount_codes/update_discount_codes",
+        data:{
+          "discount_id":<%=@admin_disc.admin_discount_id%>,
+          "discount_name":discount_name,
+          "discount_code":discount_code,
+          "discount_max":discount_max,
+          "discount_amt":discount_amt,
+          "discount_start_date":discount_start_date,
+          "discount_end_date":discount_end_date,
+          "discount_expire":discount_expire
+        }
+      });
+      return false;
+    }
+  }
+
+</script>

@@ -1,0 +1,84 @@
+<%=stylesheet_link_tag "global/pop_up_success", :media => "all"%>
+<%= javascript_include_tag "global/jquery-1.8.3.min"%>
+<script language="javascript">
+   $(window).load(function(){
+    $('#dvLoading').fadeOut(100);
+  });
+     function closepopup() {
+    parent.dicountDeletePage.hide();
+
+  }
+  //delete the activity id while clicking the cross image button
+  function delete_activity(){
+    var delete_id = $('#to_delete').val();
+    var action_name = $('#last_action').val();
+    var list = $('#mul').val();
+    var page_no = $('#page').val();   
+    //loading image while delete the activity
+    $('#loading_img').css("display","block");
+    $.post("discount_destroy", {"id":delete_id,"last_action":action_name,"page":page_no,"list":list}, function(data){
+      $('#loading_img').hide();
+    }, "script");
+  }
+
+
+</script> 
+<div id="dvLoading"></div>
+
+
+
+
+<div id="delete_actvity" style="height:185px;">
+  <div class="popupContainer">
+    <div class="headTab" style="border:none; width:417px;">
+      <div class="heading">
+        <!--div class="headCont">Share Activity</div-->
+      </div>
+	  <div class="closeButton" style="float:right;">
+           <a href="javascript:void(0)" onClick="closepopup()" title=""> <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%> </a>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+    <%if !@dicount.nil? && @dicount!=""%>
+    <div align="center">
+      <!--to get the current activity id for delete the record from the db-->
+      <input type="hidden" id="to_delete" value="<%= @to_delete %>"/>
+       <input type="hidden" type="mul" id="mul" value="<%= @list %>"/>
+
+      
+      <input type="hidden" id="last_action" value="<%=params[:action] if !params[:action].nil?%>"/>
+      <input type="hidden" id="page" value="<%=params[:page] %>"/>
+      <!--modified by rajkumar-->
+      <p class="successText" style="margin:31px 0 33px;">Do you want to delete the Discount?</p>
+      <div class="clear"></div>
+
+      <div style="margin-top:2px;">
+        <a class="save-button" href="javascript:void(0)" onClick="delete_activity();_gaq.push(['_trackEvent', 'Provider Module', 'clickDeleteActivity','Delete Activity','<%= @to_delete %>']);">Yes</a>
+        <a class="cancel-button" href="#" onClick="closepopup()">No</a>
+	<span id="loading_img" style="display:none;position:relative;top:-30px;left:75px;"><%=image_tag("/assets/loading.gif")%></span>
+      </div>
+
+    </div>
+    <%else%>
+    <div align="center">
+
+      <p class="successText" style="margin:31px 0 33px;">Please select atleast one Discount</p>
+      <div class="clear"></div>
+
+      <div style="margin-top:2px;">
+        <a class="save-button" href="#" onClick="closepopup()">OK</a>
+      </div>
+
+    </div>
+    <%end%>
+  </div>
+
+
+</div>
+
+<script>
+  $(window).load(function(){
+    $('#dvLoading').fadeOut(1000);
+  });
+</script>

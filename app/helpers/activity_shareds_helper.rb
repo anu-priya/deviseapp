@@ -1,0 +1,2 @@
+module ActivitySharedsHelper
+end

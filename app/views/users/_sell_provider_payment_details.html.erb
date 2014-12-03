@@ -1,0 +1,927 @@
+<link rel="stylesheet" type="text/css" href="/assets/register_new/provider_register_pop.css" />
+<link rel="stylesheet" type="text/css" href="/assets/register_new/register_pop.css" />
+<link rel="stylesheet" type="text/css" href="/assets/checkout/checkout.css" />
+ <script type="text/javascript">
+ 
+ //set automatically go to next textbox 
+function movetoNext(current, nextFieldID) {
+	if (current.value.length >= current.maxLength) {
+	document.getElementById(nextFieldID).focus();
+	}
+}
+</script>
+<style type="text/css">
+  .setfeedbackDiv {
+    background: none repeat scroll 0 0 #EDF1F2;
+    color: #444444;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    margin: 15px auto 0;
+    padding: 15px;
+    width: 500px;
+	font-weight:normal;
+  }
+</style>
+
+<div id="new_act_container">
+  <div id="signupDiv" style="padding-bottom:10px;">
+    <div style="width:293px; margin:0 auto;">
+      <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/register/credit_card_information_over.png" id="Sub_img1" align="top" class="circleNumber"></a></div>
+      <div class="lt" id="setImage1" style="top:-12px; position:relative;"></div>
+      <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/register/bank_information.png" id="Sub_img2" align="top" class="circleNumber"></a></div>
+      <div style="margin-top:3px; width:400px;">
+        <div class="lt setfont12" id="choose_text" style="font-weight:bold; padding-left:0px; margin-left:-61px; padding-top:5px;">Credit Card Information</div>
+        <div class="lt setfont12" id="plan_text" style="font-weight:normal; width:144px; padding-top:5px;">Bank Information</div>
+        <div class="clear"></div>
+      </div>
+
+    </div>
+   <div align="center" class="setfeedbackDiv">Enter your credit card information to take part in the bidding process!</div>
+    <!--<div class="setTopPosition">
+      <div class="lt" id="setImage"></div>
+      <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_1active.png" id="img1" align="top" class="circleNumber"></a></div>
+      <div class="lt" id="setImage1"></div>
+      <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_2inactive.png" id="img2" align="top" class="circleNumber"></a></div>
+      <div class="lt" id="setImage2"></div>
+      <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_3active.png" id="img3" align="top" class="circleNumber"></a></div>
+      <div class="lt" id="setImage"></div>
+      <div class="clear"></div>
+      <div style="margin-top:3px;">
+        <div class="lt setfont12" id="choose_text" style="font-weight:normal;">Choose Plan</div>
+        <div class="lt setfont12" id="plan_text" style="font-weight:normal;">Set up Profile</div>
+        <div class="lt setfont12" id="payment_text"><b>Add Payment Details</b></div>
+        <div class="clear"></div>
+      </div>
+    </div>-->
+  </div>
+  <div class="ProviderCenterContent1" style="margin: 0 auto;">
+    <div id="checkout_provider">
+      <div class="centerCont" style="width:721px;">
+        <div id="card_payment">
+          <div>
+            <div class="lt lt_checkout" id="card_info_text" style="width:500px; margin:19px 0 5px 0;"><b>Credit Card Information</b></div>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+
+          <div class="paddingTop10" style=".margin-top:5px;">
+            <div class="lt lt_checkout"><b>Cardholder Name</b><span class="required">*</span></div>
+            <div class="lt rt_checkout">
+              <div style="width:275px;"class="lt">
+                <input type="text" name="first_name_sell" id="first_name_sell" class="lt textbox_name" value="First Name" onfocus="if(this.value == 'First Name'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='First Name'}" maxlength="50" tabindex="1" />
+              </div>
+              <div>
+                <input type="text" name="last_name_sell" id="last_name_sell" class="lt textbox_name" value="Last Name" onfocus="if(this.value == 'Last Name'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Last Name'}" maxlength="50" tabindex="2" />
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="errorDiv" id="sell_first_last_error" style="display:none;">
+            <div class="lt lt_checkout">&nbsp;</div>
+            <div class="lt rt_checkout">
+              <div style="width:274px; border:1px solid #fff;"class="lt" id="sell_first_name_card_error"></div>
+              <div id="sell_last_name_card_error"></div>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="clear"></div>
+          <div class="paddingTop10">
+            <div class="lt lt_checkout"><b>Card Number</b><span class="required">*</span></div>
+            <div class="lt rt_checkout">
+              <div class="lt">
+                <input type="text" id="sell_cardnumber_1" name="sell_cardnumber_1" class="lt textbox_card" value="" style="width:55px;margin:0px 3px 0 0; color:#444444;" onfocus="focusChangeBorderColor('cardnumber_1')" onblur="blurChangeBorderColor('cardnumber_1')" tabindex="3" maxlength=4" onkeyup="movetoNext(this, 'sell_cardnumber_2')"/>
+
+              </div>
+              <div class="lt">
+                <input type="text" id="sell_cardnumber_2" name="sell_cardnumber_2" class="lt textbox_card" value="" style="width:55px;margin:0px 3px 0 0; color:#444444;" onfocus="focusChangeBorderColor('cardnumber_2')" onblur="blurChangeBorderColor('cardnumber_2')" tabindex="4" maxlength=4" onkeyup="movetoNext(this, 'sell_cardnumber_3')"/>
+
+              </div>
+
+              <div class="lt">
+                <input type="text" id="sell_cardnumber_3" name="sell_cardnumber_3" class="lt textbox_card" value="" style="width:55px;margin:0px 3px 0 0; color:#444444;" onfocus="focusChangeBorderColor('cardnumber_3')" onblur="blurChangeBorderColor('cardnumber_3')" tabindex="5" maxlength="4" onkeyup="movetoNext(this, 'sell_cardnumber_4')"/>
+
+              </div>
+
+              <div class="lt">
+                <input type="text" id="sell_cardnumber_4" name="sell_cardnumber_4" class="lt textbox_card" value="" style="width:55px;margin:0px 3px 0 0; color:#444444;" onfocus="focusChangeBorderColor('cardnumber_4')" onblur="blurChangeBorderColor('cardnumber_4')" tabindex="6" maxlength="4" />
+
+              </div>
+
+              <div class="lt" style="color:#6a6a6a; width:137px; border1:1px solid red; margin:8px 0 0 34px;">
+                <b>Payment Type</b>
+              </div>
+
+              <div class="lt">
+                <img src="/assets/checkout/visa_card.png" width="50" height="31">
+              </div>
+
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="errorDiv" style="display:none; font-weight:normal;">
+            <div class="lt lt_checkout">&nbsp;</div>
+            <div class="lt rt_checkout">
+              <div class="lt" style="width:300px; font-weight:normal;" id="sell_card_number_error"></div>
+              <div class="lt" style="color:#6a6a6a; width:137px; margin:8px 0 0 34px; font-weight:normal;">&nbsp;</b>
+              </div>
+              <div class="lt">&nbsp;</div>
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+          <div class="paddingTop10" style="padding-top:5px; .padding-top:5px;">
+            <div class="lt lt_checkout"><b>Expiration Date</b><span class="required">*</span></div>
+            <div class="lt rt_checkout">
+              <div class="lt col1" style="width:81px;" id="sell_date_border">
+                <div class="selectBoxCheckout"  onmouseover="flag18=true;" onmouseout="flag18=false;">
+                  <input type="hidden" id="sell_date_card" name="sell_date_card" value=""  />
+                  <div id="sell_field_date" class="selectDiv selectDivMedium" style="line-height:23px; width:48px;" tabindex="7">Select</div>
+                </div>
+                <div class="dropDownDivSCountry dropDownDiv_small" id="dropDownDiv18" style="display:none; margin-left:1px; height:90px; overflow-y:scroll;">
+                  <a href="javascript:void(0)" onclick="setSellDropDownValueChkout('01')" title="">01</a>
+                  <a href="javascript:void(0)" onclick="setSellDropDownValueChkout('02')" title="">02</a>
+                  <a href="javascript:void(0)" onclick="setSellDropDownValueChkout('03')" title="">03</a>
+                  <a href="javascript:void(0)" onclick="setSellDropDownValueChkout('04')" title="">04</a>
+                  <a href="javascript:void(0)" onclick="setSellDropDownValueChkout('05')" title="">05</a>
+                  <a href="javascript:void(0)" onclick="setSellDropDownValueChkout('06')" title="">06</a>
+                  <a href="javascript:void(0)" onclick="setSellDropDownValueChkout('07')" title="">07</a>
+                  <a href="javascript:void(0)" onclick="setSellDropDownValueChkout('08')" title="">08</a>
+                  <a href="javascript:void(0)" onclick="setSellDropDownValueChkout('09')" title="">09</a>
+                  <a href="javascript:void(0)" onclick="setSellDropDownValueChkout('10')" title="">10</a>
+                  <a href="javascript:void(0)" onclick="setSellDropDownValueChkout('11')" title="">11</a>
+                  <a href="javascript:void(0)" onclick="setSellDropDownValueChkout('12')" title="">12</a>
+                </div>
+              </div>
+
+
+              <div class="lt col2" style="width:81px;" id="sell_year_border">
+                <div class="lt sub_category">
+                  <div class="selectBoxCheckout"  onmouseover="flag19=true;" onmouseout="flag19=false;">
+                    <input type="hidden" id="sell_year_card_1" name="sell_year_card_1" value=""  />
+                    <div id="sell_field2_1" class="selectDiv selectDivMedium" style="line-height:23px; width:48x;" tabindex="8">Select</div>
+                  </div>
+                  <div class="dropDownDivSCountry dropDownDiv_small" id="dropDownDiv19" style="display:none; margin-left:1px; height:110px; overflow-y:scroll; width:79px;">
+				   <div id="yearDisp_profile_1"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="lt" style="color:#6a6a6a; width:40px; border1:1px solid red; margin:8px 0 0 20px; ">
+                <b>CVC</b><span class="required">*</span>
+              </div>
+
+
+              <div class="lt">
+                <input type="password" id="sell_cardnumber_5" name="sell_cardnumber_5" class="lt textbox" value="" style="width:75px;margin-right:3px; color:#444444;" onfocus="focusChangeBorderColor('cardnumber_5')" onblur="blurChangeBorderColor('cardnumber_5')" tabindex="9" maxlength="4"/>
+
+              </div>
+
+
+              <div class="lt" style="margin:6px 0 0 7px;">
+                <a href="#" title="" class="chkout_ftSz12" onclick="dispCheck_pop_2();"><u>What's this?</u></a>
+              </div>
+
+            </div>
+          </div>
+          <div class="errorDiv" id="sell_date_year" style="display:none;">
+            <div class="lt lt_checkout">&nbsp;</div>
+            <div class="lt rt_checkout">
+              <div class="lt col1" style="width:220px; border:1px solid #fff;" id="sell_year_date_error"></div>
+              <div class="lt" id="sell_cvc_error"></div>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <link rel="stylesheet" type="text/css" href="/assets/checkout/popup_chkout.css" />
+          <!--<script type="text/javascript" src="/assets/create_new_activity/repeat.js"></script>-->
+          <div class="repeatContainer" id="repeatPOPUPDiv_2" style="display:none;">
+            <div class="repeatContainerTop"></div>
+            <div class="repeatContainerCenter">
+              <div class="innerContainer">
+                <div class="headTab">
+                  <div class="heading">
+                    <div class="headCont">Card Verification Code</div>
+                    <div class="closeButton">
+                      <a href="javascript:void(0)" onClick="closeRepeatDiv_2()" title="">
+                        <img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" />
+                      </a>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="repeatFormContent">
+                  <img src="/assets/checkout/card.png" alt="" class="card_style"/>
+                  <p class="chkout_clr_ftSz12" style="padding:0 0 5px 20px;">Last 3 digits on the back to your credit card</p>
+                </div>
+
+              </div>
+            </div>
+            <div class="repeatContainerBottom"></div>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+
+          <div align="center" style="padding:10px 0px 10px 0px;;.padding-top:20px;"><img alt="" src="/assets/checkout/divider line.png"/></div>
+
+          <div class="paddingTop10" style=".padding-top:10px;">
+            <div class="lt lt_checkout"><b>Billing Address</b><span class="required">*</span></div>
+            <div class="lt rt_checkout">
+              <input type="text" name="activity[address_1]" id="sell_add_1" class="lt textbox" value="Enter address" onfocus="if(this.value == 'Enter address'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter address'}" tabindex="10" />
+            </div>
+            <div class="clear"></div>
+          </div>
+
+
+          <div style="padding-top:3px; .margin-top:-8px;">
+            <div class="lt lt_checkout">&nbsp;</div>
+            <div class="lt rt_checkout"> <input type="text" name="activity[address_2]" id="sell_add_2" class="lt textbox" value="Enter address"  style=".margin-top:8px;" onfocus="if(this.value == 'Enter address'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter address'}" tabindex="11" />
+
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="errorDiv" style="display:none">
+            <div class="lt lt_checkout">&nbsp;</div>
+            <div class="lt rt_checkout" id="sell_venue_error"></div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="clear"></div>
+          <div class="paddingTop10" style=".padding-top:5px;">
+            <div class="lt lt_checkout"><b>Country &amp; State</b><span class="required">*</span></div>
+            <div class="lt rt_checkout">
+              <div class="lt" style="width:274px;">
+                <div class="lt col1" style="width:270px;" id="sell_Country_border">
+                  <div class="selectBoxCity1 selectBoxMedium"  onmouseover="flag20=true;" onmouseout="flag20=false;">
+                    <input type="hidden" id="sell_chkout_country" name="sell_chkout_country" value="United States"  />
+                    <div id="sell_field4" class="selectDiv selectDivMedium" style="line-height:23px; font-weight:normal; color:#444444;" tabindex="12">United States</div>
+                  </div>
+
+                  <div class="dropDownDivCity dropDownDivMedium" id="dropDownDiv20" style="display:none; height:27px; overflow-y:scroll; margin-left:1px; font-weight:normal;">
+                    <a href="javascript:void(0)" onclick="setSellCountryProviderPayValue('United States')" title="">United States</a>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="lt" style="width:269px; border1:1px solid red;">
+                <div class="lt col2"  style="width:270px;" id="sell_State_border">
+                  <div class="selectBoxCity1 selectBoxMedium"  onmouseover="flag21=true;" onmouseout="flag21=false;">
+                    <input type="hidden" id="sell_chkout_state" name="chkout_state" value="California" />
+                    <div id="sell_field5" class="selectDiv selectDivMedium" style="line-height:23px; font-weight:normal; color:#444444;" tabindex="13">California</div>
+                  </div>
+
+                  <div class="dropDownDivCity dropDownDivMedium" id="dropDownDiv21" style="display:none; height:110px; overflow-y: scroll; font-weight:normal; margin-left:0px;">
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="errorDiv" id="sell_country_state" style="display:none;">
+            <div class="lt lt_checkout">&nbsp;</div>
+            <div class="lt rt_checkout">
+              <div class="lt" style="width:274px; border:1px solid #fff;" id="sell_country_error_te"></div>
+              <div class="lt" style="width:262px;" id="sell_state_error_spo"></div>
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+
+
+          <div class="paddingTop10" id="selectCity">
+            <div class="lt lt_checkout"><b>City &amp; Zip Code</b><span class="required">*</span></div>
+            <div class="lt rt_checkout">
+              <div class="lt" style="width:274px;">
+                <div class="lt col1" style="width:271px;" id="sell_City_border">
+				 <!--<input type="text" name="sell_chkout_city" id="sell_chkout_city" class="lt textbox_name" value="Enter your city" onchange="removeunwantedSpace('sell_chkout_city',this.value)" onfocus="if(this.value == 'Enter your city'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter your city'}" tabindex="14" />-->
+                  <div class="selectBoxCity1 selectBoxMedium"  onmouseover="flag22=true;" onmouseout="flag22=false;" >
+                    <input type="hidden" id="sell_chkout_city" name="sell_chkout_city" value="" />
+                    <div id="sell_field3" class="selectDiv selectDivMedium" style="line-height:23px; font-weight:normal;" tabindex="14" >--Choose city--</div>
+                  </div>
+
+                  <div class="dropDownDivCity dropDownDivMedium" id="dropDownDiv22" style="display:none; height:111px; overflow-y:scroll; margin-left:0px; font-weight:normal;">
+                     <%@cities = City.where("state_id = 1 and country_id = 1").order("city_name Asc")%>
+                      <%@cities.each do |cit|%>
+                        <a href="javascript:void(0)" onclick="setSellDropDownValue3('<%= cit.city_name %>')" title=""><%= cit.city_name %></a>
+                 <%end%>
+                  </div>
+                </div>
+              </div>
+              <div class="lt" style="width:269px; border1:1px solid red;">
+                <div class="lt col2">
+                  <input type="text" name="sell_zip_code_chkout" id="sell_zip_code_chkout" class="lt textbox_name" value="Enter zip code" onchange="removeunwantedSpace('zip_code_chkout',this.value)" onfocus="if(this.value == 'Enter zip code'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter zip code'}" tabindex="15" />
+                </div>
+
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+
+          <!-- <div class="errorDiv" id="sell_first_last_error" style="display:none;">
+                 <div class="lt lt_checkout">&nbsp;</div>
+                 <div class="lt rt_checkout">
+                   <div style="width:274px; border:1px solid #fff;"class="lt" id="sell_first_name_card_error"></div>
+                   <div id="sell_last_name_card_error"></div>
+                 </div>
+                 <div class="clear"></div>
+               </div>-->
+
+          <div class="errorDiv" style="display:none">
+            <div class="lt lt_checkout">&nbsp;</div>
+            <div class="lt rt_checkout">
+              <div class="lt" style="width:274px; border:1px solid #fff;" id="sell_city_error_spo"></div>
+              <div class="lt" style="width:262px;" id="sell_zipcode_error_te"></div>
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+
+          <div class="clear"></div>
+
+          <div class="paddingTop10">
+            <div class="lt lt_checkout"><b>Contact Number</b><span class="required">*</span></div>
+            <div class="lt rt_checkout"><input type="text" name="sell_phone_no" id="sell_phone_no" class="lt textbox" value="Enter your phone number" onfocus="if(this.value == 'Enter your phone number'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter your phone number'}" maxlength="12" tabindex="16"/>
+
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="errorDiv" style="display:none;">
+            <div class="lt lt_checkout">&nbsp;</div>
+            <div class="lt rt_checkout" id="sell_phone_error_te"></div>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+
+
+        </div>
+      </div>
+
+
+      <div class="paddingTop10" style="padding-top:20px; padding-bottom:20px; .padding-top:15px;">
+        <div class="lt lt_checkout" style="width: 162px;">&nbsp;</div>
+        <div class="lt rt_checkout">
+          <div class="lt">
+            <a href="javascript:void(0)" title=""><input type="submit" id="register_button"  style="position:relative; display:inline-block; background:url('/assets/register/next_button.png'); margin-right: 5px;" width="95" height="33" alt="" class="lt loginButton" tabindex="18" value="" title="Register" onclick="return validateCard_sellActivity_test();"/></a>
+          </div>
+          <div class="lt">
+            <div class="cancel"><a id="back" href="javascript:void(0)" tabindex="19" onclick="closepopup()" style="display:inline-block;" ><img src="/assets/login/cancel_button.png" alt="" style="margin-left:-2px;" width="97" height="37"/></a></div>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+
+
+
+
+      <div class="clear"></div>
+
+
+
+    </div>
+  </div>
+</div>
+
+<!--ajax loader -->
+<div class='loadingmessage' style='display:none;' align="center">
+  <img src='/assets/ajax-loader.gif'/>
+</div>
+<style>
+  .loadingmessage{
+    height: 50px;
+    width: 50px;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 25%;
+    margin: -25px 0 0 -25px;
+  }
+</style>
+
+<script type="text/javascript">
+
+
+  /** Validating checkout Card form **/
+  function validateCard_sellActivity_test(){
+
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+
+      
+    var first_name = $("#first_name_sell").val();
+    var last_name = $("#last_name_sell").val();
+    var date_card= $("#sell_date_card").val();
+    var year_card= $("#sell_year_card_1").val();
+    var add_1 = $("#sell_add_1").val();
+    var add_2 = $("#sell_add_2").val();
+    var city = $("#sell_chkout_city").val();
+    var zip_code = $("#sell_zip_code_chkout").val();
+    var state = $("#sell_chkout_state").val();
+    var country = $("#sell_chkout_country").val();
+    var phone_no=$("#sell_phone_no").val();
+    //var email = $("#email").val();
+    var cardnumber_1 = $("#sell_cardnumber_1").val();
+    var cardnumber_2 = $("#sell_cardnumber_2").val();
+    var cardnumber_3 = $("#sell_cardnumber_3").val();
+    var cardnumber_4 = $("#sell_cardnumber_4").val();
+    var cardnumber_5 = $("#sell_cardnumber_5").val();
+
+    
+	$("#first_name_sell").css("border","1px solid #CDE0E6");
+	$("#last_name_sell").css("border","1px solid #CDE0E6");
+	$("#sell_add_1").css("border","1px solid #CDE0E6");
+    $("#sell_add_2").css("border","1px solid #CDE0E6");
+    $("#sell_chkout_city").css("border","1px solid #CDE0E6");
+    $("#sell_zip_code_chkout").css("border","1px solid #CDE0E6");
+    $(".selectBoxMedium").css("border","none");
+    $("#sell_phone_no").css("border","1px solid #CDE0E6");
+    $("#email").css("border","1px solid #CDE0E6");
+    $("#sell_cardnumber_1").css("border","1px solid #CDE0E6");
+    $("#sell_cardnumber_2").css("border","1px solid #CDE0E6");
+    $("#sell_cardnumber_3").css("border","1px solid #CDE0E6");
+    $("#sell_cardnumber_4").css("border","1px solid #CDE0E6");
+    $("#sell_cardnumber_5").css("border","1px solid #CDE0E6");
+    $("#sell_Country_border").css("border","none");
+    $("#sell_State_border").css("border","none");
+    $("#sell_City_border").css("border","none");
+    $("#sell_date_border").css("border","none");
+    $("#sell_year_border").css("border","none");
+    $("#selectpayment").css("border","none");
+
+    first_name = first_name.replace(/^\s+|\s+$/g, "");
+    last_name = last_name.replace(/^\s+|\s+$/g, "");
+    phone_no = phone_no.replace(/^\s+|\s+$/g, "");
+    //email = email.replace(/^\s+|\s+$/g, "");
+    cardnumber_1 = cardnumber_1.replace(/^\s+|\s+$/g, "");
+    cardnumber_2 = cardnumber_2.replace(/^\s+|\s+$/g, "");
+    cardnumber_3 = cardnumber_3.replace(/^\s+|\s+$/g, "");
+    cardnumber_4 = cardnumber_4.replace(/^\s+|\s+$/g, "");
+    cardnumber_5 = cardnumber_5.replace(/^\s+|\s+$/g, "");
+
+
+
+
+
+    $("#sell_first_name_card_error").html("");
+    $("#sell_last_name_card_error").html("");
+    $("#sell_year_date_error").html("");
+    $("#sell_venue_error").html("");
+    $("#sell_city_error_spo").html("");
+    $("#sell_zip_code_error").html("");
+    $("#sell_state_error_spo").html("");
+    $("#sell_country_error_te").html("");
+    $("#sell_phone_error_te").html("");
+    $("#sell_email_error").html("");
+    $("#sell_card_number_error").html("");
+    $("#sell_cvc_error").html("");
+
+
+    $("#sell_first_name_card_error").parent().parent().css("display","none");
+    $("#sell_last_name_card_error").parent().parent().css("display","none");
+    $("#sell_venue_error").parent().css("display","none");
+    $("#sell_phone_error_te").parent().css("display","none");
+    $("#sell_email_error").parent().css("display","none");
+    $("#sell_card_number_error").parent().css("display","none");
+    $("#sell_card_number_error").parent().parent().css("display","none");
+    //$("#card_number_error").parent().parent().parent().css("display","none");
+    $("#sell_year_date_error").parent().parent().css("display","none");
+    $("#sell_cvc_error").parent().parent().css("display","none");
+    $("#sell_cvc_error").parent().css("display","none");
+    $("#sell_city_error_spo").parent().css("display","none");
+    $("#sell_city_error_spo").parent().parent().css("display","none");
+    $("#sell_zipcode_error_te").parent().css("display","none");
+    $("#sell_zipcode_error_te").parent().parent().css("display","none");
+    $("#sell_country_error_te").parent().parent().css("display","none");
+    $("#sell_state_error_spo").parent().parent().css("display","none");
+
+    var errorFlag = false;
+
+
+
+    if (first_name =="First Name" || first_name == "" ){
+      $("#first_name_sell").css("border","1px solid #fc8989");
+      $("#sell_first_name_card_error").html("Please enter your first name");
+      $("#sell_first_last_error").css("display","block");
+      errorFlag = true;
+    }
+    else if(!validateName(first_name)){
+      $("#first_name_sell").css("border","1px solid #fc8989");
+      $("#sell_first_name_card_error").html("Please Use Only Alphabets");
+      $("#sell_first_last_error").css("display","block");
+      errorFlag = true;
+    }
+    if (last_name =="Last Name" || last_name == "" ){
+      $("#last_name_sell").css("border","1px solid #fc8989");
+      $("#sell_last_name_card_error").html("Please enter your last name");
+      $("#sell_last_name_card_error").parent().parent().css("display","block");
+      errorFlag = true;
+    }
+    else if (!validateName(last_name)){
+      $("#last_name_sell").css("border","1px solid #fc8989");
+      $("#sell_last_name_card_error").html("Please Use Only Alphabets");
+      $("#sell_last_name_card_error").parent().parent().css("display","block");
+      errorFlag = true;
+    }
+    if (cardnumber_1 ==""){
+      $("#sell_cardnumber_1").css("border","1px solid #fc8989");
+      $("#sell_card_number_error").html("Please enter your card number");
+      $("#sell_card_number_error").parent().css("display","block");
+      $("#sell_card_number_error").parent().parent().css("display","block");
+      $("#sell_card_number_error").parent().parent().parent().css("display","block");
+      $("#sell_card_number_error").css("display","block");
+      errorFlag = true;
+    }
+
+    else if (isNaN(cardnumber_1)){
+      $("#sell_cardnumber_1").css("border","1px solid #fc8989");
+      $("#sell_card_number_error").html("Please enter card number");
+      $("#sell_card_number_error").parent().css("display","block");
+      $("#sell_card_number_error").parent().parent().css("display","block");
+      $("#card_number_error").parent().parent().parent().css("display","block");
+      $("#card_number_error").css("display","block");
+      errorFlag = true;
+    }
+
+    if (cardnumber_2 =="" ){
+      $("#sell_cardnumber_2").css("border","1px solid #fc8989");
+      $("#sell_card_number_error").html("Please enter card number");
+      $("#sell_card_number_error").parent().css("display","block");
+      $("#sell_card_number_error").parent().parent().css("display","block");
+      $("#sell_card_number_error").parent().parent().parent().css("display","block");
+      $("#sell_card_number_error").css("display","block");
+      errorFlag = true;
+    }
+    else if (isNaN(cardnumber_2)){
+      $("#sell_cardnumber_2").css("border","1px solid #fc8989");
+      $("#sell_card_number_error").html("Please enter card number");
+      $("#sell_card_number_error").parent().css("display","block");
+      $("#sell_card_number_error").parent().parent().css("display","block");
+      $("#sell_card_number_error").parent().parent().parent().css("display","block");
+      $("#sell_card_number_error").css("display","block");
+      errorFlag = true;
+    }
+
+    if (cardnumber_3 =="" ){
+      $("#sell_cardnumber_3").css("border","1px solid #fc8989");
+      $("#sell_card_number_error").html("Please enter card number");
+      $("#sell_card_number_error").parent().parent().css("display","block");
+      $("#sell_card_number_error").parent().parent().parent().css("display","block");
+      $("#sell_card_number_error").parent().css("display","block");
+      $("#sell_card_number_error").css("display","block");
+      errorFlag = true;
+    }
+    else if (isNaN(cardnumber_3)){
+      $("#sell_cardnumber_3").css("border","1px solid #fc8989");
+      $("#sell_card_number_error").html("Please enter card number");
+      $("#sell_card_number_error").parent().parent().css("display","block");
+      $("#sell_card_number_error").parent().parent().parent().css("display","block");
+      $("#sell_card_number_error").parent().css("display","block");
+      $("#sell_card_number_error").css("display","block");
+      errorFlag = true;
+    }
+    if (cardnumber_4 ==""){
+      $("#sell_cardnumber_4").css("border","1px solid #fc8989");
+      $("#sell_card_number_error").html("Please enter card number");
+      $("#sell_card_number_error").parent().parent().css("display","block");
+      $("#sell_card_number_error").parent().parent().parent().css("display","block");
+      $("#sell_card_number_error").parent().css("display","block");
+      $("#sell_card_number_error").css("display","block");
+      errorFlag = true;
+    }
+    else if (isNaN(cardnumber_4)){
+      $("#sell_cardnumber_4").css("border","1px solid #fc8989");
+      $("#sell_card_number_error").html("Please enter card number");
+      $("#sell_card_number_error").parent().parent().css("display","block");
+      $("#sell_card_number_error").parent().parent().parent().css("display","block");
+      $("#sell_card_number_error").parent().css("display","block");
+      $("#sell_card_number_error").css("display","block");
+      errorFlag = true;
+    }
+    if (cardnumber_5 ==""){
+      $("#sell_cardnumber_5").css("border","1px solid #fc8989");
+      $("#sell_cvc_error").html("Please enter number");
+      $("#sell_cvc_error").parent().css("display","block");
+      $("#sell_cvc_error").parent().parent().css("display","block");
+      $("#sell_date_year").css("display","block");
+      $("#sell_cvc_error").css("display","block");
+      errorFlag = true;
+    }
+    else if (isNaN(cardnumber_5)){
+      $("#sell_cardnumber_5").css("border","1px solid #fc8989");
+      $("#sell_cvc_error").html("Please enter number");
+      $("#sell_cvc_error").parent().css("display","block");
+      $("#sell_cvc_error").parent().parent().css("display","block");
+      $("#sell_date_year").css("display","block");
+      $("#cvc_error").css("display","block");
+      errorFlag = true;
+    }
+	
+    if (date_card =="Select" || date_card ==""|| year_card =="Select" || year_card ==""){
+      $("#sell_date_border").css("border","1px solid #fc8989");
+      $("#sell_year_border").css("border","1px solid #fc8989");
+      $("#sell_year_date_error").html("Please select the date and year");
+      $("#sell_year_date_error").parent().css("display","block");
+      $("#sell_year_date_error").css("display","block");
+      errorFlag = true;
+    }	
+	
+    add_1 = add_1.replace(/^\s+|\s+$/g, "");
+    if(add_1 == "" || add_1 == "Enter address"){
+      $("#sell_add_1").css("border","1px solid #fc8989");
+      $("#sell_venue_error").html("Please enter the billing address details");
+      $("#sell_venue_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    add_2 = add_2.replace(/^\s+|\s+$/g, "");
+    if(add_2 == "" || add_2 == "Enter address"){
+      $("#sell_add_2").css("border","1px solid #fc8989");
+      $("#sell_venue_error").html("Please enter the billing address details");
+      $("#sell_venue_error").parent().css("display","block");
+      errorFlag = true;
+    }
+	
+    if(country == "--Choose country--" || country == "" ){
+      $("#sell_Country_border").css("border","1px solid #fc8989");
+      $("#sell_country_error_te").html("Please select the country");
+      $("#sell_country_state").css("display","block");
+      errorFlag = true;
+    }
+
+    if(state == "--Choose state--" || state == "" ){
+      $("#sell_State_border").css("border","1px solid #fc8989");
+      $("#sell_state_error_spo").html("Please select the state");
+      $("#sell_state_error_spo").parent().parent().css("display","block");
+      errorFlag = true;
+    }	
+	
+    if(city == "--Choose city--" || city == "Enter your city" ){
+      $("#sell_City_border").css("border","1px solid #fc8989");
+      $("#sell_city_error_spo").html("Please enter the city");
+      $("#sell_city_error_spo").parent().css("display","block");
+      $("#sell_city_error_spo").parent().parent().css("display","block");
+      $("#sell_city_error_spo").css("display","block");
+      errorFlag = true;
+    }
+	
+    zip_code = zip_code.replace(/^\s+|\s+$/g, "");
+    if(zip_code == "" || zip_code == "Enter zip code" ){
+
+      $("#sell_zip_code_chkout").css("border","1px solid #fc8989");
+      $("#sell_zipcode_error_te").html("Please enter your zip code");
+      $("#sell_zipcode_error_te").parent().css("display","block");
+      $("#sell_zipcode_error_te").parent().parent().css("display","block");
+      $("#sell_zipcode_error_te").css("display","block");
+      errorFlag = true;
+    }
+
+    else if(isNaN(zip_code)){
+      $("#sell_zip_code_chkout").css("border","1px solid #fc8989");
+      $("#sell_zipcode_error_te").html("Please enter a valid zip code");
+      $("#sell_zipcode_error_te").parent().css("display","block");
+      $("#sell_zipcode_error_te").parent().parent().css("display","block");
+      $("#sell_zipcode_error_te").css("display","block");
+      errorFlag = true;
+    }
+
+
+    if(phone_no == "" || phone_no == "Enter your phone number"){
+      $("#sell_phone_no").css("border","1px solid #fc8989");
+      $("#sell_phone_error_te").html("Please enter your contact number");
+      $("#sell_phone_error_te").parent().css("display","block");
+      errorFlag = true;
+    }
+
+    else if(isNaN(phone_no)){
+      $("#sell_phone_no").css("border","1px solid #fc8989");
+      $("#sell_phone_error_te").html("Please enter the number");
+      $("#sell_phone_error_te").parent().css("display","block");
+      errorFlag = true;
+    }
+
+    /*if(email == "" /*|| email =="Eg:john@gmail.com" || email =="eg:john@gmail.com" ){
+      $("#sell_email").css("border","1px solid #fc8989");
+      $("#sell_email_error").html("Please enter your email address");
+      $("#sell_email_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    else if(email){
+      if(email.length<10){
+        $("#sell_email").css("border","1px solid #fc8989");
+        $("#sell_email_error").html("Please enter the email address having minimum of 10 characters");
+        $("#sell_email_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(!validateCorrectEmail(email)){
+        $("#sell_email").css("border","1px solid #fc8989");
+        $("#sell_email_error").html("Please enter a valid email address");
+        $("#sell_email_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(!validateDot(email)){
+        $("#sell_email").css("border","1px solid #fc8989");
+        $("#sell_email_error").html("Please enter a valid email address");
+        $("#sell_email_error").parent().css("display","block");
+        errorFlag = true;
+      }
+    }	*/
+    if(errorFlag){
+      var body = document.body,
+      html = document.documentElement;
+      var height = Math.max( body.scrollHeight, body.offsetHeight,
+      html.clientHeight, html.scrollHeight, html.offsetHeight );
+      $('.drag-contentarea', window.parent.document).css("height",height+"px");
+
+      return false;
+    }
+    else{
+      $('.loadingmessage').hide();
+      $("#sellpaymentDiv").css("display","none");
+      $("#sponsorBankDiv").show();
+            $("#Img3").attr("src","/assets/provider_register/step_3inactive.png");
+            $("#payment_text").css("font-weight","bold");
+            $("#Img3").attr("src","/assets/provider_register/step_2active.png");
+            $("#plan_text").css("font-weight","normal");
+      return false;
+    }
+
+  }
+  
+  function afterSuccess()
+  {
+    $('.loadingmessage').hide();
+  }
+	
+  function validateDot(elementValue) {
+    var emailSplitat = elementValue.split("@");
+    var emailSplitdotf = emailSplitat[0].split(".");
+    var emailSplitdotl = emailSplitat[1].split(".");
+
+    if(emailSplitat[0].length<4){
+      return false;
+    }
+
+    if(emailSplitdotf.length>3){
+      return false;
+    }
+    if(emailSplitdotf.length<3){
+      var filter = /[^a-z/g]+/gi;
+      var filter1 = /^[0-9]+$/;
+      if(filter.test( emailSplitdotf) && filter1.test( emailSplitdotf)){
+        return false;
+      }
+    }
+    if(emailSplitdotl.length>1){
+      var prev = emailSplitdotl[0];
+      var curr = emailSplitdotl[1];
+      for(var i=1;i<emailSplitdotl.length;i++){
+        if(prev == curr ){
+          return false;
+        }
+        prev = curr;
+        curr = 	emailSplitdotl[i+1];
+      }
+    }
+    if(emailSplitdotl.length>3){
+      return false;
+    }
+    return true;
+  }
+
+  function validateName(elementValue){
+    var alphaExp = /^[a-zA-Z ]*$/;
+    return alphaExp.test(elementValue);
+  }
+  function setSellDropDownValueChkout(val){
+    document.getElementById("sell_date_card").value=val;
+    document.getElementById("sell_field_date").innerHTML=val;
+    $("#sell_field_date").css("color","#444444");
+    document.getElementById("dropDownDiv18").style.display="none";
+  }
+
+
+  function CancelSellKeyDown(){
+
+    $("#payment_method").val('Select');
+    $("#CardholderName").val('Enter Cardhoder Name');
+    $("#sell_first_name").val('First Name');
+    $("#sell_first_name").css("color","#999999");
+    $("#sell_last_name").val('Last Name');
+    $("#sell_last_name").css("color","#999999");
+    $("#sell_date_card").val('Select');
+    $("#sell_date_card").css("color","#999999");
+    $("#sell_field_date").html('Select');
+    $("#sell_field_date").css("color","#999999");
+    $("#sell_field2").html('Select');
+    $("#sell_field2").css("color","#999999");
+    $("#sell_field3").html('--Choose city--');
+    $("#sell_field3").css("color","#999999");
+    $("#sell_field4").html('--Choose country--');
+    $("#sell_field4").css("color","#999999");
+    $("#sell_field5").html('--Choose state--');
+    $("#sell_field5").css("color","#999999");
+    $("#sell_year_card_1").val('Select');
+    $("#sell_year_card_1").css("color","#999999");
+    $('#sell_field2_1').html('Select');
+    $('#sell_field2_1').css("color","#999999");
+    $("#sell_add_1").val('Enter address');
+    $("#sell_add_2").val('Enter address');
+    $("#sell_add_1").css("color","#999999");
+    $("#sell_add_2").css("color","#999999");
+    $("#sell_chkout_city").val('--Choose city--');
+    $("#sell_zip_code_chkout").val('Enter zip code');
+    $("#sell_zip_code_chkout").css("color","#999999");
+    $("#sell_chkout_state").val('--Choose state--');
+    $("#sell_chkout_state").html('')
+    $("#chkout_country").val('--Choose country--');
+    $("#sell_phone_no").val('Enter your phone number');
+    $("#psell_hone_no").css("color","#999999");
+    $("#sell_email").val('');
+    $("#sell_cardnumber_1").val('');
+    $("#sell_cardnumber_2").val('');
+    $("#sell_cardnumber_3").val('');
+    $("#sell_cardnumber_4").val('');
+    $("#sell_cardnumber_5").val('');
+
+    $(".selectBoxCity1").css("border","none");
+    $("#sell_CardholderName").css("border","1px solid #CDE0E6");
+    $("#sell_first_name").css("border","1px solid #CDE0E6");
+    $("#sell_last_name").css("border","1px solid #CDE0E6");
+    $("#sell_CardholderName").css("border","1px solid #CDE0E6");
+    $("#sell_add_1").css("border","1px solid #CDE0E6");
+    $("#sell_add_2").css("border","1px solid #CDE0E6");
+    $("#sell_chkout_city").css("border","1px solid #CDE0E6");
+    $("#zip_code_chkout").css("border","1px solid #CDE0E6");
+    $(".selectBoxMedium").css("border","none");
+    $("#sell_phone_no").css("border","1px solid #CDE0E6");
+    $("#sell_email").css("border","1px solid #CDE0E6");
+    $("#sell_cardnumber_1").css("border","1px solid #CDE0E6");
+    $("#sell_cardnumber_2").css("border","1px solid #CDE0E6");
+    $("#sell_cardnumber_3").css("border","1px solid #CDE0E6");
+    $("#sell_cardnumber_4").css("border","1px solid #CDE0E6");
+    $("#sell_cardnumber_5").css("border","1px solid #CDE0E6");
+    $("#Country_border").css("border","none");
+    $("#State_border").css("border","none");
+    $("#sell_City_border").css("border","none");
+    $("#date_border").css("border","none");
+    $("#year_border").css("border","none");
+
+    $("#sell_payment_method_error").html("");
+    $("#sell_card_holder_error").html("");
+    $("#sell_first_name_card_error").html("");
+    $("#sell_last_name_card_error").html("");
+    $("#sell_year_date_error").html("");
+    $("#sell_venue_error").html("");
+    $("#sell_city_error_spo").html("");
+    $("#sell_zipcode_error_te").html("");
+    $("#sell_state_error_spo").html("");
+    $("#sell_country_error_te").html("");
+    $("#sell_phone_error_te").html("");
+    $("#sell_email_error").html("");
+    $("#sell_card_number_error").html("");
+    $("#sell_cvc_error").html("");
+
+
+    $("#sell_payment_method_error").parent().css("display","none");
+    $("#sell_card_holder_error").parent().css("display","none");
+    $("#sell_first_name_card_error").parent().parent().css("display","none");
+    $("#sell_last_name_card_error").parent().parent().css("display","none");
+    $("#sell_venue_error").parent().css("display","none");
+    $("#sell_phone_error_te").parent().css("display","none");
+    $("#sell_email_error").parent().css("display","none");
+    $("#sell_card_number_error").parent().parent().css("display","none");
+    $("#sell_year_date_error").parent().parent().css("display","none");
+    $("#sell_cvc_error").parent().parent().css("display","none");
+    $("#sell_cvc_error").parent().css("display","none");
+    $("#sell_city_error").parent().css("display","none");
+    $("#sell_city_error_spo").parent().parent().css("display","none");
+    $("#sell_zipcode_error_te").parent().css("display","none");
+    $("#sell_zipcode_error_te").parent().parent().css("display","none");
+    $("#sell_country_error_te").parent().parent().css("display","none");
+    $("#sell_state_error_spo").parent().parent().css("display","none");
+
+  }
+  /***********display Popup***********/
+
+  function dispCheck_pop(){
+    //alert("test");
+    $('#repeatPOPUPDiv_1').css('display','block');
+		
+    //cancelRepeatDiv();
+  }
+
+  function closeRepeatDiv(){
+    $('#repeatPOPUPDiv_1').css('display','none');
+  }
+
+
+
+</script>

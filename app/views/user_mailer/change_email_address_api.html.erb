@@ -1,0 +1,50 @@
+<!-- Sell Through -->
+<table cellpadding="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+
+   <table cellpadding="0" cellpadding="0">
+    <tr>
+      <td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="40"><b>Hi <%= @user.user_name%>,</b></td>
+    </tr>
+    <tr>
+      <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="30">This email account <%=@user.new_email_address if !@user.nil? && !@user.new_email_address.nil?%> has been added to the <%if !@utype.nil? && @utype=="provider"%>Provider account of <b><%if !@user.user_profile.nil? && !@user.user_profile.business_name.nil?%><%=@user.user_profile.business_name%><%else%><%=@user.user_name%><%end%></b><%else%>Parent account of <b><%=@user.user_name if !@user.user_name.nil?%></b><%end%>&nbsp; in Famtivity. As a final verification step, please click on the activation link below to confirm. Please ignore this email if you have not added this email account.</td>
+    </tr>
+    <tr>
+      <td height="40"><a href="<%=@url%>" target="_blank" style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#2c8fae;"><%=@url%></a></td>
+    </tr>
+    <tr>
+      <td height="30">Your login details are:</td>
+    </tr>
+    <tr>
+    <td>
+    <table style="border: 1px solid #e5e9eb;" width="50%" cellspacing="0" cellpadding="0">
+    <tr>
+      <td style="border-bottom:1px solid #e5e9eb; padding-left:10px;" height="30">Your Email:</td>
+      <td style="border-bottom:1px solid #e5e9eb; color:#555555;"><%=@user.email_address if !@user.nil?%></td>
+    </tr>
+    <tr>
+      <td height="30" style="padding-left:10px;">Your Password:</td>
+      <td style="color:#555555;"><%= Base64.decode64("#{@user.user_password}") if !@user.nil?%></td>
+    </tr>
+    </table>
+    </td>
+    </tr>
+    <tr>
+      <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="70">You can change your password once you sign in to Famtivity with your new credentials.</td>
+    </tr>
+
+  
+    <tr>
+    <td height="24" align="left" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#444444;">Have fun!</td>
+    </tr>
+    
+      <tr>
+         <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;">Your Famtivity Team</td>
+      </tr>
+    
+    
+   </table>
+   </td>
+  </tr>
+</table>

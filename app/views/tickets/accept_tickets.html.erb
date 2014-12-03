@@ -1,0 +1,197 @@
+<link type="text/css" rel="stylesheet" href="/assets/tickets/tickets.css?v=1" />
+<link rel="stylesheet" type="text/css" href="/assets/event_index/event_index.css?v=1" />
+<%=stylesheet_link_tag "event_index/menu", :media => "all"%>
+<%=javascript_include_tag "event_index/event_index"%>
+<script type="text/javascript">
+
+  var viewparticipantpage;
+  var activitySupportPage;
+  var inviteproviderPage;
+
+  function pop_view_participant(url){
+    viewparticipantpage = dhtmlmodal.open("View Participant","iframe",url," ", "width=950px,height=500px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    //$(".drag-contentarea").css("height",height+"px");
+    return false;	
+  }
+  //support form popup
+  function pop_support_form(url){
+    activitySupportPage = dhtmlmodal.open("Delete Activity","iframe",url," ", "width=900px,height=650px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    //$(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+  
+  //invite provider popup
+    function pop_invite_provider(url){
+    inviteproviderPage = dhtmlmodal.open("Edit Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+		
+    return false;
+  }
+  
+    //invite a friend
+  function pop_invite_friendPage(url){
+    popInviteFriendPage = dhtmlmodal.open("Delete Activity","iframe",url," ", "width=1007px,height=600px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }
+  
+
+function show_ticket_validation(){
+
+	var bid_amount = $("#bid_amount").val();
+	alert("test");
+}
+</script>
+
+<style type="text/css">
+  #providerEventList .topContainer .leftMenus {
+    /*padding-left: 6px;
+    padding-top: 3px;
+    width: 398px;*/
+}
+</style>
+
+<div id="event_index_container">
+  <div class="clear"></div>
+<form name="provider_event_list" id="provider_event_list">
+<div id="providerEventList" style="margin-top:46px;">
+  <div class="topContainer">
+    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+          <tr>
+            <td align="center" height="40">
+		<span><a href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? %>" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity List']);">Activity List</a></span>
+		<span class="dot menuText">&bull;</span>
+		<span><a href="/provider_activites" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity Cards']);">Activity Cards</a></span>
+		<span class="dot menuText">&bull;</span>
+		<span><a href="/activity_provider_schedule" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Schedule']);">Schedule</a></span>
+		<span class="dot menuText">&bull;</span>
+		<span><a href="/provider_profile" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Business Info']);">Business Info</a></span>
+		<span class="dot menuText">&bull;</span>
+		<span><a href="/provider_policies" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Policies']);">Policies</a></span>
+		<span class="dot menuText">&bull;</span>
+		<span><a href="/provider_plan" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Plan']);">Plan</a></span>
+		<span class="dot menuText">&bull;</span>
+		<span><a href="/change_password" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Password']);">Password</a></span>
+		<span class="dot menuText">&bull;</span>
+		<span><a href="/provider_settings" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Settings']);">Settings</a></span>
+		<span class="dot menuText">&bull;</span>
+		<!--<span><a href="/discount_dollars" class="menuText" title="">Discount Dollars</a></span>	
+		<span class="dot menuText">&bull;</span>-->
+		<span><a href="/accept_tickets" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Accept FamPass']);"><b>Accept FamPass</b></a></span>
+		<span class="dot menuText">&bull;</span>
+		<span><a href="/transaction" class="menuText" title="" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Reports']);">Reports</a></span>
+		 <span class="dot menuText">&bull;</span>
+		<span><a href="javascript:void(0);" class="menuText" title="" onClick="pop_provider_embed_Detail('activity_detail/provider_embedded_link?activity_id=<%= get_embed_data if current_user.present? %>'); _gaq.push(['_trackEvent','Provider Module', 'clickSettings','Embed Link']);">Embed Link</a></span>
+		<!--<span class="dot menuText">&bull;</span>
+		<span><a href="/payment_setup" class="menuText" title="">Payments Setup</a></span>-->
+		<!--<span class="dot menuText">&bull;</span>
+		<span><a href="/billing_sponsorship" class="menuText" title="">Sponsorship</a></span>-->
+	  </td>
+        </tr>
+      </table>
+    </div>
+    <div class="centerContainer" id="provider_partial_event_list" >
+
+
+<script type="text/javascript">
+  $(document).ready(function () {
+	initARC('provider_event_list','altCheckboxOn','altCheckboxOff');
+    selectAny();
+  });
+  function before_delete(a){
+    var a;
+    pop_delete_activity('/activities/delete_activity?id='+a)
+  }
+
+
+</script>
+
+<!-- List Page --->
+<div id="accept_tickets">
+
+<div class="code_no_row" style="background:none">
+ <form name="accept_ticket" method="post" onSubmit="return show_ticket_validation()">
+	<table cellspacing="0" cellpadding="0" border="0">
+		<tr height="74">
+			<td class="codeText">Enter FamPass Code No</td>
+			<td><input type="text" name="bid_amount" id="bid_amount" class="lt textbox" value=""  tabindex="1" class="lt textBox" /> </td>
+			<!--onClick="show_ticket_validation();pop_view_participant('/participant_detail')"--> 
+			<td><a href="javascript:void(0)" title=""><input type="image" src="/assets/tickets/enter.png" alt="" tabindex="2" class="lt"  /></a></td>
+		</tr>
+	</table>
+</form>
+</div>	
+<div class="clear"></div>
+<table cellspacing="0" cellpadding="0" border="0" width="100%" >
+  <!--<tr>
+    <td align="left" width="20%" class="headText setPadLt">Image</td>
+    <td align="left" width="30%" class="headText">Participant Image</td>
+    <td align="left" width="20%" class="headText">Email</td>
+    <td align="left" width="15%" class="headText">Code No</td>
+    <td align="left" width="15%" class="headText">Status</td>
+  </tr>  
+  <tr class="setBg1">
+    <td align="left" width="20%" class="contentText setPadLt setTop"><img src="/assets/tickets/participant_1.jpg" alt="" /></td>
+    <td align="left" width="30%" class="contentText">Sebastian</td>
+    <td align="left" width="20%" class="contentText">Charles@gmail.com</td>
+    <td align="left" width="20%" class="contentText">11000D8000ACD</td>
+    <td align="left" width="20%" class="contentText">Accept</td>
+  </tr>
+  <tr class="setBg2">
+	<td align="left" width="20%" class="contentText setPadLt setTop"><img src="/assets/tickets/participant_2.jpg" alt="" /></td>
+    <td align="left" width="30%" class="contentText">Isabella</td>
+    <td align="left" width="20%" class="contentText">billy@gmail.com</td>
+    <td align="left" width="15%" class="contentText">11000D8000ACD</td>
+    <td align="left" width="15%" class="contentText">Accept</td>
+  </tr>  
+  <tr class="setBg1">
+    <td align="left" width="20%" class="contentText setPadLt setTop"><img src="/assets/tickets/participant_1.jpg" alt="" /></td>
+    <td align="left" width="30%" class="contentText">Sebastian</td>
+    <td align="left" width="20%" class="contentText">Charles@gmail.com</td>
+    <td align="left" width="20%" class="contentText">11000D8000ACD</td>
+    <td align="left" width="20%" class="contentText">Accept</td>
+  </tr>
+
+    <tr class="setBg1" >
+      <td align="center" class="no_activities" style="height: 500px;">There are no activities.</td>
+    </tr>
+    -->
+</table>
+
+</div>
+
+<!-- End -->
+
+<div class="clear"></div>
+      </div>
+	  <div class="clear"></div>
+    </div>
+  </form>
+  <div class="clear"></div>
+  
+</div>
+

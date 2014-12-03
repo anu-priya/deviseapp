@@ -1,0 +1,134 @@
+
+<%purchaselink = a[:act].purchase_url if !a[:act].purchase_url.nil? && a[:act].purchase_url!=""%>
+<%activitylink = "/"+activity_link_format(a[:act],a[:act_usr])%>
+
+<%if !a[:act].created_by.nil? && a[:act].created_by!='' && a[:act].created_by.downcase == 'parent'%>
+  <%if !current_user.nil?%>
+    <%if current_user.user_id == a[:act].user_id %>
+      <%a[:status] = "Edit"%>
+    <%end%>
+  <%end%>
+<%end%>
+
+<div class="card_width">
+  <%if a[:id]=="weekend" %>
+    <div align="center" class="card_weekend">This Weekend Newsletter</div>
+  <%end%>
+  <%if a[:act].price_type == "3"%>
+    <% price = "$ Free"%>
+  <%elsif a[:act].price_type == "4"%>
+    <% price = "$ Contact Provider"%>
+  <%else%>
+    <%unless a[:price].nil?%>
+      <%unless a[:price].length > 1%>
+        <%if a && a[:price] && a[:price][0] && !a[:price][0].price.nil? && a[:price][0].price !=""%>
+          <% price = "$#{number_with_precision(a[:price][0].price, :precision => 2).gsub(/\.00$/, "")}"%>
+        <%end%>
+      <%else%>
+        <% price = "$ Price Details"%>
+      <%end%>
+    <%end%>
+  <%end%>  
+  <% if price != '$ Free' && price != '$ Contact Provider' %>
+ <%if ((!a[:discount_price].nil? && a[:discount_price]!="")|| (!a[:act].discount_eligible.nil? && a[:act].discount_eligible!=""))%>
+    <div class="wrapper_card" onmouseover="$('#disc_price<%= a[:act][:activity_id] %>').show();" onmouseout="$('#disc_price<%= a[:act][:activity_id] %>').hide();">
+     <div class="ribbon-wrapper-red">
+	  <%if a && a[:discount_price]!="" && !a[:discount_price].nil? && !a[:act].discount_eligible.nil? && a[:act].discount_eligible!=""%>
+	  <div class="ribbon-red">Specials <label class="splDD">$</label></div>
+	  <% elsif !a[:act].discount_eligible.nil? && a[:act].discount_eligible.present? %>
+	   <div class="ribbon-red"><label class="splDD">$</label></div>
+	   <%elsif a && !a[:discount_price].nil? && a[:discount_price]!="" %>
+	   <div class="ribbon-red">Specials</div>
+	   <%end%>
+	</div>
+    </div>
+    <div id="disc_price<%= a[:act][:activity_id] %>" class="card_discount_price" onmouseover="$('#disc_price<%= a[:act][:activity_id] %>').show();" onmouseout="$('#disc_price<%= a[:act][:activity_id] %>').hide();">
+      <a class="cardspecialDetails">
+        <%= image_tag "/assets/activity_schedule/top_arrow.png", :alt=>""%>
+      </a>
+      <%if !a[:act].nil? && !a[:act].discount_eligible.nil? && a[:act].discount_eligible.present?%>
+        <span class="discountpricelistSPecialspace" style="text-align:center;border-bottom:1px dotted #C4DFE6;margin-bottom:5px"><label class="discountpricesptxt" style="width:auto;font-size:16px">Get&nbsp;<label class="discountpricesptxtred">$<%= number_with_precision(a[:act].discount_eligible, :precision => 2).gsub(/\.00$/, "") %></label>&nbsp;Off With Discount Dollars</label></span>
+      <%end%>
+      <%if !a[:discount_price].nil? && a[:discount_price]!="" %>
+        <span class="discountpricetitleTxtspecial">Special Discounts</span>
+        <span style="display:inline-block;">
+          <% a[:discount_price].each do |disc_price|%>
+            <label class="discountpricesptxt"><%=disc_price.discount_type if !disc_price.nil? && !disc_price.discount_type.nil?%></label>
+            <label class="discountpricesptxtred">
+              <% if disc_price.discount_currency_type=="$" %>$<%end%><%="#{number_with_precision(disc_price.discount_price, :precision => 2).gsub(/\.00$/, "")}" if !disc_price.nil? && !disc_price.discount_price.nil?%><% if disc_price.discount_currency_type=="%" %>&#37;<%end%>
+              &nbsp; <%if !disc_price.nil? && !disc_price.discount_type.nil? && disc_price.discount_type.present? %> Off&nbsp;<%end%>
+            </label>
+            <label class="discountpricesptxtgray">
+              <%if !disc_price.nil? && !disc_price.discount_valid.nil? && disc_price.discount_valid.present? %>
+                <%=disc_price.discount_valid.strftime("till %a, %b %d, %Y ")%> <%else%> for
+                <%=disc_price.discount_number if !disc_price.nil? && !disc_price.discount_number.nil?%>
+                <% if !disc_price.discount_type.nil? && disc_price.discount_type.downcase=='multiple session discount'%>Sessions<%else%> Participants<%end%>
+              <%end%>
+            </label>
+          <%end%>
+        </span>
+      <%end%>
+    </div>
+  <%end%>
+  <%end%>
+  <div style="position:relative;">
+    <div align="center" class="image_act_usr">
+      <table border="0" cellpadding="0" cellspacing="0" width="285" align="center">
+        <tr><td align="center" valign="middle" height="203">
+          <a <%if a[:status]=="Edit"%> onClick="pop_edit_activity('/edit_activity_parent?activity_id=<%= a[:act].activity_id%>')" href="javascript:void(0);" <%else%> href="<%= activitylink %>" <%end%> title="" >
+              <%if !a[:act].avatar_file_name.nil? && !a[:act].avatar.nil? && a[:act].avatar.present?%>
+               <%= image_tag a[:act].avatar.url(:act_card), :class=>"lazy", :alt => "#{a[:act].activity_name if a[:act] && a[:act].activity_name }, #{a[:act].category if a[:act] && a[:act].category} Activities - #{a[:act].sub_category if a[:act] && a[:act].sub_category}" %>
+              <%else%>
+               <%= image_tag "/assets/card/no_image.png", :class=>"lazy", :alt => "#{a[:act].activity_name if a[:act] && a[:act].activity_name }, #{a[:act].category if a[:act] && a[:act].category} Activities - #{a[:act].sub_category if a[:act] && a[:act].sub_category}" %>
+              <%end%>
+          </a>
+        </td></tr>
+     </table>
+    </div>
+    <a <%if a[:status]=="Edit"%>onClick="pop_edit_activity('/edit_activity_parent?activity_id=<%= a[:act].activity_id%>')" href="javascript:void(0);" <%else%><%if !a[:act].purchase_url.nil? && a[:act].purchase_url.present?%>target="_blank" href="<%= purchaselink %>" <%else%> href="<%= activitylink %>"<%end%><%end%> class="card_pay_anchor"><div class="card_pay" onClick="_gaq.push(['_trackEvent', 'Parent Module', 'clickActivityCard', <%= a[:status] %>,'<%= a[:act].activity_id %>']);"><%= a[:status] %></div></a>
+  </div>
+  <div style="padding: 10px 10px 0;">
+    <div style="display:inline-block;width:48%">
+    
+	<%wth_v = display_actname(price) if price && price.present?%>
+       
+      <div class="card_header_name" style="width:<%=wth_v%>;">
+       <h2><span><a <%if a[:status]=="Edit"%>onClick="pop_edit_activity('/edit_activity_parent?activity_id=<%= a[:act].activity_id%>')" href="javascript:void(0);" <%else%> href="<%= activitylink %>"<%end%> class="card_title" title="<%=a[:act].activity_name%>"><%= a[:act].activity_name %></a></span></h2>
+      </div>
+      <div class="card_city">
+	<%if a[:act].city !="" && !a[:act].city.nil?%>
+          <%citydet= a[:act].city %>
+        <%else%>
+          <%citydet = "Anywhere"%>
+        <%end%>
+	
+	<% if (a && a[:act].address_1 !="" && !a[:act].address_1.nil?) && (a && a[:act].address_2 !="" && !a[:act].address_2.nil?)%>
+	   <%address1=a[:act].address_1+', '+a[:act].address_2%>
+	<%elsif (a && a[:act].address_1 !="" && !a[:act].address_1.nil?) %>
+	   <%address1=a[:act].address_1%>
+	<%end%>
+	<%if citydet && citydet=="Anywhere"%>
+		<span class="city_icon">&nbsp;</span>
+		<span class="card_city" title="<%=citydet%>"><%=citydet%></span>
+	<%else%>
+		<a class="card_city" title="<%=citydet%>" href="https://maps.google.com/maps?q=<%=address1+', ' if address1 && address1!=''%><%=citydet%><%=', '+a[:act].state if (a && a[:act].state !="" && !a[:act].state.nil?)%><%=', '+a[:act].zip_code if (a && a[:act].zip_code !="" && !a[:act].zip_code.nil?)%>&t=m&z=12" target="_blank">
+		<span class="city_icon">&nbsp;</span>
+		<span><%=citydet%></span>
+		</a>
+	<%end%>
+      </div>
+    </div>
+    <div class="price_age" >
+      <div class="price_card" style="text-align:right;">
+        <%if price && price.present?%><%if price=="$ Price Details"%><a <%if a[:status]=="Edit"%>onClick="pop_edit_activity('/edit_activity_parent?activity_id=<%= a[:act].activity_id%>')" href="javascript:void(0);" <%else%> href="<%= activitylink %>" <%end%> class="price_card" title=""><%= price %></a><%else%><%= price %><%end%><%else%>&nbsp;<%end%>
+      </div>
+      <div class="age_card">
+        <%if !a[:act].min_age_range.nil? && !a[:act].max_age_range.nil? && a[:act].min_age_range != "" && a[:act].max_age_range != ""%>
+          Age&nbsp;&nbsp;<%=age_range_cal(a[:act].min_age_range,a[:act].max_age_range)%>
+        <%else%>
+          &nbsp;
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>

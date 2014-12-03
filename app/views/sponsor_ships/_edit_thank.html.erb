@@ -1,0 +1,19 @@
+<%= stylesheet_link_tag "/assets/global/pop_up_success" %>
+<script language="javascript">
+  $(document).ready(function(){
+    $("html, body", window.parent.document).animate({ scrollTop: 0 }, 100);
+  });
+  function closepopup_ubid() {
+    parent.bideditActivityPage.hide();
+    //parent.parent.location.reload(true);
+    parent.parent.location.href += "?ws=1";
+  }
+</script>
+<div align="center" style="height:230px;">
+  <p class="successText" style="padding:60px 0;">Bid updated successfully</p>
+  <div class="clear"></div>
+  <a href="javascript:void(0)" onClick="closepopup_ubid()" title=""><%= image_tag("/assets/register/ok_btn.png") %></a>
+</div>
+
+
+

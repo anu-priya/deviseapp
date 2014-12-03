@@ -1,0 +1,389 @@
+<%#=@unread.count if !@unread.nil? %>
+	<!--div class="setPadd" style="<%if @first_mess.subject.length > 100%>padding-bottom:20px;<%end%>padding-right:7px;"-->
+	<div class="setPadd" style="min-height:auto;">
+	          <table width="100%" cellpadding="0" cellspacing="0" style="height: 83px;">
+		<tr><td width="6%" valign="middle"  style="background:#ffffff;border-bottom: 1px solid #e4f0f2;" align="center">
+		<!--div style="float:left;height:100px;width:85px;">
+			<div class="messagePhotoInner" style="overflow:hidden;height:100px;width:82px;" align="center"-->
+				<%if @first_mess && @first_mess.present? && @first_mess.message_card && @first_mess.message_card.present? && !@first_mess.message_card.nil?%>
+					<img src="<%=@first_mess.message_card.url(:small)%>" alt=""/>
+				<%else%>
+				<img src="/assets/default/Message_Card_Default_small.png" style="margin-bottom: -4px;height: 85px;" alt=""/>
+				<%end%>
+			<!--/div>
+		</div-->
+		</td><td style="border-bottom: 1px solid #e4f0f2;background-color: white;" valign="middle" width="94%"><div class="lt  msg-sub"style="padding-left:5px;"><p class="ftcBlue fts18" id="msg-started-business-name" ><%=@first_mess.subject if !@first_mess.nil?%></p></div>
+	<div class="lt" style="padding-left:5px;color: #5c9c9c;"><p class="ftcGray9c fts13" id="msg-started-date">Conversation started <%=@first_mess.created_at.strftime("%B" " %d") if !@first_mess.nil?%></p></div></td>
+		</tr>
+		</table>
+		<div class="clear"></div>
+	</div>
+<input type='hidden' id='thread_count' value='<%=@mess_threads.count if !@first_mess.nil?%>'>
+<input type="hidden" id="user_mode" value="<%=@mode%>">
+<input type="hidden" id="msg_id" value="<%=@first_mess.message_id if !@first_mess.nil?%>">
+<input type="hidden" id="msgtype" value="<%if !@msgtype.nil?%><%=@msgtype%><%else%><%=@first_mess.message_type%><%end%>">
+<input type="hidden" id="chat_send_emails" value="">
+<!--input type="hidden" id="chat_send_emails" value="<%#=@first_mess.message_threads.first.receivers_email%> "-->
+<input type="hidden" id="chat_first_thread" value="">
+<!--input type="hidden" id="chat_first_thread" value="<%#=@first_mess.message_threads.first.thread_id%>"-->
+	<div class="clear"></div>
+                    <div class="space_20" style="background-color: #f6f6f6;"></div>
+                     <div class="clear"></div>
+<!-- 		Message Thread loop Start 		-->
+<div class="total_msg_thread" style="background-color: #f6f6f6;">
+<!--------------------------1------------------>
+<%n=1%>
+<%@mess_threads && @mess_threads.each do |thrd|%>
+<%threadDetails = MsgThreadDetail(thrd.thread_id,current_user.email_address,@msgtype)%>
+<%#u_prof  = UserProfile.where("user_id=?",thrd.posted_by).last%>
+<%user = User.find_by_user_id(thrd.posted_by)%>
+<%u_prof  = user.user_profile if user && !user.nil? && user.present?%>
+<%msg_files = MsgFile(thrd.thread_id)%>
+<%name = (user && !user.nil? && user.user_name && user.user_name.present?) ? user.user_name.truncate(11) : ((thrd && !thrd.nil? && thrd.present? && thrd.posted_email && thrd.posted_email.present?) ? thrd.posted_email.split('@').first.truncate(11) : '')%>
+      <div class="totoal_div">
+	  <table width="100%"><tr><td width="72px" valign="top">
+      <%if thrd && thrd.posted_by==current_user.user_id%>
+            <div class="comments_owner_img">
+                <div style="overflow:hidden;height:72px;">
+		<table cellpadding="0" cellspacing="0"  height="100%" >
+			<tr>
+				<td valign="middle" align="center">
+				 <div id="owner_image" style="<%if user && !user.nil? && user.user_profile.present? && (u_prof.profile.present? ||  u_prof.user_photo.present?)%>width:65px;<%else%>width:69px;<%end%>">
+					<img style="width:auto;height:auto;max-width:100%;" src="<%if user && !user.nil? && u_prof && u_prof.present? && u_prof.profile && u_prof.profile.present? && !u_prof.profile.nil?%><%=u_prof.profile.url(:small)%><%elsif user && !user.nil? && u_prof && u_prof.present? && u_prof.user_photo && u_prof.user_photo.present? && !u_prof.user_photo.nil?%><%=u_prof.user_photo.url(:small)%><%else%>/assets/default/user_msg_default_Image.png<%end%>"><!---change the user image-->
+				</div>
+				</td>
+			</tr>
+		</table>
+	      </div>
+                <div class="circleimage"></div>
+	      <div class="clear"></div>
+	  <div class="ftcBlue postedbyname"><%=name%></div>
+            </div>
+
+	<%else%>
+	  <div class="comments_owner_img">  </div>
+	<%end%>
+	</td><td valign="top">
+            <div class=<%=(thrd && thrd.posted_by==current_user.user_id) ? "msg_replay" : "msg_recive"%>>
+                <div class=<%=(thrd && thrd.posted_by==current_user.user_id) ? "inner_msg" : "inner_msg_recive"%>>
+                    <div class=<%=(thrd && thrd.posted_by==current_user.user_id) ? "innercurves" : "innercurves_recive"%>>
+		    <table style="table-layout: fixed;width: 100%;word-wrap: break-word;">
+			    <tr>
+				    <td class="new_font" style="color:#40404;">
+					<%=raw thrd.content%>
+				    </td><td width="10px"></td>
+			    </tr>
+		    </table>
+		</div>
+                    <div class="clear"></div>
+                    <div class="space_5"></div>
+                     <div class="clear"></div>
+                    <div class="delete_attach" style=<%=(thrd && thrd.posted_by==current_user.user_id) ? "margin-left:26px;padding-right:0px" : "margin-right:18px;padding-right:10px"%>>
+		    
+		    <div class="align_lt">
+						<div class="paddingTop3 ftcGray9c fts13 to_display" id="to_display_<%=thrd.thread_id%>"><span style="display: inline-block;position: relative;top: -5px;">To <%=threadDetails[2].truncate(30) if threadDetails && threadDetails.present? && threadDetails[2] && threadDetails[2].present? && !threadDetails[2].nil?%></span>
+							<div class="arrow_menu_style">
+								<ul><li><img width="7" height="4" style=" position: relative; top: -2px;" alt="" src="/assets/event_index/dropdown_arrow.png" id="arrow1">
+									
+									<%if threadDetails && threadDetails.present? && threadDetails[1] && threadDetails[1].present?%>
+										<%if threadDetails[1].count<8%>
+											<!-- For less email id's -->
+											<ul style="height: auto;padding:7px 5px;overflow:auto;width:250px;">
+										<%else%>
+											<!-- For more email id's -->
+											<ul id="more_users"style="height: 200px;padding:7px 5px;overflow-y:auto;width:250px;">
+										<%end%>
+									<%end%>
+									<li>
+									<table>
+										<tr height="27">
+											<td><span style="margin-right: 5px;">From</span></td>
+											<td class="ftcGray9c"><%=threadDetails[0] if threadDetails && threadDetails.present? && threadDetails[0] && threadDetails[0].present? && !threadDetails[0].nil?%></td>
+										</tr>
+										<tr>
+											<%if threadDetails && threadDetails.present? && threadDetails[1] && threadDetails[1].present? && !threadDetails[1].nil?%>
+											<td valign="top"><span style="margin-right: 5px;"></span>To</td>
+											<td class="ftcGray9c">
+											<% threadDetails[1].each do |email| %>
+											<span style="display:inline-block;margin-bottom: 5px;"><%=email %></span>
+											<%end%>
+											</td>
+											<%end%>
+										</tr>
+									</table>
+									</li>
+									</ul>
+								</li>
+								</ul>
+							<div class="clear"></div>
+							</div>
+						</div>
+		    </div>
+		    
+                         <div class="align_rt" style="width:<%=(@first_mess.message_type=='fam_network') ?  ((msg_files && msg_files.present? && !msg_files.empty?) ? '201px' : ((thrd && thrd.posted_by==current_user.user_id) ? '46px' : '64px')) : ((msg_files && msg_files.present? && !msg_files.empty?) ? '270px' : '115px')%>;">
+                            <%if msg_files && msg_files.present? && !msg_files.empty?%>
+                            <input type="hidden" id="msg_tot" value="<%=msg_files.count%>"/>
+			    <div class="attachments attachments_open new_font" id="attachments_<%=thrd.thread_id%>"><%=msg_files.count%> <%=(msg_files.count==1) ? 'attachment' : 'attachments'%></div>
+                                  <div class="separator_pi">|</div>
+			<%end%>
+			<%if @first_mess.message_type!="fam_network"%>
+							  <a href="/reply_message_form?mode=<%=@mode%>&type=reply&thr_id=<%=thrd.thread_id%>&message_id=<%=thrd.message_id%>" title="Reply" class="delete_msg" onclick=" _gaq.push(['_trackEvent','<%=@mode.capitalize if !params[:mode].nil?%> Module', 'clickMessages','Reply','<%=thrd.thread_id%>']);"><img src="/assets/message/reply.png"></a>
+                              <!--a href="javascript:void(0)" title="Reply" class="delete_msg" onclick="pop_reply_message_form('/reply_message_form?mode=<%=@mode%>&type=reply&thr_id=<%=thrd.thread_id%>','<%=@mode%>'); _gaq.push(['_trackEvent','<%=@mode.capitalize if !params[:mode].nil?%> Module', 'clickMessages','Reply','<%=thrd.thread_id%>']);"><img src="/assets/message/reply.png"></a-->
+                               <div class="separator_pi">|</div>
+                               <a href="/reply_message_form?mode=<%=@mode%>&type=reply_all&thr_id=<%=thrd.thread_id%>&message_id=<%=thrd.message_id%>" title="Reply All" class="delete_msg" onclick=" _gaq.push(['_trackEvent','<%=@mode.capitalize if !params[:mode].nil?%> Module', 'clickMessages','Reply to all','<%=thrd.thread_id%>']);"><img src="/assets/message/reply_to_all.png"></a>
+                              <!--a href="javascript:void(0)" title="Reply All" class="delete_msg" onclick="pop_reply_message_form('/reply_message_form?mode=<%=@mode%>&type=reply_all&thr_id=<%=thrd.thread_id%>','<%=@mode%>'); _gaq.push(['_trackEvent','<%=@mode.capitalize if !params[:mode].nil?%> Module', 'clickMessages','Reply to all','<%=thrd.thread_id%>']);"><img src="/assets/message/reply_to_all.png"></a-->
+                               <div class="separator_pi">|</div>
+			<%end%>			 
+							<a href="/reply_message_form?mode=<%=@mode%>&type=forward&thr_id=<%=thrd.thread_id%>&message_id=<%=thrd.message_id%>" title="Forward" class="delete_msg" onclick=" _gaq.push(['_trackEvent','<%=@mode.capitalize if !params[:mode].nil?%> Module', 'clickMessages','Forward','<%=thrd.thread_id%>']);"><img src="/assets/message/forward.png"></a>
+                              <!--a href="javascript:void(0)" title="Forward" class="delete_msg" onclick="pop_reply_message_form('/reply_message_form?mode=<%=@mode%>&type=forward&thr_id=<%=thrd.thread_id%>&msg_type=<%=@first_mess.message_type%>','<%=@mode%>'); _gaq.push(['_trackEvent','<%=@mode.capitalize if !params[:mode].nil?%> Module', 'clickMessages','Forward','<%=thrd.thread_id%>']);"><img src="/assets/message/forward.png"></a-->
+                               <div class="separator_pi">|</div>
+                              <a href="javascript:void(0)" title="Delete" class="delete_msg" onclick="messagethread_delete(<%=thrd.thread_id%>); _gaq.push(['_trackEvent','<%=@mode.capitalize if !params[:mode].nil?%> Module', 'clickMessages','Delelte Message Thread', '<%=thrd.thread_id%>']);"><img src="/assets/fam_networks/delete_msg.png"></a>
+                            </div>
+                     </div>
+                     <div class="clear"></div>
+		
+			<div id="open_div_<%=thrd.thread_id%>" class="open_div" style="display: none;">
+				<div class="dashed_div">
+					<%msg_files && msg_files.each do |thr_file|%>
+					<div class="attached_files">
+					<div class="unique_files_name new_font"><a href="/download_message_files?id=<%=thr_file.message_file_id%>" title="Download"><img style="margin-right:5px;position:relative;top:3px;" src="/assets/fam_networks/download_icon.png" width="9" height="14" alt="" /></a><%=thr_file.message_file_file_name.truncate(15)%></div>
+
+					<div style="width:100px;height:70px;padding:5px;border:1px solid #e1e1e1;">
+						<div class="unique_files" style="width:100px;height:70px;overflow:hidden;">
+							<table cellpadding="0" cellspacing="0"><tbody><tr><td width="100" height="70" valign="middle">
+							<a href="<%if thr_file && thr_file.present? && thr_file.message_file && thr_file.message_file.present? && !thr_file.message_file.nil?%><%=thr_file.message_file%><%end%>" target="_blank"><center class="msg-attach" style="width:100px;"><img src="<%if thr_file && thr_file.present? && thr_file.message_file && thr_file.message_file.present? && !thr_file.message_file.nil?%><%=formatFileSupports(thr_file,'small')%><%else%>/assets/default/user_msg_default_Image.png<%end%>" ></center></a>
+							</td></tr></table>
+						</div>
+					</div>
+					</div>
+					<%end%>
+				</div>
+			</div>
+			 <div id="dwon-load-div-<%=thrd.thread_id%>" class="dwon-load-div">
+				<div class="dwon-load-all"><a href="/download_message_files?id=<%=msg_files.map(&:message_file_id)%>" title="Download"><img style="margin-right:5px;position:relative;top:3px;" src="/assets/fam_networks/download_icon.png" width="9" height="14" alt="" /><span class="ftcBlue fts12"><b>Download All</b></span></a></div>
+			</div>
+		<div class="clear"></div>
+                    <div class="space_5"></div>
+                     <div class="clear"></div>
+                </div>
+            </div>
+		    </td><td width="72px" valign="top">
+      <%if thrd && thrd.posted_by==current_user.user_id%>
+            <div class="comments_owner_img">  </div>
+	<%else%>
+		  
+	  <div class="comments_owner_img">
+                <div style="overflow:hidden;height:72px;">
+		<table cellpadding="0" cellspacing="0"  height="100%" >
+			<tr>
+				<td valign="middle" align="center">
+					<div id="owner_image" style="<%if user && !user.nil? && user.user_profile.present? && (u_prof.profile.present? ||  u_prof.user_photo.present?)%>width:65px;<%else%>width:69px;<%end%>">
+						<img style="width:auto;height:auto;max-width:100%;" src="<%if user && !user.nil? && u_prof && u_prof.present? && u_prof.profile && u_prof.profile.present? && !u_prof.profile.nil?%><%=u_prof.profile.url(:small)%><%elsif user && !user.nil? && u_prof && u_prof.present? && u_prof.user_photo && u_prof.user_photo.present? && !u_prof.user_photo.nil?%><%=u_prof.user_photo.url(:small)%><%else%>/assets/default/user_msg_default_Image.png<%end%>"><!---change the user image-->
+					</div>
+				</td>
+			</tr>
+		</table>
+	       </div>
+                <div class="circleimage"></div>
+	      <div class="clear"></div>
+	      <div class="ftcBlue postedbyname"><%=name%></div>
+            </div>
+
+	<%end%>
+	</td></tr></table>
+	</div>
+	  <div class="clear"></div>
+            <div class="space_30">
+	    	    <div class="ftcGray9c new_font <%if thrd && thrd.posted_by==current_user.user_id%>datealignrt<%else%>datealignlt<%end%>"><%=thrd.created_at.strftime("%b %d, %I:%M%P") if thrd && !thrd.nil? && thrd.created_at && thrd.created_at.present?%></div>
+	    </div>
+            <div class="clear"></div>
+	<%n=n+1%>
+	<%end%>
+
+</div>
+<!-- 	Message Thread loop End -->
+           <div class="clear"></div>
+          <div class="space_30" style="background-color: #f6f6f6;">
+          	<div class="loadmsg" align="center" style="display: none;width: 100%;height: 30px;bottom: 6px;position: relative;" id="loadingmessagethrd" class="loadDiv">
+		     	<img class="spinner_gif" src="/assets/loading.gif">
+		     </div>
+          </div>
+	    <div class="clear"></div>
+	<div class="msgDetailList"  id="anand" style="min-height:100px;width:100%;background-color: #f6f6f6;">
+         <div class="comments_text_area">
+	  <table width="100%">
+		    <tr>
+		  <td style="width: 61%;">
+                <div class="comments_owner_text" style="width:99%">
+                	<table width="100%">
+                		<tr><div id='replymsg' class="loadermsg" style="display:none;position: absolute;margin: -1.5% 0% 0% 20%;"><img src="/assets/loading.gif"/></div></tr>
+                		<tr>
+	                		<td>
+	                		<%if @first_mess.message_type=='fam_network'%>
+						    <% gt_only_mem = chkNetMem(@first_mess.contact_group_id) if @first_mess.contact_group_id%>
+						    <%end%>
+	                		<%if (gt_only_mem ||  @first_mess.message_type.downcase=='message')%>
+	                		<textarea name="replay_msg" id="reply_chat"onfocus="Msg_in();" onblur="Msg_out();">Write a reply...</textarea>
+	                		<%else%>
+	                		<textarea disabled></textarea>
+	                		<%end%>
+	                		</td>
+	                		<td width="60px">
+	                			<input type="button" name="attach" value="attach" id="attach_reply_msg" <%if (gt_only_mem ||  @first_mess.message_type.downcase=='message')%>onclick="attach_reply_message()"<%else%>style="cursor:default;"disabled<%end%> >
+	                		</td>
+                		</tr>
+            		</table><!--input type="hidden" id="attach_rep_message"-->
+		
+		<div id="attach_rep_message"></div>
+
+                </div>
+		</td>
+		<td  valign="top" style="width: 10%;">
+		    <div class="comments_text_button" >
+		    <div  id="replay_button" <%if (gt_only_mem ||  @first_mess.message_type.downcase=='message')%>onclick="chatOn();"class="msg_rep_enable_button"<% else %>class="msg_rep_disable_button" style="cursor:default;"<%end%>><span class="reply-text">Reply to All<span></div>
+		</div>
+		
+		 <div class="clear"></div>
+		 </td></tr></table>
+              </div>
+          </div>
+	<div class="clear"></div>
+<div class="space_30" style="background-color: #f6f6f6;"></div>
+<div class="clear"></div>
+<!-- delete alert popup start -->
+<div id="messagethread_delete_alert" style="display:none;color: #111111;padding:25px;border: 2px solid #D7DADB;background-color:#FFFFFF;opacity:2.0;width: 452px;">
+	<input type="hidden" name="thrd_delete_id" id="thrd_delete_id" value=""/>
+	<div class="content_popup" style="display:block;"><br>Would you like to delete this message?<br><br>
+		 <span class="b-close"><a href="javascript:void(0)" onclick="deleteMessageThread()" title=""><div class="button_box msg-ok" >OK</div></a></span>
+        <span class="b-close"><a href="javascript:void(0)" title=""><div class="button_box msg-cancel">Cancel</div></a></span>
+
+	</div>
+</div>
+<script language="javascript">
+
+//~ $(document).ready(function () {
+//~ var img = document.getElementById('owner_image').firstChild;
+//~ img.onload = function() {
+    //~ if(img.height > img.width) {
+        //~ img.height = '100%';
+        //~ img.width = 'auto';
+    //~ }
+//~ };
+//~ });
+
+
+
+   //~ $(document).ready(function(){
+    $(".attachments").click(function(){
+        var ids=$(this).attr("id");
+        var id=ids.split("_");
+        var totval=$(this).html();
+        var tval=totval.replace ( /[^\d.]/g, '' );
+	    if (tval>8)
+		    {
+			   $("#open_div_"+id[1]).mCustomScrollbar({
+			       theme:"dark-2"
+			   });
+		    }
+      if($(this).hasClass("attachments_open")){
+        $(this).removeClass("attachments_open").addClass("attachments_close");
+        $("#open_div_"+id[1]).slideDown();
+        $("#dwon-load-div-"+id[1]).show();
+      }
+      else{
+         $(this).removeClass("attachments_close").addClass("attachments_open");
+         $("#open_div_"+id[1]).slideUp();
+         $("#dwon-load-div-"+id[1]).hide();
+      }
+      });
+    //~ });
+    
+function chatOn(){
+    //~ var send_address = $("#chat_send_emails").val();
+    //~ var thread_id = $("#chat_first_thread").val();
+    var comment = $("#reply_chat").val();
+    var msgtype = $("#msgtype").val();
+    var mess_id = $("#msg_id").val();
+    if ((comment!="")&&(comment!="Write a reply...")){
+    $(".loadmsg").show();
+    $.ajax({
+        url:'/chat_reply',
+        data: {
+            //~ "send_to": send_address,
+            //~ "for_reply_thrd_id": thread_id,
+	    "cmt": comment,
+	    "message_id": mess_id,
+	    "for_reply_type": "reply_all",
+	    "chat_on": "on",
+	    "msgtype": msgtype
+        },
+        success:function(data){
+            if (data){
+               $("#msgThreadDetList").html(data);
+	       //~ $("#notification_msg_count_"+mess_id).hide();
+            }
+        }
+    });
+   }   
+    else{
+      $(".flash-message").html(" Please enter message.");
+      var win=$(window).width();
+      var con=$(".flash_content").width();
+      var leftvalue=((win/2)-(con/2))
+      $(".flash_content").css("left",leftvalue+"px");
+      $(".flash_content").css("top","9%");
+      $('.flash_content').fadeIn().delay(5000).fadeOut();
+  } 
+
+}
+
+function attach_reply_message(){
+	 var id=$('.file_uploder').attr("id");
+	$('#'+id).click();
+	}
+	
+ function Msg_in()
+    {
+      var boxval=$("#reply_chat").val()
+      desc = boxval.replace(/^\s+|\s+$/g, "");
+      if(desc == "" || desc == "Write a reply..."){
+      	$("#reply_chat").css("color","#000")
+        $("#reply_chat").val("")
+      }
+    }
+
+    function Msg_out()
+    {
+      var boxval1=$("#reply_chat").val()
+       if (boxval1==""){
+        $("#reply_chat").val("Write a reply...")
+        $("#reply_chat").css("color","#9C9C9C")
+      }
+      
+    }
+$(document).ready(function()
+{
+
+ $(".activityName, #more_users").mCustomScrollbar({
+       theme:"dark-2"
+   });
+
+  // $("#ajax-upload-wrap_attach_rep_message").mCustomScrollbar({
+  //      theme:"dark-2"
+  //  });
+  
+  // $(".listRt,.open_div").mCustomScrollbar({
+  //     theme:"dark-2"
+  // });	
+$("#attach_rep_message").uploadFile({
+url:"/add_to_temp",
+multiple:true,
+fileName:"myfile",
+onSuccess:function(files,data,xhr)
+{
+}
+
+});
+});
+</script>
+

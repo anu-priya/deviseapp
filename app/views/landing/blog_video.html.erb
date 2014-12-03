@@ -1,0 +1,80 @@
+<%= stylesheet_link_tag "contacts_users/contact_user.css" %>
+<%= stylesheet_link_tag "event/add_participant.css" %>
+<%= stylesheet_link_tag "global/pop_up.css" %>
+<%= javascript_include_tag "contacts_users/contact_user.js" %>
+<%= javascript_include_tag "profile/add_participant_profile.js" %>
+<style type="text/css">
+  body{
+    backgrond:#fff;
+  }
+  .setfontFacebook{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:13px;
+    color:#666666;
+    vertical-align:top;
+    top:8px;
+    position:relative;
+  }
+</style>
+<!-- video files -->
+<script type="text/javascript">
+  //video popup
+  $(document).ready(function(){
+    autoPlayVideo('48TSfRjaSR0','640','300');
+    $("a.blog_video").click(function(){
+      autoPlayVideo('48TSfRjaSR0','640','300');
+    });
+  });
+ 	
+					
+</script>
+
+<script language="javascript"> 
+  function closepopup() {
+    parent.PopVidepPage.hide();    
+  }
+
+</script>
+
+<div id="contact_container" class="support_form" style="background:#fff;">
+  <div class="popupContainer" style="width:700px;">
+    <div class="popupContainerTop" style="width:700px;"></div>
+    <div class="popupContainerCenter" style="width:700px;">
+      <div class="innerContainer">
+        <div class="headTab" style="width:700px;">
+          <div class="heading" style="width:700px;">
+            <div class="headCont" style="padding-left:0px;">
+              <%if params[:parent] == "true" %>
+                Parent Tour
+              <%elsif params[:provider] == "true"%>
+                Provider Tour
+              <%else%>
+                Welcome to Famtivity
+              <%end%>
+            </div>
+          </div>
+          <div class="closeButton" style="margin-top:-27px;">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> <%= image_tag("/assets/global/pop_up/button_close.png",:width=>"15",:height=>"15") %></a>
+          </div>
+        </div>
+
+        <div class="centerCont contactNew" style="padding-top:22px; width:636px;" id="vidFrame_7">  
+          <!--<a class="blog_video" href="javascript:void(0);"><img src="/assets/landing_banner/video_image.png" /></a> -->
+          <%if params[:parent] == "true" %>
+            <iframe width="640" height="425" src="https://www.youtube.com/embed/XQj0hdpvdA8?autoplay=1&loop=1&rel=0&wmode=transparent&controls=1" style="margin:0;" frameborder="0" allowfullscreenwmode="Opaque"></iframe>
+          <%elsif params[:provider] == "true"%>
+            <iframe width="640" height="425" src="https://www.youtube.com/embed/L1uKM1aLmjc?autoplay=1&loop=1&rel=0&wmode=transparent&controls=1" style="margin:0;" frameborder="0" allowfullscreenwmode="Opaque"></iframe>
+          <%else%>
+            <iframe width="640" height="425" src="https://www.youtube.com/embed/VcAyKhXw5RI?autoplay=1&loop=1&rel=0&wmode=transparent&controls=1" style="margin:0;" frameborder="0" allowfullscreenwmode="Opaque"></iframe>
+          <%end%>
+        </div>
+      </div>
+    </div>
+    <div class="clear"></div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>
+

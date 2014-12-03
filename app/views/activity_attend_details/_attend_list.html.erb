@@ -1,0 +1,64 @@
+<%=javascript_include_tag "global/checkbox"%>
+<form name="provider_event_list" id="provider_event_list">
+<div id="providerEventList">
+<input type="hidden" id="actid_chk" name="actid_chk" value="" />
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<%if !@participants.nil? && @participants!="" && @participants.present? && @participants.length > 0%>  
+  <tr>
+    <td align="left" width="15%" class="headText setPadLt">Image</td>
+    <td align="left" width="12%" class="headText">Participant Name</td>
+    <td align="left" width="15%" class="headText">Date of Birth</td>
+    <td align="left" width="15%" class="headText">Age range</td>
+    <td align="left" width="21%" class="headText">Gender</td>
+    <td align="left" width="30%" class="headText">FamPass Code</td>
+    <!--td align="left" width="15%"class="headText">Action</td>-->
+  </tr>
+
+    <%i = 0%>
+    <%if @participants.length > 0 %>
+     <% @participants.each do |s| %>
+       <%  part =  Participant.find_by_participant_id(s) %>
+       <% tic =  ActivityAttendDetail.find_by_activity_id_and_participant_id(@a_id,s) %>
+        <%i = i + 1%>
+        <%if i.even? %>
+          <tr class="setBg2">
+        <%else%>
+          <tr class="setBg1">
+        <%end%>
+          <td align="left" width="10%" class="contentText setPadLt activityName">
+           <span class="blueText checkboxText">
+            <% if !part.nil? && part.present? && !part.participant.nil? && part.participant.present?%>
+              <%= image_tag part.participant.url(:small),:style=>"width:69px;height:69px;" %></td>
+            <% else %>
+	    <%=image_tag("/assets/profile/user_icon_69.png", :width=>"69", :height=>"69")%>
+            <% end %> 
+           </span>
+         </td>
+          <td align="left" width="15%" class="contentText"><span class="blueText"><%= truncate(part.participant_name,:length =>25, :omission => '... ') if !part.nil? && part.present? && !part.participant_name.nil? && part.participant_name.present?%></span> </td>
+          <td align="left" width="15%" class="contentText"><span class="blueText"><%= part.participant_birth_date.strftime("%d-%b-%Y")  if !part.nil? && part.present? && !part.participant_birth_date.nil? && part.participant_birth_date.present?%></span> </td>
+          <td align="left" width="15%" class="contentText"><span class="blueText"><%= part.participant_age if !part.nil? && part.present? && !part.participant_age.nil? && part.participant_age.present?%></span> </td>
+
+          <td align="left" width="21%" class="contentText"><span class="blueText"><%=part.participant_gender if !part.nil? && part.present? && !part.participant_gender.nil? && part.participant_gender.present?%></span> </td>
+      
+          <td align="left" width="30%" class="contentText"><span class="blueText"><%=tic.attend_id%><%= tic.ticket_code if !tic.nil? && tic.present? && !tic.ticket_code.nil?%><%#=tic.ticket_code%></span> </td>
+	       
+      	</span>  
+	     </td>		  
+      
+        </tr>
+      <%end%>
+
+    <%else%>
+      <tr class="setBg1">
+        <td width="40%" colspan="7" class="no_activities" style="text-align:center;height: 500px;"><%#= render "provider_create_activity" %></td>
+      </tr>
+    <%end%>
+  <%else%>
+
+  <%end%>
+</table>
+<div class="pro_pagination">
+  <%= will_paginate @participants%>
+</div>
+</div>
+</form>

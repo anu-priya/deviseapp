@@ -1,0 +1,238 @@
+<table cellspacing="0" cellpadding="0" style="width:98%; margin:12px;">   
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+       <%activitylink = activity_link_format(@activity,@act_user)%> <!-- Activity Link formation - From application helper link formation-->   
+  <%uname = (@user.class.to_s=="User") ? @user.user_name : @user.guest_name%>
+    <td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;line-height:2;" align="left" valign="top">
+	Hello <%=uname%>,
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;line-height:2;" align="left" valign="middle">
+	You've successfully bought the activity, <b><%=@activity.activity_name%></b> on Famtivity! This email contains your activity ticket.
+    </td>
+  </tr>
+  <%if @user && @user.class.to_s=='GuestDetail'%>
+    <tr>
+    <td style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;line-height:2;" align="left" valign="middle">
+	To see more cool stuff, complete your Famtivity registration with just one click!
+    </td>
+  </tr>
+   <tr>
+    <td style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;line-height:2;" align="left" valign="middle">
+	<a href="<%= @image_url%>/?guest_login=true&guest_id=<%=@user.guest_id%>" alt="" target="blank" style="color:#4495AE;">
+    <%= image_tag("#{@image_url}/assets/register/complete_your_register_button.png", style:"border:none;", alt:"Complete your registration")%>
+    </a>
+    </td>
+  </tr>
+  <%end%>
+</table>
+
+  <table  cellpadding="0" cellspacing="0" border="0" style="border:1px solid #CDE0E6; width:98%; margin:12px;">
+    <tr>
+      <td colspan="5" height="14"></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td width="245">
+      <table cellspacing="0" cellpadding="0" height="400" style="float:left; display:inline-block;padding:10px;border:1px #CDE0E6 solid;overflow:hidden;">
+	<tr>
+		<td align="center" style="background-color:#EAF8FB;">
+			<a href="http://www.famtivity.com" title="" style="padding-top:7px;display:block;width:150px;">
+        <%= image_tag("http://www.famtivity.com/assets/newsletter/newsletter_logo.png", style:"border:none;max-width:100%;width:auto;", alt:"Famtivity")%>
+			</a>
+		</td>
+	</tr>
+	<tr>
+		<td style="color:#4495AE; display: block; font-family: Arial,Helvetica,sans-serif; font-size: 16px; font-weight: bold; padding:12px 0 2px 8px;"><%= @activity.activity_name if @activity && @activity.present? && @activity.activity_name && @activity.activity_name.present?%></td>
+	</tr>
+	<tr>
+	      <td align="center" width="245" valign="top">
+		  <div style="width:230px; overflow:hidden;">
+			<a href="<%= @image_url%>/<%=activitylink%>" title="" target="_blank">
+        <img src="<%if !@activity.avatar.nil? &&  @activity.avatar.present?%><%=@image_url%><%=@activity.avatar.url(:medium)%><%else%><%=@image_url%>/assets/no_image.png<%end%>"  alt=""/></a>
+		  </div>
+	      </td>
+	</tr>
+	<tr>
+                  <td align="left" valign="top" style="color:#807E7E; display: block; font-family: Arial,Helvetica,sans-serif; font-size: 14px; padding: 5px 0 2px 8px;width: 210px;word-wrap: break-word;">
+                    <%= raw @activity.description.truncate(250)%>
+                  </td>
+	</tr>
+	<tr>
+                  <td align="left" valign="top" style="color:#4495AE; display: block; font-family: Arial,Helvetica,sans-serif; font-size: 16px; font-weight: bold; padding: 5px 0 2px 8px;">Venue</td>
+          </tr>
+	<tr>
+                  <td align="left" valign="top" style="color:#807E7E; display: block; font-family: Arial,Helvetica,sans-serif; font-size: 14px;  padding: 5px 0 2px 8px;">
+                  <% if !@activity.schedule_mode.nil? && @activity.schedule_mode=="Any Where"%>
+                    Anywhere
+                  <%else%>
+                     <%= @activity.address_1.gsub(/,/,'') if !@activity.nil? && !@activity.address_1.nil?%><% if !@activity.address_2.nil? && @activity.address_2.present?%>,&nbsp;<%= @activity.address_2%> <%end%>
+                     <% if !@activity.city.nil? && @activity.city.present?%>,&nbsp;<%= @activity.city %>.<%end%>
+                    <%end%>
+                  </td>
+	</tr>
+	<tr>
+		<td style="color:#EB5B5B;padding:5px 7px;"><% if !@activity.phone.nil? && @activity.phone.present?%>Phone:<%= @activity.phone %><%end%></td>
+	</tr>
+      </table>
+      </td>
+      <td>&nbsp;</td>
+      <td align="left" valign="top">
+        <table   cellpadding="0" cellspacing="0" border="0" style="font-family:Arial, Helvetica, sans-serif; font-size:13px;width:97%;">
+          <tr height="25">
+            <td width="200" align="left" valign="middle">
+              <div style="float:left; display:inline-block;padding-left:10px;color:#999999;"><b>Activity Name</b></div>
+            </td>
+            <td align="left" valign="middle">
+              <div style="float:left; display:inline-block;padding-left:10px;color:#5099AC"><%=@activity.activity_name unless @activity.nil? && @activity.activity_name.nil?%></div>
+            </td>
+          </tr>
+          <%@schedules = @activity.activity_schedule%>
+          <%if @activity.schedule_mode.downcase!='by appointment' && @activity.schedule_mode.downcase!='any where'%>
+            <tr height="25">
+              <td width="200" align="left" valign="top">
+                <div style="float:left; display:inline-block;padding-left:10px;color:#999999;"><b>Schedule</b></div>
+              </td>
+              <td align="left" valign="middle">
+                <div style="float:left; display:inline-block;padding-left:10px;color:#5099AC">
+                  <%if @schedules.count>0%>
+                    <%if @schedules.count==1%>
+                      <%@single_schedule = true%>
+                      <% act_sched = @schedules.last%>
+                      <%if act_sched.schedule_mode.downcase=='any time'%>
+                        <%anytimesch = AnyTimeSchedule(@activity)%>
+                        <%anytimesch && anytimesch[0] && anytimesch[0].each do |t_sch| %>
+                          <%=t_sch%><br/>
+                        <%end%>
+                        <%=(anytimesch && anytimesch[1] && anytimesch[1]!='') ? 'Closed On '+anytimesch[1] : ''%>
+                      <%elsif ((act_sched.schedule_mode.downcase=='schedule') || (act_sched.schedule_mode.downcase=='whole day'))%>
+                        <%=render "/activity_detail/display_schedule_format",:act_sched => act_sched%><%if act_sched && act_sched.activity_repeat && act_sched.activity_repeat.last%>,<%=RepeatDisplays(act_sched.activity_repeat.last)%><%end%>
+                      <%end%>
+                    <%elsif @schedules.count>1%>
+                      <%@multi_schedule = true%>
+                      <a href="<%= @image_url%>/<%=activitylink%>" title="" target="_blank" style="color:#5099AC;text-decoration:none;">More Schedules</a>
+                    <%end%>
+                  <%end%>
+                </div>
+              </td>
+            </tr>
+          <%end%>
+   
+	<tr height="20">
+              <td width="200" align="left" valign="middle">
+                <div style="float:left; display:inline-block;padding-left:10px;color:#999999;"><b>Ticket Code</b></div>
+              </td>
+              <td align="left" valign="middle">
+                <div style="float:left; display:inline-block;padding-left:10px;color:#5099AC"><%= @ticket_number if !@ticket_number.nil?%></div>
+              </td>
+	</tr>
+   
+          <tr>
+            <td colspan="2"  height="25" align="left" valign="middle">
+              <div style="float:left;width:100%; display:block; border-top:1px solid #D7DADB;margin-top:15px;margin-bottom:-8px;">&nbsp;</div>
+            </td>
+          </tr>
+
+          <% @participants && @participants.each do |p|%>
+	<%parti = Participant.find_by_participant_id(p)%>
+         	<tr height="20">
+              <td width="200" align="left" valign="middle">
+                <div style="float:left; display:inline-block;padding-left:10px;color:#999999;"><b>Participant Name</b></div>
+              </td>
+              <td align="left" valign="middle">
+                <div style="float:left; display:inline-block;padding-left:10px;color:#5099AC"><%= parti.participant_name if !parti.nil?%></div>
+              </td>
+	</tr>
+	<tr height="20">
+              <td width="200" align="left" valign="middle">
+                <div style="float:left; display:inline-block;padding-left:10px;color:#999999;"><b>Age Range</b></div>
+              </td>
+              <td align="left" valign="middle">
+                <div style="float:left; display:inline-block;padding-left:10px;color:#5099AC"><%= parti.participant_age if !parti.nil?%></div>
+              </td>
+	</tr>
+	<tr height="20">
+              <td width="200" align="left" valign="middle">
+                <div style="float:left; display:inline-block;padding-left:10px;color:#999999;"><b>Gender</b></div>
+              </td>
+              <td align="left" valign="middle">
+                <div style="float:left; display:inline-block;padding-left:10px;color:#5099AC"><%= parti.participant_gender if !parti.nil?%></div>
+              </td>
+	</tr>
+          <tr>
+            <td colspan="2"  height="25" align="left" valign="middle">
+              <div style="float:left;width:100%; display:block; border-top:1px solid #D7DADB;margin-top:15px;margin-bottom:-8px;">&nbsp;</div>
+            </td>
+          </tr>
+          <%end%>
+
+          <tr>
+            <td colspan="2" height="10"></td>
+          </tr>
+        </table>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="5" height="14"></td>
+    </tr>
+  </table>
+  
+ 
+  <table  cellspacing="0" cellpadding="0" border="0" style="padding:12px; width:98%;" width="100%">
+   <%if @user.class.to_s!='GuestDetail'%>
+	<%#@act_form=form_list_attend(@activity.activity_id)%>
+  <% @act_form = ActivityForm.where("form_id IS NOT NULL and active_status=true and activity_id=?",@activity.activity_id )%>
+	<%if !@act_form.nil? && @act_form.present? && @act_form!=''%>
+	<tr>
+		<td colspan="3"  align="left" valign="middle" height="26">
+		Click the below link to fill the online required form for this activity. This forms are prior to participation
+		</td>		
+	</tr>
+	<tr>
+		<td align="left" valign="top" colspan="3" height="10"></td>
+	</tr>
+		<%@act_form.each do |aval|%>
+      <%aval=Form.where("form_id=?",aval.form_id).last%>
+      <%aval.title%>
+			<% if aval!=''%>
+			<tr>
+				<td align="left" valign="middle" height="26" width="12">
+          <%= image_tag("http://www.famtivity.com/assets/landing_banner/selection.png", size:"12x12")%>
+				</td>
+				<td align="left" valign="middle" height="26" style="padding-left: 5px;">
+				<a href="<%= @image_url%>/<%=activitylink%>" alt="" target="blank" style="color:#4495AE;"><b><%=aval["title"]%></b></a>
+				</td>
+			</tr>
+			<%end%>
+		<%end%>	
+	<%end%>
+<%else%>
+	<tr>
+		<td align="left" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;line-height:2;">The required online forms for participation are not available for guest users. Please get in touch with the activity provider for more details.</td>
+	</tr>
+<%end%>
+</table>
+
+  
+<table cellspacing="0" cellpadding="0" style="width:98%; margin:12px;">    
+  <tr>
+    <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#444444;" height="24" align="left" valign="middle">We hope you enjoy your activity!</td>
+  </tr>
+  <tr>
+    <td height="10"></td>
+  </tr>
+  <tr>
+    <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#444444;" height="24" align="left" valign="middle">Have fun!</td>
+  </tr>
+  <tr>
+    <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;" height="24" align="left" valign="middle">Your Famtivity Team</td>
+  </tr>
+
+</table>	

@@ -1,0 +1,107 @@
+
+<link rel="stylesheet" type="text/css" href="/assets/login/login_new.css" />
+
+<link rel="stylesheet" href="/assets/contacts_users_new/contact_user.css" type="text/css" />
+<script type="text/javascript" src="/assets/contacts_users_new/contact_user.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css" />
+<script class="jsbin" src="/assets/event/jquery.min.js"></script>
+<script class="jsbin" src="/assets/event/jquery-ui.min.js"></script>
+
+<script language="javascript"> 
+var contactSuccessPage;
+//contactSuccessPage
+    function pop_contact_success(url){
+    contactSuccessPage = dhtmlmodal.open("Edit Activity","iframe",url," ", "width=900px,height=800px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height","900px");
+    
+    return false;
+  }
+  function closepopup_delete() {
+   parent.facebookImportPage.hide();
+   //parent.parent.location.reload(true);    
+   parent.parent.location.href += "?ws=1";
+  }
+  function closepopup() {
+  window.opener.document.getElementById("yahoo_id").value='2';
+   self.close();
+      window.opener.closepopup();
+  }
+
+  $(document).ready(function() {
+    var del = $('#to_delete').val();
+    var s = del.split(",")
+    $('#con_name').html($('#'+s[0]).html());
+
+  });
+</script>
+<script type="text/javascript">
+  function get_contact_id(){
+    $("#from").val("gmail");
+  }
+</script>
+<script type="text/javascript" src="/assets/jquery.form.js"></script>
+
+<div id="contact_container_new" class="popupContainer">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Friends</div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title="" style="border: none"> <img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" style="border: none" /> </a>
+          </div>
+        </div>   
+        <div id="contact_list"; class="centerCont contactNew" style="width:877px; margin-left:3px;">
+          
+		  <!--<div class="p1" align="center" style="margin:37px;">You have successfully Imported <% if !params[:subList].nil? %><%#=params[:subList].count %><% end %> contacts</div>-->
+      <div class="p1" align="center" style="margin:37px;"><% if @group < 1 %> Sorry <%=@g1%> friends already exists!! <% else %><%=@group if !@group.nil?%> out of <%=params[:subList].count if !params[:subList].nil? %> friends have been imported. <% if @g1 > 0%> <%=@g1%> friends already exist!<% end %><% end %></div>
+		  <div class="buttons" align="center" style="padding-bottom:30px;">
+			
+			<a href="javascript:void(0)" onClick="closepopup();" style="border: none"><img src="/assets/register/ok_btn.png" alt="" style="border: none"/></a>
+			 <!--<a href="javascript:void(0)" onClick="closepopup();"><img src="/assets/login/cancel_button.png" alt=""/></a>-->
+		  </div>
+
+    </div>
+    <div class="clear"></div>
+  </div>
+
+</div>
+   <div class="clear"></div>
+  <div class="popupContainerBottom" style="margin-top:0px;"></div>
+    <div class="clear"></div>
+
+  <div class="clear"></div>
+
+</div>
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+var docheight = $(window).height();
+var innerHeight = docheight - parseInt(200);
+innerHeight = innerHeight+"px";
+$('.contactNew').css('height',innerHeight);
+//$('.scroll-pane').jScrollPane();
+});
+window.onresize = function(event) {
+var docheight = $(window).height();
+var innerHeight = docheight - parseInt(200);
+innerHeight = innerHeight+"px";
+$('.contactNew').css('height',innerHeight);
+//$('.scroll-pane').jScrollPane();
+}
+</script>
+
+
+

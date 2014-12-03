@@ -1,0 +1,81 @@
+<%=stylesheet_link_tag "global/pop_up_success", :media => "all"%>
+<script language="javascript">  
+//~ $(document).ready(function(){	
+function closepopup(){
+	parent.FavoriteActivityPage.hide();
+}
+function before_closepopup(){
+  parent.FavoriteActivityPage.hide();
+  //parent.window.location.href = "/";
+  parent.window.location.reload();
+}
+ 
+function save_activity(){
+	var activity_id = $('#activity_id').val();
+	var user_id= $('#user_id').val();
+  var row= $('#row').val();
+	$.post("/activity_favorites/add_favorite", {"activity_id":activity_id,"user_id":user_id,"row":row}, null, "script");
+}
+//~ });
+</script>
+
+<div id="new_act_container">
+<div id="delete_actvity" style="visibility:visible;">
+  <div class="popupContainer">
+    <div class="headTab" style="border:none; width:418px;">
+      <div class="heading">
+      </div>
+	  <div class="closeButton" style="float:right;">
+                <%if !@before_login_value.nil? && @before_login_value.present?%> 
+                   <a href="javascript:void(0)" onClick="before_closepopup()" title=""> <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%> </a>
+                <%else%>
+                    <a href="javascript:void(0)" onClick="closepopup()" title=""> <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%> </a>
+                <%end%>
+           
+      </div>
+
+      <div class="clear"></div>
+    </div>
+    <div align="center">
+     <%@already_add = ActivityFavorite.find_by_activity_id_and_user_id(@activity_id,!current_user.nil? && current_user.user_id) if !@activity_id.nil? && !current_user.nil?%>
+      <!--to get the current activity id for delete the record from the db-->
+       <%if @already_add && !@name%>
+       <p class="successText" style="margin: 34px 0 33px;">This activity is already in your favorites.</p>
+      <%elsif @name == "favorites" && @activity_favorite != ""%>
+      <p class="successText" style="margin: 34px 0 33px;">Do you want to remove this activity from My Favorites?</p>
+      <%elsif @name == "shared" && @activity_favorite != ""%>
+      <input type="hidden" id="row" value="shared"/>
+      <p class="successText" style="margin: 34px 0 33px;">Do you want to remove this activity from Shared?</p>
+      <%else%>
+      <p class="successText" style="margin: 34px 0 33px;">Do you want to add this activity to My Favorites?</p>
+      <%end%>
+
+      <%if @already_add && !@name%>
+          <div class="clear"></div>
+          <div style="margin-top:2px;">
+            <input type="hidden" id="activity_id" value="<%= @activity_id %>"/>
+            <input type="hidden" id="user_id" value="<%= cookies[:uid_usr] %>"/>
+              <%if !@before_login_value.nil? && @before_login_value.present?%> 
+                  <a href="javascript:void(0)" onClick="before_closepopup()" title="Ok" class="save-button">Ok</a>
+              <%else%>
+                  <a href="javascript:void(0)" onClick="closepopup()" title="Ok" class="save-button">Ok</a>
+              <%end%>
+          </div>
+      <%else%>
+           <div class="clear"></div>
+          <div style="margin-top:2px;">
+            <input type="hidden" id="activity_id" value="<%= @activity_id %>"/>
+            <input type="hidden" id="user_id" value="<%= cookies[:uid_usr] %>"/>
+            <a href="javascript:void(0)" onClick="save_activity()" title="Yes" class="save-button">Yes</a>
+              <%if !@before_login_value.nil? && @before_login_value.present?%> 
+                  <a href="javascript:void(0)" onClick="before_closepopup()" title="No" class="cancel-button">No</a>
+              <%else%>
+                  <a href="javascript:void(0)" onClick="closepopup()"  title="No" class="cancel-button">No</a>
+              <%end%>
+          </div>
+       <%end%>
+    </div>
+  </div>
+</div>
+</div>
+

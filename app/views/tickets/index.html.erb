@@ -1,0 +1,73 @@
+<%=stylesheet_link_tag "event_index/menu", :media => "all"%>
+<%=javascript_include_tag "tickets/tickets","event_index/event_index","event/provider_list_update","event/ticket_provider_list_update","pagination"%>
+<link type="text/css" rel="stylesheet" href="/assets/tickets/tickets.css?v=1" />
+<link rel="stylesheet" type="text/css" href="/assets/event_index/event_index.css?v=1" />
+<script type="text/javascript">
+
+  var showPage;
+  var activitySupportPage;
+  var inviteproviderPage;
+
+  function pop_show_ticket(url){
+    showPage = dhtmlmodal.open("Edit Ticket","iframe",url," ", "width=950px,height=850px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+	$("html, body").animate({ scrollTop: 0 }, 100);
+    return false;
+  }   
+  
+  function pop_support_form(url){
+    activitySupportPage = dhtmlmodal.open("Delete Activity","iframe",url," ", "width=900px,height=650px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    //$(".drag-contentarea").css("height",height+"px");
+		
+    return false;
+  }
+  
+    function pop_invite_provider(url){
+    inviteproviderPage = dhtmlmodal.open("Edit Activity","iframe",url," ", "width=900px,height=1050px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+		
+    return false;
+  }
+
+
+</script>
+
+<style type="text/css">
+  #providerEventList .topContainer .leftMenus {
+    padding-left: 6px;
+    padding-top: 3px;
+    width: 398px;
+}
+</style>
+
+
+
+
+  
+  <div class="centerContainer" id="all_tickets" >
+        <%= render "tickets" %>
+      <%#= render :partial => "tickets" %>
+  </div>
+  
+<div class="clear"></div>
+      </div>
+	  <div class="clear"></div>
+    </div>
+  </form>
+  <div class="clear"></div>
+  
+</div>
+
+
+

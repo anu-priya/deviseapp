@@ -1,0 +1,61 @@
+<%- headers = ["Transaction ID", "Product ID", "Product Name", "Provider Name", "Provider Email", "Customer Name", "Customer Phone","Contact information", "Participant(s) Name", "Voucher", "Sale_Price($)", "Discount", "Amount Charged($)", "Minus Credit Card Fees (processing fee) 3%","Famtivity Fee 2.5% or 0.99","Net Amount Payable($)"] -%>
+<%= CSV.generate_line(headers).strip %>
+<%if !@trans.nil? && @trans.length > 0 %>
+<% @trans.each do |tran|%>
+
+
+
+ <% if !tran.transaction_id.nil? && tran.transaction_id.present?%><%tran_id = tran.transaction_id%><%else%><%tran_id = "-"%><%end%>
+ <% if !tran.activity_id.nil? && tran.activity_id.present?%><%tran_actid = tran.activity_id%><%else%><%tran_actid = "-"%><%end%>
+ <% if !tran.activity_name.nil? && tran.activity_name.present?%>
+    <%act_name = tran.activity_name.gsub("\"", "").gsub("&#039;", "'").gsub("&#126;", "~").gsub("&#92;", "\\").gsub("undefined", "").gsub("&quot;","").gsub(",",";")%>
+    <%else%><%act_name = "-"%><%end%>
+ <% if !tran.user_name.nil? && tran.user_name.present?%>
+      <%uname = tran.user_name.gsub("\"", "").gsub("&#039;", "'").gsub("&#126;", "~").gsub("&#92;", "\\").gsub("undefined", "").gsub("&quot;","").gsub(",",";")%>
+    <%else%><%uname = "-"%><%end%>   
+ <% if !tran.email_address.nil? && tran.email_address.present?%>
+      <%temail = tran.email_address.gsub("\"", "").gsub("&#039;", "'").gsub("&#126;", "~").gsub("&#92;", "\\").gsub("undefined", "").gsub("&quot;","").gsub(",",";")%>
+    <%else%><%temail = "-"%><%end%>
+ <% if !tran.customer_name.nil? && tran.customer_name.present?%>
+    	<%cus_name = tran.customer_name.gsub("\"", "").gsub("&#039;", "'").gsub("&#126;", "~").gsub("&#92;", "\\").gsub("undefined", "").gsub("&quot;","").gsub(",",";")%>
+	<%else%><%cus_name = "-"%><%end%>  
+ <% if !tran.customer_phone.nil? && tran.customer_phone.present?%>
+		<%cus_phone = tran.customer_phone.gsub("\"", "").gsub("&#039;", "'").gsub("&#126;", "~").gsub("&#92;", "\\").gsub("undefined", "").gsub("&quot;","").gsub(",",";")%>
+	<%else%><%cus_phone = "-"%><%end%>
+<% if !tran.customer_address.nil? && tran.customer_address.present?%>
+    <%cus_add = tran.customer_address.gsub("\"", "").gsub("&#039;", "'").gsub("&#126;", "~").gsub("&#92;", "\\").gsub("undefined", "").gsub("&quot;","").gsub(",",";").gsub("Address Line2;","")%>
+    <%else%><%cus_add = "-"%><%end%>	
+<% if !tran.participant_name.nil? && tran.participant_name.present?%>
+    <%partic = tran.participant_name.gsub("\"", "").gsub("&#039;", "'").gsub("&#126;", "~").gsub("&#92;", "\\").gsub("undefined", "").gsub("&quot;","").gsub(",",";")%>
+    <%else%><%partic = "-"%><%end%>    	 
+
+<% if !tran.ticket_code.nil? && tran.ticket_code.present?%><%tran_code = tran.ticket_code%><%else%><%tran_code = "-"%><%end%>
+<% if !tran.sale_price.nil? && tran.sale_price.present?%><%tran_sale = tran.sale_price%><%else%><%sale_price = "-"%><%end%>
+<%if !tran.nil? && !tran.discount.nil? && tran.discount!='' && tran.discount.present?%>
+	      <%tran_dist = tran.discount.gsub("\"", "").gsub("&#039;", "'").gsub("&#126;", "~").gsub("&#92;", "\\").gsub("undefined", "").gsub("&quot;","").gsub(",",";").gsub(""''"","") %>
+	   <%else%><%tran_dist="-"%><%end%>
+<% if !tran.amount.nil? && tran.amount.present?%><%tran_amt = tran.amount%><%else%><%tran_amt = "-"%><%end%>
+
+
+<%- row = [ tran_id,
+            tran_actid,
+            act_name,	  
+	    	uname,
+	    	temail,
+            cus_name,
+            cus_phone,
+            cus_add,
+            partic,
+            tran_code,
+            tran_sale,
+            tran_dist,
+            tran_amt,
+            "-","-",
+            tran_amt] -%>
+<%= CSV.generate_line(row).html_safe.strip%>
+<%end%>
+<%else%>
+Sorry we found no results
+<%end%>
+
+

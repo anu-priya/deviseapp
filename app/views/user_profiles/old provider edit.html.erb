@@ -1,0 +1,1105 @@
+<link rel="stylesheet" type="text/css" href="/assets/profile/profile.css" />
+<link rel="stylesheet" href="/assets/contacts_users/contact_user.css" type="text/css" />
+<link rel="stylesheet" href="/assets/event/add_participant.css" type="text/css" />
+<script type="text/javascript" src="/assets/profile/profile_select.js"></script>
+<script type="text/javascript" src="/assets/event/add_participant.js"></script>
+
+
+<style type="text/css">
+  BODY {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  INPUT {
+    vertical-align: middle;
+    font-size: 13px;
+  }
+</style>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css" />
+<script language="javascript">
+  var flag=1;
+  $(parent.window.document).click(function(){
+    if(flag==1){
+      parent.EditproviderprofilePage.hide();
+      flag=2;
+    }
+  });
+  function closepopup() {
+    parent.EditproviderprofilePage.hide();
+    flag=2;
+  }
+
+  function checkValidation(){
+
+    var lengthDiv = $('.createDynamicDivsActivityColor font').length;
+    var incDiv = lengthDiv + 1;
+    var cDiv = 1;
+    var msg='';
+    for(var i=cDiv;i<=incDiv;i++){
+      var room = $('#profile_activity_room_'+i).val();
+      if(room == ''){
+        msg+='activity room';
+      }
+      msg1='Please enter ';
+			
+      if(msg!=''){
+        $('#profile_activity_room_'+i).css("border","1px solid #fc8989");
+        $('#profile_activity_room_error_'+i).parent().css("display","block");
+        $('#profile_activity_room_error_'+i).show();
+        $('#profile_activity_room_error_'+i).html(msg1+msg);
+        $('#profile_activity_room_error_'+i).parent().css("display","block");
+				
+      }
+    }
+    var flag=1;
+    for(var i=cDiv;i<=incDiv;i++){
+      if(room!=''){
+        $('#profile_activity_room_'+i).css("border","1px solid #BDD6DD");
+        $('#profile_activity_room_error_'+i).parent().css("display","none");
+        $('#profile_activity_room_error_'+i).hide();
+        $('#profile_activity_room_error_'+i).html('');
+        $('#profile_activity_room_error_'+i).parent().css("display","none");
+        flag = 2;
+      }
+    }
+    if(flag==2){
+      addedColorDiv();
+    }
+    return false;
+  }
+
+
+  function addedColorDiv()
+  {
+
+    var lengthDiv = $('.createDynamicDivsActivityColor font').length;
+
+    if(lengthDiv<11){
+      var currentDiv = lengthDiv+2;
+      var cDiv = 2;
+		
+		
+      //alert(currentDiv);
+      var value = currentDiv;
+      //count increment
+      count=$("#part_count").val();
+      count_inc=count+","+value;
+      $("#part_count").val(count_inc);
+		
+      str_color='<font><div class="paddingTop10" id="row_'+value+'"><div class="lt leftSideField">Activity Rooms</div><input type="text" name="profile_activity_room_'+value+'" id="profile_activity_room_'+value+'"  class="lt textbox" style="color:#444;" maxlength="15" tabindex="2"/><div class="lt" style="margin-top:5px;"><a href="javascript:void(0)" onclick="deleteColorDiv('+value+')"><img src="/assets/provider_event_list/delete_icon.png" width="29" height="26" alt="" style="padding-left:5px;" /></a></div><div class="clear"></div></div></font>'
+		
+      $('.createDynamicDivsActivityColor').append(str_color);
+		
+    }
+  }
+
+  function deleteColorDiv(incVal){
+    $('#row_'+incVal).html('');
+    $('#row_'+incVal).hide();
+    $('#row_'+incVal).css('display','none');
+    $('#errorDiv_'+incVal).css("display","none");
+    $('#profile_activity_room_error_'+incVal).hide();
+    $('#profile_activity_room_error_'+incVal).html(msg1+msg);
+    $('#profile_activity_room_error_'+incVal).parent().css("display","none");
+
+    //remove_count=$("#part_count").val();
+    //r_count=remove_count.replace(incVal,'');
+    //$("#part_count").val(r_count);
+  }
+
+
+</script>
+
+
+<div id="edit_profie_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Edit Profile</div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> <img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" /> </a>
+          </div>
+        </div>
+        <div class="centerCont ">
+          <form id="provider_edit_profile" name="provider_edit_profile" action="#" method="post">
+            <div class="paddingTop10" style=".padding-top:5px;"></div>
+            <div class="edit_personal_text paddingTop10" style=".padding-top:0px;">Business Details</div>
+            <div class="paddingTop10">
+              <div class="lt leftSideField setMarginTop">Business Logo</div>
+              <div class="lt">
+                <div class="lt setImgBorder">
+                  <img src="/assets/contact/browse_box.png" id="setBrowseBorder">
+                </div>
+                <div class="lt">
+                  <div class="lt FileUpload">
+                    <input type="file" accept="image/*" onchange="document.getElementById('photo').value =this.value;" size="21" id="photo1" class="BrowserHidden" name="contact_user[contact]" style=".width:100px;"/>
+                    <div class="BrowserVisible" style="border:none;">
+                      <input type="text" name="photo" id="photo" class="FileField"  readonly="readonly" />
+
+                    </div>
+                    <span class="browse_profile"  style="cursor:pointer; position:relative; display:inline-block;"><b>Change Picture</b></span>
+                    <div class="clear"></div>
+                  </div>
+                </div>
+
+
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="photo_profile_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Business Name</div>
+                <input type="text" name="business_name" id="business_name" value="Event Academy Powered by EDA" class="lt textbox" onfocus="if(this.value == 'Event Academy Powered by EDA'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Event Academy Powered by EDA'}" tabindex="1"/>
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="bname_profile_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Activity Rooms</div>
+                <input type="text" name="profile_activity_room_1" id="profile_activity_room_1" value=""  style="color:#444;"onfocus="if(this.value == ''){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value=''}" class="lt textbox" maxlength="15" tabindex="2"/>
+                <div class="lt" style="margin-top:5px;"><a href="javascript:void(0)" title="" onclick="checkValidation()"><img class="lt addButton" src="/assets/create_new_activity/add_button.png" width="20" heigh="20" style="padding-left:5px;" alt=""/>
+                    <span class="lt addText" style="color: #186171; padding-left:5px;">Add</span></a></div>
+              </div>
+
+              <div class="clear"></div>
+              <span class="createDynamicDivsActivityColor"></span>
+
+              <div class="clear"></div>
+              <div id="errorDiv" class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_activity_room_error_1"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+
+              <div class="paddingTop10" style="padding-top:5px; .padding-top:10px;">
+                <div class="lt leftSideField">Search Categories</div>
+                <div class="lt">
+                  <div class="editProfileSelectBoxLanguage" id="setSearchBorder"   onmouseover="flagEdit11=true;" onmouseout="flagEdit11=false;">
+                    <input type="hidden" id="b_category" name="b_category" value="Select"  />
+                    <div id="field_b_category" class="selectDiv selectDivMedium" style="line-height:23px; width:511px;" tabindex="3">Select</div>
+                  </div>
+
+                  <div class="editLanguagedropDownDiv dropDownDiv_small" id="EditdropDownDiv11" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValueCategory('Sports')">Sports</a>
+                    <!--								  <a href="javascript:void(0)" onclick="setDropDownValueEight('Feb')">February</a>
+								  <a href="javascript:void(0)" onclick="setDropDownValueEight('Mar')">March</a>
+                    -->							  </div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_category_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Owner</div>
+                <div class="lt">
+                  <input type="text" name="owner_first_name" id="owner_first_name" value="Smith" onfocus="if(this.value == 'Smith'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Smith'}" class="lt textbox_username" maxlength="15" tabindex="4"/>
+                </div>
+                <div class="lt">
+                  <input type="text" style="margin-left:9px;" name="owner_last_name" id="owner_last_name" value="Kramer" onfocus="if(this.value == 'Kramer'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Kramer'}" class="lt textbox_username" maxlength="15" tabindex="5"/>
+                </div>
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="owner_firstname_error" style="width:278px; border:1px solid #fff;"></div>
+                <div class="lt" id="owner_lastname_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Administrator</div>
+                <div class="lt">
+                  <input type="text" name="admin_first_name" id="admin_first_name" value="Smith" onfocus="if(this.value == 'Smith'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Smith'}" class="lt textbox_username" maxlength="15" tabindex="6"/>
+                </div>
+                <div class="lt">
+                  <input type="text" style="margin-left:9px;" name="admin_last_name" id="admin_last_name" value="Kramer" onfocus="if(this.value == 'Kramer'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Kramer'}" class="lt textbox_username" maxlength="15" tabindex="7"/>
+                </div>
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="admin_firstname_error" style="width:278px; border:1px solid #fff;"></div>
+                <div class="lt" id="admin_lastname_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Email</div>
+                <!--
+						<input type="text" name="profile_email" id="profile_email" class="lt textbox" tabindex="1"/>
+						 -->
+                <input type="text" name="profile_email" id="profile_email" value="smith@gmail.com" onfocus="if(this.value == 'smith@gmail.com'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='smith@gmail.com'}" class="lt textbox" tabindex="8"/>
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="email_profile_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Phone, Mobile &amp; Fax</div>
+                <div class="lt">
+                  <input type="text" name="profile_phone" id="profile_phone" value="+6512454" onfocus="if(this.value == '+6512454'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='+6512454'}" class="lt mobile_textbox" maxlength="15" tabindex="9"/>
+                </div>
+                <div class="lt">
+                  <input type="text" style="margin-left:9px;" name="profile_mobile" id="profile_mobile" value="9876454546" onfocus="if(this.value == '9876454546'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='9876454546'}" class="lt mobile_textbox" maxlength="15" tabindex="10"/>
+                </div>
+                <div class="lt">
+                  <input type="text" style="margin-left:9px;" name="profile_fax" id="profile_fax" value="+44 (0)20 3147 4872" onfocus="if(this.value == '+44 (0)20 3147 4872'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='+44 (0)20 3147 4872'}" class="lt mobile_textbox" maxlength="15" tabindex="11"/>
+                </div>
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_phone_error" style="width:183px; border:1px solid #fff;"></div>
+                <div class="lt" id="profile_mobile_error" style="width:183px; border:1px solid #fff;"></div>
+                <div class="lt" id="profile_fax_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10" style="display:none;">
+                <div class="lt leftSideField">Date of Birth</div>
+                <div class="lt" style="width:95px;">
+                  <div class="editProfileSelectBox"  id="setdayBorder"  onmouseover="flagEdit1=true;" onmouseout="flagEdit1=false;">
+                    <input type="hidden" id="day_edit" name="day_edit" value="Select"  />
+                    <div id="field_edit_day" class="selectDiv selectDivMedium" style="line-height:23px; width:48px;" tabindex="4">Day</div>
+                  </div>
+
+                  <div class="editDaydropDownDiv dropDownDiv_small" id="EditdropDownDiv1" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('01')" title="">01</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('02')" title="">02</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('03')" title="">03</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('04')" title="">04</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('05')" title="">05</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('06')" title="">06</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('07')" title="">07</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('08')" title="">08</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('09')" title="">09</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('10')" title="">10</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('11')" title="">11</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('12')" title="">12</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('13')" title="">13</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('14')" title="">14</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('15')" title="">15</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('16')" title="">16</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('17')" title="">17</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('18')" title="">18</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('19')" title="">19</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('20')" title="">20</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('21')" title="">21</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('22')" title="">22</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('23')" title="">23</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('24')" title="">24</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('25')" title="">25</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('26')" title="">26</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('27')" title="">27</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('28')" title="">28</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('29')" title="">29</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('30')" title="">30</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueOne('31')" title="">31</a>
+                  </div>
+                </div>
+                <div class="lt" style="width:95px;">
+                  <div class="editProfileSelectBox"   onmouseover="flagEdit2=true;" onmouseout="flagEdit2=false;">
+                    <input type="hidden" id="month_edit" name="month_edit" value="Select"  />
+                    <div id="field_edit_month" class="selectDiv selectDivMedium" style="line-height:23px; width:48px;" tabindex="5">Month</div>
+                  </div>
+
+                  <div class="editDaydropDownDiv dropDownDiv_small" id="EditdropDownDiv2" style="display:none; width:83px;">
+                    <a href="javascript:void(0)" onclick="setDropDownValueTwo('Jan')">January</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueTwo('Feb')">February</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueTwo('Mar')">March</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueTwo('Apr')">April</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueTwo('May')">May</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueTwo('Jun')">June</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueTwo('Jul')">July</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueTwo('Aug')">August</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueTwo('Sep')">September</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueTwo('Oct')">October</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueTwo('Nov')">November</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueTwo('Dec')">December</a>
+                  </div>
+                </div>
+                <div class="lt" style="width:95px;">
+                  <div class="editProfileSelectBox"   onmouseover="flagEdit3=true;" onmouseout="flagEdit3=false;">
+                    <input type="hidden" id="year_profile_1" name="year_profile_1" value="Select"  />
+                    <div id="year_profile_setVal_1" class="selectDiv selectDivMedium" style="line-height:23px; width:48px;" tabindex="6">Year</div>
+                  </div>
+
+                  <div class="editDaydropDownDiv dropDownDiv_small" id="EditdropDownDiv3" style="display:none;">
+                    <div id="yearDisp_profile_1"></div>
+                  </div>
+                </div>
+                <div class="lt gender_text" style="width:80px; margin:8px 0 0 6px;">Gender</div>
+                <div class="lt" style="width:80px;">
+                  <div class="editProfileGenderSelectBox"   onmouseover="flagEdit7=true;" onmouseout="flagEdit7=false;">
+                    <input type="hidden" id="gender_edit" name="gender_edit" value="Select"  />
+                    <div id="field_edit_gender" class="selectDiv selectDivMedium" style="line-height:23px; width:48px;" tabindex="7">Select</div>
+                  </div>
+
+                  <div class="editGenderdropDownDiv dropDownDiv_small" id="EditdropDownDiv7" style="display:none; width:170px;">
+                    <a href="javascript:void(0)" onclick="setDropDownValueSeven('Male')">Male</a>
+                    <a href="javascript:void(0)" onclick="setDropDownValueSeven('Female')">Female</a>
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_dob_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10" style="padding-top:0px;.padding-top:5px;"></div>
+
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">Billing Address</div>
+                <input type="text" name="profile_Add1" id="profile_Add1" value="EventAcademy," onfocus="if(this.value == 'EventAcademy,'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='EventAcademy,'}" class="lt textbox" tabindex="12"/>
+                <div class="clear"></div>
+              </div>
+              <div style="margin-top:3px;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <input type="text" name="profile_Add2" id="profile_Add2" value="Stevenson St," onfocus="if(this.value == 'Stevenson St,'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Stevenson St,'}" class="lt textbox" tabindex="13"/>
+                <div class="clear"></div>
+              </div>
+
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_address_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" style="width:275px;">
+                  <div class="selectBoxEditProfileCity selectBoxMedium" id="setCountryBorder"  onmouseover="flagEdit4=true;" onmouseout="flagEdit4=false;">
+                    <input type="hidden" id="country_edit_profile" name="country_edit_profile" value="--Choose Country--"  />
+                    <div id="field_edit_country" class="selectDiv selectDivMedium" style="line-height:23px;" tabindex="14">--Choose Country--</div>
+                  </div>
+
+                  <div class="dropDownDivEditCity dropDownDivMedium" id="EditdropDownDiv4" style="display:none; height:111px; overflow-y:scroll;">
+                    <a href="javascript:void(0)" onclick="setCountryProfileValue('United States')" title="">United States</a>
+                    <a href="javascript:void(0)" onclick="setCountryProfileValue('India')" title="">India</a>
+                  </div>
+                </div>
+
+                <div class="lt">
+                  <div class="selectBoxEditProfileCity selectBoxMedium"  id="setStateBorder" onmouseover="flagEdit5=true;" onmouseout="flagEdit5=false;">
+                    <input type="hidden" id="state_edit_profile" name="state_edit_profile" value="--Choose State--"  />
+                    <div id="field_edit_state" class="selectDiv selectDivMedium" style="line-height:23px;" tabindex="15">--Choose State--</div>
+                  </div>
+                  <div class="dropDownDivEditCity dropDownDivMedium" id="EditdropDownDiv5" style="display:none; height:111px; overflow-y:scroll;">
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" style="width:275px; border:1px solid #fff;" id="profile_country_error"></div>
+                <div class="lt" id="profile_state_error"></div>
+              </div>
+
+
+              <div class="clear"></div>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" style="width:275px;">
+                  <div class="selectBoxEditProfileCity selectBoxMedium" id="setCityBorder"  onmouseover="flagEdit6=true;" onmouseout="flagEdit6=false;">
+                    <input type="hidden" id="city_edit_profile" name="city_edit_profile" value="--Choose City--"  />
+                    <div id="field_edit_city" class="selectDiv selectDivMedium" style="line-height:23px;" tabindex="16">--Choose City--</div>
+                  </div>
+
+                  <div class="dropDownDivEditCity dropDownDivMedium" id="EditdropDownDiv6" style="display:none; height:111px; overflow-y:scroll;">
+                  </div>
+                </div>
+                <div class="lt" style="width:275px;">
+                  <input type="text" style="margin-left:1px;" name="profile_zipcode" value="90143"  id="profile_zipcode" onfocus="if(this.value == '90143'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='90143'}" class="lt textbox_username" maxlength="15" tabindex="17"/>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="errorDiv" style="display:none;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" style="width:275px; border:1px solid #fff;" id="profile_city_error"></div>
+                <div class="lt" id="profile_zipcode_error"></div>
+              </div>
+
+              <div class="clear"></div>
+
+              <div class="paddingTop10" style=".padding-top:5px;"></div>
+              <div class="paddingTop10" style="padding-top:0px;">
+                <div class="lt leftSideField">Language</div>
+                <div class="lt">
+                  <div class="editProfileSelectBoxLanguage" id="setLanguageBorder"   onmouseover="flagEdit8=true;" onmouseout="flagEdit8=false;">
+                    <input type="hidden" id="language_edit" name="language_edit" value="Select"  />
+                    <div id="field_edit_language" class="selectDiv selectDivMedium" style="line-height:23px; width:511px;" tabindex="18">Select</div>
+                  </div>
+
+                  <div class="editLanguagedropDownDiv dropDownDiv_small" id="EditdropDownDiv8" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValueEight('English')">English</a>
+                    <!--								  <a href="javascript:void(0)" onclick="setDropDownValueEight('Feb')">February</a>
+								  <a href="javascript:void(0)" onclick="setDropDownValueEight('Mar')">March</a>
+                    -->							  </div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_language_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+
+
+              <div class="paddingTop10" style="padding-top:9px;"> 
+                <div class="lt leftSideField">Time Zone</div>
+                <div class="lt">
+                  <div class="editProfileSelectBoxLanguage" id="setTimezoneBorder"   onmouseover="flagEdit9=true;" onmouseout="flagEdit9=false;">
+                    <input type="hidden" id="Time_zone_edit" name="Time_zone_edit" value="Select"  />
+                    <div id="field_edit_time_zone" class="selectDiv selectDivMedium" style="line-height:23px; width:511px;" tabindex="19">Select</div>
+                  </div>
+
+                  <div class="editLanguagedropDownDiv dropDownDiv_small" id="EditdropDownDiv9" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValueNine('(GMT+08:00) Irkutsk, Ulaan Bataar')">(GMT+08:00) Irkutsk, Ulaan Bataar</a>
+                    <!--								  <a href="javascript:void(0)" onclick="setDropDownValueNine('Feb')">February</a>
+								  <a href="javascript:void(0)" onclick="setDropDownValueEight('Mar')">March</a>
+                    -->							  </div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_timezone_error"></div>
+                <div class="clear"></div>
+              </div>
+
+
+
+              <div class="clear"></div>
+
+              <div class="paddingTop10" style="padding-top:9px;">
+                <div class="lt leftSideField">Prefered date format</div>
+                <div class="lt">
+                  <div class="editProfileSelectBoxLanguage" id="setAgeBorder"   onmouseover="flagEdit10=true;" onmouseout="flagEdit10=false;">
+                    <input type="hidden" id="profile_date_edit" name="profile_date_edit" value="Select"  />
+                    <div id="field_edit_date" class="selectDiv selectDivMedium" style="line-height:23px; width:511px;" tabindex="20">Select</div>
+                  </div>
+
+                  <div class="editLanguagedropDownDiv dropDownDiv_small" id="EditdropDownDiv10" style="display:none; height:110px;">
+                    <a href="#" onclick="setDropDownValueTen('20-Oct-2012')">20-Oct-2012</a>
+                    <a href="#" onclick="setDropDownValueTen('21-Oct-2012')">21-Oct-2012</a>
+                    <a href="#" onclick="setDropDownValueTen('25-Oct-2012')">25-Oct-2012</a>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_date_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10" style="padding-top:9px;">
+                <div class="lt leftSideField">Currency</div>
+                <div class="lt">
+                  <div class="editProfileSelectBoxLanguage" id="setCurrencyBorder"   onmouseover="flagEdit12=true;" onmouseout="flagEdit12=false;">
+                    <input type="hidden" id="b_currency" name="b_currency" value="Select"  />
+                    <div id="field_b_currency" class="selectDiv selectDivMedium" style="line-height:23px; width:511px;" tabindex="21">Select</div>
+                  </div>
+
+                  <div class="editLanguagedropDownDiv dropDownDiv_small" id="EditdropDownDiv12" style="display:none;">
+                    <a href="javascript:void(0)" onclick="setDropDownValueCurrency('USA Dollars')">USA Dollars</a>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_currency_error"></div>
+                <div class="clear"></div>
+              </div>
+
+              <div class="paddingTop10" style="padding-top:10px;">
+                <div class="lt leftSideField">Web Address</div>
+                <input type="text" name="profile_web" id="profile_web" value="www.eventacademy.com" onfocus="if(this.value == 'www.eventacademy.com'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='www.eventacademy.com'}" class="lt textbox" tabindex="22"/>
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="profile_web_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="clear"></div>
+
+
+              <div class="buttonDiv" style="margin:18px 0 10px;">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+                <div class="lt">
+                  <input type="image" src="/assets/settings/save_button.png" alt="" tabindex="23" style="vertical-align:top;"/>
+                  <a href="javascript:void(0)" onClick="closepopup()" onkeydown="cancelActivityClearData(event)"><img src="/assets/settings/cancel_button.png" alt="" tabindex="24" /></a>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>
+
+<script type="text/javascript" language="javascript">
+  $(document).ready(function (){
+
+    $('#provider_edit_profile').submit(function (){
+      var body = document.body,
+      html = document.documentElement;
+      var height = Math.max( body.scrollHeight, body.offsetHeight,
+      html.clientHeight, html.scrollHeight, html.offsetHeight );
+      $(".drag-contentarea").css("height",height+"px");
+      //return false;
+	
+      var edit_photo = $("#photo").val();
+      var business_name = $("#business_name").val();
+      var profile_activity_room_1= $("#profile_activity_room_1").val();
+      var b_category = $("#b_category").val();
+      var owner_first_name = $("#owner_first_name").val();
+      var owner_last_name = $("#owner_last_name").val();
+      var admin_first_name = $("#admin_first_name").val();
+      var admin_last_name = $("#admin_last_name").val();
+      var profile_email = $("#profile_email").val();
+      var profile_phone =  $("#profile_phone").val();
+      var profile_mobile =  $("#profile_mobile").val();
+      var profile_fax =  $("#profile_fax").val();
+      var profile_Add1= $("#profile_Add1").val();
+      var profile_Add2= $("#profile_Add2").val();
+      var country_edit_profile = $("#country_edit_profile").val();
+      var state_edit_profile = $("#state_edit_profile").val();
+      var city_edit_profile = $("#city_edit_profile").val();
+      var profile_zipcode = $("#profile_zipcode").val();
+      var language_edit = $("#language_edit").val();
+      var Time_zone_edit= $("#Time_zone_edit").val();
+      var profile_date_edit= $("#profile_date_edit").val();
+      var b_currency= $("#b_currency").val();
+      var profile_web = $("#profile_web").val();
+	
+	
+	
+      $("#setBrowseBorder").css("border","none");
+      $("#business_name").css("border","1px solid #BDD6DD");
+      $("#profile_activity_room_1").css("border","1px solid #BDD6DD");
+      $("#profile_email").css("border","1px solid #BDD6DD");
+      $("#owner_first_name").css("border","1px solid #BDD6DD");
+      $("#owner_last_name").css("border","1px solid #BDD6DD");
+      $("#admin_first_name").css("border","1px solid #BDD6DD");
+      $("#admin_last_name").css("border","1px solid #BDD6DD");
+      $("#profile_phone").css("border","1px solid #BDD6DD");
+      $("#profile_mobile").css("border","1px solid #BDD6DD");
+      $("#profile_fax").css("border","1px solid #BDD6DD");
+      $("#profile_first_name").css("border","1px solid #BDD6DD");
+      $("#profile_last_name").css("border","1px solid #BDD6DD");
+      $("#profile_web").css("border","1px solid #BDD6DD");
+      $("#profile_insti").css("border","1px solid #BDD6DD");
+      $("#profile_contact").css("border","1px solid #BDD6DD");
+      $("#profile_Add1").css("border","1px solid #BDD6DD");
+      $("#profile_Add2").css("border","1px solid #BDD6DD");
+      $("#setdayBorder").css("border","none");
+      $("#setSearchBorder").css("border","none");
+      $(".selectBoxEditProfileCity").css("border","none");
+      $(".selectBoxEditProfileCity").css("border","none");
+      $("#setCountryBorder").css("border","none");
+      $("#setStateBorder").css("border","none");
+      $("#setCityBorder").css("border","none");
+      $("#setLanguageBorder").css("border","none");
+      $("#setTimezoneBorder").css("border","none");
+      $("#setCurrencyBorder").css("border","none");
+      $("#edit_profie_container .editProfileSelectBox").css("border","none");
+      $("#profile_zipcode").css("border","1px solid #BDD6DD");
+      $("#setAgeBorder").css("border","none");
+      $(".editProfileGenderSelectBox").css("border","none");
+	
+      business_name = business_name.replace(/^\s+|\s+$/g, "");
+      profile_activity_room_1 = profile_activity_room_1.replace(/^\s+|\s+$/g, "");
+      owner_first_name = owner_first_name.replace(/^\s+|\s+$/g, "");
+      owner_last_name = owner_last_name.replace(/^\s+|\s+$/g, "");
+      admin_first_name = admin_first_name.replace(/^\s+|\s+$/g, "");
+      admin_last_name = admin_last_name.replace(/^\s+|\s+$/g, "");
+      profile_email = profile_email.replace(/^\s+|\s+$/g, "");
+      profile_phone = profile_phone.replace(/^\s+|\s+$/g, "");
+      profile_mobile = profile_mobile.replace(/^\s+|\s+$/g, "");
+      profile_fax = profile_fax.replace(/^\s+|\s+$/g, "");
+      profile_Add1 = profile_Add1.replace(/^\s+|\s+$/g, "");
+      profile_Add2 = profile_Add2.replace(/^\s+|\s+$/g, "");
+      profile_zipcode = profile_zipcode.replace(/^\s+|\s+$/g, "");
+	
+      $("#photo_profile_error").html("");
+      $("#bname_profile_error").html("");
+      $("#profile_activity_room_error_1").html("");
+      $("#profile_category_error").html("");
+      $("#owner_firstname_error").html("");
+      $("#owner_lastname_error").html("");
+      $("#admin_firstname_error").html("");
+      $("#admin_lastname_error").html("");
+      $("#email_profile_error").html("");
+      $("#profile_phone_error").html("");
+      $("#profile_mobile_error").html("");
+      $("#email_fax_error").html("");
+      $("#email_fax_error").html("");
+      $("#profile_country_error").html("");
+      $("#profile_state_error").html("");
+      $("#profile_city_error").html("");
+      $("#profile_zipcode_error").html("");
+      $("#profile_language_error").html("");
+      $("#profile_timezone_error").html("");
+      $("#profile_date_error").html("");
+      $("#profile_currency_error").html("");
+      $("#profile_web_error").html("");
+	
+
+      $("#photo_profile_error").parent().css("display","none");
+      $("#bname_profile_error").parent().css("display","none");
+      $("#photo_profile_error").parent().css("display","none");
+      $("#profile_activity_room_error_1").parent().css("display","none");
+      $("#profile_category_error").parent().css("display","none");
+      $("#owner_firstname_error").parent().css("display","none");
+      $("#owner_lastname_error").parent().css("display","none");
+      $("#admin_firstname_error").parent().css("display","none");
+      $("#admin_lastname_error").parent().css("display","none");
+      $("#email_profile_error").parent().css("display","none");
+      $("#profile_phone_error").parent().css("display","none");
+      $("#profile_mobile_error").parent().css("display","none");
+      $("#email_fax_error").parent().css("display","none");
+      $("#profile_address_error").parent().css("display","none");
+      $("#profile_country_error").parent().css("display","none");
+      $("#profile_state_error").parent().css("display","none");
+      $("#profile_city_error").parent().css("display","none");
+      $("#profile_zipcode_error").parent().css("display","none");
+      $("#profile_language_error").parent().css("display","none");
+      $("#profile_timezone_error").parent().css("display","none");
+      $("#profile_date_error").parent().css("display","none");
+      $("#profile_currency_error").parent().css("display","none");
+      $("#profile_web_error").parent().css("display","none");
+	
+
+      var errorFlag = false;
+
+      if(edit_photo == ""){
+        $("#setBrowseBorder").css("border","1px solid #fc8989");
+        $("#photo_profile_error").html("Please select the image");
+        $("#photo_profile_error").parent().css("display","block");
+        errorFlag = true;
+      }
+	
+      if(edit_photo != ""){
+        val=validateBrowse();
+        if(!val){
+          $('#photo_profile_error').html('Please Check The Format Of Your Logo');
+          errorFlag = true;
+        }
+      }
+
+      if(business_name == "" || business_name == "Event Academy Powered by EDA"){
+        $("#business_name").css("border","1px solid #fc8989");
+        $("#bname_profile_error").html("Please enter business name");
+        $("#bname_profile_error").parent().css("display","block");
+        errorFlag = true;
+      }
+	
+      else if(!validateName(business_name)){
+        $("#business_name").css("border","1px solid #fc8989");
+        $("#bname_profile_error").html("Please Use Only Alphabets");
+        $("#bname_profile_error").parent().css("display","block");
+        errorFlag = true;
+      }
+
+      if(profile_activity_room_1 == "" || profile_activity_room_1 == "Blue"){
+        $("#profile_activity_room_1").css("border","1px solid #fc8989");
+        $("#profile_activity_room_error_1").html("Please enter activity rooms");
+        $("#profile_activity_room_error_1").parent().css("display","block");
+        errorFlag = true;
+      }
+	
+      if(b_category == "" || b_category == "Select"){
+        $("#setSearchBorder").css("border","1px solid #fc8989");
+        $("#profile_category_error").html("Please select the categories");
+        $("#profile_category_error").parent().css("display","block");
+        errorFlag = true;
+      }
+	
+      if(owner_first_name == "" || owner_first_name == "Smith"){
+        $("#owner_first_name").css("border","1px solid #fc8989");
+        $("#owner_firstname_error").html("Please enter the first name");
+        $("#owner_firstname_error").parent().css("display","block");
+        errorFlag = true;
+      }
+
+
+      if(owner_last_name == "" || owner_last_name == "Kramer"){
+        $("#owner_last_name").css("border","1px solid #fc8989");
+        $("#owner_lastname_error").html("Please enter the last name");
+        $("#owner_lastname_error").parent().css("display","block");
+        errorFlag = true;
+      }
+
+
+      if(admin_first_name == "" || admin_first_name == "Smith"){
+        $("#admin_first_name").css("border","1px solid #fc8989");
+        $("#admin_firstname_error").html("Please enter the first name");
+        $("#admin_firstname_error").parent().css("display","block");
+        errorFlag = true;
+      }
+
+
+      if(admin_last_name == "" || admin_last_name == "Kramer"){
+        $("#admin_last_name").css("border","1px solid #fc8989");
+        $("#admin_lastname_error").html("Please enter the last name");
+        $("#admin_lastname_error").parent().css("display","block");
+        errorFlag = true;
+      }
+	
+      if(profile_email == "" || profile_email == "smith@gmail.com"){
+        $("#profile_email").css("border","1px solid #fc8989");
+        $("#email_profile_error").html("Please enter the mail");
+        $("#email_profile_error").parent().css("display","block");
+        errorFlag = true;
+      }
+	
+      else if(!validateCorrectEmail(profile_email)){
+        $("#profile_email").css("border","1px solid #fc8989");
+        $("#email_profile_error").html("Please Check The Email Address Entered");
+        $("#email_profile_error").parent().css("display","block");
+        errorFlag = true;
+      }
+	
+      else if(!validateDot(profile_email)){
+        $("#profile_email").css("border","1px solid #fc8989");
+        $("#email_profile_error").html("Please enter the mail");
+        $("#email_profile_error").parent().css("display","block");
+        errorFlag = true;
+      }
+	
+      if(profile_phone == "" || profile_phone == "+6512454"){
+        $("#profile_phone").css("border","1px solid #fc8989");
+        $("#profile_phone_error").html("Please enter the phone number");
+        $("#profile_phone_error").parent().css("display","block");
+        errorFlag = true;
+      }
+	
+      else if(!validatePhone(profile_phone)){
+        $("#profile_phone").css("border","1px solid #fc8989");
+        $("#profile_phone_error").html("Please enter valid number");
+        $("#profile_phone_error").parent().css("display","block");
+        errorFlag = true;
+      }
+
+
+      if(profile_mobile == "" || profile_mobile == "9876454546"){
+        $("#profile_mobile").css("border","1px solid #fc8989");
+        $("#profile_mobile_error").html("Please enter the mobile number");
+        $("#profile_mobile_error").parent().css("display","block");
+        errorFlag = true;
+      }
+	
+      else if(!validatePhone(profile_mobile)){
+        $("#profile_mobile").css("border","1px solid #fc8989");
+        $("#profile_mobile_error").html("Please enter valid number");
+        $("#profile_mobile_error").parent().css("display","block");
+        errorFlag = true;
+      }
+
+      if(profile_fax== "" || profile_fax== "+44 (0)20 3147 4872"){
+        $("#profile_fax").css("border","1px solid #fc8989");
+        $("#profile_fax_error").html("Please enter the fax number");
+        $("#profile_fax_error").parent().css("display","block");
+        errorFlag = true;
+      }
+	
+      else if(isNaN(profile_fax)){
+        $("#profile_fax").css("border","1px solid #fc8989");
+        $("#profile_fax_error").parent().css("display","block");
+        $("#profile_fax_error").html("Please enter fax number");
+        errorFlag = true;
+      }
+	
+      if(profile_Add1== "" || profile_Add1== "EventAcademy,"){
+        $("#profile_Add1").css("border","1px solid #fc8989");
+        $("#profile_address_error").html("Please enter the address");
+        $("#profile_address_error").parent().css("display","block");
+        errorFlag = true;
+      }
+
+      if(profile_Add2== "" || profile_Add2== "Stevenson St,"){
+        $("#profile_Add2").css("border","1px solid #fc8989");
+        $("#profile_address_error").html("Please enter the address");
+        $("#profile_address_error").parent().css("display","block");
+        errorFlag = true;
+      }
+	
+      if(country_edit_profile== "" || country_edit_profile== "--Choose Country--"){
+        $("#setCountryBorder").css("border","1px solid #fc8989");
+        $("#profile_country_error").html("Please select the country");
+        $("#profile_country_error").parent().css("display","block");
+        errorFlag = true;
+      }
+
+      if(state_edit_profile== "" || state_edit_profile== "--Choose State--"){
+        $("#setStateBorder").css("border","1px solid #fc8989");
+        $("#profile_state_error").html("Please select the state");
+        $("#profile_state_error").parent().css("display","block");
+        errorFlag = true;
+      }
+
+      if(city_edit_profile == "" || city_edit_profile == "--Choose City--"){
+        $("#setCityBorder").css("border","1px solid #fc8989");
+        $("#profile_city_error").html("Please select the city");
+        $("#profile_city_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      if(profile_zipcode == "" || profile_zipcode == "90143"){
+        $("#profile_zipcode").css("border","1px solid #fc8989");
+        $("#profile_zipcode_error").html("Please enter the zipcode");
+        $("#profile_zipcode_error").parent().css("display","block");
+        errorFlag = true;
+      }
+	
+      else if(isNaN(profile_zipcode)){
+        $("#profile_zipcode").css("border","1px solid #fc8989");
+        $("#profile_zipcode_error").html("Please enter the number");
+        $("#profile_zipcode_error").parent().css("display","block");
+        errorFlag = true;
+      }
+	
+      if(language_edit == "" || language_edit=="Select"){
+        $("#setLanguageBorder").css("border","1px solid #fc8989");
+        $("#profile_language_error").html("Please select the language");
+        $("#profile_language_error").parent().css("display","block");
+        errorFlag = true;
+      }
+	
+      if(Time_zone_edit == "" || Time_zone_edit=="Select"){
+        $("#setTimezoneBorder").css("border","1px solid #fc8989");
+        $("#profile_timezone_error").html("Please select the time zone");
+        $("#profile_timezone_error").parent().css("display","block");
+        errorFlag = true;
+      }
+	
+      if(profile_date_edit == "" || profile_date_edit=="Select"){
+        $("#setAgeBorder").css("border","1px solid #fc8989");
+        $("#profile_date_error").html("Please select the date");
+        $("#profile_date_error").parent().css("display","block");
+        errorFlag = true;
+      }
+	
+      if(b_currency == "" || b_currency=="Select"){
+        $("#setCurrencyBorder").css("border","1px solid #fc8989");
+        $("#profile_currency_error").html("Please select the currency");
+        $("#profile_currency_error").parent().css("display","block");
+        errorFlag = true;
+      }
+
+
+      if(profile_web == "" || profile_web == "www.eventacademy.com"){
+        $("#profile_web").css("border","1px solid #fc8989");
+        $("#profile_web_error").html("Please enter the web address");
+        $("#profile_web_error").parent().css("display","block");
+        errorFlag = true;
+      }
+
+      else if(!ValidateWebsiteAddress(profile_web)){
+        $("#profile_web").css("border","1px solid #fc8989");
+        $("#profile_web_error").html("Please enter the valid web address");
+        $("#profile_web_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(!ValidateWebAddress(profile_web)){
+        $("#profile_web").css("border","1px solid #fc8989");
+        $("#profile_web_error").html("Please enter the valid web address");
+        $("#profile_web_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      //checkValidation();
+      if(errorFlag){
+        return false;
+      }
+      else{
+        return true;
+      }
+
+    });
+	
+  });
+
+  function validateName(elementValue){
+    var alphaExp = /^[a-zA-Z ]*$/;
+    return alphaExp.test(elementValue);
+  }
+  function validateBrowse(){
+    var fup = document.getElementById('photo');
+	
+    var fileName = fup.value;
+    var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+    if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg" || ext == "JPG" || ext == "png" || ext == "PNG")
+    {
+      //errorFlag = false;
+      return true;
+    }
+    else
+    {        
+      $('#photo_profile_error').parent().css("display","block");
+      $("#photo").css("border","1px solid #fc8989");
+      $('#setBrowseBorder').html('Please Check The Format Of Your Logo');
+      return false;
+    }
+  }
+
+  function validatePhone(txtPhone) {
+    var filter = /^[0-9-+]+$/;
+    return filter.test(txtPhone);
+  }
+  function validateMobile(txtMobile) {
+    var filter1 = /^[0-9-+]+$/;
+    return filter1.test(txtMobile);
+  }
+
+  function ValidateWebsiteAddress() {
+    var url = document.getElementById('profile_web').value;
+    var urlIsValid =       ValidateWebAddress(url);      //alert("Website Address is valid?:" +urlIsValid );
+    return urlIsValid ;
+  }
+    
+
+  function ValidateWebAddress(url) {
+    var webSiteUrlExp = /^(([\w]+:)?\/\/)?(([\d\w]|%[a-fA-f\d]{2,2})+(:([\d\w]|%[a-fA-f\d]{2,2})+)?@)?([\d\w][-\d\w]{0,253}[\d\w]\.)+[\w]{2,4}(:[\d]+)?(\/([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)*(\?(&?([-+_~.\d\w]|%[a-fA-f\d]{2,2})=?)*)?(#([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)?$/;
+    if (webSiteUrlExp.test(url)) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  function validateDot(elementValue) {
+    var emailSplitat = elementValue.split("@");
+    var emailSplitdotf = emailSplitat[0].split(".");
+    var emailSplitdotl = emailSplitat[1].split(".");
+  	 
+    if(emailSplitat[0].length<4){
+      return false;
+    }
+  	  	
+    if(emailSplitdotf.length>3){
+      return false;
+    }
+    if(emailSplitdotf.length<3){
+      var filter = /[^a-z/g]+/gi;
+      var filter1 = /^[0-9]+$/;
+      if(filter.test( emailSplitdotf) && filter1.test( emailSplitdotf)){
+        return false;
+      }
+    }
+    if(emailSplitdotl.length>1){
+      var prev = emailSplitdotl[0];
+      var curr = emailSplitdotl[1];
+      for(var i=1;i<emailSplitdotl.length;i++){
+        if(prev == curr ){
+          return false;
+        }
+        prev = curr;
+        curr = 	emailSplitdotl[i+1];
+      }
+    }
+    if(emailSplitdotl.length>3){
+      return false;
+    }
+    return true;
+  }
+
+  function validateCorrectEmail(elementValue){
+    var emailPattern = /^([a-zA-Z0-9]+([~{|}`^?=+*'#$!%._-]{0,1}[a-zA-Z0-9]+)*)@(([a-zA-Z0-9]+([._-]{0,1}[a-zA-Z0-9]+)*)+(?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,3})?)$/;
+    return emailPattern.test(elementValue);
+    /*var e = elementValue;
+        elementValue = e.trim();
+        var filter = /^[A-Za-z0-9][A-Za-z0-9\_\-\.]*\@[A-Za-z0-9][A-Za-z0-9\_\-\.]*\.[A-Za-z]{2,}$/;
+        var filter2 = /(\.\.+)|(\@\@+)|(\_\_+)|(\-\-+)/;
+        var filter3 = /(\.ac|\.ad|\.ae|\.aero|\.af|\.ag|\.ai|\.al|\.am|\.an|\.ao|\.aq|\.ar|\.arpa|\.as|\.at|\.au|\.aw|\.ax|\.az|\.ba|\.bb|\.bd|\.be|\.bf|\.bg|\.bh|\.bi|\.biz|\.bj|\.bm|\.bn|\.bo|\.br|\.bs|\.bt|\.bv|\.bw|\.by|\.bz|\.ca|\.cat|\.cc|\.cd|\.cf|\.cg|\.ch|\.ci|\.ck|\.cl|\.cm|\.cn|\.co|\.com|\.coop|\.cr|\.cu|\.cv|\.cx|\.cy|\.cz|\.de|\.dj|\.dk|\.dm|\.do|\.dz|\.ec|\.edu|\.ee|\.eg|\.er|\.es|\.et|\.eu|\.fi|\.fj|\.fk|\.fm|\.fo|\.fr|\.ga|\.gb|\.gd|\.ge|\.gf|\.gg|\.gh|\.gi|\.gl|\.gm|\.gn|\.gov|\.gp|\.gq|\.gr|\.gs|\.gt|\.gu|\.gw|\.gy|\.hk|\.hm|\.hn|\.hr|\.ht|\.hu|\.id|\.ie|\.il|\.im|\.in|\.info|\.int|\.io|\.iq|\.ir|\.is|\.it|\.je|\.jm|\.jo|\.jobs|\.jp|\.ke|\.kg|\.kh|\.ki|\.km|\.kn|\.kr|\.kw|\.ky|\.kz|\.la|\.lb|\.lc|\.li|\.lk|\.lr|\.ls|\.lt|\.lu|\.lv|\.ly|\.ma|\.mc|\.md|\.mg|\.mh|\.mil|\.mk|\.ml|\.mm|\.mn|\.mo|\.mobi|\.mp|\.mq|\.mr|\.ms|\.mt|\.mu|\.museum|\.mv|\.mw|\.mx|\.my|\.mz|\.na|\.name|\.nc|\.ne|\.net|\.nf|\.ng|\.ni|\.nl|\.no|\.np|\.nr|\.nu|\.nz|\.om|\.org|\.pa|\.pe|\.pf|\.pg|\.ph|\.pk|\.pl|\.pm|\.pn|\.pr|\.pro|\.ps|\.pt|\.pw|\.py|\.qa|\.re|\.ro|\.ru|\.rw|\.sa|\.sb|\.sc|\.sd|\.se|\.sg|\.sh|\.si|\.sj|\.sk|\.sl|\.sm|\.sn|\.so|\.sr|\.st|\.su|\.sv|\.sy|\.sz|\.tc|\.td|\.tel|\.tf|\.tg|\.th|\.tj|\.tk|\.tl|\.tm|\.tn|\.to|\.tp|\.tr|\.travel|\.tt|\.tv|\.tw|\.tz|\.ua|\.ug|\.uk|\.um|\.us|\.uy|\.uz|\.va|\.vc|\.ve|\.vg|\.vi|\.vn|\.vu|\.wf|\.ws|\.ye|\.yt|\.yu|\.za|\.zm|\.zw)$/i;
+	
+	
+        if( (!filter.test( elementValue ))  || ( filter2.test( elementValue )) || ( !filter3.test( elementValue )) ) {
+                return false;
+        }
+        return true;*/
+  }
+
+</script>
+

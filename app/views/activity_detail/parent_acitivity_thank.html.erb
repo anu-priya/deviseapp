@@ -1,0 +1,34 @@
+<%=stylesheet_link_tag "global/pop_up_success", :media => "all"%>
+<script language="javascript">
+  $(document).ready(function(){
+    $("html, body", window.parent.document).animate({ scrollTop: 0 }, 100);
+  });
+</script>
+<script language="javascript">
+  function closepopup() {
+    parent.editActivityPage.hide();
+   // parent.parent.location.reload(true);
+   parent.parent.location.href += "";
+  }
+</script>
+<div id="share_actvity_success">
+  <div class="popupContainer">
+    <div class="headTab">
+      <div class="heading">
+        <div class="headCont">Edit Activity</div>
+      </div>
+      <div class="lt closeButton">
+        <a href="/" target="_top" title="" class="lt">
+          <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%>
+        </a>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div align="center">
+      <p class="successText">You have successfully edited this activity!</p>
+      <div class="clear"></div>
+      <a href="javascript:void(0)" onClick="closepopup()" target="_top" title=""><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38", :style=>"border:0px;")%></a>
+    </div>
+  </div>
+</div>
+

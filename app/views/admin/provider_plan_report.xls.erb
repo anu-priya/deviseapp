@@ -1,0 +1,38 @@
+<table>
+	<tr>
+		<td>Transaction ID</td>
+		<td>Transaction Date</td>
+		<td>Provider Name</td>
+		<td>Email ID</td>
+		<td>Plan Name</td>
+		<td>Price</td>
+		<td>Plan Status</td>
+	</tr>
+  <%if !@user_plan_r.nil? && @user_plan_r.length > 0 %>
+    <% @user_plan_r.each do |uval|%>
+      <tr>
+	<td><%=uval["transaction_id"] if !uval["transaction_id"].nil? && uval["transaction_id"]!=''%></td>
+	<td><%=uval["payment_date"].strftime("%b %d, %Y")  if !uval["payment_date"].nil? && uval["payment_date"]!=''%></td>
+	<td>	<%=uval["business_name"]  if !uval["business_name"].nil? && uval["business_name"]!=''%>	</td>
+	<td><%=uval["email_address"]  if !uval["email_address"].nil? && uval["email_address"]!=''%></td>
+	<td><%=uval["user_plan"]  if !uval["user_plan"].nil? && uval["user_plan"]!=''%></td>
+	<td><%="$#{(number_with_precision uval["amount"], :precision => 2)}"  if !uval["amount"].nil? && uval["amount"]!=''%></td>
+	<td><% if uval["action_type"].blank?%>
+		New Signup
+	<%elsif uval["action_type"].downcase == 'upgrade' %>
+		Upgraded
+	<%elsif uval["action_type"].downcase == 'downgrade' %>
+		Downgraded
+	<%elsif uval["action_type"].downcase == 'auto_renewal' || uval["action_type"].downcase == 'plan-renewal'%>
+		Renewed
+	<%elsif uval["action_type"].downcase == 'deactivate' %>
+		Deactivate
+	<%end%></td>
+      </tr>
+    <% end %> 
+  <%else%>
+      <tr>
+          Sorry we found no results
+      </tr>
+  <%end%>
+  </table>

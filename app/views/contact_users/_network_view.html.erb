@@ -1,0 +1,71 @@
+<link rel="stylesheet" href="/assets/contacts_users_new/contact_user.css" type="text/css" />
+<div class="centerCont">
+  <form id="edit_contact_i" name="create_contact" method="post" enctype="multipart/form-data" onsubmit="return validateContact();">
+    <div class="viewContact1" style="padding-top:20px;">
+      <table cellspacing="0" cellspadding="0" border="0" width="700" style="margin: 0 auto">
+        <tr>
+          <td width="180" align="left" style="padding-left:40px;" valign="top">
+
+
+     		<%if @fam_owner.user_profile.present? && !@fam_owner.user_profile.profile_file_name.nil?%>
+     		 <div style="margin: 0px 5px 0px 79px;">
+      				<%= image_tag @fam_owner.user_profile.profile.url(:original), :width => "62", :height => "52", :alt=>"Loading..." if !@fam_owner.user_profile.profile.url(:original).nil?%>
+      		</div>
+      		<% else %>
+      			<span class="contactImg"><span>No Image</span></span>
+
+            <!-- <div><img src="/assets/profile/profile_left_pic.png" style="border:1px solid #CEE1E8;"></div>-->
+             <% end %>
+		  	
+		  </td>
+		  <td width="520" style="border:1px solid #d7dadb;" valign="top">
+		  	
+		  	<input type="hidden" name="con_id" id="con_id" value="<%=@contact_user.contact_id if !@contact_user.nil? && !@contact_user.contact_id.nil? %>" class="lt textbox" />
+		  	<div>
+				  <div class="contactNameText setWidthName">Name</div>
+				  <div class="contactNameText" style="padding-top:10px;"><%= @fam_owner.user_name if !@fam_owner.nil? && !@fam_owner.user_name.nil?%></div>
+			</div>
+			  <div class="clear"></div>
+			 <div>
+				  <div class="contactNameText setWidthName">Email</div>
+				  <div class="contactNameText" style="padding-top:10px;"><%= @fam_owner.email_address if !@fam_owner.nil? && !@fam_owner.email_address.nil?%></div>
+			 </div>
+			  <div class="clear"></div>
+			  <div style="margin-bottom:10px;">
+				  <div class="contactNameText setWidthName">Mobile Number</div>
+				  <div class="contactNameText" style="padding:10px 0 10px 0;"><%= @fam_owner.user_profile.mobile if !@fam_owner.nil? && @fam_owner.user_profile.nil? && !@fam_owner.user_profile.mobile.nil?%></div>
+			  <div class="clear"></div>
+			  <div style="margin-bottom:10px;">
+				  <div class="contactNameText setWidthName">Group</div>
+				  <div class="contactNameText" style="padding:10px 0 10px 0;" title=""><%= truncate(@fam_group.group_name,length: 20) if !@fam_group.nil? && !@fam_group.group_name.nil? %></div>
+			  <div class="clear"></div>
+			</div>
+		  </td>
+		  <%if @show_detail.nil? && @show_detail!="true"%>
+		  <tr>
+		    <td>&nbsp;</td>
+			<td>
+			  <div style="margin:20px 0 20px 0;">
+			  	<!--<input id="edit_contact_i" type="image" onClick="edit_con()" src="/assets/register/edit_button.png" alt="" class="editImage" tabindex="1"/>-->
+			  	<a href="javascript:void(0)" onClick="edit_con()"><img src="/assets/register/edit_button.png" alt="" tabindex="1"/></a>
+			  	<a href="javascript:void(0)" onClick="closepopup()"><img src="/assets/contact/cancel_button_new.png" alt="" tabindex="2"/></a>
+			  </div>
+			</td>
+		  </tr>
+		  <%end%>
+        </tr>
+      </table>
+    </div>
+
+  </form>
+</div>
+
+<script language="javascript">
+  
+  
+  function edit_con(){
+		var c_id = $('#con_id').val();
+		$.post("contact_edit", {"id":c_id}, null, "script");
+  }
+
+</script>

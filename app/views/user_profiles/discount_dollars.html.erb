@@ -1,0 +1,327 @@
+<script type="text/javascript">   
+   $(function(){
+    $('#menu ul li a').hover(function (){
+      $('.actDiv').css('border','1px solid #DBEEF4');
+    }, function(){
+       $('.actDiv').css('border','1px solid #F6F8F7');
+    });
+  });
+
+//report td hide and show
+	function click_less(){
+		$(".td_less").hide();
+		$(".td_more").show();
+		$(".td_hide").show();
+	}
+	function click_more(){
+		$(".td_less").show();
+		$(".td_more").hide();
+		$(".td_hide").hide();
+	}
+</script>
+<style>
+/*report td hide and show*/
+.td_hide{
+		display:none;
+	}
+	.td_more{
+		display:none;
+	}
+  #providerEventList{
+    background:#F6F8F7;
+  }
+  #providerEventList .topContainer .leftMenus{
+    /* width:100%;*/
+  }
+  #providerEventList .topContainer span.num_Act{
+    color: #807E7E;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    position: relative;
+    top: 0px;
+    left:6px;
+    .top: 2px;
+  }
+  @media \0screen{
+    #providerEventList .topContainer span.num_Act{
+      top: 0px;
+    }
+  }
+  #providerEventList .topContainer .pipeSymbol{
+    position:static;
+    vertical-align:inherit;
+    .position:relative;
+    .top:-1px;
+    vertical-align:inherit;
+  }
+  #menu {
+    display: inline-block;
+    position: relative;
+    top: 4px;
+    .top: -3px;
+    left:10px;
+  }
+
+
+  
+
+  .setColor{
+    color:#4c92b4;
+  }
+  #filter_admin_category{
+    .margin-top:8px;
+  }
+  #filter_by_provider{
+    .margin-top:8px;
+  }
+  #providerEventList .topContainer .event_search{
+    width:190px;
+  }
+  #providerEventList .topContainer .searchDiv{
+    width:280px;
+  }
+  #providerEventList .topContainer .checkboxImg{
+    top:5px;
+    .top:7px;
+  }
+  .dispProviderCatDiv{
+    width: 700px;    
+  }
+  .eventmoreContainer .centerContainer{
+    width: 700px;
+  }
+  .eventmoreContainer .innerContainer{
+    width: 700px;
+  }
+  #acc #nested .accDiv{
+    width: 688px;
+  }
+  #acc #nested .accDiv h3{
+    width: 680px;
+  }
+  #acc #nested .acc-content{
+    width: 661px;
+  }
+  #acc #nested .acc-content .inner_acc-content{
+    width:203px;
+  }
+  #providerEventList .topContainer .menuText{
+    font-weight:bold;
+  }
+  #acc #nested .acc-content{
+    height: 96px;
+  }
+  #acc #nested .acc-content .inner_acc-content{
+    height:26px;
+    margin:0;
+  }
+  #event_index_container .Setlt{
+    height:auto;
+    margin:0;
+  }
+  #event_index_container .grayColorText{
+    color: #807E7E;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight:normal;
+  }
+  #event_index_container .setSportsText{
+    cursor:pointer;
+    width:auto;
+    margin: 15px 0;
+  }
+  #event_index_container .setSportsText:hover{
+    cursor:pointer;
+    width:auto;
+    margin: 15px 0;
+  }
+  #event_index_container .errorDiv{
+    margin:5px 0 0 10px;
+    color:#fc8989;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+  }
+  #event_index_container .provider_menu{
+    float:left;    
+    height:240px;
+    overflow-y:auto;
+    margin: -27px 0 0 140px;	
+    font-size:13px;
+    background:#F6F8F7;
+    color:#959292;
+    border:1px solid #C2DDE4; 
+    padding: 10px 10px 0 0;
+  }
+  #event_index_container .provider_menu a{	
+    color:#959292;
+    display:block;
+    white-space: nowrap;
+    text-decoration:none;
+    padding:5px 10px 5px 8px;
+  }
+  #event_index_container .provider_menu a:hover{
+    display:block;
+    white-space: nowrap;
+    text-decoration:none;
+    padding:5px 10px 5px 8px;	
+    color:#F97C0E;
+  }
+  @media \0screen{
+    #menu {
+      top: 4px;
+    }
+  }
+  #event_index_container .status_menu{
+    float:left;    
+    height:240px;
+    overflow-y:auto;
+    margin: -27px 0 0 140px;	
+    font-size:13px;
+    background:#F6F8F7;
+    color:#959292;
+    border:1px solid #C2DDE4; 
+    padding: 10px 10px 0 0;
+  }
+  #event_index_container .status_menu a{	
+    color:#959292;
+    display:block;
+    white-space: nowrap;
+    text-decoration:none;
+    padding:5px 10px 5px 8px;
+  }
+  #event_index_container .status_menu a:hover{
+    display:block;
+    white-space: nowrap;
+    text-decoration:none;
+    padding:5px 10px 5px 8px;	
+    color:#F97C0E;
+  }
+#providerEventList .topContainer{
+    width:100%;
+    height:40px;
+    background:#F6F8F7;
+	padding-top:10px;
+	.margin-top:0px;
+}
+#menu li:hover ul.sub-menu {
+	display: block;
+	z-index: 2147483647;
+	position: absolute;
+	left: 0;
+	 width: auto;
+}
+#event_index_container .GoButton{
+	left: 7px;
+	 top: 2px;
+}
+.ui-datepicker-trigger {
+    cursor: pointer;
+    float: right;
+    margin-top: -21px;
+    .margin-top: 0px;
+}
+#providerEventList  .selectedMenuText{
+    color:#5aa3b6;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight:bold;
+    font-size:14px;
+}
+#providerEventList .dot{
+    display:inline-block;
+    position:relative;
+    top:3px;
+}
+#providerEventList  .menuText{
+    color:#5aa3b6;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight:normal;
+    font-size:14px;
+}
+.actImg{
+	display:inline-block;
+	margin-left:3px;
+	margin-left:-1px\0/IE9;
+}
+
+</style>
+<script type="text/javascript">
+  function activity_transaction12(args) {
+    if(args == "Discount"){
+      $("#setActivity").html('Discount Dollar');
+      $("#filter_admin_date").css('display','inline-block');
+      $("#byActivityDiv").css('display','none');
+    }
+    if(args == "Credit"){
+      $("#setActivity").html('Credit History');
+      $("#filter_admin_date").css('display','inline-block');
+      $("#byActivityDiv").css('display','none');
+    }
+    if(args == "Debit"){
+      $("#setActivity").html('Debit History');
+      $("#filter_admin_date").css('display','inline-block');
+      $("#byActivityDiv").css('display','none');
+    }
+  }
+</script>
+
+<body id="CategoriesBarPage">
+
+ <div id="event_index_container">
+  <input type="hidden" id="actid_chk" name="actid_chk" value="" />
+  
+
+  <form style="height:730px;" id="provider_event_list" name="provider_event_list">
+    <div style="margin-top:46px; .margin-top:0px;  " id="providerEventList">
+     <table cellspacing="0" cellpadding="0" width="100%" border="0">
+		<tr>
+			 <td height="16" align="center" class="header_div" style="display:block; padding: 18px 0px 15px 0px;border-bottom: 1px solid #CDE1E8;">
+			  <div class="transDivMenu" id="menu" style="left:16px;top:0px;float: left;">
+                          <ul>
+                            <li><a style="width:140px;display:block;margin-top:-4px;height: 20px;" class="transDiv" href="#" ><span class="menuText"><b id="setActivity">Discount detail</b></span><span class="actImg">
+                              <%= image_tag("/assets/event_index/dropdown_arrow.png", size: "7x4", style:"position: relative; top: -1px;", id:"arrow1")%>
+                            </span></a>
+                              <ul style="width:150px;height:82px;margin-left:-9px; .margin-left:-9px;z-index:100000; .top:-10px;" class="sub-menu dispProvidertransDiv">
+                                <li><a href="javascript:void(0)" title="" id="select" onClick="activity_transaction12('Discount')" >Discount Dollar</a></li>
+                                <li><a href="javascript:void(0)" title="" id="select" onClick="activity_transaction12('Credit')" >Credit History</a></li>
+				<li><a href="javascript:void(0)" title="" id="select" onClick="activity_transaction12('Debit')" >Debit History</a></li>
+                              </ul>
+                            </li>
+                          </ul>
+                          <div class="clear"></div>
+                        </div>
+			<div>
+			  <span><a href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? %>" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity List']);">Activity List</a></span>
+			  <span class="dot menuText">&bull;</span>
+			  <span><a href="/provider_activites" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity Cards']);">Activity Cards</a></span>
+			  <span class="dot menuText">&bull;</span>
+			  <span><a href="/activity_provider_schedule" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Schedule']);">Schedule</a></span>
+			  <span class="dot menuText">&bull;</span>
+			  <span><a href="/provider_profile" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Business Info']);">Business Info</a></span>
+			  <span class="dot menuText">&bull;</span>
+			  <span><a href="/provider_policies" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Policies']);">Policies</a></span>
+			  <span class="dot menuText">&bull;</span>
+			  <span><a href="/provider_plan" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Plan']);">Plan</a></span>
+			  <span class="dot menuText">&bull;</span>
+			  <span><a href="/change_password" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Passwords']);">Passwords</a></span>
+			  <span class="dot menuText">&bull;</span>
+			  <span><a href="/provider_settings" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Settings']);">Settings</a></span>
+                          <span class="dot menuText">&bull;</span>                         
+			  <span><a href="/transaction" class="menuText" title="" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Reports']);"><b>Reports</b></a></span>
+			</div>
+			</td>
+		</tr>
+	  </table>
+      
+      
+    </div>
+  </form>
+  <div class="clear"></div>
+</div>
+
+  <!--ajax loader -->
+  <div id='loadingmessage' style='display:none;margin-top:-415px' align="center">
+    <%= image_tag("/assets/ajax-loader.gif")%>
+  </div>
+
+  <div class="clear"></div>

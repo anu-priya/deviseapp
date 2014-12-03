@@ -1,0 +1,170 @@
+<%if params[:any] == "yes"%>
+  <div class="dropdwon2">
+    <%if @chose_disc.quantity == true%>
+      <div class="discont_head"><b>Quantity</b></div>
+    <%end%>
+    <%if @chose_disc.valid_date == true%>
+      <div class="discont_head"><b>Valid until</b></div>
+    <%end%>
+    <div class="discont_head1"><b>Discount Amount/Percentage</b></div>
+  </div>
+  <div class="dropdwon3">
+    <%if @chose_disc.quantity == true%>
+      <div class="discont_head"> <input type="text" name="ad_no_subs_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>" id="ad_no_subs_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>" class="textbox" onblur="if (this.value==''){ this.value ='Eg: 3';$(this).css('color','#999999');}" onfocus="if (this.value=='Eg: 3') { this.value ='';$(this).css('color','#444444');}" onkeypress="return number(event);"  maxlength="5" value="Eg: 3" style="width: 150px"></div>
+    <%end%>
+    <%if @chose_disc.valid_date == true%>
+      <div class="discont_head"> <div style="margin-right:5px;width: 150px;" class="dateDiv"><input type="text" onchange="$(this).css('color','#444444');" onkeypress="return number(event);" style="outline: none;width:120px" readonly="readonly" value="" class="dateTextbox" name="ad_valid_date_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>" id="ad_valid_date_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>"><input type="hidden" value="" name="ad_valid_date_alt_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>" id="ad_valid_date_alt_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>"></div></div>
+    <%end%>
+    <div class="discont_head1">   <input type="text" name="ad_discount_price_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>" id="ad_discount_price_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>" onblur="if (this.value==''){ this.value ='Eg: 3';$(this).css('color','#999999');}" onfocus="if (this.value=='Eg: 3') { this.value ='';$(this).css('color','#444444');}" onkeypress="return number(event);"  maxlength="5" value="Eg: 3" class="textbox" style="width: 100px;" >
+      <select name="ad_discount_price_type_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>" id="ad_discount_price_type_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>" class="dropdwon_choose drop_down_left" style="width: 45px;margin-left:5px;">
+        <option value="$" >$</option>
+        <option value="%">%</option>
+      </select>
+    </div>
+
+    <div class="discont_head" style="width: 8%">
+      <div class="lt add_delete_icons" id="early_bid_icons_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>">
+        <div class="delete_single_schedule delete_single_schedule_any_<%= params[:net] %><%= params[:id2] %>_<%= params[:id2] %>" style="margin-top:0px;" onclick="delete_discount_anytime('<%= params[:net] %>',<%= params[:id1] %>,<%= params[:id2] %>)">&nbsp;</div>
+        <a href="javascript:void(0)" class="lt addButton_net_1_1 single_add_any_<%= params[:net] %><%= params[:id2] %>_<%= params[:id2] %>" id="single_add_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>"title="" onClick="new_validate_early_bid_anytime('<%= params[:net] %>',<%= params[:id1] %>,<%= params[:id2] %>)" style="display:inline-block; position:relative;" class="lt addButton">
+          <%= image_tag("/assets/create_new_activity/add_icon.png",width: "22", height: "22") %>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="errorDiv" style="display:none">
+    <div id="advance_early_bid_error_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>"></div>
+  </div>
+  <script>
+      
+    var b='<%= params[:id1] %>';
+    var q ='<%= params[:id2] %>';
+   
+    var net='<%= params[:net] %>';
+ 
+    if(net=="net_")
+    {
+      $(".delete_single_schedule_any_net_1_1").css("display","none");
+      $(".single_add_any_net_1_1").css("display","none");
+        
+      var count_inc=$("#net_price_anytime #multiple_discount_count_net_1_1").val();
+      var count_incs=count_inc.split(',');
+      if(count_incs.length>1)
+      {
+        $(".delete_single_schedule_any_net_1_1").css("display","block");
+        $("#single_add_net_"+b+"_"+q).css("display","block");
+      }
+      else{
+       
+        $(".delete_single_schedule_any_net_1_1").css("display","none");
+        $("#single_add_net_"+b+"_"+q).css("display","block");
+      }
+    }
+    else {
+      $(".delete_single_schedule_any_"+q+"_"+q).css("display","none");
+      $(".single_add_any_"+q+"_"+q).css("display","none");
+      var count_inc=$("#net_price_anytime #multiple_discount_count_"+q+"_"+q).val();
+        
+      var count_incs=count_inc.split(',');
+      if(count_incs.length>1)
+      {
+        $(".delete_single_schedule_any_"+q+"_"+q).css("display","block");
+        $("#single_add_"+b+"_"+q).css("display","block");
+      }
+      else{
+       
+        $(".delete_single_schedule_any_"+q+"_"+q).css("display","none");
+        $("#single_add_"+b+"_"+q).css("display","block");
+      }
+    }
+  
+  </script>
+
+<%else%>
+
+
+  <div class="dropdwon2">
+    <%if @chose_disc.quantity == true%>
+      <div class="discont_head"><b>Quantity</b></div>
+    <%end%>
+    <%if @chose_disc.valid_date == true%>
+      <div class="discont_head"><b>Valid until</b></div>
+    <%end%>
+    <div class="discont_head1"><b>Discount Amount/Percentage</b></div>
+  </div>
+  <div class="dropdwon3">
+    <%if @chose_disc.quantity == true%>
+      <div class="discont_head"> <input type="text" name="ad_no_subs_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>" id="ad_no_subs_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>" class="textbox" onblur="if (this.value==''){ this.value ='Eg: 3';$(this).css('color','#999999');}" onfocus="if (this.value=='Eg: 3') { this.value ='';$(this).css('color','#444444');}" onkeypress="return number(event);"  maxlength="5" value="Eg: 3" style="width: 150px"></div>
+    <%end%>
+    <%if @chose_disc.valid_date == true%>
+      <div class="discont_head"> <div style="margin-right:5px;width: 150px;" class="dateDiv"><input type="text" onchange="$(this).css('color','#444444');" onkeypress="return number(event);" style="outline: none;width:120px" readonly="readonly" value="" class="dateTextbox" name="ad_valid_date_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>" id="ad_valid_date_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>"><input type="hidden" value="" name="ad_valid_date_alt_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>" id="ad_valid_date_alt_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>"></div></div>
+    <%end%>
+    <div class="discont_head1">
+      <input type="text" name="ad_discount_price_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>" id="ad_discount_price_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>" onblur="if (this.value==''){ this.value ='Eg: 3';$(this).css('color','#999999');}" onfocus="if (this.value=='Eg: 3') { this.value ='';$(this).css('color','#444444');}" onkeypress="return number(event);"  maxlength="5" value="Eg: 3" class="textbox" style="width: 100px;" >
+      <select name="ad_discount_price_type_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>" id="ad_discount_price_type_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>" class="dropdwon_choose drop_down_left" style="width: 45px;margin-left:5px;">
+        <option value="$" >$</option>
+        <option value="%">%</option>
+      </select>
+    </div>
+
+    <div class="discont_head" style="width: 8%">
+      <div class="lt add_delete_icons" id="early_bid_icons_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>">
+        <div class="delete_single_schedule delete_single_schedule_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>" style="margin-top:0px;" onclick="delete_single_net_price('<%= params[:net] %>',<%= params[:id1] %>,<%= params[:id2] %>,<%= params[:id3] %>)">&nbsp;</div>
+        <a href="javascript:void(0)"  class="lt addButton_net_1_1 single_add_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>" id="single_add_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>" title="" onClick="validate_early_bid('<%= params[:net] %>',<%= params[:id1] %>,<%= params[:id2] %>,<%= params[:id3] %>,1,1)" style="display:inline-block; position:relative;left:0px;" class="lt addButton">
+          <%= image_tag("/assets/create_new_activity/add_icon.png",width: "22", height: "22") %>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="errorDiv" style="display:none">
+    <div id="advance_early_bid_error_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>"></div>
+  </div><div class="clear"></div>
+  <script>
+    
+    var b= <%= params[:id1] %>;
+    var q = <%= params[:id2] %>;
+    var h= <%= params[:id3] %>;
+    var net='<%= params[:net] %>';
+
+    if(net=="net_")
+    {
+      $(".delete_single_schedule_net_"+b+'_'+q).css("display","none");
+      $(".single_add_net_"+b+'_'+q).css("display","none");
+      var values=$("#last_in_discount_id_"+b).val();
+      values=values.split(',');
+      if(values.length>1)
+      {
+        $(".delete_single_schedule_net_"+b+'_'+q).css("display","block");
+        $("#single_add_net_"+b+"_"+q+"_"+h).css("display","block");
+      }
+      else{
+        
+        $(".delete_single_schedule_net_"+b+'_'+q).css("display","none");
+        $("#single_add_net_"+b+"_"+q+"_"+h).css("display","block");
+      }
+    }
+    else{
+      var early_values=$("#early_div_count_"+b+"_"+q).val();
+      early_values=early_values.split(',');
+    
+     
+      if(early_values.length>1)
+      {
+        $(".delete_single_schedule_"+b+"_"+q).css("display","block");
+        $("#single_add_"+b+"_"+q+"_"+h).css("display","block");
+      }
+      else if(early_values.length==1)
+      {
+        $(".delete_single_schedule_"+b+"_"+q).css("display","none");
+        $("#single_add_"+b+"_"+q+"_"+h).css("display","block");
+      }
+    }
+  </script>
+
+
+
+<%end%>
+
+
+

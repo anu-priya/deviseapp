@@ -1,0 +1,22 @@
+<div id="search_event_index">
+	<div style="<%if current_user.nil?%>margin-top:0px;<%end%>">
+	  <input type="hidden" id="total_length_act" name="total_length_act" value="<%= @tpage %>"/>
+	  <div class="dottedDiv" style="position:relative;"></div>
+	  <div class="lt">
+	    <table cellspacing="0" cellpadding="0" border="0" class="search_result_text">
+	      <tr>
+		<td align="left" valign="top">
+		  <%=image_tag("/assets/landing/search_results_icon.png", :width=>"20", :height=>"18", :alt=>"Search Results")%>
+		</td>
+		<td  align="left" valign="top">
+		  <div class="Title_head" ><b>Search Results</b> <span id="fsearch_count">(<% if !@search_count.nil? && @search_count.present?%><%=@search_count%><%else%>0<%end%>)</span></div>
+		</td>
+	      </tr>
+	    </table>
+	  </div>
+	</div>
+	<div class="right_container" style="margin-top: 15px;margin-bottom:20px;">
+	  <%= render "basic_search"%>
+	</div>
+</div>
+	  

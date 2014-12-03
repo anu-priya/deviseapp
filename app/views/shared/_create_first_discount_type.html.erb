@@ -1,0 +1,224 @@
+
+
+<%if params[:any] == "yes"%>
+  <div id="multiple_discount_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>" class="multiple_discount">
+    <div class="priceRow2_top">
+      <div class="lt blackText setWidthDiscount" style="margin-bottom: 5px;">Discount Type and Price</div>
+    </div>
+    <div class="clear"></div>
+    <div class="priceRow2_bottom">
+      <div class="lt discout_type">
+        <select name="ad_discount_type_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>" id="ad_discount_type_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>" class="drop_down_left width_set6" style="color:#444444;" onchange="disc_any_TypeChanged('<%= params[:net] %>',<%= params[:id1] %>,<%= params[:id2] %>,this.value)">
+          <option value="">--Choose Discount Type--</option>
+          <%@provid_disc_types.each do |s|%>
+            <option value="<%= s.provider_discount_type_id %>"><%= s.discount_name %></option>
+          <%end%>
+        </select>
+      </div>
+      <div class="create_new" onclick="open_createnew_discoption(); _gaq.push(['_trackEvent', 'Provider Module', 'clickDiscount','Create New']);" style="width:60px;">create new</div>
+    </div>
+
+    <div id="discount_choose_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>" class="discount_choose">
+        <span id="loading_img_change" style="display: none;float:left; position: relative;  left: 5px;">
+          <%= image_tag("/assets/loading_small.gif") %></span>
+
+    </div>
+
+
+  </div>
+  <script>
+    var net='<%= params[:net] %>';
+    var b= <%= params[:id1] %>;
+    var q = <%= params[:id2] %>;
+     
+  
+    
+    if(net=="net_")
+    {
+      
+       $(".delete_single_schedule_any_net_1_1").css("display","none");
+        $(".single_add_any_net_1_1").css("display","none");
+        var count_inc=$("#net_price_anytime #multiple_discount_count_net_"+q+"_"+q).val();
+        if(count_inc!='')
+        count_inc+=','+<%= params[:id1] %>;
+        else
+        count_inc+=<%= params[:id1] %>;
+        if((count_inc.length)>1){
+        var count_inc = count_inc.split(',');
+        count_inc=jQuery.unique(count_inc); // find the unique values
+        }
+      $("#net_price_anytime #multiple_discount_count_net_1_1").val(count_inc);
+     
+      if(count_inc.length>1)
+      {
+         $(".delete_single_schedule_any_net_1_1").css("display","block");
+       $("#single_add_net_"+b+"_"+q).css("display","block");
+      }
+      else{
+       
+      $(".delete_single_schedule_any_net_1_1").css("display","none");
+       $("#single_add_net_"+b+"_"+q).css("display","block");
+      }
+    }
+    else{
+    
+        $(".delete_single_schedule_any_"+q+"_"+q).css("display","none");
+        $(".single_add_any_"+q+"_"+q).css("display","none");
+        var count_inc=$("#net_price_anytime #multiple_discount_count_"+q+"_"+q).val();
+        if(count_inc!='')
+        count_inc+=','+<%= params[:id1] %>;
+        else
+        count_inc+=<%= params[:id1] %>;
+         $("#net_price_anytime #multiple_discount_count_"+q+"_"+q).val(count_inc);
+      var count_incs=count_inc.split(',');
+      if(count_incs.length>1)
+      {
+         $(".delete_single_schedule_any_"+q+"_"+q).css("display","block");
+       $("#single_add_"+b+"_"+q).css("display","block");
+      }
+      else{
+       
+      $(".delete_single_schedule_any_"+q+"_"+q).css("display","none");
+       $("#single_add_"+b+"_"+q).css("display","block");
+      }
+    }
+  
+  </script>
+  
+  
+  
+<%else%>
+
+
+  <div class="staticDiscount_<%= params[:net] %><%= params[:id1] %>_1"  id="staticDiscount_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>">
+    <div class="priceRow2_top">
+      <div class="lt blackText setWidthDiscount" style="margin-bottom: 5px;">Discount Type and Price</div>
+    </div>
+    <div class="clear"></div>
+    <div class="priceRow2_bottom">
+      <div class="lt discout_type_net" id="discount_type_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>">
+
+        <select id="ad_discount_type_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>" name="ad_discount_type_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>" onchange="discTypeChanged('<%= params[:net] %>',<%= params[:id1] %>,<%= params[:id2] %>,<%= params[:id3] %>,this.value,'')" class="drop_down_left width_set7 choose_schedule">
+          <option value="" selected="selected">--Choose Discount Type--</option>
+          <%@provid_disc_types.each do |s|%>
+            <option value="<%= s.provider_discount_type_id %>"><%= s.discount_name %></option>
+          <%end%>
+
+        </select>
+      </div>
+      <div class="create_new" onclick="open_createnew_discoption(); _gaq.push(['_trackEvent', 'Provider Module', 'clickDiscount','Create New']);" style="width:60px;">create new</div>
+    </div>
+
+    <div id="discount_choose_<%= params[:net] %><%= params[:id1] %>_<%= params[:id2] %>_<%= params[:id3] %>" class="discount_choose">
+
+  <span id="loading_img_change" style="display: none;float:left; position: relative;  left: 5px;"><%= image_tag("/assets/loading_small.gif") %></span>
+
+
+    </div>
+
+
+  </div>
+
+    <script>
+
+    var b= <%= params[:id1] %>;
+    var q = <%= params[:id2] %>;
+    var h= <%= params[:id3] %>;
+    var net='<%= params[:net] %>';
+
+    if(net=="net_")
+    {
+      $(".delete_single_schedule_net_"+b+'_'+q).css("display","none");
+      $(".single_add_net_"+b+'_'+q).css("display","none");
+      
+      var get_deletes=$("#delete_discount_id_"+b+"_"+q).val();
+      var t=b+"_"+q+"_"+h;
+      if(get_deletes!='')
+        get_deletes+=','+t;
+      else
+        get_deletes+=t;
+      save_result=$("#save_result").val();
+      if(save_result!=''){
+        save_result+=','+t;
+        
+      }
+      else{
+        save_result+=t;
+      }
+        save_result=save_result.split(',');
+      save_result=jQuery.unique(save_result);  
+      $("#save_result").val(save_result);
+      $("#delete_discount_id_"+b+"_"+q).val(get_deletes);
+    
+      $("#last_discount_id_"+b+"_"+q).val(h);
+      var et=b+'_'+q+"_"+h;
+      var values=$("#last_in_discount_id_"+b).val();
+      if(values!='')
+        values+=","+et;
+      else
+        values+=et;
+        
+        values1=values.split(',');
+      values1=jQuery.unique(values1);  
+      $("#last_in_discount_id_"+b).val(values1);
+      values=values.split(',');
+      if(values.length>1)
+      {
+         $(".delete_single_schedule_net_"+b+'_'+q).css("display","block");
+       $("#single_add_net_"+b+"_"+q+"_"+h).css("display","block");
+      }
+      else{
+        
+      $(".delete_single_schedule_net_"+b+'_'+q).css("display","none");
+       $("#single_add_net_"+b+"_"+q+"_"+h).css("display","block");
+      }
+    
+    }
+    else{
+
+      $(".delete_single_schedule_"+b+'_'+q).css("display","none");
+      $(".single_add_"+b+'_'+q).css("display","none");
+      var get_deletes=$("#delete_ad_discount_id_"+b+"_"+q).val();
+      var t=b+"_"+q+"_"+h;
+      get_deletes+=','+t;
+      var get_deletes_duplicates = get_deletes.split(',');
+      get_deletes=jQuery.unique(get_deletes_duplicates);
+      result_save=$("#result_save").val();
+      result_save+=','+t;
+      var duplicates = result_save.split(',');
+      result_save=jQuery.unique(duplicates); // find the unique values
+      $("#result_save").val(result_save);
+      $("#delete_ad_discount_id_"+b+"_"+q).val(get_deletes);
+      $("#last_ad_discount_id_"+b+"_"+q).val(h);
+      var et=b+'_'+q+"_"+h;
+      var values=$("#last_ad_in_discount_id_"+b).val();
+      values+=","+et;
+        
+      var early_values=$("#early_div_count_"+b+"_"+q).val();
+      early_values+=","+et;
+      values_duplicates=values.split(',');
+      values_duplicates=jQuery.unique(values_duplicates);
+      early_values_duplicates=early_values.split(',');
+        
+      early_values=jQuery.unique(early_values_duplicates);
+      $("#early_div_count_"+b+"_"+q).val(early_values);
+       
+      $("#last_ad_in_discount_id_"+b).val(values_duplicates);
+      // $("#last_ad_in_discount_id_"+b).val(et);
+     
+      if(early_values_duplicates.length>1)
+      {
+        $(".delete_single_schedule_"+b+"_"+q).css("display","block");
+        $("#single_add_"+b+"_"+q+"_"+h).css("display","block");
+      }
+      else if(early_values_duplicates.length==1)
+      {
+        $(".delete_single_schedule_"+b+"_"+q).css("display","none");
+        $("#single_add_"+b+"_"+q+"_"+h).css("display","block");
+      }
+    }
+
+  </script>
+
+
+<%end%>

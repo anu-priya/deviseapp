@@ -1,0 +1,265 @@
+<style>
+ .count_color{
+  color:red;
+  }
+  .text_color{
+  color:#4AA3B6;
+  }
+</style>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">	
+          <!--tr class="setBg2"-->
+	  <!--display for admin users-->
+		<tr class="heading_text" style="display:none;">
+			<td align="left" width="80" class="headText setPadLt">Category &amp; Sub Category</td>
+			<td align="left" width="80" class="headText">Activity Listing</td>
+			<td align="left" width="80" class="headText">Providers with activity listing</td>
+			<td align="left" width="80" class="headText">Providers without activity listing</td>
+		</tr>
+	  <!--count for total register provider user-->
+	<%@total_reg_provider = User.find(:all,:conditions=>["lower(user_type) = ?  and account_active_status = ? ",'p',true]).uniq %>
+		<%if @total_reg_provider && @total_reg_provider!="" && @total_reg_provider.present?%>
+		<%@tuser=@total_reg_provider.length%>
+		<%end%>
+	<!--allcities and all categories-->
+	<%if !params[:cat].nil? && !params[:city_name].nil? && params[:city_name].downcase=="all cities" && params[:cat].downcase=="all categories"%>
+		<% @ac_cat = Activity.find(:all,:conditions=>["cleaned = ? and lower(active_status) = ? and lower(created_by) = ? ",true,'active','provider'],:select =>"DISTINCT lower(trim(category)) as category").uniq %>
+    
+		<%if !@ac_cat.nil? && @ac_cat!="" && @ac_cat.present? && @ac_cat!=[] %>
+			<%!@ac_cat.nil? && @ac_cat!="" && @ac_cat.present? && @ac_cat.each do |cate|%>
+		
+				<%@ac_cate_count = Activity.find(:all,:conditions=>["lower(category) = ?  and cleaned = ? and lower(active_status) = ? and lower(created_by) = ? ",cate.category.downcase,true,'active','provider']).uniq if !cate.nil? && !cate.category.nil? %>
+					<!--subcategories based on all the categories start-->
+				<% @ac_sub_cat = Activity.find(:all,:conditions=>["lower(category) = ? and cleaned = ? and lower(active_status) = ? and lower(created_by) = ? ",cate.category.downcase,true,'active','provider'],:select =>"DISTINCT lower(trim(sub_category)) as sub_category").uniq if !cate.nil? && !cate.category.nil? %>
+					<!--dynamic categories list started-->
+					 <%if !@ac_sub_cat.nil? && @ac_sub_cat!="" && @ac_sub_cat.present? %>
+					  <tr class="setBg1">
+						<td align="left" width="80" class="contentText setPadLt activityName"><span class='text_color'><%=cate.category.capitalize if !cate.nil? && !cate.category.nil?%></span> <span class='count_color'>(<%=@ac_cate_count.length if !@ac_cate_count.nil? && @ac_cate_count!="" && @ac_cate_count.present?%>)</span></td>
+						<td align="left" width="80" class="contentText">&nbsp;</td>
+						<td align="left" width="80" class="contentText">&nbsp;</td>
+						<td align="left" width="80" class="contentText">&nbsp;</td>
+					  </tr>
+					  <%end%>
+					  
+					   <%if !@ac_sub_cat.nil? && @ac_sub_cat!="" && @ac_sub_cat.present? %>
+						    <%i = 0%>
+						   <%!@ac_sub_cat.nil? && @ac_sub_cat!="" && @ac_sub_cat.each do |sval|%>
+							 <%i = i + 1%>
+							   <%if i.even? %>
+							      <tr class="setBg2">
+							    <%else%>
+							       <tr class="setBg1">
+							    <%end%>
+								<td align="left" width="80" class="contentText setPadLt activityName"><%=sval.sub_category.capitalize if !sval.nil? && !sval.sub_category.nil?%></td>
+								<%@ac_sub_count = Activity.find(:all,:conditions=>["lower(sub_category) = ? and lower(category) = ? and cleaned = ? and lower(active_status) = ? and lower(created_by) = ? ",sval.sub_category.downcase,cate.category.downcase,true,'active','provider']).uniq if !sval.nil? && !sval.sub_category.nil? && !cate.nil? && !cate.category.nil?%>
+								<td align="left" width="80" class="contentText"> <%=@ac_sub_count.length if !@ac_sub_count.nil? && @ac_sub_count!="" && @ac_sub_count.present?%></td>
+								<td align="left" width="80" class="contentText"> 
+									<%@act_provider_act = @ac_sub_count.map(&:user_id).uniq if @ac_sub_count%>
+									<%if !@act_provider_act.nil? && @act_provider_act!="" && @act_provider_act.present?%>
+										<%=@total_provider_v = @act_provider_act.length%> 
+									<%else%>
+										<%=@total_provider_v = 0%>
+									<%end%>
+								</td>
+								<td align="left" width="80" class="contentText">
+								<%if @tuser && @total_provider_v %>
+								<%=@tuser-@total_provider_v %>
+								<%else%>
+								0
+								<%end%>
+								</td>
+							  </tr>
+						    <%end%><!--sub cat do end-->
+					   <%else%>
+						<tr class="setBg1">
+						<td align="left" width="80" class="contentText setPadLt activityName">0</td>
+						<td align="left" width="80" class="contentText">0</td>
+						<td align="left" width="80" class="contentText">0</td>
+						<td align="left" width="80" class="contentText">0</td>
+						</tr>
+					   <%end%>
+				<%end%><!-- cat do end-->
+		  <%else%>
+					<tr class="setBg1">
+					<td align="left" width="80" class="contentText setPadLt activityName">0</td>
+					<td align="left" width="80" class="contentText">0</td>
+					<td align="left" width="80" class="contentText">0</td>
+					<td align="left" width="80" class="contentText">0</td>
+					</tr>
+		  <%end%>
+		<!--selected city with all categories start-->
+	<%elsif !params[:cat].nil? && !params[:city_name].nil? && params[:city_name].downcase!="all cities" && params[:cat].downcase=="all categories"%>
+	<% @ac_cat = Activity.find(:all,:conditions=>["cleaned = ? and lower(active_status) = ? and lower(city) = ? and lower(created_by) = ? ",true,'active',params[:city_name].downcase,'provider'],:select =>"DISTINCT lower(trim(category)) as category").uniq %>
+		 <%if !@ac_cat.nil? && @ac_cat!="" && @ac_cat.present? && @ac_cat!=[]%>	  
+			  <%!@ac_cat.nil? && @ac_cat!="" && @ac_cat.present? && @ac_cat!=[] && @ac_cat.each do |cate|%>
+		
+				<%@ac_cate_count = Activity.find(:all,:conditions=>["lower(category) = ? and lower(city) = ?  and cleaned = ? and lower(active_status) = ? and lower(created_by) = ? ",cate.category.downcase,params[:city_name].downcase,true,'active','provider']).uniq if !cate.nil? && !cate.category.nil? && !params[:city_name].nil? %>
+					   <tr class="setBg1">
+						<td align="left" width="80" class="contentText setPadLt activityName"><span class='text_color'><%=cate.category.capitalize if !cate.nil? && !cate.category.nil?%></span> <span class='count_color'>(<%=@ac_cate_count.length if !@ac_cate_count.nil? && @ac_cate_count!="" && @ac_cate_count.present?%>)</span></td>
+						<td align="left" width="80" class="contentText">&nbsp;</td>
+						<td align="left" width="80" class="contentText">&nbsp;</td>
+						<td align="left" width="80" class="contentText">&nbsp;</td>
+					  </tr>
+					  
+					<!--subcategories based on all the categories and selected city start-->
+					<%@ac_sub_cat = Activity.find(:all,:conditions=>["lower(category) = ? and lower(city) = ? and cleaned = ? and lower(active_status) = ?  and lower(created_by) = ?",cate.category.downcase,params[:city_name].downcase,true,'active','provider'],:select =>"DISTINCT lower(trim(sub_category)) as sub_category").uniq if !cate.nil? && !cate.category.nil? && !params[:city_name].nil? %>
+			      
+					<%if !@ac_sub_cat.nil? && @ac_sub_cat!=[] && @ac_sub_cat!="" && @ac_sub_cat.present?%>
+						<%i = 0%>
+						  <%!@ac_sub_cat.nil? && @ac_sub_cat!="" && @ac_sub_cat.each do |sval|%>
+							<%i = i + 1%>
+							 <%if i.even? %>
+							<tr class="setBg2">
+							<%else%>
+							<tr class="setBg1">
+							<%end%>
+							<td align="left" width="80" class="contentText setPadLt activityName"><%=sval.sub_category.capitalize if !sval.nil? && !sval.sub_category.nil?%></td>
+							<%@ac_sub_count = Activity.find(:all,:conditions=>["lower(sub_category) = ? and lower(category) = ? and lower(city) = ? and cleaned = ? and lower(active_status) = ? ",sval.sub_category.downcase,cate.category.downcase,params[:city_name].downcase,true,'active']).uniq if !sval.nil? && !sval.sub_category.nil? && !cate.nil? && !cate.category.nil? && !params[:city_name].nil?%>
+							<td align="left" width="80" class="contentText"><%=@ac_sub_count.length if !@ac_sub_count.nil? && @ac_sub_count!="" && @ac_sub_count.present?%></td>
+							<td align="left" width="80" class="contentText"> 
+								<%@act_provider_act = @ac_sub_count.map(&:user_id).uniq if @ac_sub_count%>
+								<%if !@act_provider_act.nil? && @act_provider_act!="" && @act_provider_act.present?%>
+									<%=@total_provider_v = @act_provider_act.length%> 
+								<%else%>
+									<%=@total_provider_v = 0%>
+								<%end%>
+							</td>
+							<td align="left" width="80" class="contentText">
+							<%if @tuser && @total_provider_v %>
+							<%=@tuser-@total_provider_v %>
+							<%else%>
+							0
+							<%end%>
+							</td>
+							</tr>
+						  <%end%><!--sub cat do end-->
+					<%else%>
+						<tr class="setBg1">
+						<td align="left" width="80" class="contentText setPadLt activityName">0</td>
+						<td align="left" width="80" class="contentText">0</td>
+						<td align="left" width="80" class="contentText">0</td>
+						<td align="left" width="80" class="contentText">0</td>
+						</tr>
+					<%end%>
+			<%end%><!--do end-->
+		<%else%>
+			<tr class="setBg1">
+			<td align="left" width="80" class="contentText setPadLt activityName">0</td>
+			<td align="left" width="80" class="contentText">0</td>
+			<td align="left" width="80" class="contentText">0</td>
+			<td align="left" width="80" class="contentText">0</td>
+			</tr>
+		<%end%>
+		<!--selected city with all categories end-->
+	 <!--selected category with all cities start-->
+	 <%elsif !params[:cat].nil? && !params[:city_name].nil? && params[:city_name].downcase=="all cities" && params[:cat].downcase!="all categories"%>
+	<% @ac_cat = Activity.find(:all,:conditions=>["cleaned = ? and lower(active_status) = ? and lower(category) = ? and lower(created_by) = ? ",true,'active',params[:cat].downcase,'provider'],:select =>"DISTINCT lower(trim(city)) as city").uniq %>
+			<%if !@ac_cat.nil? && @ac_cat!="" && @ac_cat.present? && @ac_cat!=[]%>
+					<%!@ac_cat.nil? && @ac_cat!="" && @ac_cat.present? && @ac_cat.each do |cate|%>
+
+					<%@ac_cate_count = Activity.find(:all,:conditions=>["lower(category) = ? and lower(city) = ?  and cleaned = ? and lower(active_status) = ? and lower(created_by) = ? ",params[:cat].downcase,cate.city.downcase,true,'active','provider']).uniq if !cate.nil? && !cate.city.nil? && !params[:cat].nil? %>
+							 <tr class="setBg1">
+								<td align="left" width="80" class="contentText setPadLt activityName"><span class='text_color'><%=cate.city.capitalize if !cate.nil? && !cate.city.nil?%></span> <span class='count_color'>(<%=@ac_cate_count.length if !@ac_cate_count.nil? && @ac_cate_count!="" && @ac_cate_count.present?%>)</span></td>
+								<td align="left" width="80" class="contentText">&nbsp;</td>
+								<td align="left" width="80" class="contentText">&nbsp;</td>
+								<td align="left" width="80" class="contentText">&nbsp;</td>
+							  </tr>
+						  <!--subcategories based on all the categories and selected city start-->
+					     <% @ac_sub_cat = Activity.find(:all,:conditions=>["lower(category) = ? and lower(city) = ? and cleaned = ? and lower(active_status) = ? and lower(created_by) = ? ",params[:cat].downcase,cate.city.downcase,true,'active','provider'],:select =>"DISTINCT lower(trim(sub_category)) as sub_category").uniq if !cate.nil? && !cate.city.nil? && !params[:cat].nil? %>
+					
+					<%if !@ac_sub_cat.nil? && @ac_sub_cat.present?%>
+						<%i = 0%>
+						 <%!@ac_sub_cat.nil? && @ac_sub_cat!="" && @ac_sub_cat.each do |sval|%>
+							<%i = i + 1%>
+								<%if i.even? %>
+								<tr class="setBg2">
+								<%else%>
+								<tr class="setBg1">
+								<%end%>
+									<td align="left" width="80" class="contentText setPadLt activityName"><%=sval.sub_category.capitalize if !sval.nil? && !sval.sub_category.nil?%></td>
+									<%@ac_sub_count = Activity.find(:all,:conditions=>["lower(sub_category) = ? and lower(category) = ? and lower(city) = ? and cleaned = ? and lower(active_status) = ? and lower(created_by) = ? ",sval.sub_category.downcase,params[:cat].downcase,cate.city.downcase,true,'active','provider']).uniq if !sval.nil? && !sval.sub_category.nil? && !cate.nil? && !cate.city.nil? && !params[:cat].nil?%>
+									<td align="left" width="80" class="contentText">  <%=@ac_sub_count.length if !@ac_sub_count.nil? && @ac_sub_count!="" && @ac_sub_count.present?%></td>
+									<td align="left" width="80" class="contentText"> 
+										<%@act_provider_act = @ac_sub_count.map(&:user_id).uniq if @ac_sub_count%>
+										<%if !@act_provider_act.nil? && @act_provider_act!="" && @act_provider_act.present?%>
+											<%=@total_provider_v = @act_provider_act.length%> 
+										<%else%>
+											<%=@total_provider_v = 0%>
+										<%end%>
+									</td>
+									<td align="left" width="80" class="contentText">
+									<%if @tuser && @total_provider_v %>
+									<%=@tuser-@total_provider_v %>
+									<%else%>
+									0
+									<%end%>
+									</td>
+								  </tr>
+							<%end%><!--sub cat do end-->
+						<!--subcategories based on all the categories start-->
+					<%else%>
+						<tr class="setBg1">
+						<td align="left" width="80" class="contentText setPadLt activityName">0</td>
+						<td align="left" width="80" class="contentText">0</td>
+						<td align="left" width="80" class="contentText">0</td>
+						<td align="left" width="80" class="contentText">0</td>
+						</tr>
+					<%end%>
+					
+				<%end%><!--do end-->
+			<%else%>
+						<tr class="setBg1">
+						<td align="left" width="80" class="contentText setPadLt activityName">0</td>
+						<td align="left" width="80" class="contentText">0</td>
+						<td align="left" width="80" class="contentText">0</td>
+						<td align="left" width="80" class="contentText">0</td>
+						</tr>
+			<%end%>
+	<!--selected category with all cities end-->
+	<!--particular city name and category start-->
+	<%elsif (!params[:cat].nil? && !params[:city_name].nil? && params[:city_name].downcase != "all cities" && params[:cat].downcase != "all categories")%>
+	<% @ac_sub = Activity.find(:all,:conditions=>["lower(category) = ? and lower(city) = ? and cleaned = ? and lower(active_status) = ? and lower(created_by) = ? ",params[:cat].downcase,params[:city_name].downcase,true,'active','provider'],:select =>"DISTINCT lower(trim(sub_category)) as sub_category").uniq if !params[:cat].nil? && !params[:city_name].nil? %>
+		<%if !@ac_sub.nil? && @ac_sub.present?%>
+			<%i = 0%>
+			<%!@ac_sub.nil? && @ac_sub.each do |sval|%>
+			<%i = i + 1%>
+			<%if i.even? %>
+			<tr class="setBg2">
+			<%else%>
+			   <tr class="setBg1">
+			<%end%>
+				<td align="left" width="80" class="contentText setPadLt activityName"><%if !sval.nil? && !sval.sub_category.nil?%><%=sval.sub_category.capitalize %><%else%>0<%end%></td>
+				<%@ac_sub_count = Activity.find(:all,:conditions=>["lower(sub_category) = ? and lower(category) = ? and lower(city) = ? and cleaned = ? and lower(active_status) = ? and lower(created_by) = ?",sval.sub_category.downcase,params[:cat].downcase,params[:city_name].downcase,true,'active','provider']).uniq if !sval.nil? && !sval.sub_category.nil? && !params[:cat].nil? && !params[:city_name].nil?%>
+				<td align="left" width="80" class="contentText"> <%if !@ac_sub_count.nil? && @ac_sub_count!="" && @ac_sub_count.present?%><%=@ac_sub_count.length %><%else%>0<%end%></td>
+				<td align="left" width="80" class="contentText"> 
+					<%@act_provider_act = @ac_sub_count.map(&:user_id).uniq if @ac_sub_count%>
+					<%if !@act_provider_act.nil? && @act_provider_act!="" && @act_provider_act.present?%>
+						<%=@total_provider_v = @act_provider_act.length%> 
+					<%else%>
+						<%=@total_provider_v = 0%>
+					<%end%>
+				</td>
+				<td align="left" width="80" class="contentText">
+					<%if @tuser && @total_provider_v %>
+					<%=@tuser-@total_provider_v %>
+					<%else%>
+					0
+					<%end%>
+				</td>
+				
+			  </tr>
+			<%end%><!--do ending-->
+		<%else%>
+		 <tr class="setBg1">
+			 <td align="left" width="80" class="contentText setPadLt activityName">0</td>
+			<td align="left" width="80" class="contentText">0</td>
+			<td align="left" width="80" class="contentText">0</td>
+			<td align="left" width="80" class="contentText">0</td>
+		 </tr>
+		<%end%>
+	<%else%>
+			<tr class="setBg1">
+			<td valign="middle" align="left" width="80" class="contentText setPadLt activityName" style="text-align:center;height:1000px;font-size:16px;"><b>There are currently no activity category reports to display. Please check back in after some time.</b></td>
+			</tr>
+		
+	<%end%>
+</table>

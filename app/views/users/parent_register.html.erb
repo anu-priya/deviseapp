@@ -1,0 +1,399 @@
+<%
+meta :title => "Kids Class Management Software for Payments & Registration",
+     :description => "Famtivity provides class management software for kids activities, events, camps, classes and lessons including payments and registrations",
+     :keywords => "Class Management Software, Class Registration Software, Kids Management Software"
+%>
+<link rel="stylesheet" type="text/css" href="/assets/register_new/register_pop.css" />
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css" />
+<script type="text/javascript" src="/assets/register/provider_register_select_option.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+  <%if !@pro_invite.nil? && @pro_invite=="true"%>
+    show_sell('market_sell','parent_register');
+  <%end%>
+  <%if @page_show=='ptr'%>
+	show_sell('market_sell','<%=@is_partner%>');
+  <%end%>
+  
+  
+    <%if !@curator_val.nil? && @curator_val.present? %>
+      $(".headCont").html("Registered as");
+      $("#ParentRegister").hide();
+      $("#curator_message").show();
+    <%end%>
+
+    $("#browse_photo").keyup(function(){
+      var browse_photo=$("#browse_photo").val();
+      $("#browse_photo").val("");
+    });
+    $("#sp_browse_photo").keyup(function(){
+      var sp_browse_photo=$("#sp_browse_photo").val();
+      $("#sp_browse_photo").val("");
+    });
+    $("#browse_photo_sell").keyup(function(){
+      var browse_photo_sell=$("#browse_photo_sell").val();
+      $("#browse_photo_sell").val("");
+    });
+
+
+    $("#browse_photo").keydown(function(){
+      var browse_photo=$("#browse_photo").val();
+      $("#browse_photo").val("");
+    });
+    $("#sp_browse_photo").keydown(function(){
+      var sp_browse_photo=$("#sp_browse_photo").val();
+      $("#sp_browse_photo").val("");
+    });
+    $("#browse_photo_sell").keydown(function(){
+      var browse_photo_sell=$("#browse_photo_sell").val();
+      $("#browse_photo_sell").val("");
+    });
+	
+    dispYear(1);
+    dispProfileYear(1);
+
+	
+  });
+  
+  function dispYear(value){
+    var y='';
+    var i=0;
+    var curTime=new Date();
+    var year = curTime.getFullYear();
+    //alert(year);
+    var cyear = parseInt(year);
+    var eyear=parseInt(year)+10;
+    for(i=cyear;i<eyear;i++){
+      y+='<a href="#" onclick="setYearValPay('+i+','+value+')" title="">'+i+'</a>';
+    }
+    $(".dropDownDiv_small_"+value).html(y);
+    ;
+  }
+
+  function setYearValPay(yvalue,value){
+	
+    $('#year_card_'+value).val(yvalue);
+    $('#field2_'+value).html(yvalue);
+    $('#field2_'+value).css("color","#444444");
+  }
+    function curatormessage(){
+                  var stateObj = {
+      foo: "bar"
+    };
+    myURL = document.location;
+    if(navigator.appName=="Microsoft Internet Explorer"){
+      window.location.hash="/parent_register?view=provider";
+    }
+    else{
+      parent.history.pushState(stateObj, "Login", "/parent_register?view=provider");
+    }
+    _gaq.push(['_trackPageview', '/parent_register?view=provider']);
+<% render :partial=>'provider_register_profile' %>
+    $("#provider_plan").css("display","block");
+    $("#ParentRegister").css("display","none");
+    $("#provider_market").css("display","none");
+    $("#provider_sponsor").css("display","none");
+    $("#provider_sell").css("display","none");
+    $("#sponsorpaymentDiv").css("display","none");
+    $("#sponsorBankDiv").css("display","none");
+    $(".headCont").html('Sign-up as Provider <span class="fts14" style="position: relative;top: -3px;">(...& get <span class="ftcRed">$20</span> Credit!)</span>');
+    $("#chose_mode").hide();
+    $("#curator_message").hide();
+
+
+                  var username_usr_reg = $("#username_usr_reg").val();
+                  var email_usr_reg = $("#email_usr_reg").val();
+                  var password_usr_reg = $("#password_usr_reg").val();
+                  var confirm_password_usr = $("#confirm_password_usr").val();
+                  <%if !cookies[:f_path].nil? && cookies[:f_path]=="facebook"%>
+                  $("#old_curator").val("facebook");
+                  <%else%>
+                  $("#old_curator").val("provider");
+                  $("#sell_name").val(username_usr_reg);
+                  $("#sell_email").val(email_usr_reg);
+                  $("#sell_password").val(password_usr_reg);
+                  $("#sell_confirm_password").val(confirm_password_usr);
+                  <%end%>                  
+                  
+                  //alert(username_usr_reg);
+                  //alert(email_usr_reg);
+                  //alert(password_usr_reg);
+                  
+  }
+
+
+  function dispProfileYear(value){
+    var y='';
+    var i=0;
+    var curTime=new Date();
+    var year = curTime.getFullYear();
+    var cyear = parseInt(year);
+    var eyear=parseInt(year)+10;
+    for(i=cyear;i<eyear;i++){
+      y+='<a href="#" onclick="setProfileYearVal('+i+','+value+')" title="">'+i+'</a>';
+    }
+    $("#yearDisp_profile_"+value).html(y);
+  }
+
+  function setProfileYearVal(yvalue,value){
+    $('#sell_year_card_'+value).val(yvalue);
+    $('#sell_field2_'+value).html(yvalue);
+    $('#sell_field2_'+value).css('color','#444444');
+    //$("#EditdropDownDiv3").css("display","none");
+	
+  }
+
+
+</script>
+
+<script type="text/javascript">
+  var BidPopPage;
+  function Bid_amount_pop(url){
+    BidPopPage = dhtmlmodal.open("Bid Amount Pop ","iframe",url,"", "width=953px,height=700px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    return false;
+  }
+
+  function showInfo(){
+    $("#show_infoDiv").css("display","block");
+  }
+  function hideInfo(){
+    $("#show_infoDiv").css("display","none");
+  }
+  function show_parent_register(){
+    var stateObj = {
+      foo: "bar"
+    };
+
+    _gaq.push(['_trackPageview', '/parent_register']);
+    myURL = document.location;
+    if(navigator.appName=="Microsoft Internet Explorer"){
+      window.location.hash="/parent_register";
+    }
+    else{
+      parent.history.pushState(stateObj, "Login", "/parent_register");
+    }
+
+<% render :partial=>'user_register'%>
+    $("#ParentRegister").css("display","block");
+    $("#provider_market").css("display","none");
+    $("#provider_plan").css("display","none");
+    $("#provider_sponsor").css("display","none");
+    $("#provider_sell").css("display","none");
+    $("#sponsorpaymentDiv").css("display","none");
+    $("#sponsorBankDiv").css("display","none");
+    $(".headCont").html('Sign-up as Parent <span class="fts14" style="position: relative;top: -3px;">(...& get <span class="ftcRed">$20</span> Credit!)</span>');
+  }
+  
+  function show_market(){
+    var stateObj = {
+      foo: "bar"
+    };
+    myURL = document.location;
+    if(navigator.appName=="Microsoft Internet Explorer"){
+      window.location.hash="/provider_market";
+    }
+    else{
+      parent.history.pushState(stateObj, "Login", "/provider_market");
+    }
+    _gaq.push(['_trackPageview', '/provider_market']);
+<% render :partial=>'provider_market' %> 
+    $("#provider_market").css("display","block");
+    $("#provider_plan").css("display","none");
+    $("#provider_sell").css("display","none");
+    $("#provider_sponsor").css("display","none");
+    $("#ParentRegister").css("display","none");
+    $("#sponsorpaymentDiv").css("display","none");
+    $("#b_name").focus();
+  }
+  function show_sponsor(){
+<% render :partial=>'provider_sponsor' %>
+    $("#provider_sponsor").css("display","block");
+    $("#provider_plan").css("display","none");
+    $("#ParentRegister").css("display","none");
+    $("#provider_market").css("display","none");
+    $("#provider_sell").css("display","none");
+    $("#sponsorpaymentDiv").css("display","none");
+    $("#sp_name").focus();
+	
+  }
+  function show_sell(choosen_plan,chk_partner){
+  $('#plan_sell_manage').val(choosen_plan);
+  var chk_url = (chk_partner=='partner_register') ? 'partner_register' : 'register';
+  $('#register_plan').val(chk_url);
+    var stateObj = {
+      foo: "bar"
+    };
+    myURL = document.location;
+    if(navigator.appName=="Microsoft Internet Explorer"){
+      window.location.hash="/"+chk_url+"/"+choosen_plan;
+    }
+    else{
+      parent.history.pushState(stateObj, "Login", "/"+chk_url+"/"+choosen_plan);
+    }
+    _gaq.push(['_trackPageview', '/'+chk_url+'/'+choosen_plan]);
+    $("#provider_sell").css("display","block");
+    $("#provider_sponsor").css("display","none");
+    $("#provider_plan").css("display","none");
+    $("#ParentRegister").css("display","none");
+    $("#provider_market").css("display","none");
+    $("#sponsorpaymentDiv").css("display","none");
+    $("#sell_b_name").focus();
+  }
+ 
+  function show_provider_plan(){
+    var stateObj = {
+      foo: "bar"
+    };
+    myURL = document.location;
+    if(navigator.appName=="Microsoft Internet Explorer"){
+      window.location.hash="/parent_register?view=provider";
+    }
+    else{
+      parent.history.pushState(stateObj, "Login", "/parent_register?view=provider");
+    }
+    _gaq.push(['_trackPageview', '/parent_register?view=provider']);
+<% render :partial=>'provider_register_profile' %>
+    $("#provider_plan").css("display","block");
+    $("#ParentRegister").css("display","none");
+    $("#provider_market").css("display","none");
+    $("#provider_sponsor").css("display","none");
+    $("#provider_sell").css("display","none");
+    $("#sponsorpaymentDiv").css("display","none");
+    $("#sponsorBankDiv").css("display","none");
+    $(".headCont").html('Sign-up as Provider <span class="fts14" style="position: relative;top: -3px;">(...& get <span class="ftcRed">$20</span> Credit!)</span>');
+   
+  }
+  function closepopup(){
+    var stateObj = {
+      foo: "bar"
+    };
+    myURL = document.location;
+    if(navigator.appName=="Microsoft Internet Explorer"){
+      window.location.hash="/";
+    }
+    else{
+      parent.history.replaceState(stateObj, "Login", "/");
+    }
+    //~ parent.parentLoginPage.hide();
+    window.location.href="/"
+  }
+
+
+</script>
+<div id="new_act_container1" asd="sad">
+  <div class="popupContainer" style="width:1000px;">
+    <div class="popupContainerTop" style="width:1000px;"></div>
+    <div class="popupContainerCenter" style="width:1000px;">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading" style="width:960px;">
+            <h1 class="headCont">
+              <% if !current_user.nil? && !current_user.user_name.nil? && @page_show != "price"%>
+		Become a Provider
+	    <%elsif  request.fullpath=="/provider-pricing-plan"%>
+		  Sign-up as Provider <span class="fts14" style="position: relative;top: -3px;">(...& get <span class="ftcRed">$20</span> Credit!)</span>
+              <%else%>
+                <%if @page_show != "provider" && @page_show != "price" && @page_show != "ptr"%>
+                  Sign-up as Parent <span class="fts14" style="position: relative;top: -3px;">(...& get <span class="ftcRed">$20</span> Credit!)</span>
+                <%elsif @page_show =="provider" || @page_show == "price"%>
+                  Sign-up as Provider <span class="fts14" style="position: relative;top: -3px;">(...& get <span class="ftcRed">$20</span> Credit!)</span>
+	      <%elsif @page_show == "ptr"%>
+	        Register as Partner
+                <%end%>
+              <% end %>
+            </h1>
+          </div>
+          <div class="closeButton">
+            <%if !@log_value.nil? && @log_value.present? && @log_value=='reld'%>
+             <%= link_to image_tag("/assets/global/pop_up/button_close.png", :border => 0), root_path, :target => "_parent" %>
+            <%else%>
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> <img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" /> </a>
+            <%end%>
+          </div>
+        </div>
+
+        <div id="register_outerContainer">
+          <div id="curator_message" style="display:none;text-align: center;height: 430px;width: 600px;margin: 0 auto;font-size: 16px;color: #000;" >
+            <div style="text-align:center;padding: 25px;line-height: 22px;">
+            Your email address is already in use. If you did not create  an account, it is likely that Famtivity has added this email as a provider account. </br>Click on the button below to proceed and take control of your account.
+            </div>
+            <div style="border-top:1px solid #d7dadb; margin:0 auto; width: 100%; height:25px;">&nbsp;</div>
+            <div style="width:300px;height:240px;margin:0 auto;border: 1px solid #d7dadb;">
+              <div style="font-weight: bold;color: #5099ac;margin-top: 20px;margin-bottom: -15px;font-size: 21px;">Provider</div>
+            <div style="text-align:center;padding: 35px;line-height: 22px;"><img src="/assets/global/curator_image.png" alt=""  />
+            </div>
+
+            <a href="javascript:void(0)" onClick="curatormessage()" title=""> <img src="/assets/global/switch_provider.png" alt=""  /> </a>
+            </div>
+          </div>
+
+          <!-- Parent Register Page -->
+          <div id="ParentRegister" <%if @curator_val.nil? && @page_show != "provider" && @page_show != "price" && @page_show != "ptr" && @pro_invite.nil? && !@pro_invite.present?%>style="display:block;"<%else%> style="display:none;"<%end%>>
+         <%if request.fullpath=="/provider-pricing-plan"%>
+	   <%= render :partial=>'provider_register_profile' %>
+	<%else%>
+            <%= render :partial =>'user_register' %>
+	    <% end %>
+            <div class="clear"></div>
+          </div>
+
+          <!-- Provider Register profile plan Page -->
+          <div id="provider_plan" <%if @curator_val.nil? && @page_show == "provider" || @page_show == "price"|| !@pro_invite.nil? && @pro_invite.present?%>style="display:block;"<%else%> style="display:none;"<%end%>>
+	  <%if @u_exists && @u_exists.present? && !@u_exists.nil?%>
+	  <%= render :partial =>'existing_user_error_msg' %>
+	  <%else%>
+            <%= render :partial =>'provider_register_profile' %>
+	  <%end%>
+            <div class="clear"></div>
+          </div>
+
+          <!-- Provider Register market(free) page -->
+          <div id="provider_market" style="display:none;">
+            <%= render :partial =>'provider_market' %>
+            <div class="clear"></div>
+          </div>
+
+          <!-- Provider Register sponsor page -->
+          <div id="provider_sponsor" style="display:none;">
+            <%= render :partial =>'provider_sponsor' %>
+            <div class="clear"></div>
+          </div>
+
+          <!-- Provider Register sell page -->
+          <div id="provider_sell" style="display:none;">
+            <%= render :partial =>'provider_sell' %>
+            <div class="clear"></div>
+          </div>
+
+
+        </div>
+      </div>
+      <div class="clear"></div>
+
+    </div>
+    <div class="clear"></div>
+    <!-- div class="popupContainerBottom"></div -->
+
+  </div>
+</div>
+
+<!-- Facebook Conversion Code for Registration Confirmation -->
+<script type="text/javascript">
+                                 var fb_param = {};
+                                  fb_param.pixel_id = '6010512409729';
+                                  fb_param.value = '0.00';
+                                  fb_param.currency = 'USD';
+                                  (function(){ var fpw =
+                                  document.createElement('script');
+                                  fpw.async = true;
+                                  fpw.src = '//connect.facebook.net/en_US/fp.js';
+                                  var ref =
+                                  document.getElementsByTagName('script')[0];
+                                  ref.parentNode.insertBefore(fpw,
+                                  ref);
+                                  })();
+</script>
+<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/offsite_event.php?id=6010512409729&amp;value=0&amp;currency=USD" /></noscript>
+

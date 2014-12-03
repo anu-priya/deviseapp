@@ -1,0 +1,48 @@
+<%if current_user %>
+  <% if @fam_page.present? %>
+   <%@fam_page && @fam_page.each do |list|%>
+      <% famresult = getFamnetwork(list)%>
+      
+      <a class="famReadmore" href="/messages?mode=parent&rep_id=<%=list.message_id%>">
+      <div class="postContentInner">
+       <div class="lft">
+            <div class="fampostImg lft">
+                <table cellpadding="0" cellspacing="0"  align="center" width="100%" height="72" border="0">
+                  <tr>
+                    <td align="center" valign="middle" height="72">
+                      <img src="<%if famresult && !famresult.nil? && famresult[0] && !famresult[0].nil? && famresult[1] && famresult[1].present? && famresult[1].profile && famresult[1].profile.present? && !famresult[1].profile.nil?%><%=famresult[1].profile.url(:small)%><%elsif famresult[0] && !famresult[0].nil? && famresult[1] && famresult[1].present? && famresult[1].user_photo && famresult[1].user_photo.present? && !famresult[1].user_photo.nil?%><%=famresult[1].user_photo.url(:small)%><%else%>/assets/default/user_medium.png<%end%>" style="max-height:100%;" align="absbottom" alt="" />
+                    </td>
+                   
+                </tr>
+               </table>
+            </div>
+            <div class="lft Fampost">
+                <%if famresult[4] && famresult[4].present? && famresult[4].group_name && famresult[4].group_name.present?%>
+                <div class="networkName">
+                  <font color="#FF3336"><%=famresult[4].group_name.titlecase%></font><br>                  
+                  <font color="#595959"><%=famresult[2].subject%></font></div>
+                <%end%>
+                <div class="despContent">
+                  <span class="networkDetail"><%= famresult[3].content.truncate(25) %>
+                    <%if  (famresult[3].content).length>20%>
+                      <span class="famReadmore"> Read More</span>
+                    <%end%>
+                  </span>
+                  <span class="networkDetail"><br>
+                    <%= famresult[0].user_name if famresult[0] && famresult[0].present? && famresult[0].user_name %> |
+                    <%= famresult[3].posted_on.strftime("%h %d, %Y")  if famresult[3] && famresult[3].present? && famresult[3].posted_on %>
+                  </span>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+      </a>
+      <% end %>
+  <%else%>
+    <div class="postempty" align="center" style="color: grey;margin-left: 1px;">
+      Message not available.<br><br>
+    </div>
+  <%end%>
+<% end %>
+<div class="pro_pagination"></div>

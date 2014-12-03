@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Customer profile:</b>
+  <%= @user_transaction.customer_profile_id %>
+</p>
+
+<p>
+  <b>Customer payment profile:</b>
+  <%= @user_transaction.customer_payment_profile_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_user_transaction_path(@user_transaction) %> |
+<%= link_to 'Back', user_transactions_path %>

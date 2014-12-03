@@ -1,0 +1,1367 @@
+
+<!-- Auto complete js & css -->
+<link rel="stylesheet" type="text/css" href="/assets/contacts_users/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="/assets/contacts_users/smooth-theme-jquery-ui.css" />
+<script src="/assets/auto_complete/jquery-ui.js"></script>
+<script type="text/javascript" src="/assets/jquery.form.js"></script>
+<script type="text/javascript" src="/assets/register/register_new.js"></script>
+
+<!--script type="text/javascript" src="/assets/register/register.js"></script-->
+<!--script type="text/javascript" src="/assets/register/provider_register_update_pop.js"></script-->
+
+<!--script type="text/javascript" href="/assets/register/register_payment.js" /></script-->
+<!--script type="text/javascript" src="/assets/register/provider_register_select_option.js"></script-->
+
+<!-- end -->
+<!--avoid to type text in browse textbox-->
+<style type="text/css">
+  #sell_city_autocomplete .ui-autocomplete { width: 269px !important; max-height: 100px !important; overflow-y: auto !important; overflow-x: hidden !important;}
+  #bank_city_autocomplete .ui-autocomplete { width: 282px !important; max-height: 100px !important; overflow-y: auto !important; overflow-x: hidden !important;}
+  #check_bank_city_autocomplete .ui-autocomplete { width: 282px !important; max-height: 100px !important; overflow-y: auto !important; overflow-x: hidden !important;}
+</style>
+<script type="text/javascript">
+
+ //~ $( window ).load(function() {
+//~ alert(555555);
+//~ });
+	//~ $('#loadDivsell').show();  
+
+  $(document).ready(function() {    
+  $('#loadDivsell').css('display','none');
+  });
+
+
+  $(document).ready(function(){
+    $("#browse_photo_sell").keyup(function(){
+      var browse_photo_sell=$("#browse_photo_sell").val();
+      $("#browse_photo_sell").val("");
+    });
+  });
+
+  $(document).ready(function(){
+    $("#browse_photo_sell").keydown(function(){
+      var browse_photo_sell=$("#browse_photo_sell").val();
+      $("#browse_photo_sell").val("");
+    });
+  });
+  
+  //set automatically go to next textbox
+  function movetoNext(current, nextFieldID) {
+    if (current.value.length >= current.maxLength) {
+      document.getElementById(nextFieldID).focus();
+    }
+  }
+  
+  function number(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57 ) && (charCode != 46 ) ){
+      //alert("Allow only Numbers");
+      return false;
+    }
+    return true;
+  }
+
+  $(document).ready(function(){
+    $("#sell_city").autocomplete({
+      minLength: 1,
+      source: "/fetch_city?state_value=true",
+      appendTo: $("#sell_city_autocomplete"),
+      select: function( event, ui ) {
+        this.value = ui.item.value;
+        return false;
+      }
+    });
+  });
+</script>
+<style type="text/css">
+  #register_outerContainer .checkboxCont a:hover{
+    text-decoration:underline;
+    color:#307193;
+  }
+  .helpimghover{position: relative;top:13px;left:2px;}
+  .helpimghover:hover p{display: block;}
+  .helpimghover p{width:270px;top:0;left:15px;font-weight: normal;display: none;position: absolute;color: #959292;border:1px solid #C2DDE4;z-index: 50000;font-size: 12px;padding: 4px;background: none repeat scroll 0 0 #F9F9F9;}
+</style>
+
+<div align="center" style="border-bottom:1px solid #ddebee;">
+
+  <div style="margin:10px 0 10px 0;">
+    <%if params[:b_provider].nil? && params[:b_provider]!="pro"%>
+      <a href="#" class="menuText" title="" onclick="show_parent_register(); _gaq.push(['_trackEvent', 'Registration', 'clickParentRegistration']);">Parent</a>
+      <span class="dot menuText">&bull;</span>
+    <%end%>
+    <a href="#" class="menuText" title="" style="color:#fe0003;cursor:default;"><b>Provider</b></a>
+  </div>
+</div>
+
+<div id="register_outerContainer">
+  <div class="Provider_innerContainer" style="width:870px;">
+    <div id="signupDiv">
+      <div class="setTopPosition">
+        <div class="lt" id="setImage"></div>
+        <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_1active.png" id="img1" align="top" class="circleNumber"></a></div>
+        <div class="lt" id="setImage1"></div>
+        <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_2inactive.png" id="imgs2_act" align="top" class="circleNumber"></a></div>
+        <div class="lt" id="setImage2"></div>
+        <div class="lt"><a href="javascript:void(0)" title=""><img src="/assets/provider_register/step_3active.png" id="imgs3_act" align="top" class="circleNumber"></a></div>
+        <div class="lt" id="setImage"></div>
+        <div class="clear"></div>
+        <div style="margin-top:3px;">
+          <div class="lt setfont12" id="choose_text" style="font-weight:normal;">Choose Plan</div>
+          <div class="lt setfont12" id="plan_text" style="font-weight:bold;"><span id="ups">Set up Profile</span></div>
+          <!--<div class="lt setfont12" id="payment_text" style="font-weight:normal;"><span id="adds">Add Payment Details</span></div>-->
+          <div class="lt setfont12" id="payment_text" style="font-weight:normal;"><span id="adds">Add Payment Details</span></div>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="ProviderCenterContent"   id="provider_sell" style="margin-bottom:0px; background:none;">
+
+      <div class="innerMarketDiv" style="padding: 0px 10px 0 5px; width:870px;">
+        <div id="user_name_wrong_sell" style="display: none;color: #FC8989;font-size: 12px; .margin:10px 0 10px 16px;"></div>
+        <form id="provider_seller_final" name="provider_seller" action="/provider_sell_submit" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="partner_reg" id="partner_reg" value="<%=@is_partner if @is_partner%>" />
+          <input type="hidden" name="aten_mail" id="aten_mail" value="<%=@aten_mail if @aten_mail%>" />
+          <input type="hidden" name="invite_user_id" id="invitor_id" value="<%=@invited_user%>" />
+          <input type="hidden" name="imanager" id="imanager" value="<%=@imanager if @imanager%>" />
+          <input type="hidden" name="msg_value" id="msg_value" value="<%=@msg_invite if @msg_invite%>" />
+          <input type="hidden" name="be_invite_user_id" id="be_invite_user_id" value="<%=@b_invited_user%>" />
+          <input type="hidden" name="be_invitee_email" id="be_invitee_email" value="<%=@b_invitee_email%>" />
+          <input type="hidden" name="plan_sell_manage" id="plan_sell_manage" value="" />
+          <input type="hidden" name="register_plan" id="register_plan" value="" />
+
+          <input type="hidden" name="old_curator" id="old_curator" value="" />
+          <input type="hidden" name="curated_user_sell" id="curated_user_sell" value="" />
+          <div style="display:block;" id="sell_first_">
+            <!--<div align="center" class="setfeedbackDiv" style="width:325px; font-weight:bold;"><span class="required">*</span>&nbsp;Please fill out required fields.</div>-->
+            <div>
+              <div class="lt" style="width:426px; margin-left:18px;">
+                <p class="head" style="color:#186171;">Sign-up</p>
+
+                <%if current_user.nil? && !cookies[:f_curator].nil? && cookies[:f_curator]!=""%>
+                  <%current_user=User.where(email_address: cookies[:f_curator],user_plan: "curator").first%>
+                <%else%>
+                  <%current_user=User.where("user_id=?",cookies[:uid_usr]).first  if !cookies[:uid_usr].nil?%>
+                <%end%>
+                <div class="marginTop14_provider">
+                  <div class="lt leftSideField">Business Name<span class="required">*</span></div>
+                  <input type="text" name="sell_b_name" id="sell_b_name" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil? %><%=current_user.user_profile.business_name%><%else%>Enter the name of your business<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Enter the name of your business'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value,this.id)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter the name of your business'}" tabindex="1" maxlength="50">
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sell_b_name_error"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="marginTop15">
+                  <div class="lt leftSideField">Password<span class="required">*</span></div>
+                  <input type="password" name="sell_password" id="sell_password" value="<% if !current_user.nil? && !current_user.user_password.nil? %><%= Base64.decode64("#{current_user.user_password}")%><%else%>password<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'password'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value,this.id)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='password'}" tabindex="3">
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sell_password_error" style="width:281px;"></div>
+                </div>
+                <div class="clear"></div>
+
+                <div class="marginTop15">
+                  <div class="lt leftSideField">Contact Name<span class="required">*</span></div>
+                  <input type="text" name="sell_name" id="sell_name" value="<% if !current_user.nil? && !current_user.user_name.nil? %><%=current_user.user_name%><%else%>Eg: John Smith<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Eg: John Smith'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value,this.id)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Eg: John Smith'}" tabindex="5" maxlength="25">
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sell_name_error"></div>
+                </div>
+                <div class="clear"></div>
+
+                <div class="marginTop15">
+                  <div class="lt leftSideField">Description<span class="required">*</span></div>
+                  <textarea name="sell_description" id="sell_description" rows="10" cols="40"  class="lt descTextbox"  style="width:265px;" tabindex="7" onblur="if(this.value==''){this.value='Description should not exceed 1000 characters';this.style.color='#999999'}" onfocus="if(this.value=='Description should not exceed 1000 characters'){this.value='';this.style.color='#444444'}">Description should not exceed 1000 characters</textarea>
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sell_description_error"></div>
+                </div>
+                <div class="clear"></div>
+
+
+                <!--div class="marginTop15" >
+                  <div class="lt leftSideField">Owner</div>
+
+                  <input type="text" name="sell_owner_firstname" id="sell_owner_firstname" value="<%# if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.owner_first_name.nil? %><%#=current_user.user_profile.owner_first_name%><%#else%>First name<%# end %>" class="lt textbox_ownerprovider" style="outline:none;" onfocus="if(this.value == 'First name'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='First name'}" tabindex="7" maxlength="25">
+
+                  <input type="text" name="sell_owner_lastname" id="sell_owner_lastname" value="<%# if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.owner_last_name.nil? %><%#=current_user.user_profile.owner_last_name%><%#else%>Last name<%# end %>" class="lt textbox_ownerprovider" style="outline:none; margin-left:5px;" onfocus="if(this.value == 'Last name'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Last name'}" tabindex="8" maxlength="25">
+                  <div class="clear"></div>
+                </div>
+
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sell_owner_firstname_error" style="display: inline-block; float: left;width: 124px;"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt" id="sell_owner_lastname_error" style="display: inline-block; float: right; margin-right:15px;width: 138px;"></div>
+                  <div class="lt" style="margin-left: 8px;"></div>
+                </div-->
+                <div class="clear"></div>
+
+              </div>
+              <input type="hidden" name="email_old" id="email_old" value="<%=current_user.email_address if !current_user.nil? && !current_user.email_address.nil? %>" />
+              <div class="lt" style="width: 413px; padding: 20px 0 0 0px;">
+                <div class="marginTop15" style="width:442px;">
+                  <div class="lt leftSideField">Email<span class="required">*</span></div>
+                  <% if !current_user.nil? && !current_user.email_address.nil? %>
+                    <input type="text" name="sell_email" disabled="disabled" id="sell_email" value="<% if !current_user.nil? && !current_user.email_address.nil? %><%=current_user.email_address%><%else%>Eg:john@gmail.com<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Eg:john@gmail.com'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value,this.id)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Eg:john@gmail.com'}" tabindex="2" >
+                  <%else%>
+                    <input type="text" name="sell_email" <%if(@partner_email && !@partner_email.nil? && @partner_email.present?)%> readonly <%end%> id="sell_email" value="<% if !current_user.nil? && !current_user.email_address.nil? %><%=current_user.email_address%><% elsif(!@invitee_user_email.nil? && !@invitee_user_email.empty? )%><%=@invitee_user_email%><% elsif(@partner_email && !@partner_email.nil? && @partner_email.present?)%><%=@partner_email%><%else%>Eg:john@gmail.com<% end %>" class="lt textbox_provider_free" style="outline:none;<%=(!@invitee_user_email.nil? && !@invitee_user_email.empty? ) ? "color:rgb(68, 68, 68);" : ""%>" onfocus="if(this.value == 'Eg:john@gmail.com'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value,this.id)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Eg:john@gmail.com'}" tabindex="2" >
+                  <%end%>
+                  <div class="clear"></div>
+                </div>
+
+                <div id="error_explanation" class="errorDiv" style="display:none;">
+                  <div class="lt leftSideField">&nbsp;</div>
+
+                  <div class ="setStyleEmail"></div>
+
+                </div>
+
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sell_email_error"></div>
+                </div>
+                <div class="clear"></div>
+
+                <div class="marginTop15" style="width:442px;">
+                  <div class="lt leftSideField">Confirm Password<span class="required">*</span></div>
+                  <input type="password" name="sell_confirm_password" id="sell_confirm_password" value="<% if !current_user.nil? && !current_user.user_password.nil? %><%= Base64.decode64("#{current_user.user_password}")%><%else%>password<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'password'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value,this.id)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='password'}" tabindex="4" >
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sell_confirm_password_error"></div>
+                </div>
+                <div class="clear"></div>
+
+                <div class="marginTop14" style="width:442px;">
+                  <div class="lt leftSideField">Business Logo</div>
+                  <div>
+                    <div class="file_hidden_reg">
+                      <input type="text" name="browse_photo_sell" id="browse_photo_sell" class="file_input_reg" readonly="readonly" />
+                    </div>
+                    <div class="file_upload">
+                      <input type="file" name="activity_image" id="photo" accept="image/*" size="21" onChange="document.getElementById('browse_photo_sell').value =this.value;fakepath(this.value,'browse_photo_sell');" tabindex="6" />
+                    </div>
+                  </div>
+                  <!--<div class="lt FileUpload">
+				<input type="file" accept="image/*" onchange="document.getElementById('browse_photo_sell').value =this.value;fakepath(this.value);" size="21" id="photo" class="BrowserHidden" name="activity_image">
+				<div class="BrowserVisible" style="border:none;">
+					<input type="text" name="browse_photo_sell" id="browse_photo_sell" class="FileField" tabindex="6" />
+				</div>
+				<span class="browse"><img src="/assets/register/browse.png" width="76" height="30" /></span>
+				<div class="clear"></div>
+			</div>-->
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sell_b_logo_error"></div>
+                </div>
+                <!--provider card start-->
+                <div class="clear"></div>
+
+                <div class="marginTop14" style="width:442px;">
+                  <div class="lt leftSideField">Provider Image<span class="required">*</span></div>
+                  <div>
+                    <div class="file_hidden_reg">
+                      <input type="text" name="provider_photo_sell" id="provider_photo_sell" class="file_input_reg" readonly="readonly" />
+                    </div>
+                    <div class="file_upload">
+                      <input type="file" name="provider_image" id="photo1" accept="image/*" size="21" onChange="document.getElementById('provider_photo_sell').value =this.value;fakepath(this.value,'provider_photo_sell');" tabindex="6" />
+                    </div>
+                  </div>
+                  <!--<div class="lt FileUpload">
+				<input type="file" accept="image/*" onchange="document.getElementById('browse_photo_sell').value =this.value;fakepath(this.value);" size="21" id="photo" class="BrowserHidden" name="activity_image">
+				<div class="BrowserVisible" style="border:none;">
+					<input type="text" name="browse_photo_sell" id="browse_photo_sell" class="FileField" tabindex="6" />
+				</div>
+				<span class="browse"><img src="/assets/register/browse.png" width="76" height="30" /></span>
+				<div class="clear"></div>
+			</div>-->
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sell_provider_logo_error"></div>
+                </div>
+                <!--provider card ending-->
+                <p class="msg" style=" color: #FC8989; font-size: 12px;  font-weight: normal;margin-left: 135px;"></p>
+                <div class="clear"></div>
+
+
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="p_admin_firstname_error" style="display: inline-block; float: left; width: 150px;"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt" id="p_admin_lastname_error" style="display: inline-block; float: right; margin-right:8px;width: 150px;"></div>
+                  <div class="lt" style="margin-left: 8px;"></div>
+                </div>
+                <div class="clear"></div>
+
+                <div class="errorDiv" style="display:none">
+                  <div class="lt errorDivProvider" id="admin_provider_error" style="margin-left: 160px;"></div>
+                </div>
+                <div class="clear"></div>
+
+              </div>
+              <div class="clear"></div>
+
+            </div>
+            <div>
+              <div class="lt" style="width:416px;  margin-top: -7px; margin-left:18px;">
+                <p class="head" style="margin: 20px 0 0 0; color:#186171;">Address</p>
+                <div class="marginTop14">
+                  <div class="lt leftSideField">Address Line 1<span class="required">*</span></div>
+                  <input type="text" name="sell_address1" id="sell_address1" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.address_1.nil? %><%=current_user.user_profile.address_1%><%else%>Enter address<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Enter address'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value,this.id)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter address'}" tabindex="9" maxlength="50" >
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sell_address1_error"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="marginTop14">
+                  <div class="lt leftSideField">Country<span class="required">*</span></div>
+                  <div class="lt customCity">
+                    <select name="country" id="sell_country" size="1" tabindex="11" class="drop_down_left">
+                      <option value="United States">United States</option>
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sell_country_error"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="marginTop14" id="city_height">
+                  <div class="lt leftSideField">City<span class="required">*</span></div>
+                  <div class="lt customCity">
+                    <!--<select name="city" id="sell_city" tabindex="13"  class="drop_down_left">
+<%#@cities = city_detail_list%>			
+<%#@cities.each do |cit|%>
+				<option value="<%#= cit.city_name %>" <%#if cookies[:city_new_usr] && cookies[:city_new_usr].downcase == cit.city_name.downcase %>selected<%#else%><%#end%>><%#= cit.city_name %></option>
+<%#end%>
+
+		</select>-->
+                    <% @city_value = !cookies[:city_new_usr].blank? && !city_detail_list.blank? ? city_detail_list.any?{ |s| s.city_name.casecmp(cookies[:city_new_usr].downcase)==0 } : ''%>
+                    <input type="text" <% if !@city_value.blank?%>style="margin-left:1px; color:#444444;"<% else %>style="margin-left:1px; color:#999999;"<% end %> name="city"  value="<% if !@city_value.blank?%><%= cookies[:city_new_usr]%><% else %>Enter City<% end %>"  id="sell_city"  class="lt textbox_provider_free" maxlength="16" tabindex="13" onfocus="if(this.value == 'Enter City'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter City'}"/>
+                    <div id="sell_city_autocomplete"></div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none" id="cityError">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sell_city_error"></div>
+                </div>
+                <div class="clear"></div>
+
+
+                <div class="marginTop14" style="display:none">
+                  <div class="lt leftSideField">Time Zone</div>
+                  <div class="lt customCity">
+                    <select name="time" id="psell_time" size="1" tabindex="15"  class="drop_down_left">
+                      <!--<option value="Pacific Time Zone">Pacific Time Zone</option>-->
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sell_time_error"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="marginTop15">
+                  <div class="lt leftSideField">Phone<span class="required">*</span></div>
+                  <input type="text" name="sell_phone_1" id="sell_phone_1" value="xxx" class="lt textbox_card" style="outline:none; margin-right:10px;" onfocus="if(this.value == 'xxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxx'}" tabindex="15" maxlength="3"  onkeyup="movetoNext(this, 'sell_phone_2')" onKeyPress="return number(event);">
+
+                  <div class="lt setHyphen">-</div>
+
+                  <input type="text" name="sell_phone_2" id="sell_phone_2" value="xxx" class="lt textbox_card" style="outline:none; margin:0px 10px 0px 10px;" onfocus="if(this.value == 'xxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxx'}" tabindex="16" maxlength="3" onkeyup="movetoNext(this, 'sell_phone_3')" onKeyPress="return number(event);">
+
+                  <div class="lt setHyphen">-</div>
+
+                  <input type="text" name="sell_phone_3" id="sell_phone_3" value="xxxx" class="lt textbox_card" style="outline:none; margin-left:10px;" onfocus="if(this.value == 'xxxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxxx'}" tabindex="17" maxlength="4" onKeyPress="return number(event);">
+
+
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField" style="width:133px;">&nbsp;</div>
+                  <div class="lt" id="sell_phone_error" style="width:281px;"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="marginTop15">
+                  <div class="lt leftSideField">Web Address</div>
+                  <input type="text" name="sell_web_addrs" id="sell_web_addrs" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.website.nil? %><%=current_user.user_profile.website%><%else%>Enter the URL of your website<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Enter the URL of your website'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value,this.id)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter the URL of your website'}" tabindex="22" maxlength="50" >
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sell_web_addrs_error"></div>
+                </div>
+                <div class="clear"></div>
+                <!--div class="marginTop15 spacebtwinputs">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="ftnl fts14">Have a promo code for an offer? Use it here!</div>
+                  <div class="clear"></div>
+                </div-->
+                <div class="marginTop15 spacebtwinputs">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <input style="width: 125px;" type="text" name="discount_code_sell" id="discount_code_sell" value="Offer Code" class="lt textbox" onFocus="if(this.value == 'Offer Code') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onBlur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Offer Code'}" style="outline:none;" tabindex="24">
+                  <div class="lt helpimghover"><img style="cursor: pointer;" src="/assets/provider_register/help.png" alt="" />
+                    <p> If you have an offer or discount code, enter it here.</p>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="discount_code_sell_usr_error"></div>
+                </div>
+                <div class="setTop10">
+                  <!--<div class="lt leftSideField" style="width:258px;">&nbsp;</div>-->
+                  <div class="rt" style="position:relative;left:50px;">
+                    <!--input type="hidden" name="sell_agree_provider" id="sell_agree_provider" value="" /-->
+                    <!--span  class="checkbox">
+                      <a href="javascript:void(0)" title="" class="checkbox" id="sell_checkbox_selected" onclick="dispCheckboxImg_sell('sell_checkbox_selected')" onkeydown="ag_cb_keydown(event,'sell_checkbox_selected')" style="display: none" tabindex="21"><img src="/assets/register/checkbox_selected.png" alt=""/></a>
+                      <a href="javascript:void(0)" title="" id="sell_checkbox_normal" onclick="dispCheckboxImg_sell('sell_checkbox_normal')" onkeydown="ag_cb_keydown(event,'sell_checkbox_normal')" tabindex="26"><img src="/assets/register/checkbox_normal.png" alt=""/></a>
+                      <a href="javascript:void(0)" title="" id="sell_checkbox_error" onclick="dispCheckboxImg_sell('sell_checkbox_error')" onkeydown="ag_cb_keydown(event,'sell_checkbox_error')"  tabindex="22" style="display: none"><img src="/assets/register/checkbox_error.png" alt=""/></a>
+                    </span-->
+		<span  class="squaredFour lt">
+			<input class="lt" id="sell_checkbox_selected" name="sell_checkbox_selected" type="checkbox" value=""/>
+			<label id="sell_check" for="sell_checkbox_selected">&nbsp;</label>
+		</span>
+                    <p class="lt checkboxCont">I agree to the <a href="provider-terms-of-service" onkeydown="termsKeyDown(event)" title="" tabindex="27" target="_blank">Terms of Service</a> <span style="color: #307193;">,</span> <a href="provider-privacy-policy" onkeydown="termsKeyDown(event)" title="" tabindex="27" target="_blank">Privacy &amp; Refund Policies</a></p>
+                    <div class="clear"></div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt errorDivProvider" id="sell_agree_provider_error" style="margin-left: 160px;"></div>
+                </div>
+
+                <div class="clear"></div>
+                <div class="paddingTop20 provider_next_btn">
+                  <div class="lt leftSideField" style="width:132px;">&nbsp;</div>
+                  <div style="width: 400px;*margin:-20px 0 0 131px; position: relative;">
+                    <a href="javascript:void(0)" class="lt save-button" tabindex="28" title="Register" width="95" height="33" onclick="return validate_seller_raj();" style="text-decoration:none;">Next</a>
+
+                    <!--<a href="javascript:void(0)" class="lt loginButton" tabindex="25"  title="Register" width="95" height="33"><input type="submit" value="" id="register_button" style="background:url('/assets/register/next_button.png');"  width="95" height="33" alt="" onclick="return validate_seller_raj();"/></a>-->
+                    <a href="javascript:void(0)" class="lt cancel-button" title="" tabindex="29" style="display:inline-block;text-decoration:none;" onclick="closepopup()">Cancel</a>
+
+                    <div class="clear"></div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+
+                <div class="marginTop14">
+                  <%if params[:b_provider].nil? && params[:b_provider]!="pro"%>
+                    <div class="lt leftSideField">&nbsp;</div>
+                    <p class="alreadyText">Already have an account?  <a href="javascript:void(0)" title="" style="padding-left:5px;" tabindex="30" onclick="parent.parentLoginPage.hide(); parent.pop_Login('/login'); _gaq.push(['_trackEvent', 'Login', 'clickLogin']);">Login</a></p>
+                    <div class="clear"></div>
+                  <%end%>
+                </div>
+
+              </div>
+              <div class="lt" style="width: 418px; margin-top: -24px; margin-left:10px;">
+                <p class="head" style="margin-top: 20px;">&nbsp;</p>
+                <div class="marginTop15" style="width: 442px;">
+                  <div class="lt leftSideField">Address Line 2</div>
+                  <input type="text" name="sell_address2" id="sell_address2" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.address_2.nil? %><%=current_user.user_profile.address_2%><%else%>Enter address<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Enter address'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value,this.id)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter address'}" tabindex="10" maxlength="50" >
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none;">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sell_address2_error"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="marginTop14" style="width: 443px;">
+                  <div class="lt leftSideField">State<span class="required">*</span></div>
+                  <div class="lt customCity">			
+                    <select name="state" id="sell_state" size="1" tabindex="12"  class="drop_down_left">
+                      <option value="California">California</option>
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="ps_state_error"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="marginTop14" style="width: 442px;">
+                  <div class="lt leftSideField">Zip Code<span class="required">*</span></div>
+                  <input type="text" name="sell_zipcode" id="sell_zipcode" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.zip_code.nil? %><%=current_user.user_profile.zip_code%><%else%>Enter zip code<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Enter zip code'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value,this.id)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter zip code'}" tabindex="14" maxlength="50" >
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sell_zipcode_error"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="marginTop15" style="width: 442px;">
+                  <div class="lt leftSideField">Mobile</div>
+                    <!--<input type="text" name="sell_mobile" id="sell_mobile" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.mobile.nil? %><%=current_user.user_profile.mobile%><%else%>Enter your mobile number<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Enter your mobile number'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter your mobile number'}" tabindex="19" maxlength="50" >
+                  -->
+                  <input type="text" name="sell_mobile_1" id="sell_mobile_1" value="xxx" class="lt textbox_card" style="outline:none; margin-right:10px;" onfocus="if(this.value == 'xxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxx'}" tabindex="18" maxlength="3"  onkeyup="movetoNext(this, 'sell_mobile_2')" onKeyPress="return number(event);">
+
+                  <div class="lt setHyphen">-</div>
+
+                  <input type="text" name="sell_mobile_2" id="sell_mobile_2" value="xxx" class="lt textbox_card" style="outline:none; margin:0px 10px 0px 10px;" onfocus="if(this.value == 'xxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxx'}" tabindex="19" maxlength="3" onkeyup="movetoNext(this, 'sell_mobile_3')" onKeyPress="return number(event);">
+
+                  <div class="lt setHyphen">-</div>
+
+                  <input type="text" name="sell_mobile_3" id="sell_mobile_3" value="xxxx" class="lt textbox_card" style="outline:none; margin-left:10px;" onfocus="if(this.value == 'xxxx'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='xxxx'}" tabindex="20" maxlength="4" onKeyPress="return number(event);">
+
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField" style="width:133px;">&nbsp;</div>
+                  <div class="lt" id="sell_mobile_error" style="width:281px;"></div>
+                </div>
+
+                <div class="clear"></div>
+                <div class="marginTop15" style="width: 442px;">
+                  <div class="lt leftSideField">Fax</div>
+                  <input type="text" name="sell_fax" id="sell_fax" value="<% if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.fax.nil? %><%=current_user.user_profile.fax%><%else%>Enter your fax number<% end %>" class="lt textbox_provider_free" style="outline:none;" onfocus="if(this.value == 'Enter your fax number'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value,this.id)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter your fax number'}" tabindex="23" maxlength="50" >
+                  <div class="clear"></div>
+                </div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="sell_fax_error"></div>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </div>
+          </div>
+
+          <!--sell credit card details started-->
+          <div id="sell_credit_card" style="display:none;">
+            <%= render :partial =>'sell_credit_card_info' %>
+            <div class="clear"></div>
+          </div>
+          <!--sell credit card details ended-->
+
+          <!-- bank statement Div start-->
+          <div id="sponsorBankDiv" style="display:none;">
+            <%= render :partial =>'pop_provider_sell_payment_details' %>
+            <div class="clear"></div>
+          </div>
+
+          <!-- provider claim success Div start-->
+
+          <div id="claimSuccess" style="left:30px;right:30px;display:none;">
+            <div class="content_popup" style="font-family:Arial, Helvetica, sans-serif;">
+              <span class='p1' align='center'>Congratulations! You have successfully registered with Famtivity!</span><br/><br/>
+              <p>We have detected that Famtivity was previously curating this account. All of these activities have now been transferred to your account. You are now the administrator of all the activities and will have complete freedom in managing and marketing them.</p><br/><br/>
+
+              <!--<p>Good news! This e-mail address is already in use. which means Your activities have already been added by the famtivity team. Someone will contact you soon to provide you with a temporary password so you can take ownership of your account.</p><br><br>-->
+              <div>
+                <a href="javascript:void(0);" title="" onclick="navigate_bank_details();"><span id="nav-next" class="b-close save-button">OK<span></a>
+                      <a href="javascript:void(0);" title=""><span class="b-close cancel-button">Cancel</span></a>
+                      </div>
+                      </div>
+                      <div class="clear"></div>
+                      </div>
+
+
+                      </form>
+
+
+                      <div class="clear"></div>
+                      </div>
+                      </div>
+
+                      </div>
+                      </div>
+
+
+                      <!--#include virtual="/icom_includes/bizo/tag.html"-->
+
+                      <!-- START VIBRANT --><!--#include virtual="/includes/Vibrant.html" --><!-- END VIBRANT -->
+
+                      <script language="JavaScript" type="text/javascript">
+		         $(document).ready(function(){
+			<%if !@pro_invite.nil? && @pro_invite.present?%>
+                              $(".headCont").html('Sign-up as Provider <span class="fts14" style="position: relative;top: -3px;">(...& get <span class="ftcRed">$20</span> Credit!)</span>');
+			      show_sell('market_sell','parent_register');
+			<%end%> 
+			<%if @page_show=='ptr'%>
+				show_sell('market_sell','<%=@is_partner%>');
+			<%end%>
+			});
+		      
+                        function fakepath(filepath,id)
+                        {
+                          inputNode = filepath.replace('C:\\fakepath\\', '');
+                          var pos = filepath.lastIndexOf( filepath.charAt( filepath.indexOf(":")+1) );
+                          var filename = filepath.substring( pos+1);
+	
+                          var ua=navigator.userAgent;
+
+                          if(ua.indexOf("Firefox")!=-1){
+                            $("#"+id).val(filepath);
+                          }
+                          else {
+                            $("#"+id).val(filename);
+                          }
+                        }
+                        //~ var gDomain="www.qsstats.com";
+                        //~ var gDcsId="dcs17vxkl10000wkxczu5l0wa_9y2e";
+                        //~ var gFpc="WT_FPC";
+                        //~ var gConvert=true;
+                        //~ var gFpcDom = "webreference.com";
+                        //~ if ((typeof(gConvert) != "undefined") && gConvert && (document.cookie.indexOf(gFpc + "=") == -1) && (document.cookie.indexOf("WTLOPTOUT=")==-1)) {
+                          //~ document.write("<SCR"+"IPT TYPE='text/javascript' SRC='http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+"/"+gDcsId+"/wtid.js"+"'><\/SCR"+"IPT>");
+                        //~ }
+                        //~ function dcsAdditionalParameters() {}
+                        //~ $(document).ready(function(){
+                        //~ });
+  
+                        function navigate_bank_details(){
+                          $("#sell_first_").css("display","none");
+                          //~ $("#sell_credit_card").css("display","block");
+                          //for school registration skip the credit card form and go to the bank info form
+                          var plan_sell_manage = $('#plan_sell_manage').val();
+                          var regist_plan = $('#register_plan').val();
+                          if (plan_sell_manage=="school"  || regist_plan=="partner_register"){
+                            $(".checkout_hide").css("display","none");
+                            $("#bank_infmation").css("display","block");
+                          }
+                          else{
+                            $("#sell_credit_card").css("display","block");
+                          }
+	    
+                          $("#imgs2_act").attr("src","/assets/provider_register/step_2active.png");
+                          $("#imgs3_act").attr("src","/assets/provider_register/step_3inactive.png");
+                          $("#adds").css("font-weight","bold");
+                          $("#ups").css("font-weight","normal");
+                        }
+  
+
+
+                        function validate_seller_raj(){
+                          var old_cur=$("#old_curator").val();
+                          //alert(old_cur);
+                          var sell_name = $("#sell_name").val();
+                          //sell_name = sell_name.replace(/^\s+|\s+$/g, "");
+
+                          var sell_password = $("#sell_password").val();
+                          var sell_confirm_password = $("#sell_confirm_password").val();
+                          var sell_owner_firstname=$("#sell_owner_firstname").val();
+                          var sell_owner_lastname=$("#sell_owner_lastname").val();
+                          var sell_email=$("#sell_email").val();
+                          var sell_description = $("#sell_description").val();
+                          var browse_photo_sell=$("#browse_photo_sell").val();
+                          var provider_photo_sell=$("#provider_photo_sell").val();
+                          var sell_b_name= $("#sell_b_name").val();
+                          var sell_address1=$("#sell_address1").val();
+                          var asell_ddress2=$("#sell_address2").val();
+                          var sell_state=$("#sell_state").val();
+                          var sell_city=$("#sell_city").val();
+                          var sell_zipcode=$("#sell_zipcode").val();
+                          var sell_country=$("#sell_country").val();
+                          //~ var sell_agree_provider = $("#sell_agree_provider").val();
+                          var sell_agree_provider = $("#sell_checkbox_selected").is(':checked');
+                          var p_time = $("#p_time").val();
+                          var sell_phone_1=$("#sell_phone_1").val();
+                          var sell_phone_2=$("#sell_phone_2").val();
+                          var sell_phone_3=$("#sell_phone_3").val();
+                          var sell_phone_4=$("#sell_phone_4").val();
+                          var sell_mobile_1=$("#sell_mobile_1").val();
+                          var sell_mobile_2=$("#sell_mobile_2").val();
+                          var sell_mobile_3=$("#sell_mobile_3").val();
+                          var sell_fax=$("#sell_fax").val();
+                          var sell_web_addrs=$("#sell_web_addrs").val();
+                          var discount_code = $("#discount_code_sell").val();
+                          sell_b_name = sell_b_name.replace(/^\s+|\s+$/g, "");
+                          sell_fax = sell_fax.replace(/^\s+|\s+$/g, "");
+                          sell_address1 = sell_address1.replace(/^\s+|\s+$/g, "");
+                          sell_phone_1 = sell_phone_1.replace(/^\s+|\s+$/g, "");
+                          sell_phone_2 = sell_phone_2.replace(/^\s+|\s+$/g, "");
+                          sell_phone_3 = sell_phone_3.replace(/^\s+|\s+$/g, "");
+                          sell_mobile_1 = sell_mobile_1.replace(/^\s+|\s+$/g, "");
+                          sell_mobile_2 = sell_mobile_2.replace(/^\s+|\s+$/g, "");
+                          sell_mobile_3 = sell_mobile_3.replace(/^\s+|\s+$/g, "");
+                          sell_web_addrs = sell_web_addrs.replace(/^\s+|\s+$/g, "");
+   
+                          $("#sell_name").css("border","1px solid #BDD6DD");
+                          $("#sell_b_name").css("border","1px solid #BDD6DD");
+                          $("#sell_password").css("border","1px solid #BDD6DD");
+                          $("#sell_confirm_password").css("border","1px solid #BDD6DD");
+                          $("#sell_description").css("border","1px solid #BDD6DD");
+                          $("#browse_photo_sell").css("border","1px solid #BDD6DD");
+                          $("#provider_photo_sell").css("border","1px solid #BDD6DD");
+                          $("#sell_owner_firstname").css("border","1px solid #BDD6DD");
+                          $("#sell_owner_lastname").css("border","1px solid #BDD6DD");
+                          $("#sell_email").css("border","1px solid #BDD6DD");
+                          $("#p_time").css("border","1px solid #BDD6DD");
+                          $("#sell_phone_1").css("border","1px solid #BDD6DD");
+                          $("#sell_phone_2").css("border","1px solid #BDD6DD");
+                          $("#sell_phone_3").css("border","1px solid #BDD6DD");
+                          $("#sell_mobile_1").css("border","1px solid #BDD6DD");
+                          $("#sell_mobile_2").css("border","1px solid #BDD6DD");
+                          $("#sell_mobile_3").css("border","1px solid #BDD6DD");
+                          $("#sell_fax").css("border","1px solid #BDD6DD");
+                          $("#sell_address1").css("border","1px solid #BDD6DD");
+                          $("#sell_address2").css("border","1px solid #BDD6DD");
+                          $("#sell_agree_provider").css("border","1px solid #BDD6DD");
+                          $("#sell_zipcode").css("border","1px solid #BDD6DD");
+                          $("#sell_web_addrs").css("border","1px solid #BDD6DD");
+                          $("#discount_code_sell").css("border","1px solid #BDD6DD");
+
+
+
+                          $("#sell_name_error").html("");
+                          $("#sell_b_name_error").html("");
+                          $("#sell_password_error").html("");
+                          $("#sell_confirm_password_error").html("");
+                          $("#sell_description_error").html("");
+                          $("#sell_owner_firstname_error").html("");
+                          $("#sell_owner_lastname_error").html("");
+                          $("#sell_email_error").html("");
+                          $("#sell_b_logo_error").html("");
+                          $("#sell_provider_logo_error").html("");
+                          $("#sell_address1_error").html("");
+                          $("#sell_address2_error").html("");
+                          $("#ps_state_error").html("");
+                          $("#sell__city_error").html("");
+                          $("#sell_zipcode_error").html("");
+                          $("#sell_country_error").html("");
+                          $("#sell_agree_provider_error").html("");
+                          $("#p_time_error").html("");
+                          $("#sell_phone_error").html("");
+                          $("#sell_mobile_error").html("");
+                          $("#sell_fax_error").html("");
+                          $("#sell_web_addrs_error").html("");
+                          $("#discount_code_sell_usr_error").html("");
+
+
+                          $("#sell_name_error").parent().css("display","none");
+                          $("#sell_b_name_error").parent().css("display","none")
+                          $("#sell_email_error").parent().css("display","none");
+                          $("#sell_password_error").parent().css("display","none");
+                          $("#sell_confirm_password_error").parent().css("display","none");
+                          $("#sell_description_error").parent().css("display","none");
+                          // $("#p_owner_firstname_error").parent().css("display","none");
+                          $("#sell_owner_lastname_error").parent().css("display","none");
+                          $("#sell_b_logo_error").parent().css("display","none");
+                          $("#sell_provider_logo_error").parent().css("display","none");
+                          //$("#p_admin_firstname_error").parent().css("display","none");
+                          $("#p_admin_lastname_error").parent().css("display","none");
+                          $("#admin_provider_error").parent().css("display","none");
+                          $("#sell_address1_error").parent().css("display","none");
+                          $("#sell_address2_error").parent().css("display","none");
+                          $("#ps_state_error").parent().css("display","none");
+                          $("#sell_city_error").parent().css("display","none");
+                          $("#sell_zipcode_error").parent().css("display","none");
+                          $("#sell_country_error").parent().css("display","none");
+                          $("#sell_agree_provider_error").parent().css("display","none");
+                          $("#p_time_error").parent().css("display","none");
+                          $("#sell_phone_error").parent().css("display","none");
+                          $("#sell_mobile_error").parent().css("display","none");
+                          $("#sell_fax_error").parent().css("display","none");
+                          $("#sell_web_addrs_error").parent().css("display","none");
+                          $("#discount_code_sell_usr_error").parent().css("display","none");
+
+
+                          var errorFlag = false;
+
+                          if(sell_name == "" || sell_name == "Eg: John Smith"){
+                            $("#sell_name").css("border","1px solid #fc8989");
+                            $("#sell_name_error").html("Please enter your name");
+                            $("#sell_name_error").parent().css("display","block");
+                            errorFlag = true;
+                          }
+                          /*    else if(!validateName(sell_name)){
+                            $("#sell_name").css("border","1px solid #fc8989");
+                            $("#sell_name_error").html("Please Use Only Alphabets");
+                            $("#sell_name_error").parent().css("display","block");
+                            errorFlag = true;
+                          }
+                           */    else if(sell_name.length>25){
+                            $("#sell_name").css("border","1px solid #fc8989");
+                            $("#sell_name_error").html("Please Do Not Exceed 25 Characters");
+                            $("#sell_name_error").parent().css("display","block");
+                            errorFlag = true;
+                          }
+
+                          if(sell_b_name =="" || sell_b_name == "Enter the name of your business"){
+                            $("#sell_b_name").css("border","1px solid #fc8989");
+                            $("#sell_b_name_error").html("Please enter your business name");
+                            $("#sell_b_name_error").parent().css("display","block");
+                            errorFlag = true;
+                          }
+
+                          /*else if(!validateName(sell_b_name)){
+                            $("#sell_b_name").css("border","1px solid #fc8989");
+                            $("#sell_b_name_error").html("Please Use Only Alphabets");
+                            $("#sell_b_name_error").parent().css("display","block");
+                            errorFlag = true;
+                          }*/
+                          else if(sell_b_name.length>50){
+                            $("#sell_b_name").css("border","1px solid #fc8989");
+                            $("#sell_b_name_error").html("Please Do Not Exceed 50 Characters");
+                            $("#sell_b_name_error").parent().css("display","block");
+                            errorFlag = true;
+                          }
+
+                          if (sell_password == "" ||  sell_password == "password"){
+                            $("#sell_password").css("border","1px solid #fc8989");
+                            $("#sell_password_error").html("Please enter your password");
+                            $("#sell_password_error").parent().css("display","block");
+                            errorFlag = true;
+                          }
+                          else if(sell_password.length<8){
+                            $("#sell_password").css("border","1px solid #fc8989");
+                            $("#sell_password_error").html("Please enter a password with a minimum of 8 characters");
+                            $("#sell_password_error").parent().css("display","block");
+                            errorFlag = true;
+                          }
+                          if(sell_confirm_password =="" || sell_confirm_password =="password"){
+                            $("#sell_confirm_password").css("border","1px solid #fc8989");
+                            $("#sell_confirm_password_error").html("Please confirm your password");
+                            $("#sell_confirm_password_error").parent().css("display","block");
+                            errorFlag = true;
+                          }
+                          else if(sell_confirm_password != sell_password){
+                            $("#sell_confirm_password").css("border","1px solid #fc8989");
+                            $("#sell_confirm_password_error").html("Please enter the correct confirm password");
+                            $("#sell_confirm_password_error").parent().css("display","block");
+                            errorFlag = true;
+                          }
+                          if(sell_email == "" || sell_email=="Eg:john@gmail.com"){
+                            $("#sell_email").css("border","1px solid #fc8989");
+                            $("#sell_email_error").html("Please enter your Email");
+                            $("#sell_email_error").parent().css("display","block");
+                            errorFlag = true;
+                          }
+                          else if(!validateCorrectEmail(sell_email)){
+                            $("#sell_email").css("border","1px solid #fc8989");
+                            $("#sell_email_error").html("Please enter a valid Email");
+                            $("#sell_email_error").parent().css("display","block");
+                            errorFlag = true;
+                          }
+                          else if(!validateDot(sell_email)){
+                            $("#sell_email").css("border","1px solid #fc8989");
+                            $("#sell_email_error").html("Please enter a valid Email");
+                            $("#sell_email_error").parent().css("display","block");
+                            errorFlag = true;
+                          }
+                          if(sell_description == "" || sell_description=="Description should not exceed 1000 characters"){
+                            $("#sell_description").css("border","1px solid #fc8989");
+                            $("#sell_description_error").html("Please enter your Description");
+                            $("#sell_description_error").parent().css("display","block");
+                            errorFlag = true;
+                          }
+                          if(discount_code !="" && discount_code !="Offer Code"){
+                            if(discount_code.match(/['"]+/)){
+                              $("#discount_code_sell").css("border","1px solid #fc8989");
+                              $("#discount_code_sell_usr_error").html("Please enter valid code");
+                              $("#discount_code_sell_usr_error").parent().css("display","block");
+                              errorFlag = true;
+                            }
+                          }
+                          /*    if(browse_photo_sell == ""){
+                            $("#browse_photo_sell").css("border","1px solid #fc8989");
+                            $("#sell_b_logo_error").parent().css("display","block");
+                            $("#sell_b_logo_error").html("Please select a logo for your business");
+                            errorFlag = true;
+                          }
+                           */
+                          if(browse_photo_sell != ""){
+                            val_sell = validateBrowse_sell();
+                            if(!val_sell){
+                              $('#sell_b_logo_error').html('Please select a logo for your business');
+                              errorFlag = true;
+                            }
+                          }
+    
+                          if(provider_photo_sell == ""){
+                            $("#provider_photo_sell").css("border","1px solid #fc8989");
+                            $("#sell_provider_logo_error").parent().css("display","block");
+                            $("#sell_provider_logo_error").html("Please select a logo for your business");
+                            errorFlag = true;
+                          }
+    
+                          if(provider_photo_sell != ""){
+                            val_sell = validateProvider_sell();
+                            if(!val_sell){
+                              $('#sell_provider_logo_error').html('Please select a logo for your business');
+                              errorFlag = true;
+                            }
+                          }
+	
+                          /* if(sell_owner_firstname != "First name" ){
+                            //if(!validateName(sell_owner_firstname)){
+                            // $("#sell_owner_firstname").css("border","1px solid #fc8989");
+                            // $("#sell_owner_firstname_error").parent().css("display","block");
+                            // $("#sell_owner_firstname_error").html("Please enter a valid name");
+                            // errorFlag = true;
+                            //}
+                            if(sell_owner_firstname.length>25){
+                              $("#sell_owner_firstname").css("border","1px solid #fc8989");
+                              $("#sell_owner_firstname_error").parent().css("display","block");
+                              $("#sell_owner_firstname_error").html("Please Do Not Exceed 25 Characters");
+                              errorFlag = true;
+                            }
+                          }*/
+     
+   
+
+                          /* if(sell_owner_lastname != "Last name" ){
+                            //if(!validateName(sell_owner_lastname)){
+                            // $("#sell_owner_lastname").css("border","1px solid #fc8989");
+                            // $("#sell_owner_lastname_error").parent().css("display","block");
+                            //$("#sell_owner_lastname_error").html("Please enter a valid name");
+                            //errorFlag = true;
+                            //}
+                            if(sell_owner_lastname.length>25){
+                              $("#sell_owner_lastname").css("border","1px solid #fc8989");
+                              $("#sell_owner_lastname_error").parent().css("display","block");
+                              $("#sell_owner_lastname_error").html("Please Do Not Exceed 25 Characters");
+                              errorFlag = true;
+                            }
+                          }*/
+     
+
+                          if(sell_address1 == "" || sell_address1 =="Enter address"){
+                            $("#sell_address1").css("border","1px solid #fc8989");
+                            $("#sell_address1_error").parent().css("display","block");
+                            $("#sell_address1_error").html("Please enter your address");
+                            errorFlag = true;
+                          }
+	
+                          if(sell_country == "" || sell_country == "--Choose country--"){
+                            $("#s1_country").css("border","1px solid #fc8989");
+                            $("#sell_country_error").parent().css("display","block");
+                            $("#sell_country_error").html("Please select the country");
+                            errorFlag = true;
+                          }
+	
+                          if(sell_state == "" || sell_state == "--Choose state--"){
+                            $("#s1_state").css("border","1px solid #fc8989");
+                            $("#ps_state_error").parent().css("display","block");
+                            $("#ps_state_error").html("Please select the state");
+                            errorFlag = true;
+                          }
+
+                          if(sell_city == "" || sell_city == "Enter City"){
+                            $("#sell_city").css("border","1px solid #fc8989");
+                            $("#sell_city_error").parent().css("display","block");
+                            $("#sell_city_error").html("Please select the city");
+                            errorFlag = true;
+                          }
+
+                          if(sell_city != "Enter City" || sell_city != ""){
+                            if(!validateName(sell_city)){
+                              $("#sell_city").css("border","1px solid #fc8989");
+                              $("#sell_city_error").html("Please enter valid city");
+                              $("#sell_city_error").parent().css("display","block");
+                              errorFlag = true;
+                            }
+                          }
+	
+                          /*    if((sell_phone=="Enter your phone number" && sell_mobile=="Enter your mobile number") || (sell_phone!="Enter your phone number" || sell_mobile!="Enter your mobile number")){
+                            if(!validate_Phone(sell_phone) && !validate_Mobilephone(sell_mobile)){
+                              $("#sell_mobile").css("border","1px solid #fc8989");
+                              $("#sell_mobile_error").html("Please enter mobile number as xxx-xxx-xxxx Digit format");
+                              $("#sell_mobile_error").parent().css("display","block");
+                              $("#sell_phone").css("border","1px solid #fc8989");
+                              $("#sell_phone_error").parent().css("display","block");
+                              $("#sell_phone_error").html("Please enter phone number as xxx-xxx-xxxx Digit format");
+                              errorFlag = true;
+                            }
+                          }
+                           */
+
+                          if(sell_phone_1=="xxx" || sell_phone_1=="" || sell_phone_1=="000"){
+                            $("#sell_phone_1").css("border","1px solid #fc8989");
+                            $("#sell_phone_error").parent().css("display","block");
+                            $("#sell_phone_error").html("Please enter your phone number");
+                            errorFlag = true;
+                          }
+                          else if(sell_phone_1.length<3){
+                            $("#sell_phone_1").css("border","1px solid #fc8989");
+                            $("#sell_phone_error").parent().css("display","block");
+                            $("#sell_phone_error").html("Please enter a valid phone number");
+                            errorFlag = true;
+                          }
+	
+                          if(sell_phone_2=="xxx" || sell_phone_2=="" || sell_phone_2=="000"){
+                            $("#sell_phone_2").css("border","1px solid #fc8989");
+                            $("#sell_phone_error").parent().css("display","block");
+                            $("#sell_phone_error").html("Please enter your phone number");
+                            errorFlag = true;
+                          }
+                          else if(sell_phone_2.length<3){
+                            $("#sell_phone_2").css("border","1px solid #fc8989");
+                            $("#sell_phone_error").parent().css("display","block");
+                            $("#sell_phone_error").html("Please enter a valid phone number");
+                            errorFlag = true;
+                          }
+	
+                          if(sell_phone_3=="xxxx" || sell_phone_3=="" || sell_phone_3=="0000"){
+                            $("#sell_phone_3").css("border","1px solid #fc8989");
+                            $("#sell_phone_error").parent().css("display","block");
+                            $("#sell_phone_error").html("Please enter your phone number");
+                            errorFlag = true;
+                          }
+                          else if(sell_phone_3.length<4){
+                            $("#sell_phone_3").css("border","1px solid #fc8989");
+                            $("#sell_phone_error").parent().css("display","block");
+                            $("#sell_phone_error").html("Please enter a valid phone number");
+                            errorFlag = true;
+                          }
+	
+	
+
+                          if ( sell_mobile_1 !="xxx" && sell_mobile_2 != "xxx" && sell_mobile_3 != "xxxx"){
+
+                            if( sell_mobile_1 !="" ){
+                              if(sell_mobile_1.length<3){
+                                $("#sell_mobile_1").css("border","1px solid #fc8989");
+                                $("#sell_mobile_error").parent().css("display","block");
+                                $("#sell_mobile_error").html("Please enter your mobile number");
+                                errorFlag = true;
+                              }
+                            }
+	
+                            if( sell_mobile_2 !="" ){
+                              if(sell_mobile_2.length<3){
+                                $("#sell_mobile_2").css("border","1px solid #fc8989");
+                                $("#sell_mobile_error").parent().css("display","block");
+                                $("#sell_mobile_error").html("Please enter your mobile number");
+                                errorFlag = true;
+                              }
+                            }
+
+                            if( sell_mobile_3 !="" ){
+                              if(sell_mobile_3.length<4){
+                                $("#sell_mobile_3").css("border","1px solid #fc8989");
+                                $("#sell_mobile_error").parent().css("display","block");
+                                $("#sell_mobile_error").html("Please enter your mobile number");
+                                errorFlag = true;
+                              }
+                            }
+                            if( sell_mobile_1 == "000" &&  sell_mobile_2 == "000" && sell_mobile_3 == "0000" ){
+                              $("#sell_mobile_1").css("border","1px solid #fc8989");
+                              $("#sell_mobile_2").css("border","1px solid #fc8989");
+                              $("#sell_mobile_3").css("border","1px solid #fc8989");
+                              $("#sell_mobile_error").parent().css("display","block");
+                              $("#sell_mobile_error").html("Please enter your mobile number");
+                              errorFlag = true;
+                            }
+                          }
+
+                          if(sell_web_addrs !="Enter the URL of your website"){
+                            if(!ValidateWebsiteAddressSell(sell_web_addrs)){
+                              $("#sell_web_addrs").css("border","1px solid #fc8989");
+                              $("#sell_web_addrs_error").parent().css("display","block");
+                              $("#sell_web_addrs_error").html("Please enter your URL");
+                              errorFlag = true;
+                            }
+                          }
+	 
+                          if(sell_fax !="Enter your fax number"){
+                            if(isNaN(sell_fax)){
+                              $("#sell_fax").css("border","1px solid #fc8989");
+                              $("#sell_fax_error").parent().css("display","block");
+                              $("#sell_fax_error").html("Please Enter your fax number");
+                              errorFlag = true;
+                            }
+                          }
+
+                          /*    if(sell_fax == "" || sell_fax == "Enter your fax number"){
+                            $("#sell_fax").css("border","1px solid #fc8989");
+                            $("#sell_fax_error").parent().css("display","block");
+                            $("#sell_fax_error").html("Please enter your fax number");
+                            errorFlag = true;
+                          }
+                          else if(isNaN(sell_fax)){
+                            $("#sell_fax").css("border","1px solid #fc8989");
+                            $("#sell_fax_error").parent().css("display","block");
+                            $("#sell_fax_error").html("Please enter a valid fax number");
+                            errorFlag = true;
+                          }
+
+                          if(sell_web_addrs == "" || sell_web_addrs== "Enter the URL of your website"){
+                            $("#sell_web_addrs").css("border","1px solid #fc8989");
+                            $("#sell_web_addrs_error").parent().css("display","block");
+                            $("#sell_web_addrs_error").html("Please enter your URL");
+                            errorFlag = true;
+                          }
+                          else if(!ValidateWebAddress(sell_web_addrs)){
+                            $("#sell_web_addrs").css("border","1px solid #fc8989");
+                            $("#sell_web_addrs_error").parent().css("display","block");
+                            $("#sell_web_addrs_error").html("Please enter your URL");
+                            errorFlag = true;
+                          }
+                           */    if(sell_zipcode == "Enter zip code"){
+                            $("#sell_zipcode").css("border","1px solid #fc8989");
+                            $("#sell_zipcode_error").parent().css("display","block");
+                            $("#sell_zipcode_error").html("Please enter your zip code");
+                            errorFlag = true;
+                          }
+                          else if(!validateZipcode(sell_zipcode)){
+                            $("#sell_zipcode").css("border","1px solid #fc8989");
+                            $("#sell_zipcode_error").html("Please enter a valid zip code");
+                            $("#sell_zipcode_error").parent().css("display","block");
+                            errorFlag = true;
+                          }
+
+
+
+                          /*    if(p_time =="" || p_time!= "--Choose Time Zone--"){
+                              $(".selectBoxProvider").css("background","url('/assets/register/select_box_error.png') no-repeat");
+                              $(".selectBoxPTime").css("border","1px solid #fc8989");
+                              $("#p_time_error").parent().css("display","block");
+                              $("#p_time_error").html("Please select the time zone");
+                              errorFlag = true;
+                          }
+                           */
+	 
+                          if (sell_agree_provider == false){
+                            $('#sell_checkbox_error').css('display','block');
+                            $('#sell_checkbox_normal').css('display','none');
+                            $("#sell_agree_provider_error").html("Please check the terms of service box");
+                            $("#sell_agree_provider_error").parent().css("display","block");
+                            //$("#p_checkbox_normal").css("border","1px solid #fc8989");
+                            errorFlag = true;
+                          }
+	
+	
+                          if(errorFlag){
+                            return false;
+                          }
+                          else{
+                            $("#register_button").attr("disabled", "disabled");
+                            $('.loadingmessage').show();
+                            //curator to provider start
+                            if (old_cur=="provider"){
+                              $('.loadingmessage').hide();
+                              $("#sell_first_").css("display","none");
+                              //~ $("#sell_credit_card").css("display","block");
+                              //for school registration skip the credit card form and go to the bank info form
+                              var plan_sell_manage = $('#plan_sell_manage').val();
+                              var regist_plan = $('#register_plan').val();
+                              if (plan_sell_manage=="school"  || regist_plan=="partner_register"){
+                                $(".checkout_hide").css("display","none");
+                                $("#bank_infmation").css("display","block");
+                              }
+                              else{
+                                $("#sell_credit_card").css("display","block");
+                              }
+	    
+                              $("#imgs2_act").attr("src","/assets/provider_register/step_2active.png");
+                              $("#imgs3_act").attr("src","/assets/provider_register/step_3inactive.png");
+                              $("#adds").css("font-weight","bold");
+                              $("#ups").css("font-weight","normal");
+                              <%if !@bcm_invite.nil? && @bcm_invite.present?%>
+                              $(".headCont").html('Become a Provider');
+                              <%else%>
+                              $(".headCont").html('Sign-up as Provider <span class="fts14" style="position: relative;top: -3px;">(...& get <span class="ftcRed">$20</span> Credit!)</span>');
+                              <%end%>
+                            }
+                            else{
+
+                              if(discount_code !="" && discount_code !="Offer Code"){
+
+                                $.ajax({
+                                  url:"/users/check_discount_code",
+                                  type:"post",
+                                  dataType:"json",
+                                  data:{
+                                    "discount_code":discount_code
+                                  },
+                                  success:function(data){
+                                    if (data=="success"){
+<%if params[:b_provider] && params[:b_provider]!='' && params[:b_provider]=='pro'%>
+                  register_email_success();
+<%else%>
+                  $.ajax({
+                    type: "POST",
+                    url: "/users/curated_user_exist",
+                    data: {
+                      "email": sell_email
+                    },
+                    dataType : 'json',
+                    iframe: 'true',
+                    cache: false,
+                    success: function(data){
+                      if (data=="failed"){
+                        $('.loadingmessage').hide();
+                        $("#sell_email").css("border","1px solid #fc8989");
+                        $("#sell_email_error").html("This Email is already registered with Famtivity.<br/> Please enter a different Email address.");
+                        $("#sell_email_error").parent().css("display","block");
+                      }
+                      else if(data=="curated")
+                      {
+                        $("#curated_user_sell").val('cur_user');
+                        $('.loadingmessage').hide();
+                        $("#claimSuccess").bPopup({
+                          modalClose:false
+                        });
+                      }
+                      else{
+                        register_email_success();
+                      }
+                    }
+                  });
+<%end%>
+              }
+              else{
+                $('#loadingmessage').hide();
+                $("#discount_code_sell").css("border","1px solid #fc8989");
+                $("#discount_code_sell_usr_error").html("You have entered an invalid code");
+                $("#discount_code_sell_usr_error").parent().css("display","block");
+                return false;
+              }
+            }
+          });
+
+        }
+        else{
+<%if params[:b_provider] && params[:b_provider]!='' && params[:b_provider]=='pro'%>
+            register_email_success();
+<%else%>
+            $.ajax({
+              type: "POST",
+              url: "/users/curated_user_exist",
+              data: {
+                "email": sell_email
+              },
+              dataType : 'json',
+              iframe: 'true',
+              cache: false,
+              success: function(data){
+                if (data=="failed"){
+                  $('.loadingmessage').hide();
+                  $("#sell_email").css("border","1px solid #fc8989");
+                  $("#sell_email_error").html("This Email is already registered with Famtivity.<br/> Please enter a different Email address.");
+                  $("#sell_email_error").parent().css("display","block");
+                }
+                else if(data=="curated")
+                {
+                  $("#curated_user_sell").val('cur_user');
+                  $('.loadingmessage').hide();
+                  $("#claimSuccess").bPopup({
+                    modalClose:false
+                  });
+
+                }
+                else{
+                  register_email_success();
+                }
+              }
+            });
+<%end%>
+        }
+      }  //curator to provider end
+      return false;
+    }
+  }
+
+  function register_email_success()
+  {
+    $('.loadingmessage').hide();
+    $("#sell_first_").css("display","none");
+    //~ $("#sponsorBankDiv").css("display","block");
+    //for school registration skip the credit card form and go to the bank info form
+    var plan_sell_manage = $('#plan_sell_manage').val();
+    var regist_plan = $('#register_plan').val();
+    if (plan_sell_manage=="school"  || regist_plan=="partner_register"){
+      $(".checkout_hide").css("display","none");
+      $("#bank_infmation").css("display","block");
+      $("#sponsorBankDiv").css("display","block");
+    }
+    else{
+      $("#sell_credit_card").css("display","block");
+    }
+    $("#imgs2_act").attr("src","/assets/provider_register/step_2active.png");
+    $("#imgs3_act").attr("src","/assets/provider_register/step_3inactive.png");
+    $("#adds").css("font-weight","bold");
+    //~ $("#adds").html("Credit Card Details");
+    $("#ups").css("font-weight","normal");
+    <%if !@bcm_invite.nil? && @bcm_invite.present?%>
+     $(".headCont").html('Become a Provider');
+    <%else%>
+    $(".headCont").html('Sign-up as Provider <span class="fts14" style="position: relative;top: -3px;">(...& get <span class="ftcRed">$20</span> Credit!)</span>');
+    <%end%>
+  }
+
+  function validateBrowse_sell(){
+    var fup = document.getElementById('browse_photo_sell');
+    var fileName = fup.value;
+    var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+    if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg" || ext == "JPG" || ext == "png" || ext == "PNG")
+    {
+      //errorFlag = false;
+      return true;
+    }
+    else
+    {
+      $('#sell_b_logo_error').parent().css("display","block");
+      $("#browse_photo_sell").css("border","1px solid #fc8989");
+      $('#sell_b_logo_error').html('Please Check The Format Of Your Logo');
+      return false;
+    }
+  }
+  
+  function validateProvider_sell(){
+    var fup = document.getElementById('provider_photo_sell');
+    var fileName = fup.value;
+    var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+    if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg" || ext == "JPG" || ext == "png" || ext == "PNG")
+    {
+      //errorFlag = false;
+      return true;
+    }
+    else
+    {
+      $('#sell_provider_logo_error').parent().css("display","block");
+      $("#provider_photo_sell").css("border","1px solid #fc8989");
+      $('#sell_provider_logo_error').html('Please Check The Format Of Your Logo');
+      return false;
+    }
+  }
+
+  function ValidateWebsiteAddressSell() {
+    var url = document.getElementById('sell_web_addrs').value;
+    var urlIsValid =       ValidateWebAddressSell(url);      //alert("Website Address is valid?:" +urlIsValid );
+    return urlIsValid ;
+  }
+    
+
+  function ValidateWebAddressSell(url) {
+    var webSiteUrlExp = /^(([\w]+:)?\/\/)?(([\d\w]|%[a-fA-f\d]{2,2})+(:([\d\w]|%[a-fA-f\d]{2,2})+)?@)?([\d\w][-\d\w]{0,253}[\d\w]\.)+[\w]{2,4}(:[\d]+)?(\/([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)*(\?(&?([-+_~.\d\w]|%[a-fA-f\d]{2,2})=?)*)?(#([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)?$/;
+    if (webSiteUrlExp.test(url)) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  
+  function validateName(elementValue){
+    var alphaExp = /^[a-zA-Z ]*$/;
+    return alphaExp.test(elementValue);
+  }
+
+                      </script>
+

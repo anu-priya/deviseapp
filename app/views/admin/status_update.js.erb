@@ -1,0 +1,8 @@
+parent.activityDeletePage.hide();
+parent.$('#total_no_activities').html("<%=@activities.length%>");
+<%if @view =="gallery"%>
+  parent.$('#provider_partial_event_list').html("<%=escape_javascript(render 'admin_gallery_view')%>");
+<%else%>
+  parent.$('#provider_partial_event_list').html("<%=escape_javascript(render 'admin_list')%>");
+<%end%>
+

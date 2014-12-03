@@ -1,0 +1,117 @@
+<script type="text/javascript" src="/assets/global/checkbox.js"></script>
+<style type="text/css">
+.downimg{
+  top: 5px;
+position: relative;
+}
+</style>
+
+<div id="heaer_section" style="width:100%">
+<div id="create_section">
+          <span valign="top" onclick="pop_new_contact('/contact_users/new?fam_last=<%=request.fullpath%>'); _gaq.push(['_trackEvent','Parent Module', 'clickContact','Add Contact']);">
+            <span class="plusImg adplus contact_all" >
+              <!--img id="arrow1" src="/assets/contact/add_icon.png" alt=""  /-->
+            </span>
+            <span  class="leftMenus adcontact">
+             <a href="javascript:void(0)"  title="" style="text-decoration:none;" class="menuText addText adtext" >Add Contact</a>
+            </span>
+          </span>
+          <span class="pipeSymbol" style="top: 7px;">|</span>
+          <span id="del_header" onclick="before_delete(); _gaq.push(['_trackEvent','Parent Module', 'clickContactGroup','Delete']);">
+            <span class="plusImg delplus contact_del" >
+              <!--img id="arrow1" src="/assets/contact/delete_icon.png" alt=""  /-->
+            </span>
+            <span class="leftMenus deltext" >
+              <a href="javascript:void(0)" class="menuText addText" style="text-decoration:none;">Delete</a>
+              </span>
+            </span>
+            <span style="display: inline-block;">
+            <form name="frm_pst" method="post" action="/messages/new?mode=<%=params[:mode]%>">
+              <input type="hidden" value="" name="frm_contacts" id="frm_contacts">
+              <input type="hidden" value="" name="frm_group" id="frm_group">
+            </form>
+          </span>
+              <a href="javascript:void(0);" id="postmsg" title="" onclick="new_message('<%=params[:mode] if !params[:mode].nil?%>');">
+              <!--span id="postmsg" onclick="pop_create_message_form('/messages/new?mode=<%=params[:mode]%>&c_url=<%=request.fullpath%>','<%=params[:mode]%>'); _gaq.push(['_trackEvent','<%=params[:mode].capitalize if !params[:mode].nil?%> Module', 'clickMessages','Create New Message']);"-->
+                <span class="plusImg postplus" >
+                  <img id="arrow1" src="/assets/contact/postmessage_icon.png" alt=""  />
+                </span>
+                <span class="postxt" >Post a Message</span>
+              </a>
+</div>
+
+<div id="import_section" >
+        <span class="impfirst" valign="top">
+            <span>
+               <a href="javascript:void(0);" title="" onclick="pop_invite_friend_check('/invite_friend_famtivity?check_invite=contact_import&fam_last=<%=request.fullpath%>'); _gaq.push(['_trackEvent','Parent Module', 'clickContact','Import']);">
+                  <span class="plusImg implus contact_all" >
+                    <!--img src="/assets/contact/import_icon.png" alt=""/-->
+                  </span>
+                  <span class="menuText imptext" >Import</span>
+               </a>
+            </span>
+          </span>
+          <span class="exptotal" valign="top" >
+            <%if !@contact_users.nil? && @contact_users.length>0%>
+              <a href="/csv_contacts.csv" class="menuText exptext contact_export_ic"> <span class="inerexport">Export.csv<span>
+              </a>
+              <%#= link_to csv_contacts_path(format: "csv"), :class => "menuText" do %>
+                <%#= image_tag "/assets/contact/contact_export_icon.png", {:class=>"menuText downimg"}%>
+              <%# end %>
+            <%else%>
+              <!--span class="plusImg exptext contact_export_ic" >
+                <img src="/assets/contact/contact_export_icon.png" alt=""/>
+              </span-->
+              <span class="menuText exptext contact_export_ic"><span style="top: 2px;position: relative;">Export.csv</span></span>
+            <%end%>
+          </span>
+          <span valign="top" style="margin-left: 44px;">
+            <!--span class="menuText dltext" style="color: #807e7e;font-size: 12px;">Download Sample CSV file 
+              <%#= link_to "sample.csv", contact_users_path(format: "csv"), {:class=>"importcolor"}%></span-->
+               <a href="/contact_users.csv">
+            <span class="plusImg dlimg contact_export_ic" ><!--img src="/assets/contact/download_icon.png" alt=""/-->
+            <span class="menuText samtext" >Sample.csv</span></span></a>
+          </span>
+
+        <span id="grp_frnd_ct" class="network_contact new_font" style="display:inline-block;width: 33px;float: right;border: none;">
+
+                <ul >
+                  <li style="padding: 5px 0px;width: 30px;">
+                    <a href="#" class="top_menu_icon menuText " style="color: #5AA3B6;width: 15px;">
+                     <span class="extention contact_del" style="margin-left: -5px;"></span>
+                    </a>
+                    <ul class="sub-menu menu_group menu-csv" style="top: 41px;">
+                      <div align="right" class="netmenu new_font" style="margin-top: -16px;left: 34px;"><img src="/assets/event/schedule_top_arrow.png" alt=""></div>
+                      <li style="padding: 0px 6px;font-family: 'open_sansregular';"><span id="all" style="padding: 10px 0px;width: 163px;margin-left: -8px;text-indent: 5px;display: inline-block;">Download sample CSV file</span></li>
+                    </ul>
+                  </li>
+                </ul>
+                <div class="clear"></div>
+              </span>
+          
+</div>
+
+
+<div id="search_section" >
+<form id="parent_search" action="/search_contact_user" name="parent_search" method="get">
+        <input type="hidden" id="uid" value="<%=cookies[:uid_usr]%>"/>
+        <input type="hidden" id="s_key" value="all"/>
+        <input type="hidden" name="represented" id="represented" value="general" />
+        <div id="advanceSearchDiv" class="advcon" style="margin-top:2px; ">
+          <div class="ad_textbox " style="width:72%;height:24px;background-color:white;">
+            <div class="lt_search"><input type="text" id="event_search" name="event_search" value="Search for famtivity people"  style="width:190px;outline:none;background-color:white;" class="textbox" autocomplete='on' onfocus="if(this.value == 'Search for famtivity people'){this.value=''; this.style.color='#444444';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.value='Search for famtivity people'}" /></div>
+            <div class="lt_search set_search_icon contact_all con_search" style="margin-top: 4px;" onclick="search_ajax_contact()">
+              <!--img src="/assets/contact/contac_search_icon.png" alt="" /--></div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </form>
+</div>
+
+
+
+
+
+</div>
+
+

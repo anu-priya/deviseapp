@@ -1,0 +1,18 @@
+<%= stylesheet_link_tag "/assets/global/pop_up_success" %>
+<script language="javascript">
+  $(document).ready(function(){
+    $("html, body", window.parent.document).animate({ scrollTop: 0 }, 100);
+  });
+  function closepopup_bid() {
+    parent.newActivityPage.hide();
+    parent.parent.location.reload(true);
+  }
+</script>
+<div align="center" style="height:230px;">
+  <p class="successText" style="padding:60px 0;">Your Bid has been placed</p>
+  <div class="clear"></div>
+  <a href="javascript:void(0)" onclick="closepopup_bid()" title=""><%= image_tag("/assets/register/ok_btn.png") %></a>
+</div>
+
+
+

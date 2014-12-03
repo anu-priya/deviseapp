@@ -1,0 +1,8 @@
+$("#discount_options").html("<%=escape_javascript(render 'create_discount_provider_code')%>");
+//$("#edit_discountfee_success").css("display","block").fadeOut(3000);
+$('#edit_discountfee_success').fadeIn().delay(3000).fadeOut();
+$('#loading_img4').css("display","none");
+setTimeout(function() {
+$('.popupContainer').css("opacity","1");
+$('#edit_disc_pop').css("display","none");
+}, 2000);

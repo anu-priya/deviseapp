@@ -1,0 +1,12 @@
+parent.deletediscountPage.hide();
+parent.$("#act-list-<%= params[:id] %>").hide();
+parent.$(".flash-message").html("Discount Code has been removed Successfully");
+var win=$(window.parent).width();
+var con=parent.$(".flash_content").width();
+var leftvalue=((win/2)-(con/2))
+parent.$(".flash_content").css("left",leftvalue+"px");
+parent.$(".flash_content").css("top","67px");
+parent.$('.flash_content').fadeIn().delay(10000).fadeOut();
+<%if @act.length == 0%>
+  parent.$("#prepend_discount_code").html('<tr class="setBg1"><td width="40%" colspan="7" class="no_activities" style="text-align:center;height: 500px;">Sorry we found no discount codes.</td></tr>')
+<%end%>

@@ -1,0 +1,351 @@
+<%=stylesheet_link_tag "global/pop_up","share_activity/share_acitivity_detail","share_activity/share_activity","contacts_users/jquery-ui", :media => "all"%>
+<%=javascript_include_tag "share_activity/validate","auto_complete/jquery-ui"%>
+
+<script language="javascript">
+  function closepopup(){
+    parent.$('html, body').css({
+    'overflow': 'auto',
+    'height': 'auto'
+    })
+  	parent.shareActivityPage.hide();
+	//~ parent.parent.location.href += "";
+  }
+function before_login_closepopup(){
+  parent.shareActivityPage.hide();
+  //~ parent.parent.location.href += "";
+  parent.window.location.reload();
+}
+</script>
+
+<div id="new_act_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Share Activity</div>
+          </div>
+          <div class="closeButton">
+      <%if !@before_login_value.nil? && @before_login_value.present?%>
+        <a href="javascript:void(0)" onClick="before_login_closepopup()" title=""><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%></a>
+      <%else%>
+        <a href="javascript:void(0)" onClick="closepopup()" title=""><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%></a>
+      <%end%>
+
+          </div>
+        </div>
+        <div id="share_render">
+          <div class="centerCont">
+            <form id="share_activity" name="share_activity" action="share_activity_success" method="post" data-remote="true">
+              <div class="paddingTop10" id="createactivity">
+                <div class="paddingTop10">
+                  <div class="lt leftSideField">To</div>
+                  <!--div class="lt textboxDiv">
+                    <input class="lt toTextbox" name="send_to" id="send_to" value="" onkeydown="closedispContactDiv()"/>
+                    <a href="#" title="" onclick="displayToList()" class="addIcon"><img src="/assets/global/to_mail/add_icon.png" width="24" heigh="24" alt=""/></a>
+                  </div-->
+                  <input class="lt textboxDiv" name="send_to" id="send_to" value="" autocomplete='on' />
+                  <div class="clear"></div>
+                  <div id="dispContactDiv" class="dispNone">
+                    <div class="topBox">
+                      <div class="searchRow">
+                        <input type="text"  id="searchBox" name="search" class="lt searchBox" value=" "/>
+                        <a href="/search" class="lt">
+                          <%=image_tag("/assets/global/to_mail/search.png", :width=>"63", :height=>"26")%>
+                        </a>
+                      </div>
+                       <input type="hidden" name="act" value="<%= @action %>">
+                       <input type="hidden" name="mode" value="<%= params[:mode] %>">
+                      <input type="hidden" name="activity_id" value="<%= @activity.activity_id %>">
+                      <div class="groupRow">
+                        <div class="lt groupRowLeft">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="contact" onclick="selectedContact()"><input id="contact" name="contact" type="checkbox" value=""><label for="contact">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Contacts</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt groupRowLeft" style="border:none;">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="group" onclick="selectedGroup()"><input id="group" name="group" type="checkbox" value=""><label for="group">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Groups</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="contactNamesRow">
+                        <div class="lt contactRowLeft" id="contactList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td class="contactFr"><input id="c1" name="c1" type="checkbox" value="johnjoe@gmail.com"><label for="c1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Johnjoe</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactFr"><input id="c2" name="c2" type="checkbox" value="Smith@yahoo.com"><label for="c2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Smith</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactFa"><input id="c3" name="c3" type="checkbox" value="bikowski@gmail.com"><label for="c3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Bikowski</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactOf"><input id="c4" name="c4" type="checkbox" value="alex@yahoo.co.in"><label for="c4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Alex Brewer</p></td>
+                            </tr>
+                            <tr>
+                              <td class="contactTe"><input id="c5" name="c5" type="checkbox" value="aram@i-waves.com"><label for="c5">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Aram Jabbari</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td class="contactTe"><input id="c6" name="c6" type="checkbox" value="abby@gmail.com"><label for="c6">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Abby Roundy</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt contactRowRight" style="border:none;" id="groupList">
+                          <table cellpadding="0" cellspacing="" border="0">
+                            <tr>
+                              <td onclick="selectFriends()"><input id="g1" name="g1" type="checkbox" value="Johnjoe"><label for="g1">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Friends</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectFmaily()"><input id="g2" name="g2" type="checkbox" value="Smith"><label for="g2">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Family</p></td>
+                            </tr>
+                            <tr>
+                              <td onclick="selectOffice()"><input id="g3" name="g3" type="checkbox" value="Bikowski"><label for="g3">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Office</p></td>
+                            </tr>
+                            <tr class="setHeight">
+                              <td onclick="selectTeam()"><input id="g4" name="g4" type="checkbox" value="Alex Brewer"><label for="g4">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Team</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="buttonRow">
+                        <a href="javascript:void(0)" title="" class="lt" onclick="addcontactnames()">
+                          <%=image_tag("/assets/global/to_mail/add.png", :width=>"65", :height=>"28")%>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="bottomBox"></div>
+                  </div>
+                  </a>
+                </div>
+                <div class="clear"></div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="send_to_error"></div>
+                </div>
+                <div class="clear"></div>
+                <table width="880" height="34" border="0" cellpadding="1" cellspacing="0" style="margin-top:10px;">
+                  <tr>
+                    <td width="197" align="left" class="setfont_share"><span style="margin-left:70px;">Subject</span></td>
+                    <td width="495">  
+		    <%@user_n= User.find_by_user_id(current_user.user_id) if !current_user.nil? && current_user.present?%>
+		    <%if !@user_n.nil? && @user_n.present? && @user_n!=''%>
+			<%@user_name=@user_n.user_name%>
+			<%@user_prof = @user_n.user_profile%>
+			<%if !@user_prof.nil? && @user_prof.present? && @user_prof!=''%>
+				<%@business_name=@user_prof.business_name%>			
+			<%end%>
+		    <%end%>
+		    <% if !params[:mode].nil? &&  params[:mode].present? &&  params[:mode]!=''%>
+				<% if params[:mode].downcase== 'provider'%>
+					<%@subj = @business_name%>
+				<%else%>
+					<%@subj = @user_name%>
+				<%end%>
+		    <%else%>
+				<%@subj = @user_name%>
+		    <%end%>
+		    <input type="text" name="subject" id="subject" class="lt textbox" value="<%= @subj if !@subj.nil? && @subj.present?%> Has Shared An Activity" /></td>
+                  </tr>
+                </table>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="subject_error"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="paddingTop10">
+                  <div class="lt leftSideField">Selected Activity</div>
+                  <div class="lt selActDiv">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td>
+                          <%if !@activity.avatar_file_name.nil? && @activity.avatar.present?%>
+                            <%= image_tag @activity.avatar.url(:thumb) if @activity.avatar.url(:thumb)%>
+                            <%#= image_tag @activity.avatar.url(:medium) if @activity.avatar.url(:medium)%>
+                          <%else%>
+                            <%= image_tag "no_image.png" %>
+                          <%end%>
+                        </td>
+                        <td>
+                          <div class="title"><%= @activity.activity_name %></div>
+                          <div class="desp"><%= @activity.description %></div>
+                        </td>
+                      </tr>
+                    </table>
+                    <div class="clear"></div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <table width="880" height="34" border="0" cellpadding="1" cellspacing="0" style="margin-top:10px;">
+                  <tr>
+                    <td width="197" class="setfont_share" align="left"><span style="margin-left:70px; top:-52px; position:relative;">Message</span></td>
+                    <td width="495"> <textarea class="textArea" name="message" id="message" value="" onchange="removeunwantedSpace('message',this.value)" onfocus="focusChangeBorderColor('message')" onblur="blurChangeBorderColor('message')"></textarea></td>
+                  </tr>
+                </table>
+
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="message_error"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="buttonDiv">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt">
+                    <input type="image" src="/assets/login/send_button.png" alt="" id="send" />
+                    <%if !@before_login_value.nil? && @before_login_value.present?%>
+                      <a href="javascript:void(0)"><%=image_tag("/assets/login/cancel_button.png", :width=>"97", :height=>"37", :onclick=>"before_login_closepopup();")%></a>
+                    <%else%>
+                      <a href="javascript:void(0)"><%=image_tag("/assets/login/cancel_button.png", :width=>"97", :height=>"37", :onclick=>"closepopup();")%></a>
+                    <%end%>
+		    <!--ajax loader -->
+		<span id='loadingmessage' style='display:none; margin-left: 7px;position: relative;top: -10px;'>
+			<%=image_tag("/assets/loading_small.gif", :width=>"16", :height=>"16")%>
+		</span>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+
+  $(document).ready(function() {
+   parent.$('html, body').css({
+      'overflow': 'hidden',
+      'height': '100%'
+      })
+  $("#send_to").focus();
+    $('#share_activity').submit(function(){
+      var send_to = $("#send_to").val();
+      var subject = $("#subject").val();
+      var subjectLen = $.trim(subject).length;
+      var message = $("#message").val();
+      var messageLen = $.trim(message).length;
+
+      $("#new_act_container .textboxDiv").css("border","1px solid #CDE0E6");
+      $("#subject").css("border","1px solid #BDD6DD");
+      $("#message").css("border","1px solid #BDD6DD");
+
+      $("#send_to_error").html("");
+      $("#subject_error").html("");
+      $("#message_error").html("");
+
+      $("#send_to_error").parent().css("display","none");
+      $("#subject_error").parent().css("display","none");
+      $("#message_error").parent().css("display","none");
+
+      var errorFlag = false;
+      if(send_to == ""){
+        $("#new_act_container .textboxDiv").css("border","1px solid	#fc8989");
+        $("#send_to_error").parent().css("display","block");
+        $("#send_to_error").html("Please enter one contact");
+        errorFlag = true;
+      }
+      if(send_to!="")
+      {
+        if(!validateEmail(send_to)){
+          $("#new_act_container .textboxDiv").css("border","1px solid	#fc8989");
+          $("#send_to_error").parent().css("display","block");
+          $("#send_to_error").html("Please enter a valid email address(Use comma separated value for mutiple email)");
+          errorFlag = true;
+        }
+      }
+
+      if(subject == "" || subjectLen < 1 ){
+        $("#subject").css("border","1px solid #fc8989");
+        $("#subject_error").html("Please enter a subject for the share activity");
+        $("#subject_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      if(errorFlag){
+        return false;
+      } else{
+        $('#loadingmessage').css("display","inline-block");
+          $.post($(this).attr('action'), $(this).serialize(), function(){$('#loadingmessage').hide();}, "script");
+        return false;
+      }
+    });
+    
+     //~ document.getElementById("send_to").focus();
+    //~ document.getElementById("send_to").value="";
+    //~ document.getElementById("send_to").style.color="#444444;"
+  
+  });
+
+  //~ Added Autocomplete functionality for famitvity share
+  var availableTags=new Array();
+	<%if !@user_email.nil?%>
+		<% @user_email.each do |auto_complete|%>
+			availableTags.push('<%= auto_complete%>');
+		<%end%>
+	<%end%>
+
+	function split( val ) {
+		return val.split( /,\s*/ );
+	}
+	function extractLast( term ) {
+		return split( term ).pop();
+	}
+	$( "#send_to" ).autocomplete({
+		minLength: 1,
+		source: function(request, response) {
+		var results = $.ui.autocomplete.filter(availableTags, extractLast( request.term ));
+		response(results.slice(0, 8));        
+	},
+	focus: function() {
+          return false;
+        },
+	select: function( event, ui ) {
+	  var terms = split( this.value );
+	  // remove the current input
+	  terms.pop();
+	  // add the selected item
+	  terms.push( ui.item.value );
+	  // add placeholder to get the comma-and-space at the end
+	  terms.push( "" );
+	  this.value = terms.join( ", " );
+	  return false;
+	}
+	});
+	//ie8 key enter fixes	
+	$("#send_to").keypress(function(e) {
+		if(e.which == 13)
+		{
+			e.preventDefault();
+		}
+	});
+       //Autocomplete dropdown scroll fixes
+	$(window).scroll(function() {
+	  $("#ui-id-1").hide();
+	});
+//~ end of autocomplete
+</script>

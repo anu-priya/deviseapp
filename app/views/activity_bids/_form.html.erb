@@ -1,0 +1,49 @@
+<%= form_for(@activity_bid) do |f| %>
+  <% if @activity_bid.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@activity_bid.errors.count, "error") %> prohibited this activity_bid from being saved:</h2>
+
+      <ul>
+      <% @activity_bid.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :activity_id %><br />
+    <%= f.number_field :activity_id %>
+  </div>
+  <div class="field">
+    <%= f.label :bid_amount %><br />
+    <%= f.number_field :bid_amount %>
+  </div>
+  <div class="field">
+    <%= f.label :no_clicks %><br />
+    <%= f.number_field :no_clicks %>
+  </div>
+  <div class="field">
+    <%= f.label :total_bid_amount %><br />
+    <%= f.number_field :total_bid_amount %>
+  </div>
+  <div class="field">
+    <%= f.label :balance_budget %><br />
+    <%= f.number_field :balance_budget %>
+  </div>
+  <div class="field">
+    <%= f.label :city_id %><br />
+    <%= f.number_field :city_id %>
+  </div>
+  <div class="field">
+    <%= f.label :userid %><br />
+    <%= f.number_field :userid %>
+  </div>
+  <div class="field">
+    <%= f.label :bid_status %><br />
+    <%= f.text_area :bid_status %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

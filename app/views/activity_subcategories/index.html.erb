@@ -1,0 +1,35 @@
+<h1>Listing activity_subcategories</h1>
+
+<table>
+  <tr>
+    <th>Subcateg</th>
+    <th>Subcateg name</th>
+    <th>Avatar file name</th>
+    <th>Image content type</th>
+    <th>Image file size</th>
+    <th>Image updated at</th>
+    <th>Category</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @activity_subcategories.each do |activity_subcategory| %>
+  <tr>
+    <td><%= activity_subcategory.subcateg_id %></td>
+    <td><%= activity_subcategory.subcateg_name %></td>
+    <td><%= activity_subcategory.avatar_file_name %></td>
+    <td><%= activity_subcategory.image_content_type %></td>
+    <td><%= activity_subcategory.image_file_size %></td>
+    <td><%= activity_subcategory.image_updated_at %></td>
+    <td><%= activity_subcategory.category_id %></td>
+    <td><%= link_to 'Show', activity_subcategory %></td>
+    <td><%= link_to 'Edit', edit_activity_subcategory_path(activity_subcategory) %></td>
+    <td><%= link_to 'Destroy', activity_subcategory, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Activity subcategory', new_activity_subcategory_path %>

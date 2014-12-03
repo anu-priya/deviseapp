@@ -1,0 +1,210 @@
+
+<style>
+#ui-id-1 {
+    overflow: hidden;
+    width: 245px;
+}
+.ui-autocomplete{
+	left: 558px !important;
+	width: 257px !important;
+	border-top-left-radius:0;
+	border-top-right-radius:0;
+}
+</style>
+
+<%if (@sort && @sort=='true') ||  ( @search && @search=='true')%>
+<%@attend_list = @attend_list%>
+<%sched = ActivitySchedule.find(@schedule_id) if @schedule_id && !@schedule_id.nil? && @schedule_id.present?%>
+<%att_lst = attendeesListNet(sched) if sched && !sched.nil? && sched.present?%>
+<%else%>
+<%@attend_list = att_lst = attendeesListNet(@activity_schedules.first) %>
+<%end%>
+
+<input type="hidden" name="attndees_email" id="attndees_email" value="" style="width:800px;"/>
+<%if (@attend_list && @attend_list.present?) || (@search && @search=='true')%>
+<div class="exitAttendeesDiv">
+	<table cellspacing="0" cellpadding="0" border="0" width="880" class="attendeesTop" style="border:none"> 
+		<tr>
+			<td width="400" align="left">
+				<div class="lt showbyNormal" id="showById" onmouseover="displayShowBy()" onmouseOut="hideShowBy()">
+					<div class="lt ftcBlue fts14 showByText"><b>Show By</b></div>
+					<div class="lt"><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4")%></div>
+				</div>	
+				<div class="displayshowbyDiv" style="display:none;" onmouseover="displayShowBy()" onmouseOut="hideShowBy()">
+					<a href="javascript:void(0)" title="" class="lt showbyText fts13" onclick="sortAttendeesList('name'); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','By Name']);">By Name</a>
+					<a href="javascript:void(0)" title="" class="lt showbyText fts13" onclick="sortAttendeesList('code_no'); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','By Code No']);">By Code No</a>
+					<a href="javascript:void(0)" title="" class="lt showbyText fts13" onclick="sortAttendeesList('fam_status'); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','By FamPass Status']);">By FamPass Status</a>
+				</div>
+			</td>
+			<td width="80" class="ftcBlue fts18" align="center">Attendees</td>
+			<td width="400" align="right" valign="top">
+				<!--<input type="text" class="textBox"  name="school_represent"  id="text-name" autocomplete='on' value="" onfocus="if(this.value=='Search'){this.value='';}" onblur="if (this.value==''){ this.value = 'Search';$(this).css('color','#999999');}"  style="display:inline-block;width:245px;height:25px;margin-right:5px;" />-->
+				
+				<div class="textBox" align="left" style="padding:0;margin-right:5px;width:261px">
+				 <input class="textBox" align="left" style="border:1px solid #ffffff; height: 23px;margin-right: 5px;width: 225px;" type="text" name="school_represent"  id="text-name" autocomplete='on' value='<%=(@search && @search=='true' && @search_key!='all') ? @search_key : ""%>' onfocus="if(this.value=='Search'){this.value='';}" onblur="if (this.value==''){ this.value = 'Search';$(this).css('color','#999999');}" />
+				 <%if @search && @search=='true'%><a class="fts13" style="color:#807E7E;cursor: pointer;" onclick="search_attndees_detail('all');" id="close_search">X</a><%end%>				
+				</div>
+				
+				
+				
+				<div class="rt"><a href="javascript:void(0)" title="" onclick="search_attndees_detail('not_all');"  style="display:inline-block;margin-right:10px;" ><%=image_tag("/assets/event/invite_search.png", :width=>"65", :height=>"29")%></a></div>
+				 <input type='hidden' name='net_schedule_id' id='net_schedule_id' value='<%=@schedule_id%>'>
+														
+			</td>
+		</tr>
+	</table>
+	<div class="clear"></div>
+	<div id="providerEventList" class="attendeesHeight" style="width:860px;max-height:405px;">
+<table cellspacing="0" cellpadding="0" border="0" width="860"> 
+	<tr>
+		<td align="left" width="25" class="headText setPadLt10"><input class="lt" type="checkbox" name="attendees_all" id="attendees_all_<%=@schedule_id%>" value="" onchange="select_attendees_all(<%=@schedule_id%>,'page_true')" /></td>
+		<td align="left" width="50" class="headText">Image</td>
+		<td align="left" width="130" class="headText">Name</td>
+		<td align="left" width="165" class="headText">Email</td>
+		<td align="left" width="145" class="headText">Code No</td>
+		<td align="left" width="75" class="headText">Payment</td>
+		<td align="left" width="145" class="headText">Required Forms</td>
+		<td align="left" width="75" class="headText">FamPass Status</td>
+	</tr>
+
+<%if @attend_list && @attend_list.present?%>
+<%i=1%>
+<%@attend_list && @attend_list.each do |attndees|%>
+<%participant_rec = Participant.where("participant_id=?",attndees.participant_id).last%>         
+	<tr height="70" class="setBg1 attendeesCheck">
+		<td align="left"class="contentText setPadLt10"><input class="lt" type="checkbox" name="attendees_name_<%=i%>" id="attendees_name_<%=i%>" value="" onchange="select_attendees_single(<%=i%>,'<%=@schedule_id%>')" /></td>
+		<td align="left" class="contentText"><span class="lt setimgBorder"><%=(participant_rec && participant_rec.present? && participant_rec.participant && participant_rec.participant.present? && !participant_rec.participant.url(:small).blank? ) ? (image_tag(participant_rec.participant.url(:small), :width => 34, :height => 37, :alt=>"")) : image_tag('/assets/profile/user_icon_69.png',:width => 34, :height => 37, :alt=>"") %></span></td>
+		<td align="left" class="contentText"><span class="ftcBlue setContWidth"><%=participant_rec.participant_name if participant_rec && !participant_rec.nil? && participant_rec.present? && participant_rec.participant_name.present?%></span></td>
+		<td align="left" class="contentText ftcBlue"><a href="mailto:banupriya@i-waves.com" title="" class="ftcBlue setContWidth" style="width: 165px;" id="parent_email_<%=i%>"><%=attndees.attendies_email if attndees && !attndees.nil? && attndees.present? && attndees.attendies_email.present?%></a></td>
+		<td align="left" class="contentText"><%if attndees && !attndees.nil? && attndees.present?%><%=(attndees.ticket_code.present?) ? attndees.ticket_code : 'NA'%><%end%></td>
+		<td align="left" class="contentText">
+		<%if attndees && !attndees.nil? && attndees.present?%>
+			<%if attndees.payment_status.downcase=='paid'%>
+				<span class="setBg_required_forms_icon" style="margin:0;"></span>
+			<%elsif attndees.payment_status.downcase=='offline'%>
+				<span>NA</span>
+			<%end%>
+		<%end%>
+		</td>
+		<td align="left" class="contentText" style="position:relative;">
+		<%@formlist = form_list_attend(@activity.activity_id) if !@activity.nil? && !@activity.activity_id.nil?%>
+			<%if !@formlist.nil? && @formlist.present? && @formlist.length > 0%>
+				<%@fill_count=attendees_form_count(@formlist.length,@activity.activity_id,@activity.schedule_mode,@schedule_id,attndees.user_id,attndees.participant_id)%>
+			<div class="lt formDiv" id="formDiv_<%=i%>" ><div class="formNormalBg" onmouseover="showFormDetails(<%=i%>)" onmouseout="hideFormDetails()"><span class="ftcBlue">Form</span><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4", :style=>"position: relative; top: -1px; left:5px;")%></div></div>
+			<div class="lt <% if @fill_count %>setBg_required_forms_icon<%else%>setBg_required_forms_disable_icon<%end%>" id="set_required_forms_img_<%=i%>"></div>
+			<div class="pformContainerDiv requiredFormDiv" id="pformContainerDiv_<%=i%>" style="visibility:hidden;position:absolute;" onmouseover="showFormDetails(<%=i%>)" onmouseout="hideFormDetails()">
+				<table cellspacing="0" cellpadding="0" border="0"> 										
+					<%@formlist.each do |fval|%>
+					 <%if !fval.nil? && !fval.form_id.nil?%>
+						<!-- check form is filled or not if filled to show blue color image and remove clickable option or gray color image-->
+						<%@filled_flag=form_filled_participant(@activity.activity_id,@activity.schedule_mode,@schedule_id,attndees.user_id,fval["form_id"],attndees.participant_id)%>											
+						<tr height="25">
+							<td align="left" nowrap="nowrap">								
+							<a href="/parent_required_form?frmid=<%= Base64.encode64("#{fval['form_id']}")%>&fpid=<%= Base64.encode64("#{attndees.user_id}") %>&actid=<%= Base64.encode64("#{@activity.activity_id}")%>&partid=<%= Base64.encode64("#{attndees.participant_id}") %>&fview=u&mode=<%= Base64.encode64("provider") %>&scheid=<%= Base64.encode64("#{@schedule_id}") %>" title="" target="_blank" class="ftcBlue"><%=fval["title"]%></a>
+							
+							</td>
+							<td align="right" class="<%if @filled_flag %>setBg_required_forms_icon<%else%>setBg_required_forms_disable_icon<%end%>" style="margin:0 15px;"></td>
+						</tr>
+						<%end%>
+					<%end if !@formlist.nil?%>										
+				</table>
+			</div>
+			<%else%>
+			N/A
+			<%end%>
+		</td>
+		<td align="left" class="contentText">
+		<%if attndees && (attndees.status.nil? || attndees.status=='' || attndees.status!='accepted')%>
+		<a href="javascript:void(0)" title="" class="ftcBlue" id='accept_fam_ticket_<%=attndees.attend_id%>' onclick="famAccept('<%=attndees.attend_id%>'); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Fam Pass','<%=attndees.attend_id%>']);">Accept</a>
+		<%else%>
+		<span>Accepted</span>
+		<%end%>
+		</td>
+	</tr>
+<%i=i+1%>
+<%end%>
+<%else%>
+<tr height="70" class="setBg1 attendeesCheck" ><td align='center' class="contentText setPadLt10 "colspan="8"><span>No Results found.</span></td></tr>
+<%end%>
+</table>
+</div>
+</div>
+<%else%>
+<div class="noRecordDiv">
+	<p class="noRecordText"><b>You don't have any Attendees to this group</b></p>
+</div> 
+<%end%>
+
+
+<script>
+function famAccept(attnd_id){
+      $.ajax({
+        url:'fampass_accept',
+        data: {
+	    "attnd_id": attnd_id
+        },
+        success:function(data){
+	  if(data){
+         $("#accept_fam_ticket_"+attnd_id).html('<span>Accepted</span>');
+	 }
+        }
+    }); 
+}
+
+function search_attndees_detail(key){
+var search_val =  (key=='all') ? key : $("#text-name").val();
+var sched_id = $("#net_schedule_id").val();
+if (search_val!=''){
+      $.ajax({
+        url:'search_attend_detail',
+        data: {
+	    "search_val": search_val,
+	    "sched_val":sched_id
+        },
+        success:function(data){
+	if(data){
+         $("#attendees_list").html(data);
+	 if (search_val=='all'){
+	 $("#close_search").hide();
+	 }
+	 
+	 }
+        }
+    }); 
+}
+}
+
+function sortAttendeesList(sort_by){
+var sched_id = $("#net_schedule_id").val();
+     $.ajax({
+        url:'sort_attend_list',
+        data: {
+	    "sort_val": sort_by,
+	    "sched_val":sched_id
+        },
+        success:function(data){
+	if(data!='false'){
+         $("#attendees_list").html(data);
+	 }
+        }
+    }); 
+}
+
+ $(function() {
+	  var availableTags=new Array();
+	<%if att_lst && att_lst.present?%>
+		<% att_lst.each do |auto_complete|%>		
+			availableTags.push('<%= auto_complete.ticket_code%>');
+		<%end%>
+	<%end%>
+	$( "#text-name" ).autocomplete({
+		source: availableTags,
+			select: function( event, ui ) {
+			this.value = ui.item.label;
+			//~ $("#search-attendees-name").val(ui.item.label);
+			return false;
+		}
+	});
+	
+});
+</script>

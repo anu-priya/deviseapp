@@ -1,0 +1,75 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Payment method:</b>
+  <%= @payment_detail.payment_method %>
+</p>
+
+<p>
+  <b>Cardholder name:</b>
+  <%= @payment_detail.cardholder_name %>
+</p>
+
+<p>
+  <b>Card number:</b>
+  <%= @payment_detail.card_number %>
+</p>
+
+<p>
+  <b>Expire date:</b>
+  <%= @payment_detail.expire_date %>
+</p>
+
+<p>
+  <b>Billing address1:</b>
+  <%= @payment_detail.billing_address1 %>
+</p>
+
+<p>
+  <b>Billing address2:</b>
+  <%= @payment_detail.billing_address2 %>
+</p>
+
+<p>
+  <b>City:</b>
+  <%= @payment_detail.city %>
+</p>
+
+<p>
+  <b>Zipcode:</b>
+  <%= @payment_detail.zipcode %>
+</p>
+
+<p>
+  <b>State:</b>
+  <%= @payment_detail.state %>
+</p>
+
+<p>
+  <b>Country:</b>
+  <%= @payment_detail.country %>
+</p>
+
+<p>
+  <b>Contact no:</b>
+  <%= @payment_detail.contact_no %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @payment_detail.email %>
+</p>
+
+<p>
+  <b>Payment status:</b>
+  <%= @payment_detail.payment_status %>
+</p>
+
+<p>
+  <b>Payment date:</b>
+  <%= @payment_detail.payment_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_payment_detail_path(@payment_detail) %> |
+<%= link_to 'Back', payment_details_path %>

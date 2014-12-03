@@ -1,0 +1,107 @@
+<div class="createRequiredForm" id="formfield">
+    <!-- field top -->
+	<% @flag=false
+	@option_flag =false
+	if !@fquestion.nil? &&  @fquestion.length>0
+		@flag=true
+	else
+		@flag=false
+	end
+	#chk option exist or not
+	if !@fquestion_option.nil? &&  @fquestion_option.length>0
+		@option_flag=true
+	else
+		@option_flag=false
+	end
+	%>	
+	<input type="hidden" name="editquestion_id" id="editquestion_id" value="<%if @flag%><%=@question_id%><%end%>">
+	<div class="clear"></div>
+	<div class="fieldTop">
+		<div class="field160">
+			<div class="fieldTxt"><b>Field Name</b></div>
+			<div>			
+				<input type="text" class="input"  id="fieldname" name="fieldname" tabindex="3" onfocus="if(this.value == 'Enter Field Name') { this.value = ''; this.style.color = '#000000'; }" onblur="if(this.value == '') { this.value = 'Enter Field Name'; this.style.color = '#9e9e9e'; }" value="<%if @flag%><%=@fquestion[0]["field_name"] %><%else%>Enter Field Name<%end%>" style="<%if @flag%>color:#000000;<%end%>" />
+				<div id="erroField" class="error"></div>
+			</div>
+		</div>
+		<div class="field160">
+			<div class="fieldTxt"><b>Help Text</b></div>
+			<div>
+			<input type="text" class="input" id="helptxt"  name="helptxt"  tabindex="4" onfocus="if(this.value == '') { this.value = ''; this.style.color = '#000000'; }" onblur="if(this.value == '') { this.value = ''; this.style.color = '#9e9e9e'; }" value="<%if @flag%><%=@fquestion[0]["help_text"] %><%else%><%end%>" style="<%if @flag%>color:#000000;<%end%>"/>
+				<div id="errorHelptxt" class="error"></div>
+			</div>
+		</div>
+		<div class="field160">
+			<div class="fieldTxt"><b>Field Type</b></div>
+			<div>
+				<select class="dropdown"  size="1"  id="fieldtype"  name="fieldtype" tabindex="5" style="color: <%if @flag%>#000000;<%else%>rgb(153, 153, 153);<%end%> border: 1px solid rgb(189, 214, 221);">
+					<option selected="selected" value="">Choose Type</option>
+					<%@type=QuestionType.order('type_id').all%>
+					<%if !@type.nil? && @type.present? && @type!=''%>
+						<%@type.each do |tval|%>
+							<option value="<%=tval["type_id"]%>|<%=tval["type_value"]%>"  <%if @flag && @fquestion[0]['type_name']==tval["type_name"]%>selected="selected"<%end%>><%=tval["type_name"]%></option>
+						<%end%>
+					<%end%>
+				</select>
+				<div id="errorType" class="error"></div>
+			</div>
+		</div>
+		<div class="noofField">
+			<div class="fieldTxt"><b>No of Field Type</b></div>
+			<%if @flag && @fquestion[0]['type_value']!='' && (@fquestion[0]['type_value'].downcase=='textbox' || @fquestion[0]['type_value'].downcase=='paragraph')%>
+			<div><input type="text" class="input" name="nooffiledtype"  id="nooffiledtype" tabindex="6" onKeyPress="return number(event);"  maxlength="2" onfocus="if(this.value == 'Eg:2') { this.value = ''; this.style.color = '#000000'; }" onblur="if(this.value == '') { this.value = 'Eg:2'; this.style.color = '#9e9e9e'; }" value="" disabled="disabled" />
+			<%else%>
+			<div><input type="text" class="input" name="nooffiledtype"  id="nooffiledtype" onKeyPress="return number(event);" maxlength="2" tabindex="6" onfocus="if(this.value == 'Eg:2') { this.value = ''; this.style.color = '#000000'; }" onblur="if(this.value == '') { this.value = 'Eg:2'; this.style.color = '#9e9e9e'; }" value="<%if @option_flag%><%=@fquestion_option.length%><%end%>" style="<%if @option_flag%>color:#000000;<%end%>" <%if !@option_flag%>disabled="disabled"<%end%> />
+			<%end%>
+			<div id="errorNooftype" class="error"></div>
+			</div>
+		</div>
+		<div class="clear">&nbsp;</div>
+		<div class="requireCheckbox">
+			<div class="checkbox_wrapper">
+				<input type="checkbox" id="chkrequired" name="chkrequired" value="<%if@flag && @fquestion[0]['is_required']==true%>1<%else%>0<%end%>" tabindex="7" onchange="chkvalidate(this.checked);" <%if@flag && @fquestion[0]['is_required']==true%>checked<%end%> />
+				<span class="requireField"><b>Required Field</b></span>
+			</div>						
+		 </div>
+	</div>
+	<!-- field top -->
+	<div class="fieldBottom">
+		<div id="changeField">	
+			<% if @option_flag%>
+				<% if @fquestion[0]['type_value']!='' && @fquestion[0]['type_value'].downcase=='radio'%>
+					<% if !@fquestion_option.nil? %>
+						<% @fquestion_option.each do |mval|%>
+							<div class='radiobutton_wrapper mTop10'>
+								<input type="hidden" name="option_id[]" id="option_id" value="<%=mval["question_value_id"]%>">
+								<input type='radio' name='radio[]' /><span class='radioTxt'><input type='text' id='frm_field' class='inputField' name='option_value[]' value='<%=mval["field_value"]  if !mval["field_value"].nil?%>' onfocus="if(this.value == '') { this.value = ''; this.style.color = '#000000'; }" style="color:#000000;" /></span>
+							</div>
+						<%end%>
+					<%end%>
+				<%elsif @fquestion[0]['type_value']!='' && @fquestion[0]['type_value'].downcase=='checkbox'%>
+					<% if !@fquestion_option.nil? %>
+						<%@fquestion_option.each do |mval|%>
+							<div class='checkbox_wrapper'>
+								<input type="hidden" name="option_id[]" id="option_id" value="<%=mval["question_value_id"]%>">
+								<input type='checkbox'  name='check[]'/><span class='radioTxt'><input type='text' id='frm_field' class='inputField' name='option_value[]'  value='<%=mval["field_value"]  if !mval["field_value"].nil?%>' onfocus="if(this.value == '') { this.value = ''; this.style.color = '#000000'; }" style="color:#000000;" /></span>
+							</div>
+						<%end%>
+					<%end%>
+				<%elsif @fquestion[0]['type_value']!='' && @fquestion[0]['type_value'].downcase=='list'%>
+					<%@i=1%>
+					<% if !@fquestion_option.nil? %>
+						<%@fquestion_option.each do |mval|%>
+							<div class='listBox'>
+								<input type="hidden" name="option_id[]" id="option_id" value="<%=mval["question_value_id"]%>">
+								<span class='listTxt'><%=@i%></span>
+								<span class='chooselistTxt'><input type='text' class='chooseinputField' id='frm_field' name='option_value[]' value='<%=mval["field_value"]  if !mval["field_value"].nil?%>'  onfocus="if(this.value == '') { this.value = ''; this.style.color = '#000000'; }" style="color:#000000;" /></span>
+							</div>
+							<%@i=@i+1%>
+						<%end%>
+					<%end%>
+				<%end%>
+			<%end%>
+		</div>
+		<input type="image" name="add" src="assets/form_builder/add_button.png" tabindex="8" onclick="_gaq.push(['_trackEvent','Provider Module', 'clickForm','Add']);" />			
+	</div>
+</div>
+<script type="text/javascript" src="assets/form_builder/form_builder.js"></script>

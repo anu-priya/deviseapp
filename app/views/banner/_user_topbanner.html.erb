@@ -1,0 +1,120 @@
+<%=stylesheet_link_tag "search/frm_search", :media => "all"%>
+<script type="text/javascript">
+  $(document).ready(function(){
+    if ($('.randombanner').css('display') == 'block') {
+      var number = Math.floor(Math.random() * 8) + 1;
+       $('.aftelogin_randombanner').css('background','url("/assets/landing/banner_'+number+'.jpg") no-repeat center center');
+	 
+    }
+  });
+</script>
+<div class="aftelogin_randombanner" style="background:url(/assets/landing/banner_3.jpg) no-repeat center center;">  
+	<div class="banner_inner">
+		        <table border="0"  cellpadding="0" cellspacing="0" width="100%">
+				<tr>
+					<td width="15%" rowspan="4" align="center" valign="middle">
+						<a href="#" onclick="fam_pop_network('/fam_network'); _gaq.push(['_trackEvent','Parent Module', 'clickFriending','Create Fam Network']);"><%= image_tag "/assets/fam_networks/fam_network_icon.png", :width=>"", :height=>"", :alt=>"", :border=>"0" %></a>
+					</td>
+					<td width="70%" height="45" align="center" valign="middle">
+
+					</td>
+					<td width="15%" rowspan="4" align="center" valign="middle">
+						 <div class="provider_circle">
+							<table width="130" border="0" cellpadding="0" cellspacing="0">
+								<tr>
+									<td height="30" align="center" valign="middle">&nbsp;</td>
+								</tr>
+								<tr id="invite_providers">
+									<td align="center" valign="middle">
+										<a  href="javascript:void(0)" title="" onclick="pop_invite_provider('/invite_provider?aclick=parent');  _gaq.push(['_trackEvent','Parent Module','InviteProvider', 'Credit for Provider']);">
+										<span class="invite_head"><b>Get $25</b></span> <div class="disc_txt">Credit for signing up your Provider!</div>
+										</a>
+									</td>
+								</tr>
+								<tr id="invite_friends" style="display:none;">
+									<td align="center" valign="middle">
+										<a  href="javascript:void(0)" title="" onclick="pop_invite_friend_check('/invite_friend_famtivity?check_invite=invite'); _gaq.push(['_trackEvent','Parent Module', 'InviteFriend', 'Credit for your Friends']);">
+										<span class="invite_head"><b>Get $1</b></span> <div class="disc_txt">Credit for signing up each of your Friends!</div>
+										</a>
+									</td>
+								</tr>
+							</table>						
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td height="38" align="center" valign="middle">&nbsp;</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">
+					<!--- search --><%= render :partial => '/banner/search' %><!-- search end -->
+					</td>
+				</tr>
+				<tr>
+					<td height="20" align="center" valign="middle">&nbsp;</td>
+				</tr>
+				<tr>
+				 <td align="center" valign="middle">&nbsp;</td>
+					<td align="center" valign="middle">
+						<div style="text-align:center; margin:0 auto;display:inline-block;">
+						<div class="quick_link">
+							<a href="/locations"  title="Browse by Location" onclick="_gaq.push(['_trackEvent', 'Browse by Location', 'clickQucikLinks']);"><b>Browse by Location</b></a>
+						</div>
+						<div class="quick_link_dot">&nbsp;.&nbsp;</div>
+						<div class="quick_link">
+							<a href="/categories"  title="Browse by Category" onclick="_gaq.push(['_trackEvent', 'Browse by Category', 'clickQucikLinks']);"><b>Browse by Category</b></a>
+						</div>
+						<div class="quick_link_dot">&nbsp;.&nbsp;</div>
+						<div class="quick_link">
+							<a href="/special-activities"  title="Specials" onclick="search_qlink('special'); _gaq.push(['_trackEvent', 'Specials', 'clickQucikLinks']);"><b>Specials</b></a>
+						</div>
+						<div class="quick_link_dot">&nbsp;.&nbsp;</div>
+						<div class="quick_link">
+							<a href="/discount-dollar-activities" title="Discount Dollars" onclick="search_qlink('discount-dollar');  _gaq.push(['_trackEvent', 'Discount Dollars', 'clickQucikLinks']);"><b>Discount Dollars</b></a>
+						</div>
+						<div class="quick_link_dot">&nbsp;.&nbsp;</div>
+						<div class="quick_link">
+							<a href="/free-activities" onclick="search_qlink('free'); _gaq.push(['_trackEvent', 'Free', 'clickQucikLinks']);" title="Free"><b>Free<b></b></b></a>
+						</div>
+						<div class="quick_link_dot">&nbsp;.&nbsp;</div>
+						<div class="quick_link">  
+							<a href="/camp-activities" onclick="search_qlink('camp'); _gaq.push(['_trackEvent', 'Camps', 'clickQucikLinks']);" title="Camps"><b>Camps</b></a>
+						</div>
+						<div class="quick_link_dot">&nbsp;.&nbsp;</div>
+						<!--
+						<div class="quick_link">  
+							<a href="/special-needs-activities" onclick="search_qlink('special-needs'); _gaq.push(['_trackEvent', 'Special Needs', 'clickQucikLinks']);" title="Special Needs"><b>Special Needs</b></a>
+						</div>
+						<div class="quick_link_dot">&nbsp;.&nbsp;</div>
+						-->
+						<div class="quick_link"> 
+							<a href="javascript:void(0)" onclick="week_click_new(); _gaq.push(['_trackEvent', 'This Weekend', 'clickQucikLinks']);" title="Newsletter"><b>This Weekend</b></a>
+						</div>
+						</div>
+					</td>
+					<%if get_balance(current_user.user_id)%>
+						<td width="15%" align="center" valign="middle"><a href="/discount_dollars?mode=parent" title="" onclick="_gaq.push(['_trackEvent','Parent Module','DiscountDollars', 'Current Balance','<%=(number_with_precision get_balance(current_user.user_id), :precision => 2) %>']);"><font style="color:#ffffff;font-size:15px;">Current Balance = <font class="curr_balance"><b id="current_balance_up">$<%=(number_with_precision get_balance(current_user.user_id), :precision => 2) %></b></font></font></a></td>
+					<%end%>
+				</tr>
+				<tr>
+				<td align="center" valign="middle"></td>
+				<td align="center" valign="middle">
+				</td>
+				<td align="center" valign="middle"></td>
+				</tr>
+			</table>
+          </div>
+</div>  
+<!--weed end newsletter starting-->
+<%=render :partial => 'common/week_end_newsletter'%>
+<!--weed end newsletter ending-->
+<%=javascript_include_tag "search/search_autocomplete"%>
+<script type="text/javascript">	
+//quick link onclick functions called
+function search_qlink(qtype)
+{
+	var search_word = $("#search_value").val('Search 20,000 + Local Activities & Counting...');
+}
+</script>
+
+

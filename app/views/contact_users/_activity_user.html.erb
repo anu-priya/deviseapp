@@ -1,0 +1,63 @@
+<input id="act_names" name="contact_names" type="hidden" value="" />
+<%i=1%>
+<div id="contact_user_index">
+    <%if !@activity_users.blank?%>
+	  <% @activity_users.each do |con|%>
+        <div class="list" style="height:80px;">
+          <table cellspacing="0" cellpadding="0" border="0">
+            <tr>
+              <td width="28" class="activityName" align="left">
+		          <img alt="" src="/assets/register/checkbox_normal.png">
+              </td>
+              <td width="76" align="left">
+                    <a href="#" class="popimg-click" id="popimg_<%=con.user_id%>" data="<%=con.user_id%>" title="">
+					       <input type="hidden" id="pop_<%=con.user_id%>" value="users" />
+      					<!--<%if con.user_profile.present? && !con.user_profile.profile_file_name.nil?%>
+      					<div class="contactImage"><span><%= image_tag con.user_profile.profile.url(:original), :width => "62", :height => "52", :alt=>"Loading..." if !con.user_profile.profile.url(:original).nil?%></span></div>
+      					<%else%>
+      					<div class="contactImage"><span style="padding-top:20px;height:32px;">No Image</span></div>
+      					<P class="famNorHov"><img src="/assets/contact/Famtivity_normal.png" width="21" height="22" alt="" /></P>
+      					<%end%>-->
+               <div class="comments_owner_img">
+                 <div style="overflow:hidden;height: 55px;margin-top: 10px;">
+                                <table cellpadding="0" cellspacing="0"  height="100%" >
+                                  <tr>
+                                    <td valign="middle" align="center">
+                                     <div id="owner_image" style="width:45px;">
+                                      <img style="width:auto;height:auto;max-width:100%;" src="
+                                      <%if con.user_profile.present? && !con.user_profile.profile_file_name.nil?%>
+                                      <%=con.user_profile.profile.url(:original)%>
+                                      <%else%>
+                                      /assets/default/user_msg_default_Image.png
+                                      <%end%>"><!---change the user image-->
+                                    </div>
+                                    </td>
+                                  </tr>
+                                </table>
+                          </div>
+                        <div class="image_circle blue_circleimage " style="width: 55px;height: 99px;margin: 0;top: -10px;right: 15px;"></div>
+                        <div class="clear"></div>
+                    </div>
+				  	</a>
+            </td>
+              <td width="200" align="left">
+            <!--<a href="#" onclick="pop_view_contact('/contact_users/contact_detail?id=<%#=con.contact_id%>');" title="<%= con.user_name %>"></a>-->
+                 <span class="new_font contact-name" id="<%=con.user_id%>" ><%if !con.nil? && !con.user_name.nil?%><%=truncate(con.user_name, :length =>15, :omission => "... ")%><%elsif !con.nil? && !con.email_address.nil?%><%name=con.email_address.split("@")%><%=name[0]%><%end%></span></br>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <% i= i.to_i+1 %>
+      <%end%>
+	<%else%>
+	 <div style="width:98%;display:block;text-align:center;">
+	  <table border="0" cellpadding="0" cellspacing="0" width="100%" align="center">
+		<tr>
+		  <td class="no_activities" width="100%" align="center" valign="middle" style="text-align:center;padding-top:50px;">
+			Sorry we found no parent for your activity.
+		  </td>
+		</tr>
+	  </table>
+     </div>	  
+	<%end%>
+</div>

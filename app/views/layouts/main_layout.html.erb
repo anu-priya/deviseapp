@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<head>
+  <title>Famtivity</title>
+  <%= metamagic %>
+  <meta http-equiv="Content-Language" content="en" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta http-equiv="pragma" content="cache" />
+  <meta http-equiv="cache-control" content="cache" />
+  <META HTTP-EQUIV="expires" CONTENT="0">
+  <meta name="bitly-verification" content="e85040e783dc"/>
+  <meta name="google-site-verification" content="ZoU0MNkf02c532RyvEjt2YoAYN8IOm8XPWy0yfwUEKc" />
+  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon"/>
+  <link rel="icon" type="image/png" href="/assets/favicon/favicon.png"/>
+  <link rel="dns-prefetch" href="https://www.facebook.com/"/>
+  <link rel="dns-prefetch" href="https://www.twitter.com/"/>
+  <link rel="dns-prefetch" href="https://www.pinterest.com/"/>
+  <script type="text/javascript" src="https://apis.google.com/js/client.js"></script>
+  <%if !@meta_alt.nil? && @meta_alt.present? %>
+    <link rel="alternate" media="only screen and (max-width: 640px)" href="<%= "#{$meta_mobile}#{request.fullpath}" %>">
+  <%end%>
+  <!-- Dont remove added for analytics- start->
+  <%if ((request.env['HTTP_HOST'] != 'famtivity.com') &&  (request.env['HTTP_HOST'] != 'www.famtivity.com'))  %>
+    <!-- Added meta tag to restrict calling of analytics in dev and uat-->
+    <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+  <% end %>
+  <% if current_user && get_provider_path%>
+    <!-- Added meta tag for provider side-->
+    <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+  <%end%>
+
+  <%= stylesheet_link_tag "global/fonts","header/new_header","global/overlay/windowfiles/dhtmlwindow","global/overlay/modalfiles/modal","bpopup/bpopup","card/card","footer/footer","search/new_frm_search.css", :media => "all" %>
+  <%= javascript_include_tag "global/jquery-1.8.3.min","event/index_of_fix.js", "header/header.js","autocomplete/jquery.autocomplete.js"%>
+
+  <script language="JavaScript" src="https://js.maxmind.com/app/geoip.js"></script>
+  <script type="text/javascript">
+    m_name=$("meta[name='keywords']").attr("content");
+    m_cont=$("meta[name='description']").attr("content");
+    $("meta[name='keywords']").removeAttr("content").attr("content",m_name);
+    $("meta[name='description']").removeAttr("content").attr("content",m_cont);
+  </script>
+</head>
+
+<body>
+  <%= render :partial => '/common/preload_images'%>
+  <div class="wrapper">
+    <div class="page_header">
+      <div class="lt header_inner">
+        <div class="lt logo">
+          <div class="logo_inner">
+            <a href="/" title="Famtivity"><img src="/assets/header/new_logo.png" width="155" height="52" alt="Famtivity"></a>
+          </div>
+        </div>
+        <div class="lt header_container">
+          <!--div style="border:1px solid green; width:668px;"-->
+          <%if current_user && current_user.present? && !current_user.nil?%>
+            <%= render :partial => '/banner/new_search',:locals => {:def_age => '4 - 7'} %>
+          <%end%>
+          <!--/div-->
+        </div>
+        <div class="<%if current_user.nil? || !current_user.present?%>header_right<%else%>header_right_aflogin<%end%>">
+          <%if current_user.nil? || !current_user.present?%>
+            <div class="lt right_inner">
+              <div align="center" class="how-it-img"><a title="How it Works" onclick="howitworks('/how-it-works')" style="cursor:pointer;"><img src="/assets/header/how_it_works.png" width="30" height="42" alt="Famtivity"/></a></div>
+              <div class="clear"></div>
+              <div align="center">
+                <a title="How it Works" onclick="howitworks('/how-it-works')"><span class="link_nav" style="cursor:pointer;">How It Works</span></a>
+              </div>
+            </div>
+            <div class="lt right_outer">
+              <div class="lt fam_signup_icon"><a href="javascript:void(0)" onclick="pop_Parent_Login('/parent_register?price=provider');show_provider_plan(); _gaq.push(['_trackEvent', 'Registration', 'clickProviderSignup']);" title="Sign Up"><img src="/assets/header/provider_sign_up.png" width="44" height="40" alt="Sign Up"  border="0" ></a></div>
+              <div class="lt fam_signup">
+                <span class="fam_txt" style="cursor:pointer;" onclick="pop_Parent_Login('/parent_register?price=provider');show_provider_plan(); _gaq.push(['_trackEvent', 'Registration', 'clickProviderSignup']);">Provider Sign-up / School Sign-up</span><br />
+                <span class="link_nav">or Call + 1(888)-386-6479</span>
+              </div>
+            </div>
+          <%else%>
+
+            <%if !current_user.user_type.nil? && current_user.user_type.downcase!='a'%>
+              <%if !current_user.user_type.nil? && current_user.user_type.downcase=='u'%>
+                <%= render :partial =>"common/parent_menu" %>
+              <%elsif !current_user.user_type.nil? && current_user.user_type.downcase=='p'%>
+                <%if params["mode"] && params["mode"].downcase == 'parent'%>
+                  <%= render :partial =>"common/parent_menu" %>
+                <%else%>
+                  <%= render :partial =>"common/provider_menu" %>
+                <%end%>
+              <%end%>
+            <%else%>
+              <%if params["mode"] && params["mode"].downcase == 'parent'%>
+                <%= render :partial =>"common/parent_menu" %>
+              <%elsif params["mode"] && params["mode"].downcase == 'admin'%>
+                <%= render :partial =>"common/admin_menu" %>
+              <%else%>
+                <%= render :partial =>"common/provider_menu" %>
+              <%end%>
+            <%end%>
+
+          <%end%>
+
+        </div>
+      </div>
+
+      <% if current_user.nil? && !current_user.present? %>
+        <div class="header_bottom" align="center">
+          <div class="header_bottom_inner" align="center">
+            <a onclick="pop_Login('/login'); _gaq.push(['_trackEvent', 'Login', 'clickLogin'])" href="javascript:void(0)" class="lt login_btn" title="Login">Login</a>
+            <a onclick="pop_Parent_Login('/parent_register?s_user_id=<%=params[:sent_user]%>'); _gaq.push(['_trackEvent', 'Registration', 'clickParentRegistration'])" href="javascript:void(0)" class="lt signup_btn" title="Signup">Sign-up</a>
+          </div>
+          <div class="get-credit">&hellip;&amp; get <span class="get-credit-inner">$20</span> Credit!</div>
+        </div>
+      <%end%>
+    </div>
+    <div class="wrap_banner">
+      <div class="wrapper_contianer">
+        <%=render :partial => "common/qlinks_menu" if !current_user.nil? && current_user.present?%>
+        <span class="flash_content"style="position: absolute;display: none; background:#ff6363;padding: 8px 10px 8px 20px;color:white;width:auto;z-index: 100000;">
+          <span class="flash-message" style="float:left;"></span>
+          <span class="flash-close" onClick='$(".flash_content").hide();'  style="cursor: pointer;font-size: 15px;margin-left: 20px;">X</span>
+        </span>
+        <div class="clear"></div>
+        <div data-pjax-container>
+          <%= yield%>
+        </div>
+      </div>
+    </div>
+    <div>
+      <%=render :partial => "common/footer"%>
+    </div>
+
+  </div>
+
+  <div class="loadDiv" id="loadDivjax" style="display:none;margin:0 auto; position:fixed;width:98%;top:250px; z-index:1; " align="center">
+    <div class="loadDiv_img" style="display:block; margin:200px;"><img src='/assets/load_new_jax.gif' class='spinner_gif'  width="52" height="52"/></div>
+  </div>
+  <%= javascript_include_tag "pjax/jquery.pjax.js","acitivity_view_details/new_detail_page.js","acitivity_view_details/schedule_price.js","message/message.js","message/add_message.js"%>
+  <script src="/assets/global/overlay/windowfiles/dhtmlwindow.js" type="text/javascript"></script>
+  <script src="/assets/global/overlay/modalfiles/modal.js" type="text/javascript"></script>
+  <script src="/assets/bpopup/jquery.bpopup-0.9.3.min.js" type="text/javascript"></script>
+  <script src="/assets/bpopup/jquery.easing.1.3.js" type="text/javascript"></script>
+
+  <script type="text/javascript">
+    /* Google Analytics Site Tracking Information (Dont Remove) */
+    var _gaq = _gaq || [];_gaq.push(['_setAccount', 'UA-37198261-1']);_gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    /* added pixel for conversion tracking */
+    var fb_param = {};
+    fb_param.pixel_id = '6009203206329';
+    fb_param.value = '0.00';
+    fb_param.currency = 'USD';
+    (function(){
+      var fpw = document.createElement('script');
+      fpw.async = true;
+      fpw.src = '//connect.facebook.net/en_US/fp.js';
+      var ref = document.getElementsByTagName('script')[0];
+      ref.parentNode.insertBefore(fpw, ref);
+    })();
+    /*PJAX functions start*/
+    $(document).on('pjax:timeout', function(event) {
+      event.preventDefault()
+    });
+
+    $(document).pjax('a[data-pjax]', '[data-pjax-container]')
+
+    $(document).on('pjax:start', function() {
+      $('#loadDivjax').css("display","block")
+    })
+    $(document).on('pjax:success', function() {
+      $('#loadDivjax').css("display","none");
+      $(window).scrollTop(0,0);
+    })
+    /*PJAX functions end*/
+
+  <%if cookies[:search_city].nil? %>
+    document.cookie="city_new_usr="+geoip_city();
+    var locate_ip_addr = geoip_city();
+    if (locate_ip_addr=="")
+    {
+      $.ajax({
+            url:'/find_location_by_ip',
+            success:function(data){ 
+              $('#zip_values').val(data);
+              document.cookie="search_city="+data; 
+              window.location.reload();
+            }
+      });
+    }
+    else
+    {
+      document.cookie="search_city="+geoip_city(); 
+    }
+
+    document.cookie="latitude="+geoip_latitude();
+    document.cookie="longitude="+geoip_longitude();
+  <%end%>
+
+  </script>
+</body>
+</html>

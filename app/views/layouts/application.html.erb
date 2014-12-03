@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9"/>
+<html>
+  <head>
+<% if params[:action]!='follow_cities' && params[:action]!='follow_provider_card'%>
+  <%= metamagic %>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<%else%>
+  <%if params[:action] == 'follow_cities'%>
+    <% page = find_page_title(params) %>
+  <%end%>
+  <%if params[:action] == 'follow_provider_card' || params[:action] == 'provider_detail_iframe'%>
+    <% page = find_page_title_provider(params) %>
+  <%end%>
+    <title><%=page[0]%></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="keywords" content="<%=page[2]%>" />
+    <meta name="description" content="<%=page[1]%>" />
+<% end %>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="Content-Language" content="en" />
+  <meta http-equiv="pragma" content="no-cache" />
+  <meta http-equiv="cache-control" content="no-cache" />
+  <META HTTP-EQUIV="expires" CONTENT="0">
+  <meta name="bitly-verification" content="e85040e783dc"/>
+  <meta name="google-site-verification" content="ZoU0MNkf02c532RyvEjt2YoAYN8IOm8XPWy0yfwUEKc" />
+  <%if !@meta_alt.nil? && @meta_alt.present? %>
+  <link rel="alternate" media="only screen and (max-width: 640px)" href="http://m.famtivity.com<%= request.fullpath %>">
+  <%end%>
+  
+<%if ((request.env['HTTP_HOST'] != 'famtivity.com') &&  (request.env['HTTP_HOST'] != 'www.famtivity.com'))  %>
+<!-- Dont remove added for analytics- start->-->
+    <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<% end %>
+ <% if current_user && get_provider_path%>
+    <!-- Added meta tag for provider side-->
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+  <% else %>
+  <%end%>
+
+  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon"/>
+  <link rel="icon" type="image/png" href="/assets/favicon/favicon.png"/>
+  <link rel="dns-prefetch" href="https://www.facebook.com/"/>
+  <link rel="dns-prefetch" href="https://www.twitter.com/"/>
+  <link rel="dns-prefetch" href="https://www.pinterest.com/"/>
+  <script type="text/javascript" src="http://apis.google.com/js/client.js"></script>
+
+<%= stylesheet_link_tag "global/fonts","card/card","header/header","global/overlay/windowfiles/dhtmlwindow","global/overlay/modalfiles/modal","bpopup/bpopup","event_index/smoothDivScroll","landing/home","search/frm_search", :media => "all" %>
+<%= javascript_include_tag "global/jquery-1.8.3.min","event/index_of_fix.js","autocomplete/jquery.autocomplete.js","header/home.js","message/message.js","message/add_message.js","pjax/jquery.pjax.js","global/set_breadcrumb.js"%>
+<%= csrf_meta_tags %>
+<script type="text/javascript">
+	m_name=$("meta[name='keywords']").attr("content");
+	m_cont=$("meta[name='description']").attr("content");
+	$("meta[name='keywords']").removeAttr("content").attr("content",m_name);
+	$("meta[name='description']").removeAttr("content").attr("content",m_cont);
+</script>
+<script type="text/javascript">
+  $(document).on('pjax:timeout', function(event) {
+    event.preventDefault()
+    //~ return false;
+  });
+
+  //~ $('.feature-act a').pjax('[data-pjax-container]')
+  //~ $(document).pjax('a', '[data-pjax-container]')
+
+  $(document).pjax('a[data-pjax]', '[data-pjax-container]')
+
+  $(document).on('pjax:start', function() {
+    $('#loadDivjax').css("display","block")
+  })
+  $(document).on('pjax:success', function() {
+  //~ $('#loadDivjax').css("display","none");
+$(window).scrollTop(0,0);
+  })
+
+</script>
+
+<script type="text/javascript">
+  function RedirectSmartphone(url){
+    if (url && url.length > 0 && IsSmartphone())
+      window.location = url;
+  }
+  function IsSmartphone(){
+    if (DetectUagent("android")) return true;
+    else if (DetectUagent("blackberry")) return true;
+    else if (DetectUagent("iphone")) return true;
+    else if (DetectUagent("opera")) return true;
+    else if (DetectUagent("palm")) return true;
+    else if (DetectUagent("symbian")) return true;
+    else if (DetectUagent("generic")) return true;
+    else if (DetectUagent("ipad")) return true;
+    else if (DetectUagent("ipod")) return true;
+    return false;
+  }
+  function DetectUagent(name){
+    var uagent = navigator.userAgent.toLowerCase();
+    if (uagent.search(name) > -1)
+      return true;
+    else
+      return false;
+  }
+
+  //~ <% if !params[:u].nil? || !params[:dect].nil?%>
+    //~ <%if !params[:email_m].nil? && params[:email_m]!=''%>
+      //~ if(IsSmartphone())
+      //~ {
+      //~ RedirectSmartphone("<%= $mail_redirection_path%>/user_activate?email=<%=Base64.decode64(params[:email_m])%>");
+      //~ }
+      //~ <%else%>
+      //~ RedirectSmartphone("<%= $mail_redirection_path%>/user_activate?email=<%=current_user.email_address if !current_user.nil?%>");
+      //~ <%end%>
+    //~ <% elsif !params[:parent_reg].nil? && !params[:sent_user].nil? && !params[:sent_user_email].nil?%>
+    //~ RedirectSmartphone("<%= $mail_redirection_path%>/register?parent_reg=<%=params[:parent_reg]%>&invitedid=<%=params[:sent_user]%>&user_email=<%=params[:sent_user_email]%>&cid=<%=params[:cid]%>&group=<%=params[:group]%>");
+    //~ <% elsif !params[:facebook_reg].nil? && !params[:sent_user].nil? && !params[:invited].nil?%>
+    //~ RedirectSmartphone("<%= $mail_redirection_path%>/?facebook_reg=<%=params[:facebook_reg]%>&sent_user=<%=params[:sent_user]%>&invited=<%=params[:invited]%>&cid=<%=params[:cid]%>&group=<%=params[:group]%>");
+    //~ <% elsif !params[:mview].nil? && params[:mview].present? %>
+    //~ RedirectSmartphone("<%= $mail_redirection_path%>/activitydetails?acid=<%= params[:mview]%>");
+    //~ <% elsif !params[:cid_m].nil? && params[:cid_m]!='' %>
+    //~ RedirectSmartphone("<%= $mail_redirection_path%>/contact_activate?cid=<%= Base64.decode64(params[:cid_m])%>&msg=<%= Base64.decode64(params[:cont_msg])%>");
+    //~ <% elsif !params[:invite_wel_friend].nil? && params[:invite_wel_friend]!=''%>
+    //~ if(IsSmartphone())
+    //~ {
+    //~ RedirectSmartphone("<%= $mail_redirection_path%>/contact?cnt=invitefriend&wel_friend=<%=params[:invite_wel_friend]%>");
+    //~ }
+    //~ else
+    //~ {
+    //~ show_loadpopup();
+    //~ }
+    //~ <% elsif !params[:net_m].nil? && params[:net_m]!=''%>
+    //~ RedirectSmartphone("<%= $mail_redirection_path%>/?net_m=<%= Base64.decode64(params[:net_m])%>");
+    //~ <%else%>
+    //~ RedirectSmartphone("<%= $mail_redirection_path%>");
+    //~ <%end%>
+  //in ie open activity details page url redirect
+  s=window.location.href.match('#/activities');
+  if(s)
+  {
+    p=window.location.href;
+    url_split = p.split('#');
+    window.location.href='http://<%=request.env['HTTP_HOST']%>'+url_split[1];
+  }
+</script><!-- set background color for all page -->
+<script language="JavaScript" src="https://js.maxmind.com/app/geoip.js"></script>
+<script>
+  <!-- Google Analytics Site Tracking Information (Dont Remove) -->
+  var _gaq = _gaq || [];_gaq.push(['_setAccount', 'UA-37198261-1']);_gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  <!-- added pixel for conversion tracking-->
+  var fb_param = {};
+  fb_param.pixel_id = '6009203206329';
+  fb_param.value = '0.00';
+  fb_param.currency = 'USD';
+  (function(){
+    var fpw = document.createElement('script');
+    fpw.async = true;
+    fpw.src = '//connect.facebook.net/en_US/fp.js';
+    var ref = document.getElementsByTagName('script')[0];
+    ref.parentNode.insertBefore(fpw, ref);
+  })();
+   <%if cookies[:search_city].nil? %>
+  if (typeof geoip_city != 'undefined') 
+  {
+    document.cookie="city_new_usr="+geoip_city();
+    var locate_ip_addr = geoip_city();
+    if (locate_ip_addr=="")
+    {
+      $.ajax({
+            url:'/find_location_by_ip',
+            success:function(data){ 
+              $('#zip_values').val(data);
+              document.cookie="search_city="+data; 
+              document.cookie="search_geocoder_city="+data;
+              window.location.reload();
+            }
+      });
+    }
+    else
+    {
+      document.cookie="search_city="+geoip_city();
+      document.cookie="search_maxmind_city="+geoip_city(); 
+    }
+
+    document.cookie="latitude="+geoip_latitude();
+    document.cookie="longitude="+geoip_longitude();
+    }
+  <%end%>
+
+</script>
+
+<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/offsite_event.php?id=6009203206329&amp;value=0&amp;currency=USD" /></noscript>
+<!-- end of pixel for conversion tracking-->
+<style type="text/css">body{background:#f7f9f8;}</style>
+</head>
+<body onload="show_loadpopup();" id="class_popup_frame">
+  <!-- load large popup -->
+  <% @pop_load_image = ['edit_discount','fam_network_detail','fam_edit_network_group','fam_create_post','provider_detail_iframe','parent_register','new_parent_register','new_provider_register','login','activitydetail_new','add_participant','provider_information','contact_provider_info','contact_provider_success','share_activity','activity_create_index_new','activity_parent','provider_edit_activity','edit_activity_parent','new','contact_detail','contact_import','invite_provider','become_provider','parent_edit_profile','provider_edit_profile','select_mail_empty','select_mail','req_multi_email','csv_import','provider_embedded_link','embed_popup','preview_embed_popup','represented_details','form_preview','activity_network','participant_message','participant_message_success','find_us_on_famtivity_popup','delete_discount','plan_success_message','reply_message_form','how_it_works','parent_edit_profile','build_activity_network_popup','message_preview_attachment']%>
+  <%if @pop_load_image.include?(params[:action])%>
+    <!-- Remove background color for all iframe popup pages --><style type="text/css">body{background:none;}</style><!-- loading image -->
+  <div class="loadDiv" id="loadDiv" style="display:block;margin:0 auto; position:absolute;  width:98%; z-index:1; " align="center">
+    <div class="loadDiv_img" style="display:block; margin:200px;"><%=image_tag("/assets/loading.gif", class: "spinner_gif")%></div>
+  </div>
+<%end%>
+<!-- load small popup -->
+<% @pop_load_image1 = ['admin_delete_discount','provider_plan_upgrade_tran','provider_plan_upgrade','change_email','embedded_link','provider_activity_success','share_activity_success','delete','delete_empty','delete_activity','delete_activity_empty','save_favorites','edit_contact','add_contact_success','invite_contact_success','send_message_success','edit_success','support_form_thank','feedback_thank','parent_acitivity_thank','shedule_delete','register_status_message']%>
+<%if @pop_load_image1.include?(params[:action])%>
+  <!-- Remove background color for all iframe popup pages --><style>body{background:none;}</style>
+  <!-- loading image --><div class="loadDiv" id="loadDiv" style="display:block;margin:0 auto; position:absolute;  width:98%; z-index:1; " align="center">
+    <div class="loadDiv_img" style="display:block; margin:50px;"><%=image_tag("/assets/loading.gif", class: "spinner_gif")%></div>
+  </div>
+<%end%>
+<input id="parent_reg" type="hidden" value="<%=params[:parent_reg] if !params[:parent_reg].nil?%>" />
+<input id="provider_reg" type="hidden" value="<%=params[:provider_reg] if !params[:provider_reg].nil?%>" />
+<input id="sent_user" type="hidden" value="<%=params[:sent_user] if !params[:sent_user].nil?%>" />
+<input id="imanager" type="hidden" value="<%=params[:imanager] if !params[:imanager].nil?%>" />
+<input id="sent_user_email" type="hidden" value="<%=params[:sent_user_email] if !params[:sent_user_email].nil?%>" />
+<input id="sent_mail" type="hidden" value="<%=params[:mail] if !params[:mail].nil?%>" />
+<input type="hidden" name="cid" id="cid_val" value="<%= params[:cid] if params[:cid] %>"/>
+<input type="hidden" name="group" id="group_val" value="<%= params[:group] if params[:group] %>"/>
+<!-- loading image script-->
+<script type="text/javascript">
+  $(document).ready(function() {        
+    setTimeout(function(){
+      //~ document.getElementById('loadDiv').style.display="none";
+      $('#loadDiv').css('display','none');
+      $('#page_wrapper').show();
+    },1000);
+  });
+</script>
+<!--/*******************************/-->
+<div id="page_wrapper">    
+  <div id="event_index_container">
+    <input type="hidden" id="pro_search_follow" value="">
+					    
+    <% @pop_present = ['admin_delete_discount','edit_discount','fam_edit_network_group','fam_network_detail','fam_create_post','fam_network','change_email','provider_curator','contact_list','provider_detail_iframe','facebook_contact_list','yahoo_contact_list','add_contact_success','facebook_contact_success','parent_register','new_parent_register','new_provider_register','login','schedule_price','add_participant','activity_create_index_new','activity_create_index','new','contact_detail','delete','delete_empty','save_favorites','survey_monkey','activity_parent','activity_detail','edit_activity','delete_activity_empty','add_to_favourite','delete_activity','share_activity','bid_setup','edit_bid','ticket_edit','ticket_view','parent_edit_profile','create_bid','feedback','invite_provider','parent_edit_profile','provider_edit_profile','provider_edit_activity','support','service_discover_more','service_purchase_more','purchase_payment_more','provider_information','contact_provider_info','edit_activity_parent','share_activity_success','provider_activity_success','email_activity_success','share_activity_favthank','share_activity_thank','edit_acitivity_thank','parent_acitivity_thank','add_participant_success','secure_checkout_success','secure_checkout','proceed_to_checkout','checkout_thank','delete_activity','delete_activity_empty','destroy','pop_provider_payment_details','become_provider','support_form_thank','contact_list','contact_friends','list','net_contact_friends','contact_import','import','provider_sponsor','provider_sell','invite_friend','invite_contact_success','contact_send_message', 'contact_create_message', 'contact_invite','invite_friend','multi_email','facebook_import','new_import','gmail_import', 'send_message', 'facebook_invite','select_mail', 'select_mail_empty','blog_video','tell_us_yourself' ,'feedback_thank','show','bid_setup','activity_create_bid','participant_detail','new_success_page','provider_payment_details','embedded_link','req_multi_email','csv_import','provider_embedded_link','embed_popup','preview_embed_popup','shedule_delete','invite_success_page','represented_details','add_form_builder','form_preview','edit_form_builder','activity_network','participant_message','participant_message_success','find_us_on_famtivity_popup','provider_plan_upgrade','plan_success_message','provider_plan_upgrade_tran','delete_discount','how_it_works','build_activity_network_popup','message_preview_attachment','reply_message_form','register_status_message','contact_fail']%>
+    <%if !@pop_present.include?(params[:action])%>
+      <%if !current_user.nil? && current_user.present?%>
+        <%if !current_user.user_type.nil? && current_user.user_type.downcase!='a'%>
+          <%if params[:action] == 'how_it_works' || params[:action] == 'build_activity_network_popup' || params[:action] == 'message_preview_attachment' || params[:action] == 'privacy_policy' || params[:action] == 'terms_of_service' || params[:action] == 'about_us' || params[:action] == 'contact_us' || params[:action] == 'faq' ||  params[:action] == 'parent_profile' || params[:action] == 'parent_settings' || params[:action] == 'activity_parent_schedule'  ||  params[:action] == 'parent_privacy_policy' ||  params[:action] == 'parent_terms_of_service' || params[:action] == 'search_by_keyword' || params[:action] == 'search'  || params[:action] == 'advanced_search' || request.fullpath == '/contact_users?mode=parent' || request.fullpath == '/change_password?mode=parent' ||  params[:action] == 'landing_new' ||  params[:action] == 'search' || request.fullpath == '/discount_dollars?mode=parent' || params[:action] == 'follow_cities'%>
+            <%= render :partial =>"common/parent_header" %>
+          <%else%>
+            <%if !current_user.user_type.nil? && current_user.user_type.downcase=='u'%>
+              <%= render :partial =>"common/parent_header" %>
+            <%elsif !current_user.user_type.nil? && current_user.user_type.downcase=='p'%>
+              <%if params["mode"] && params["mode"].downcase == 'parent'%>
+                <%= render :partial =>"common/parent_header" %>
+              <%else%>
+                <%= render :partial =>"common/provider_header" %>
+              <%end%>
+            <%end%>
+          <%end%>
+        <%else%>
+          <%if params["mode"] && params["mode"].downcase == 'parent'%>
+            <%= render :partial =>"common/parent_header" %>
+          <%elsif params["mode"] && params["mode"].downcase == 'admin'%>
+            <%= render :partial =>"common/admin_header" %>
+          <%else%>
+            <%= render :partial =>"common/provider_header" %>
+          <%end%>
+
+        <%end%>
+      <%else%>
+        <%= render :partial =>"common/default_header" %>
+      <%end%>
+    <%end%>
+
+    <div class="clear"></div>
+    <span class="flash_content"style="position: absolute;display: none; background:#ff6363;padding: 8px 10px 8px 20px;color:white;width:auto;z-index: 100000;">
+      <span class="flash-message" style="float:left;"></span>
+      <span class="flash-close" onClick='$(".flash_content").hide();'  style="cursor: pointer;font-size: 15px;margin-left: 20px;">X</span>
+    </span>
+    <div class="clear"></div>
+    <div data-pjax-container>
+      <%=yield%>
+    </div>
+
+  </div>
+
+  <div id="popup_friend" style="top: 20px !important;"></div>
+  <!-- footer start -->
+  <%if !@pop_present.include?(params[:action])%>
+    <div id="footer">
+      <div id="footer_inner" style="padding:10px 25px 10px 10px;">
+        <div id="copyright" style="width:40%">
+          <span class="footer_icon" style="padding-top:4px;">&copy; 2014 famtivity Inc.&nbsp;&nbsp;</span>
+          <span class="footer_icon" style="padding-top:0px;margin:-10px 0px 0px -10px;">
+            <table width="90" height="40" border="0" cellpadding="2" cellspacing="0" title="Click to Verify - This site chose Symantec SSL for secure e-commerce and confidential communications.">
+              <tr><td width="135" align="center" valign="top"><script type="text/javascript" src="https://seal.verisign.com/getseal?host_name=www.famtivity.com&amp;size=XS&amp;use_flash=NO&amp;use_transparent=NO&amp;lang=en"></script><br /></tr>
+            </table>
+          </span>
+          <a href="https://www.facebook.com/Famtivity" target="_blank" title="" class="footer_icon"><%=image_tag("/assets/header/facebook_icon.png", size: "24x23", border: "0")%></a>
+          <a href="https://twitter.com/famtivity" target="_blank" title="" class="footer_icon"><%=image_tag("/assets/header/t_icon.png", size: "24x23", border: "0")%></a>
+          <a href="http://pinterest.com/famtivity/" target="_blank" title=""class="footer_icon"><%=image_tag("/assets/header/pin.png", size: "24x23", border: "0")%></a>
+          <a href="https://plus.google.com/105576957217163088887/posts" target="_blank" title=""class="footer_icon"><%=image_tag("/assets/header/gplus_icon.png", size: "24x23", border: "0")%></a>
+          <a href="javascript:void(0)" title="" onClick="pop_feedback_form('/feedback'); "><%=image_tag("/assets/header/beta_feedback_button.png", size: "118x26", border: "0", alt: "Beta Feedback")%></a>
+        </div>
+        <div id="footer_menu">
+          <ul>
+                        <!--li><a href="#" title="" style="color:#fff;">Loading Time = <%=number_with_precision (Time.now - @s_time).abs, :precision => 2 %> seconds</a><span class="pipeSymbol"  style="color:#fff;">|</span></li-->
+            <%if current_user.nil? || !current_user.present?%><li><a onclick="show_pop_up(30); pop_Parent_Login('/pricing-plans/provider'); show_provider_plan(); _gaq.push(['_trackEvent', 'Parent Module', 'clickServices','Pricing']);" title="" href="javascript:void(0)" style="color:#E24C4B">Pricing</a><span class="pipeSymbol">|</span></li><%end%>
+            <li><a href="/terms-of-service" title="" onclick= "_gaq.push(['_trackEvent','Parent Module', 'clickServices','Terms of Service'])">Terms of Service</a><span class="pipeSymbol">|</span></li>
+            <li><a href="/privacy-policy" title="" onclick = "_gaq.push(['_trackEvent','Parent Module', 'clickServices','Privacy Policy'])">Privacy Policy</a><span class="pipeSymbol">|</span></li>
+            <li><a href="/about-us" onclick ="_gaq.push(['_trackEvent','Parent Module', 'clickServices','Aboutus'])">About Us</a><span class="pipeSymbol">|</span></li>
+            <li><a href="/contact-us" onclick= "_gaq.push(['_trackEvent','Parent Module', 'clickServices','Contactus'])">Contact Us</a><span class="pipeSymbol">|</span></li>
+            <li><a href="/frequently-asked-questions" onclick= "_gaq.push(['_trackEvent','Parent Module', 'clickServices','FAQ'])">FAQ</a><span class="pipeSymbol">|</span></li>
+            <li><a href="http://blog.famtivity.com/" target="_blank" onclick= "_gaq.push(['_trackEvent','Parent Module', 'clickServices','Blog'])">Blog</a></li><span class="pipeSymbol">|</span></li>
+            <li><a href="javascript:void(0);" title="" onClick="find_us_on_famtivity('/find-us-on-famtivity'); _gaq.push(['_trackEvent','Parent Module', 'clickServices','Find us on Famtivity']);">Find us on Famtivity</a><span class="pipeSymbol">|</span></li>
+            <li><a href="#" onclick="showSurveyMonkey(); _gaq.push(['_trackEvent','Parent Module', 'clickServices','Survey']);" target="">Survey</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <%end%>
+  <!-- footer end -->
+
+</div>  
+<!-- add user calender bpopup start -->
+<div id="add_user_calender">
+  <div class="content_popup" style="display:block;">
+    <p><span class="success_cal" style="display:none;"><br>This activity is successfully added to your calendar<br><br></span></p>
+    <p><span class="exist_cal" style="display:none;"><br>This activity is already added to your calendar<br><br></span></p>
+    <span class="b-close"><a href="javascript:void(0)" title=""><%=image_tag("/assets/register/ok_btn.png")%></a></span>
+  </div>
+</div><!-- add user calender bpopup end -->
+
+<!-- user activate account feature popup start -->
+<input type="hidden" id="user_id_delete" name="user_id_delete" value="<%=current_user.user_id if !current_user.nil? && current_user.present?%>"/>
+<div id="activate_account_feature" style="display:none;">
+  <div id="UserAct">
+    <div id="UserAccountActivate" style="font-weight:bold;">Activate your Account</div>
+    <div id="UserCloseAct"><a href="javascript:void(0);" title=""><span class="b-close"><%=image_tag("/assets/landing/close_button_how.png", align: "middle")%></span></a></div>
+  </div>
+  <div class="content_popup" style="padding: 0px 25px 10px 25px;font-weight:bold;font-family: verdana,Helvetica,sans-serif;">
+    <!--br>Activate your account now to promote and sell your activities on Famtivity. By activating , your Famtivity account will automatically debit <span style="color:#FF0013"><%#if current_user && current_user.present? && !current_user.manage_plan.nil? && current_user.manage_plan == "market_sell" %>$ 29.95<%#elsif current_user && current_user.present? && !current_user.manage_plan.nil? && current_user.manage_plan == "market_sell_manage" %>$ 49.95<%#elsif current_user && current_user.present? && !current_user.manage_plan.nil? && current_user.manage_plan == "market_sell_manage_plus" %>$ 99.95<%#end%></span> to renew <%#if current_user && current_user.present? && !current_user.manage_plan.nil? && current_user.manage_plan == "market_sell" %>Market &amp; Sell plan<%#elsif current_user && current_user.present? && !current_user.manage_plan.nil? && current_user.manage_plan == "market_sell_manage" %>Market Sell &amp; Manage plan<%#elsif current_user && current_user.present? && !current_user.manage_plan.nil? && current_user.manage_plan == "market_sell_manage_plus" %>Market Sell &amp; Manage Plus plan<%#end%>. To change your plan, click on "Activate &amp; Change Plan"<br><br-->
+    <%if (current_user && current_user.present? && !current_user.user_plan.nil? && !current_user.manage_plan.present? && (current_user.user_plan.downcase == "sell" || current_user.user_plan.downcase == "curator")) || (current_user && current_user.present? && !current_user.user_plan.nil? && current_user.manage_plan.present? && (!current_user.is_partner.nil? && current_user.is_partner==TRUE || current_user.manage_plan.downcase == "school"))  %>
+      <br>If you upgrade your account to the Market and Sell plan, your credit card will be charged <span style="color:#FF0013">$29.95</span> on account activation<br><br>
+    <%else%>
+      <%@user_renew_pro = provider_renew_limit(current_user.user_id) if !current_user.nil? && !current_user.user_id.nil?%>
+      <%if !@user_renew_pro.nil? && @user_renew_pro.present? && @user_renew_pro!=''%>
+        <br>On activation, your current plan will still be valid if it hasn't expired yet. After it expires, your plan will be renewed every month. You can deactivate or cancel your account at any time.<br><br>
+      <%else%>
+        <br>By activating your Famtivity account, your Credit Card will be charged <span style="color:#FF0013">$ 29.95</span>. Your plan will renew monthly and you can deactivate or cancel your account at any time.<br><br>
+      <%end%>
+    <%end%>
+    <table width="100%">
+      <tr><td valign="top">
+          <span><a href="javascript:void(0)" onclick="<%if (current_user && current_user.present? && !current_user.user_plan.nil? && !current_user.manage_plan.present? && (current_user.user_plan.downcase == "sell" || current_user.user_plan.downcase == "curator")) || (current_user && current_user.present? && !current_user.user_plan.nil? && current_user.manage_plan.present? && (!current_user.is_partner.nil? && current_user.is_partner==TRUE || current_user.manage_plan.downcase == "school"))  %>user_activate_and_change();<%else%>user_activate_call();<%end%>" title=""><%=image_tag("/assets/detailed_view/activate.png")%></a></span>
+          <!--a href="javascript:void(0);" onclick="user_activate_and_change();" title="" ><span class="b-close"><img src="/assets/detailed_view/activate_and_change.png" alt="" border="0"/></span></a-->
+          <a href="javascript:void(0);" title="" ><span class="b-close"><%=image_tag("/assets/detailed_view/may_be_later.png", border: "0")%></span></a>
+          <span id="loading_img_act" style="display:none; position:relative; top:-15px;"><%=image_tag("/assets/loading.gif")%></span>
+        </td></tr>
+    </table>
+  </div>
+</div>
+<!-- user activate account feature feature popup end -->
+
+<!-- deactivate success popup start -->
+<div id="user_activated_success" style="display:none;">
+  <div class="content_popup" style="display:block;"><br>Your account has been activated.<br><br>
+    <span class="b-close"><a href="javascript:void(0)" onclick="activate_update_div();"  title=""><span class="b-close"><%=image_tag("/assets/register/ok_btn.png")%></span></a></span>
+  </div>
+</div>
+<!-- deactivate success popup end -->
+
+<!-- activate account failure popup start -->
+<div id="user_activated_failure" style="display:none;">
+  <div class="content_popup" style="display:block;"><br>Sorry. we are unable to process the transaction. Please check your card details or try again later.<br><br>
+    <span class="b-close"><a href="javascript:void(0)" onclick="check_cc_details();"  title=""><span class="b-close"><%=image_tag("/assets/register/ok_btn.png")%></span></a></span>
+  </div>
+</div>
+<!-- activate account failure popup end -->
+
+<!-- deactivate success popup start -->
+<div id="deactivate_user_activity" style="display:none;">
+  <div class="content_popup" style="display:block;"><br>Your account is currently deactivated. Please activate your account to complete this step.<br><br>
+    <span class="b-close"><a href="javascript:void(0)" title=""><span class="b-close"><%=image_tag("/assets/register/ok_btn.png")%></span></a></span>
+  </div>
+</div>
+<!-- deactivate success popup end -->
+
+<div class="loadDiv" id="loadDivjax" style="display:none;margin:0 auto; position:fixed;width:98%;top:250px; z-index:1; " align="center">
+  <div class="loadDiv_img" style="display:block; margin:200px;"><%=image_tag("/assets/loading.gif", class: "spinner_gif")%></div>
+</div>
+
+</body>
+<!--script src="https://connect.facebook.net/en_US/all.js" async=""></script-->
+<script src="https://www.google-analytics.com/ga.js" async="" type="text/javascript"></script><!-- Enabling Google Analytics Social Tracking code Starts Here -->
+<%= javascript_include_tag "header/header.js","global/overlay/windowfiles/dhtmlwindow.js","global/overlay/modalfiles/modal.js","bpopup/jquery.bpopup-0.9.3.min.js","ga_social_tracking.js"%>
+
+<script type="text/javascript">
+  function setOfferDefault(obj){
+    if(obj.value=='Offer Code'){
+      obj.value='';
+    }else if(obj.value==''){
+      obj.value='Offer Code';
+    }
+  }
+
+  function check_discount_fb(){
+    $("#fbcode").css("border","1px solid #e3e3e3");
+    $("#fbcode_error").html("");
+    $("#fbcode_error").css("display","none");
+    $('#load_fb').show();
+    var errorFlag = false;
+    var discount_code =$("#fbcode").val();
+    if(discount_code =="" || discount_code =="Offer Code"){
+      $("#fbcode").css("border","1px solid #fc8989");
+      $("#fbcode_error").html("Please enter valid code");
+      $("#fbcode_error").css("display","block");
+      errorFlag = true;
+    }
+    else if(discount_code !="" && discount_code !="Offer Code"){
+      if(discount_code.match(/['"]+/)){
+        $("#fbcode").css("border","1px solid #fc8989");
+        $("#fbcode_error").html("Please enter valid code");
+        $("#fbcode_error").css("display","block");
+        errorFlag = true;
+      }
+    }
+    if(errorFlag){
+      $('#load_fb').hide();
+      return false;
+    }
+    else{
+      $.ajax({
+        url:"/users/check_discount_code",
+        type:"post",
+        dataType:"json",
+        data:{
+          "discount_code":discount_code,
+          "apply_discount":"yes"
+        },
+        success:function(data){
+          if(data['success'] == "success"){
+            $('#offer_code_overlay').hide();
+            $('#offer_code_lay').hide();
+            $('#current_balance_up').html(data['total_amount']);
+            pop_invite_friend_check('/invite_friend_famtivity?check_invite=contact_import&fam_last=/');
+          }else{
+            $('#load_fb').hide();
+            $("#fbcode").css("border","1px solid #fc8989");
+            $("#fbcode_error").html("You have entered an invalid code");
+            $("#fbcode_error").css("display","block");
+            return false;
+          }
+
+        }})
+    }
+  }
+
+  function header_macfix(){  //mac fix
+    var ua=navigator.userAgent;
+    if(ua.indexOf("Mac")!=-1)
+    {
+      if(ua.indexOf("Firefox")!=-1){
+        $('.actImg').css('margin-left','-2px');
+        $("#city_detail").css('top','140px;');
+      }
+      if(ua.indexOf("Chrome")!=-1){
+        $('.actImg').css('margin-left','0px');
+        $('#user_menu .userDiv').css('margin-top','-2px');
+        $('#user_menu .userDiv:hover').css('margin-top','-2px');
+      }
+      if(ua.indexOf("Safari")!=-1){
+        $('.actImg').css('margin-left','0px');
+        $('#user_menu .userDiv').css('margin-top','-2px');
+        $('#user_menu .userDiv:hover').css('margin-top','-2px');
+        $('.actDivMenu .sub-menu ').css('position','fixed');
+        $('.actDivMenu .sub-menu ').css('top','58px');
+      }
+    }
+  }
+  //invite page
+  function show_contact(id){
+    if(id=='1')
+    {
+      $("#inviteAccount_2").hide();
+      $("#cre_to_msg").val("Eg:john@gmail.com");
+      $("#cre_to_msg").css("color","#999999");
+      $("#redactor_content").empty();
+      $("#redactor_content").css("border","none");
+      $("#cre_to_msg").css("border","1px solid    #BDD6DD");
+      $("#cre_send_to_error").css("display","none");
+      $("#cre_message_error").css("display","none");
+      $("#inviteAccount_1").show();
+      $(".text_1").css("font-weight","bold");
+      $(".text_2").css("font-weight","normal");
+    }
+    else
+    {
+      $("#inviteAccount_1").hide();
+      $("#text-name").val("Search for famtivity Member");
+      $("#text-name").css("color","#999999");
+      $("#fam-list-show").css("display","none");
+      $("#inviteAccount_2").show();
+      if ($(".ffifTxt").is(":visible") == false)
+      {
+        $("#list_no_frnds").append('<p class="ffifTxt">Find Friends in Famtivity</p>');
+      }
+      $(".text_2").css("font-weight","bold");
+      $(".text_1").css("font-weight","normal");
+    }
+  }
+  header_macfix();
+  function landing_splash_popup(){
+    sessionStorage.setItem("mySplashPage", "firsttime");
+  }
+  //ajax advance search submit form
+  $(document).ready(function() {
+    $('#advanced_search_form').submit(function (){
+      $('#loadingmessage').show();
+      $.get($(this).attr('action'), $(this).serialize(), function(){$('#loadingmessage').hide();$('.search_submenu').hide();}, "script");
+      return false;
+    });
+<% if !params[:fb].nil? %>
+  <% if !current_user.nil? && current_user.user_type=="U" && params[:fb] == "inactive" %>
+        /* var str = '<div class="popupContainer" align="center" style="width:510px;padding: 30px 15px;border:2px solid #D7DADB;"><div class="successText" style="line-height:26px;font-family: Arial,Helvetica,sans-serif;font-size:18px;color:#444444;">Welcome to Famtivity. Currently your are signed up through </br>facebook. If you wish to sell your activities through Famtivity <br/>click the "Become a Provider" button below.</div><div style="padding: 20px 0px 10px;"><a href="javascript:void(0)" onclick="parent.pop_Parent_Login(\'/parent_register?view=provider\');"><span class="b-close" style="padding-right:5px;"><img src="/assets/landing/become_a_provider.png" alt="" /></span></a><a href="javascript:void(0)" title=""><span class="b-close"><img src="/assets/login/cancel_button.png" alt="" width="97" height="37" /></span></a></div></div>';
+                              $('#popup_container').bPopup({
+                                fadeSpeed:100,followSpeed:100,opacity:0.8,modalClose:false,positionStyle: 'fixed',onOpen: function() {$("#popup_container").html(str) },onClose: function() {}
+                              });*/
+  <% end %>
+<% end %>
+  });
+  function showSurveyMonkey(){window.open('famtivity-survey',"Survey Monkey","scrollbars=1,top=1,height=700,width=1017,fullscreen=yes,resizable=yes")}
+  <!-- if user click activity from mail trigger this -->
+  function show_loadpopup()  {
+    var s_user = $("#sent_user").val();
+    var s_user_email = $("#sent_user_email").val();
+    var imanager = $("#imanager").val();
+    var mail = $("#sent_mail").val()
+    var group_val = $("#group_val").val();
+    var cid_val = $("#cid_val").val();
+    //new contact invite with session value
+<%if !params[:invite_login].nil? && params[:invite_login]=="login" %>
+      pop_Login('/invite-friends/login/u');
+<%elsif !params[:famnet_login].nil? && params[:famnet_login]=="login" %>
+      pop_Login('/invite-famnetworks/login/t');
+<%elsif !params[:creat_network].nil? && params[:creat_network]=="true" %> 
+      history.replaceState("", "", "create-famnetwork");
+      fam_pop_network('/fam_network');
+<%elsif !params[:fam_status].nil? && params[:fam_status]=="true" %>
+  <%if !params[:net_m].nil? && params[:net_m].present? %>
+        $(".flash-message").html("You've successfully joined the network");
+  <%else%>
+        $(".flash-message").html("You're already a member of this network");
+  <%end%>
+      var win=$(window).width();
+      var con=$(".flash_content").width();
+      var leftvalue=((win/2)-(con/2))
+      $(".flash_content").css("left",leftvalue+"px");
+      $(".flash_content").css("top","67px");
+      $('.flash_content').fadeIn().delay(10000).fadeOut();
+
+<%elsif !params[:parent_reg].nil? && params[:parent_reg].present? && params[:parent_reg]!='' && params[:parent_reg]=='true'%> 
+  <%if current_user && !current_user.nil?%>
+        window.location.href = '/provider'
+  <%else%>
+    <%if !params[:imanager].nil? && params[:imanager].present? && params[:imanager]!='' && params[:imanager]=='true'%>
+          pop_Parent_Login("/parent_register?s_user_id="+s_user+"&s_user_email="+s_user_email+"&imanager="+imanager);
+    <%else%>
+          pop_Parent_Login("/parent_register?s_user_id="+s_user+"&s_user_email="+s_user_email+"&aten_mail="+mail+"&group="+group_val+"&cid="+cid_val);
+    <%end%>
+  <%end%>
+<%elsif !params[:message_reg].nil? && params[:message_reg].present? && params[:message_reg]!='' && params[:message_reg]=='true' && !params[:cid].nil? && !params[:group].nil? %> 
+  pop_Parent_Login("/parent_register?s_user_id="+s_user+"&s_user_email="+s_user_email+"&aten_mail="+mail+"&msg_invite=true&group="+group_val+"&cid="+cid_val);
+
+<%elsif !params[:message_reg].nil? && params[:message_reg].present? && params[:message_reg]!='' && params[:message_reg]=='true'%> 
+      pop_Parent_Login("/parent_register?s_user_id="+s_user+"&s_user_email="+s_user_email+"&aten_mail="+mail+"&msg_invite=true");
+<%elsif !params[:msg_email].nil? && params[:msg_email].present? && params[:msg_email]!=''%>
+      parent.pop_Login('/login?msg_email_val=<%=params[:msg_email]%>');
+<%end%>
+     
+    if ($("#provider_reg").val() == 'true')
+    {
+      pop_Parent_Login("/parent_register?s_user_id="+s_user+"&s_user_email="+s_user_email+"&pro_invite=true");
+    }
+
+    //cick link from invite provider mail
+<%if !params[:uid].nil? && params[:uid].present? && params[:act_type].nil? && !params[:act_type].present? && !params[:aname]%>
+      parent.pop_Login("/login");
+<%elsif !params[:become_provider].nil? && params[:become_provider].present? && params[:become_provider]!='' && params[:become_provider]=='yes' %>
+  <%sent_id = Base64.decode64(params[:sent_user]) if !params[:sent_user].nil? && params[:sent_user]!=''%>
+  <%sent_u = params[:sent_user_email] if !params[:sent_user_email].nil?%>
+  <%curr_u = current_user.email_address if !current_user.nil? && current_user!=''%>
+  <%if !sent_u.nil? && sent_u!='' && !curr_u.nil? && curr_u!='' &&  sent_u==curr_u%>
+        pop_Parent_Login('/parent_register?view=provider&b_provider=pro&invited_user=<%=sent_id%>&invitee_email=<%=params[:sent_user_email] if !params[:sent_user_email].nil?%>&pro_invite=true&bcm_invite=true')
+        //pop_become_provider("/become_provider?s_user_id="+s_user+"&s_user_email="+s_user_email);
+  <%else%>
+    <%
+    cookies.delete :login_usr
+    cookies.delete :uid_usr
+    cookies.delete :city_new_usr
+    cookies.delete :selected_city
+    cookies.delete :first_import
+    cookies.delete :first_import_success
+    session[:user_id] = nil
+    #session['ip_location'] = nil
+    %>
+        parent.pop_Login("/login?beco_prov=true&s_user_id="+s_user+"&s_user_email="+s_user_email);
+        //pop_Login("/login?beco_prov=true&s_user_id="+s_user+"&s_user_email="+s_user_email);
+  <%end%>
+<% end %>
+    //facebook contact invite
+<%if !params[:facebook_reg].nil? && params[:facebook_reg].present? && params[:facebook_reg]!='' && params[:facebook_reg]=='yes' %>
+      var s_user="<%=params[:sent_user]%>"
+      var invited="<%=params[:invited]%>"
+      facebook_login(s_user,invited);
+<% end %>
+
+<%if !params[:become_pro].nil? && params[:become_pro].present? && params[:become_pro]!='' && params[:become_pro]=='yes' %>
+      $("#popup_box").css("display","none");
+      pop_become_provider("/become_provider?s_user_id="+s_user+"&s_user_email="+s_user_email);
+<% end %>
+    //favorites pop up
+<%if !params[:favorites].nil? && params[:favorites]!='' && params[:favorites].present?%>
+      parent.pop_favorite_activity('/save_favorites?activity_id=<%= params[:favorites] %>');
+<% end %>
+    //share pop up
+<%if !params[:share_act].nil? && params[:share_act]!='' && params[:share_act].present?%>
+      parent.pop_share_activity('/share_activity?activity_id=<%= params[:share_act] %>');
+<% end %>
+    //find us on link from mail
+<%if !params[:findus].nil? && params[:findus]!='' && params[:findus].present? && params[:findus].downcase == 'view' %>
+      find_us_on_famtivity('activity_detail/find_us_on_famtivity_popup');
+<% end %>
+    //login link from
+
+<% if !params[:login].nil? && params[:login].present? %>
+  <% if current_user.nil? %>
+        pop_Login('/login?');
+  <% end %>
+<% end %>
+    //share actiivty link from mail
+    
+    //~ if !params[:mview].nil? && params[:mview]!='' && params[:mview].present?
+      //~ pop_Activity_Detail_dhtml('/activitydetail_new?det=<%= params[:mview] %>&mode=parent&act=landing_new','/activity_detail_iframe?det=<%= params[:mview] %>&mode=parent&act=landing_new');
+      //~ pop_Activity_Detail_dhtml('/activitydetail_new?det=<%= params[:mview] %>&mode=parent&act=landing_new','/activity_share/<%= params[:mview] %>/parent/landing_new');
+ 
+<%if !params[:invite_wel_friend].nil? && params[:invite_wel_friend]!='' && params[:invite_wel_friend].present? %>
+      pop_invite_friend_check('/invite_friend_famtivity?check_invite=invite&fam_last=/');
+<% end %>
+<% user_activate=params[:u]%>
+<% if user_activate == "manager_accept" || user_activate == "activated" || user_activate == "not_activate"  || user_activate == "expired" || user_activate == "already_activated" || user_activate == "no_id" || user_activate == "email_active" || user_activate == "email_already_activated" %>
+      pop_Login('/login?id=<%=user_activate%>');
+<% end %>
+<% if !params[:s_out].nil? && params[:s_out].present? && params[:s_out]=="sign_out"%>
+      pop_Login('/login?id=email_active');
+<% end %>
+    //activity network manger accepted for provider
+<% if !params[:mgrapt].nil? && params[:mgrapt]!='' && params[:mgrapt].present? && params[:mgrapt] == 'true' && params[:macid].present? %>
+  <%if current_user && !current_user.nil?%>
+        window.location.href = '/provider'
+  <%else%>
+        pop_Login('/login?idm=manager_accepted&macid=<%=params[:macid]%>');
+  <%end%>
+<% end %>
+
+    //weekend newsletter popup
+<% if !params[:newsletter].nil? && params[:newsletter].present? && params[:newsletter]=='view' %>
+      week_click_new();
+<% end %>
+  }
+</script>
+<div id="fb-root"></div>
+<fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
+<script> window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '<%= FB_APP_ID %>', // App ID
+    status     : true, // check login status
+    cookie     : true // enable cookies to allow the server to access the session
+  });
+};
+(function(d){
+  var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement('script'); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js";
+  ref.parentNode.insertBefore(js, ref);
+}(document));
+function testAPI(s_user,invited) {
+  FB.api('/me', {fields: "id,name,picture,email,username,name"},function(response)
+  {
+    $.get("login/fb_login?s_user="+s_user+"&invited="+invited, {"fb_res": response},function(data) {
+      // 'data' contains a 'user' object with 'email' and 'name' in it.
+    });
+  });
+}
+ 
+function facebook_login(s_user,invited) {
+  FB.login(function(response) {
+    if (response.status === 'connected') {
+      testAPI(s_user,invited);
+    } else if (response.status === 'not_authorized') {
+         
+    } else {
+      FB.login();
+    }
+  }, {scope: 'email,user_likes'},{perms:'user_address, user_mobile_phone'});
+}
+
+
+</script>
+<% if cookies[:search_maxmind_city] || cookies[:search_geocoder_city] %>
+      <% create_log_for_zipcode %>
+    <%  end %>
+</html>

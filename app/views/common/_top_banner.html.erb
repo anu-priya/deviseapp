@@ -1,0 +1,602 @@
+<%=stylesheet_link_tag "sudo/style_new","search/advanced_search","global/jquery.ui.datepicker","global/jquery.ui.theme", :media => "all"%>
+<!--search section start-->
+<style>
+  #makeMeScrollableproviderlist{
+    height: auto;
+  }
+  #makeMeScrollableproviderlist div.scrollableArea{
+    padding-top: 0px;
+  }
+  .search_advance{ cursor: pointer;}
+  #provider_circle{
+    background: url("/assets/fam_networks/circle_bg.png") no-repeat center center;
+    width: 130px;
+    height: 130px;
+  }
+  #paent_video_circle{
+    background: url("assets/fam_networks/parent_tour.png") no-repeat center center;
+    width: 130px;
+    height: 130px;
+    float: left;
+  }
+  #provider_video_circle{
+    background: url("assets/fam_networks/provider_tour.png") no-repeat center center;
+    width: 130px;
+    height: 130px;
+    float: left;
+  }
+  .hmsearchIcon{
+    width: 39px !important ;
+    height:42px!important;
+  }
+  #zip_values_autocomplete .autocomplete-suggestions { position: relative;top: 25px !important;left: 0px;}
+  /* #searchboxtxtbox{
+     float: left;
+   }*/
+  .disc_txt
+  { width: 91px;margin: 0 auto;color:#29758a; font-size: 12px;line-height:15px;}
+</style>
+<script>
+  $(document).ready(function(){
+    if ($('.randombanner').css('display') == 'block') {
+      var number = Math.floor(Math.random() * 8) + 1;
+      $('.randombanner').css('background','url("/assets/landing/banner_'+number+'.jpg") no-repeat center center');
+    }
+  });
+  
+  function clear_date(id){
+    //$.datepicker._myClearDate('#date_start');
+    var currentDate = new Date();
+    $("#"+id).datepicker("setDate",currentDate);
+    if(id=='date_start')
+    {
+      $("#start_dates_formate").text("Start date");
+      $("#date_start").val('');
+    }
+    else if(id=='date_end')
+    {
+      $("#end_dates_formate").text("End date");
+      $("#end_dates").val('');
+    }
+  } 
+</script>
+
+<%y = rand(1..3)%>
+
+<%if (current_user.nil? || current_user=="") && params[:action]!="search_event_index"%>
+  <%if params[:action]=='follow_cities'%>
+    <div class="topBannerbgAfterlogin" style="height:200px;background:#C8E6F1;"></div>
+  <%else%>
+    <div class="topBannerbgAfterlogin"style="height:500px;">
+      <%if y == 1%>
+        <div style="background:url(/assets/landing/newbanner1.jpg) no-repeat center center;height:500px;width:100%;position:absolute"></div>
+      <%elsif y == 2%>
+        <div style="background:url(/assets/landing/newbanner2.jpg) no-repeat center center;height:500px;width:100%;position:absolute"></div>
+      <%else%>
+        <div style="background:url(/assets/landing/newbanner3.jpg) no-repeat center center;height:500px;width:100%;position:absolute"></div>
+      <%end%>
+    </div>
+  <%end%>
+<%end%>
+
+<%if !current_user.nil? && current_user.present?%>
+  <!--Before login section-->
+  <div class="topbanner" <%if params[:action]=="search_event_index" %>style="height:243px;"<%end%>>
+    <%if params[:action]=='follow_cities'%>
+      <div class="topBannerbgAfterlogin" style="height:200px;background:#C8E6F1;">
+      <%else%>
+        <div class="topBannerbgAfterlogin">
+          <div class="randombanner" style="height:243px;width:100%;position:absolute"></div>
+        </div>
+      <%end%>
+    </div>
+  <%elsif (current_user.nil? || current_user=="") && params[:action]=="search_event_index" %>
+    <%if params[:action]=='follow_cities'%>
+      <div class="topBannerbgAfterlogin"style="height:200px;background:#C8E6F1;">
+      <%else%>
+        <div class="topBannerbgAfterlogin"style="height:500px;">
+          <%if y == 1%>
+            <div style="background:url(/assets/landing/newbanner1.jpg) no-repeat center center;height:500px;width:100%;position:absolute"></div>
+          <%elsif y == 2%>
+            <div style="background:url(/assets/landing/newbanner2.jpg) no-repeat center center;height:500px;width:100%;position:absolute"></div>
+          <%else%>
+            <div style="background:url(/assets/landing/newbanner3.jpg) no-repeat center center;height:500px;width:100%;position:absolute"></div>
+          <%end%>
+        </div>
+      <%end%>
+    <%end%>
+    <!--After login section-->
+
+    <div class="topBr <%if !current_user.nil? && current_user.present?%>hmeTopconntentwrap<%else%>before_hmeTopconntentwrap<%end%>" style="<%if !current_user.nil? && current_user.present?%>padding: 50px 0px 0px;<%if params[:action]=="search_by_keyword" %>top:45px;<% else%> top:15px;<% end %><%else%><%if params[:action]=="follow_cities"%>top:125px;<%else%>top:41px;<%end%><%end%><%if (current_user.nil? || current_user=="") && params[:action]!="search_event_index"%>padding: 0px 0px 0px;<%end%><%if (current_user.nil? || current_user=="") && params[:action]=="search_event_index"%>top:41px;<%end%><%if (current_user.nil? || current_user=="") && params[:action]=="search_by_keyword"%>top:91px;<%end%>">
+
+      <table border="0" cellpadding="0" cellspacing="0" width="100%" height="106">
+        <tr>
+          <td align="right" width="15%" valign="top" style="<%if params[:action]=='follow_cities'%>visibility:hidden;<%end%>">
+            <% if !current_user.nil? && current_user.present?%>
+              <a href="#" onclick="fam_pop_network('/fam_network'); _gaq.push(['_trackEvent','Parent Module', 'clickFriending','Create Fam Network']);"><%=image_tag("/assets/fam_networks/fam_network_icon.png", :width=>"128", :height=>"128")%></a>
+            <%end%>
+          </td>
+          <td align="center" width="70%"  <% if current_user.nil? %>valign="top" <%else%>valign="bottom" <%end%>>
+            <% if current_user.nil? %>
+              <div class="ftcWhite3c fts22 resHeadTxt" style="<%if params[:action]=='follow_cities'%>display:none;<%end%>"><b><table width="100%"><tr><td valign="middle" align="center"  height="63">
+                        <h1 style=""><font style="font-size:36px; font-family:Arial;">Find, share &amp; manage kids activities with friends!</font></h1></td></tr></table></b>
+              </div>
+            <%end%>
+            <div class="clear"></div>
+            <form action="" method="post" onsubmit="return search_validation()">
+              <div style="position:relative;left1: 30px;width:840px;">
+
+                <div class="searchBox" id="searchboxtxtbox">
+                  <div>
+                    <input style="width:500px" type="text" name="search" class="lt hmsearch fts20 ftcGrayb9" id="search_value" onfocus="search_key_focus();" onblur="search_key_clearfocus();" onKeyPress="content_checking_new('search','<%= current_user%>',event);" value="<%if @keyword%><%=@keyword%><%else%>Search 20,000 + Local Activities & Counting...<%end%>" />
+
+                  </div>
+                  <div id="search_advance" class="lt searchTop search_open " style="width: 165px;">
+                    <div id="near_saerch"  class="near_one search_advance search_open">near</div>
+
+                    <% if !current_user.nil? && current_user.present?%>
+                      <%if !cookies[:search_city].nil? && cookies[:search_city]!=""%>
+                        <%@cityvalue= cookies[:search_city]%>
+                      <%elsif !session[:city].nil?%>
+                        <%@cityvalue= session[:city]%>
+                      <%else%>
+                        <%@cityvalue= cookies[:city_new_usr]%>
+                      <%end%>
+                    <%elsif !cookies[:search_city].nil? && cookies[:search_city]!=""%><%@cityvalue= cookies[:search_city]%>
+                    <%end%>
+
+
+
+
+                    <!--<div id="spacer_sear">
+                      <div id="dynamic_cities"  class="dynamic_cities search_advance search_open">
+                    <% if !current_user.nil? && current_user.present?%>
+                      <%if !cookies[:search_city].nil? && cookies[:search_city]!=""%>
+                        <%= truncate(cookies[:search_city],:length => 12, :omission => "...")%>
+                      <%elsif !session[:city].nil?%>
+                        <%= truncate(session[:city] , :length =>12, :omission => "...")%>
+                      <%else%>
+                        <%= truncate(cookies[:city_new_usr],:length =>12,:omission => "...")%>
+                      <%end%>
+                    <%elsif !cookies[:search_city].nil? && cookies[:search_city]!=""%><%= truncate(cookies[:search_city],:length => 12, :omission => "...")%>
+                    <%end%>
+                      </div>
+                    </div>-->
+                  </div>
+
+                  <div id="image_div" style="float:right;margin-right:15px;margin-top:15px;">
+		  <%=image_tag("/assets/event/selection_box_arrow.png", :width=>"14", :height=>"10", :style=>"border:0px;", :class=>"search_open search_advance", :id=>"search_img_down")%>
+                    <%=image_tag("/assets/event/selection_box_uparrow.png", :width=>"11", :height=>"7", :style=>"border:0px;display:none;", :class=>"search_open search_advance", :id=>"search_img_up")%>
+                  </div>
+                </div>
+                <div style="display: block; position: absolute; right: 115px; top: 11px; width: 108px;">
+                  <input type="text" style="display:block; width: 94px;" id="zip_values" name="zip_value_name" class="textbox"  value="<%=@cityvalue%>" onfocus=this.value="";  onblur="zip_code_geo()"  onKeyPress="content_checking('zip','',event);" >
+                  &nbsp;
+                  <div id="mouseover_effect" style="width: 153px;margin: 0 auto;display: block;position:absolute;top:0;" >
+                    <div style="width: 202px;margin: 0 auto;" >
+                      <div id="zip_values_autocomplete" style="position: absolute; opacity: 1; text-align: left; width: 175px; z-index: 100;" onKeyPress="content_checking('zip','',event);"></div>
+                    </div>
+                  </div>
+                </div>
+                <%= render :partial =>"common/advance_search_option" %>
+                <div class="searchBox" style="width:42px;"> <input type="image" src="/assets/landing/search_icon.png" class="rt" value="" style="margin:14px 11px 0 5px;width:20px;height:20px;"/></div>
+                <div class="clear"></div>
+                <div class="topContainer searchList normalclass" align="center" >
+                  <span class="outer_menu"><a href="javascript:void(0);" class="menuText" style="font-weight: normal;<%if params[:action]=='follow_cities'%>color: #4C96AF !important;text-shadow:none;<%end%>" title="" onclick="search_bar('special'); _gaq.push(['_trackEvent', 'Specials', 'clickQucikLinks']);" ><%if !@last_value.nil? && @last_value=="specials"%><b>Specials<b><%else%><b>Specials</b><%end%></a></span>
+                          <span class="dot menuText outer_menu" style="position: relative;top: 3px;<%if params[:action]=='follow_cities'%>color: #4C96AF;text-shadow:none;<%else%>color:#BFEAF3<%end%>">&bull;</span>
+                          <span class="outer_menu"><a href="javascript:void(0);" class="menuText" style="font-weight: normal;<%if params[:action]=='follow_cities'%>color: #4C96AF !important;text-shadow:none;<%end%>" title="" onclick="search_bar('discount-dollor');  _gaq.push(['_trackEvent', 'Discount Dollars', 'clickQucikLinks']);"><%if !@last_value.nil? && @last_value=="discount_dollor"%><b>Discount Dollars<b><%else%><b>Discount Dollars</b><%end%></a></span>
+                                  <span class="dot menuText outer_menu" style="position: relative;top: 3px;<%if params[:action]=='follow_cities'%>color: #4C96AF;text-shadow:none;<%else%>color:#BFEAF3<%end%>">&bull;</span>
+                                  <span class="outer_menu outer_menu"><a href="javascript:void(0);" class="menuText" title="" style="font-weight: normal;<%if params[:action]=='follow_cities'%>color: #4C96AF !important;text-shadow:none;<%end%>" onclick="search_bar('free'); _gaq.push(['_trackEvent', 'Free', 'clickQucikLinks']);"><%if !@last_value.nil? && @last_value=="free"%><b>Free<b><%else%><b>Free</b><%end%></a></span>
+                                          <span class="dot menuText outer_menu" style="position: relative;top: 3px;<%if params[:action]=='follow_cities'%>color: #4C96AF;text-shadow:none;<%else%>color:#BFEAF3<%end%>">&bull;</span>
+                                          <span class="outer_menu"><a href="javascript:void(0);" class="menuText" title="" style="font-weight: normal;<%if params[:action]=='follow_cities'%>color: #4C96AF !important;text-shadow:none;<%end%>" onclick="search_bar('camp'); _gaq.push(['_trackEvent', 'Camps', 'clickQucikLinks']);"><%if !@last_value.nil? && @last_value=="camps"%><b>Camps<b><%else%><b>Camps</b><%end%></a></span>
+                                                  <span class="dot menuText outer_menu" style="position: relative;top: 3px;<%if params[:action]=='follow_cities'%>color: #4C96AF;text-shadow:none;<%else%>color:#BFEAF3<%end%>">&bull;</span>
+                                                  <span class="outer_menu"><a href="javascript:void(0);" class="menuText" title="" style="font-weight: normal;<%if params[:action]=='follow_cities'%>color: #4C96AF !important;text-shadow:none;<%end%>" onclick="search_bar('special-needs'); _gaq.push(['_trackEvent', 'Special Needs', 'clickQucikLinks']);"><%if !@last_value.nil? && @last_value=="specialneeds"%><b>Special Needs<b><%else%><b>Special Needs</b><%end%></a></span>
+                                                          <span class="dot menuText outer_menu" style="position: relative;top: 3px;<%if params[:action]=='follow_cities'%>color: #4C96AF;text-shadow:none;<%else%>color:#BFEAF3<%end%>">&bull;</span>
+                                                                                <!--span class="outer_menu"><a href="javascript:void(0);" class="menuText" title="" style="font-weight: normal;" onclick="search_bar('this_weekend');"><%if !@last_value.nil? && @last_value=="weekend"%><b>This Weekend<b><%else%><b>This Weekend</b><%end%></a></span-->
+                                                          <span class="outer_menu">
+                                                            <a href="javascript:void(0)" onclick="week_click_new(); _gaq.push(['_trackEvent', 'This Weekend', 'clickQucikLinks']);" title="Newsletter" style="font-weight: normal;<%if params[:action]=='follow_cities'%>color: #4C96AF !important;text-shadow:none;<%end%>">
+                                                              <%if !@last_value.nil? && @last_value=="weekend"%><b>This Weekend<b><%else%><b>This Weekend</b><%end%></a>
+                                                                  </span>
+                                                                  </div>
+                                                                  </div>
+                                                                  </form>
+                                                                  </td>
+                                                                  <td align="left" width="15%" rowspan="2" valign="middle" style="<%if params[:action]=='follow_cities'%>visibility:hidden;<%end%>">
+
+                                                                    <% if !current_user.nil? && current_user.present?%>
+                                                                      <div id="provider_circle">
+                                                                        <table cellpadding="0" cellspacing="0" border="0" height="130" width="130">
+                                                                          <tr>
+                                                                            <td valign="middle" align="center" width="265" style="text-align:center;" id="invite_providers">
+                                                                              <a style="color:#FFFFFF;"  href="javascript:void(0)" title="" onclick="pop_invite_provider('/invite_provider?aclick=parent');  _gaq.push(['_trackEvent','Parent Module','InviteProvider', 'Credit for Provider']);"><b style="color: #ff0100; font-size: 20px;">Get $25</b> <div class="disc_txt" >Credit for signing up your Provider!</div></a>
+                                                                            </td>
+                                                                            <td valign="middle" align="center" width="289" style="text-align:center;display:none;" id="invite_friends">
+                                                                              <a style="color:#FFFFFF;"  href="javascript:void(0)" title=""  onclick="pop_invite_friend_check('/invite_friend_famtivity?check_invite=invite'); _gaq.push(['_trackEvent','Parent Module', 'InviteFriend', 'Credit for your Friends']);"><b style="color: #ff0100; font-size: 20px;" >Get $1</b> <div class="disc_txt" >Credit for signing up each of your Friends!</div></a>
+                                                                            </td>
+
+                                                                          </tr>
+                                                                        </table>
+                                                                      </div>
+                                                                      <%if get_balance(current_user.user_id)%>
+                                                                        <div id="parent_circle">
+                                                                          <table>
+                                                                            <tr>
+                                                                              <td align="right"><a style="color:#FFFFFF;" href="/discount_dollars?mode=parent" title="" onclick="_gaq.push(['_trackEvent','Parent Module','DiscountDollars', 'Current Balance','<%=(number_with_precision get_balance(current_user.user_id), :precision => 2) %>']);">
+                                                                                  Current Balance&nbsp;=&nbsp;<b style="color: #ff0100; font-size: 15px;">$<%=(number_with_precision get_balance(current_user.user_id), :precision => 2) %></b></a>
+                                                                              </td>
+                                                                            </tr>
+                                                                          </table>
+                                                                        </div>
+                                                                      <%end%>
+
+                                                                    <%end%>
+                                                                  </td>
+                                                                  </tr>
+                                                                  </table>
+                                                                  <!--Before login section--->
+                                                                  </div>
+                                                                  <div id="bsearch_norecord" style="display:none"><!-- basic search result -->
+                                                                    <div class="content_popup">
+                                                                      Sorry we found no results for your search.
+                                                                      <br><br>
+                                                                      <a href="javascript:void(0);" title=""><span class="b-close"><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38", :style=>"border:0px;")%></span></a>
+                                                                    </div>
+                                                                  </div>
+                                                                  <div id="thankyou_newsletter"><!-- newsletter subscribe thankyou popup -->
+                                                                    <div class="content_popup" style="display:none;"><br>Thank you for subscribing!<br>you will receive a confirmation mail shortly<br><br><a href="javascript:void(0);" title=""><span class="b-close"><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38", :style=>"border:0px;")%></span></a></div>
+                                                                    <div class="content_popup_error" style="display:none;"><br><div id="div_exist" style="display:none;">This Email is already in our newsletter mailing list.<br>Try using another Email.</div>
+                                                                      <div id="div_apierror" style="display:none;"></div><br><br><a href="javascript:void(0);" title=""><span class="b-close"><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38", :style=>"border:0px;")%></span></a>
+                                                                    </div>
+                                                                  </div>
+                                                                  <div id="loading" style="width: 1%;position: absolute; opacity: 1;z-index:600; display:none" align="center">
+                                                                    <div><%=image_tag("/assets/loading_new.gif", :width=>"52", :height=>"52")%></div>
+                                                                  </div>
+                                                                  <style>
+                                                                    #search_value{
+                                                                      outline:none;
+                                                                    }
+                                                                    .allsearch{
+                                                                      color:#3D8EA3
+                                                                    }
+
+                                                                    .allsearch:hover{
+                                                                      color:#3D8EA3;
+                                                                      font-weight:bold;
+                                                                      text-decoration:underline;
+                                                                    }
+
+                                                                  </style>
+						<%=javascript_include_tag "landing_banner_slide/location_select_option","landing_banner_slide/searchjquery","search/advanced_search","global/jquery.ui.core","global/jquery.ui.datepicker"%>
+
+                                                                  <input type="hidden" id="autocompleteappender_length"/>
+                                                                  <input type="hidden" id="autocompleteappender_cur_set"/>
+                                                                  <script type="text/javascript" >
+                                                                    $(document).ready(function(){
+    <%if cookies[:search_city].nil?%>
+    if (typeof geoip_city != 'undefined') {
+          $(".dynamic_cities").text(geoip_city());
+	  }
+    <%end%>
+        $('#invite_friends').hide();
+          
+        //display the text color bold for search results
+        var search_value = $("#search_value").val();
+        var count_auto = 2;
+        if(search_value!="Search Activities..."){
+          $("#search_value").css("color","#666666");
+        }
+              
+              
+              
+        $('#search_value').autocomplete({
+          serviceUrl: '/data_entry',
+          formatResult: function(suggestion, currentValue) {
+            count_auto = 2;
+            if(suggestion.data =="all"){
+              $("#autocompleteappender_cur_set").val(suggestion.cur_set);
+              $("#autocompleteappender_length").val(suggestion.total_p);
+              return "<a id='value"+suggestion.data +"' class='allsearch' href='#'>"+suggestion.act+":"+currentValue+"</a>"
+            }
+            else if (suggestion.w_class == "user" ){
+              return "<table><tr><td class='td1'><a id='value"+suggestion.data +"' href='#' class='redSearch'>" + "" + " </a></td><td class='td2'><a id='raj"+suggestion.data +"' class='blueSearch' title= 'Provider Name:"+ suggestion.w_provider_name +"' href='#' onclick='set_provider(\"" + suggestion.user_id + "\",\"" + escape(suggestion.w_provider_name) + "\",\"" + escape(suggestion.pass_value) + "\");'>" +suggestion.provider_name + "</a></td><td class='td3'><a id='raj"+suggestion.data +"' href='#' title= 'City:"+ suggestion.w_city +"' class='graySearch' onclick='set_city(\"" + suggestion.data + "\",\"" + escape(suggestion.city) + "\",\"" + escape(suggestion.pass_value) + "\")'>" + suggestion.city  + "</a></td></tr></table>";
+              //   return "<table><tr><td class='td2'><a id='raj"+suggestion.data +"' class='blueSearch' title= 'Provider Name:"+ suggestion.w_provider_name +"' href='#' onclick='set_provider(\"" + suggestion.user_id + "\",\"" + suggestion.w_provider_name + "\",\"" + suggestion.pass_value + "\");'>" +suggestion.w_provider_name + "</a></td><td class='td3'></tr></table>";
+            }
+            else if (suggestion.w_class == "activity" ) {
+              if(suggestion.w_city!=null){
+                city = suggestion.w_city.toLowerCase().replace(/\s/g , "-")
+              }
+              else{
+                city = suggestion.w_city;
+              }
+              act_url = "/"+unescape(city)+"ca/"+unescape(suggestion.up_slug)+"/"+unescape(suggestion.category.toLowerCase().replace(/\s/g , "-"))+"/"+unescape(suggestion.sub_category.toLowerCase().replace(/\s/g , "-"))+"/"+unescape(suggestion.w_slug)
+              return "<table><tr><td class='td1'><a style='display:block; width:100%; 'id='value"+suggestion.data +"' title= 'Activity Name:"+ suggestion.w_activity_name +"' data-pjax  href='"+act_url+"' class='redSearch' >" + suggestion.activity_name+ " </a></td><td class='td2'><a style='display:block; width:100%;' id='raj"+suggestion.data +"' class='blueSearch' title= 'Provider Name:"+ suggestion.w_provider_name +"' href='#' onclick='set_provider(\"" + suggestion.user_id + "\",\"" + escape(suggestion.w_provider_name) + "\",\"" + escape(suggestion.pass_value) + "\");'>" +suggestion.provider_name + "</a></td><td class='td3'><a style='display:block; width:100%;' id='raj"+suggestion.data +"' href='#' title= 'City:"+ suggestion.w_city +"' class='graySearch' onclick='set_city(\"" + suggestion.data + "\",\"" + escape(suggestion.city) + "\",\"" + escape(suggestion.pass_value) + "\")'>" + suggestion.city  + "</a></td></tr></table>";
+            } },
+          onSelect: function (suggestion) {
+            if(suggestion.data =="all"){
+              $.get("/basic_search_count",{
+                "event_search": suggestion.value
+              }, function(data){
+                if (data>0)
+                {
+                  window.location = "/search_event_index?event_search="+suggestion.value;
+                }
+                else{
+                  $('.right_container').html('<div class="setBg1"><div width="100%" class="no_activities" style="text-align:center;height: 500px;">Sorry we found no results for your search.</div></div>');
+                  $("#bsearch_norecord").bPopup({modalClose:false});
+                  $("#bsearch_norecord").show();
+                }
+              }, "script"
+            );
+
+            }
+
+          },
+          width :575
+        })
+
+      });
+              
+      function set_city(id,cit,act_value){
+        var c_value = act_value + cit;
+        //show only city name
+        $("#search_value").val(unescape(cit));
+        //$("#search_value").val(unescape(c_value));
+        window.location = "/search_event_index?type=city&event_search="+act_value+"&city_name="+cit;
+      }
+
+      function set_provider(pro,name,act_value){
+        var c_value = act_value + name;
+        //show only provider name
+        $("#search_value").val(unescape(name));
+        //setTimeout(function(){
+        //$("#search_value").val(unescape(c_value));
+        //$('#popup_container').css({'position':'absolute'});
+        //},5000)
+        window.location = "/search_event_index?type=provider&user_id="+pro+"&event_search="+act_value+"&pro_name="+unescape(name);
+      }
+              
+      function set_activity(id,provider_name,category,city,data){
+        //~ function set_activity(id,city,provider_name,category,sub_category,activity_name){
+        //~ alert(unescape(sub_category));
+        //~ window.location = "/"+unescape(city.trim())+"/"+unescape(provider_name.trim())+"/"+unescape(category.trim())+"/"+unescape(sub_category.trim())+"/"+unescape(activity_name.trim());
+        //~ //show only activity name
+        $("#search_value").val(unescape(data));
+        //~ //$("#search_value").val(unescape(provider_name));
+        //~ /*IE11 Fixes-> Dont Remove*/
+        if (history.pushState){
+          window.history.pushState(null, "Activity Details", "/activitydetail_new?det="+id+"&mode=parent&act=landing_new','/activities/"+city+"-ca"+"/"+id+"-"+data);
+          // window.history.pushState(null, "Activity Details", "/activitydetail_new?det="+id+"&mode=parent&act=landing_new','/activities/"+id+"/"+city+"/parent/"+category+"/"+data+"/");
+          //window.history.pushState(null, "Activity Details", "/activitydetail_new?det="+id+"&mode=parent&act=landing_new','/activity_detail_iframe?det="+id+"/"+city+"/parent/"+category+"/"+data+"/");
+          search_pop_Activity_Detail_dhtml("/activitydetail_new?det="+id+"&mode=parent");
+        }
+        else
+        {
+          search_pop_Activity_Detail_dhtml("/activitydetail_new?det="+id+"&mode=parent");
+        }
+
+        //~ //setTimeout(function(){
+        //~ // $("#search_value").val(data);
+        //~ //$('#popup_container').css({'position':'absolute'});
+        //~ // },200)
+      }
+
+ 
+      $(document).ready(function(){
+        atocomplete();
+      })
+								
+      window.addEventListener('popstate', function(e) {
+        atocomplete();
+      });
+								
+      function atocomplete(){
+        invite_providers();
+        var count_auto=2;
+        search_processing = false;
+        $(".autocomplete_appender").scroll(function(){
+
+          if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight){
+            var searc_val = $("#search_value").val();
+            var total_p = $("#autocompleteappender_length").val();
+            var cur_set = $("#autocompleteappender_cur_set").val();
+            if (count_auto > parseInt(total_p)){
+              $("#loading").css('display','none');
+              return false;
+            }
+            else{
+              if (search_processing == false){
+                search_processing = true;
+                $.ajax({
+                  url: "/data_entry",
+                  type:"post",
+                  data: {
+                    query: searc_val,
+                    page:count_auto,
+                    set_p:cur_set
+                  },
+                  success: function( data ) {
+                    $.map (data.suggestions, function( item){
+                      if(item.data =="all"){
+                        if (item.cur_set == "2" && item.cur_page == "1"){
+                          count_auto = 2;
+                          cur_set = 2;
+                        }
+                        else{
+                          count_auto++;
+                        }
+                        $("#autocompleteappender_cur_set").val(item.cur_set);
+                        $("#autocompleteappender_length").val(item.total_p);
+                        search_processing = false;
+                      }
+                      if(item.data !="all"){
+                        if (item.w_class == "user" ){
+                          $(".autocomplete_appender").append("<div class='autocomplete-suggestion' data-index='"+item.data+"'><table><tr><td class='td1'><a id='value"+item.data +"' href='#' class='redSearch'>" + "" + " </a></td><td class='td2'><a id='raj"+item.data +"' class='blueSearch' title= 'Provider Name:"+ item.w_provider_name +"' href='#' onclick='set_provider(\"" + item.user_id + "\",\"" + escape(item.provider_name) + "\",\"" + escape(item.pass_value) + "\");'>" +item.provider_name + "</a></td><td class='td3'><a id='raj"+item.data +"' href='#' title= 'City:"+ item.w_city +"' class='graySearch' onclick='set_city(\"" + item.data + "\",\"" + escape(item.city) + "\",\"" + escape(item.pass_value) + "\")'>" + item.city  + "</a></td></tr></table></div>")
+                          //  $("#autocomplete_appender").append("<div class='autocomplete-suggestion' data-index='"+item.data+"'><table><tr><td class='td2'><a id='raj"+item.data +"' class='blueSearch' title= 'Provider Name:"+ item.w_provider_name +"' href='#' onclick='set_provider(\"" + item.user_id + "\",\"" + item.w_provider_name + "\",\"" + item.pass_value + "\");'>" +item.w_provider_name + "</a></td><td class='td3'></tr></table></div>");
+                        }
+                        else{
+                          //~ act_url = "/"+unescape(city)+"-ca/"+unescape(item.up_slug)+"/"+unescape(item.category.toLowerCase().replace(/\s/g , "-"))+"/"+unescape(item.sub_category.toLowerCase().replace(/\s/g , "-"))+"/"+unescape(item.w_slug)
+
+                          $(".autocomplete_appender").append("<div class='autocomplete-suggestion' data-index='"+item.data+"'><table><tr><td class='td1'><div id='value"+item.data +"' title= 'Activity Name:"+ item.w_activity_name +"' href='#' class='redSearch'  onclick='set_activity(\"" + item.data + "\",\"" + escape(item.activity_name) + "\");'>" + item.activity_name + " </div></td><td class='td2'><a id='raj"+item.data +"' class='blueSearch' title= 'Provider Name:"+ item.w_provider_name +"' href='#' onclick='set_provider(\"" + item.user_id + "\",\"" + escape(item.provider_name) + "\",\"" + escape(item.pass_value) + "\");'>" +item.provider_name + "</a></td><td class='td3'><a id='raj"+item.data +"' href='#' title= 'City:"+ item.w_city +"' class='graySearch' onclick='set_city(\"" + item.data + "\",\"" + escape(item.city) + "\",\"" + escape(item.pass_value) + "\")'>" + item.city  + "</a></td></tr></table></div>");
+                        }
+                      }
+                    });
+
+                  },
+                  error: function(jqXHR, textStatus, errorThrown){
+                    alert('ajax error:' + textStatus);
+                  }
+                });
+                var total_width = $(window).width()/2.4;
+                var total_height = $(window).height()/2-80;
+                $("#loading").css('top',total_height);
+                $("#loading").css('left',total_width);
+              }
+              //$("#loading").css('display','block');
+            }
+          }
+        });
+      }
+								
+      //quick link click funciton started here
+      //~ function search_bar(qtype)
+      //~ {
+      //~ var search_word = $("#search_value").val('Search 20,000 + Local Activities & Counting...');
+      //~ if(qtype=="free")
+      //~ {
+      //~ window.location.href ="/search_event_index?a_f=free";
+      //~ }
+      //~ else
+      //~ {
+      //~ window.location.href ="/quick-link/"+qtype
+      //~ }
+      //~ }
+      function search_bar(qtype)
+      {
+        var search_word = $("#search_value").val('Search 20,000 + Local Activities & Counting...');
+        alert(qtype);
+        if(qtype=="free")
+        {
+          window.location.href ="/search_event_index?a_f=free";
+        }
+        else if(qtype)
+        {
+          window.location.href ='/'+qtype+'-activities'
+        }
+      }
+                                                                  </script>
+                                                                  <style type="text/css" >
+                                                                    .autocomplete-suggestions { border: 1px solid #DADADA; background: #FFF; overflow: auto;}
+                                                                    .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap;}
+                                                                    .autocomplete-selected { background: #F0F0F0; }
+                                                                    .autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+                                                                    .autocomplete-suggestions {
+                                                                      <%if !current_user.nil? && current_user.present?%> top:260px;<%end%>
+                                                                      <%if (current_user.nil? || current_user=='') && params[:action]!="search_event_index"%> top:260px;<%end%>
+                                                                    }
+                                                                  </style>
+                                                                  <div id="popup_container"></div>
+                                                                  <script>
+                                                                    var i=0;
+                                                                    function invite_providers(){
+                                                                      setInterval(function(){
+      
+                                                                        invite_friends(i++);
+                                                                      },
+                                                                      5000);
+                                                                    }
+                                                                    function invite_friends(j){
+                                                                      if(j%2==1){
+                                                                        $("#invite_friends").hide();
+                                                                        $("#invite_providers").show();
+                                                                      }
+                                                                      else{
+                                                                        $("#invite_friends").show();
+                                                                        $("#invite_providers").hide();
+                                                                      }
+                                                                    }
+                                                                    function zip_code_geo(){
+                                                                      var zip_value = $("#zip_values").val();
+                                                                      if (zip_value !="" && zip_value!="Enter city (or) Zip code" && !isNaN(zip_value)){
+                                                                        $.ajax({
+                                                                          url:'zip_search',
+                                                                          data: {
+                                                                            "zip_value": zip_value
+                                                                          },
+                                                                          success:function(data){
+                                                                          }
+                                                                        });
+                                                                      }
+                                                                      else{
+                                                                        var name ="search_city=";
+                                                                        var ca = document.cookie.split(';');
+                                                                        for(var i=0; i<ca.length; i++)
+                                                                        {
+                                                                          var c = ca[i].trim();
+                                                                          if (c.indexOf(name)==0){
+                                                                            //$('#zip_values').hide();
+                                                                            //$('.dynamic_cities').show();
+                                                                            var zipcode_city = c.substring(name.length,c.length);
+                                                                            var new_zipcode_city = (zipcode_city.length < 13)?zipcode_city.replace(/\+/g, " "):(zipcode_city.substring(0,9).replace(/\+/g, " "))+'...';
+                                                                            $("#zip_values").text(new_zipcode_city);
+                                                                            //$(".dynamic_cities").text(c.substring(name.length,c.length).replace(/\+/g, " "));
+                                                                            //$("#mouseover_effect").hide();
+                                                                            $("#search_value").focus();
+                                                                            //~ $('#zip_values').val("");
+                                                                            //~ $("#basic_Search").slideUp();
+                                                                            $(".hmsearchIcon").show();
+                                                                            $("#search_value").css("width","490px");
+                                                                            //~ $("#search_img_down").show();
+                                                                            //~ $("#search_img_up").hide();
+                                                                            //~ $(this).addClass('search_open').removeClass('search-close');
+                                                                            //~ $('#dynamic_cities').addClass('search_open').removeClass('search-close');
+                                                                            //~ $("#search_img_down").addClass('search_open').removeClass('search-close');
+                                                                            return c.substring(name.length,c.length);
+                                                                          }
+                                                                        }
+                                                                        return "Walnut Creek";
+                                                                      }
+                                                   
+                                                          
+                                                                      return false;
+                                                                    }
+                                                        
+                                                                    $(document).ready(function() {
+                                                                      $("#makeMeScrollableproviderlist").smoothDivScroll({
+                                                                        autoScrollingMode: "always",
+                                                                        autoScrollingDirection: "endlessLoopRight",
+                                                                        autoScrollingStep: 2,
+                                                                        autoScrollingInterval: 25,
+                                                                        getContentOnLoad: {
+                                                                          method: "getAjaxContent",
+                                                                          content: "/landing/provider_names_list?page=1",
+                                                                          manipulationMethod: "replace"
+                                                                        }
+                                                                      });
+                                                                      set_provider_interval();
+                                                                      // Mouse over
+                                                                      $("#makeMeScrollableproviderlist").bind("mouseover", function(){
+                                                                        $("#makeMeScrollableproviderlist").smoothDivScroll("stopAutoScrolling");
+                                                                      });
+  
+                                                                      // Mouse out
+                                                                      $("#makeMeScrollableproviderlist").bind("mouseout", function(){
+                                                                        $("#makeMeScrollableproviderlist").smoothDivScroll("startAutoScrolling");
+                                                                      });
+                                                                    });
+                                                                    var counter_val = 1;
+                                                                    function set_provider_interval(){
+                                                                      setInterval(function(){
+                                                                        set_provider_paginate();
+                                                                      }, 10000);
+                                                                    }
+                                                                    function set_provider_paginate()
+                                                                    {
+                                                                      var n = $("#provider_list_count").val();
+                                                                      counter_val = counter_val + 1;
+                                                                      if(counter_val <= parseInt(n))
+                                                                      {
+                                                                        $("#makeMeScrollableproviderlist").smoothDivScroll("getAjaxContent", "/landing/provider_names_list?page="+counter_val+"", "addLast");
+                                                                      }
+                                                                    }
+                                                                  </script>
+                                                                  <%=render :partial => 'common/week_end_newsletter'%>

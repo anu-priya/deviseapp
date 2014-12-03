@@ -1,0 +1,245 @@
+/***************************/	
+.test{
+	background:red;
+}
+
+.colDivBorder{
+	border:1px solid #CDE0E6;	
+	background:#ffffff;
+	width:25px;
+	height:10px;	
+	display:block;
+	margin: 0 2px;
+    padding: 1px 2px 3px;
+}
+.colDiv{
+	border:1px solid #CDE0E6;	
+	background:#FC4063;
+	width:24px;	
+	height:10px;	
+	display:block;
+}
+.setBgColor{
+	background:#E9F6FE;
+	padding:3px 2px;
+	border-left:1px solid #CDE0E6;	 
+}
+ .actName{
+	padding:10px 0px;
+}
+.actImageIcon{
+	padding-bottom:5px;
+}
+/******** Add New Schedule Div *********/
+#added_activity{	
+	position:absolute;
+	z-index:101;	
+	margin:0 0 0 26px;
+}
+#added_activity .topArrow{	
+    margin: -10px 0 0 8px;	
+	position:relative;
+	z-index:105;		
+}
+#added_activity .addedContDiv{
+	width:386px;
+	height:100%;	
+	margin-top: -5px;
+	.margin-top: -1px;	
+}
+#added_activity .addedContDiv .topDiv{
+	border-top:1px solid #CDE0E6;	
+	margin-left: 4px;
+    width: 378px;		
+	height:0px;
+	position:relative;
+	z-index:101;
+}
+#added_activity .addedContDiv .centerDiv{	
+	background:url('/assets/activity_schedule/pop_center_repeat.png') repeat-y;
+	width:386px;
+	height:100%;
+}
+.closeButton{
+	display:block;	
+	padding: 10px 15px 0 0;
+}
+#added_activity .addedContDiv .centerDiv .innerDiv{
+	padding:15px 0 0 22px;
+}
+#added_activity .addedContDiv .centerDiv .innerDiv .leftSideField{
+	display:inline-block;
+    font-weight:bold;
+    font-size:14px;
+    color:#5a5757;
+    width: 123px;
+    vertical-align:top;
+    margin-top: 8px;
+    margin-left: 6px;
+}
+#added_activity .addedContDiv .centerDiv .innerDiv .marginTop8{
+	margin-top:8px;
+}
+#added_activity .addedContDiv .centerDiv .innerDiv .marginTop15{
+	margin-top:20px;
+}
+#added_activity .addedContDiv .centerDiv .innerDiv .selectBoxSchedule{	
+    display:inline-block;	
+	background:url('/assets/activity_schedule/activty_search_select_box_img.png') no-repeat;
+    width:195px;
+    height:31px;
+}
+#added_activity .addedContDiv .centerDiv .innerDiv .selectBoxBilling{
+	display:inline-block;
+	background:url('/assets/create_new_activity/time_select_box.jpg') no-repeat;
+    width:73px;
+    height:33px;
+	margin-left:-1px;
+}
+#added_activity .addedContDiv .centerDiv .innerDiv .selectBoxBilling_63{
+	display:inline-block;
+	background:url('/assets/create_new_activity/time_select_box_63.jpg') no-repeat;
+    width:63px;
+    height:33px;
+	margin-left:3px;
+}
+#added_activity .addedContDiv .centerDiv .innerDiv .selectDiv{
+    display:inline-block;
+    cursor:default;
+    font-size:13px;
+    color:#999999;
+    position:relative;
+    top:4px;
+    /*left:7px;*/
+    width:163px;
+    height:23px;
+    overflow:hidden;
+    padding-left: 7px;
+}
+#added_activity .addedContDiv .centerDiv .innerDiv .selectDivTime{
+    left: 4px;
+    padding-left: 3px;
+    width: 39px;
+  }
+#added_activity .addedContDiv .centerDiv .innerDiv .selectDivTime_63{
+    padding-left:5px;
+    width:28px;
+    margin-left:2px;
+  }
+#added_activity .addedContDiv .centerDiv .innerDiv .dropDownDivSchedule{
+    display:inline-block;
+    font-size:13px;
+    background:#ffffff;
+    color:#959292;
+    border:1px solid #CDE0E6;
+    width:193px;    
+    position:absolute;
+    z-index:500;
+    /* options are overflow set height and scroll */
+    height:46px;
+    overflow-y:scroll;
+}
+#added_activity .addedContDiv .centerDiv .innerDiv .dropDownDivSchedule a{	
+    color:#999999;
+    display:block;
+    text-decoration:none;
+    padding:3px 3px 3px 3px;
+}
+#added_activity .addedContDiv .centerDiv .innerDiv .dropDownDivCity a:hover{
+    background:#73C3DD;
+    color:#ffffff;
+}
+#added_activity .addedContDiv .centerDiv .innerDiv .dropDownDivTime{
+    width:69px;
+}
+#added_activity .addedContDiv .centerDiv .innerDiv .dropDownDivTime_63{
+    width:59px;
+	margin-left:213px;
+}
+#added_activity .addedContDiv .centerDiv .innerDiv  #dropDownDiv1{
+	margin:30px 0 0 129px;
+    .margin:30px 0 0 -195px;
+}
+#added_activity .addedContDiv .centerDiv .innerDiv  #dropDownDiv2{
+	margin:31px 0 0 129px;
+    .margin:31px 0 0 -138px;
+}
+#added_activity .addedContDiv .centerDiv .innerDiv  #dropDownDiv3{
+	margin:31px 0 0 205px;
+    .margin:31px 0 0 -62px;
+	height:44px;
+    overflow:hidden;
+}
+#added_activity .addedContDiv .centerDiv .innerDiv .buttonDiv{
+	margin:0 0 17px 4px;
+}
+#added_activity .addedContDiv .bottomDiv{
+	background:url('/assets/activity_schedule/pop_bottom.png') repeat-y;
+	width:386px;
+	height:14px;
+}
+/******** View Schedule Div **********/
+.showActivityDetail{
+	position:absolute;
+	z-index:102;
+	margin-left: -2px;
+    margin-top: 10px;
+}
+.fc-event-hori .showActivityDetail{
+	position:fixed;
+}
+.showtopArrow{
+	margin: 0px 0 0 8px;
+	position:relative;
+	z-index:105;	
+}
+.showDetialView{			
+	background:#F7F9F8;
+	border:1px solid #C4DFE6;	
+	/*width:305px;*/
+	width:341px;
+	margin-top:-4px;
+	.margin-top:-1px;
+	display:block;
+	z-index:104;	
+}
+.showDetialView .showInnerDiv{
+	padding:0 18px 18px 20px;
+}
+.showDetialView .showInnerDiv .head{
+   font-size:13px;
+   color: #4495AE;
+   font-weight:bold;
+}
+.showDetialView .showInnerDiv  .leftPart{	
+	width:100px;
+	text-align:left;	
+}
+.showDetialView .showInnerDiv  .leftPart .leftCont{
+	font-size:13px;
+	color: #5A5757;
+	font-weight:bold;
+}
+.showDetialView .showInnerDiv  .leftPart  .colon{
+	right:12px;
+	position:relative;
+}
+.showDetialView .showInnerDiv  .setPadding{
+	padding-top:17px;	
+	.padding-top:12px;
+}
+.showDetialView .showInnerDiv  .rightCont{
+	font-size:12px;
+	color: #5A5757;
+	/*width:150px;*/
+	width:203px;
+}
+.showDetialView .remove{
+	 color:#176174;
+	 font-family:arial;
+	 font-size:12px;
+	 font-weight:bold; 
+	 margin-left: 10px;
+     margin-top: 6px;
+}
+/****************/

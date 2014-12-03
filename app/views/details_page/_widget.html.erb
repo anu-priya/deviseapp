@@ -1,0 +1,26 @@
+<div style="clear:both;"></div>
+<!-- Widget section start-->
+<% if !@user_profile.nil? && @user_profile.present? && !@user_profile.user_id.nil? && @user_profile.user_id.present? %>
+<% @wid_act = getWidgetlist(@type,@user_profile.user_id) %>
+<% if !@wid_act.blank? %>
+	<div class="widget_main">
+		<div class="widget_container" align="center">
+		<div class="detail-title" style="padding-left:30px;padding-top:20px;" align="left">Get equipped for <%= @user_profile.business_name.titlecase if !@user_profile.nil? && !@user_profile.business_name.nil?%>
+		<div class="amazon_logo"></div>
+		</div>
+		<div align="center" style="margin-left1: -15px; display:inline-block; text-align:center; margin:0 auto; width:100%;">
+		<% @wid_act && @wid_act.each do |t|%>
+		<% if !t['source_url'].nil? && t['source_url'].present? && !t['href_url'].nil? && t['href_url'].present? %>
+		<div class="<%if @type =='provider'%>widget_inner<% else %>act_widget_inner"<% end %> align="center" <%if @type =='provider'%>style="min-width:424px;"<%end%>>
+		<script charset="utf-8" type="text/javascript" src="<%= t['source_url']%>"></script>
+		<noscript><a href="<%= t['href_url']%>">Amazon.com Widgets</a></noscript>
+		</div>
+		<% end%>
+		<% end %>
+		</div>
+	</div>
+	</div>
+<% end %>
+<% end %>
+<br><br>
+<!-- Widget section end-->

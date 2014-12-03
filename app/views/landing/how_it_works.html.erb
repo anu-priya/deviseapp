@@ -1,0 +1,163 @@
+<%
+meta :title => "How it works | famtivity - kids activities, events, camps",
+  :description => "Learn more about Famtivity, the Family Activity Social Network for Kids Activities",
+  :keywords => "How famtivity works, How it works, How does it work"
+%>
+<style>
+  #how_it_work{
+    margin:auto;
+    background:#fff;
+    border:1px solid #dbdddc;
+    width:883px;
+    height:578px;
+    padding-top:10px;
+  }
+  .borde_rows{
+    clear: both;
+    width: 100%
+  }
+  #first{
+    width: 95%;
+    height: 40px;
+    border-bottom: 1px solid #dbdddc;
+    text-align: center;
+    float: left;
+  }
+  #vidFrame_1,#vidFrame_2{
+    border:3px solid #e5e5e5;
+    width:720px;
+    height:405px;
+    padding: 10px;
+  }
+  .third{
+    width: 100%;
+    height: 50px;
+    float: left;
+  }
+  #left{
+    width: 47%;
+    text-align:right;
+
+  }
+  #right{
+    width: 47%;
+    text-align:left;
+  }
+  #middle{
+    width: 6%;
+    text-align:center;
+    color:#dbdddc;
+    font-size: 30px;
+    margin-top: -7px
+  }
+  #outer_img{
+    padding: 3px;
+
+    padding: 30px 70px;
+
+  }
+  #haeding_how{
+    color: #3C93AC;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  #close_howit{
+    width: 5%;
+    height: 35px;
+    float: left;
+    border-bottom: 1px solid #dbdddc;
+    padding-top: 5px;
+  }
+</style>
+<script>
+  $("link[rel='alternate']").attr("href",'<%= "#{$meta_mobile}#{request.fullpath}"%>');
+  function closehowitwork()
+  {
+    parent.HowitworksPopupPage.hide();
+    //SEO URL Changes
+    var stateObj = {
+      foo: "bar"
+    };
+    if(navigator.appName=="Microsoft Internet Explorer"){
+      window.location.hash="/";
+    }
+    else{
+      parent.history.replaceState(stateObj, "How it works", "/");
+    }
+    //SEO URL Changes
+  }
+  function show_video_parent(){
+    $("#vidFrame_1").css("display","none");
+    $("#vidFrame_2").css("display","block");
+    $("#parent_selected").css("display","block");
+    $("#parent_normal").css("display","none");
+    $("#provider_normal").css("display","block");
+    $("#provider_selected").css("display","none");
+
+		
+  }
+  function  show_video_provider(){
+		
+    $("#vidFrame_2").css("display","none");
+    $("#vidFrame_1").css("display","block");
+    $("#parent_selected").css("display","none");
+    $("#parent_normal").css("display","block");
+    $("#provider_normal").css("display","none");
+    $("#provider_selected").css("display","block");
+
+  }
+  var StartVal=1;
+  var endVal=7;
+  function show_video(getid,url){
+	
+    for(i=StartVal;i<endVal;i++)
+    {
+      if(i==getid){
+        autoPlayVideo(url,'720','400',i);
+      }
+    }
+  }
+
+  function autoPlayVideo(vcode, width, height,value) {
+    $("#vidFrame_"+value).html('<iframe width="'+width+'" height="'+height+'" src="https://www.youtube.com/embed/'+vcode+'?autoplay=1&loop=1&rel=0&wmode=transparent" style="margin:0;" frameborder="0" allowfullscreen wmode="Opaque"></iframe>');
+  }
+
+</script>
+
+<div id="how_it_work" class="pop_howit_up" >
+  <div class="borde_rows">
+
+    <div id="first" >
+      <span> <%= image_tag("/assets/landing/how_it_works_icon.png") %></span>
+      <span class="setBoxText" id="haeding_how" align="center" style="top:4px; position:relative;"><b>How it works</b></span>
+
+    </div>
+    <div id="close_howit">
+      <span><a onclick="closehowitwork()" title="close"><%= image_tag("/assets/landing/close_button_how.png") %></a></span>
+    </div>
+
+    <div class="borde_rows">
+      <div id="outer_img">
+        <div  id="vidFrame_2"style="display: block;"  >
+          <a class="discover" href="javascript:void(0);" onClick="show_video('2','ITVSqa_3Stc')"><%= image_tag("/assets/landing/parent_video.png") %></a>
+        </div>
+        <div  id="vidFrame_1" style="display: none;" >
+          <a class="discover" href="javascript:void(0);" onClick="show_video('1','QDDPdsFTx88')"><%= image_tag("/assets/landing/provider_video.png") %></a>
+          <!--a class="discover" href="javascript:void(0);" onClick="show_video('1','J143fxG7lz0')"><img src="/assets/landing/provider_video.png" /></a-->
+        </div>
+      </div>
+    </div>
+    <div class="borde_rows">
+      <div id="left" class="third">
+        <a id="parent_normal"class="discover" href="javascript:void(0);" onClick="show_video_parent()" style="display:none"><%= image_tag("/assets/landing/parent_tour.png") %></a>
+        <a id="parent_selected"class="discover" href="javascript:void(0);" onClick="show_video_parent()"  ><%= image_tag("/assets/landing/parent_tour_selection.png",:id=>"parent_selected" ) %></a>
+      </div>
+      <div id="middle" class="third"><b>|</b></div>
+      <div id="right" class="third">
+        <a id="provider_normal" class="discover" href="javascript:void(0);" onClick="show_video_provider()"><%= image_tag("/assets/landing/provider_tour1.png",:id=>"provider_normal") %></a>
+        <a id="provider_selected" class="discover" href="javascript:void(0);" style="display:none" onClick="show_video_provider()"><%= image_tag("/assets/landing/provider_tour_selection.png") %></a>
+      </div>
+    </div>
+
+
+  </div>

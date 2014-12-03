@@ -1,0 +1,58 @@
+<%=stylesheet_link_tag "profile/profile", :media => "all"%>
+
+	<!--provider submenu -->
+		<%= render :partial => '/provider_settings/provider_submenu'%>
+	<!--provider submenu -->
+
+  <div class="wrapper_contianer_inner_login">
+   <div class="staic_inner">
+          <div class="page_head">   
+			<div class="head_line"></div>
+			<h1 class="search_head">Credit Card Information&nbsp;</h1>
+	</div><br>
+     <div class="boxContainer">
+     
+	    <div class="top_info_text">
+	      <table cellpadding="0" cellspacing="0" border="0">
+		<tr>
+		  <td  valign="top">
+		    <div class="paymentrt">
+		      <table cellpadding="0" cellspacing="0">
+			<tr>
+			  <td class="profile_font" height="26" width="175"><b>Cardholder Name</b></td>
+			  <td class="profile_font_rtColor"><%=  @payment_profile.params["payment_profile"]['bill_to']['first_name'] if @payment_profile.success? if !@payment_profile.nil?%> <%=  @payment_profile.params["payment_profile"]['bill_to']['last_name'] if @payment_profile.success?  if !@payment_profile.nil?%></td>
+			</tr>
+			<tr>
+			  <td class="profile_font" height="26"><b>Card Number</b></td>
+			  <td class="profile_font_rtColor"><%=  @payment_profile.params["payment_profile"]['payment']['credit_card']['card_number'] if @payment_profile.success?  if !@payment_profile.nil?%></td>
+			</tr>
+			<tr>
+			  <td class="profile_font" height="26"><b>Payment Type</b></td>
+			  <td class="profile_font_rtColor" style="color: #5099AC;">XXXX</td>
+			</tr>
+			<tr>
+			  <td class="profile_font" height="30"><b>Expiration Date</b></td>
+			  <td class="profile_font_rtColor">XXXX</td>
+			</tr>
+			<tr>
+			  <td class="profile_font" height="26"><b>CVC</b></td>
+			  <td class="profile_font_rtColor">XXX</td>
+			</tr>
+		      </table>
+		    </div>
+		  </td>
+		</tr>
+	      </table>
+	      <%if @payment_detail.nil?%><p style="padding:10px 10px 0px 10px;" class="fts14 ftcRedff">Please enter your credit card details</p><%end%>
+	      <div class="edtiDiv" style="margin: 20px 0 0px 9px;">
+	      <a class="save-button lt"  href="/get_credit_card_info" title="">Edit</a>
+	      <a class="cancel-button lt"  href="/provider_profile" title="">Cancel</a>
+	      </div>
+	      <div class="clear"></div>
+	    </div>
+       </div>
+    </div>
+  </div>
+
+
+

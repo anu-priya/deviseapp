@@ -1,0 +1,68 @@
+<%if @activity && @activity.present?%>
+<table cellspacing="0" cellpadding="0" style="width:100%;margin:0 auto;">   
+	<%if !@activity.min_age_range.nil? && @activity.min_age_range!="" && !@activity.max_age_range.nil? && @activity.max_age_range!=""%>
+	<tr>
+		<td height="30" width="185"  class="tdalign">Age Range</td>
+		<td height="30" class="tdright"><%=age_range_cal(@activity.min_age_range,@activity.max_age_range)%></td>
+	</tr>
+	<%end%>
+	<%if !@activity.skill_level.nil? && @activity.skill_level!="" && @activity.skill_level !="--Select--"%>
+	<tr>
+		<td height="30" width="185"  class="tdalign">Skill Level</td>
+		<td height="30" class="tdright"><%=@activity.skill_level.titlecase%></td>
+	</tr>
+	<%end%>
+	<%if @activity.leader && !@activity.leader.nil? && @activity.leader!=""%>
+	<tr>
+		<td height="30" width="185"  class="tdalign">Leader</td>
+		<td height="30" class="tdright"><%=truncate(@activity.leader.titlecase, :length =>40, :omission => "... ")%></td>
+	</tr>
+	<%end%>
+	<%if !@activity.phone.nil? && @activity.phone!="" && @activity.phone!="xxx-xxx-xxxx" %>
+	<tr>
+		<td height="30" width="185"  class="tdalign">Phone Number</td>
+		<td height="30" class="tdright"><%=@activity.phone%><%if !@activity.phone_extension.nil? && @activity.phone_extension!="" && @activity.phone!="Ext" %> <span class="proCon">Extn.</span> <%=@activity.phone_extension%><%end%></td>
+	</tr>
+	<%end%>
+	<%if @activity.email && !@activity.email.nil? && @activity.email!=""%>
+	<tr>
+		<td height="30" width="185"  class="tdalign">Email</td>
+		<td height="30" class="tdright blue"><%=truncate(@activity.email, :length =>40, :omission => "... ")%></td>
+	</tr>
+	<%end%>
+	<%if !@activity.website.nil? && @activity.website!="" %>
+	<tr>
+		<td height="30" width="185"  class="tdalign">Website</td>
+		<td height="30" class="tdright blue">
+			<a class="flink" href="<%if !@activity.nil? && !@activity.website.nil? && @activity.website.first(4)=="http"%><%=@activity.website%><%else%>http://<%=@activity.website%><%end%>" title="<%=@activity.website%>" onclick="activity_web_count();" style="text-align:left;" target="_blank"><%=truncate(@activity.website, :length =>40, :omission => "... ")%></a>
+		</td>
+	</tr>
+	<%end%>
+	<%if @activity.schedule_mode && @activity.schedule_mode.present? && @activity.schedule_mode=="Any Where" %>
+	<%elsif ((@activity.address_1 && !@activity.address_1.nil?)||(@activity.address_2 && !@activity.address_2.nil?)||(@activity.city && !@activity.city.nil?)||(@activity.state && !@activity.state.nil?))%>
+	<tr>
+		<td height="30" width="185"  class="tdalign">Address</td>
+		<td height="30" class="tdright"><%= @activity.address_1.gsub(/,/,'') if !@activity.nil? && !@activity.address_1.nil?%><% if !@activity.address_2.nil? && @activity.address_2.present?%>,&nbsp;<%= @activity.address_2%><%end%><% if !@activity.city.nil? && @activity.city.present?%>,&nbsp;<%= @activity.city %><%end%><% if !@activity.state.nil? && @activity.state.present?%>,&nbsp;<%= @activity.state %> <%end%></td>
+	</tr>
+	<%end%>
+	<%if @activity.schedule_mode && @activity.schedule_mode.present? && @activity.schedule_mode=="Any Where" %>
+	<%elsif @activity.schedule_mode && @activity.schedule_mode.present?%>
+	<tr>
+		<td height="30" width="185"  class="tdalign" width="130">Schedule Type</td>
+		<td height="30" class="tdright"><%=(@activity.schedule_mode.downcase=="schedule") ? "Scheduled" : @activity.schedule_mode.titlecase%></td>
+	</tr>
+	<%end%>
+	<%if @activity.category && !@activity.category.nil?%>
+	<tr>
+		<td height="30" width="185"  class="tdalign">Category</td>
+		<td height="30" class="tdright"><%=@activity.category.titlecase%></td>
+	</tr>
+	<%end%>
+	<%if @activity.sub_category && !@activity.sub_category.nil?%>
+	<tr>
+		<td height="30" width="185"  class="tdalign">Sub Category</td>
+		<td height="30" class="tdright"><%=@activity.sub_category.titlecase%></td>
+	</tr>
+	<%end%>
+</table>
+<%end%>

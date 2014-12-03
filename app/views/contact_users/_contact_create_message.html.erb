@@ -1,0 +1,575 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+    //~ Added Autocomplete functionality for famitvity share
+    function split( val ) {
+      return val.split( /,\s*/ );
+    }
+    function extractLast( term ) {
+      return split( term ).pop();
+    }
+    $( "#toemailaddress" ).autocomplete({
+      minLength: 1,
+      source: function(request, response) {
+        jQuery.get("/populate_email", {
+          query: extractLast( request.term )
+        }, function(data){
+          response(data.slice(0, 8));
+        });
+      },
+      appendTo: $("#invite_email_autocomplete"),
+      focus: function() {
+        return false;
+      },
+      select: function( event, ui ) {
+        var terms = split( this.value );
+        // remove the current input
+        terms.pop();
+        // add the selected item
+        terms.push( ui.item.value );
+        // add placeholder to get the comma-and-space at the end
+        terms.push( "" );
+        this.value = terms.join( ", " );
+        return false;
+      }
+    });
+    //ie8 key enter fixes
+    $("#toemailaddress").keypress(function(e) {
+      if(e.which == 13)
+      {
+        e.preventDefault();
+      }
+    });
+    //Autocomplete dropdown scroll fixes
+    $(window).scroll(function() {
+      $("#ui-id-1").hide();
+    });
+    //~ end of autocomplete
+
+    /*$('#redactor_content').redactor({
+            focus: true
+            //toolbarExternal: '#toolbarcontmenu'
+        });    */
+  });
+
+  var checked = false;
+  function importAll () {
+
+    if (checked == false){checked = true}else{checked = false}
+    for (var i = 0; i < document.getElementById('cre_message').elements.length; i++) {
+      document.getElementById('cre_message').elements[i].checked = checked;
+      if(document.getElementById('parent_checkbox').checked == true){
+        checked = true;
+      }
+      else{
+        checked = false;
+      }
+    }
+  }
+  function unselect(){
+    document.getElementById('parent_checkbox').checked =false;
+  }
+</script>
+<style type="text/css">
+  .setfeedbackDiv {
+    background: none repeat scroll 0 0 #EDF1F2;
+    color: #444444;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    margin: 15px auto 0;
+    padding: 15px;
+    width: 500px;
+  }
+
+  #cre_message .setImgBorder {
+    position: relative;
+    z-index: 4;
+  }
+  #cre_message .FileUpload {
+    height: 31px;
+    margin-top: 14px;
+    position: relative;
+    width: 170px;
+  }
+  #cre_message .BrowserHidden {
+    color: #999999;
+    cursor: pointer;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 5px;
+    font-weight: normal;
+    height: 16px;
+    /*left: -149px;*/
+    left:7px;
+    top: -87px;
+    -moz-opacity:0;
+    filter:alpha(opacity:0);
+    opacity:0;
+    position: relative;
+    width: 80px;
+    z-index: 2;
+    .left:-10px;
+    .top: -17px;
+
+  }
+
+  #cre_message .BrowserVisible {
+    height: 27px;
+    left: -179px;
+    position: absolute;
+    top: -17px;
+    width: 191px;
+    z-index: 3;
+  }
+  #cre_message .FileField {
+    border: 1px solid #FFFFFF;
+    color: #999999;
+    display: block;
+    height: 26px;
+    margin: -2px 0 0 286px;
+    padding: 0 5px;
+    position: relative;
+    width: 306px;
+    word-wrap: break-word;
+    z-index: 3;
+  }
+  #cre_message .browse {
+    color: #5099AC;
+    /*cursor: pointer;*/
+    display: inline-block;
+    font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    position: relative;
+    top: -140px;
+    left:-9px;
+    width: 124px;
+    .top: -71px;
+    .left:-10px;
+    z-index: 1;
+  }
+  @media \0screen {
+    #cre_message .BrowserHidden {
+      color: #999999;
+      cursor: pointer;
+      font-family: Arial,Helvetica,sans-serif;
+      font-size: 18px;
+      font-weight: normal;
+      height: 19px;
+      left:6px;
+      top: -88px;
+      filter:alpha(opacity:0);
+      opacity:100;
+      position: relative;
+      width: 100px;
+      z-index: 2;
+    }
+    #invite_email_autocomplete .ui-autocomplete {
+      width:524px !important;
+    }
+    #cre_message .browse {
+      color: #5099AC;
+      cursor: pointer;
+      display: inline-block;
+      font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+      font-size: 14px;
+      position: relative;
+      top: -148px;
+      left:-5px;
+      width: 124px;
+      z-index: 1;
+    }
+  }
+  @media screen and (-webkit-min-device-pixel-ratio:0){
+    #cre_message .BrowserHidden {
+      left: 12px;
+      top:-84px;
+      position:relative;
+      border:1px solid red;
+      height:11px;
+      font-size: 5px;
+      margin-left:-1px;
+      width:81px;
+    }
+    #cre_message .browse {
+      color: #5099AC;
+      cursor: pointer;
+      display: inline-block;
+      font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+      font-size: 14px;
+      margin-left: 10px;
+      position: relative;
+      top: -138px;
+      left:-17px;
+      width: 124px;
+      z-index: 1;
+    }
+  }
+  /****************************
+
+     import and invite friends
+
+    ***************************/
+
+  #checkout .checkoutLt{
+    float:left;
+    display:inline-block;
+  }
+  #checkout .centerArea{
+    margin:5px 15px 0 0;
+    border:1px solid #E8ECED;
+    border-bottom:none;
+    height:100%;
+  }
+  #checkout .checkout_top{
+    width:500px;
+    margin:0 auto;
+    margin-top:15px;
+    border1:1px solid red;
+  }
+  #checkout .set_style_1{
+    border:1px solid #E8ECED;
+    width:14px;
+    height:17px;
+    .height:14px;
+    background:#CCE9EF;
+    padding:0px 0px 0px 5px;
+    .padding:4px 0px 0px 5px;
+    margin-top: 9px;
+    /*-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	-moz-border-radius-topleft: 0;
+	-webkit-border-top-left-radius: 0;
+	border-radius-topleft: 0;
+	-moz-border-radius-topright: 0;
+	-webkit-border-top-right-radius: 0;
+	border-radius-topright: 0;*/
+  }
+  #checkout .set_style_2{
+    border:1px solid #CDE0E6;
+    width:14px;
+    height:17px;
+    .height:14px;
+    padding:0px 0px 0px 5px;
+    .padding:4px 0px 0px 5px;
+    margin-top: 9px;
+  }
+  #checkout .number_1{
+    position:relative;
+    top:-2px;
+    font-size:14px;
+    font-family:Arial, Helvetica, sans-serif;
+    color: #000000;
+    width:19px;
+    height:17px;
+  }
+  #checkout .chkout_ftSz12{
+    font-size:12px;
+    font-family:Arial, Helvetica, sans-serif;
+    color: #5099AC;
+  }
+  #checkout  .chkout_clr_ftSz12{
+    font-size:12px;
+    font-family:Arial, Helvetica, sans-serif;
+    color: #7F7F7F;
+  }
+  .friendsList{
+    border:1px solid #e1e2e4;
+    margin: 20px 0 20px 13px;
+  }
+  .friendsList .selectAll{
+    background:#F1F6F9;
+    border-bottom:1px solid #e1e2e4;
+  }
+  .friendsList .selectAll span{
+    font-size:15px;
+    font-weight:bold;
+    color:#2B91AF;
+    padding-left:8px;
+  }
+  .friendsList .friendsListDivBg1{
+    background:#ffffff;
+    border-bottom:1px solid #E2EAEC;
+    height: 54px;
+  }
+  .friendsList .friendsListDivBg2{
+    background:#F9FBFA;
+    border-bottom:1px solid #E2EAEC;
+    height: 54px;
+  }
+  .friendsList  .lfrdDiv{
+    width:415px;
+    padding-left:10px;
+    display:inline-block;
+  }
+  .friendsList .nameList{
+    padding-left:10px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight:normal;
+    font-size:13px;
+  }
+  .friendsList .nameList .cont1{
+    color:#000000;
+    padding-bottom:3px;
+  }
+  .friendsList .nameList .cont2{
+    color:#807e7e;
+  }
+  .topArea{
+    width:475px;
+  }
+  .topArea p,
+  .topArea div{
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight:normal;
+    font-size:13px;
+    color:#bababa;
+  }
+  .topArea p{
+    line-height:26px;
+  }
+  .redactor_box{
+    border:none;
+  }
+  #page{
+    padding:5px 0 0 0;
+    width:600px;
+  }
+  .row .centered {
+    margin-left:0;
+  }
+
+  img, video, iframe{
+    height:calc();
+  }
+  .redactor_editor, .redactor_editor:focus {
+    height:258px;
+  }
+  .redactor_editor p{
+    /*	line-height:5px;*/
+  }
+</style>
+<!--<div id="checkout" style="width:500px;margin:0 auto;">
+	<table cellspacing="0" cellpadding="0" border="0"  class="checkout_top" >
+		<tr>
+			<td width="21"><div class="set_style_1" style="background:none;float:left;display:inline-block;"><span class="number_1">1</span></div></td>
+			<td width="458"><div style="float:left;height:1px;display:inline-block;width:458px;background:#CDE0E6;margin-top: 10px;"></div></td>
+			<td width="21"><div class="set_style_2" style="background:#CCE9EF;float:left;display:inline-block;"><span class="number_1">2</span></div></td>
+		</tr>
+	</table>
+	<table cellspacing="0" cellpadding="0" border="0"  style="margin-top:2px; .margin-top:7px;">
+		<tr>
+			<td><div style="float:left;display:inline-block;"><span class="number_1 chkout_ftSz12" style="margin:0 0 0 -8px; .margin:0px 0 0 -8px; position:relative; display:block; width:60px; color:#2B91AF;">Import</span></div></td>
+			<td><div style="float:left;display:inline-block;"><span class="number_1 chkout_clr_ftSz12" style="margin-left:425px;color:#2B91AF;"><b>Invite</b></span></div></td>
+		</tr>
+	</table>
+</div>-->
+
+
+
+<form id="cre_message" name="cre_message" target="_parent" action="invite_mail" type="post" enctype="multipart/form-data">
+
+
+
+  <div class="text_header">email</div>
+  <div class="clear"></div>
+  <div class="input_fields">
+    <input type="text" class="fts13 ftcGrayb9"  tabindex="1"  name="toemailaddress" id="toemailaddress" value="Enter friends email here to invite" autocomplete='on' onfocus="if(this.value=='Enter friends email here to invite'){this.value='';this.style.color='#444444'}" onblur="if(this.value==''){this.value='Enter friends email here to invite';this.style.color='#999999'}"/>
+    <!--<input name="toemailaddress" id="emailValue" value="" autocomplete='on' />
+					<input id="emailValue" type="text" name="toemailaddress" value="Enter friends email here to invite" onfocus="if(this.value=='Enter friends email here to invite'){this.value='';}" onblur="if(this.value==''){this.value='Enter friends email here to invite';}" class="fts13 ftcGrayb9" style="border: 1px solid #CDE0E6;height: 27px;width: 640px;padding: 0px 5px;" />-->
+    <div class="lt errorDiv" id="email_error" style="display:none;"></div>
+    <div id="invite_email_autocomplete" style="position: absolute; opacity: 1;left: 128px;"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+  <div class="text_header">message</div>
+  <div class="clear"></div>
+  <div class="input_fields">
+    <input type="hidden" name="msg" id="msg" value="" />
+    <textarea id ="redactor_content_11" name="redactor_content_11" onblur="if(this.value==''){this.value='Enter your Message';this.style.color='#999999'}" onfocus="if(this.value=='Enter your Message'){this.value='';this.style.color='#444444'}">Enter your Message</textarea>
+
+
+    <div class="errorDiv " style="display:none">
+      <div class="lt" id="cre_message_error" style="display:none;"></div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+</form>
+
+
+<script type="text/javascript">
+  $(function(){
+    $('#toemailaddress').focus();
+
+  });
+
+  $('.invitefriend').click(function(){
+    var email = $('#toemailaddress').val();
+    var message = $("#redactor_content_11").val();
+		
+    //var msg=message.replace("Enter your invite text here. (Famtivity will send your friend and invite that includes your text)!","");
+    $("#toemailaddress").css("border","1px solid #CDE0E6");
+    //$('#email_error').hide();
+    $("#redactor_content").css("border","none");
+    $("#cre_message_error").css("display","none");
+    $("#cre_send_to_error").css("display","none");
+    $("#test_error_div").css("display","none");
+    var errorFlag = false;
+		
+    if (email=='' || email=='Enter friends email here to invite') {
+      $("#toemailaddress").css("border","1px solid #fc8989");
+      $('#email_error').show();
+      $('#email_error').html('Please enter the email address');
+      errorFlag = true;
+    }else if (!validateEmail(email)) {
+      $("#toemailaddress").css("border","1px solid #fc8989");
+      $('#email_error').show();
+      $('#email_error').html('Please enter the valid email address');
+      errorFlag = true;
+    }
+		
+    if(message == "" || message=="Enter your Message"){
+      $("#redactor_content_11").css("border","1px solid #fc8989");
+      $("#cre_message_error").css("display","block");
+      $("#cre_message_error").parent().css("display","block");
+      $("#cre_message_error").html("Please enter a message ");
+      errorFlag = true;
+    }
+    if (errorFlag){
+      //alert("fal");
+      return false;
+
+    }
+    else
+    {  // alert("true");
+      $('#loadingSave').css("display","inline-block");
+      <%if !cookies[:fam_network].nil? && cookies[:fam_network]!=""%>
+      var check_fam_id="<%=cookies[:fam_network]%>"
+      <%else%>
+      var check_fam_id=""
+      <%end%>
+      $.ajax({
+        type: "GET",
+        data: {"cre_to_msg":email,"check_fam_id":check_fam_id},
+        url: "/check_repeated_users",
+        success: function(data){
+          //alert(data);
+          if (data !="")
+          {
+            $('#loadingSave').hide();
+            $("#email_error").css("display","block");
+            $("#email_error").parent().css("display","block");
+            <%if !cookies[:fam_network].nil? && cookies[:fam_network]!=""%>
+                  if (data =="owner")  {
+                    $("#email_error").html("You cannot invite the network owner to join his or her own network");
+                  }
+                  else if (data =="your")  {
+                    $("#email_error").html("This email address is linked with your sign-in account");
+                  }
+                  else{
+                    $("#email_error").html(data+" is already a member in this Network!");
+                  }
+            <%else%>
+                  if (data =="your")  {
+                    $("#email_error").html("This email address is linked with your sign-in account");
+                  }
+                  else{
+                    $("#email_error").html(data+" is already a member of Famtivity!");
+                  }
+            <%end%>
+          }
+          else
+          {
+            $("#email_error").css("display","none");
+            $.ajax({
+              type: "POST",
+              url: '/invite_mail',
+              data: {"toemailaddress":email,"redactor_content":message}, // serializes the form's elements.
+              success: function(data)
+              {
+                //alert(data); // show response from the php script.
+                $('#loadingSave').hide();
+                $("#invite_friend_container").bPopup().close();
+                $("#invite_friend_container").remove();
+                <%if !cookies[:fam_network].nil? && cookies[:fam_network]!=""%>
+                        fam_pop_network('/fam_create_post?show=success');
+                <%else%>
+                  <%if !@reld.nil? %>
+                        pop_success_invite('/invite_success_page?reld=success');
+                  <%elsif @click_mode == 'parent'%>
+                        pop_success_invite('/invite_success_page?mode=parent');
+                  <%else%>
+                        pop_success_invite('/invite_success_page');
+                  <%end%>
+                <%end%>
+              }
+            });
+          }
+        }
+      });
+      return true;
+
+
+
+
+    }
+  });
+
+
+ 
+  
+  function validateEmail(field) {
+    var regex=/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i; 
+    return (regex.test(field)) ? true : false; 
+  }
+  function validateMultipleEmails(value) {
+    var result = value.split(",");
+    for(var i = 0;i < result.length;i++)
+      if(!validateEmail(result[i]))
+        return false;
+    return true;
+  }
+  //when the user onclicking the the price_all check box it will call this function.
+  function select_all_contacts(){
+    if($('input[name=checkbox_contact]').is(':checked')){
+      $('input[name=subList]').attr('checked', true);
+      $("#selectAll").val("All");
+    }
+    else{
+      $('input[name=subList]').attr('checked', false);
+      $("#selectAll").val("");
+    }
+  }
+  function colorchange(){
+	
+    //$("#redactor_content").text("");
+    $("#redactor_content").css("color","#000");
+  }
+  function anandin(){
+    if($("#redactor_content").text("")!=''){
+      $("#redactor_content").css("color","#000");
+    }
+    else{
+      $("#redactor_content").text("anand");
+    }
+  }
+
+</script>
+
+<style type="text/css">
+  #loading
+  {
+    background: transparent url(/assets/ajax-loader.gif) no-repeat center center;
+    height: 50px;
+    width: 50px;
+    position: fixed;
+    z-index: 1000;
+    left: 30%;
+    top: 60%;
+    margin: -25px 0 0 -25px;
+  }
+</style>

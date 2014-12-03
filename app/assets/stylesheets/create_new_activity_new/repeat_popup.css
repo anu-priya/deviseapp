@@ -1,0 +1,293 @@
+.repeatContainer{
+    position: absolute;
+    width: 500px;
+    z-index: 200;
+	margin-left: 0px;
+	margin-top:-5px;
+}
+.repeatContainer .repeatContainerTop{
+	display: block;
+	background:url('/assets/create_new_activity/repeat/top_bg.png') no-repeat;
+	width: 497px;
+	height:21px;
+}
+.repeatContainer .repeatContainerCenter{
+	display: block;
+	background:url('/assets/create_new_activity/repeat/center_bg.png') repeat-y;
+	width: 497px;
+}
+.repeatContainer .repeatContainerCenter .innerContainer{	
+	margin: 0 8px 0 7px;
+}
+.repeatContainer .repeatContainerCenter .headTab{		
+	height: 30px;	
+	width: 482px;
+	border-bottom: 1px solid #d7dadb;
+	margin-bottom:15px;
+}
+.repeatContainer .repeatContainerCenter .headTab .heading{
+	display:inline-block;
+	float:left;
+	width: 449px;	
+	text-align:center;	
+}
+.repeatContainer .repeatContainerCenter .headTab .heading .headCont{
+	padding-left:31px;
+	font-size:18px;
+	font-weight:bold;
+	color:#5099ac;
+}
+.repeatContainer .repeatContainerCenter .headTab .closeButton{
+	display:inline-block;
+	float:left;
+	width: 31px;	
+}
+.repeatContainer .repeatContainerCenter .headTab .closeButton a{
+	display:inline-block;
+	float:left;	
+}
+.repeatContainer .repeatContainerCenter .headTab .closeButton img{
+	display:inline-block;
+	margin-top:5px;
+}
+.repeatContainer .repeatContainerBottom{
+	display: block;
+	background:url('/assets/create_new_activity/repeat/bottom_bg.png') no-repeat;
+	width: 497px;
+	height:21px;
+}
+.repeatContainer .row{
+	width:480px;
+	margin-top:11px;
+}
+.repeatContainer .summaryDiv{
+	width:460px;
+	padding-right:20px;
+	margin:5px 0 0 0;
+}
+.repeatContainer .buttonDiv{
+	padding:15px 0 10px 0;
+	.padding:15px 0 0px 0;
+}
+.repeatContainer .buttonDiv .save_repeat{
+	margin-right:8px;	
+}
+.repeatContainer .ltField{
+	width:110px;
+	padding-left:35px;
+	font-weight:bold;
+	font-size:14px;
+	margin-top:8px;
+	color:#5a5757;	
+}
+.repeatContainer .selectBoxImg1{	
+	background:url('/assets/create_new_activity/repeat/repeat_select_box.png') no-repeat;
+	width:225px;  
+	height:31px;
+	margin-left:2px;
+}
+.repeatContainer .selectBoxImg2{	
+	background:url('/assets/create_new_activity/repeat/repeat_every_select_box.png') no-repeat;
+	width:135px;  
+	height:31px;
+	margin-left:2px;	
+}
+#started_date_disp{
+	margin-left:2px;
+}
+.repeatContainer .selectDiv1{
+	display:inline-block;
+	cursor:default;
+	font-size:13px;	
+	color:#959292; 
+	position:relative;
+	top:4px;
+	left:7px;
+	width:192px;  
+	height:23px;
+	overflow:hidden;
+	padding-left: 0px;
+	line-height:23px;
+}
+.repeatContainer .selectDiv2{
+	width:97px;  
+}
+.repeatContainer .dropDownDiv1{
+	display:inline-block;	 
+	font-size:13px;	
+	background:#ffffff;
+	color:#959292;
+	border:1px solid #CDE0E6;
+	width:223px;
+	margin-top:-1px;
+	margin-left:2px;
+	position:absolute;
+	z-index:500;
+	height: 88px;
+	/* options are overflow set height and scroll 
+	height:110px; 
+	overflow-y:scroll;	*/
+}
+.repeatContainer .dropDownDiv2{
+	width:133px;
+	height:170px; 
+	overflow-y:scroll;
+}
+.repeatContainer .dropDownDiv1 a,
+.repeatContainer .dropDownDiv2 a{	
+	color:#959292;
+	display:block;
+	text-decoration:none;
+	padding:3px 0px 3px 3px;
+}
+.repeatContainer .dropDownDiv1 a:hover,
+.repeatContainer .dropDownDiv2 a:hover{
+	background:#73C3DD;
+	color:#ffffff;
+}
+.repeatContainer .weekText{
+	font-size:15px;
+	color:#959292;
+	margin:6px 0 0 5px;
+}
+/*.repeatContainer .summText{
+	width:281px;
+	border:1px solid red;
+}*/
+.repeatContainer .repeatEveryText{
+	margin-left:10px;
+}
+/* Off state for a ARC checkbox */
+.altCheckboxOff {
+	display: inline-block;	
+	background:url('/assets/create_new_activity/repeat/checkbox_normal.png') no-repeat;
+	width:19px;
+	height:21px;	
+	cursor: pointer;
+}/* On state for a ARC checkbox */
+.altCheckboxOn {
+	display: inline-block;	
+	background:url('/assets/create_new_activity/repeat/checkbox_selected.png') no-repeat;
+	width:19px;
+	height:21px;	
+	cursor: pointer;	
+}
+.checkbox{
+	margin-right:5px;
+}
+.checkboxText{
+	margin:5px 12px 0 0;
+	font-size:13px;	
+	color:#959292;
+}
+.repeatContainer .repeatTextBox{
+	display: inline-block;
+	float:left;
+	width:132px;
+	height:27px;
+	*height:24px;
+	border:1px solid #CDE0E6;	
+	padding:1px 4px 0px 4px;
+	*padding:6px 4px 0px 4px;	
+	color: #999999;
+	font-size:13px;
+}
+@media \0screen {
+	.repeatContainer .repeatTextBox{
+		padding:6px 4px 0px 7px;
+		height:21px;
+		width:132px;
+	}
+}
+.repeatContainer .afterTextBox{
+	width:82px;
+	position:relative;
+	top:-4px;
+}
+.repeatContainer .dateTextbox{
+	width:82px;
+	position:relative;
+	top:4px;
+}
+@media \0screen {
+	.repeatContainer .dateTextbox{
+		width:79px;
+	}
+}
+
+/* Alternative Off state for a ARC radio button */
+.altRadioOff {
+	display: inline-block;	
+	background:url('/assets/create_new_activity/repeat/radio_off.png') no-repeat;
+	width:22px;
+	height:22px;	
+	cursor: pointer;	
+}
+/* Alternative On state for a ARC radio button */
+.altRadioOn {
+	display: inline-block;	
+	background:url('/assets/create_new_activity/repeat/radio_on.png') no-repeat;
+	width:22px;
+	height:22px;	
+	cursor: pointer;	
+}
+.repeatContainer .col{
+	padding:2px 0 3px 0;
+	height:30px;
+}
+.repeatContainer .radio{
+	margin-right:3px;
+}
+.repeatContainer .radioText{
+	margin:3px 0 0 0;
+	font-size:13px;	
+	color:#959292;
+}
+.repeatContainer .dateDivRepeat{
+	display: inline-block;	
+	position:relative;
+	width:150px;
+	height:27px;
+	padding:1px 5px 0px 5px;
+	border:1px solid #CDE0E6;
+    left:2px;	
+}
+.repeatContainer .dateDivRepeat .rdateTextbox{
+	display: inline-block;
+	float:left;
+	width:120px;
+	height:16px;	
+	color:#959292;
+	font-size:13px;	
+	margin-top:4x;			
+	outline:none;
+	overflow: hidden;
+	border:1px solid #ffffff;
+	margin-top:5px;
+}
+.repeatContainer .summaryText{
+	color: #616161;
+    font-size: 0px;
+	/*font-size: 14px;*/
+    height: 100%;
+    margin-top: 8px;
+    width: 310px;
+	padding-left:1px;
+}
+.repeatContainer .errorDiv{
+	margin-top:3px;	
+	color:#fc8989;
+	font-size:12px;	
+}
+#sched_end_date2{
+	width:200px;
+	margin-left:10px;
+}
+.finalResult{
+	font-family:Arial, Helvetica, sans-serif;
+	border:1px solid #CDE0E6;
+	background:#ffffff;	
+	font-size:12px;
+	color:#999999;
+	padding:7px;
+}

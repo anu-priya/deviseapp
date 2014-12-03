@@ -1,0 +1,485 @@
+<script type="text/javascript">
+  $(document).ready(function () {
+    initARC('settings','altCheckboxOn','altCheckboxOff');
+  });
+</script>
+<%=stylesheet_link_tag "profile/profile","landing/how_it_works", :media => "all"%>
+<%= javascript_include_tag "global/checkbox","settings/contact_list","settings/select_option"%>
+<script type="text/javascript">
+$(document).ready(function(){
+  //get mutiple check box id and store to hidden field
+  function getchk_actid(curr_actid,span_)
+  {
+    span_index=$(".checkboxImg").index(span_);
+    chk_staus=$(".checkboxImg:eq("+span_index+") label").attr('class');
+    if(chk_staus=="altCheckboxOn")
+    {
+      //add selected checkbox id
+      txt_id=$("#actid_chk").val();
+      if(txt_id=="")
+      { selected_ids=curr_actid; 	}
+      else{ selected_ids=txt_id+","+curr_actid; 	}
+      $("#actid_chk").val(selected_ids);
+	  
+    }
+    else
+    {
+      //remove the id
+      txt_id=$("#actid_chk").val();
+      selected_ids=txt_id.replace(curr_actid,'');
+      $("#actid_chk").val(selected_ids);
+      $('#select').css('display','none');
+      $('#not_select').css('display','inline-block');
+      $('#row').val(0);
+    }
+  }
+
+});
+
+  var EditparentprofilePage;
+
+  function pop_provider_edit_profile(url){
+    EditparentprofilePage = dhtmlmodal.open("Edit Password ","iframe",url,"", "width=896px,height=2000px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    //set height for iframe div
+    var body = document.body,
+    html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $(".drag-contentarea").css("height",height+"px");
+    return false;
+  }  
+
+</script>
+
+
+
+ <div id="how_it_worksDiv" class="SettingsDiv" style="padding-bottom:0px;">
+
+  <form name="settings" id="settings" action="create_parent_settings" data-remote="true" method="post">
+    <div class="TopListText" align="center" style="width:100%; marign:0 auto; padding-top:21px; background:#F6F8F7;">
+      <span><a href="/parent_profile" class="menuText" onclick = "_gaq.push(['_trackEvent','Parent Module', 'clickSettings','Profile']);">Profile</a></span>
+      <span class="dot menuText">&bull;</span>
+      <span><a href="/change_password?mode=parent" class="menuText" onclick = "_gaq.push(['_trackEvent','Parent Module', 'clickSettings','Password']);">Password</a></span>
+      <span class="dot menuText">&bull;</span>
+      <span><a href="/discount_dollars?mode=parent" class="menuText" onclick = "_gaq.push(['_trackEvent','Parent Module', 'clickSettings','Discount Dollars']);" >Discount Dollars</a></span>
+      <span class="dot selectedMenuText">&bull;</span>
+      <span><a href="/parent_settings" class="menuText" onclick = "_gaq.push(['_trackEvent','Parent Module', 'clickSettings','Settings']);"><b>Settings</b></a></span>
+    </div>
+    <div class="clear"></div>
+    <div class="setTopBprder" style="padding-top:8px;"></div>
+	<!-- famtivity contacts hidden field-->
+	<input type="hidden" id="famti_contact" name="famti_contact" value=""/>
+    <div class="dottedDiv" style="position:relative;"> 
+          <div class="Title" id="sharedText"><b>Sharing Settings</b></div>
+	  </div>
+	  
+
+	  
+       <div class="Title ActivityTopSetting"><b>Activity Settings</b></div>
+	   <%r_d=1%>
+	   <%f=5%>
+	   <%s_v=1%>
+	   <%s_vid=1%>
+	   <%v_to=1%>
+	   <%contact_inc=1%>
+	   <%@s_i =0%>
+	   <%@setting_name.each do |s_name|%>
+
+	   <input type="hidden" name="setting_detail_count" value="<%=@setting_name.length if !@setting_name.nil? %>"/>	
+	   <input type="hidden" name="setting_detail<%=v_to%>" value="<%=s_name.parent_setting_id if !s_name.parent_setting_id.nil? %>"/>	
+	   
+	    <div class="SettingsRow1" id="fam_contact">
+			<div class="leftSettingDiv">
+				<p><%=s_name.setting_name if !s_name.setting_name.nil? && !s_name.nil? %>:</p>
+			</div>
+			<div class="centerDropdown"> 
+				<div class="settingsDropdown" onmouseover="flag<%=f%>=true;" onmouseout="flag<%=f%>=false;">
+		<%if @activity_settings!=[] && !@activity_settings.blank? && @activity_settings !=" " && !@activity_settings.nil? && @activity_settings.present? && @activity_settings.any? && !@activity_settings.empty?%>
+			
+			<%if !@activity_settings[@s_i].nil? && !@activity_settings[@s_i].contact_user.nil?%>
+				<%if @activity_settings[@s_i].contact_user !="" && !@activity_settings[@s_i].contact_user.nil? && !@activity_settings[@s_i].nil? && @activity_settings[@s_i] != ""%>
+				<input type="hidden" id="contact_id_<%=v_to%>" name="contact_id_<%=v_to%>" value="<%=@activity_settings[@s_i].contact_user %>"/>
+				<%else%>
+				<input type="hidden" id="contact_id_<%=v_to%>" name="contact_id_<%=v_to%>" value=""/>
+				<%end%>
+			<%else%>
+			<input type="hidden" id="contact_id_<%=v_to%>" name="contact_id_<%=v_to%>" value=""/>
+			<%end%>
+			<%if !@activity_settings[@s_i].nil? && !@activity_settings[@s_i].setting_option.nil?%>
+				<%if @activity_settings[@s_i].setting_option!="" && !@activity_settings[@s_i].setting_option.nil? && !@activity_settings[@s_i].nil?%>
+				    <input type="hidden" id="visible_to_<%=v_to%>" name="visible_to_<%=v_to%>" value="<%=@activity_settings[@s_i].setting_option %>"/>
+				<%else%>
+				<input type="hidden" id="visible_to_<%=v_to%>" name="visible_to_<%=v_to%>" value=""/>
+				<%end%>
+			<%else%>
+				<input type="hidden" id="visible_to_<%=v_to%>" name="visible_to_<%=v_to%>" value=""/>
+			<%end%>
+			<%if !@activity_settings[@s_i].nil? && !@activity_settings[@s_i].parent_setting_id.nil?%>
+				<%if @activity_settings[@s_i].parent_setting_id!="" && !@activity_settings[@s_i].parent_setting_id.nil? && !@activity_settings[@s_i].nil?%>
+				<input type="hidden" id="type_id_<%=v_to%>" name="type_id_<%=v_to%>" value="<%=@activity_settings[@s_i].parent_setting_id %>"/>
+				<%else%>
+				<input type="hidden" id="type_id_<%=v_to%>" name="type_id_<%=v_to%>" value=""/>
+				<%end%>
+			<%else%>
+				<input type="hidden" id="type_id_<%=v_to%>" name="type_id_<%=v_to%>" value=""/>
+			<%end%>
+			
+		<%else%>
+		<input type="hidden" id="contact_id_<%=v_to%>" name="contact_id_<%=v_to%>" value=""/>
+		<input type="hidden" id="visible_to_<%=v_to%>" name="visible_to_<%=v_to%>" value="1"/>	
+		<input type="hidden" id="type_id_<%=v_to%>" name="type_id_<%=v_to%>" value=""/>
+		<%end%>	
+		
+		
+                    <div id="visible_to_field_<%=v_to%>" class="selectDiv" style="line-height:23px;">
+		     
+		     <%if @activity_settings !="" && !@activity_settings.nil? && @activity_settings.present?%>
+			<%if !@activity_settings[@s_i].nil? && !@activity_settings[@s_i].setting_option.nil? && !@activity_settings[@s_i].parent_setting_id.nil?%>	
+				<%@value_type = ActivitySettingsType.find_by_type_id(@activity_settings[@s_i ].setting_option) if @activity_settings[@s_i ].setting_option!=""%>	
+				<% if @activity_settings[@s_i ].parent_setting_id==s_name.parent_setting_id%>
+					<%if @value_type!="" && !@value_type.nil? && @value_type.present? && !@value_type.setting_option.nil? %>
+					<%=@value_type.setting_option %>
+					<%else%>
+					Famtivity Everyone
+					<%end%>
+				<%else%>
+					Famtivity Everyone
+				<%end%>
+			<%else%>
+				Famtivity Everyone
+			<%end%>
+		<%else%>
+				Famtivity Everyone
+		<%end%>
+		</div>
+		
+				</div>
+                  <div class="dropDownDivSettingVisible" id="dropDownDiv<%=f%>" style="display:none;">		
+		<a href="javascript:void(0)"  rel="1" title="" id="set_value<%=s_vid%>" onclick="setvalue('Famtivity Everyone',this.id,'<%=s_v%>','<%=f%>', '1', '<%=s_name.parent_setting_id%>')" tabindex="">Famtivity Everyone</a>
+		<a href="javascript:void(0)"  rel="1" title="" id="set_value<%=s_vid+1%>" class="f_contacts<%=f%>"  onclick="setvalue('Famtivity Contacts',this.id,'<%=s_v%>','<%=f%>', '2','<%=s_name.parent_setting_id%>')" style="border:1px solid #fff; background:#fff;" tabindex="">Famtivity Contacts <span style=" position: relative; top: -1px;">
+			<%= image_tag("/assets/event_index/dropdown_arrow.png", size:"7x4")%>
+		</span></a>
+		<a href="javascript:void(0)"  rel="1" title="" id="set_value<%=s_vid+2%>" onclick="setvalue('Just Me',this.id,'<%=s_v%>','<%=f%>', '3','<%=s_name.parent_setting_id%>')" tabindex="">Just Me</a>
+
+			 </div>
+					<!--contact menu-->
+                    <div id="dispContactDiv" class="dispNone dispContactDiv_<%=f%>">
+		    <div class="dispContactDiv">
+		    
+                    <div class="topBox">
+                      <input type="hidden" name="activity_id" value="werwe">
+                      <div class="groupRow">
+                        <div class="lt groupRowLeft">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="contact" onclick="selectedContact('<%=f%>')"><input id="contact<%=f%>" name="contact<%=f%>" type="checkbox" value=""><label for="contact<%=f%>">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Contacts</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="lt groupRowLeft" style="border:none; display:none;">
+                          <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td class="group" onclick="selectedGroup()"><input id="group" name="group" type="checkbox" value=""><label for="group">&nbsp;</label></td>
+                              <td><p class="checkboxCont">Groups</p></td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="contactNamesRow">
+                        <div class="lt contactRowLeft" id="contactList_<%=f%>">
+                          <table cellpadding="0" cellspacing="" border="0">
+			  
+		<%if @contact.present? && !@contact.nil?%>
+				  <%@contact.each do |cont_user|%>
+				    <tr>
+				<%if @activity_settings !="" && !@activity_settings.nil? && @activity_settings.present?%>
+				<%if !@activity_settings[@s_i].nil? && !@activity_settings[@s_i].contact_user.nil?%>
+					<% selected_list = (@activity_settings[@s_i].contact_user).split(",") if !@activity_settings[@s_i].contact_user.nil? && @activity_settings[@s_i].contact_user!='' %>
+						      <%  if !@activity_settings[@s_i].contact_user.nil? && @activity_settings[@s_i].contact_user!=''%> 	 
+								<%if !selected_list.nil? && selected_list!=""%>
+									<% if selected_list.include?("#{cont_user.user_id}") %>	
+											<% @chk_value = "checked" %>	
+									<% else %>	
+										<% @chk_value = "" %>	
+									<% end %> 
+								<%end%>
+						   <% else %>	  			   
+								<% @chk_value = "" %>			
+						    <%end%>
+					<%end%>
+				<%end%>
+				  
+				     <%if !cont_user.nil? && !cont_user.user_id.nil? && !cont_user.user_name.nil? && !cont_user.email_address.nil? %>
+					      <td class="contactFr"><input id="c<%=contact_inc%>" name="c<%=contact_inc%>" type="checkbox"  <%= @chk_value %> value="<%=cont_user.user_id if !cont_user.user_id.nil? && !cont_user.nil?%>">
+					     <label class="altCheckboxOff" for="c<%=contact_inc%>">&nbsp;</label>
+					      </td>
+					      
+					
+					      <td><p class="checkboxCont">
+					     <%=cont_user.user_name if !cont_user.nil? && !cont_user.user_name.nil?%>
+					     </p></td>
+				     <%end%>
+				    </tr>
+				<%contact_inc=contact_inc+1%>
+				<%end%>   
+		<%else%>
+		No Contacts.
+		<%end%>
+                          </table>
+                        </div>                      
+                      </div>
+		<%if @contact.present? && !@contact.nil?%>
+                      <div class="buttonRow">
+                        <a href="javascript:void(0)" title="" class="lt" id="save_<%=f%>" onclick="addcontactnames('<%=f%>',this.id,'<%=v_to%>')">
+                       	<%= image_tag("/assets/settings/popup_save_button.png", size:"67x32")%>
+                        </a>
+                      </div>
+		<%end%>
+                    </div>
+                    <div class="bottomBox"></div>
+                  </div>
+		  </div>
+		   </div>
+		   
+		   <% if s_name.social_flag==TRUE && s_name.social_flag!="" && !s_name.social_flag.nil? && !s_name.nil?%>
+			<div class="lastSettingDiv">
+					<%if @activity_settings !="" && !@activity_settings.nil? && @activity_settings.present?%>
+						<% if !@activity_settings[@s_i].nil? && @activity_settings[@s_i ].social_id!="" && !@activity_settings[@s_i ].social_id.nil?%>
+						<input type="hidden" id="social_id_<%=v_to%>" name="social_id_<%=v_to%>" value="<%=@activity_settings[@s_i ].social_id if @activity_settings[@s_i ].social_id!="" && !@activity_settings[@s_i ].social_id.nil?%>"/>
+						<%else%>
+						<input type="hidden" id="social_id_<%=v_to%>" name="social_id_<%=v_to%>" value=""/>
+						<%end%>
+					<%else%>
+					<input type="hidden" id="social_id_<%=v_to%>" name="social_id_<%=v_to%>" value=""/>
+					<%end%>
+					<%@social.each do |social_img|%>
+						<div class="lt social" style="width:70px;">
+						          <div>     
+							<%if @activity_settings !="" && !@activity_settings.nil? && @activity_settings.present?%>
+								<%  if !@activity_settings[@s_i].nil? && !@activity_settings[@s_i].social_id.nil? && @activity_settings[@s_i].social_id!=''%> 	
+									<% selected_list_fb = (@activity_settings[@s_i].social_id).split(",") if !@activity_settings[@s_i].social_id.nil? && @activity_settings[@s_i].social_id!='' %>
+									<% if selected_list_fb.include?("#{social_img.social_id}") %>	
+									<% @chk_value = "checked" %>	
+									<% else %>	
+									<% @chk_value = "" %>	
+									<% end %> 
+								<% else %>	  			   
+								<% @chk_value = "" %>			
+								<%end%>
+							<%end%>
+									  <input id="row<%=r_d%>" name="row" type="checkbox" <%= @chk_value %> value="facebook"/>
+									  <span id="chk_span" class="checkboxImg" onclick="get_fb_value('<%=r_d%>','<%=social_img.social_id%>')"><label id="s<%=r_d%>" class="altCheckboxoff" for="row<%=r_d%>">&nbsp;</label></span>
+								  </div>
+							<div><%= image_tag social_img.social.url(:small) if !social_img.social.url.nil? %></div>
+						</div>
+						<%r_d=r_d+1%>
+					<%end%>
+			
+				</div>
+		<%end%><!--flag end-->
+				<div class="clear"></div>
+				
+					
+			  
+			  <div class="clear"></div>
+		</div>
+		<%f=f+1%>
+		<%s_v=s_v+1%>
+		<%s_vid=s_vid+2%>
+		<%s_vid=s_vid+1%>
+		<%v_to=v_to+1%>
+		<% @s_i=@s_i +1  %>
+	  <%end%>
+				<div class="clear"></div>
+		 <!--  Mobile Settings part-->	
+			<div id="mobile_settings">
+				<%=render :partial => 'mob_num_settings',:locals => {:number => @user_profile.sms_mobile_num, :status => @user_profile.sms_notify_status}%>
+			</div>
+		<!--  Mobile Settings part-->		
+				
+				
+				
+				
+				  <!--  Notification Settings part-->
+				  <!--div class="setdividerImage" style="margin-top:28px;"></div-->	
+				<div class="dottedDiv notify_set"> 
+				<div class="Title" id="sharedText"><b>Notification Settings</b></div>
+				</div>
+
+	
+			  <div class="parent_notification">	
+				<div id="sms_err_msg" style="display:none;"></div>
+			  
+			  	<div class="Parent_leftDiv">
+				<input type="hidden" id="parent_detail" name="parent_detail" value="parent"/>
+				<input type="hidden" id="count_parent_notify" name="count_parent_notify" value="<%=@parent_notify.length%>"/>
+				          <%notify_pt=1%>
+					  <%@notify_parent_check=0%>
+					   <%@parent_notify.each do |parent_notify|%>
+					<div class="lt" style="width:800px;">
+						<div class="parent_Content lt" style="width:400px;"><%=parent_notify.notify_name if !parent_notify.nil?%></div>
+						<div class="content lt" style="width:400px;">
+						
+						<%if @check_notify_parent  !="" && !@check_notify_parent.nil? && @check_notify_parent.present?%>
+								
+								<%  if !@check_notify_parent[@notify_parent_check].nil? && !@check_notify_parent[@notify_parent_check].parent_notify_id.nil? && @check_notify_parent[@notify_parent_check].parent_notify_id!=''%> 			             
+									<% chk_val = findCheckboxValues(@check_notify_parent[@notify_parent_check])%>
+									<% @email_chk_value = chk_val[0] %>			
+									<% @sms_chk_value = chk_val[1] %>
+								<% else %>	  			   
+										<% @email_chk_value = "" %>	
+										<% @sms_chk_value = "" %>								
+								<%end%>
+						<% else %>	  			   
+							<% @email_chk_value = "" %>	
+							<% @sms_chk_value = "" %>						
+						<%end%>
+						<div class="parent_Content lt" style="width:65px;color: #2B91AF;">Notify me</div>
+						<div class="lt">
+						    <input type="hidden" name="notify_parent<%=notify_pt%>" value="<%=parent_notify.parent_notify_id if !parent_notify.parent_notify_id.nil? && !parent_notify.nil?%>"/>	
+						    <div class="lt" style="width:100px;">
+						     <input id="email_chk_parent<%=notify_pt%>" name="email_chk_parent<%=notify_pt%>" type="checkbox" <%=@email_chk_value%> value="<%=parent_notify.parent_notify_id if !parent_notify.parent_notify_id.nil? && !parent_notify.nil?%>"/>
+						     <span id="chk_span" class="checkboxImg"><label id="s<%=notify_pt%>" class="altCheckboxoff" for="email_chk_parent<%=notify_pt%>">&nbsp;</label></span>
+						     <div style="margin-top:6px;">by email</div>
+						     </div>
+						    <!--div class="lt" style="width:100px;">
+						     <input id="sms_chk_parent<%=notify_pt%>" name="sms_chk_parent<%=notify_pt%>" type="checkbox" <%=@sms_chk_value%> value="<%=parent_notify.parent_notify_id if !parent_notify.parent_notify_id.nil? && !parent_notify.nil?%>"/>
+						     <span id="chk_span" class="checkboxImg"><label id="s<%=notify_pt%>" class="altCheckboxoff" for="sms_chk_parent<%=notify_pt%>">&nbsp;</label></span>
+						     <div style="margin-top:6px;">by text</div>
+						     </div-->
+						</div>
+						</div>
+
+					</div>
+					<%notify_pt=notify_pt+1%>
+					<%@notify_parent_check=@notify_parent_check+1%>
+					<%end%>
+				
+				</div>
+			  </div>
+			  
+	<!--Fam Network -->
+
+			  <div class="parent_notification">		
+			  	<div class="Parent_leftDiv">
+				          <div style="color:#3D8EA3;font-weight:bold;">Fam Network</div>
+				<input type="hidden" id="fam_detail" name="fam_detail" value="fam_network"/>
+				<input type="hidden" id="count_fam_notify" name="count_fam_notify" value="<%=@fam_net_notify.length%>"/>
+				          <%notify_ft=1%>
+					  <%@notify_fam_check=0%>
+					   <%@fam_net_notify.each do |parent_notify|%>
+					<div class="lt" style="width:800px;">
+						<div class="parent_Content lt" style="width:400px;"><%=parent_notify.notify_name if !parent_notify.nil?%></div>
+						<div class="content lt" style="width:400px;">
+						
+						<%if @check_notify_fam  !="" && !@check_notify_fam.nil? && @check_notify_fam.present?%>
+								
+								<%  if !@check_notify_fam[@notify_fam_check].nil? && !@check_notify_fam[@notify_fam_check].parent_notify_id.nil? && @check_notify_fam[@notify_fam_check].parent_notify_id!=''%> 			             
+									<% chk_val = findCheckboxValues(@check_notify_fam[@notify_fam_check])%>
+									<% @email_chk_value = chk_val[0] %>			
+									<% @sms_chk_value = chk_val[1] %>
+								<% else %>	  			   
+										<% @email_chk_value = "" %>	
+										<% @sms_chk_value = "" %>								
+								<%end%>
+						<% else %>	  			   
+							<% @email_chk_value = "" %>	
+							<% @sms_chk_value = "" %>						
+						<%end%>
+						<div class="parent_Content lt" style="width:65px;color:#2B91AF;">Notify me</div>
+						<div class="lt">
+						    <input type="hidden" name="notify_famnet<%=notify_ft%>" value="<%=parent_notify.parent_notify_id if !parent_notify.parent_notify_id.nil? && !parent_notify.nil?%>"/>	
+						    <div class="lt" style="width:100px;">
+						     <input id="email_chk_fam<%=notify_ft%>" name="email_chk_fam<%=notify_ft%>" type="checkbox" <%=@email_chk_value%> value="<%=parent_notify.parent_notify_id if !parent_notify.parent_notify_id.nil? && !parent_notify.nil?%>"/>
+						     <span id="chk_span" class="checkboxImg"><label id="s<%=notify_ft%>" class="altCheckboxoff" for="email_chk_fam<%=notify_ft%>">&nbsp;</label></span>
+						     <div style="margin-top:6px;">by email</div>
+						     </div>
+						    <div class="lt" style="width:100px;">
+						     <input  id="sms_chk_fam<%=notify_ft%>" name="sms_chk_fam<%=notify_ft%>" type="checkbox" <%=@sms_chk_value%> value="<%=parent_notify.parent_notify_id if !parent_notify.parent_notify_id.nil? && !parent_notify.nil?%>"/>
+						     <span onclick="chk_sms_notify('<%=notify_ft%>');" id="chk_span" class="checkboxImg"><label id="sms<%=notify_ft%>" class="altCheckboxoff" for="sms_chk_fam<%=notify_ft%>">&nbsp;</label></span>
+						     <div style="margin-top:6px;">by text</div>
+						     </div>
+						</div>
+						</div>
+
+					</div>
+					<%notify_ft=notify_ft+1%>
+					<%@notify_fam_check=@notify_fam_check+1%>
+					<%end%>
+				
+				</div>
+			  </div>
+			  
+			  <!--  Notification Settings part-->
+
+
+ <div class="top_info_text" style="width:829px; margin:0;">
+  <div id="change_password">
+      <div class="paddingTop10_settings" style="width:829px;">
+        <div class="clear"></div>
+      </div>
+      
+      <div class="clear"></div>
+      <div class="buttonDiv">
+        <div class="lt leftSideField" style="margin-left:20px;">
+          &nbsp;
+        </div>
+        <div style="width:400px; margin: 0px auto;"> 
+          <div style="width:130px;height:25px;"><input type="image" src="/assets/settings/save_button.png" width="113" height="41" alt="" /></div>
+          <!--<a href="javascript:void(0)" onClick="clearpasswordfields()" onkeydown="cancelActivityClearData(event)"><img src="/assets/settings/cancel_button.png"  width="113" height="41" alt="" /></a>-->
+	<!--setting successfull message-->
+	<div class="paddingTop10_settings lt" style="width: 400px; margin-left: 121px;">
+	<!--<div class="lt leftSideField">&nbsp;</div>-->
+	<div class="success_setting_info" style="display:none;color:green;font-size:14px;">All the changes in settings have been applied successfully!</div>
+	<div class="success_setting_info_false" style="display:none;color:red;font-size:14px;">Please choose atleast one value!</div>
+	<div class="clear"></div>
+	</div>
+        </div>
+        <div class="clear"></div>
+      </div>
+  </div>
+ <div style="height:50px;"></div>
+
+</div>
+
+</form>
+
+<div class="clear"></div>
+
+
+</div>
+
+<script>
+
+//calling the ajax function when submiting the change-password form.
+//onSubmit="return change_password_validation()"
+
+$(document).ready(function() {
+        $('#settings').submit(function (){
+      $.post($(this).attr('action'), $(this).serialize(), null, "script");
+      return false;
+    });
+    });
+    
+   function chk_sms_notify(sms_val){
+   var num = "<%=@user_profile.sms_mobile_num%>";
+   var status = "<%=@user_profile.sms_notify_status%>";
+   if(num=='' || status=='false'){
+    $("#sms"+sms_val).removeClass( "altCheckboxOn" ).addClass( "altCheckboxOff" );
+    $("#sms_err_msg").show();
+    $("#sms_err_msg").css("color","red");
+    $("#sms_err_msg").html("Please provide the confirmation code on mobile settings to enable this features.");
+    //~ $(".flash-message").html("Please provide the confirmation code on mobile settings to enable this features");
+    $('#sms_err_msg').fadeIn().delay(5000).fadeOut(); 
+    }
+   }
+    //~ $(document).click(function(event) { 
+    //~ if(!$(event.target).closest('.settingsDropdown').length) {
+        //~ if($('.dropDownDivSettingVisible').is(":visible")) {
+            //~ $('.dropDownDivSettingVisible').hide()
+        //~ }
+    //~ }        
+//~ })
+</script>

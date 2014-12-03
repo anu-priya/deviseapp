@@ -1,0 +1,12 @@
+$('#group-list').html('<%=escape_javascript(render "group")%>');
+$("#grp_error_msg").css("display:none;");
+<%if @errors.blank?%>
+$("#contact_group_name").val('');
+$("#grp_error_msg").css("display:none;");
+window.location.reload();
+//parent.$("#create-msg").show();
+<%else%>
+$("#grp_error_msg").css("display:block;");
+$("#grp_error_msg").html("<%= @errors.first[1] if !@errors.nil? && !@errors.blank?%>");
+$('#menu_group ul.sub-menu').css("display","block");
+<%end%>

@@ -1,0 +1,31 @@
+<h1>Listing activity_rows</h1>
+
+<table>
+  <tr>
+    <th>Row type</th>
+    <th>Subcateg</th>
+    <th>User</th>
+    <th>Inserted date</th>
+    <th>Modified date</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @activity_rows.each do |activity_row| %>
+  <tr>
+    <td><%= activity_row.row_type %></td>
+    <td><%= activity_row.subcateg_id %></td>
+    <td><%= activity_row.user_id %></td>
+    <td><%= activity_row.inserted_date %></td>
+    <td><%= activity_row.modified_date %></td>
+    <td><%= link_to 'Show', activity_row %></td>
+    <td><%= link_to 'Edit', edit_activity_row_path(activity_row) %></td>
+    <td><%= link_to 'Destroy', activity_row, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Activity row', new_activity_row_path %>

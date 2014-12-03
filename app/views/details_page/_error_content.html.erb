@@ -1,0 +1,21 @@
+		<table cellpadding="0" cellspacing="0" align="center" width="100%" border="0" style="font-family:'open_sansregular',sans-serif">
+			<tbody>
+			<tr>
+				<td align="center" valign="middle" height="200">
+					<div class="no-detail-image" style="padding-top: <%=(@type=="activity" && @user && (@user.user_status.nil? || @user.user_status.empty? || @user.user_status.downcase!='deactivate')) ? '20px' : '75px'%>;">
+					<%=image_tag("/assets/card/no_activity_img.png",:align=>'absbottom', :width=>"268", :height=>"160", :alt=>"#{@user_profile.business_name if !@user_profile.nil? && !@user_profile.business_name.nil?}")%>
+					</div>
+				</td>
+			</tr>
+			<tr><td align="center" valign="middle"><p class="more-text"><strong>Oops!</strong></p></td></tr>
+			<%if @type=="activity"%>
+			<%get_city = @user_profile.city.downcase.gsub(/\s/,'-') if @user_profile && @user_profile.city && !@user_profile.city.nil? && @user_profile.city.present?%>
+			<%providerlink = (!@user_profile.nil? && get_city && !get_city.nil? && !@user_profile.nil? && !@user_profile.slug.nil?) ? ( ((check_for_state(@user_profile.city)) ? get_city+url_state_value : get_city)+"/"+@user_profile.slug) : ('provider_not_found')%>
+			<tr><td align="center" valign="middle"><p class="no-detail" style="line-height:25px;padding-top:20px;">It looks like the activity you're searching for has been deleted by the provider.</p></td></tr>
+			<%if (@user && (@user.user_status.nil? || @user.user_status.empty? || @user.user_status.downcase!='deactivate'))%><tr><td align="center" valign="middle"><p class="no-detail" style="padding-bottom:35px;">Click this button to find other fun activities!</p></td></tr>
+			<tr><td align="center" valign="middle"><a href="/<%=providerlink%>" class="buy-now-button" style="padding-top:10px;width:200px;height:35px;">Find More</a></td></tr><%end%>
+			<%else%>
+			<tr><td align="center" valign="middle"><p class="no-detail" style="line-height:25px;padding-top:20px;">It looks like the provider you're searching for has not been found.</p></td></tr>
+			<%end%>
+			</tbody>
+		</table>

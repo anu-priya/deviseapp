@@ -1,0 +1,813 @@
+<!--Show drop down list end-->
+<%=stylesheet_link_tag "custom_scrollbar/mCustomScrollbar.min", :media => "all"%>
+<%=javascript_include_tag "custom_scrollbar/mCustomScrollbar.min"%>
+<link rel="stylesheet" type="text/css" href="/assets/custom_scrollbar/mCustomScrollbar.min.css" />
+<script src="/assets/custom_scrollbar/mCustomScrollbar.concat.min.js"></script>
+    <form name="provider_event_list" id="provider_event_list" style="background:none">
+      <table width="100%"><tr><td border="1" height="610">
+    <div id="providerEventList" style="height:691px;">
+
+    <%if !@activities.nil? && @activities!="" && @activities.present? && @activities.length > 0%>  
+    <input type="hidden" id="actid_chk" name="actid_chk" value="" />
+    <input type="hidden" id="page" name="page" value="<% if !params[:page].nil? && params[:page].present? %><%=params[:page]%><%else%>1<%end%>" />
+
+    <div class="first " style="width:23%">
+    <table width="100%" cellspacing="0" border="0" cellpadding="0">
+      <tr>
+         <td class=" headText setPadLt setborderLt " height="70" >Activity Name</td>
+         <td class=" headText" >Status</td>
+         </tr>   
+            <%i = 0%>
+            <% @activities && @activities.each do |act|%>
+                <!--div class="first1 headText setPadLt setborderLt">a</div>
+                <div class="first2 headText">c</div-->
+                  <% @schoolrep = SchoolRepresentative.where("activity_id=?",act.activity_id).last %>
+                  <%rep_type = CheckUserSchoolType(@schoolrep,current_user.user_id)%> 
+                    <%i = i + 1%>
+                    <%#if i.even? %>
+                    <!-- <tr class="setBg2" id="event-act-<%=act.activity_id%>"> -->
+                    <%#else%>
+                    <tr class="setBg1"  id="event-act-<%=act.activity_id%>">
+                    <%#end%>    
+              <td height="70" align="left" class="contentText setPadLt activityName" style="width:70%">
+              <input id="pe<%=act.activity_id%>" name="pe<%= act.activity_id %>" type="checkbox" value="violin"/>
+
+              <span id="chk_span" class="checkboxImg" style="margin-top: 4px;" onclick="getchkactid('<%=act.activity_id%>&page=<% if !params[:page].nil? && params[:page].present? %><%=params[:page]%><%else%>1<%end%>',this)"><label id="lbl1" class="altCheckboxoff" for="pe<%= act.activity_id %>">&nbsp;</label></span>
+		 <%use_info = User.find_by_user_id(act.user_id) if !act.nil? && !act.user_id.nil?%>
+		 <%activitylink = activity_link_format(act,use_info)%> <!-- Activity Link formation - From application helper link formation-->
+              <span class="blueText checkboxText" style="margin-left: -9px;" title="<%=act.activity_name%>" onclick="pop_Activity_Detail_dhtml('/activitydetail_new?list_details=event&det=<%= act.activity_id %>&mode=provider&act=provider','<%=activitylink%>');_gaq.push(['_trackEvent', 'Provider Module', 'clickViewActivity','View Activity Details',<%= act.activity_id %>]);"> <%= truncate(act.activity_name,:length =>22, :omission => '... ')%></span>
+            </td>
+            <td height="70"  align="left" class="contentText" style="width:30%">
+              <input type="hidden" id="gender_<%=act.activity_id%>" name="gender" value="" />
+              <div id="menu_active" class="lt ActiveDivMenu" style="width:100px;">
+              <!--this condition is removed temporarily need to add if required  || (rep_type && rep_type=='representative' && @schoolrep.status.downcase=='accepted' && act.active_status.downcase=='inactive') --> 
+              <%if @schoolrep && !@schoolrep.nil? && @schoolrep.status.downcase=='pending'%>
+              <span class="blueText" id='active_<%= act.activity_id %>'>Inactive</span>
+              <%else%>
+                    
+              <% act_represented = (@schoolrep && !@schoolrep.nil?) ? 'true' : 'false'%>
+              <% rep_id = (@schoolrep && !@schoolrep.nil?) ? @schoolrep.id : 0%>
+              <ul>
+              <li>
+                <a  href="javascript:void(0)" class="active_Div ActiveDiv transDiv" onmouseover="close_click_function()"><span class="menuText" id="gender_setVal_<%=act.activity_id%>"><%if !act.active_status.nil? && act.active_status == "deactivate"%>Active<%else%><%=act.active_status if !act.active_status.nil?%><%end%></span>
+  <span class="actImg"><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4", :style=>"position: relative; top: -1px;")%></span></a>
+                <ul class="sub-menu dispActiveDiv" style="top: 27px;border-bottom: 3px solid #EF322E;padding-bottom:0">
+                <div align="right" class="statusmenu"><%=image_tag("/assets/event/schedule_top_arrow.png", :width=>"18", :height=>"12", :style=>"border:0px;")%></div>
+                <li><a href="javascript:void(0)" <%if current_user && current_user.present? && !current_user.user_status.nil? && current_user.user_status == "deactivate" %> onclick="deactivate_user_added_act(); _gaq.push(['_trackEvent', 'Provider Module', 'clickActivity','Deactivate']);"<%else%>onclick="setActiveVal('Active',<%=act.activity_id%>,<%=act_represented%>,<%=rep_id%>); _gaq.push(['_trackEvent', 'Provider Module', 'clickViewActivity','Set Active', <%=act.activity_id%>])"<%end%>>Active</a></li>
+                <li><a href="javascript:void(0)" <%if current_user && current_user.present? && !current_user.user_status.nil? && current_user.user_status == "deactivate" %> onclick="deactivate_user_added_act(); _gaq.push(['_trackEvent', 'Provider Module', 'clickActivity','Deactivate']);"<%else%>onclick="setActiveVal('Inactive',<%=act.activity_id%>,<%=act_represented%>,<%=rep_id%>); _gaq.push(['_trackEvent', 'Provider Module', 'clickViewActivity','Set Inactive', <%=act.activity_id%>])"<%end%>>Inactive</a></li>
+                </ul>
+              </li>
+              </ul>
+              <%end%>
+              <div class="clear"></div>
+            </div>
+          </td>
+          <%end%>
+      </table>
+    </div>
+    
+        <div class="second container" style="width:65%">
+        <div class="ot_second  scroll-pane horizontal-only" style="height:790px;width1:676px;" >
+               <table width="1250" cellspacing="0" border="0" cellpadding="0">
+                     <tr>
+                        <td align="left" width="16%" class="headText setPadLt setborderLt ">Schedule</td>
+                        <td align="left" width="10%" class="headText setPadRt " style="padding-left:20px;"><div style="text-align: center"><span>Activity Roster</span></br><span></span></div></td>
+                        <td align="left" width="13%" class="headText setPadRt  ">Required Forms</td>
+                        <%if !current_user.nil? && !current_user.user_plan.nil? && current_user.user_plan.downcase=='sell'%>
+                        <td align="left" width="15%" class="headText setPadRt  ">Assign to 3rd Party</td>
+                        <% @rep = SchoolRepresentative.where("vendor_id=? or representative_id=?",current_user.user_id,current_user.user_id).last %>
+                         <%@act_rep=Activity.where("activity_id=? and active_status!=?",@rep.activity_id,'Delete').last  if !@rep.nil? && @rep.present?%>
+                        <% if !@rep.nil? && @rep.present? && !@act_rep.nil? && @act_rep.present?%>
+                        <td align="left" width="12%" class="headText setPadRt ">Representative Status</td>
+                        <td align="left" width="12%" class="headText setPadRt ">Permission</td><%end%><%end%>
+                        
+			<!-- <td align="left" width="13%" class="headText setPadRt ">Price</td> -->
+                      </tr>
+                  <%i = 0%>
+                  <% @activities && @activities.each do |act|%>
+                    <%i = i + 1%>
+                    <% @schoolrep = SchoolRepresentative.where("activity_id=?",act.activity_id).last %>
+                    <% rep_type = CheckUserSchoolType(@schoolrep,current_user.user_id)%>
+                    <%#if i.even? %>
+                    <!-- <tr class="setBg2" id="event-act-<%=act.activity_id%>"> -->
+                    <%#else%>
+                    <tr class="setBg1"  id="event-act-<%=act.activity_id%>">
+                    <%#end%>
+                        <%  schedule =  act.activity_schedule.first %>
+          <td   style="width:20%;"align="left" class="contentText setPadLt "><span  class="lt" style="padding:6px 0px; 6px 20px">
+          <input type="hidden" id="eventrow_<%=i%>" name="daya" value="<%act_det = ActivitySchedule.where("activity_id = ? ",act.activity_id ).first if !act.activity_id.nil?%>
+          <% @share = ActivitySchedule.where("activity_id = ?",act.activity_id).first %>
+          <%if !act_det.nil? && act_det.present? ||(@share.schedule_mode=="Any Time" if !@share.nil?)%>
+      <% if !@share.nil? && @share.present?%>
+         <% if @share.schedule_mode=="Schedule"%>
+         <% @se_date = Date.today.strftime("%Y-%m-%d")  %>
+          <%if (!@share.start_date.nil? && !@share.end_date.nil?) || !@share.start_date.nil?%> 
+              <%@schedule=!@share.nil? && @share.present? && @share %>
+              <%@repeat=@schedule.activity_repeat.last if !@schedule.activity_repeat.last.nil? %>
+              <%@repeat_date=""%>
+              <%@repeat_date = @repeat.ends_on.strftime("%Y-%m-%d") if @repeat.present? && @repeat.ends_on.present? %>
+              <%@schedule_date = !@schedule.nil? && !@schedule.start_date.nil? && @schedule.start_date.strftime("%Y-%m-%d")%>
+            <% if (@share.start_date.strftime("%Y-%m-%d")== @se_date) || (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") > @share.start_date.strftime("%Y-%m-%d"))  %> 
+            Starts On <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+            <%elsif (@share.start_date.strftime("%Y-%m-%d") > @se_date) || (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") > @share.start_date.strftime("%Y-%m-%d")) %> 
+            Starts On <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+            <%elsif (@share.start_date.strftime("%Y-%m-%d") == @se_date) || (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") == @share.start_date.strftime("%Y-%m-%d")) %>
+            <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+            <%elsif (@share.start_date.strftime("%Y-%m-%d") > @se_date) || (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") == @share.start_date.strftime("%Y-%m-%d")) %>
+            <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+            <%elsif (@share.start_date.strftime("%Y-%m-%d") < @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") == @se_date) %>
+            <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> to <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+            <%elsif (@share.start_date.strftime("%Y-%m-%d") < @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") > @se_date) %>
+            <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> to <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+            <%elsif !@schedule_date.nil? && !@repeat_date.nil? && @repeat_date.present?%>
+                <%@schedule=!@share.nil? && @share.present? && @share %>
+                <%@repeat=@schedule.activity_repeat.last if !@schedule.activity_repeat.last.nil? %>
+                <%@repeat_date=""%>
+                <%@repeat_date = @repeat.ends_on.strftime("%Y-%m-%d") if @repeat.present? && @repeat.ends_on.present? %>
+                <%@schedule_date = !@schedule.nil? && !@schedule.start_date.nil? && @schedule.start_date.strftime("%Y-%m-%d")%>
+              <%if @schedule_date == @repeat_date%>
+              Starts On <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+              <%elsif (@schedule_date > @se_date) && (@repeat_date >= @se_date) %>
+              Starts On <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+              <%elsif (@schedule_date == @se_date) && (@repeat_date > @se_date )%>
+              Starts On <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> to <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+              <%elsif (@schedule_date < @se_date) && (@repeat_date > @se_date) %>
+              <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> to <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+              <%elsif (@schedule_date < @se_date) && (@repeat_date == @se_date)  %>
+              <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> to <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+              <%elsif @schedule_date < @se_date %>
+              <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+              <%elsif @schedule_date > @se_date %>
+              Starts On <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+              <%end%>
+            <%elsif !@share.start_date.nil?%>
+            <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+            <%end%>
+          <%end%>
+         <%end%>
+   
+        <%if !@share.nil? && !@share.schedule_mode.nil? %>
+          <% if @share.schedule_mode=="Schedule" && @share.activity_repeat.present?%>
+          <%@schedule=act.activity_schedule.last if !act.activity_schedule.last.nil? %>
+          <%@repeat=@schedule.activity_repeat.last if !@schedule.activity_repeat.last.nil? %>
+          <%@repeat_date = !@repeat.nil? && !@repeat.ends_on.nil? && @repeat.ends_on.strftime("%Y-%m-%d") %>
+          <%@schedule_date = !@schedule.nil? && !@schedule.start_date.nil? && @schedule.start_date.strftime("%Y-%m-%d")%>
+            <%if @repeat_date != @schedule_date%>
+              <%if @repeat.repeats=="Daily" %>Repeats <%if @repeat.repeat_every=="1"%><%@repeat.repeat_every if !@repeat.repeat_every.nil? %> Daily<%if (!@repeat.end_occurences.nil?) || (!@repeat.ends_on.nil?)%>,<%end%> <%else%> Every <%=@repeat.repeat_every if !@repeat.repeat_every.nil? %> Days<%if (!@repeat.end_occurences.nil?) || (!@repeat.ends_on.nil?)%>,<%end%><%end%> <%=@repeat.ends_on.strftime("until %a, %b %d, %Y") if !@repeat.ends_on.nil?%><%if !@repeat.end_occurences.nil?%> <%if @repeat.end_occurences=="1"%>Once<%else%><%=@repeat.end_occurences if !@repeat.end_occurences.nil?%> times <%end%><%end%><%end%>
+              <%if @repeat.repeats=="Weekly" %>Repeats <%if @repeat.repeat_every=="1"%><%@repeat.repeat_every if !@repeat.repeat_every.nil? %> Weekly <%else%> Every <%=@repeat.repeat_every if !@repeat.repeat_every.nil? %> Weeks <%end%> on <%@repeat_day = @repeat.repeat_on.split(",") if !@repeat.repeat_on.nil?%><%length=@repeat_day.length-1 if !@repeat_day.nil?%><%if !@repeat_day.nil? && @repeat_day.present?%><%@repeat_day.each_with_index do |repeat_days,i|%><%=( (i==length) ? (repeat_days.capitalize unless repeat_days.capitalize.nil? && repeat_days=="" )  : ( repeat_days.capitalize  + "," unless repeat_days.capitalize.nil? && repeat_days=="" ))%><%end%><%end%><%if (!@repeat.end_occurences.nil?) || (!@repeat.ends_on.nil?)%>,<%end%> <%=@repeat.ends_on.strftime("until %a, %b %d, %Y") if !@repeat.ends_on.nil?%><%if !@repeat.end_occurences.nil?%> <%if @repeat.end_occurences=="1"%>, Once<%else%><%=@repeat.end_occurences if !@repeat.end_occurences.nil?%> times <%end%><%end%><%end%>
+              <%if @repeat.repeats=="Monthly" %>
+              <%if @repeat.repeat_every=="1"%>
+              Repeats
+              <%@repeat.repeat_every if !@repeat.repeat_every.nil? %>
+              Monthly
+              <%else%>
+              Every
+              <%=@repeat.repeat_every if !@repeat.repeat_every.nil? %>
+              Months
+              <%end%> on
+              <%if @repeat.repeated_by_month==TRUE%>
+              <%=@repeat.starts_on.strftime("day %d") if !@repeat.starts_on.nil?%><%if (!@repeat.end_occurences.nil?) || (!@repeat.ends_on.nil?)%>,<%end%>
+              <%else%>
+              <!--repeated week-->
+              <%my_date = @repeat.starts_on%>
+              <%week_of_target_date = my_date.strftime("%U").to_i%>
+              <%week_of_beginning_of_month = my_date.beginning_of_month.strftime("%U").to_i%>
+              <%repeat_week = week_of_target_date - week_of_beginning_of_month + 1%>
+              <%if repeat_week==1%>First
+              <%elsif repeat_week==2%>Second
+              <%elsif repeat_week==3%>Third
+              <%elsif repeat_week==4%>Fourth
+              <%elsif repeat_week==5%>Fifth
+              <%end%>
+              <%=@repeat.starts_on.strftime("%a") if !@repeat.starts_on.nil?%><%if (!@repeat.end_occurences.nil?) || (!@repeat.ends_on.nil?)%>,<%end%>
+              <%end%> <%=@repeat.ends_on.strftime("until %a, %b %d, %Y") if !@repeat.ends_on.nil?%>
+              <%if !@repeat.end_occurences.nil?%>
+              <%if @repeat.end_occurences=="1"%>, Once<%else%><%=@repeat.end_occurences if !@repeat.end_occurences.nil?%> times <%end%>
+              <%end%>
+              <%end%>
+              <%if @repeat.repeats=="Yearly" %>Repeats <%if @repeat.repeat_every=="1"%><%@repeat.repeat_every if !@repeat.repeat_every.nil? %> Annually <%else%> Every <%=@repeat.repeat_every if !@repeat.repeat_every.nil? %> years <%end%> on <%if @repeat.repeat_every=="1"%><%=@repeat.starts_on.strftime("%a, %d %b %Y") if !@repeat.starts_on.nil?%><%else%> <%=@repeat.starts_on.strftime("%b %d") if !@repeat.starts_on.nil?%><%if (!@repeat.end_occurences.nil?) || (!@repeat.ends_on.nil?)%>,<%end%> <%end%> <%=@repeat.ends_on.strftime("until %a, %b %d, %Y") if !@repeat.ends_on.nil?%><%if !@repeat.end_occurences.nil?%><%if @repeat.end_occurences=="1"%>, Once<%else%><%=@repeat.end_occurences if !@repeat.end_occurences.nil?%> times <%end%><%end%><%end%>
+              <%if @repeat.repeats!="Daily" && @repeat.repeats!="Weekly" && @repeat.repeats!="Monthly" && @repeat.repeats!="Yearly" && !@repeat.repeats.nil? %>
+              Repeats <%=@repeat.repeats if !@repeat.repeats.nil? && @repeat.repeats!="NULL" %><%if (!@repeat.end_occurences.nil?) || (!@repeat.ends_on.nil?)%>,<%end%> <%=@repeat.ends_on.strftime("until %a, %b %d, %Y") if !@repeat.ends_on.nil?%> <%if !@repeat.end_occurences.nil?%><%if @repeat.end_occurences=="1"%>, Once<%else%><%=@repeat.end_occurences if !@repeat.end_occurences.nil?%> times <%end%><%end%>
+              <%end%>
+            <%end%>
+          <%end%>
+        <%end%>
+          <% if @share.schedule_mode=="By Appointment"%>
+          By Appointment
+          <%end%>
+          <% if @share.schedule_mode=="Whole Day"%>
+          <% @se_date = Date.today.strftime("%Y-%m-%d") %>
+            <%if !@share.start_date.nil?%> 
+              <% if @share.start_date.strftime("%Y-%m-%d") == @se_date %> 
+                <%@e_date = !@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d")%>
+                <%if (@share.start_date.strftime("%Y-%m-%d") == @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") > @share.start_date.strftime("%Y-%m-%d"))  %> 
+                Starts On <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%>
+                to <%=@share.end_date.strftime("%a, %b %d, %Y") if !@share.end_date.nil? %>, <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+                <%elsif (@share.start_date.strftime("%Y-%m-%d") == @e_date)  %> 
+                <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+                <%else%>
+                <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+                <%end%>
+              <%elsif @share.start_date.strftime("%Y-%m-%d") > @se_date %> 
+                <%if @share.start_date.strftime("%Y-%m-%d") > @se_date && !@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d")%>
+                Starts On <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%>
+                to <%=@share.end_date.strftime("%a, %b %d, %Y") if !@share.end_date.nil? %>, <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+                <%else%>
+                Starts On <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+                <%end%>
+              <%elsif (@share.start_date.strftime("%Y-%m-%d")== @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") > @share.start_date.strftime("%Y-%m-%d"))  %> 
+              Starts On <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%>
+              to <%=@share.end_date.strftime("%a, %b %d, %Y") if !@share.end_date.nil? %>, <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+              <%elsif (@share.start_date.strftime("%Y-%m-%d") < @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") > @se_date )  %> 
+              <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%>
+              to <%=@share.end_date.strftime("%a, %b %d, %Y") if !@share.end_date.nil? %>, <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+              <%elsif (@share.start_date.strftime("%Y-%m-%d") == !@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d"))  %> 
+              <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+              <%elsif (@share.start_date.strftime("%Y-%m-%d"))  %> 
+              <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+              <%end%> 
+            <%end%>
+          <%end%>
+
+           <% if !act.nil? && act.created_by.downcase=='provider' && @share.schedule_mode=="Any Time"%>
+          <%@a=act.activity_schedule%>
+
+          <%=@a[0].business_hours.capitalize if !@a[0].nil? && @a[0].business_hours && @a[0].business_hours.present?%>, <%=@a[0].start_time.strftime("%l:%M %p") if !@a[0].nil?%> - <%=@a[0].end_time.strftime("%l:%M %p") if !@a[0].nil?%>
+           <%end%>
+      <%end%>
+      <%end%>" />
+
+
+            <span id="schedule_row_<%=i%>" class=" checkboxText" ></span>
+       <script>
+      var a='<%=i%>';
+      var tdvalue=$("#eventrow_"+a).val();
+        var lent=tdvalue.length;
+        if(lent>100){
+         var vals= tdvalue.substring(0, 97);
+         vals=vals+'...';
+           $("#schedule_row_"+a).text(vals);
+           var newvalue=tdvalue.trim();
+           $("#schedule_row_"+a).attr("title",newvalue);
+        }
+        else{
+          var newvalue=tdvalue.trim();
+          $("#schedule_row_"+a).text(tdvalue);
+          $("#schedule_row_"+a).attr("title",newvalue);
+         
+        }
+
+      </script>
+    <%act_det = ActivitySchedule.where("activity_id = ? ",act.activity_id ) if !act.activity_id.nil?%>
+    <%more_schedules = (act_det && act_det.count>1) ? 'true' : 'false'%>
+  <%#if !act_det.nil? && act_det.count>1 && @share.schedule_mode!="Any Time" && @share.schedule_mode!="By Appointment"%>
+  <%if !act_det.nil? && act_det.count>1 && @share.schedule_mode!="By Appointment"%>
+  <div class="more_schedule_text"><a class="blueText" id="color_<%=act.activity_id%>" href="javascript:void(0)" title="" onmouseOver="displayMoreSchedule('<%=act.activity_id%>')"> More Schedule</a></div>
+  <div id="more_schedule_<%=act.activity_id%>" class="more_schedule" style="padding-left: 190px;visibility:hidden">
+    <div class="schedule_arrow_outer" style="margin-left: -193px;"><div class="schedule_arrow">&nbsp;</div></div>
+    <div class="more_schedule_container" >     
+      <div class="tops">
+        <div class="lt topsLt">Schedules</div>
+        <div class="rt">
+          <!-- <a class="blueText" href="javascript:void(0)" title="" onclick="closeMoreSchedule('<%=act.activity_id%>')"><%#=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%></a> -->
+          <a style="top: 14px;left: 10px;background-size: 27px auto;" onclick="closeMoreSchedule('<%=act.activity_id%>')"  title="" href="javascript:void(0)" class="blueText delplus contact_all"></a>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="middle">
+      <% act_det.each do |share|%>   <!-- loop start for multiple schedule-->
+      <% if !share.nil? && share.present?%><!-- share start -->
+            <div class="setBorderColor">
+        <div class="lt middleContainer">
+        
+        <!--schedule displayed start -->
+         <% if share.schedule_mode=="Schedule"%>
+
+         <% @se_date = Date.today.strftime("%Y-%m-%d")  %>
+          <%if (!share.start_date.nil? && !share.end_date.nil?) || !share.start_date.nil?%> 
+              <%@schedule=!share.nil? && share.present? && share %>
+              <%@repeat=@schedule.activity_repeat.last if !@schedule.activity_repeat.last.nil? %>
+              <%@repeat_date=""%>
+              <%@repeat_date = @repeat.ends_on.strftime("%Y-%m-%d") if @repeat.present? && @repeat.ends_on.present? %>
+              <%@schedule_date = !@schedule.nil? && !@schedule.start_date.nil? && @schedule.start_date.strftime("%Y-%m-%d")%>
+            <% if (share.start_date.strftime("%Y-%m-%d")== @se_date) || (!share.end_date.nil? && share.end_date.strftime("%Y-%m-%d") > share.start_date.strftime("%Y-%m-%d"))  %> 
+            Starts On <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+            <%elsif (share.start_date.strftime("%Y-%m-%d") > @se_date) || (!share.end_date.nil? && share.end_date.strftime("%Y-%m-%d") > share.start_date.strftime("%Y-%m-%d")) %> 
+            Starts On <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+            <%elsif (share.start_date.strftime("%Y-%m-%d") == @se_date) || (!share.end_date.nil? && share.end_date.strftime("%Y-%m-%d") == share.start_date.strftime("%Y-%m-%d")) %>
+            <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+            <%elsif (share.start_date.strftime("%Y-%m-%d") > @se_date) || (!share.end_date.nil? && share.end_date.strftime("%Y-%m-%d") == share.start_date.strftime("%Y-%m-%d")) %>
+            <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+            <%elsif (share.start_date.strftime("%Y-%m-%d") < @se_date) && (!share.end_date.nil? && share.end_date.strftime("%Y-%m-%d") == @se_date) %>
+            <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> to <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+            <%elsif (share.start_date.strftime("%Y-%m-%d") < @se_date) && (!share.end_date.nil? && share.end_date.strftime("%Y-%m-%d") > @se_date) %>
+            <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> to <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+            <%elsif !@schedule_date.nil? && !@repeat_date.nil? && @repeat_date.present?%>
+                <%@schedule=!share.nil? && share.present? && share %>
+                <%@repeat=@schedule.activity_repeat.last if !@schedule.activity_repeat.last.nil? %>
+                <%@repeat_date=""%>
+                <%@repeat_date = @repeat.ends_on.strftime("%Y-%m-%d") if @repeat.present? && @repeat.ends_on.present? %>
+                <%@schedule_date = !@schedule.nil? && !@schedule.start_date.nil? && @schedule.start_date.strftime("%Y-%m-%d")%>
+              <%if @schedule_date == @repeat_date%>
+              Starts On <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+              <%elsif (@schedule_date > @se_date) && (@repeat_date >= @se_date) %>
+              Starts On <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+              <%elsif (@schedule_date == @se_date) && (@repeat_date > @se_date )%>
+              Starts On <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> to <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+              <%elsif (@schedule_date < @se_date) && (@repeat_date > @se_date) %>
+              <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> to <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+              <%elsif (@schedule_date < @se_date) && (@repeat_date == @se_date)  %>
+              <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> to <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+              <%elsif @schedule_date < @se_date %>
+              <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+              <%elsif @schedule_date > @se_date %>
+              Starts On <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+              <%end%>
+            <%elsif !share.start_date.nil?%>
+            <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+            <%end%>
+          <%end%>
+         <%end%>
+         <!--schedule displayed end-->
+         <%#=share.schedule_id%>
+        <%if !share.nil? && !share.schedule_mode.nil? %>
+          <% if share.schedule_mode=="Schedule" && share.activity_repeat.present?%>
+          <%@schedule=share if !share.nil? %>
+          <%#@schedule=act.activity_schedule.last if !act.activity_schedule.last.nil? %>
+          <%@repeat=@schedule.activity_repeat.last if !@schedule.activity_repeat.last.nil? %>
+          <%@repeat_date = !@repeat.nil? && !@repeat.ends_on.nil? && @repeat.ends_on.strftime("%Y-%m-%d") %>
+          <%@schedule_date = !@schedule.nil? && !@schedule.start_date.nil? && @schedule.start_date.strftime("%Y-%m-%d")%>
+          
+            <%if @repeat_date != @schedule_date%>
+              
+              <%if @repeat.repeats=="Daily" %>Repeats <%if @repeat.repeat_every=="1"%><%@repeat.repeat_every if !@repeat.repeat_every.nil? %> Daily<%if (!@repeat.end_occurences.nil?) || (!@repeat.ends_on.nil?)%>,<%end%> <%else%> Every <%=@repeat.repeat_every if !@repeat.repeat_every.nil? %> Days<%if (!@repeat.end_occurences.nil?) || (!@repeat.ends_on.nil?)%>,<%end%><%end%> <%=@repeat.ends_on.strftime("until %a, %b %d, %Y") if !@repeat.ends_on.nil?%><%if !@repeat.end_occurences.nil?%> <%if @repeat.end_occurences=="1"%>Once<%else%><%=@repeat.end_occurences if !@repeat.end_occurences.nil?%> times <%end%><%end%><%end%>
+              <!--weekly-->
+              <%if @repeat.repeats=="Weekly" %>Repeats <%if @repeat.repeat_every=="1"%><%@repeat.repeat_every if !@repeat.repeat_every.nil? %> Weekly <%else%> Every <%=@repeat.repeat_every if !@repeat.repeat_every.nil? %> Weeks <%end%> on <%@repeat_day = @repeat.repeat_on.split(",") if !@repeat.repeat_on.nil?%><%length=@repeat_day.length-1 if !@repeat_day.nil?%><%if !@repeat_day.nil? && @repeat_day.present?%><%@repeat_day.each_with_index do |repeat_days,i|%><%=( (i==length) ? (repeat_days.capitalize unless repeat_days.capitalize.nil? && repeat_days=="" )  : ( repeat_days.capitalize  + "," unless repeat_days.capitalize.nil? && repeat_days=="" ))%><%end%><%end%><%if (!@repeat.end_occurences.nil?) || (!@repeat.ends_on.nil?)%>,<%end%> <%=@repeat.ends_on.strftime("until %a, %b %d, %Y") if !@repeat.ends_on.nil?%><%if !@repeat.end_occurences.nil?%> <%if @repeat.end_occurences=="1"%>, Once<%else%><%=@repeat.end_occurences if !@repeat.end_occurences.nil?%> times <%end%><%end%><%end%>
+              <!--monthly-->
+              <%if @repeat.repeats=="Monthly" %>
+              <%if @repeat.repeat_every=="1"%>
+              Repeats
+              <%@repeat.repeat_every if !@repeat.repeat_every.nil? %>
+              Monthly
+              <%else%>
+              Every
+              <%=@repeat.repeat_every if !@repeat.repeat_every.nil? %>
+              Months
+              <%end%> on
+              <%if @repeat.repeated_by_month==TRUE%>
+              <%=@repeat.starts_on.strftime("day %d") if !@repeat.starts_on.nil?%><%if (!@repeat.end_occurences.nil?) || (!@repeat.ends_on.nil?)%>,<%end%>
+              <%else%>
+              <!--repeated week-->
+              <%my_date = @repeat.starts_on%>
+              <%week_of_target_date = my_date.strftime("%U").to_i%>
+              <%week_of_beginning_of_month = my_date.beginning_of_month.strftime("%U").to_i%>
+              <%repeat_week = week_of_target_date - week_of_beginning_of_month + 1%>
+              <%if repeat_week==1%>First
+              <%elsif repeat_week==2%>Second
+              <%elsif repeat_week==3%>Third
+              <%elsif repeat_week==4%>Fourth
+              <%elsif repeat_week==5%>Fifth
+              <%end%>
+              <%=@repeat.starts_on.strftime("%a") if !@repeat.starts_on.nil?%><%if (!@repeat.end_occurences.nil?) || (!@repeat.ends_on.nil?)%>,<%end%>
+              <%end%> <%=@repeat.ends_on.strftime("until %a, %b %d, %Y") if !@repeat.ends_on.nil?%>
+              <%if !@repeat.end_occurences.nil?%>
+              <%if @repeat.end_occurences=="1"%>, Once<%else%><%=@repeat.end_occurences if !@repeat.end_occurences.nil?%> times <%end%>
+              <%end%>
+              <%end%>
+              <!--yearly-->
+              <%if @repeat.repeats=="Yearly" %>Repeats <%if @repeat.repeat_every=="1"%><%@repeat.repeat_every if !@repeat.repeat_every.nil? %> Annually <%else%> Every <%=@repeat.repeat_every if !@repeat.repeat_every.nil? %> years <%end%> on <%if @repeat.repeat_every=="1"%><%=@repeat.starts_on.strftime("%a, %d %b %Y") if !@repeat.starts_on.nil?%><%else%> <%=@repeat.starts_on.strftime("%b %d") if !@repeat.starts_on.nil?%><%if (!@repeat.end_occurences.nil?) || (!@repeat.ends_on.nil?)%>,<%end%> <%end%> <%=@repeat.ends_on.strftime("until %a, %b %d, %Y") if !@repeat.ends_on.nil?%><%if !@repeat.end_occurences.nil?%><%if @repeat.end_occurences=="1"%>, Once<%else%><%=@repeat.end_occurences if !@repeat.end_occurences.nil?%> times <%end%><%end%><%end%>
+              <!--selected date-->
+              <%if @repeat.repeats!="Daily" && @repeat.repeats!="Weekly" && @repeat.repeats!="Monthly" && @repeat.repeats!="Yearly" && !@repeat.repeats.nil? %>
+              Repeats <%=@repeat.repeats if !@repeat.repeats.nil? && @repeat.repeats!="NULL" %><%if (!@repeat.end_occurences.nil?) || (!@repeat.ends_on.nil?)%>,<%end%> <%=@repeat.ends_on.strftime("until %a, %b %d, %Y") if !@repeat.ends_on.nil?%> <%if !@repeat.end_occurences.nil?%><%if @repeat.end_occurences=="1"%>, Once<%else%><%=@repeat.end_occurences if !@repeat.end_occurences.nil?%> times <%end%><%end%>
+              <%end%>
+            <%end%>
+          <%end%>
+        <%end%>
+        <!--Any time displayed start -->
+        <% if share.schedule_mode=="Any Time"%>
+        <%=share.business_hours.capitalize if !share.nil? && !share.business_hours.nil?%>, <%=share.start_time.strftime("%l:%M %p") if !share.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.nil?%><br>
+        <%end%>
+        <!--Any time displayed end -->
+        <!--whole displayed start -->
+          <% if share.schedule_mode=="Whole Day"%>
+          <% @se_date = Date.today.strftime("%Y-%m-%d") %>
+            <%if !share.start_date.nil?%> 
+              <% if share.start_date.strftime("%Y-%m-%d") == @se_date %> 
+                <%@e_date = !share.end_date.nil? && share.end_date.strftime("%Y-%m-%d")%>
+                <%if (share.start_date.strftime("%Y-%m-%d") == @se_date) && (!share.end_date.nil? && share.end_date.strftime("%Y-%m-%d") > share.start_date.strftime("%Y-%m-%d"))  %> 
+                Starts On <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%><br>
+                to <%=share.end_date.strftime("%a, %b %d, %Y") if !share.end_date.nil? %>, <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%>
+                <%elsif (share.start_date.strftime("%Y-%m-%d") == @e_date)  %> 
+                <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+                <%else%>
+                <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%>
+                <%end%>
+              <%elsif share.start_date.strftime("%Y-%m-%d") > @se_date %> 
+                <%if share.start_date.strftime("%Y-%m-%d") > @se_date && !share.end_date.nil? && share.end_date.strftime("%Y-%m-%d")%>
+                Starts On <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%><br>
+                to <%=share.end_date.strftime("%a, %b %d, %Y") if !share.end_date.nil? %>, <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%>
+                <%else%>
+                Starts On <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+                <%end%>
+              <%elsif (share.start_date.strftime("%Y-%m-%d")== @se_date) && (!share.end_date.nil? && share.end_date.strftime("%Y-%m-%d") > share.start_date.strftime("%Y-%m-%d"))  %> 
+              Starts On <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%><br>
+              to <%=share.end_date.strftime("%a, %b %d, %Y") if !share.end_date.nil? %>, <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%>
+              <%elsif (share.start_date.strftime("%Y-%m-%d") < @se_date) && (!share.end_date.nil? && share.end_date.strftime("%Y-%m-%d") > @se_date )  %> 
+              <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%><br>
+              to <%=share.end_date.strftime("%a, %b %d, %Y") if !share.end_date.nil? %>, <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%>
+              <%elsif (share.start_date.strftime("%Y-%m-%d") == !share.end_date.nil? && share.end_date.strftime("%Y-%m-%d"))  %> 
+              <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+              <%elsif (share.start_date.strftime("%Y-%m-%d"))  %> 
+              <%=share.start_date.strftime("%a, %b %d, %Y") if !share.start_date.nil? %>, <%=share.start_time.strftime("%l:%M %p") if !share.start_time.nil?%> - <%=share.end_time.strftime("%l:%M %p") if !share.end_time.nil?%><br>
+              <%end%> 
+            <%end%>
+          <%end%>
+        </div>
+        <%chk_capacity = capacity_of_participants(share)%>
+        <%if chk_capacity && chk_capacity[2] && chk_capacity[1]%>
+        <div class="rt blueText capacityContainer">
+          <b>Capacity</b>:&nbsp;&nbsp;<%= chk_capacity[2]%> of <%= chk_capacity[1]%>
+        </div>
+        <%end%>
+        <div class="clear"></div>
+             </div>
+             <div class="clear"></div>
+        <%end%><!-- share end -->
+      
+      <%end%> <!-- loop end for multiple schedule-->
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+  <%end%><!--act_count check end -->  
+  <!-- Capacity-->
+  <%if more_schedules && more_schedules=='false'%>
+  <%chk_capacity = capacity_of_participants(@share)%>
+    <%if chk_capacity && chk_capacity[2] && chk_capacity[1]%>
+    <div class="blueText capacityText"><b>Capacity</b>:&nbsp;&nbsp;<%= chk_capacity[2]%> of <%= chk_capacity[1]%></div>
+    <%end%>
+  <%end%>
+  </span> 
+  </td>
+
+  <td align="center" class="contentText " style="padding-left:20px;">
+  <%if act.schedule_mode.downcase=='any time' || act.schedule_mode.downcase=='by appointment' || act.schedule_mode.downcase=='any where'%>
+    <span class="network_icon_bg_disable"></span>
+  <%else%>
+    <a href="javascript:void(0)" title="" <%if current_user && current_user.present? && !current_user.user_status.nil? && current_user.user_status == "deactivate" %> onclick="deactivate_user_added_act(); _gaq.push(['_trackEvent', 'Provider Module', 'clickActivity','Deactivate']);"<%else%>onclick="pop_activity_network_form('/activity_network?acti_id=<%=act.activity_id%>'); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Activity Network','<%=act.activity_id%>']);"<%end%>><span class="network_icon_bg"></span></a>
+  <%end%>
+  </td>
+  <%@act_nt_dshbrd=getmangerdashbord(act.activity_id,act.user_id,current_user.user_id) if !act.nil? && !current_user.nil?%>
+  <td align="left"  class="contentText "><%@act = act%>
+    <div id="form_container_<%=@act.activity_id%>" style="position:relative;color:#347d91;">     
+      <%= render :partial =>'forms/required_form_list' %>
+    </div>
+  </td>
+  <%if !current_user.nil? && !current_user.user_plan.nil? && current_user.user_plan.downcase=='sell'%>
+  <td align="left" class="contentText">
+    <span class="lt" style="padding-right:10px;">
+    <%if !@act_nt_dshbrd.nil? && @act_nt_dshbrd != "" && !@act_nt_dshbrd.view_manager.nil?%><!--manager permission checked-->
+    <p><a href="javascript:void(0)" title="Don't have permission" class="ftcBlue">Assign</a></p></span>
+    <%else%>
+      <%if !@schoolrep && @schoolrep.nil? && act.schedule_mode.downcase!='by appointment' && act.schedule_mode.downcase!='any where'%>
+      <p><a href="javascript:void(0)" title="" <%if current_user && current_user.present? && !current_user.user_status.nil? && current_user.user_status == "deactivate" %> onclick="deactivate_user_added_act(); _gaq.push(['_trackEvent', 'Provider Module', 'clickActivity','Deactivate']);"<%else%>onClick="represented_form('/represented_details?act_id=<%=act.activity_id%>'); _gaq.push(['_trackEvent', 'Provider Module', 'clickRepresent','Assign','<%=act.activity_id%>']);"<%end%> class="ftcBlue">Assign</a></p></span>
+      <%else%>
+        <%schoolRep = SchoolRepDetail(current_user.user_id,@schoolrep)%>
+        <p><b><%=(schoolRep && schoolRep[0] && schoolRep[0].present?) ? schoolRep[0] : ''%></b></p>
+        <p><span class="ftcBlue"><%=(schoolRep && schoolRep[1] && schoolRep[1].present?) ? schoolRep[1] : ''%></span><%=(schoolRep && schoolRep[2] && schoolRep[2].present?) ? ','+schoolRep[2] : '-'%></p>
+      <%end%>
+    <%end%><!--manager permission checked ending-->
+  </td>
+  <%end%>
+
+<% @rep = SchoolRepresentative.where("vendor_id=? or representative_id=?",current_user.user_id,current_user.user_id).last %>
+                         <%@act_rep=Activity.where("activity_id=? and active_status!=?",@rep.activity_id,'Delete').last  if !@rep.nil? && @rep.present?%>
+                        <% if !@rep.nil? && @rep.present? && !@act_rep.nil? && @act_rep.present?%>
+
+  <%if !current_user.nil? && !current_user.user_plan.nil? && current_user.user_plan.downcase=='sell'%>
+  <td align="left" class="contentText">
+   <%if @schoolrep && !@schoolrep.nil? && @schoolrep.status.downcase=='accepted'%>
+      <p>Accepted</p>
+   <%else%>
+     <%if rep_type=='vendor'%>
+      <p>Pending</p>
+     <%elsif rep_type=='representative'%>
+      <p><span id='pending_status_<%=act.activity_id%>'>Pending, </span><a href="javascript:void(0)" title="" class="ftcBlue" id='accept_school_<%=act.activity_id%>' onclick="representativeAccept('<%=@schoolrep.school_rep_id%>','<%=act.activity_id%>');"><span>Accept now</span></a></p>
+    <%else%>
+     -
+     <%end%>
+   <%end%>
+  </td>
+  <%end%>
+
+  <%if !current_user.nil? && !current_user.user_plan.nil? && current_user.user_plan.downcase=='sell'%>
+  <td align="left" class="contentText">
+  <%if @schoolrep && !@schoolrep.nil?%>
+    <!--  Edit Permission -->
+    <div class="more_schedule_text"><a class="ftcBlue" id="edit_color_<%=act.activity_id%>" href="javascript:void(0)" title="" onclick="displayEditPermission('<%=act.activity_id%>'); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Edit Permissions','<%=act.activity_id%>']);"><%=(rep_type=='vendor') ? 'Edit' : 'View'%></a></div>
+    <div id="edit_permission_<%=act.activity_id%>" class="edit_permission" style="display:none;">
+      <div class="permission_arrow_outer">
+        <div align="right" style="margin-top: -2px;left:67px;" class="edit-menu permission_top_arrow_add"><img alt="" src="/assets/event/schedule_top_arrow.png"></div>
+      </div>
+      <div class="permission_schedule_container" style="border-bottom: 4px solid red;">
+        <div class="tops">
+          <div class="lt topsLt" style="color: #585858;font-size: 16px;"><%=(rep_type=='vendor') ? 'Edit Permission' : 'View Permission'%></div>
+          <div class="rt"><a style="top: 14px;left: 10px;background-size: 27px auto;" onclick="closeEditPermission('<%=act.activity_id%>');  _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Close Edit Permissions','<%=act.activity_id%>']);" title="" href="javascript:void(0)" class="blueText delplus contact_all"><!--img width="15" height="15" alt="" src="/assets/global/pop_up/button_close.png"/--></a>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="innerDiv">
+          <%if rep_type=='vendor'%>
+          <span onclick="checkeditbox('<%=act.activity_id%>','edit');" class="checkboxImg lt"  style="margin-right: 5px;" id="edit_v_<%=act.activity_id%>" >
+            <label for="edit_v_<%=act.activity_id%>" class="<%if @schoolrep.edit_p%>altCheckboxOn<%else%>altCheckboxOff<%end%>" id="edit_lbl_<%=act.activity_id%>">&nbsp;</label></span>
+          <input type="hidden" name="edit_t_<%=act.activity_id%>" id="edit_t_<%=act.activity_id%>" value='<%if @schoolrep.edit_p%>on<%else%>off<%end%>' />
+          <span class="lt ftcBlue fts14" style="margin-right:20px;" >Edit</span>  
+          <span onclick="checkeditbox('<%=act.activity_id%>','delete');" class="checkboxImg lt"  style="margin-right: 5px;" id="delete_v_<%=act.activity_id%>" >
+            <label for="delete_v_<%=act.activity_id%>" class="<%if @schoolrep.edit_p%>altCheckboxOn<%else%>altCheckboxOff<%end%>" id="del_lbl_<%=act.activity_id%>">&nbsp;</label></span>
+          <input type="hidden" name="delete_t_<%=act.activity_id%>" id="delete_t_<%=act.activity_id%>" value='<%if @schoolrep.edit_p%>on<%else%>off<%end%>'/>
+          <span class="lt ftcBlue fts14">Delete</span>
+          <!-- <input class="lt" type="checkbox" name="delete_v_<%=act.activity_id%>" id="delete_v_<%=act.activity_id%>" value='' onChange="check_edit_box('<%=act.activity_id%>')" <%#if @schoolrep.delete_p%>checked="checked"<%#end%>/>
+          <span class="lt ftcBlue fts14 checboxText">Delete</span> -->
+          <div class="clear"></div>
+           <div id='error-msg<%=act.activity_id%>' class="ftcRedff" style='display:none;padding-top:5px;'>Please choose edit option.</div>
+          <%elsif rep_type=='representative'%>
+          <input class="lt" type="checkbox" name="edit_r" id="edit_r" value="" <%if @schoolrep.edit_p%>checked="checked"<%end%> disabled="disabled"/>
+          <span class="lt ftcBlue fts14 checboxText">Edit</span>          
+          <input class="lt" type="checkbox" name="delete_r" id="delete_r" value="" <%if @schoolrep.delete_p%>checked="checked"<%end%> disabled="disabled" />
+          <span class="lt ftcBlue fts14 checboxText">Delete</span>
+          <%end%>
+          <div class="clear"></div>         
+        </div>
+        <%if rep_type=='vendor'%>
+        <div class="buttonDiv"> 
+          <a onclick="vendorEditPermission('<%=@schoolrep.school_rep_id%>','<%=act.activity_id%>')" title="" class="save-button" href="javascript:void(0)" style="height: 23px;">Save</a>
+          <a onclick="closeEditPermission('<%=act.activity_id%>')" title="" class="cancel-button" style="height: 23px;" href="javascript:void(0)">Close</a>
+          <div class="clear"></div> 
+        </div>
+        <%end%>
+        <div class="clear"></div>
+      </div>
+    </div>
+  <%else%>
+  -
+  <%end%> 
+    
+  </td>
+  <%end%>
+  <%end%>
+    
+ <!--  <td align="left" class="contentText">
+     <div class="priceImgDiv" id="priceImgDiv_<%=act.activity_id%>">
+      <div class="nsetBg"><span class="bluebgImg"></span><%#=image_tag("/assets/header/drop_arrow.png", :width=>"4", :height=>"4", :style=>"border:0px;", :style=>"position: relative; left: -2px;")%></div>
+     </div>
+   </td>
+  --></tr>
+                  <%end%>
+                </table>
+            </div>
+        </div>
+
+        <!--2nd div close-->
+
+
+       <div class="third" style="width:12%">
+        <table width="100%" cellspacing="0" border="0" cellpadding="0">
+         <tr> <td class="headText " style="padding-left: 25px;">Action</td></tr>
+            <%i = 0%>
+            <% @activities && @activities.each do |act|%> 
+            <%i = i + 1%>
+        <%#if i.even? %>
+          <!-- <tr class="setBg2" id="event-act-<%=act.activity_id%>"> -->
+          <%#else%>
+          <tr class="setBg1"  id="event-act-<%=act.activity_id%>">
+          <%#end%>
+          <% @schoolrep = SchoolRepresentative.where("activity_id=?",act.activity_id).last %>
+                  <%rep_type = CheckUserSchoolType(@schoolrep,current_user.user_id)%> 
+    
+            <td class="contentText" style="padding-left: 25px;"><div class="lt" style="width:175px;" id='edit-del-permission_<%=act.activity_id%>'>
+    
+            <%if @schoolrep && rep_type && rep_type=='representative' && (@schoolrep.status.downcase=='pending')%>
+            <a href="javascript:void(0)" class = 'display-disable-icons' title="Share activity" class="lt setRt"><%=image_tag("/assets/provider_settings/share_disable.png", :width=>"23", :height=>"23")%></a>
+            <%else%>
+            <a href="javascript:void(0)" title="Share activity"   <%if current_user && current_user.present? && !current_user.user_status.nil? && current_user.user_status == "deactivate" %> onclick="deactivate_user_added_act(); _gaq.push(['_trackEvent', 'Provider Module', 'clickActivity','Deactivate']);"<%else%>onclick="pop_share_activity('/share_activity?activity_id=<%=act.activity_id%>&mode=provider&act=index');_gaq.push(['_trackEvent', 'Provider Module', 'clickShareActivity',<%=act.activity_id%>])"<%end%> class="lt setRt"><%=image_tag("/assets/provider_settings/share_enable.png", :width=>"23", :height=>"23")%></a>
+            <%end%>
+    
+            <%if !@act_nt_dshbrd.nil? && @act_nt_dshbrd.present? && !@act_nt_dshbrd.edit_manager.nil?%>
+                <%if !@act_nt_dshbrd.nil? && @act_nt_dshbrd.edit_manager==true%>
+                <a style="padding-right: 5px;" href="javascript:void(0)" title="Edit activity" onclick="pop_edit_activity('/edit_activity?activity_id=<%=act.activity_id%>&page=<% if !params[:page].nil? && params[:page].present? %><%=params[:page]%><%else%>1<%end%>&set_color=<%=i%>&edit_from=prov_event');_gaq.push(['_trackEvent', 'Provider Module', 'clickEditActivity',<%=act.activity_id%>])" class="lt setRt"><%=image_tag("/assets/provider_settings/edit_enable.png", :width=>"23", :height=>"23")%></a>
+                <%else%>
+                <a href="javascript:void(0)" class = 'display-disable-icons' title="Edit activity" class="lt setRt"><%=image_tag("/assets/provider_settings/edit_disable.png", :width=>"23", :height=>"23")%></a>
+                <%end%>
+            <%else%>
+            
+              <%if @schoolrep && rep_type && rep_type=='representative' && (!@schoolrep.edit_p || @schoolrep.status.downcase=='pending')%>
+              <a href="javascript:void(0)" class = 'display-disable-icons' title="Edit activity" class="lt setRt"><%=image_tag("/assets/provider_settings/edit_disable.png", :width=>"23", :height=>"23")%></a>
+              <%else%>
+                <a href="javascript:void(0)" title="Edit activity" onclick="pop_edit_activity('/edit_activity?activity_id=<%=act.activity_id%>&page=<% if !params[:page].nil? && params[:page].present? %><%=params[:page]%><%else%>1<%end%>&set_color=<%=i%>&edit_from=prov_event');_gaq.push(['_trackEvent', 'Provider Module', 'clickEditActivity',<%=act.activity_id%>])" class="lt setRt"><%=image_tag("/assets/provider_settings/edit_enable.png", :width=>"23", :height=>"23")%></a>
+             <%end%>
+          <%end%>
+            <%if !@act_nt_dshbrd.nil? && @act_nt_dshbrd.present? && !@act_nt_dshbrd.view_manager.nil? && !act.nil? && !current_user.nil? && act.user_id!=current_user.user_id%>
+            <a href="javascript:void(0)" class = 'display-disable-icons' title="Delete activity" class="lt"><%=image_tag("/assets/provider_settings/delete_disable.png", :width=>"23", :height=>"23")%></a>
+            <%else%>
+              <%if (@schoolrep && rep_type && rep_type=='representative' && (!@schoolrep.delete_p || @schoolrep.status.downcase=='pending'))%>
+                 <a href="javascript:void(0)" class = 'display-disable-icons' title="Delete activity" class="lt"><%=image_tag("/assets/provider_settings/delete_disable.png", :width=>"23", :height=>"23")%></a>
+                 <%else%>
+                  <a href="javascript:void(0)" title="Delete activity" onclick="before_delete('<%=act.activity_id if !act.activity_id.nil?%>&page=<% if !params[:page].nil? && params[:page].present? %><%=params[:page]%><%else%>1<%end%>&del_action=index');_gaq.push(['_trackEvent', 'Provider Module', 'clickDeleteActivity',<%=act.activity_id%>])" class="lt"><%=image_tag("/assets/provider_settings/delete_enable.png", :width=>"23", :height=>"23")%></a>
+                 <%end%>
+            <%end%>
+            <%if !@act_nt_dshbrd.nil? && @act_nt_dshbrd.present? && !@act_nt_dshbrd.view_manager.nil? && !act.nil? && !current_user.nil? && act.user_id!=current_user.user_id%>
+            <a href="javascript:void(0)" class = 'display-disable-icons' title="Make Duplicate Card" style="padding-left: 5px;padding-right: 5px;" class="lt setRt"><%=image_tag("/assets/provider_settings/save_a_copy_disable.png", :width=>"23", :height=>"23")%></a>
+            <%else%>
+               <%if @schoolrep && rep_type && rep_type=='representative'%>
+               <a href="javascript:void(0)" class = 'display-disable-icons' title="Make Duplicate Card" style="padding-left: 5px;padding-right: 5px;" class="lt setRt"><%=image_tag("/assets/provider_settings/save_a_copy_disable.png", :width=>"23", :height=>"23")%></a>
+               <%else%>
+		  <a href="javascript:void(0)" title="Make Duplicate Card" style="padding-left: 5px;padding-right: 5px;" onclick="activity_save_copy('<%=act.activity_id%>',<% if !params[:page].nil? && params[:page].present? %><%=params[:page]%><%else%>1<%end%>);_gaq.push(['_trackEvent', 'Provider Module', 'clickEditActivity',<%=act.activity_id%>])" class="lt setRt"><%=image_tag("/assets/provider_settings/save_a_copy_enable.png", :width=>"23", :height=>"23")%></a>
+		  <div style=" margin-top:4px;" class="lt"><div style="display:none;" id="save_copy_load_<%= act.activity_id%>"><%=image_tag("/assets/loading_small.gif", :width=>"16", :height=>"16")%></div></div>
+              <%end%>
+            <%end%>
+          </div></td>
+         <%end%>
+       </table>
+    </div>
+
+      <%else%>
+    <table width="100%">
+    <tr>
+      <td width="100%"  class="no_activities" style="text-align:center;height: 550px;" >
+       <% if @search_provider == "search_provider"%>
+       <div style="padding: 150px 550px;">
+       Sorry we found no results for your search.
+       <div>
+       <%else%>
+    <%if !params[:provider_id].nil? && params[:provider_id].present?%>
+      <%if !current_user.nil? && !current_user.user_type.nil? && current_user.user_type.downcase=='p'%>
+        <script type="text/javascript">
+        window.location.href="/provider"
+        </script>
+      <%else%>
+        <script type="text/javascript">
+        window.location.href="/"
+        </script>
+      <%end%>
+    <%else%>
+      <%= render "provider_create_activity" %>
+    <%end%>
+      <%end%>
+      </td>
+    </tr>
+  </table>
+  <%end%>
+</div>
+</td></tr>
+<tr><td>
+<%if !@activities.nil? &&  @activities.present? && @activities.total_pages > 1%>
+<div class="pro_pagination" style="padding:68px 0px 25px; position: relative;"> 
+  <%= will_paginate @activities  if ! @activities.nil? &&  @activities!='' &&  @activities.present?%>
+</div>
+<%end%>
+</td></tr></table>
+    </form>
+
+<script>
+
+$(document).ready(function(){
+  
+$(".middle").mCustomScrollbar({
+    theme:"dark"
+});
+  
+  var ht="<%=@activities.count if !@activities.nil?%>"
+
+if(ht!=10){
+  var h=50;
+  var total=h*ht;
+  total=total+280;
+  $(".ot_second").css("height",total+"px");
+}
+
+
+});
+
+function representativeAccept(school_id,act_id)
+{
+$("#edit-del-permission_"+act_id).replaceWith('<div class="lt" style="width:130px;" id="edit-del-permission_'+act_id+'" align="center"><img  src="/assets/loading_small.gif" /></div>');
+   $.post("/update_schoolrep_status", {
+        "id":school_id,
+        "page":'<%=params[:page]%>'
+    }, null);
+}
+
+
+function checkeditbox(act_id,type){
+var editIschecked = $('#edit_t_' +act_id).val();
+var delIschecked = $('#delete_t_' +act_id).val();
+
+if (type=="edit"){
+if (editIschecked=="off")
+ {
+  $('#edit_t_'+act_id).val('on');
+  $('#edit_lbl_' +act_id).removeClass("altCheckboxOff");
+  $('#edit_lbl_' +act_id).addClass("altCheckboxOn");
+}
+else
+{ 
+  $('#edit_t_'+act_id).val('off');
+  $('#edit_lbl_' +act_id).removeClass("altCheckboxOn");
+  $('#edit_lbl_' +act_id).addClass("altCheckboxOff");
+}
+}
+else
+{
+if (delIschecked=="off")
+ {
+  $('#delete_t_'+act_id).val('on');
+  $('#del_lbl_' +act_id).removeClass("altCheckboxOff");
+  $('#del_lbl_' +act_id).addClass("altCheckboxOn");
+}
+else
+{ 
+  $('#delete_t_'+act_id).val('off');
+  $('#del_lbl_' +act_id).removeClass("altCheckboxOn");
+  $('#del_lbl_' +act_id).addClass("altCheckboxOff");
+}
+}
+}
+
+
+function vendorEditPermission(school_id,act_id){
+var edit_val = $("#edit_v_"+act_id).val();
+var del_val = $("#delete_v_"+act_id).val();
+$("#error-msg"+act_id).css('display','none');
+if (del_val=='on' && edit_val=='off')
+{
+$("#error-msg"+act_id).css('display','block');
+}
+else{
+       $.ajax({
+        url:'vendor_permission_update',
+        data: {
+      "id": school_id,
+      "e_val": edit_val,
+      "d_val": del_val
+        },
+        success:function(data){
+    if(data){
+         closeEditPermission(act_id);
+   }
+        }
+    }); 
+}
+}
+
+
+$(document).ready(function () {
+  initARC('provider_event_list','altCheckboxOn','altCheckboxOff');
+  selectAny();
+  var accepted = '<%=@mgr_acpted if !@mgr_acpted.nil?%>'; 
+  <%if !@mgr_acpted.nil? && !@macid.nil? %>
+  if(accepted=="manager_accepted"){
+    pop_activity_network_form('/activity_network?acti_id=<%=@macid if !@macid.nil?%>&mgr_acpted=manager_accepted');
+  }
+  <%end%>
+});
+function before_delete(a){ 
+  var a;
+  pop_delete_activity('/activities/delete_activity?id='+a)
+}
+function before_shedule_delete(a){ 
+  var a;
+  pop_shedule_delete_activity('/activities/shedule_delete?id='+a)
+}
+//get mutiple check box id and store to hidden field
+function getchkactid(curr_actid,span)
+{   curr_actid = curr_actid.split("&")[0]
+  span_index=$(".checkboxImg").index(span);
+  chk_staus=$(".checkboxImg:eq("+span_index+") label").attr('class');
+  if(chk_staus=="altCheckboxOn")
+  {
+    //add selected checkbox id
+    txt_id=$("#actid_chk").val();
+    if(txt_id=="")
+    { selected_ids=curr_actid;  }
+    else{ selected_ids=txt_id+","+curr_actid; }
+    $("#actid_chk").val(selected_ids);
+  }
+  else
+  {
+    //remove the id
+    txt_id=$("#actid_chk").val();
+    selected_ids=txt_id.replace(curr_actid,'');
+    $("#actid_chk").val(selected_ids);
+    $('#select').css('display','none');
+    $('#not_select').css('display','inline-block');
+    $('#pe').val(0);
+  }
+}
+
+function buildnetwork_popup(url){
+    BuildNetworkPopup = dhtmlmodal.open("How it works","iframe",url,"", "width=1000px,height=700px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);
+	return false;
+	}
+
+</script>

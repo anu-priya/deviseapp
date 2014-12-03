@@ -1,0 +1,292 @@
+	
+<!-- 	Block4	-->		 <input type="hidden" id="act_schedule_id" value="<%=@schedule_id if !@schedule_id.nil?%>"/>
+<!-- 	Block4	-->		 <input type="hidden" id="mgr_acpted" value="<%=@mgr_acpted if !@mgr_acpted.nil?%>"/>
+					<div class="part4 managersDiv">
+					         <input type="hidden" id="manger_mailid" value=""/>
+						<%if !@assigned_manager_list.nil? && @assigned_manager_list.present? && @assigned_manager_list.length>0%>
+						<div class="exitManagersDiv">
+							<div class="mangerText ftcBlue fts18" align="center">Manager</div>
+							<div class="clear"></div>
+							<div id="providerEventList">  
+								<table cellspacing="0" cellpadding="0" border="0">
+									<tr>
+										<td align="left" width="25" class="headText setPadLt10">
+											<input class="lt" type="checkbox" name="manager_all" id="manager_all_<%=@schedule_id%>" value="" onchange="select_manager_all(<%=@schedule_id%>,'page_true')" />
+										</td>
+										<td align="left" width="65" class="headText">Image</td>
+										<td align="left" width="180" class="headText">Name</td>
+										<td align="left" width="230" class="headText">Email</td>
+										<td align="left" width="240" class="headText">Phone Number</td>
+										<td align="left" width="110" class="headText">Permission</td>
+									</tr>
+									<%permival=1%>
+									<%!@assigned_manager_list.nil? && @assigned_manager_list.each do |permi|%>
+									<!--dynamic manager row start-->
+									<%@use_v = getuserval(permi.user_id) if !permi.nil?%>
+									<tr height="75" class="managerCheck">
+										<td align="left"class="contentText setPadLt10">
+											<input class="lt" type="checkbox" name="manager_name_<%=permival%>" id="manager_name_<%=permival%>" value="" onchange="select_manager_single(<%=permival%>)" />
+										</td>
+										<td align="left" class="contentText">
+												<% if !@use_v.nil? && !@use_v.user_profile.nil? && !@use_v.user_profile.profile.blank? && !@use_v.user_profile.profile.url(:small).blank?%>
+												<span class="lt setimgBorder"><%= image_tag(@use_v.user_profile.profile.url(:small), :width => '21', :height => '21', :align=>'middle', :alt=>"") %></span>
+												<% else %>
+												<span class="lt setimgBorder"><%=image_tag("/assets/profile/user_icon_69.png", :width=>"69", :height=>"69")%></span>
+												<% end %>
+										</td>
+										<td align="left" class="contentText"><span class="ftcBlue setContWidth" style="width: 175px;"><%=permi.user_name if !permi.nil? && !permi.user_name.nil?%></span></td>
+										<td align="left" class="contentText ftcBlue"><a href="mailto:<%=permi.email_address if !permi.nil? && !permi.email_address.nil?%>" id="manager_text_<%=permival%>" title="" class="ftcBlue setContWidth" style="width: 225px;"><%=permi.email_address if !permi.nil? && !permi.email_address.nil?%></a></td>
+										<td align="left" class="contentText">
+										
+										<%if !@use_v.nil? && !@use_v.user_profile.nil? && !@use_v.user_profile.phone.nil?%><%=@use_v.user_profile.phone%><%else%>N/A<%end%></td>
+										<td align="left" class="contentText">
+											<span class="permissions_icon_bg"></span>
+											<span class="ftcBlue permissionsText"><div class="more_schedule_text"><a class="ftcBlue" id="edit_color_<%=permi.user_id if !permi.nil?%>" href="javascript:void(0)" title="" onclick="displayEditPermission(<%=permi.user_id if !permi.nil?%>); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Edit Permissions','<%=permi.user_id if !permi.nil?%>']);">Permissions</a></div></span>										
+											<form id="permn_mngr" action="/permission_managers" name="permn_mngr" method="get">
+											   <input type="hidden" name="schedule_id" value="<%=@schedule_id if !@schedule_id.nil?%>"/>
+											    <input type="hidden" name="activity_id" value="<%=@activity.activity_id if !@activity.nil?%>"/>
+											  <input type="hidden" name="provider_id" value="<%=current_user.user_id if !current_user.nil?%>"/>
+											<!-- permission POPUP -->
+											<div id="edit_permission_<%=permi.user_id if !permi.nil?%>" class="edit_permission edit_permission_network" style="display:none;">
+												<div class="permission_arrow_outer"><div class="permission_top_arrow permission_top_arrow_network">&nbsp;</div></div>
+												<div class="permission_schedule_container permission_schedule_container_network">			
+													<div class="tops topsNetwork">
+														<div class="lt topsLt topsLtNetwork">View Permission</div>
+														<div class="rt"><a class="blueText" href="javascript:void(0)" title="" onclick="closeEditPermission(<%=permi.user_id if !permi.nil?%>); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Close Edit Permissions','<%=permi.user_id if !permi.nil?%>']);"><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15")%></a></div>
+														<div class="clear"></div>
+													</div>
+													<div class="innerDiv_network">
+														<%@actnetval = getactpermival(permi.user_id,@activity.activity_id,@schedule_id,current_user.user_id) if !current_user.nil? && !permi.nil? && !permi.user_id.nil? && !@activity.nil? && !@schedule_id.nil? %>
+														<input class="lt" type="checkbox" name="permission_invite_<%=permi.user_id if !permi.nil?%>" id="permission_invite_<%=permi.user_id if !permi.nil?%>" value='true' onChange="check_permi_box('<%=permi.user_id if !permi.nil?%>');" <%if !@actnetval.nil? && @actnetval.invite_managers == true%>checked="checked"<%end%>/>
+														<span class="lt ftcBlue fts14 checboxTextNetwork" >Invite Manager</span>					
+														<input class="lt" type="checkbox" name="attendees_invite_<%=permi.user_id if !permi.nil?%>" id="attendees_invite_<%=permi.user_id if !permi.nil?%>" value='true' onChange="check_permi_box('<%=permi.user_id if !permi.nil?%>');" <%if !@actnetval.nil? && @actnetval.invite_attendies == true%>checked="checked"<%end%>/>
+														<span class="lt ftcBlue fts14 checboxTextNetwork">Invite Attendees</span>
+														<div class="clear"></div>
+													</div>
+													<div class="innerDiv_network">
+														<input class="lt" type="checkbox" name="permission_view_<%=permi.user_id if !permi.nil?%>" id="permission_view_<%=permi.user_id if !permi.nil?%>" value='true' onChange="check_permi_box('<%=permi.user_id if !permi.nil?%>');" checked="checked" disabled="disabled"/>
+														<span class="lt ftcBlue fts14 checboxTextNetwork">View</span>
+														<input class="lt" type="checkbox" name="permission_edit_<%=permi.user_id if !permi.nil?%>" id="permission_edit_<%=permi.user_id if !permi.nil?%>" value='true' onChange="check_permi_box('<%=permi.user_id if !permi.nil?%>');"  <%if !@actnetval.nil? && @actnetval.edit_manager == true%>checked="checked"<%end%>/>
+														<span class="lt ftcBlue fts14 checboxTextNetwork" >Edit</span>					
+														
+														<div class="clear"></div>
+														 <div id='error-msg1' class="ftcRedff" style='display:none;padding-top:5px;'>Please choose edit option.</div>												
+														<div class="clear"></div>					
+													</div>
+													<div class="innerDiv_network" style="display:none;">															
+														<div class="lt ftcRedff manager_permission_error" id="manager_permission_error_<%=permi.user_id if !permi.nil?%>"></div>
+														<div class="clear"></div>
+													</div>
+													<div class="buttonDiv">	
+														<a href="javascript:void(0)" class="lt" title="" onclick="validate_manager_permission(<%=permi.user_id if !permi.nil?%>); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Save Permissions','<%=permi.user_id if !permi.nil?%>']);"><%=image_tag("/assets/event/save_button.png", :width=>"54", :height=>"28")%></a>
+														<span class="lt">&nbsp;</span>
+														<a href="javascript:void(0)" class="lt" title="" onclick="closeEditPermission(<%=permi.user_id if !permi.nil?%>); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Close Edit Permissions','<%=permi.user_id if !permi.nil?%>']);"><%=image_tag("/assets/event/close_button.png", :width=>"54", :height=>"28")%></a>
+														<div class="clear"></div>	
+													</div>											
+													<div class="clear"></div>
+												</div>
+											</div>
+											</form>
+											<!-- End -->
+										</td>
+									</tr>
+									<!--dynamic manager row end-->
+									<%permival=permival+1%>
+									<%end%>
+								</table>
+								<div class="clear"></div>
+							</div>
+						</div>
+						<%else%>
+						<div class="noRecordDiv">
+							<p class="noRecordText"><b>You haven't invited any Managers to this group</b></p>
+						</div> 
+						<%end%>
+					</div>
+					<!-- 	Block5	-->
+					<div class="part5 inviteAssingDiv">
+						<div align="center"><a href="javascript:void(0)" title="" onClick="invite_assign_manager(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Invite & Assign Managers']);" ><%=image_tag("/assets/event/invite_and_assign_icon.png", :width=>"16", :height=>"18", :id=>"invite_and_assign_icon")%></a>&nbsp;<a href="javascript:void(0)" title="" onClick="invite_assign_manager(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Invite & Assign Managers']);" class="ftcBlue fts14 inviteText"><u><%if !@invite_mn.nil? && @invite_mn!=""%><b>Invite Managers</b><%else%><b>Invite &amp; Assign Managers</b><%end%></u></a></div>
+						<div class="holeManagerDiv" style="display:none;">
+							
+							<div class="inviteManagerFirstDiv" align="center" style="display:none;">
+							       <%if !@activity.nil? && !current_user.nil? && current_user.user_id.to_i == @activity.user_id.to_i%><!--for provider user manager flow-->
+								<a href="javascript:void(0)" title="" onClick="invite_manager_open(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Invite Manager']); "><%=image_tag("/assets/event/invite_and_assign_icon.png", :width=>"16", :height=>"18")%></a><a class="ftcBlue fts14 inviteText" onclick="invite_manager_open(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Invite Manager']);" title="" href="javascript:void(0)"><b>Invite Manager</b></a>
+								<%else%><!-- for managers-->
+									<%if !@invite_mn.nil? && @invite_mn.invite_managers==TRUE%>
+									<a href="javascript:void(0)" title="" onClick="invite_manager_open(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Invite Manager']);"><%=image_tag("/assets/event/invite_and_assign_icon.png", :width=>"16", :height=>"18")%></a><a class="ftcBlue fts14 inviteText" onclick="invite_manager_open(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Invite Manager']);" title="" href="javascript:void(0)"><b>Invite Manager</b></a>
+									<%else%>
+									<a href="javascript:void(0)" title=""><%=image_tag("/assets/event/invite_and_assign_icon.png", :width=>"16", :height=>"18")%></a><a class="ftcBlue fts14 inviteText" title="Don't have permission to invite managers" href="javascript:void(0)">Invite Manager</a>
+									<%end%>
+								<%end%>
+								<p class="fts14 setPaddin" >Once the invite is accepted you can assign managers to each activity.</p>
+							</div>
+						
+							<!--div align="center">
+								<div class="managerDiv">
+									<input class="lt" type="radio" name="manager" id="invite" value="" onchange="invite_manager_open()" checked="checked" />
+									<span align="left" class="lt contentText mangersText">Invite Managers</span>
+									<!--manager present dont show the assign values
+									<input class="lt" type="radio" name="manager" id="assign" value="" <%#if !@invite_mn.nil? && @invite_mn.present?%>disabled="disabled"<%#else%>onchange="assign_manager_open()" <%#end%> />
+									<span align="left" class="lt contentText mangersText mangersText1">Assign Managers</span>
+									<div class="clear"></div>								
+								</div>
+							</div-->
+							<!-- inviteManager Start-->
+							 <form id="invite_mngr" action="/invite_manager" name="invite_mngr" method="get">
+							<div class="inviteManager" style="display:none;">
+								<div class="row1" style="padding:10px 0 5px 0;width:725px;">
+									<div class="lt leftText fts14"><b>&nbsp;</b></div>
+									  <%if !@activity.nil? && !current_user.nil? && current_user.user_id.to_i == @activity.user_id.to_i%><!--for provider user manager flow-->
+									   <div class="rt ftcBlue fts14" onclick="assign_manager_open(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Assign Manager']);" style="cursor:pointer"><b>Assign Manager</b></div>
+									  <%else%><!-- for managers-->
+										<%if !@invite_mn.nil? && @invite_mn!=""%>
+										<div class="rt ftcBlue fts14" style="cursor:pointer"><b></b></div>
+										<%else%>
+										<div class="rt ftcBlue fts14" onclick="assign_manager_open(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Assign Manager']);" style="cursor:pointer"><b>Assign Manager</b></div>
+										<%end%>
+									<%end%><!-- for managers end-->
+									<div class="clear"></div>
+								</div>
+								<div class="row1">
+									<div class="lt leftText fts14"><b>Email</b></div>									
+									<input type="text" name="invite_email_manager" id="invite_email" value="johnjoe@gmail.com,smith@yahoo.com" class="lt textBox" onfocus="if(this.value=='johnjoe@gmail.com,smith@yahoo.com'){this.value='';this.style.color='#444444';}" onblur="if(this.value==''){this.value='johnjoe@gmail.com,smith@yahoo.com';this.style.color='#999999';}" />
+									<div class="clear"></div>
+								</div>
+								<div class="row1 errorDiv" style="display:none;padding:2px 0">
+									<div class="lt leftText">&nbsp;</div>	
+									<div class="lt" id="invite_email_error" style="width: 546px;"></div>
+									<div class="clear"></div>
+								</div>
+								<div class="row1">
+									<div class="lt leftText fts14"><b>Message</b></div>
+									<textarea name="invite_message_manager" id="invite_message" value="" class="lt textBox" style="height:80px;" onfocus="$(this).css('color','#444444')"></textarea>
+									<div class="clear"></div>
+								</div>
+								<div class="row1 errorDiv" style="display:none;padding:2px 0">
+									<div class="lt leftText">&nbsp;</div>	
+									<div class="lt" id="invite_message_error"></div>
+									<div class="clear"></div>
+								</div>
+								<div class="row1">
+									<div class="lt leftText fts14"><b>&nbsp;</b></div>	
+									<a href="javascript:void(0)" title="" onclick="validate_invite_managers(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Invite']);"><%=image_tag("/assets/event/invite_button.png", :width=>"91", :height=>"34")%></a>
+									<a href="javascript:void(0)" title="" onclick="invite_assign_manager_close(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Close']);"><%=image_tag("/assets/event/invite_close.png", :width=>"91", :height=>"34")%></a>
+									<!--<span id="loading_img" style="display:none; position:relative; top:-28px; left: 372px;"><img  src="/assets/loading_small.gif" /></span> -->
+									<div class="clear"></div>	
+								</div>
+								<div class="clear"></div>
+							</div>
+							</form><!--form end-->
+							<div class="clear"></div>
+							<!-- inviteManager End-->
+							<!-- assignManager Start-->
+							 <form id="assign_mngr" action="/assigned_manager" name="assign_mngr" method="get"><!--assign menager form start-->
+							 <input type="hidden" id="rm_all" name="rm_all" value=""/>
+							<div class="assignManager" style="display:none;">
+								<div align="center" style="padding-top:20px"><p class="actGrayBg fts12" align="center">Select and assign managers to this activity</p></div>
+								<div class="row1" style="padding:0;width:792px;">
+									<div class="lt leftText fts14"><b>&nbsp;</b></div>	
+									<div class="rt ftcBlue fts14" onclick="invite_manager_open(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Invite Manager']);" style="cursor:pointer"><b>Invite Manager</b></div>
+									<div class="clear"></div>
+								</div>
+								<div class="row1">
+									<div class="lt leftText fts14"><b>Manager</b></div>									
+									<div class="lt assMgDiv">
+									<%if !@managers_list.nil? && @managers_list.present?%>
+										<!--check box start-->
+										<%a_m=0%>
+										<%mgr_id=1%>
+										<%!@managers_list.nil? && @managers_list.each do |mgr|%>
+										<div class="lt checkInvite">
+											<input class="" type="checkbox" name="assign_manager_list[]" id="assign_manager_<%=mgr_id%>" <%if !mgr.nil? && !mgr.user_id.nil? && !@assigned_manager_ids.nil? && @assigned_manager_ids.include?(mgr.user_id.to_i)%>checked="checked"<%end%> value="<%=mgr.user_id if !mgr.nil?%>" />
+											<span class="checkTt1"><span class="ftcBlue"><%=mgr.user_name if !mgr.nil? && !mgr.user_name.nil? %></span><%if !mgr.nil? && !mgr.user_id.nil? && !@assigned_manager_ids.nil? && @assigned_manager_ids.include?(mgr.user_id.to_i)%>(Assigned)<%end%></span>														
+										</div>
+										<%mgr_id=mgr_id+1%>
+										<%a_m=a_m+1%>
+										<%end%>
+										<!--check box start end-->
+									<%else%>
+									No managers.
+									<%end%>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="row1 errorDiv" style="display:none;padding:2px 0">
+									<div class="lt leftText">&nbsp;</div>	
+									<div class="lt" id="assign_manager_error"></div>
+									<div class="clear"></div>
+								</div>
+								<div class="row1">
+									<div class="lt leftText fts14"><b>Permission</b></div>
+									<div class="lt checkInvite">
+										<input class="" type="checkbox" name="invite_manager_m" id="invite_manager_m" value="true" />
+										<span class="checkTt">Invite Manager</span>
+										<input class="" type="checkbox" name="invite_attendees_m" id="invite_attendees_m" value="true" />
+										<span class="checkTt">Invite Attendees</span>
+									</div>
+									<div class="lt leftText fts14"><b>&nbsp;</b></div>									
+									<div class="lt checkInvite">
+										<input class="" type="checkbox" name="view_m" id="view_m" value="true" checked="checked" disabled="disabled"/>
+										<span class="checkTt">View</span>
+										<input class="" type="checkbox" name="edit_m" id="edit_m" value="true" checked="checked" />
+										<span class="checkTt">Edit</span>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="row1">
+									<div class="lt leftText fts14"><b>&nbsp;</b></div>	
+									<a href="javascript:void(0)" title="" onclick="validate_assign_managers(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Assign']);"><%=image_tag("/assets/event/assign_button.png", :width=>"91", :height=>"34")%></a>
+									<a href="javascript:void(0)" title="" onclick="invite_assign_manager_close(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Close']);"><%=image_tag("/assets/event/invite_close.png", :width=>"91", :height=>"34")%></a>
+									<div class="clear"></div>	
+								</div>
+								<div class="clear"></div>
+							</div>
+							</form><!--assign menager form end-->
+							<div class="clear"></div>
+							<!-- assignManager End-->
+						</div>
+					</div>
+					<!-- 	Block6	-->
+					<div class="part6 attendeesDiv" id='attendees_list'>	
+                                                          <%@attend_list = attendeesListNet(@activity_schedules.first) %>
+					
+						<%=render 'attendees_list'%>
+					</div>				
+
+
+
+					<!-- 	Block7	-->
+					<div class="part7 inviteAttendeesDiv">
+					 <%if !@activity.nil? && !current_user.nil? && current_user.user_id.to_i == @activity.user_id.to_i%><!--for provider user manager flow-->
+					<div align="center" style="margin-bottom:10px; margin-top: 8px;"><%=image_tag("/assets/event/invite_attendees_icon.png", :width=>"21", :height=>"21", :id=>"invite_attendees")%>&nbsp;<a href="javascript:void(0)" title="" onClick="invite_attendees_show(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Click here to Invite Attendees']);" class="ftcBlue fts14 inviteText"><u><b id="invite_attendees_text">Click here to Invite Attendees</b></u></a></div>
+					<%else%><!-- for managers start-->
+						<%if !@invite_mn.nil? && @invite_mn.invite_attendies==TRUE%>
+						<div align="center" style="margin-bottom:10px; margin-top: 8px;"><%=image_tag("/assets/event/invite_attendees_icon.png", :width=>"21", :height=>"21", :id=>"invite_attendees")%>&nbsp;<a href="javascript:void(0)" title="" onClick="invite_attendees_show(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Click here to Invite Attendees']);" class="ftcBlue fts14 inviteText"><u><b id="invite_attendees_text">Click here to Invite Attendees</b></u></a></div>
+						<%else%>
+						<div align="center" style="margin-bottom:10px; margin-top: 8px;"><%=image_tag("/assets/event/invite_attendees_icon.png", :width=>"21", :height=>"21", :id=>"invite_attendees")%>&nbsp;<a href="javascript:void(0)" title="" class="ftcBlue fts14 inviteText"><u><b id="invite_attendees_text">You don't have permission to Invite Attendees</b></u></a></div>
+						<%end%>
+					<%end%><!-- for managers end-->
+					<div class="clear"></div>
+
+				<%= render :partial=>'activity_network/add_participants' %>
+					
+
+					<div class="exitPendingAttendees" id="pen_attendies">
+        			<%= render :partial=>'activity_network/pending_attendess' %>
+					</div>	
+
+					         <!--<div class="noRecordDiv">
+							<p class="noRecordText"><b>You haven't invited any Attendees to this group</b></p>
+						</div>-> 		
+					
+					</div>
+					<!-- End -->
+<script>
+// dn't remove
+// accept manager email if manager user accepted opened the network popup for the provider
+var accepted = $("#mgr_acpted").val(); 
+if(accepted=="manager_accepted"){
+	invite_assign_manager();
+	assign_manager_open();
+}
+</script>

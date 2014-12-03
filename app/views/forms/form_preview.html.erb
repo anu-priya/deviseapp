@@ -1,0 +1,112 @@
+<%=stylesheet_link_tag "form_builder/form_builder", :media => "all"%>
+<%=javascript_include_tag "global/jquery-1.8.3.min","form_builder/form_builder"%>
+<script>
+function preview_closepopup(){
+	parent.preview_form_builder.hide();	
+}
+</script>
+<div class="popupContainer">
+	<div class="previewHead">
+		<div class="headingpreviewLeft">
+			<div class="headfont pleft15">
+				<%if !current_user.nil? && current_user.present? && current_user!=''%>
+					<%@user_pro=current_user.user_profile%>
+					<%if !@user_pro.nil? && @user_pro.present? && @user_pro!=''%>												
+						<%= image_tag (@user_pro.profile.url(:small)), :width => '17', :height => '17' ,:style =>"position:relative;" ,:alt=>''%>
+					<%else%>	
+						<%=image_tag("/assets/profile/user_icon_69.png", :width=>"17", :height=>"17", :alt=>"")%>
+					<%end%>
+					<span class="pleft15 fntSize30 fntClrblue">
+						<%if !@user_pro.nil? && @user_pro.present? && @user_pro!=''%>	
+							<%=@user_pro.business_name%>
+						<%else%>
+							<%=current_user.user_name.titlecase%>
+						<%end%>
+					</span>					
+				<%end%>
+				<!--<span class="pleft fntSize20 fntClrblue">powered by</span>
+				<span class="pleft15 fntSize30 fntClrblue">EDA</span>-->
+			</div>	
+		</div>
+		<div class="closeButton">
+			<a href="javscript:void(0);" onclick="preview_closepopup();" title="">
+				<%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%>
+			</a>
+		</div>	
+		<div class="clear">&nbsp;</div>
+	</div>
+	<div class="clear">&nbsp;</div>
+	<div id="createformContainer" style="pointer-events: none;">
+		<%if !@question.nil? && @question.present? && @question!='' && @question.length > 0%>
+			<%if !@form.nil? && @form!=''%>
+				<div class="previewformTop">
+					<div class="fntSize20 kidsTxt"><%=@form["title"]%></div>
+					<div class="txtKidinfo"><%=@form["description"]%></div>					
+				</div>
+			<%end%>			
+			<%@question.each do |qval|%>
+				<div class="createformField">
+					<div class="lt createformFieldLeft"><b><%=qval["field_name"]%><%if qval["is_required"]%><span class="require">*</span><%end%></b></div>
+					<div class="creatformFieldRight">
+						<!--  get type details -->
+						<%@type=get_type_details(qval["question_type_id"])%>
+						<%if !@type.nil? && @type.present? && @type!=''%>
+							<%if !@type["type_value"].nil? && @type["type_value"]!='' && @type["type_value"].downcase == 'textbox'%>
+								<input type="text" class="lt textbox"  name="name" value="<%=qval["help_text"]%>" disabled="disabled" />								
+							<%elsif !@type["type_value"].nil? && @type["type_value"]!='' && @type["type_value"].downcase == 'paragraph'%>
+								<textarea rows="6" cols="30" disabled="disabled"><%=qval["help_text"]%></textarea>								
+							<%elsif !@type["type_value"].nil? && @type["type_value"]!='' && @type["type_value"].downcase == 'radio'%>
+								<!--  get option details -->
+								<%@option = get_question_option(qval["question_id"])%>
+								<% if !@option.nil? && @option.present? && @option!=''%>
+									<%@option.each do |pval|%>
+									<div class="requireRadio">
+										<div class='radiobutton_wrapper mTop10'>
+											<input type="radio" name="rdoption"  disabled="disabled" />										
+											<span class="radioTxt"><%=pval["field_value"]%></span>
+										</div>									
+									 </div>
+									 <%end%>
+								 <%end%>
+							<%elsif !@type["type_value"].nil? && @type["type_value"]!='' && @type["type_value"].downcase == 'checkbox'%>
+								<%@option = get_question_option(qval["question_id"])%>
+								<% if !@option.nil? && @option.present? && @option!=''%>
+									<%@option.each do |pval|%>
+									<div class='checkbox_wrapper'>
+										<input type="checkbox" name="accommodation"  disabled="disabled" />										
+										<span class="radioTxt"><%=pval["field_value"]%></span>
+									</div>
+									 <%end%>
+								 <%end%>
+							<%elsif !@type["type_value"].nil? && @type["type_value"]!='' && @type["type_value"].downcase == 'list'%>
+								<select class="dropdown"  size="1" name="ddlist" style="color: rgb(153, 153, 153); border: 1px solid rgb(189, 214, 221);" disabled="disabled">
+									<option selected="selected" value="">--<%=qval["help_text"]%>--</option>
+									<%@option = get_question_option(qval["question_id"])%>
+									<% if !@option.nil? && @option.present? && @option!=''%>
+									<%@option.each do |pval|%>
+										<option value="<%=pval["field_value"]%>"><%=pval["field_value"]%></option>
+									<%end%>
+									<%end%>
+								</select>								
+							<%end%>
+						<%end%>						
+					</div>	
+					<div class="clear">&nbsp;</div>		
+				</div>				
+			<%end if !@question.nil? && @question.present? && @question!=''%>
+		<%else%>
+			Form not found			
+		<%end%>
+	    
+		<div class="createFormbottom">
+			<div class="buttondiv">
+				<div class="previewButtons">
+					<div>
+					<%=image_tag("/assets/form_builder/button_submit.png", :alt=>"save", :id=>"submit")%>
+					<%=image_tag("/assets/form_builder/cancel_button.png", :alt=>"cancel", :id=>"pcancel")%>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> <!--createformContainer end -->
+</div>

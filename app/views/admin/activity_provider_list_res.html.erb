@@ -1,0 +1,31 @@
+<table border="1" cellspacing="1" cellpadding="1">
+  <tr>
+    <td> User Business Name:</td> <td><%= @user.business_name %></td>
+  </tr>
+  <tr>
+    <td>User city:</td><td><%= @user.city %></td>
+  </tr>
+  <tr>
+    <td>Total No.of Activities:</td><td><%= @activity.length %></td>
+  </tr>
+
+
+
+  <table border="1" cellspacing="1" cellpadding="1">
+    <tr>
+      <td>Activity Name</td>
+      <td>City</td>
+    </tr>
+    <%@activity.each do |a|%>
+      <tr>
+        <td><%= a.activity_name %></td>
+        <%if !a.city.nil? && a.city!=""%>
+          <td><%= a.city %></td>
+        <%else%>
+          <td>Any Where</td>
+        <%end%>
+      </tr>
+    <%end%>
+  </table>
+
+</table>

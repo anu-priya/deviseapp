@@ -1,0 +1,120 @@
+<%=stylesheet_link_tag "global/pop_up","activity_view_detail/activity_details","event_index/event_index","activity_view_detail/paymentDetail", :media => "all"%>
+<%=javascript_include_tag "acitivity_view_details/schedule_price","acitivity_view_details/activity_validation","ga_social_tracking"%>
+
+
+<script language="javascript">
+  var activityDeletePage;
+  var addparticipantpage;
+  
+  function before_login_closepopup() {
+    parent.window.location.href = "/";
+  }
+  function pop_add_participant(url){
+    addparticipantpage = dhtmlmodal.open("Add Participant","iframe",url,"", "width=910px,height=1600px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; border:1px solid red; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100)
+    return false;
+  }
+  $(document).ready(function(){
+    setTimeout(function(){
+      $("#loadImg").hide();
+      $('#loadPage').show();
+    },300);
+  });
+
+</script> 
+<script src="https://connect.facebook.net/en_US/all.js" async=""></script>
+<script src="https://www.google-analytics.com/ga.js" async="" type="text/javascript"></script>
+<!-- Load Twitter JS-API asynchronously -->
+<script>
+(function(){
+var twitterWidgets = document.createElement('script');
+twitterWidgets.type = 'text/javascript';
+twitterWidgets.async = true;
+twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+// Setup a callback to track once the script loads.
+twitterWidgets.onload = _ga.trackTwitter;
+document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+})();
+</script>
+<!-- added pixel for conversion tracking-->
+
+<noscript><%=image_tag("https://www.facebook.com/offsite_event.php?id=6009203206329&amp;value=0&amp;currency=USD", :width=>"1", :height=>"1", :style=>"display:none;")%>
+</noscript>
+<!-- end of pixel for conversion tracking-->
+
+<body>
+  <div id="activity_new1" style="margin-top:52px;height:1651px;width:100%;">
+    <div id="loadImg">
+      <table cellpadding="0" cellspacing="0" style="height: 450px;" align="center"><tr><td width="228" align="center" valign="middle"><%=image_tag("/assets/ajax-loader.gif", :width=>"32", :height=>"32")%></td></tr></table>
+    </div>
+    <div id="loadPage" style="display:none;z-index: 1000000000;position: relative;">
+      
+        <!-- provider card start -->
+        <div id="new_act_container">
+        <div class="popupContainer">
+          <div class="popupContainerTop"></div>
+          <div class="popupContainerCenter">
+            <div class="innerContainer">
+              <div class="headTab">
+                <div class="heading">
+                  <div class="headCont">Provider Details</div>
+                </div>
+                   <div class="closeButton"><a href="/" target="_parent" title=""> <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%> </a></div>
+              </div>
+              <div  class="centerCont">
+               <%=render 'landing/follow_city_detail_pc'%>
+              </div>
+              <div class="clear"></div>
+            </div>
+
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="popupContainerBottom"></div>
+        <div class="clear"></div>
+      </div>
+      <!-- provider card end -->
+
+    </div>
+  </div>
+  
+  <!-- login feature popup end -->
+  
+  <!--------------------------------------- overlay effect -------------------------------->
+  <div id="overlayEffect" class="overlayEffect"></div>
+<style>
+  .overlayEffect{
+    position: absolute;
+    background: #fff;
+    left: 0;
+    top: 0;
+    bottom:0;
+    width: 100%;
+    height:100%;
+    z-index:9998;
+    filter:progid:DXImageTransform.Microsoft.alpha(opacity=80);
+    opacity: 0.8;
+  }
+</style>
+<script language="javascript">
+  function overlayEffect() {
+    var docHeight = $(document).height();
+    var pageHeight = $("#page_wrapper").height();
+    pageHeight = pageHeight - 10;
+    if(docHeight>pageHeight)
+      $("#overlayEffect").css("height",docHeight+"px");
+    else
+      $("#overlayEffect").css("height",height+"px");
+  }
+  /***********load image romdom**********/
+  function loadrandom(){
+    bgImageTotal=3;
+    var port=window.location.origin
+    randomNumber = Math.round(Math.random()*(bgImageTotal-1))+1;
+    imgPath=(port+'/assets/landing/activity_card'+randomNumber+'.jpg');
+    $('#activity_new1').css('background-image', ('url("'+imgPath+'")'));
+    
+  }
+  loadrandom();
+  overlayEffect();
+</script>

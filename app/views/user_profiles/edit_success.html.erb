@@ -1,0 +1,38 @@
+<%=stylesheet_link_tag "global/pop_up_success", :media => "all"%>
+<script language="javascript">
+  $(document).ready(function(){
+    $("html, body", window.parent.document).animate({ scrollTop: 0 }, 100);
+  });
+
+  function closepopup() {
+    parent.editProfilePage.hide();
+    //parent.parent.location.reload(true);
+    parent.parent.location.href += "?ws=1";
+  }
+</script>
+<div id="share_actvity_success">
+  <div class="popupContainer">
+    <div class="headTab">
+      <div class="heading">
+        <div class="headCont">Edit Profile</div>
+      </div>
+      <div class="lt closeButton">
+        <a href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? %>" target="_top" title="" class="lt">
+          <%= image_tag("/assets/global/pop_up/button_close.png", size:"15x15")%>
+        </a>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div align="center">
+      <p class="successText">You have successfully edited your profile</p>
+      <div class="clear"></div>
+      <!--<a href="/event" target="_top" title=""><img src="/assets/global/pop_up_success/ok.png" alt="" width="101" height="37" /></a>-->
+      <a  href="javascript:void(0)" onClick="closepopup()" target="_top" title="">
+        <%= image_tag("/assets/global/pop_up_success/ok.png", size:"101x37")%>
+      </a>
+    </div>
+    </div>
+  </div>
+</div>
+
+

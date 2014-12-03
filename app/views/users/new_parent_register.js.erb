@@ -1,0 +1,5 @@
+	$('#loadDivjax').hide();
+	$(".headCont").html('Sign-up as Parent <span class="fts14" style="position: relative;top: -3px;">(...& get <span class="ftcRed">$20</span> Credit!)</span>');
+	var stateObj = { foo: "bar" };
+	parent.history.pushState(stateObj, "Login", "/parent_register"); 
+	$('#provider_registr').html("<%=escape_javascript(render 'user_register')%>");

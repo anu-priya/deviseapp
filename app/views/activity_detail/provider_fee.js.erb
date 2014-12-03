@@ -1,0 +1,22 @@
+$("#other_fee_options").html("<%=escape_javascript(render 'create_provider_fee')%>");
+//$("#create_fee_success").css("display","block").fadeOut(4000);
+$('#create_fee_success').fadeIn().delay(3000).fadeOut();
+$('#loading_img2').css("display","none");
+setTimeout(function() {
+   //$('.popupContainer').css("opacity","1");
+   //$('#create_fees_pop').css("display","none");
+   //reset value
+$('#create_fee_name').val("Enter Other Fee Name");
+$('#create_fee_notes').val("Enter Notes here");
+$('#create_fee_price').val("Enter Price");
+$('#create_fee_mand').prop('checked', false);
+$('#create_fee_quantity').prop('checked', false);
+$('#create_fee_name').css('color','#999999');
+$('#create_fee_notes').css('color','#999999');
+$('#create_fee_price').css('color','#999999');
+}, 1000);
+
+
+
+
+

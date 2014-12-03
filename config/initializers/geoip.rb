@@ -1,0 +1,2 @@
+GeoIp.api_key = '05171525ec7c15b1e466055d89f91bd2a115d19281eb26a81c61752ce37b8bb6'
+GeoIp.timeout = 600

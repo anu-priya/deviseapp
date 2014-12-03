@@ -1,0 +1,77 @@
+<%if @provider_discount_type.nil? %>
+//$("#create_discounttype_success").css("display","block").fadeOut(3000);
+$('#create_discounttype_success').fadeIn().delay(3000).fadeOut();
+setTimeout(function() {
+$('#create_disc_name').val("Enter Discount type");
+$('#create_disc_notes').val("Enter notes");
+$('#create_disc_quantity').prop('checked', false);
+$('#create_fee_quantity').prop('checked', false);
+$('#create_disc_notes').css('color','#999999');
+$('#create_disc_name').css('color','#999999');
+}, 1000);
+
+<%if params[:real] !="yes"%>
+var bil_ty = $("#billing_type_sc").val();
+var price_1 = $("#price_1").val();
+var price_2 = $("#price_2").val();
+if ((bil_ty =="1") || (bil_ty == "4")){
+if (price_1 == "1"){
+var total_di_co =$("#total_div_count").val();
+var total_di_co_sp = total_di_co.split(",");
+for(var i=0; i < total_di_co_sp.length; i++)
+{
+var total_di_co_sp_s = total_di_co_sp[i].split("_")
+var net_last = $("#last_in_discount_id_"+total_di_co_sp_s[0]).val();
+var net_last_sp = net_last.split(",")
+
+for(var j=0; j < net_last_sp.length; j++)
+{
+$("#ad_discount_type_net_"+net_last_sp[j]).append("<option value='<%= @provider_type.provider_discount_type_id %>'><%= @provider_type.discount_name %></option>");
+}
+}
+}
+
+if (price_2 == "1"){
+var total_outer_co =$("#total_outer_div").val();
+var total_outer_co_sp = total_outer_co.split(",");
+for(var i=0; i < total_outer_co_sp.length; i++)
+{
+var inner_div_count = $("#inner_div_count_"+total_outer_co_sp[i]).val();
+var inner_div_count_sp = inner_div_count.split(",");
+for(var j=0; j < inner_div_count_sp.length; j++)
+{
+var early_div_count = $("#early_div_count_"+inner_div_count_sp[j]).val();
+var early_div_count_sp = early_div_count.split(",");
+for(var k=0; k < early_div_count_sp.length; k++)
+{
+$("#ad_discount_type_"+early_div_count_sp[k]).append("<option value='<%= @provider_type.provider_discount_type_id %>'><%= @provider_type.discount_name %></option>");
+}
+}
+}
+}
+}
+
+
+var multiple_discount_co =$("#multiple_discount_count_net_1_1").val();
+var multiple_discount_co_sp = multiple_discount_co.split(",");
+for(var i=0; i < multiple_discount_co_sp.length; i++)
+{
+$("#ad_discount_type_net_"+multiple_discount_co_sp[i]+"_1").append("<option value='<%= @provider_type.provider_discount_type_id %>'><%= @provider_type.discount_name %></option>");
+}
+var advance_price_count_a =$("#advance_price_count_anys").val();
+var advance_price_count_a_sp = advance_price_count_a.split(",");
+for(var i=0; i < advance_price_count_a_sp.length; i++)
+{
+var multiple_discount_count_ad = $("#multiple_discount_count_"+advance_price_count_a_sp[i]+"_"+advance_price_count_a_sp[i]).val();
+var multiple_discount_count_ad_sp = multiple_discount_count_ad.split(",")
+for(var j=0; j < multiple_discount_count_ad_sp.length; j++)
+{
+$("#ad_discount_type_"+multiple_discount_count_ad_sp[j]+"_"+advance_price_count_a_sp[i]).append("<option value='<%= @provider_type.provider_discount_type_id %>'><%= @provider_type.discount_name %></option>");
+}
+}
+<%end%>
+<%else%>
+$("#create_discounttype_failure").css("display","block").fadeOut(5000);
+<%end%>
+
+

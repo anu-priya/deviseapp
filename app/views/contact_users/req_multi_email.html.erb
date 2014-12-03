@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="/assets/contacts_users/contact_user.css" type="text/css" />
+<script type="text/javascript" src="/assets/contacts_users/contact_user.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css" />
+<script class="jsbin" src="/assets/event/jquery.min.js"></script>
+<script class="jsbin" src="/assets/event/jquery-ui.min.js"></script>
+<script language="javascript">
+  function closepopup_delete() {
+   parent.mailContactPage.hide();
+   parent.location.reload(true);
+  }
+  $(document).ready(function() {
+    var del = $('#to_delete').val();
+    var s = del.split(",")
+    $('#con_name').html($('#'+s[0]).html());
+  });
+</script>
+
+<div class="deletePopupContainer">
+  <div class="p1" align="center">Your invite has been sent successfully!</div>
+  <div class="buttons" align="center">
+    <input type="hidden" id="to_delete" value="<%= @to_delete %>">
+    <a href="javascript:void(0)" onClick="closepopup_delete();"><img src="/assets/register/ok_btn.png" alt=""/></a>
+  </div>
+</div>
+

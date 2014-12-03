@@ -1,0 +1,26 @@
+
+<%@activity_featured.each do |a| %>
+  <%if a[:id] == "user"%>
+    <%= render :partial=>"cards/provider_card", locals: { a: a } %>
+  <%else%>	
+	<%
+		#feature row activity count updated to activitytotalcount and activity_count table
+		update_activity_count(a[:act].activity_id) if a.present? && a[:act].present? && a[:act].activity_id.present?
+	%>
+    <%= render :partial=>"cards/activity_card", locals: { a: a }%>
+  <%end%>
+<%end%>
+<script>
+  $('.card_width').mouseover(function(){
+    var test=$('.card_width').index(this);
+    var p = $( ".card_width:eq("+test+")" );
+    var position = p.position();
+    if(position.left < 5){
+      $(".card_discount_price").css("left","1px");
+      $(".cardspecialDetails").css("left","1px");
+    }else{
+      $(".card_discount_price").css("left","-185px");
+      $(".cardspecialDetails").css("left","188px");
+    }
+  });
+</script>

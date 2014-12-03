@@ -1,0 +1,270 @@
+<div id="header" class="befor_login" style="height:51px;">
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" height="51">
+    <tr>
+      <td align="left" valign="middle" width="350">
+
+        <% if  (params[:action] == "landing_new") || (params[:action] == "v2_landing_new")%>
+          <!--follow row before login start-->
+          <%if current_user && !current_user.nil?%>
+            <div id="top_menu" class="header_inner_left" style="padding-top: 2px;" >
+              <ul>
+                <li style="padding: 14px 4px;">
+                  <div class="top_menu_icon follow_family" align1="center">
+                    <div style="float: left;width: 35px;"><%=image_tag("/assets/header/following_img_blue.png", :width=>"34", :height=>"29", :id=>"menu_follow", :alt=>"Following", :style=>"border:0px;")%></div>
+                    <div class="lt " style="float: left;width: 125px;"><span class="fts14">Follow Your Family's Interests</span></div>
+                  </div>
+                  <ul >
+                    <li style="border: 1px solid #F7F9F8;">
+                      <div class="selectedCity23244" style="float: left; margin-left:25px; display: inline-block;" >
+                        <div id="menu" class="actDivMenu">
+                          <ul >
+                            <li style="border: 1px solid #F7F9F8;">
+
+                              <ul class="sub-menu dispProviderActivityDiv" style="z-index: 2147483647; width: 780px; height:auto;left:10px;position: fixed;margin-top:18px;top: 64px;">
+                                <div class="eventmoreContainer">
+                                  <div class="centerContainer">
+                                    <div class="innerContainer">
+                                      <div style="margin-top:5px; .margin-top:5px;cursor:default;" id="follow">
+                                        <div style="float:right; margin:0px 18px 0px 0px;"><a href="javascript:void(0)" class="closeHover" title="" onClick="close_follow_top()"><%=image_tag("/assets/landing/close_button.png", :width=>"21", :height=>"21")%></a></div>
+                                        <div class="clear"></div>
+                                        <table cellspacing="0" cellpadding="0" border="0" width="90%" valign="top" style="margin-top:-28px;">
+                                          <tr>
+                                            <td height="8"></td>
+                                            <td></td>
+                                          </tr>
+                                          <tr>
+                                            <td width="553" align="left" class="choiceDiv" valign="middle">
+                                              Choices will be added to your home screen.<br><font color="red">Feeds will not be saved unless you login.</font>
+                                            </td>
+                                            <td width="137" align="left">
+                                              <input type='hidden' id='fam_net_val' name="fam_net_val[]" value=''/> <input type='hidden' id='rem_fam_net_val'  name="rem_fam_net_val[]" value=''/><input type='hidden' id='fav_val' name="fav_val[]"value=''/> <input type='hidden' id='rem_fav_val'  name="rem_fav_val[]" value=''/> <input type='hidden' id='provideradd_val' name="provideradd_val[]" value=''/>  <input type='hidden' id='providerremove_val' name="providerremove_val[]" value=''/>  <input type='hidden' id='parentadd_val' name="parentadd_val[]" value=''/>  <input type='hidden' id='parentremove_val' name="parentremove_val[]" value=''/>  <input type='hidden' id='followadd_val' name="followadd_val[]" value=''/> <input type='hidden' id='followremove_val' name="followremove_val[]" value=''/> <input type='hidden' id='followuseradd_val' name="followuseradd_val[]" value=''/>  <input type='hidden' id='followuserremove_val' name="followuserremove_val[]" value=''/>
+                                              <div class="add_favorite" align="right" style="margin-left:10px; width:160px;">
+                                                <a class="addFavText lt" id="d1_text" onClick="add_favorite();_gaq.push(['_trackEvent', 'Parent Module', 'clickFollowRowsDropdown','Add to Activity Row'])" title=""><%=image_tag("/assets/event/update.png", :style=>"display:none;")%><%=image_tag("/assets/event/add_follow_row.png", :style=>"display:none;")%><%=image_tag("/assets/event/update_follow.png")%></a>
+                                                <span id="loading_img" class="lt" style="display:none; margin:5px 0px 0px 5px;"><%=image_tag("/assets/loading_small.gif")%></span>
+                                                <div class="clear"></div>
+                                              </div>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td height="8"></td>
+                                            <td></td>
+                                          </tr>
+                                        </table>
+                                        <table cellspacing="0" cellpadding="0" border="0" width="99%">
+                                          <tr>
+                                            <td width="180" valign="top">
+                                              <div class="categoryCont">
+                                                <div class="scroll-pane-category">
+                                                  <span class="setstyle"><a class="selectedCat" id="type_1" href="javascript:void(0)" onClick="disp_parent(1,'Provider')" title="">Provider</a></span>
+
+                                                  <%i =2%>
+                                                  <%@accordion = Activity.order("category Asc").find(:all,:select => "DISTINCT trim(category) as category",:conditions=>["lower(category)!=?","default"])%>
+                                                  <% @accordion.each do |s|%>
+                                                    <%if !s.category.nil? && !s.nil? && s.category!="" && s.category!="default"%>
+                                                      <span class="setstyle"><a class="nselectedCat" id="type_<%=i%>" href="javascript:void(0)" onClick="dispSubCategory(<%=i%>,'<%= s.category.html_safe %>'); _gaq.push(['_trackEvent','ActivitiesCategory','clickFollowRows','<%= s.category.html_safe %>']);" title=""><%= s.category.html_safe %></a></span>
+                                                      <%i=i+1%>
+                                                    <%end%>
+                                                  <%end%>
+                                                </div>
+                                              </div>
+                                            </td>
+                                            <td colspan="2" width="580" valign="top">
+                                              <form id="event_more" name="event_more" action="javascript:void(0)">
+                                                <div id="update_follow" class="layout">
+                                                </div>
+                                              </form>
+                                            </td>
+                                          </tr>
+                                        </table>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </ul>
+                            <%end%>
+                          </li>
+                        </ul>
+                        <div class="clear"></div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <!--follow row before login end-->
+
+        <%end%>
+      </td>
+      <td align="center" valign="top">
+        <table cellpadding="0" cellspacing="0" border="0"  id="header_center">
+          <tr height="47">
+            <td class="logonew" align="center" valign="top" >
+              <a href="/" title=""><%=image_tag("/assets/header/famtivity-logo.png", :width=>"122", :height=>"43", :alt=>"Famtivity")%></a>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td align="left" valign="top" width="350">
+        <!--  new added codes here-->
+        <%if current_user.nil? || !current_user.present?%>
+          <div id="bussiness_app">
+            <div style="color: #FF0000; padding-top: 10px;" onclick="show_pop_up(30); pop_Parent_Login('/parent_register?price=provider');show_provider_plan(); _gaq.push(['_trackEvent', 'Registration', 'clickProviderSignup']);">
+              <b><span class="fts14" style="cursor: pointer;padding-left:4px;">Provider Sign-up</span></b>
+            </div>
+            <div id="bussiness_app_inner_second">
+              <b style="color:#000000;">or Call&nbsp;<b>+1 (888)-386-6479</b>
+            </div>
+
+          </div>
+        <%end%>
+        <!--  new added codes here-->
+      </td>
+    </tr>
+  </table>
+ <%
+ 	curr_url = request.fullpath.split("/")
+ 	prev_url = curr_url.last if curr_url
+	is_quick_link_url = prev_url.split("-").last if prev_url
+        
+	@to_display=false
+	if current_user.nil? && !current_user.present? && (request.fullpath.include?('/about-us') || request.fullpath.include?('/contact-us') || request.fullpath.include?('/frequently-asked-questions') || request.fullpath.include?('/privacy-policy') || request.fullpath.include?('/terms-of-service'))
+	@to_display=true
+	end
+ %> 
+ <% # if current_user.nil? && !current_user.present? && (request.fullpath.include?('/search') || request.fullpath.include?('/about-us') || request.fullpath.include?('/contact-us') || request.fullpath.include?('/frequently-asked-questions') || request.fullpath.include?('/privacy-policy') || request.fullpath.include?('/terms-of-service'))%>
+ <% if current_user.nil? && !current_user.present? %>
+     <div class="clear"></div>
+     <div style="text-align: center;width: 99%;margin:0px auto;">
+    <div id="topadjustie" style="display: inline-block;width: 510px;">
+    
+      <div class="lt">
+        <div class="hidetext" id="howitwrks" style="font-family: Comic Sans MS; font-size: 16px; width: 100%;margin-right: 20px;margin-top: 4px;<%if params[:action]=='follow_cities' || params[:action]=='search' || params[:action]=='browse_by_location' || params[:action]=='browse_category' || (is_quick_link_url && is_quick_link_url=='activities')%>visibility:hidden;<%end%>">
+          <a  title="How it Works" onclick="howitworks('/how-it-works')" style="<% if @to_display %>color:#444444;<%else%>color: rgb(255, 255, 255);<%end%> cursor: pointer">
+            <img style="position: relative;top: 2px;margin-right: 10px;" <% if @to_display %>src="/assets/landing/videoiconotherpages.png"<%else%>src="/assets/landing/video_iconnew.png"<%end%> alt="" >How it Works!
+          </a>
+        </div>
+      </div>
+      <div id="header_lt">
+        <a onclick="show_pop_up(30); pop_Login('/login'); _gaq.push(['_trackEvent', 'Login', 'clickLogin'])" href="javascript:void(0)" class="lt">
+          <%=image_tag("/assets/header/login.png", :width=>"77", :height=>"33", :alt=>"Login", :border=>"0")%>
+        </a>
+      </div>
+      <div class="lt">
+        <a onclick="show_pop_up(30); pop_Parent_Login('/parent_register?s_user_id=<%=params[:sent_user]%>'); _gaq.push(['_trackEvent', 'Registration', 'clickParentRegistration'])" href="javascript:void(0)" class="lt">
+          <%=image_tag("/assets/header/signup.png", :width=>"93", :height=>"33", :alt=>"Register", :border=>"0")%>
+        </a>
+      </div>
+      <div class="lt" id="getwrks" style="<%if params[:action]=='follow_cities' || params[:action]=='search' || params[:action]=='browse_by_location' || params[:action]=='browse_category' || (is_quick_link_url && is_quick_link_url=='activities')%>visibility:hidden;<%end%>">
+	<div class="hidetext" style="<% if @to_display %>color:#444444;<%else%>color: rgb(255, 255, 255);<%end%> font-family: Comic Sans MS; font-size: 16px; width: 100%; float: left; text-align: right;">...& get&nbsp;<%=image_tag("/assets/landing/offer_icon.png", :width=>"39", :height=>"28", :style=>"position: relative;top: 8px;")%> Credit!</div>
+      </div>
+      <div class="clear"></div>
+    </div>
+</div>
+
+    <% end%>
+</div>
+<style type="text/css">
+  #top_menu ul li ul{
+    top:64px;
+    top:64px;
+  }
+  @media \0 screen{
+    #top_menu ul li ul {
+      top:68px;
+    }
+  }
+  @media screen and (-webkit-min-device-pixel-ratio:0) {
+    .dispProviderActivityDiv{margin:24px;
+    }
+  }
+
+</style>
+<script type="text/javascript">
+  //display the provider selected values before login
+  /*$(document).ready(function(){
+        disp_parent(1,'Provider');
+});*/
+
+  $(document).ready(function(){
+    <%if !params[:parent_reg].nil? && params[:parent_reg]=="true"%>
+     $('#header_bootom').css('display','none');
+    <%end%>
+    $(window).scroll(function() {
+      var height = $(window).scrollTop();
+      if(height  >40) {
+        $('.hidetext').css('display','none');
+        $('#topadjustie').css('width','176px');
+      }else{
+        $('.hidetext').css('display','block');
+        $('#topadjustie').css('width','510px');
+      }
+    });
+	
+    browser_type = navigator.appName;
+
+    if (browser_type == "Google Chrome") {
+      $(".dispProviderActivityDiv").css("margin-top","24px");
+    }
+    dispSubCategory(5,'Dance');
+  });
+
+  function howitworks(url){
+	//SEO URL Changes
+	var stateObj = {
+	foo: "bar"
+	};
+	if(navigator.appName=="Microsoft Internet Explorer"){
+	window.location.hash="/";
+	}
+	else{
+	parent.history.pushState(stateObj, "How it works", url);
+	}   
+	//SEO URL Changes
+   
+    HowitworksPopupPage = dhtmlmodal.open("How it works","iframe",url,"", "width=1000px,height=700px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");	
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    return false;
+  }
+	 
+  var StartVal=1;
+  var endVal=7;
+
+  function show_video(getid,url){
+    for(i=StartVal;i<endVal;i++)
+    {
+      if(i==getid){
+        autoPlayVideo(url,'800','600',i);
+      }
+    }
+  }
+
+  function autoPlayVideo(vcode, width, height,value) {
+    $("#vidFrame_"+value).html('<iframe width="'+width+'" height="'+height+'" src="https://www.youtube.com/embed/'+vcode+'?autoplay=1&loop=1&rel=0&wmode=transparent" style="margin:0;" frameborder="0" allowfullscreen wmode="Opaque"></iframe>');
+  }
+ 	
+	
+  function dispSubCategory(id,category_name){
+    //all
+    $('.categoryCont a').removeClass("selectedCat");
+    $('.categoryCont a').addClass("nselectedCat");
+    
+    // selected field
+    $('.categoryCont a#type_'+id).removeClass("nselectedCat");
+    $('.categoryCont a#type_'+id).addClass("selectedCat");
+    $('#update_follow').html('<div align="center" style="margin:0 auto; margin-top:120px;"><img src="/assets/loading_small.gif" alt="Loading..."></div>'); 
+    $.ajax({
+      url:'/activity_subcategories/update_sub_category?',
+      type:"get",
+      data: {
+        "id": category_name
+      },
+      success:function(data){
+        $("#update_follow").html(data);
+        initARC('event_more','altCheckboxOn','altCheckboxOff');
+      }
+    });
+
+  }
+</script>
+<script type="text/javascript" src="/assets/global/checkbox.js"></script>

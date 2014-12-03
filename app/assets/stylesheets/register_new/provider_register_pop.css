@@ -1,0 +1,858 @@
+@charset "utf-8";
+/* CSS Document */
+
+	.radiobutton_wrapper{
+	position: relative;
+	top:0px;
+	width: 100px;
+	float:left;
+	}
+	.radiobutton_wrapper input[type="radio"] {
+	opacity:0;
+	height: 22px;
+	width: 22px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	}
+	.radiobutton_wrapper input[type = radio] + label{
+	background:url('/assets/tickets/radio_normal.png') no-repeat;
+	height: 22px;
+	width: 22px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	}
+	.radiobutton_wrapper input[ type = radio ]:checked + label{
+	background:url('/assets/tickets/radio_selected.png') no-repeat;
+	height: 22px;
+	width: 22px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+	}
+	.radioTxt{
+	padding-left: 30px;
+	position: relative;
+	top: 3px;
+	}
+
+.setTopPosition{
+	width:760px;
+	margin:0 auto;
+	padding-top:44px;
+	}
+.setTopPosition .lt{
+	float:left;
+	display:inline-block;
+	}
+.circleNumber{
+	top:-20px;
+	position:relative;
+	display:inline-block;
+	cursor:default;
+}
+#setImage{
+	/*background:url("/assets/provider_register/horiz_line_repeat.png") repeat-x;*/
+	width:80px;
+	height:1px;
+	border-top: 1px solid #5AA3B6;
+}
+#setImage1{
+	/*background:url("/assets/provider_register/horiz_line_repeat.png") repeat-x;*/
+	width:240px;
+	height:1px;
+	border-top: 1px solid #5AA3B6;
+
+}
+
+#setImage2{
+	/*background:url("/assets/provider_register/horiz_line_repeat.png") repeat-x;*/
+	width:240px;
+	height:1px;
+	border-top: 1px solid #5AA3B6;
+}
+.setBg{
+	background:url("/assets/provider_register/step_box_bg.png") no-repeat;
+	width:712px;
+	height:668px;	
+	margin:20px auto 0px;
+}
+#marketDiv{
+	width:333px;
+	margin:20px 0 0 8px;
+	text-align:center;
+}
+#sellDiv{
+	width:333px;
+	margin:20px 0 0 22px;
+	text-align:center;	
+}
+.setfont{
+	font-family:Arial, Helvetica, sans-serif;
+	color:#176174;
+	font-size:27px;
+	border-bottom: 1px dashed #B6DCE9;
+}
+.setfont13{
+	font-family:Arial, Helvetica, sans-serif;
+	color:#5aa3ba ;
+	font-size:13px;
+}
+.setfont14{
+	font-family:Arial, Helvetica, sans-serif;
+	color:#4495ae ;
+	font-size:14px;
+	font-weight:normal;
+	line-height: 22px;
+}
+.setfont12{
+	font-family:Arial, Helvetica, sans-serif;
+	color:#4495ae ;
+	font-size:12px;
+	font-weight:normal;	
+}
+.setFont20{
+	font-family:Arial, Helvetica, sans-serif;
+	color:#4495ae ;
+	font-size:18px;
+	font-weight:bold;
+	border-bottom: 1px solid #EAEBED; 
+}
+
+.setfont18{
+	font-family:Arial, Helvetica, sans-serif;
+	color:#4495ae;
+	font-size:17px;
+	text-align:center;	
+}
+.setBorder{
+	border-bottom: 1px solid #EAEBED; 
+}
+.marginTop62{
+	margin-top:62px;
+}
+.providerHover{
+	display: inline-table;
+	list-style: none;
+	margin: 0px 0px 0px 5px;
+	cursor: pointer;
+}
+.providerHover li ul{
+	display: none;
+}
+.providerHover li:hover ul{
+	display: block;
+	position: absolute;
+	top: 30px;
+	border: 1px solid #B6DCE9;
+	background: #F9F9F9;
+	padding: 20px 10px;
+	list-style: none;
+	width: 597px;
+	font-weight: normal;
+	margin: 0px 0px 0px 17px;
+}
+.regHovTxt{
+	color: #ff0004;
+	padding: 0px 0px 10px 0px;
+	border-bottom: 1px dashed #DDDDDD;
+	text-align: left;
+	font-weight: bold;
+	margin-bottom: 10px;
+	font-family: Arial;
+}
+.famFormTxt{
+	color: #4495ae;
+	font-family: Arial;
+	padding: 10px 0px 12px 0px;
+	border-bottom: 1px dashed #DDDDDD;
+	font-size: 13px;
+	margin-bottom: 10px;
+	text-align: left;
+}
+.regBottxt{
+	color: #4495ae;
+	font-family: Arial;
+	padding: 10px 0px 0px 0px;	
+	font-size: 13px;
+	text-align: left;
+}
+.regImgpos{
+	position: relative;top: 3px;
+}
+
+/*************************************
+  
+    payment register details css
+
+************************************/
+.require_info{
+	width:950px;
+	margin:0 auto;
+	font-size:18px;
+	font-family:Arial, Helvetica, sans-serif;
+	color:#186171;
+}
+
+#choose_text{
+	width:280px; 
+	padding-left:66px;
+	top:-20px;
+	position:relative;
+
+}
+#plan_text{
+	width:177px;
+	top:-20px;
+	position:relative;
+}
+#payment_text{
+	width:123px;
+	padding-left:84px;
+	top:-20px;
+	position:relative;
+}
+.RegiserDivPayment{
+	width:870px;
+	margin:0 auto;
+	margin-top:20px;
+}
+
+#provider_info_text{
+	border1:1px solid blue;
+	width:258px;
+	color:#186171;
+	font-size:17px;
+	.margin-top:0px;
+}
+.RtDiv{
+	border1:1px solid blue;
+	width:568px;
+}
+.setTop10{
+	margin-top:10px;
+}
+.setTop20{
+	margin:20px 0 20px 0;
+}
+
+.setTop15{
+	margin:15px 0 15px 0;
+}
+.SetFtSz14{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	color:#6A6A6A;
+}
+.setTextBox{
+	border: 1px solid #BDD6DD;
+    color: #999999;
+    font-size: 13px;
+    height: 28px;
+    padding: 0 4px;
+    width: 558px;
+	.height: 23px;
+	.width: 560px;
+	.padding:5px 0 0 4px;
+}
+
+.setTextBox_street{
+	border: 1px solid #BDD6DD;
+    color: #999999;
+    font-size: 13px;
+    height: 28px;
+    padding: 0 4px;
+    width: 272px;
+	.height: 23px;
+	.width: 272px;
+	.padding:5px 0 0 4px;
+	width: 270px\0/IE9;
+}
+
+.ProviderCenterContent .selectBoxCityReg {
+    background: url("/assets/create_new_activity/select_medium_bg.png") no-repeat scroll 0 0 transparent;
+    display: inline-block;
+    height: 31px;
+    position: relative;
+    width: 270px;
+}
+.ProviderCenterContent .dropDownDivProviderCityReg {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #BDD6DD;
+    color: #6A6A6A;
+    display: inline-block;
+    font-size: 12px;
+    height: 90px;
+    overflow-y: scroll;
+    position: absolute;
+    width: 268px;
+    z-index: 500;
+}
+
+
+.ProviderCenterContent .selectBoxStateReg .selectDiv {
+    color: #999999;
+    cursor: default;
+    display: inline-block;
+    font-size: 12px;
+    height: 24px;
+    left: 4px;
+    overflow: hidden;
+    padding-left: 5px;
+    position: relative;
+    top: 3px;
+    width: 260px;
+}
+.ProviderCenterContent .dropDownDivProviderStateReg a {
+    color: #6A6A6A;
+    display: block;
+    padding: 3px 0 3px 7px;
+    text-decoration: none;
+}
+.ProviderCenterContent .dropDownDivProviderStateReg a:hover {
+    background:#73C3DD;
+    color:#ffffff;
+}
+.ProviderCenterContent .selectBoxCityReg .selectDiv {
+    color: #999999;
+    cursor: default;
+    display: inline-block;
+    font-size: 12px;
+    height: 24px;
+    left: 4px;
+    overflow: hidden;
+    padding-left: 5px;
+    position: relative;
+    top: 3px;
+    width: 260px;
+}
+.ProviderCenterContent .dropDownDivProviderCityReg a {
+    color: #6A6A6A;
+    display: block;
+    padding: 3px 0 3px 7px;
+    text-decoration: none;
+}
+
+.ProviderCenterContent .dropDownDivProviderCityReg a:hover {
+    background:#73C3DD;
+    color:#ffffff;
+}
+
+.ProviderCenterContent .selectBoxStateBankReg .selectDiv {
+    color: #999999;
+    cursor: default;
+    display: inline-block;
+    font-size: 12px;
+    height: 24px;
+    left: 4px;
+    overflow: hidden;
+    padding-left: 5px;
+    position: relative;
+    top: 3px;
+    width: 260px;
+}
+.ProviderCenterContent .dropDownDivProviderStateBankReg a {
+    color: #6A6A6A;
+    display: block;
+    padding: 3px 0 3px 7px;
+    text-decoration: none;
+}
+
+.ProviderCenterContent .selectBoxCityBankReg .selectDiv {
+    color: #999999;
+    cursor: default;
+    display: inline-block;
+    font-size: 12px;
+    height: 24px;
+    left: 4px;
+    overflow: hidden;
+    padding-left: 5px;
+    position: relative;
+    top: 3px;
+    width: 260px;
+}
+.ProviderCenterContent .dropDownDivProviderCityBankReg a {
+    color: #6A6A6A;
+    display: block;
+    padding: 3px 0 3px 7px;
+    text-decoration: none;
+}
+
+.ProviderCenterContent .selectBoxStateReg{
+    background: url("/assets/create_new_activity/select_medium_bg.png") no-repeat scroll 0 0 transparent;
+    display: inline-block;
+    height: 31px;
+    position: relative;
+    width: 270px;
+}
+.ProviderCenterContent .dropDownDivProviderStateReg{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #BDD6DD;
+    color: #6A6A6A;
+    display: inline-block;
+    font-size: 12px;
+    height: 90px;
+    overflow-y: scroll;
+    position: absolute;
+    width: 268px;
+    z-index: 500;
+}
+
+.ProviderCenterContent .selectBoxStateBankReg {
+    background: url("/assets/create_new_activity/select_medium_bg.png") no-repeat scroll 0 0 transparent;
+    display: inline-block;
+    height: 31px;
+    position: relative;
+    width: 270px;
+}
+
+.ProviderCenterContent .selectBoxCityBankReg {
+    background: url("/assets/create_new_activity/select_medium_bg.png") no-repeat scroll 0 0 transparent;
+    display: inline-block;
+    height: 31px;
+    position: relative;
+    width: 270px;
+}
+
+.ProviderCenterContent .dropDownDivProviderStateBankReg {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #BDD6DD;
+    color: #6A6A6A;
+    display: inline-block;
+    font-size: 12px;
+    height: 90px;
+    overflow-y: scroll;
+    position: absolute;
+    width: 268px;
+    z-index: 500;
+}
+
+ .dropDownDivProviderStateBankReg a:hover{
+    background:#73C3DD;
+    color:#ffffff;
+}
+.ProviderCenterContent .dropDownDivProviderCityBankReg {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #BDD6DD;
+    color: #6A6A6A;
+    display: inline-block;
+    font-size: 12px;
+    height: 90px;
+    overflow-y: scroll;
+    position: absolute;
+    width: 268px;
+    z-index: 500;
+}
+
+ .dropDownDivProviderCityBankReg a:hover{
+    background:#73C3DD;
+    color:#ffffff;
+}
+.ProviderCenterContent .textbox_card{
+    border: 1px solid #BDD6DD;
+    color: #999999;
+    font-size: 13px;
+    height: 21px;
+    padding: 0 4px;
+	padding: 4px;
+    width: 56px;
+    .height: 19px;
+}
+.ProviderCenterContent .setHyphen{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	color:#999999;
+	margin-top:6px;
+}
+.ProviderCenterContent .provider_next_btn a:focus{
+	outline:1px dotted #6a6a6a;
+}
+@media \0 screen {
+.setTextBox{
+    height: 20px;
+    padding:4px;
+    width: 558px;
+	}
+	.setTextBox_street{
+    height: 20px;
+    padding:4px;
+    width: 272px;
+}
+
+.bidpopup_container .frm_container .textbox {
+    height: 20px;
+    padding:4px;
+    width: 298px;
+}
+#choose_text{
+	width:280px; 
+	padding-left:66px;
+	top:-22px;
+	position:relative;
+
+}
+#plan_text{
+	width:177px;
+	top:-22px;
+	position:relative;
+}
+#payment_text{
+	width:123px;
+	padding-left:84px;
+	top:-22px;
+	position:relative;
+}
+
+
+}
+
+/************************pou up Bid***************************/
+
+	.bidpopup_container{
+		width:554px; 
+		line-height:24px; 
+		font-family:12px;
+		margin:0 auto;	
+		}
+	.bidpopup_top{
+		background:url('/assets/provider_register/bidbgtop.png') no-repeat;
+		width:554px;
+		height:12px;
+	}
+	.bidpopup_bottom{
+		background:url('/assets/provider_register/bidbg_bottom.png') no-repeat;
+		width:554px;
+		height:12px;
+	}
+	.bidheadtab{
+		border-bottom:1px solid #D7DADB;
+		width:534px;
+		height:34px;
+		margin:0 8px 0 9px;
+		padding-top:10px;
+	}
+	.bidpopup_head{
+		width:503px;		
+		float:left;
+		display: inline-block;
+	}
+	.bidpopup_header{
+		color: #5099AC;
+		font-size: 20px;
+		font-weight: bold;		
+		padding-left: 40px;		
+		
+	}
+	.bidpopup_close{
+		display: inline-block;
+		float: left;
+		width: 31px;
+	}
+	.bidpopup_center{	 		
+		background: url('/assets/provider_register/bidbg_repeat.png') repeat-y;
+		width:554px;		
+	}
+	.bidpopup_centerinner{
+		padding:10px 20px 10px 20px;
+	}
+	.center_content{
+		background-color:#EDF7F9; 
+		text-align:center;
+		padding:6px 2px 6px 2px;		
+		margin:10px 6px 0 6px;
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:16px;
+		font-weight:normal;
+		color:#6a6a6a;
+	}
+	.frm_container{
+		margin:16px 16px 0 16px;
+	}	
+	.bidpopup_container .frm_container .textbox{
+		border: 1px solid #CDE0E6;
+		color: #444444;
+		display: inline-block;
+		font-size: 13px;
+		height: 27px;
+		padding: 1px 4px 0;
+		.padding: 4px 0px 0px 4px;
+		width: 298px;
+		.width: 294px;
+		.height: 23px;
+	}
+	.bidpopup_savebtn{
+		background:url('/assets/provider_register/save.png') no-repeat;
+		width:111px;
+		height:37px;
+		border:none;
+		margin-right:2px;
+		cursor:pointer;
+	}
+	.bidpopup_cancelbtn{
+		background:url('/assets/provider_register/bid_cancel.png') no-repeat;
+		width:111px;
+		height:37px;
+		border:none;
+		cursor:pointer;
+	}
+	.error_div_color{
+	   color: #FC8989;
+       font-size: 12px;
+	   font-family:Arial, Helvetica, sans-serif;
+	}
+	
+	#show_infoDiv{
+		width:230px;
+		border:1px solid #5099AC;
+		background-color:#f6f8f7;
+		position:absolute;
+		text-align:left;
+		padding:10px 10px 10px 10px;
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:14px;
+		color:#6a6a6a;
+		margin: -56px 0 0 429px;
+		.margin: -55px 0 0 200px;
+	}
+/*********************** New Changes Plan Page 26/12/13 ******************/
+.choosePlanOuter{
+	border: 1px solid #E8EEEE;
+    font-weight: normal;
+    margin: 10px auto 25px;
+	width:980px;
+}
+.choosePlanOuter .blueBG{
+	background:#EFF8FD;
+}
+.choosePlanOuter .paddingLeft{
+	padding-left:10px;
+}
+.choosePlanOuter .paddingRight{
+	padding-right:10px;
+}
+.choosePlanOuter .borderLt{
+	border-left: 1px solid #E8EEEE;	
+}
+.choosePlanOuter .borderBm{	
+	border-bottom: 1px solid #E8EEEE;	
+}
+.choosePlanOuter .videoOuter{
+	border: 1px solid #E5E5E5;
+	margin:30px 10px 0 10px;
+}
+.choosePlanOuter .videoOuter{
+	border: 2px solid #E5E5E5;
+	margin:30px 13px 30px 13px;
+}
+.choosePlanOuter .providerTourHead{
+	padding:6px 0;
+	border-bottom: 1px solid #E5E5E5;
+}
+.choosePlanOuter .providerTourHead img{
+	padding-left:10px;
+}
+.choosePlanOuter .providerTourHead .providerTourText{
+	position:relative;
+	top:-3px;
+}
+.choosePlanOuter .providerTourImg{
+	margin:12px 0 10px 0;
+}
+.choosePlanOuter .line1{
+	padding: 15px 0 12px;
+}
+.choosePlanOuter .marketCont{
+	margin-left:10px;
+	height:132px;
+}
+.choosePlanOuter .marketDiv{
+    display: block;
+    padding: 4px 0;
+}
+.choosePlanOuter .blueDotImg{
+	margin-right:7px;
+	background:url('/assets/register/blue_dot.png') no-repeat;
+	width:9px;
+	height:9px;
+}
+.choosePlanOuter .blueDotText1{
+	line-height: 18px;
+	position: relative;
+	top: -5px;
+	width: 155px;
+}
+.choosePlanOuter .blueDotText2{
+	width: 175px;
+}
+.choosePlanOuter .marketLI .bulltext2{
+	display: inline-block;
+	float: left;
+	position: relative;
+	top: 8px;
+	width: 170px;
+}
+.choosePlanOuter .marketLI .bulltext{
+	display: inline-block;
+    float: left;
+}
+.choosePlanOuter .moText{
+	padding:14px 0;
+	border-top: 1px solid #E8EEEE;	
+	border-bottom: 1px solid #E8EEEE;	
+}
+.choosePlanOuter .chooseButton{
+	padding:32px 0 27px 0;
+	background:#fefefe;
+}
+.yourplantext{
+	display:inline-block;
+	padding:6px 0 6px 0;
+}
+.choosePlanOuter .schoolRedText{
+margin-left: 12px;
+    position: relative;
+    right: 10px;
+    top: -10px;
+	text-decoration:underline;
+}
+.choosePlanOuter .lastPara div p{
+	padding-bottom:7px;
+}
+.choosePlanOuter .lastPara{
+	padding-top:10px;
+}
+#register_outerContainer .descTextbox{
+	border: 1px solid #BDD6DD;
+    color: #999999;
+    font-size: 13px;
+	height: 60px;
+	width: 293px;
+	padding:5px;
+}
+.marketCont #para,.free_for_school #para1{
+	text-align: center !important;
+	margin: 0 auto;
+	width: 100%;
+	
+	
+}
+#free_for_school{
+	text-align: center;
+	padding: 19px 0px;
+	width: 100%;
+}
+.free_for_school{
+	width: 100%;
+	text-align: center;
+	margin: 0 auto;
+	
+}
+#para1{
+	color: #176174 !important;
+	font-size: 15px;
+}
+@media \0screen {
+#register_outerContainer .descTextbox{
+        padding:8px 4px 8px 4px;
+        height:44px;
+    }
+}
+/*******************************
+plan new cahnges - one plan start
+*******************************/
+  .setfeedbackDiv {
+    background: none repeat scroll 0 0 #EDF1F2;
+    color: #444444;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    margin: 15px auto 0;
+    padding: 15px;
+    width: 746px;
+    font-weight:normal;
+  }
+  .setColor{
+    color: #fe0003;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 18px;
+    margin-top:20px;
+
+  }
+.plan_headbg{
+	background-color:#e4f1f8;
+}
+.plan_sub_head
+{
+	background-color:#eff8fd;
+}
+.plan_tdbg
+{
+	background-color:#FBFDFC;
+}
+.tbl_brd{
+	border:1px solid #eaebed;
+}	
+.tbl_brdbtm{
+	border-bottom:1px solid #eaebed;
+}
+.tbl_brdright{
+	border-right:1px solid #eaebed;
+}
+.plan_price{
+	color:#f53822;
+	font-size:18px;
+	font-weight:bold;
+}
+.plan_price_head{
+	color:#176174;
+	font-weight:bold;
+	font-size:20px;
+}
+.market_plan_desc
+{
+	color:#59a4bb;
+	font-size:18px;
+}
+.feature_clr{
+	color:#f82b2b;
+	font-size:18px;
+	font-weight:bold;
+}
+.plan_content_txt{
+	color:#307193;
+	font-size:14px;
+	font-family:Arial, Helvetica, sans-serif;
+	
+}
+.plan_require{
+	color:#f82b2b;
+}
+.plan_link{
+	color:#f82b2b;
+	text-decoration:underline;
+	font-size:12px;
+}
+/*.plan_link a, a:hover{
+	color:#f82b2b;
+	text-decoration:underline;
+}*/
+.plan_desc_line{
+	line-height:20px;
+}
+.plan_bluedot{
+margin-right: 7px;
+background: url('/assets/register/blue_dot.png') no-repeat;
+width: 9px;
+height: 9px;
+}
+.plan_margin{margin:4px 0px 4px 0px;}
+
+.plan_btmbrd{
+	border-bottom : 1px solid #f1f1f0;
+}
+/*******************************
+plan new cahnges - one plan end
+*******************************/

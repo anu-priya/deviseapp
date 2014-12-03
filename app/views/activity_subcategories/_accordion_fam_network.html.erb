@@ -1,0 +1,54 @@
+<div class="lt leftPanel" style="width:580px;">
+  <%i = 5%>
+
+  <div class="scroll-pane-category">
+    <%if @ac_sub.length > 0 %>
+      <%@ac_sub.each do |sub|%>
+        <!-- Inner Div Start-->
+        <div class="lt subCat" id="subCat_<%= sub['id'] %>">
+          <input id="sc<%= sub['id'] %>" name="sc<%= sub['id'] %>" type="checkbox" value="<%= sub['id'] %>"/>
+          <span class="scImg" onClick="modifyText_fam_ev(<%= sub['id'] %>,<%= sub['id'] %>)"><label class="altCheckboxoff" for="sc<%= sub['id'] %>" style="vertical-align:top;">&nbsp;</label></span>
+          <span class="scText" onClick="modifyText_fam_ev(<%= sub['id'] %>,<%= sub['id'] %>); _gaq.push(['_trackEvent','Famnetwork','clickFollowRows','<%= params[:id]%>','<%= sub['name'].html_safe %>'])"><%=truncate(sub['name'].html_safe, :length =>20, :omission => '... ')%></span>
+          <div class="clear"></div>
+        </div>
+      <% end %>
+    <%else%>
+      <div style="padding-top:165px;" align="center">There are no networks</div>
+    <% end %>
+    <!-- End -->
+  </div>
+  <script type="text/javascript" >
+    var fam_net_val = $("#fam_net_val").val();
+    if (fam_net_val!=""){
+      fam_net_cal = fam_net_val.split(",")
+      jQuery.each(fam_net_cal, function(index, value) {
+        $("#subCat_"+value+" input").attr('checked', true);
+        $("#subCat_"+value+" label").addClass('altCheckboxOn');
+        $("#subCat_"+value+" label").removeClass('altCheckboxOff');
+      });
+    }
+
+    var fam_net_check ="<%= @provider_activites_check%>"
+    if (fam_net_check!=""){
+      fam_net_check = fam_net_check.replace("[","");
+      fam_net_check = fam_net_check.replace("]","");
+      fam_net_check_cal = fam_net_check.split(",");
+      jQuery.each(fam_net_check_cal, function(index, value) {
+        value = parseInt(value);
+        $("#subCat_"+value+" input").attr('checked', true);
+        $("#subCat_"+value+" label").addClass('altCheckboxOn');
+        $("#subCat_"+value+" label").removeClass('altCheckboxOff');
+      });
+    }
+    var rem_fam_net = $("#rem_fam_net_val").val();
+    if (rem_fam_net!=""){
+      rem_fam_net_cal = rem_fam_net.split(",")
+      jQuery.each(rem_fam_net_cal, function(index, value) {
+        $("#subCat_"+value+" input").attr('checked', false);
+        $("#subCat_"+value+" label").addClass('altCheckboxOff');
+        $("#subCat_"+value+" label").removeClass('altCheckboxOn');
+      });
+    }
+
+  </script>
+</div>

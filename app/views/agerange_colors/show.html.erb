@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Color:</b>
+  <%= @agerange_color.color_id %>
+</p>
+
+<p>
+  <b>Age range:</b>
+  <%= @agerange_color.age_range %>
+</p>
+
+<p>
+  <b>Color code:</b>
+  <%= @agerange_color.color_code %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @agerange_color.user_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_agerange_color_path(@agerange_color) %> |
+<%= link_to 'Back', agerange_colors_path %>

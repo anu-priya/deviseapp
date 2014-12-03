@@ -1,0 +1,24 @@
+<%= javascript_include_tag "auto_complete/jquery-1.8.3.js" %>
+<%= form_tag url_for(:controller=>"landing",:action => 'famtivity_user_count', remote: true),:id=>"get_users",:method => :get,:onsubmit => "return false;" do %>
+  <%#= select_tag(:users, options_for_select(["Admin","Parent","Provider"])) %>
+  <input type="hidden" id="parent" name="parent" value="u" />
+   <input type="hidden" id="provider" name="provider" value="p" />
+   <input type="hidden" id="admin" name="admin" value="a" />
+  <%= submit_tag "Famtivity Users",:onclick=>"javascript:submitForm()" %>
+  <span id="loading_img" style="display:none;position:relative; top:2px; left: 5px;"><img  src="/assets/loading_small.gif" /></span> 
+<%end %>
+
+<script>
+  function submitForm(){
+    $('#loading_img').css("display","inline-block");
+    $.ajax({
+      type: 'get',
+      url: "/landing/famtivity_user_count",
+      data:$('#get_users').serialize(),
+      success: function(data){ $("#user_details").html(data);$('#loading_img').hide();},
+      complete: function (){   }
+    });
+    return false;
+  }
+</script>
+<div id="user_details"></div>

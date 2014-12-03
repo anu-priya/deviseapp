@@ -1,0 +1,60 @@
+<%=stylesheet_link_tag "event_calendar/clndr","event_calendar/event_cal", :media => "all"%>
+<%=javascript_include_tag "event_calendar/underscore-1.5.2","event_calendar/moment-2.8.3","event_calendar/clndr"%>
+
+ <div id="mini-clndr_<%=sched.schedule_id%>" class="mini-clndr"></div>
+ <% chk_events = event_calendar_data(sched,@activity)%>
+ <% rec_events = chk_events[0]%>
+<%s = rec_events.join(',') if rec_events && rec_events.present?%>
+    <script id="calendar-template" type="text/template">
+      <div class="controls">
+        <div class="clndr-previous-button">&lsaquo;</div><div class="month">{{= month }}&nbsp;{{=year}}</div><div class="clndr-next-button">&rsaquo;</div>
+      </div>
+            <div class="days-container">
+        <div class="days">
+          <div class="headers">
+            {{ _.each(daysOfTheWeek, function(day) { }}<div class="day-header">{{= day }}</div>{{ }); }}
+          </div>
+          {{ _.each(days, function(day) { }}<div class="{{= day.classes }}" id="{{= day.id }}">{{= day.day }}</div>{{ }); }}
+        </div>
+      </div>
+    </script>
+  <script>
+  var sch_id = '<%=sched.schedule_id%>'
+   var st_date = '<%=s%>';
+  var org_date = st_date.split(',')
+  var chk_whole_day = '<%=chk_events[1]%>';
+  var today = moment('<%=Date.today%>');
+  var events = [];
+  
+  //To take directly to the future month
+  var org_date_format = moment(org_date[0]);
+  var chk_start_month = (org_date_format > today) ? org_date_format.toString() : ""
+
+  //Event Calendar for recurrence days
+  if (chk_whole_day == 'false'){
+	$.each( org_date, function( index, value ){
+		var o = {};
+		o.date = moment(value);
+		events.push(o);
+	});
+	$('#mini-clndr_'+sch_id).clndr({
+		template: $('#calendar-template').html(),
+		events: events,
+		startWithMonth:chk_start_month,
+		adjacentDaysChangeMonth: true
+	});
+  }
+  //Event calendar for multi days
+  else{
+  events = [{start: org_date[0], end: org_date[1]}]
+    $('#mini-clndr_'+sch_id).clndr({
+    template: $('#calendar-template').html(),
+    events: events,
+    startWithMonth:chk_start_month,
+     multiDayEvents: {
+        startDate: 'start',
+        endDate: 'end'
+    } 
+   });
+  }
+</script>

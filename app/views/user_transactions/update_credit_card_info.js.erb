@@ -1,0 +1,9 @@
+<%if (!@tran_val.nil? && @tran_val=="success")%>
+	$('.loadingmessage').hide();
+	 $('#success_creditcard_info').bPopup({fadeSpeed:100,followSpeed:100,opacity:0.8,positionStyle: 'absolute',modalClose: false});
+	 $('.success_tran').show();$('.exist_tran').hide();
+ <%elsif !@tran_val.nil?%>
+	 $('.loadingmessage').hide();
+	  $('#success_creditcard_info').bPopup({fadeSpeed:100,followSpeed:100,opacity:0.8,positionStyle: 'absolute',modalClose: false});
+	 $('.exist_tran').show(); $('.exist_tran').html('<%=@tran_val%>');$('.success_tran').hide();
+ <%end%>

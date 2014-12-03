@@ -1,0 +1,7 @@
+<%if (!@cal_val.nil? && @cal_val=="success")%>
+	 $('#add_user_calender').bPopup({fadeSpeed:100,followSpeed:100,opacity:0.8,positionStyle: 'absolute',modalClose: false});
+	 $('.success_cal').show();$('.exist_cal').hide();
+ <%elsif (!@cal_val.nil? && @cal_val=="cal_exist")%>
+	  $('#add_user_calender').bPopup({fadeSpeed:100,followSpeed:100,opacity:0.8,positionStyle: 'absolute',modalClose: false});
+	 $('.exist_cal').show();$('.success_cal').hide();
+ <%end%>

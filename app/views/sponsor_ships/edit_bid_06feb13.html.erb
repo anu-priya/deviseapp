@@ -1,0 +1,325 @@
+<link rel="stylesheet" type="text/css" href="/assets/sponsor_ships/billing_sponsorship.css?v=1" />
+<script type="text/javascript" src="/assets/sponsor_ships/billing_sponsorship.js?v=1"></script>
+
+<link rel="stylesheet" type="text/css" href="/assets/create_new_activity/create_new_activity.css" />
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css" />
+
+<script language="javascript">
+  function closepopup() {
+    parent.bideditActivityPage.hide();
+  }
+
+
+
+  $(document).ready(function() {
+    $('#bid_setup').submit(function (){
+      var errorFlag = false;
+      var bid_amount = $("#bid_amount").val();
+      var bid_amount_monthly = $("#bid_amount_monthly").val();
+      var cityVal = $("#cityVal").val();
+      var activityVal = $("#activityVal").val();
+
+      $("#bid_amount").css("border","1px solid #CDE0E6");
+      $("#bid_amount_monthly").css("border","1px solid #CDE0E6");
+      $(".locationBox").css("background","url('/assets/create_new_activity/select_box_bg.png') no-repeat");
+      $(".activityBox").css("background","url('/assets/create_new_activity/select_box_bg.png') no-repeat");
+
+      $("#bid_amount_error").html("");
+      $("#bid_amount_monthly_error").html("");
+      $("#cityVal_error").html("");
+      $("#activityVal_error").html("");
+
+      $("#bid_amount_error").parent().css("display","none");
+      $("#bid_amount_monthly_error").parent().css("display","none");
+      $("#cityVal_error").parent().css("display","none");
+      $("#activityVal_error").parent().css("display","none");
+
+      bid_amount = bid_amount.replace(/^\s+|\s+$/g, "");
+      var re_bid_amount = bid_amount.replace('$','');
+      bid_amount_monthly = bid_amount_monthly.replace(/^\s+|\s+$/g, "");
+      var re_bid_amount_monthly = bid_amount_monthly.replace('$','');
+      cityVal = cityVal.replace(/^\s+|\s+$/g, "");
+      activityVal = activityVal.replace(/^\s+|\s+$/g, "");
+
+
+
+      if(bid_amount == "" ||  bid_amount == "Minimum bid amount $0.75"){
+        $("#bid_amount").css("border","1px solid #fc8989");
+        $("#bid_amount_error").html("Please enter bid amount");
+        $("#bid_amount_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      if(bid_amount != "" ){
+        if(!validatePrize(bid_amount)){
+          $("#bid_amount").css("border","1px solid #fc8989");
+          $("#bid_amount_error").html("Please enter valid bid amount ex: x.xx or x");
+          $("#bid_amount_error").parent().css("display","block");
+          errorFlag = true;
+        }
+        else if( parseFloat(re_bid_amount) < 0.75 ){
+          $("#bid_amount").css("border","1px solid #fc8989");
+          $("#bid_amount_error").html("Please enter minimum bid amount $0.75");
+          $("#bid_amount_error").parent().css("display","block");
+          errorFlag = true;
+        }
+
+      }
+      if(bid_amount_monthly == "" ||  bid_amount_monthly == "Minimum Monthly Budget $100"){
+        $("#bid_amount_monthly").css("border","1px solid #fc8989");
+        $("#bid_amount_monthly_error").html("Please enter monthly budget");
+        $("#bid_amount_monthly_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      if(bid_amount_monthly != "" ){
+        if(!validatePrize(bid_amount_monthly)){
+          $("#bid_amount_monthly").css("border","1px solid #fc8989");
+          $("#bid_amount_monthly_error").html("Please enter valid monthly budget ex: x.xx or x");
+          $("#bid_amount_monthly_error").parent().css("display","block");
+          errorFlag = true;
+        }
+        else if( parseFloat(re_bid_amount_monthly) < 100 ){
+          $("#bid_amount_monthly").css("border","1px solid #fc8989");
+          $("#bid_amount_monthly_error").html("Please enter minimum monthly budget $100");
+          $("#bid_amount_monthly_error").parent().css("display","block");
+          errorFlag = true;
+        }
+      }
+      if(cityVal == ""){
+        $(".locationBox").css("background","url('/assets/create_new_activity/select_box_error_bg.png') no-repeat");
+        $("#cityVal_error").html("Please select location");
+        $("#cityVal_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      if(activityVal == ""){
+        $(".activityBox").css("background","url('/assets/create_new_activity/select_box_error_bg.png') no-repeat");
+        $("#activityVal_error").html("Please choose a activity");
+        $("#activityVal_error").parent().css("display","block");
+        errorFlag = true;
+      }
+
+
+
+      if(errorFlag){
+        return false;
+      }
+      else{
+        $.post($(this).attr('action'), $(this).serialize(), null, "script");
+        return false;
+      }
+
+    })
+  })
+</script>
+
+<div id="new_act_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">
+							Edit Bid
+            </div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> <img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" /> </a>
+          </div>
+        </div>
+        <div id ="bid_setup_div">
+          <div  class="centerCont">
+            <form id="bid_setup" name="bid_setup" action="bid_update" method="post" onSubmit="return validate_sponsor()">
+              <div class="paddingTop10">
+                <div class="paddingTop10">
+                  <div class="lt leftSideField">
+									Bid Amount Per Click
+                  </div>
+                  <input type="text" name="bid_amount" id="bid_amount" class="lt textbox" value="<%= @bid.bid_amount%>" onfocus="focusChangeBorderColor('bid_amount')" onblur="blurChangeBorderColor('bid_amount')" tabindex="1" maxlength="100"/>
+                  <div class="lt ftSz13Clr priceText">$ or USD</div>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">
+                    &nbsp;
+                  </div>
+                  <div class="lt" id="bid_amount_error"></div>
+                </div>
+
+                <div class="clear"></div>
+                <div style="padding-top:4px;">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt para">This is the amount you are willing to pay for each click on your famtivity pages. Once you finish adding your activities you will also have the option to set different bid amounts for different activities.</div>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div style="padding-top:16px;">
+                  <div class="lt leftSideField">Monthly Budget</div>
+                  <input type="text" name="bid_amount_monthly" id="bid_amount_monthly" class="lt textbox" value="<%= @budget.monthly_budget%>" onfocus="focusChangeBorderColor('bid_amount_monthly')" onblur="blurChangeBorderColor('bid_amount_monthly')"  tabindex="2" maxlength="100"/>
+                  <div class="lt ftSz13Clr priceText">$ or USD</div>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">
+                    &nbsp;
+                  </div>
+                  <div class="lt" id="bid_amount_monthly_error"></div>
+                </div>
+
+                <div class="clear"></div>
+                <div style="padding-top:4px;">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt para">Famtivity will notify you when if you've reached your monthly budget. You will be given have the option to make changes to your budget or pause your sponsored premium placement until the beginning of the next month.</div>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div style="padding-top:16px;">
+                  <div class="lt leftSideField">Location</div><%= @activity.city%>
+                  <a href="#" class="locationBox" onclick="locaionDropDown()" tabindex="3">
+                    <span class="lt cityVal">Select</span>
+                    <input type="hidden" name="cityVal" id="cityVal" value=""/>
+                  </a>
+                  <div class="clear"></div>
+                  <div id="locationContainer" class="dispNone">
+                    <div class="row1">
+                      <input id="city_all" name="city_all" type="hidden" value="0"/>
+                      <a href="javascript:void(0)" title="" class="checkboxImg" id="checkbox_selected_city_all" onclick="dispCheckAll('checkbox_selected_city_all','city')" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkboxImg" id="checkbox_normal_city_all" onclick="dispCheckAll('checkbox_normal_city_all','city')" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText">Select All</span>
+                    </div>
+                    <div class="row2">
+                      <input id="city_1" name="city_1" type="hidden" value="0"/>
+                      <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_city checkboxImg" id="checkbox_selected_city_1" onclick="dispCheckSingleLocAct('checkbox_selected_city','city',1)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_city checkboxImg" id="checkbox_normal_city_1" onclick="dispCheckSingleLocAct('checkbox_normal_city','city',1)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_1">New York</span></span>
+
+                      <input id="city_2" name="city_2" type="hidden" value="0"/>
+                      <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_city checkboxImg" id="checkbox_selected_city_2" onclick="dispCheckSingleLocAct('checkbox_selected_city','city',2)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_city checkboxImg" id="checkbox_normal_city_2" onclick="dispCheckSingleLocAct('checkbox_normal_city','city',2)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_2">San Francisco</span></span>
+
+                      <input id="city_3" name="city_2" type="hidden" value="0"/>
+                      <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_city checkboxImg" id="checkbox_selected_city_3" onclick="dispCheckSingleLocAct('checkbox_selected_city','city',3)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_city checkboxImg" id="checkbox_normal_city_3" onclick="dispCheckSingleLocAct('checkbox_normal_city','city',3)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_3">Los Angeles</span></span>
+
+                      <input id="city_4" name="city_2" type="hidden" value="0"/>
+                      <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_city checkboxImg" id="checkbox_selected_city_4" onclick="dispCheckSingleLocAct('checkbox_selected_city','city',4)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_city checkboxImg" id="checkbox_normal_city_4" onclick="dispCheckSingleLocAct('checkbox_normal_city','city',4)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_4">Dallas</span></span>
+
+                      <input id="city_5" name="city_2" type="hidden" value="0"/>
+                      <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_city checkboxImg" id="checkbox_selected_city_5" onclick="dispCheckSingleLocAct('checkbox_selected_city','city',5)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_city checkboxImg" id="checkbox_normal_city_5" onclick="dispCheckSingleLocAct('checkbox_normal_city','city',5)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_5">Chicago</span></span>
+
+                      <input id="city_6" name="city_2" type="hidden" value="0"/>
+                      <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_city checkboxImg" id="checkbox_selected_city_6" onclick="dispCheckSingleLocAct('checkbox_selected_city','city',6)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_city checkboxImg" id="checkbox_normal_city_6" onclick="dispCheckSingleLocAct('checkbox_normal_city','city',6)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_6">Detroit</span></span>
+
+                      <input id="city_7" name="city_2" type="hidden" value="0"/>
+                      <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_city checkboxImg" id="checkbox_selected_city_7" onclick="dispCheckSingleLocAct('checkbox_selected_city','city',7)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_city checkboxImg" id="checkbox_normal_city_7" onclick="dispCheckSingleLocAct('checkbox_normal_city','city',7)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_7">Philadelphia</span></span>
+
+                      <input id="city_8" name="city_2" type="hidden" value="0"/>
+                      <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_city checkboxImg" id="checkbox_selected_city_8" onclick="dispCheckSingleLocAct('checkbox_selected_city','city',8)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_city checkboxImg" id="checkbox_normal_city_8" onclick="dispCheckSingleLocAct('checkbox_normal_city','city',8)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_8">Seattle</span></span>
+
+                      <input id="city_9" name="city_2" type="hidden" value="0"/>
+                      <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_city checkboxImg" id="checkbox_selected_city_9" onclick="dispCheckSingleLocAct('checkbox_selected_city','city',9)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_city checkboxImg" id="checkbox_normal_city_9" onclick="dispCheckSingleLocAct('checkbox_normal_city','city',9)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_9">Houston</span></span>
+
+                      <input id="city_10" name="city_2" type="hidden" value="0"/>
+                      <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_city checkboxImg" id="checkbox_selected_city_10" onclick="dispCheckSingleLocAct('checkbox_selected_city','city',10)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_city checkboxImg" id="checkbox_normal_city_10" onclick="dispCheckSingleLocAct('checkbox_normal_city','city',10)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_10">Las Vegas</span></span>
+
+                      <input id="city_11" name="city_2" type="hidden" value="0"/>
+                      <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_city checkboxImg" id="checkbox_selected_city_11" onclick="dispCheckSingleLocAct('checkbox_selected_city','city',11)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_city checkboxImg" id="checkbox_normal_city_11" onclick="dispCheckSingleLocAct('checkbox_normal_city','city',11)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_11">Houston</span></span>
+
+                      <input id="city_12" name="city_2" type="hidden" value="0"/>
+                      <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_city checkboxImg" id="checkbox_selected_city_12" onclick="dispCheckSingleLocAct('checkbox_selected_city','city',12)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_city checkboxImg" id="checkbox_normal_city_12" onclick="dispCheckSingleLocAct('checkbox_normal_city','city',12)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_12">San Antonio</span></span>
+
+                      <input id="city_13" name="city_2" type="hidden" value="0"/>
+                      <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_city checkboxImg" id="checkbox_selected_city_13" onclick="dispCheckSingleLocAct('checkbox_selected_city','city',13)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_city checkboxImg" id="checkbox_normal_city_13" onclick="dispCheckSingleLocAct('checkbox_normal_city','city',13)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_13">San Ditego</span></span>
+                      <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="row3">
+                      <a href="#" title="" onclick="locaionDropDown()"><img  src="/assets/sponsorships/button_apply.png" alt="" /></a>
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">
+                    &nbsp;
+                  </div>
+                  <div class="lt" id="cityVal_error"></div>
+                </div> </div>
+              <div class="clear"></div>
+              <div style="padding-top:4px;">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt para">Choose the locations you want your sponsored premium placement to apply. (This should be a list of cities near the location of the business. We could use our location drop down but it will need to show the results once the user chooses the locations)</div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div style="padding-top:16px;">
+                <div class="lt leftSideField">Choose a Activity</div><%= @activity.activity_name%>
+                <a href="#" class="activityBox" onclick="activityDropDown()" tabindex="4">
+                  <span class="lt activityVal">Select</span>
+                  <input type="hidden" name="activityVal" id="activityVal"/>
+                </a>
+                <div class="clear"></div>
+                 <input type="text" value="<%= @bid.id %>" id="bid_id" name="bid_id" />
+                <input type="hidden" value="<%= @activity.activity_id %>" id="activity_id" name="activity_id" />
+                <div id="activityContainer" class="dispNone">
+                  <div class="row1">
+                    <input id="activity_all" name="activity_all" type="hidden" value="0"/>
+                    <a href="javascript:void(0)" title="" class="checkboxImg" id="checkbox_selected_activity_all" onclick="dispCheckAll('checkbox_selected_activity_all','activity')" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkboxImg" id="checkbox_normal_activity_all" onclick="dispCheckAll('checkbox_normal_activity_all','activity')" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText">Select All</span>
+                  </div>
+                  <div class="row2">
+                    <input id="activity_1" name="activity_1" type="hidden" value="0"/>
+                    <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_activity checkboxImg" id="checkbox_selected_activity_1" onclick="dispCheckSingleLocAct('checkbox_selected_activity','activity',1)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_activity checkboxImg" id="checkbox_normal_activity_1" onclick="dispCheckSingleLocAct('checkbox_normal_activity','activity',1)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_1">Violin Class</span></span>
+
+                    <input id="activity_2" name="activity_2" type="hidden" value="0"/>
+                    <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_activity checkboxImg" id="checkbox_selected_activity_2" onclick="dispCheckSingleLocAct('checkbox_selected_activity','activity',2)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_activity checkboxImg" id="checkbox_normal_activity_2" onclick="dispCheckSingleLocAct('checkbox_normal_activity','activity',2)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_2">cricket Activity</span></span>
+
+                    <input id="activity_3" name="activity_2" type="hidden" value="0"/>
+                    <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_activity checkboxImg" id="checkbox_selected_activity_3" onclick="dispCheckSingleLocAct('checkbox_selected_activity','activity',3)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_activity checkboxImg" id="checkbox_normal_activity_3" onclick="dispCheckSingleLocAct('checkbox_normal_activity','activity',3)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_3">Kids Art School</span></span>
+
+                    <input id="activity_4" name="activity_2" type="hidden" value="0"/>
+                    <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_activity checkboxImg" id="checkbox_selected_activity_4" onclick="dispCheckSingleLocAct('checkbox_selected_activity','activity',4)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_activity checkboxImg" id="checkbox_normal_activity_4" onclick="dispCheckSingleLocAct('checkbox_normal_activity','activity',4)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_4">Painting Class</span></span>
+
+                    <input id="activity_5" name="activity_2" type="hidden" value="0"/>
+                    <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_activity checkboxImg" id="checkbox_selected_activity_5" onclick="dispCheckSingleLocAct('checkbox_selected_activity','activity',5)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_activity checkboxImg" id="checkbox_normal_activity_5" onclick="dispCheckSingleLocAct('checkbox_normal_activity','activity',5)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_5">Kids School</span></span>
+
+                    <input id="activity_6" name="activity_2" type="hidden" value="0"/>
+                    <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_activity checkboxImg" id="checkbox_selected_activity_6" onclick="dispCheckSingleLocAct('checkbox_selected_activity','activity',6)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_activity checkboxImg" id="checkbox_normal_activity_6" onclick="dispCheckSingleLocAct('checkbox_normal_activity','activity',6)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_6">Kids Play School</span></span>
+
+                    <input id="activity_7" name="activity_2" type="hidden" value="0"/>
+                    <span class="lt checkboxRow"><a href="javascript:void(0)" title="" class="checkbox_selected_activity checkboxImg" id="checkbox_selected_activity_7" onclick="dispCheckSingleLocAct('checkbox_selected_activity','activity',7)" style="display: none" ><img src="/assets/register/checkbox_selected.png" alt=""/></a> <a href="javascript:void(0)" title="" class="checkbox_normal_activity checkboxImg" id="checkbox_normal_activity_7" onclick="dispCheckSingleLocAct('checkbox_normal_activity','activity',7)" ><img src="/assets/register/checkbox_normal.png" alt=""/></a> <span class="checkboxText" id="checkboxText_7">Soccer Activity</span></span>
+
+                    <div class="clear"></div>
+                  </div>
+                  <div class="clear"></div>
+                  <div class="row3">
+                    <a href="#" title="" onclick="activityDropDown()"><img  src="/assets/sponsorships/button_apply.png" alt="" /></a>
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+                <div class="lt" id="activityVal_error"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="row4">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt">
+                  <input type="image" class="" src="/assets/sponsorships/button_save.png" alt="" tabindex="5" />
+                  <a href="#" title=""><img src="/assets/sponsorships/button_cancel.png" alt="" onclick="closepopup()" tabindex="6" /></a>
+                </div>
+                <div class="clear"></div>
+
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+</div>

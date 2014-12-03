@@ -1,0 +1,219 @@
+<%=stylesheet_link_tag "global/pop_up","share_activity/share_acitivity_detail","share_activity/share_activity", :media => "all"%>
+<style>
+body,#page_wrapper,iframe{
+	width:545px;
+	/*height:500px;
+	overflow:hidden;*/
+	margin:0 auto;
+}
+.b-modal{border:none !important;}
+#new_act_container .textbox{
+	color:#585858;
+}
+.titlefam{font-family:'open_sansregular',Sans-Serif;}
+
+.cancel-button{
+	margin-left:5px;
+	padding:5px 15px 0px 15px;
+	height:23px;
+	background-color:#6cc1dd;
+	display:inline-block;
+	font-size:14px;
+	color: #FFFFFF;
+	cursor: pointer;
+	border:0;
+	text-align:center;
+	text-decoration:none;
+}
+.cancel-button:hover {
+    background-color: #45add0;
+}
+
+.save-button{
+	padding-top:4px;
+	padding:5px 15px 0px 15px;
+	height:23px;
+	background-color:#f82b2b;
+	display:inline-block;
+	font-size:14px;
+	color: #FFFFFF;
+	cursor: pointer;
+	border:0;
+	text-align:center;
+	text-decoration:none;
+}
+.save-button:hover {
+    background-color: #ee1515;
+} 
+#new_act_container .textbox{
+	display: inline-block;
+	width:535px;
+	height:27px;
+	border:1px solid #d4d4d4;	
+	padding:1px 4px 0px 4px;
+	color: #585858 !important;
+	font-size:14px !important;
+	font-family:'open_sansregular',Sans-Serif !important;
+}
+.fntsize{
+font-size:13px;
+}
+.bgclr{background:#f6f6f6;color:#585858;
+}
+.imageall{
+     background-image: url('/assets/contact/contact_all.png');
+     background-repeat:no-repeat;
+     background-position: 0 0;
+     margin-top: 7px;
+     width: 12px;
+     height: 13px;
+     display: inline-block;
+}
+.delimg{
+   left: 0.2%;
+   position: relative;
+   background-size: 28px auto;
+   background-position: -8px -25px;
+}
+</style>
+<div id="new_act_container" style="width:545px;">
+	<div class="popupContainer" style="width:545px;">
+	<div class="popupContainerTop" style="width:545px;"></div>
+	<div class="popupContainerCenter"  style="width:545px;">
+		<div class="innerContainer"  style="width:545px;">
+			<div class="headTab">
+				<div class="heading" style="width: 495px;">
+					<div class="headCont titlefam">Change Email</div>
+				</div>
+				<div class="closeButton">
+				<a class="delimg imageall" onclick="closepopup()" title="" href="javascript:void(0)"></a>
+				</div>
+			</div>
+			<div class="centerCont" style="width:545px;">
+				<div class="blueBacgroundWithText titlefam fntsize bgclr">Please note that changing the administrative email address is universal and will be applied to all places within Famtivity where this email is in use.</div>
+				<form id="change_email" name="change_email" action="" method="post">
+					<div class="paddingTop10" style="width:545px;">
+						  <div class="lt leftSideField titlefam" style="width:120px;margin-left:30px;">Current Email</div>
+						  <div class="lt">
+							<input type="text" name="current_email" id="current_email" class="lt textbox" style="width:350px;color:#585858;" value="<%=current_user.email_address%>" maxlength="100" disabled="disabled"/></div>
+						</div>
+						<div class="clear"></div>
+					</div>					
+					<div class="clear"></div>
+					<div class="paddingTop10" style="width:545px;">
+						  <div class="lt leftSideField titlefam" style="width:120px;margin-left:30px;">New Email</div>
+						  <div class="lt">
+							<input type="text" name="new_email" id="new_email" class="lt textbox" style="width:350px;" value="smith@gmail.com" onfocus="if(this.value=='smith@gmail.com'){this.value='';$(this).css('color','#585858');}" onblur="if(this.value==''){this.value='smith@gmail.com';$(this).css('color','#585858');}"  tabindex="1" maxlength="100"/></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="errorDiv" style="display:none">
+						  <div class="lt leftSideField" style="width:120px;margin-left:30px;">&nbsp;</div>
+						  <div class="lt" id="new_email_error"></div>
+					</div>
+					<div class="clear"></div>
+					<div class="buttonDiv" style="width:545px;">
+						<div class="lt leftSideField"  style="width:120px;margin-left:30px;">&nbsp;</div>
+						<div class="lt">
+
+							<a class="save-button" href="javascript:void(0)" tabindex="2" onClick="change_email_validation()" onkeydown="continueKeyDown(event)">Save</a>							
+							
+							 <a class="cancel-button" href="javascript:void(0)" tabindex="3" onClick="closepopup()" onkeydown="cancelKeyDown(event)">Cancel</a>							
+							<span id='loading' style="position:relative; display:none; top:3px;left:5px;" class="load-new">
+								<%= image_tag("/assets/loading_small.gif")%>
+							</span>
+						</div>
+						<div class="clear"></div>
+					</div>	      
+				</form>	
+			</div>
+		<div class="clear"></div>
+		</div>		
+	</div>
+	<div class="clear"></div>
+	</div>	
+	<div class="clear"></div>
+</div>
+
+
+<!-- changed email success popup start -->
+<div id="messageSuccess">
+	<div class="content_popup titlefam" style="display:block;"><br>Success, your email address has been changed. Please check your new email for an activation link.<br><br>
+	
+	<span class="b-close">
+	<a class="save-button" style="height:26px;" href="javascript:void(0)" onClick="closepopup()">Ok</a>							
+	</span>
+	
+	</div>
+</div>
+<!-- changed email success popup end -->
+<%=javascript_include_tag "create_new_activity_new_banu1/create_new_activity"%>
+<script language="javascript">
+function closepopup(){
+	parent.changeEmailPage.hide();
+}
+function change_email_validation(){
+	var errorFlag=false;	
+	var new_email = $("#new_email").val();
+	var current_email=$("#current_email").val();
+	var utype ="<%=@u_type if !@u_type.nil?%>"
+	$("#new_email").css("border","1px solid #CDE0E6");    
+	$("#new_email_error").html("");
+	$("#new_email_error").parent().css("display","none");
+	new_email = new_email.replace(/^\s+|\s+$/g, "");
+	if(new_email == "smith@gmail.com" ||  new_email == ""){		
+		$("#new_email").css("border","1px solid #fc8989");
+		$("#new_email_error").html("Please enter your Email Address");
+		$("#new_email_error").parent().css("display","block");
+		errorFlag = true;
+	}
+	else if(new_email == current_email){		
+		$("#new_email").css("border","1px solid #fc8989");
+		$("#new_email_error").html("Please enter another Email Address");
+		$("#new_email_error").parent().css("display","block");
+		errorFlag = true;
+	}
+	else if(!validateCorrectEmail(new_email)){		
+		$("#new_email").css("border","1px solid #fc8989");
+		$("#new_email_error").html("Please enter your valid Email Address");
+		$("#new_email_error").parent().css("display","block");
+		errorFlag = true;
+	}
+	if(errorFlag){
+		return false;
+	}
+	else{	
+
+		$('#loading').css("display","inline-block");
+		$.ajax({
+				type: "GET",
+				data: {"cre_to_msg":new_email}, 
+				url: "/check_repeated_users",
+				success: function(data){
+					if (data !="")
+					{  
+						$('#loading').css("display","none");
+						$("#new_email").css("display","block");
+						$("#new_email_error").parent().css("display","block");
+						$("#new_email_error").html(data+" already used. please enter another Email");
+					}
+					else
+					{ 
+						$.ajax({
+								type: "POST",
+								data: {"email":new_email, "u_type":utype}, 
+								url: "/change_email_address",
+								dataType: "script",
+								success: function(data){ }
+		      			});
+
+     				 
+					}
+				}
+			}); 
+		
+		return true;
+	} 
+}
+</script>
+

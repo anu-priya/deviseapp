@@ -1,0 +1,335 @@
+<div style="margin-left:10px;">
+	<div style="margin-top:80px; margin-left:10px; margin-right:10px; width:600px;">
+		<% if @error_msg %>
+			<%= @error_msg %>
+		<% end %>
+		<%= form_tag("/weekend_activities", :method => "post",:html => { :multipart => true }, :onsubmit => "return validate_weekend()" ) do |form| %>
+		<%= label_tag(:fun_activity, "Fun Activity") %>
+		
+		<%= text_field_tag :fun_activity %><span id="error_fun"></span><br><br>
+		<%= label_tag(:special_activity, "Special Activity") %>
+		<%= text_field_tag :special_activity %><span id="error_special"></span><br><br>
+		<%= label_tag(:dd_activity, "Discount Dollar Activity") %>
+		<%= text_field_tag :dd_activity %><span id="error_dd"></span><br><br>
+		<%= label_tag(:bay_area, "Bay Area") %>
+		<select name="bay_area">
+			<%@group = CityGroup.all%>
+			<% if @group && @group.present?%>
+			<% @group.each do |gval| %>
+			<option value="<%= gval.group_id%>"><%= gval.group_name %></option>
+			<%end%>
+			<%end%>
+		</select>		
+		<span id="error_area"></span><br><br>
+		<%= label_tag(:added_by, "Added By") %>
+		<%= text_field_tag :added_by %><span id="error_name"></span><br><br>
+		<%= submit_tag ' Submit ' %>
+		<% end %>
+	</div>
+	<br><br>
+	</br>
+	<!-- partner link creation start-->
+	<b>Generate Partner Link</b>
+	<div style="border:1px solid #cacaca;width:600px;">
+		<% if @error_partner %>
+			<br><a href="<%= @error_partner%>" title="" target="_blank"><%= @error_partner%></a></br></br>
+		<% end %>
+		<%= form_tag("/weekend_activities", :method => "post",:html => { :multipart => true } ) do |form| %>
+		<%= label_tag(:email_partner, "Email ID") %>
+		<%= text_field_tag :email_partner %><span id="error_date"></span><br><br>
+		<%= submit_tag ' Submit ' %>
+		<% end %>
+	</div>
+	<br><br>
+	
+	<!-- renewal list start-->
+	<b>Auto Renewal Provider List</b>
+	<div style="border:1px solid #cacaca;width:600px;">
+		<% if @error_renewal %>
+			<%= @error_renewal%>
+		<% end %>
+		<%= form_tag("/weekend_activities", :method => "post",:html => { :multipart => true }, :onsubmit => "return validate_renewal()" ) do |form| %>
+		<%= label_tag(:curr_date, "Date") %>
+		<%= text_field_tag :curr_date %><span id="error_date"></span><br><br>
+		<%= submit_tag ' Submit ' %>
+		<% end %>
+	</div>
+	<br><br>
+	<div style="width:600px;">
+	<% if !@renew.nil? && @renew.length > 0%>
+		<table width="722" border="1" cellpadding="0" cellspacing="0">
+		<tr style="background-color:#CCC;">
+			<td width="302" height="30" align="left" valign="middle">
+		    Email Address
+		    </td>
+		    <td width="302" height="30" align="left" valign="middle">
+		    Business Name
+		    </td>
+		    <td width="110" align="center" valign="middle">
+		    Start Date
+		    </td>
+		    <td width="108" align="center" valign="middle">
+		    End Date
+		    </td>
+		    <td width="97" align="center" valign="middle">
+		    Amount Date
+		    </td>
+		    <td width="105" align="center" valign="middle">
+		    Action
+		    </td>
+		</tr>
+		<% @renew.each do |eval|%>
+			<tr>
+			<td height="30" align="left" valign="middle">
+				<%= eval.email_address %>
+			</td>
+			<td align="center" valign="middle">
+				<% @prof = UserProfile.select("business_name").find_by_user_id(eval.user_id) if !eval.user_id.nil?
+					if !@prof.nil? && @prof.present?					
+				%>
+					<%= @prof.business_name %>
+					<%end%>
+			</td>
+			<td align="center" valign="middle">
+				<%= eval.start_date.strftime('%Y-%m-%d') %>
+			</td>
+			<td align="center" valign="middle">
+				<%= eval.end_date.strftime('%Y-%m-%d') %>
+			</td>
+			<td align="center" valign="middle">
+				<%= eval.amount %>
+			</td>
+			<td align="center" valign="middle">
+				<%= eval.action_type %>
+			</td>
+			</tr>
+		  <%end%>
+	    </table>
+	<% end %>
+	</div>
+	<!-- renewal list end -->
+	
+	<br><br>
+	<!-- signup or upgrade list start-->
+	<b>Signup or Upgrade Provider List</b>
+	<div style="border:1px solid #cacaca;width:600px;">
+		<% if @error_upgrade %>
+			<%= @error_upgrade%>
+		<% end %>
+		<%= form_tag("/weekend_activities", :method => "post",:html => { :multipart => true } ) do |form| %>
+		<%= label_tag(:start_date, "Date") %>
+		<%= text_field_tag :start_date %><span id="error_date"></span><br><br>
+		<%= submit_tag ' Submit ' %>
+		<% end %>
+	</div>
+	<br><br>
+	<div style="width:600px;">
+	<% if !@upgrade.nil? && @upgrade.length > 0%>
+		<table width="722" border="1" cellpadding="0" cellspacing="0">
+		<tr style="background-color:#CCC;">
+			<td width="302" height="30" align="left" valign="middle">
+		    Email Address
+		    </td>
+		    <td width="110" align="center" valign="middle">
+		    Start Date
+		    </td>
+		    <td width="108" align="center" valign="middle">
+		    End Date
+		    </td>
+		    <td width="97" align="center" valign="middle">
+		    Amount Date
+		    </td>
+		    <td width="105" align="center" valign="middle">
+		    Action
+		    </td>
+		</tr>
+		<% @upgrade.each do |eval|%>
+			<tr>
+			<td height="30" align="left" valign="middle">
+				<%= eval.email_address %>
+			</td>
+			<td align="center" valign="middle">
+				<%= eval.start_date.strftime('%Y-%m-%d') %>
+			</td>
+			<td align="center" valign="middle">
+				<%= eval.end_date.strftime('%Y-%m-%d') %>
+			</td>
+			<td align="center" valign="middle">
+				<%= eval.amount %>
+			</td>
+			<td align="center" valign="middle">
+				<%= eval.action_type %>
+			</td>
+			</tr>
+		  <%end%>
+	    </table>
+	<% end %>
+	</div>
+	<!-- signup or upgrade list end -->
+	
+	
+	<br><br>
+	<!-- check email change start -->
+	<b>Check Email Change Log</b>
+	<div style="border:1px solid #cacaca;width:600px;">
+		<% if @error_email %>
+			<%= @error_email%>
+		<% end %>
+		<%= form_tag("/weekend_activities", :method => "post",:html => { :multipart => true } ) do |form| %>
+		<%= label_tag(:email, "Email ID") %>
+		<%= text_field_tag :email %><span id="error_date"></span><br><br>
+		<%= submit_tag ' Submit ' %>
+		<% end %>
+	</div><br>
+	<div style="width:600px;">
+		<%if !@p_email.nil? && @p_email.present? %>
+			Email From - <%= @p_email.email_from %><br>
+			Email To - <%= @p_email.email_to %><br>
+			Date -  <%= @p_email.email_updated_date.strftime('%Y-%m-%d')%>
+		<% end %>
+	</div>
+	<!-- check email change end-->
+	<!--delete account start -->
+	<br><br>
+	<b>Deleted Account Log</b>
+	<div style="border:1px solid #cacaca;width:600px;">
+		<% if @error_delete%>
+			<%= @error_delete%>
+		<% end %>
+		<%= form_tag("/weekend_activities", :method => "post",:html => { :multipart => true } ) do |form| %>
+		<%= label_tag(:det_email, "Email ID") %>
+		<%= text_field_tag :det_email %><span id="error_date"></span><br><br>
+		<%= submit_tag ' Submit ' %>
+		<% end %>
+	</div><br>
+	<div style="width:600px;">
+		<%if !@det_email.nil? && @det_email.present? %>
+			Email  - <%= @det_email.email_address %><br>
+			User Plan - <%= @det_email.user_plan %><br>
+			Manage Plan - <%= @det_email.manage_plan %><br>
+			Date -  <%= @det_email.inserted_date.strftime('%Y-%m-%d')%>
+		<% end %>
+	</div>
+<!-- delete account end-->
+<br><br>
+<!-- deactivate account start -->
+	<b>Deactivate Account Log</b>
+	<div style="border:1px solid #cacaca;width:600px;">
+		<% if @error_deactivate%>
+			<%= @error_deactivate%>
+		<% end %>
+		<%= form_tag("/weekend_activities", :method => "post",:html => { :multipart => true } ) do |form| %>
+		<%= label_tag(:deact_email, "Email ID") %>
+		<%= text_field_tag :deact_email %><br><br>
+		<%= submit_tag ' Submit ' %>
+		<% end %>
+	</div><br>
+	<div style="width:600px;">
+		<%if !@deact_email.nil? && @deact_email.present? %>
+			Email  - <%= @deact_email.email_address %><br>
+			User Plan - <%= @deact_email.user_plan %><br>
+			Manage Plan - <%= @deact_email.manage_plan %><br>
+			Account Status -  <%= @deact_email.user_status%>
+		<% end %>
+	</div>
+	<br /> <br /><br/>
+	<!-- deactivate account end -->
+</div>
+
+<script type="text/javascript">
+//weekend activity
+	function validate_weekend()
+	{		
+		var error_flag = false;
+		$('#error_fun').html('');
+		$('#fun_activity').css("border","1px solid #9FD8EB");
+		$('#error_special').html('');
+		$('#special_activity').css("border","1px solid #9FD8EB");
+		$('#error_dd').html('');
+		$('#dd_activity').css("border","1px solid #9FD8EB");	
+		$('#added_by').css("border","1px solid #9FD8EB");
+		$('#error_name').html('');
+		
+		if($('#fun_activity').val()=='')
+		{
+			$('#error_fun').html('Please enter fun activity Ids')
+			$('#fun_activity').css("border","1px solid red");			
+			error_flag = true;			
+		}	
+		/*if($('#fun_activity').val()!='')
+		{
+			fun = $('#fun_activity').val();
+			fun_split = fun.split(',');
+			for(i=0; i>fun_split.length; i++)
+			{
+				
+			}
+			
+		}*/
+		if($('#special_activity').val()=='')
+		{
+			$('#error_special').html('Please enter special activity Ids')
+			$('#special_activity').css("border","1px solid red");			
+			error_flag = true;
+		}		
+		if($('#dd_activity').val()=='')
+		{
+			$('#error_dd').html('Please enter discount dollar activity Ids')
+			$('#dd_activity').css("border","1px solid red");			
+			error_flag = true;
+		}
+		if($('#added_by').val()=='')
+		{
+			$('#error_name').html('Please enter the added name')
+			$('#added_by').css("border","1px solid red");			
+			error_flag = true;
+		}
+		if(error_flag)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+		
+	//Auto renewal validation
+	function validate_renewal(){
+		var error_flag = false;
+		$('#error_date').html('');
+		$('#curr_date').css("border","1px solid #9FD8EB");
+		
+		c_date = $('#curr_date').val();
+		var validformat=/^\d{2}\/\d{2}\/\d{4}$/ //Basic check for format validity
+		var returnval=false
+		if (!validformat.test(c_date))
+		{
+			returnval=false
+			$('#error_date').html("Invalid Date Format");
+		}
+		else{ 
+			var monthfield=c_date.split("/")[0]
+			var dayfield=c_date.split("/")[1]
+			var yearfield=c_date.split("/")[2]
+			var dayobj = new Date(yearfield, monthfield-1, dayfield)
+			if ((dayobj.getMonth()+1!=monthfield)||(dayobj.getDate()!=dayfield)||(dayobj.getFullYear()!=yearfield))
+			{
+				$('#error_date').html("Enter this format (mm/dd/yyyy)");
+				returnval=false
+			}
+			else
+			{
+				returnval = true;
+			}
+		}
+		if (returnval==false){
+			return false;
+		}else
+		{
+			return true;
+		}
+	
+	}
+</script>
+

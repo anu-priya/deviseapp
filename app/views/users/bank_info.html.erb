@@ -1,0 +1,784 @@
+<link rel="stylesheet" type="text/css" href="/assets/register_new/provider_register_pop.css" />
+<link rel="stylesheet" type="text/css" href="/assets/register_new/register_pop.css" />
+<link rel="stylesheet" type="text/css" href="/assets/checkout/checkout.css" />
+<!-- Auto complete js & css -->
+<link rel="stylesheet" type="text/css" href="/assets/contacts_users/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="/assets/contacts_users/smooth-theme-jquery-ui.css" />
+<script src="assets/auto_complete/jquery-ui.js"></script>
+<!-- end -->
+<style type="text/css">
+  .RegiserDivPayment .checkboxCont a:hover{
+    /*text-decoration:underline;*/
+    color:#307193;
+  }
+  #top_over_menu{ width: 100%;
+  height: 20px;}
+  .businness_font {
+    color: #5099AC;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 21px;
+}
+  .ui-autocomplete { width: 258px;max-height: 150px; overflow-y: auto; overflow-x: hidden;}
+</style>
+<script>
+$(document).ready(function(){
+<%if !@bank_details.nil? && @bank_details.present?%>
+ dispCheckboxImg_sell("sell_checkbox_normal");
+<%else%>
+  dispCheckboxImg_sell("");
+<%end%>
+<%if !@bank_details.nil? && @bank_details.present? && !@bank_details.prefered_mode.nil? && @bank_details.prefered_mode == "check"%>
+    $("#check").show();
+    $("#bank_user").hide();
+<%else%>
+     $("#check").hide();
+    $("#bank_user").show();
+<%end%>
+});
+
+  $(document).ready(function(){
+  $("#check_bank_city").autocomplete({
+    minLength: 1,
+    source: "/fetch_city?state_value=true",
+    select: function( event, ui ) {
+     this.value = ui.item.value;
+     return false;
+    }
+  });
+  });
+
+  $(document).ready(function(){
+  $("#bank_city").autocomplete({
+    minLength: 1,
+    source: "/fetch_city?state_value=true",
+    select: function( event, ui ) {
+     this.value = ui.item.value;
+     return false;
+    }
+  });
+  });
+</script>
+
+<script type="text/javascript" href="/assets/register/register_payment.js" /></script>
+
+<div id="register_outerContainer">
+	<div class="Provider_innerContainer" style="width:100%;">
+		<div id="signupDiv" style="padding-bottom:10px;">
+			<div style="width:293px; margin:0 auto;">
+			</div>
+		</div>
+	<div class="Provider_innerContainer" style="width:100%;">
+		<div class="ProviderCenterContent" style="margin: 0 auto; background:none; width:100%;">
+			<div id="top_over_menu">&nbsp;</div>
+			<div class="TopListText" align="center" style="width:100%; marign:0 auto; padding-top:21px; background:#F6F8F7;">
+                    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                 <tbody>
+                                        <tr>
+                                                  <td width="76%" height="40" align="center">
+                                                           <span><a title="" class="menuText" href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.user_profile.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.user_profile.nil? %>" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity List']);">Activity List</a></span>
+                                                            <span class="dot menuText">&bull;</span>
+                                                            <span><a title="" class="menuText" href="/provider_activites" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity Cards']);">Activity Cards</a></span>
+                                                            <span class="dot menuText">&bull;</span>
+                                                            <span><a title="" class="menuText" href="/activity_provider_schedule" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Schedule']);">Schedule</a></span>
+                                                            <span class="dot menuText">&bull;</span>
+                                                            <span><a title="" class="menuText" href="/provider_profile" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Business Info']);">Business Info</a></span>
+                                                            <span class="dot menuText">&bull;</span>
+                                                            <span><a title="" class="menuText" href="/provider_policies" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Policies']);">Policies</a></span>
+                                                            <span class="dot menuText">&bull;</span>
+                                                            <span><a title="" class="menuText" href="/provider_plan" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Plan']);">Plan</a></span>
+                                                            <span class="dot menuText">&bull;</span>
+                                                            <span><a title="" class="menuText" href="/change_password" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Password']);">Password</a></span>
+                                                            <span class="dot menuText">&bull;</span>
+                                                            <span><a title="" class="menuText" href="/provider_settings" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Settings']);">Settings</a></span>
+								<span class="dot menuText">&bull;</span>						
+                                                            <span><a title="" class="menuText" href="/transaction" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Reports']);">Reports</a></span>
+                                                            
+                                                  </td>
+                                                  
+                                        </tr>
+					<tr>
+	<td   style="border-top: 1px solid #CEE1E8;"></td>
+     </tr>
+                                 </tbody>
+                    </table>
+          </div>
+        <!-- success_bank_info popup start -->
+        <div id="success_bank_info">
+        <div class="content_popup" style="display:block;"><br>Your details was successfully updated<br><br>
+        <span class="b-close" onclick="hide_error();"><a href="javascript:void(0)" title=""><img src="/assets/register/ok_btn.png" /></a></span>
+        </div>
+        </div>
+
+
+<div id="top">
+            <div align="center" style="font-weight:bold;font-size: 19px;color: #4495ae;padding: 10px 10px 20px 0px;">Choose payment method</div>
+
+          <div style="width:200px;margin:0 auto;padding:0px 0px 22px 0px;">
+               
+            <div class="radiobutton_wrapper">
+                <input type="radio" value="check" <%if !@bank_details.nil? && @bank_details.present? && @bank_details.prefered_mode == "check"%>checked="checked"<%end%> onclick="check('check');" name="gender">
+                <label></label>
+                <span class="radioTxt">Check</span>
+            </div> 
+
+            <div class="radiobutton_wrapper">
+                <input type="radio" value="bankinfo" <%if !@bank_details.nil? && @bank_details.present? && @bank_details.prefered_mode == "bank"%>checked="checked"<%end%> onclick="check('bankinfo');" name="gender">
+                <label></label>
+                <span class="radioTxt">Bank info</span>
+            </div>
+
+          </div>
+
+           <div id="check_helptext" style="width:640px;margin:0 auto;background:#EDF1F2;;padding:10px;text-align:center;margin-top: 15px;margin-bottom: 25px;">
+            Your address or Bank information is required so famtivity can pay you for any activities sold through famtivity or refunds, etc. that may due to you in the future.
+          </div>
+	  
+	<div id="bank_helptext" style="width:640px;margin:0 auto;background:#EDF1F2;;padding:10px;text-align:center;margin-top: 15px;margin-bottom: 25px;display:none;">
+            Your address or Bank information is required so famtivity can pay you for any activities sold through famtivity or refunds, etc. that may due to you in the future.
+          </div>
+
+</div>
+
+
+
+
+        <!-- success_bank_info popup end -->
+				<div class="RegiserDivPayment" style="width:830px; margin:0 auto; padding-bottom:20px;">
+
+    				<form name="frmbank_details" id="frmbank_details" method="post" action="/updatebank_details">
+
+    		    <input type="hidden" name="radio_value" id="radio_value" value="check">
+
+
+    <div id="check"> <!--check start div-->
+
+					<div class="setTop10" style="margin-top:10px;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Payee Name</b></span><span class="required">*</span></div>
+							<div class="lt RtDiv"><input type="text" name="paye_name" id="paye_name" class="setTextBox" tabindex="9"  style="<%if !@bank_details.nil? && !@bank_details.payee_name.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.payee_name.nil?%><%=@bank_details.payee_name%><%else%>Enter payee name<%end%>" onfocus="if( this.value == 'Enter payee name') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter payee name'}"></div>
+							<div class="clear"></div>
+						</div>
+
+    
+  
+          <div class="errorDiv" style="display:none;">
+            <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+            <div class="lt RtDiv" id="paye_name_error"></div>
+            <div class="clear"></div>
+          </div>
+
+
+				<div class="setTop10" style="margin-top:10px;">
+						<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Business Name</b></span><span class="required">*</span></div>
+						<div class="lt RtDiv"><input type="text" name="business_name" id="business_name" class="setTextBox" tabindex="9"  style="<%if !@bank_details.nil? && !@bank_details.business_name.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.business_name.nil?%><%=@bank_details.business_name%><%else%>Enter business name<%end%>" onfocus="if( this.value == 'Enter business name') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter business name'}"></div>
+							<div class="clear"></div>
+						</div>
+
+
+
+          <div class="errorDiv" style="display:none;">
+            <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+            <div class="lt RtDiv" id="business_name_error"></div>
+            <div class="clear"></div>
+          </div>
+
+
+
+<div class="setTop10" style="margin-top:10px;">
+				<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Number &amp; Street</b></span><span class="required"></span></div>
+				<div class="lt RtDiv"><input type="text" name="street_check_code" id="street_check_code" class="setTextBox" tabindex="9"  style="<%if !@bank_details.nil? && !@bank_details.check_street_address.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.check_street_address.nil?%><%=@bank_details.check_street_address%><%else%>Enter street number & street address<%end%>" onfocus="if( this.value == 'Enter street number & street address') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter street number & street address'}"></div>
+				<div class="clear"></div>
+			</div>
+
+
+        
+
+          <div class="errorDiv" id="bank_stree_number" style="display:none;">
+            <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+            <div class="lt RtDiv">
+              
+              <span  class="lt RtDiv" style="width:285px; .width:280px; border:1px solid #fff;" id="number_bank_error" ></span>
+        <span  class="lt RtDiv" id="street_bank_error" style="width:270px; border:1px solid #fff;" ></span>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+
+          <div class="setTop10">
+            <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Country &amp; State</b></span><span class="required">*</span></div>
+            <div class="lt RtDiv">              
+              <div class="lt" style="width1:278px;">             
+                <select name="bank_country" id="bank_country" tabindex="17"  class="drop_down_bank">
+    	    		<option value="United State">United States</option> 
+			    </select>                     
+              </div>
+		  		<div class="lt" style="width1:286px; margin-left:4px;">
+		    	 <select name="bank_state" id="bank_state" size="1" tabindex="18"  class="drop_down_bank">
+		      		<option value="California">California</option>
+		    	 </select>   
+		        </div>        
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="errorDiv" id="city_bank_state" style="display:none;">
+            <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+            <div class="lt RtDiv">
+        		<span  class="lt RtDiv" id="state_bank_error" style="width:285px; border:1px solid #fff;"></span>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+
+<div class="setTop10">
+            <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>City &amp; Zip Code</b></span><span class="required">*</span></div>
+            <div class="lt RtDiv">              
+             <div class="lt" style="width1:278px;">             
+                <!--<select name="check_bank_city" id="check_bank_city" tabindex="17"  class="drop_down_bank">
+                <%#@cities = City.where("state_id = 1 and country_id = 1").order("city_name Asc")%>      
+                <%#@cities.each do |cit|%>
+                  <option value="<%#= cit.city_name %>"<%#if !@bank_details.nil? && !@bank_details.check_city.nil? && @bank_details.check_city == cit.city_name %>selected="selected" <%#end%>><%#= cit.city_name %></option>
+                 <%#end%>
+               </select>-->
+               <input type="text" name="check_bank_city" id="check_bank_city" class="setTextBox" tabindex="19"  style="width:271px;<%if !@bank_details.nil? && !@bank_details.check_city.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.check_city.nil?%><%=@bank_details.check_city%><%else%>Enter City<%end%>" onfocus="if( this.value == 'Enter City') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter City'}">  
+              </div>
+  		<div class="lt" style="width1:286px; margin-left:4px;">
+  			<input type="text" name="check_z_code" id="check_z_code" class="setTextBox" tabindex="20"  style="width:271px;<%if !@bank_details.nil? && !@bank_details.check_zip_code.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.check_zip_code.nil?%><%=@bank_details.check_zip_code%><%else%>Enter zip code<%end%>" onfocus="if( this.value == 'Enter zip code') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter zip code'}">
+
+        </div>        
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="errorDiv" style="display:none;">
+            <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+	  <div  class="lt" style="width:270px; border:1px solid #fff;"  id="check_bank_city_error"></div>
+            <div class="lt" id="check_zip_error"></div>
+            <div class="clear"></div>
+          </div>
+
+			
+
+          <div class="clear"></div>
+
+
+        </div><!--check end div-->
+
+
+
+      <div id="bank_user" style="display:none"> <!--bank start div-->
+
+						<div class="setTop15">
+							<div class="lt businness_font"><b>Bank Information</b></div>
+							<div class="lt RtDiv" style="height:21px;">&nbsp;</div>
+							<div class="clear"></div>
+						</div>
+						<div class="setTop10" style="margin-top:20px;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Bank Name</b></span><span class="required">*</span></div>
+							<div class="lt RtDiv"><input type="text" name="bank_name" id="bank_name" class="setTextBox" tabindex="9"  style="<%if !@bank_details.nil? && !@bank_details.bank_name.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.bank_name.nil?%><%=@bank_details.bank_name%><%else%>Name of bank<%end%>" onfocus="if( this.value == 'Name of bank') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Name of bank'}"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="errorDiv" style="display:none;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+							<div class="lt RtDiv" id="bank_name_error"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="setTop10">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Account Name</b></span><span class="required">*</span></div>
+							<div class="lt RtDiv"><input type="text" name="account_name" id="account_name" class="setTextBox" tabindex="10" style="<%if !@bank_details.nil? && !@bank_details.bank_account_name.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.bank_account_name.nil?%><%=@bank_details.bank_account_name%><%else%>Enter your account name<%end%>" onfocus="if( this.value == 'Enter your account name') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter your account name'}"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="errorDiv" style="display:none;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+							<div class="lt RtDiv" id="clear_house_error"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="setTop10">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Routing number for wire transfers</b></span><span class="required">*</span></div>
+							<div class="lt RtDiv"><input type="text" name="w_transfer" id="w_transfer" class="setTextBox" tabindex="11" style="<%if !@bank_details.nil? && !@bank_details.bank_wire_transfer.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.bank_wire_transfer.nil?%><%=@bank_details.bank_wire_transfer%><%else%>Enter the routing number<%end%>" onfocus="if( this.value == 'Enter the routing number') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter the routing number'}"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="errorDiv" style="display:none;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+							<div class="lt RtDiv" id="wire_transfer_error"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="setTop10">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Account Number</b></span><span class="required">*</span></div>
+							<div class="lt RtDiv"><input type="text" name="acc_number" id="acc_number" class="setTextBox" tabindex="12" style="<%if !@bank_details.nil? && !@bank_details.bank_account_number.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.bank_account_number.nil?%><%=@bank_details.bank_account_number%><%else%>Enter your account number<%end%>" onfocus="if( this.value == 'Enter your account number') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter your account number'}"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="errorDiv" style="display:none;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+							<div class="lt RtDiv" id="acc_number_error"></div>
+							<div class="clear"></div>
+						</div>
+
+						<div class="setTop15">
+							<div class="lt businness_font"><b>Bank Address</b></div>
+							<div class="lt RtDiv" style="height:21px;">&nbsp;</div>
+							<div class="clear"></div>
+						</div>
+						<div class="setTop10" style="margin-top:20px;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Number &amp; Street</b></span></div>
+							<div class="lt RtDiv">
+								<!--input type="text" name="number_bank_code" id="number_bank_code" class="setTextBox_street" style="<%if !@bank_details.nil? && !@bank_details.street_number.nil?%>color:#444444;<%end%>" tabindex="14" value="<%if !@bank_details.nil? && !@bank_details.street_number.nil?%><%=@bank_details.street_number%><%else%>Enter number<%end%>" onfocus="if( this.value == 'Enter number') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter number'}"-->
+								<input type="text" name="street_bank_code" id="street_bank_code" class="setTextBox" tabindex="15" style="<%if !@bank_details.nil? && !@bank_details.bank_street_address.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.bank_street_address.nil?%><%=@bank_details.bank_street_address%><%else%>Enter street number & street address<%end%>" onfocus="if( this.value == 'Enter street number & street address') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter street number & street address'}">
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="errorDiv" id="bank_stree_number" style="display:none;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+							<div class="lt RtDiv">
+								<span  class="lt RtDiv" style="width:285px; .width:280px; border:1px solid #fff;" id="number_bank_error" ></span>
+								<span  class="lt RtDiv" id="street_bank_error" style="width:270px; border:1px solid #fff;" ></span>
+							</div>
+							<div class="clear"></div>
+						</div>
+
+
+						<div class="setTop10">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>City &amp; State</b></span><span class="required">*</span></div>
+							<div class="lt RtDiv">              
+								<div class="lt" style="width1:278px;">
+								<!--<select name="bank_city" id="bank_city" tabindex="16"  class="drop_down_bank">
+									<%#@cities = city_detail_list%>			
+									<%#@cities.each do |cit|%>
+										<option value="<%#= cit.city_name %>" <%#if !@bank_details.nil? && !@bank_details.bank_city.nil? && @bank_details.bank_city.downcase==cit.city_name.downcase%>selected<%#end%>><%#= cit.city_name %></option>
+									 <%#end%>
+								</select>-->
+								<input type="text" name="bank_city" id="bank_city" class="setTextBox" tabindex="16"  style="width:271px;<%if !@bank_details.nil? && !@bank_details.bank_city.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.bank_city.nil?%><%=@bank_details.bank_city%><%else%>Enter City<%end%>" onfocus="if( this.value == 'Enter City') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter City'}">  
+              
+								</div>
+								<div class="lt" style="width1:286px; margin-left:4px;">
+									<select name="bank_state" id="bank_state" size="1" tabindex="17"  class="drop_down_bank">
+										<option value="California" <%if !@bank_details.nil? && !@bank_details.bank_city.nil? && @bank_details.bank_state.downcase=='california'%>selected<%end%>>California</option>
+									</select>                
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="errorDiv" id="city_bank_state" style="display:none;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+							<div class="lt RtDiv">              
+							<span  class="lt RtDiv" style="width:270px; border:1px solid #fff;"  id="city_bank_error" ></span>
+							<span  class="lt RtDiv" id="state_bank_error" style="width:285px; border:1px solid #fff;"></span>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="setTop10">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;"><b>Zip Code</b></span><span class="required">*</span></div>
+							<div class="lt RtDiv"><input type="text" name="bank_z_code" id="bank_z_code" class="setTextBox" tabindex="18" style="<%if !@bank_details.nil? && !@bank_details.bank_zip_code.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.bank_zip_code.nil?%><%=@bank_details.bank_zip_code%><%else%>Enter zip code<%end%>" onfocus="if( this.value == 'Enter zip code') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter zip code'}"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="errorDiv" style="display:none;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+							<div class="lt RtDiv" id="bank_zip_error"></div>
+							<div class="clear"></div>
+						</div>
+
+						<div class="setTop10">
+							<div class="lt leftSideField" style="width:258px;">&nbsp;</div>
+							<div class="lt">
+								<input type="hidden" name="sell_agree_provider" id="sell_agree_provider" value=""/>
+								<span  class="checkbox">
+								<a href="javascript:void(0)" title="" class="checkbox" id="sell_checkbox_selected" onclick="dispCheckboxImg_sell('sell_checkbox_selected')" onkeydown="ag_cb_keydown(event,'sell_checkbox_selected')" tabindex="21" style="display: none"><img src="/assets/register/checkbox_selected.png" alt=""/></a>
+								<a href="javascript:void(0)" title="" id="sell_checkbox_normal" onclick="dispCheckboxImg_sell('sell_checkbox_normal')" onkeydown="ag_cb_keydown(event,'sell_checkbox_normal')" tabindex="20" style="display: none"><img src="/assets/register/checkbox_normal.png" alt=""/></a>
+								<a href="javascript:void(0)" title="" id="sell_checkbox_error" onclick="dispCheckboxImg_sell('sell_checkbox_normal')" onkeydown="ag_cb_keydown(event,'sell_checkbox_error')"  tabindex="22" style="display: none"><img src="/assets/register/checkbox_error.png" alt=""/></a>
+								</span>
+								<p class="lt checkboxCont">I agree to the <a href="provider_terms_of_service" onkeydown="termsKeyDown(event)" title="" tabindex="21" target="_blank">Famtivity Terms of Service</a> <span style="color: #307193;">&amp;</span> <a href="provider_privacy_policy" onkeydown="termsKeyDown(event)" title="" tabindex="21" target="_blank">Privacy Policies</a></p>
+								<div class="clear"></div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="clear"></div>
+						<div class="errorDiv" id="checkboxError" style="display:none">
+							<div class="lt errorDivProvider" id="sell_agree_provider_error" style="margin-left: 257px;"></div>
+						</div>
+					</div> <!--bank end div-->
+						<div class="clear"></div>
+						<div class="setTop10" style="margin-top:20px;">
+							<div class="lt" id="provider_info_text" style="width:232px;">&nbsp;</div>
+							<div class="lt RtDiv" style="margin:10px 0 30px 10px;">
+								<a href="javascript:void(0)" title=""><input type="image" src="/assets/settings/save_button.png" style="margin-right: 5px;margin-left:15px;outline:none;" alt="" class="lt" tabindex="21" value="" title="Register" onclick="return ChekRegValidation();"/></a>
+								<a href="/provider_profile" title="" tabindex="22" style=" height: 41px;width: 113px;overflow: hidden;" class="lt"><img src="/assets/settings/cancel_button.png"></a>
+								<div class='loading_image' style='display:none;' align="center"><img src='/assets/ajax-loader.gif'/></div>
+							</div>
+							<div class="clear"></div>
+						</div>
+
+
+					</form>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--ajax loader -->
+<style>
+  .loading_image{
+    height: 50px;
+    width: 50px;	
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 60%;
+    margin: -17px 0 0 42px;
+  }
+</style>
+
+<script type="text/javascript">
+
+function hide_error(){
+$("#paye_name_error").hide();
+$("#business_name_error").hide();
+$("#check_zip_error").hide();
+}
+
+function check(type){
+  if (type=="check")
+  {
+    $("#check").show();
+    $("#bank_user").hide();
+    $("#check_helptext").show();
+    $("#bank_helptext").hide();
+    $("#radio_value").val("check"); 
+  }
+ else if (type=="bankinfo")
+  {
+    $("#bank_user").show();
+    $("#check").hide();
+    $("#check_helptext").hide();
+    $("#bank_helptext").show();
+    $("#radio_value").val("bankinfo");
+  }
+ }
+function clear_every_thing()
+{
+	$('.errorDiv').css("display","none");
+	$('.setTextBox').css("color","#999999");
+	$('.setTextBox').css("border","");
+	$('.setTextBox_street').css("border","");
+	$('.setTextBox_street').css("color","#999999");
+	$('.setTextBox').css("border","1px  solid  #BDD6DD;");
+	$("#bank_name").css("border","1px  solid  #BDD6DD;");
+	$('#account_name').css("border","1px  solid  #BDD6DD;");
+	$('#w_transfer').css("border","1px  solid  #BDD6DD;");
+	$('#acc_number').css("border","1px  solid  #BDD6DD;");
+	//~ $('#number_bank_code').css("border","1px  solid  #BDD6DD;");
+	$('#street_bank_code').css("border","1px  solid  #BDD6DD;");
+	$('#bank_z_code').css("border","1px  solid  #BDD6DD;");
+	if($('#bank_name').val()!='Name of bank'){
+		$('#bank_name').val('Name of bank'  );
+		$('#bank_name').css("border","1px  solid  #BDD6DD;");
+	}
+	if($('#account_name').val()!='Enter your account name'){
+		$('#account_name').val('Enter your account name'  );
+	}
+	if($('#w_transfer').val()!='Enter the routing number'){
+		$('#w_transfer').val('Enter the routing number'  );
+	}
+	if($('#acc_number').val()!='Enter your account number'){
+		$('#acc_number').val('Enter your account number'  );
+	}
+	//~ if($('#number_bank_code').val()!='Enter number'){
+		//~ $('#number_bank_code').val('Enter number'  );
+	//~ }
+	if($('#street_bank_code').val()!='Enter street address'){
+		$('#street_bank_code').val('Enter street address'  );
+	}
+	if($('#bank_z_code').val()!='Enter zip code'){
+		$('#bank_z_code').val('Enter zip code'  );
+	}
+	dispCheckboxImg_sell("sell_checkbox_selected");
+}
+ function ChekRegValidation(){    
+
+ 	var l_name =  $("#radio_value").val();
+      errorFlag = false;
+    if (l_name=="check")     // check if start
+    {
+      var paye_name = $("#paye_name").val();
+        var business_name = $("#business_name").val();
+        var check_z_code = $("#check_z_code").val();
+        var check_bank_city = $("#check_bank_city").val();
+        check_z_code = check_z_code.replace(/^\s+|\s+$/g, "");
+        paye_name = paye_name.replace(/^\s+|\s+$/g, "");
+        business_name = business_name.replace(/^\s+|\s+$/g, "");
+        $("#check_z_code").css("border","1px solid #BDD6DD");
+        $("#paye_name").css("border","1px solid #BDD6DD");
+        $("#business_name").css("border","1px solid #BDD6DD");
+        
+        if(paye_name == "" || paye_name == "Enter payee name"){
+          $("#paye_name").css("border","1px solid #fc8989");
+          $("#paye_name_error").html("Please enter payee name");
+          $("#paye_name_error").parent().css("display","block");
+          errorFlag = true;
+        }
+          if(business_name == "" || business_name == "Enter business name" ){
+          $("#business_name").css("border","1px solid #fc8989");
+          $("#business_name_error").html("Please enter business name");
+          $("#business_name_error").parent().css("display","block");
+          errorFlag = true; 
+        }
+	if(check_bank_city != "Enter City" || check_bank_city != ""){
+	    if(!validateName(check_bank_city)){
+		  $("#check_bank_city").css("border","1px solid #fc8989");
+		  $("#check_bank_city_error").html("Please enter valid city");
+		  $("#check_bank_city_error").parent().css("display","block");
+		  errorFlag = true;
+	      }
+        }
+         if(check_z_code == "" || check_z_code == "Enter zip code"){
+            $("#check_z_code").css("border","1px solid #fc8989");
+            $("#check_zip_error").html("Please enter zipcode");
+            $("#check_zip_error").parent().css("display","block");
+            errorFlag = true;
+          }
+          else if(isNaN(check_z_code)){
+            $("#check_z_code").css("border","1px solid #fc8989");
+            $("#check_zip_error").html("Please enter number");
+            $("#check_zip_error").parent().css("display","block");
+            errorFlag = true;
+          }
+
+
+    if(errorFlag){
+      return false;
+    }
+    else{
+       $.post($("#frmbank_details").attr('action'), $("#frmbank_details").serialize(), null, "script");
+      return false;
+    
+
+    }
+
+      }   // check if end
+
+          if(l_name=="bankinfo")   // bank if start
+    { 
+    var bank_state = $("#bank_state").val();
+    var bank_city = $("#bank_city").val();   
+    var bank_name =  $("#bank_name").val();
+    var w_transfer = $("#w_transfer").val();
+    var account_name = $("#account_name").val();
+    var acc_number = $("#acc_number").val();   
+    var street_bank_code = $("#street_bank_code").val();
+    //~ var number_bank_code = $("#number_bank_code").val();
+    var bank_z_code = $("#bank_z_code").val();
+    var sell_agree_provider = $("#sell_agree_provider").val();
+	
+
+    bank_state = bank_state.replace(/^\s+|\s+$/g, "");
+    bank_city = bank_city.replace(/^\s+|\s+$/g, "");
+    bank_name = bank_name.replace(/^\s+|\s+$/g, "");
+    w_transfer = w_transfer.replace(/^\s+|\s+$/g, "");
+    account_name = account_name.replace(/^\s+|\s+$/g, "");
+    acc_number = acc_number.replace(/^\s+|\s+$/g, "");   
+    street_bank_code = street_bank_code.replace(/^\s+|\s+$/g, "");
+   // number_bank_code = number_bank_code.replace(/^\s+|\s+$/g, "");
+    bank_z_code = bank_z_code.replace(/^\s+|\s+$/g, "");
+
+
+    $("#bank_name").css("border","1px solid #BDD6DD");
+    $("#w_transfer").css("border","1px solid #BDD6DD");
+    $("#account_name").css("border","1px solid #BDD6DD");
+    $("#acc_number").css("border","1px solid #BDD6DD");   
+    $("#street_bank_code").css("border","1px solid #BDD6DD");
+    //~ $("#number_bank_code").css("border","1px solid #BDD6DD");
+    $("#bank_z_code").css("border","1px solid #BDD6DD");
+    $(".selectBoxStateBankReg").css("border","none");
+    $(".selectBoxCityBankReg").css("border","none");
+    $(".selectBoxStateReg").css("border","none");
+    $(".selectBoxCityReg").css("border","none");
+    $("#sell_agree_provider").css("border","1px solid #BDD6DD");
+	
+
+    $("#bank_name_error").html("");
+    $("#wire_transfer_error").html("");
+    $("#clear_house_error").html("");
+    $("#acc_number_error").html("");   
+    $("#street_bank_error").html("");
+    $("#number_bank_error").html("");
+    $("#city_bank_error").html("");
+    $("#state_bank_error").html("");
+    $("#bank_zip_error").html("");
+    $("#sell_agree_provider_error").html("");
+
+    $("#bank_name_error").parent().css("display","none");
+    $("#wire_transfer_error").parent().css("display","none");
+    $("#clear_house_error").parent().css("display","none");
+    $("#acc_number_error").parent().css("display","none");
+    $("#street_bank_error").parent().css("display","none");
+    $("#number_bank_error").parent().css("display","none");
+    $("#street_bank_error").parent().parent().css("display","none");
+    $("#number_bank_error").parent().parent().css("display","none");
+    $("#city_bank_error").parent().parent().css("display","none");
+    $("#state_bank_error").parent().parent().css("display","none");
+    $("#bank_zip_error").parent().css("display","none");
+    $("#checkboxError").css("display","none");
+   
+    var errorFlag = false;
+   
+    if(bank_name == "" || bank_name == "Name of bank"){
+      $("#bank_name").css("border","1px solid #fc8989");
+      $("#bank_name_error").html("Please enter bank name");
+      $("#bank_name_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    else if(!validateName(bank_name)){
+      $("#bank_name").css("border","1px solid #fc8989");
+      $("#bank_name_error").html("Please Use Only Alphabets");
+      $("#bank_name_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    if(account_name == "" || account_name == "Enter your account name"){
+      $("#account_name").css("border","1px solid #fc8989");
+      $("#clear_house_error").html("Please enter account name");
+      $("#clear_house_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    //~ else if(!validateAName(account_name)){
+      //~ $("#account_name").css("border","1px solid #fc8989");
+      //~ $("#clear_house_error").html("Please Use Only Alphabets");
+      //~ $("#clear_house_error").parent().css("display","block");
+      //~ errorFlag = true;
+    //~ }
+    
+    if(w_transfer == "" || w_transfer == "Enter the routing number"){
+      $("#w_transfer").css("border","1px solid #fc8989");
+      $("#wire_transfer_error").html("Please enter the value");
+      $("#wire_transfer_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    else if(isNaN(w_transfer)){
+      $("#w_transfer").css("border","1px solid #fc8989");
+      $("#wire_transfer_error").html("Please enter number");
+      $("#wire_transfer_error").parent().css("display","block");
+      errorFlag = true;
+    }
+
+    if(acc_number == "" || acc_number == "Enter your account number"){
+      $("#acc_number").css("border","1px solid #fc8989");
+      $("#acc_number_error").html("Please enter account number");
+      $("#acc_number_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    else if(isNaN(acc_number)){
+      $("#acc_number").css("border","1px solid #fc8989");
+      $("#acc_number_error").html("Please enter number");
+      $("#acc_number_error").parent().css("display","block");
+      errorFlag = true;
+    }
+	
+   /* if(street_bank_code == "" || street_bank_code == "Enter street address"){
+      $("#street_bank_code").css("border","1px solid #fc8989");
+      $("#street_bank_error").html("Please enter your bank&rsquo;s address");
+      $("#street_bank_error").css("display","block");
+      $("#bank_stree_number").css("display","block");
+      $("#street_bank_error").parent().css("display","block");
+      errorFlag = true;
+    }
+
+    if(number_bank_code == "" || number_bank_code == "Enter number"){
+      $("#number_bank_code").css("border","1px solid #fc8989");
+      $("#number_bank_error").html("Please enter street number");
+      $("#number_bank_error").css("display","block");
+      $("#bank_stree_number").css("display","block");
+      $("#number_bank_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    if(isNaN(number_bank_code)){
+      $("#number_bank_code").css("border","1px solid #fc8989");
+      $("#number_bank_error").html("Please enter street number");
+      $("#number_bank_error").css("display","block");
+      $("#bank_stree_number").css("display","block");
+      $("#number_bank_error").parent().css("display","block");
+      errorFlag = true;
+    }*/
+    if(bank_state == "" || bank_state == "--Choose State--"){
+      $(".selectBoxStateBankReg").css("border","1px solid #fc8989");
+      $("#state_bank_error").html("Please select the state");
+      $("#state_bank_error").parent().parent().css("display","block");
+      errorFlag = true;
+    }
+    if(bank_city == "" || bank_city == "Enter City"){
+      $("#bank_city").css("border","1px solid #fc8989");
+      $("#city_bank_error").html("Please enter the city");
+      $("#city_bank_error").parent().parent().css("display","block");
+      errorFlag = true;
+    }
+	if(bank_city != "Enter City" || bank_city != ""){
+	    if(!validateName(bank_city)){
+		  $("#bank_city").css("border","1px solid #fc8989");
+		  $("#city_bank_error").html("Please enter valid city");
+		  $("#city_bank_error").parent().parent().css("display","block");
+		  errorFlag = true;
+	      }
+        }
+    if(bank_z_code == "" || bank_z_code == "Enter zip code"){
+      $("#bank_z_code").css("border","1px solid #fc8989");
+      $("#bank_zip_error").html("Please enter zipcode");
+      $("#bank_zip_error").parent().css("display","block");
+      errorFlag = true;
+    }
+	
+    else if(isNaN(bank_z_code)){
+      $("#bank_z_code").css("border","1px solid #fc8989");
+      $("#bank_zip_error").html("Please enter number");
+      $("#bank_zip_error").parent().css("display","block");
+      errorFlag = true;
+    }
+
+    if (sell_agree_provider == 0){
+     dispCheckboxImg_sell("sell_checkbox_error");
+      $("#checkboxError").css("display","block");
+      $("#sell_agree_provider_error").html("Please check the terms of service box");
+      errorFlag = true;
+    }
+
+    if(errorFlag){
+      return false;
+    }
+    else{
+       $.post($("#frmbank_details").attr('action'), $("#frmbank_details").serialize(), null, "script");
+      return false;
+    }
+  }// bank if end 
+  
+  }
+  function afterSuccess()
+  {
+    $('.loadingmessage').hide();
+  }
+  function validateName(elementValue){
+    var alphaExp = /^[a-zA-Z ]*$/;
+    return alphaExp.test(elementValue);
+  }
+  function validateAName(elementValue){
+    var alphaExp =  /^[a-zA-Z. ]*$/;
+    return alphaExp.test(elementValue);
+  }
+
+  function dispCheckboxImg_sell(imgName){ 
+    if(imgName == 'sell_checkbox_normal'){
+        $('#sell_checkbox_normal').css('display','none');
+        $('#sell_checkbox_error').css('display','none');
+        $('#sell_checkbox_selected').css('display','block');
+        $('#sell_agree_provider').val(1);
+    }
+    else if(imgName == 'sell_checkbox_error'){
+        $('#sell_checkbox_normal').css('display','none');
+        $('#sell_checkbox_error').css('display','block');
+        $('#sell_checkbox_selected').css('display','none');
+        $('#sell_agree_provider').val(0);
+    }
+    else{
+        $('#sell_checkbox_selected').css('display','none');
+        $('#sell_checkbox_normal').css('display','block');
+        $('#sell_checkbox_error').css('display','none');
+	$('#sell_agree_provider').val(0);
+    }
+}
+
+</script>

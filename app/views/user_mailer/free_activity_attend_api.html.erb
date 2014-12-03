@@ -1,0 +1,60 @@
+<table cellspacing="0" cellpadding="0" style="width:98%; margin:12px;">   
+	<tr>
+    	<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;">
+			Hi <%= @user.user_name.capitalize%>,
+			</td>
+	</tr>
+	<tr>
+    	<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;">
+			This Email is to confirm that you have joined the <%if @activity.present?%> <%=@activity.activity_name %>!<% end %> your payment has been processed successfully!. The payment details are listed below.
+		</td>
+	</tr>
+	<tr>
+    	<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="left" valign="top">
+			<table cellspacing="0" cellpadding="0" width="566"  border="0" style="border:1px solid #CED6D9;">
+			<tr><td  width="133" height="25" align="left" valign="middle" style="border-bottom:1px solid #EEEEEE; "><strong>&nbsp;Activity Owner </strong></td>
+				<td  width="425" align="left" valign="middle" style="border-bottom:1px solid #EEEEEE; ">
+			    <% @user1 = User.find_by_user_id(@activity.user_id)  	
+			    %>		
+			    <%= @user1.user_name %>
+				</td>
+			</tr>
+			<tr>
+				<td align="left" height="25"  valign="middle" style="border-bottom:1px solid #EEEEEE; "><strong>&nbsp;Activity Name</strong></td>
+				<td align="left" valign="middle" style="border-bottom:1px solid #EEEEEE; "><%=@activity.activity_name%></td>
+					
+			</tr>
+			<tr>
+				<td align="left" height="25"  valign="middle" style="border-bottom:1px solid #EEEEEE; "><strong>&nbsp;Price</strong></td>
+				<td align="left" valign="middle" style="border-bottom:1px solid #EEEEEE; "><%= (number_with_precision @amount, :precision => 2)%></td>
+					
+			</tr>
+			</table>			
+		</td>
+	</tr>
+	<tr>
+    	<td>&nbsp;</td>
+	</tr>
+	<tr >
+    	<td align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;">
+    		For any help with your account, you can read our comprehensive list of FAQ's <a href="<%=$image_global_path%>/faq" target="_blank">www.famtivity.com/FAQ</a> or contact our Support team <a href="<%=$image_global_path%>" target="_blank">www.famtivity.com/support</a>
+    	</td>
+	</tr>
+	<tr>
+    	<td>&nbsp;</td>
+	</tr>
+	<tr >
+    	<td align="left" valign="top"  style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#999999;padding-top:20px;">
+    		Your Famtivity Team
+    	</td>
+	</tr>
+</table>   

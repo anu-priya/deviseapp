@@ -1,0 +1,25 @@
+<!-- Sell Through -->
+<table cellpadding="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+
+   <table cellpadding="0" cellpadding="0">
+    <tr>
+      <td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="40"><b>Hi <%= @user.user_name%>,</b></td>
+    </tr>
+    <tr>
+       <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="30">This is to inform you that email address for the <%if !@utype.nil? && @utype=="provider"%>Provider account of <b><%if !@user.user_profile.nil? && !@user.user_profile.business_name.nil?%><%=@user.user_profile.business_name%><%else%><%=@user.user_name%><%end%></b><%else%>Parent account of <b><%=@user.user_name if !@user.user_name.nil?%></b><%end%>&nbsp; in Famtivity has been changed from <a href="mailto:<%=@oldemail if !@oldemail.nil?%>" style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#2c8fae;"><%=@oldemail if !@oldemail.nil?%></a> to <a href="mailto:<%=@user.email_address if !@user.email_address.nil?%>" style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#2c8fae;"><%=@user.email_address if !@user.email_address.nil?%></a>. Starting now, you will receive all your Famtivity communication on the new email.</td>
+     
+    <tr>
+    <td height="24" align="left" valign="middle" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#444444;">Have fun!</td>
+    </tr>
+    
+      <tr>
+         <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;">Your Famtivity Team</td>
+      </tr>
+    
+    
+   </table>
+   </td>
+  </tr>
+</table>

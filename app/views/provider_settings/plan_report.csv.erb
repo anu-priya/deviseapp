@@ -1,0 +1,11 @@
+<%- headers = ["transaction_id", "transaction_date", "plan_name","price"] -%>
+<%= CSV.generate_line(headers).strip %>
+<%if !@user_plan_r.nil? && @user_plan_r.length > 0 %>
+  <% @user_plan_r.each do |tran|%>
+      <%- row = [tran["transaction_id"],tran["payment_date"],tran["user_plan"],"$#{(number_with_precision tran["amount"], :precision => 2)}"]-%>
+      <%= CSV.generate_line(row).html_safe.strip%>
+      <%#= CSV.generate_line row, :row_sep => ?\t, :quote_char => ?\ %>
+  <%end%>
+<%else%>
+  Sorry we found no results
+<%end%>

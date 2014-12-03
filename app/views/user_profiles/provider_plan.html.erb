@@ -1,0 +1,65 @@
+<!--provider submenu -->
+	<%= render :partial => '/provider_settings/provider_submenu'%>
+<!--provider submenu -->
+
+<div class="wrapper_contianer_inner_login">
+	<div class="staic_inner">
+		  <div class="page_head">		
+				<div class="head_line"></div>
+				<h1 class="search_head">Plan&nbsp;</h1>
+				
+		</div><br>
+		<div class="boxContainer">
+			<div id="preview" >
+			<%= render "provider_plan_profile" %> 
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript"> 
+function closepopup_plan(get_id){ 
+	$("#sell_planChange"+get_id).css("display","none"); 
+	$('#mask , .plan-popup').fadeOut(300 , function() {                     
+	$('#mask').remove(); 
+	});
+}
+
+var newSuccessPlanPage;
+function pop_success_plan(url){
+    newSuccessPlanPage = dhtmlmodal.open("Plan Change","iframe",url," ", "width=630px,height=264px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px;background:none;' ", "recal");
+    $("html, body", window.parent.document).animate({
+        scrollTop: 0
+    }, 100);
+    return false;
+}
+//change the plan
+function changeUserPlan(newplan,action){
+    if(action=='upgrade') {
+      url='/provider_plan_upgrade?np='+newplan
+      $('#sponsorBankDiv').show();
+      sell_Page = dhtmlmodal.open("Create New Activity","iframe",url," ", "width=1041px,height=1500px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+      $("html, body").animate({ scrollTop: 0 }, 100);
+      document.getElementById("title").focus();   
+      //set height for iframe div
+      var body = document.body,
+      html = document.documentElement;
+      var height = Math.max( body.scrollHeight, body.offsetHeight,
+      html.clientHeight, html.scrollHeight, html.offsetHeight );
+      $(".drag-contentarea").css("height","1598px");
+      return false;
+
+    }else{
+       url='/provider_plan_upgrade_tran?np='+newplan
+      sell_Page = dhtmlmodal.open("Create New Activity","iframe",url," ", "width=1041px,height=1500px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+      $("html, body").animate({ scrollTop: 0 }, 100);
+      document.getElementById("title").focus();   
+      //set height for iframe div
+      var body = document.body,
+      html = document.documentElement;
+      var height = Math.max( body.scrollHeight, body.offsetHeight,
+      html.clientHeight, html.scrollHeight, html.offsetHeight );
+      $(".drag-contentarea").css("height","1598px");
+      return false;
+    }
+  }
+</script>

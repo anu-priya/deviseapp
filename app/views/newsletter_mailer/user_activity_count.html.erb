@@ -1,0 +1,649 @@
+<table cellspacing="0" cellpadding="0" style="width:98%; margin:12px; font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#000000;">   
+	<tr>
+    	<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;">
+			<b>Hi <%= @user.user_name if !@user.nil? && @user.present?%></b>,
+		</td>
+	</tr>
+	<tr>
+    	<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#000000;">Here are last month's stats for your activity listings,
+			</td>
+	</tr>	
+    <tr>
+		<td height="16"></td>
+	</tr>	
+       <!--
+	<tr>
+		<td height="24" align="left" valign="middle" style="color:#4495b0; font-size:16px;font-weight:bold;">Business Banner Listing</td>
+	</tr>
+	    <tr>
+		<td height="10"></td>
+	</tr>
+	<tr>
+		<td align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#000000;">
+			
+			<table border="0" cellpadding="0" cellspacing="0" style="border:1px solid #efefef; background-color:#fbfbfb; PADDING:6px 6px;" width="100%">
+			<tr>
+				<td align="left" valign="middle" width="10" height="28">
+				<img src="<%= $image_global_path%>/assets/email/bullet_icon.png" alt="" width="10" height="10" />
+			    </td>
+			    <td align="left" valign="middle" width="6"></td>
+			    <td align="left" valign="middle"  height="28">
+				Click Views : <span style="color:#4495b0;"><% track_logo = Activity.track_logo_view(@user.user_id) if !@user.nil? && @user.present? && !@user.user_id.nil? && @user.user_id!=''%>	
+				<% if !track_logo.nil?%>
+					<%= track_logo %>				
+				<% else %>
+					0
+				<%end%></span>
+			    </td>                    
+			</tr>
+			<tr>
+				<td colspan="3" height="6"></td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	 <tr>
+		<td height="10"></td>
+	</tr>
+       -->
+   <!--Activity Listing start -->
+    <tr>
+		<td height="24" align="left" valign="middle" style="color:#4495b0; font-size:16px;font-weight:bold;">Activity Listings</td>
+	</tr>
+    <tr>
+		<td height="10"></td>
+	</tr>
+    <tr>
+		<td align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#000000;">
+			<table border="0" cellpadding="0" cellspacing="0" style="border:1px solid #efefef; background-color:#fbfbfb; PADDING:6px 6px;" width="100%">
+			<tr>
+				<td align="left" valign="middle" width="10" height="28">
+				<img src="<%= $image_global_path%>/assets/email/bullet_icon.png" alt="" width="10" height="10" />
+			    </td>
+			    <td align="left" valign="middle" width="6"></td>
+			    <td align="left" valign="middle"  height="28">
+				Activity Views : <span style="color:#4495b0;">
+					<%@lastweek = Date.today%>
+					<%@week_start = (@lastweek-30.days).strftime('%Y-%m-%d')%>
+					<%@week_end = @lastweek.strftime('%Y-%m-%d')%>
+					<%@total_views = Activity.find_by_sql("select sum(activity_count) as activity_count from activity_counts where activity_id in(select activity_id from activities where user_id=#{@user.user_id}) and (date(inserted_date) between date('#{@week_start}') and date('#{@week_end}')) and activity_count is not null") if !@user.nil? && @user.present? && !@user.user_id.nil? && @user.user_id!=''%>
+					     <%if @total_views && @total_views!=[] && !@total_views.nil? && @total_views!="" && @total_views.present?%>
+							<%@total_views && @total_views.present? && @total_views.each do |view_t| %>
+							<%if view_t.activity_count!="" && view_t.activity_count!=nil && view_t.activity_count.present?%>
+								<%=@tot_view_act = view_t.activity_count%>
+							<%else%>
+								<%=@tot_view_act = 0%>
+							<%end%>
+						<%end%>
+					    <%else%>
+						<%=@tot_view_act=0%>
+					    <%end%>
+				</span>
+			    </td>                    
+			</tr>
+			<tr>
+				<td colspan="3" height="6"></td>
+			</tr>
+			<tr>
+				<td align="left" valign="middle" width="10" height="28">
+				<img src="<%= $image_global_path%>/assets/email/bullet_icon.png" alt="" width="10" height="10" />
+			    </td>
+			    <td align="left" valign="middle" width="6"></td>
+			    <td align="left" valign="middle"  height="28">
+				Activity Clicks : <span style="color:#4495b0;">
+				<%@current_week = Activity.total_view_list(@user.user_id) if !@user.nil? && @user.present? && !@user.user_id.nil? && @user.user_id!=''%>
+				<%if !@current_week.nil? && @current_week.present? && @current_week.length > 0%>
+					<%@current_week.each do |val|%>
+						<%=@current_wk_val = val.view_count%>
+					<%end%>
+				<%else%>
+					<%=@current_wk_val = 0%>
+				<%end%>
+				</span>
+			    </td>                    
+			</tr>
+			<tr>
+				<td colspan="3" height="6"></td>
+			</tr>
+			<tr>
+				<td align="left" valign="middle" width="10" height="28">
+				<img src="<%= $image_global_path%>/assets/email/bullet_icon.png" alt="" width="10" height="10" />
+			    </td>
+			    <td align="left" valign="middle" width="6"></td>
+			    <td align="left" valign="middle"  height="28">
+				Active Listings : <span style="color:#4495b0;"><%@active_listings_list = Activity.active_activities_list(@user.user_id) if !@user.nil? && @user.present? && !@user.user_id.nil? && @user.user_id!=''%>
+				<%if !@active_listings_list.nil? && @active_listings_list.length > 0%>
+					<%=@active_listings_list.length%>
+				<%else%>
+					0
+				<%end%></span>
+			    </td>                    
+			</tr>
+			<tr>
+				<td colspan="3" height="6"></td>
+			</tr>
+			<tr>
+				<td align="left" valign="middle" width="10" height="28">
+				<img src="<%= $image_global_path%>/assets/email/bullet_icon.png" alt="" width="10" height="10" />
+			    </td>
+			    <td align="left" valign="middle" width="6"></td>
+			    <td align="left" valign="middle"  height="28">
+				Activities that accept Discount Dollars : <span style="color:#4495b0;">
+				<%@discount_dollar_list = Activity.discount_dollar_activities(@user.user_id) if !@user.nil? && @user.present? && !@user.user_id.nil? && @user.user_id!=''%>
+				<%if !@discount_dollar_list.nil? && @discount_dollar_list.length > 0%>
+					<%=@discount_dollar_list.length%>
+				<%else%>
+					0
+				<%end%>
+				</span>
+			    </td>                    
+			</tr>   
+			<tr>
+				<td colspan="3" height="6"></td>
+			</tr>			
+			<tr>
+				<td align="left" valign="middle" width="10" height="28">
+				<img src="<%= $image_global_path%>/assets/email/bullet_icon.png" alt="" width="10" height="10" />
+			    </td>
+			    <td align="left" valign="middle" width="6"></td>
+			    <td align="left" valign="middle"  height="28">
+				Inactive Activities : <span style="color:#4495b0;">
+				<% @inactive_list = Activity.inactive_activities(@user.user_id) if !@user.nil? && @user.present? && !@user.user_id.nil? && @user.user_id!=''
+				if !@inactive_list.nil? && @inactive_list.length > 0
+					%><%= @inactive_list.length %>
+				<%else%>
+					0
+				<%end%>
+				</span>
+			    </td>                    
+			</tr>
+			<tr>
+				<td colspan="3" height="6"></td>
+			</tr>
+			<tr>
+				<td align="left" valign="middle" width="10" height="28">
+				<img src="<%= $image_global_path%>/assets/email/bullet_icon.png" alt="" width="10" height="10" />
+			    </td>
+			    <td align="left" valign="middle" width="6"></td>
+			    <td align="left" valign="middle"  height="28">
+				Expired Activities : <span style="color:#4495b0;">
+				<% @expired_list = Activity.expired_activities(@user.user_id) if !@user.nil? && @user.present? && !@user.user_id.nil? && @user.user_id!=''
+				if !@expired_list.nil? && @expired_list.length > 0 %>
+					<%= @expired_list.length%>
+				<%else%>
+					0
+				<%end%>
+				</span>
+			    </td>                    
+			</tr>
+			</table>
+		</td>
+	</tr>
+    <tr>
+		<td height="10"></td>
+	</tr>
+    <tr>
+		<td align="left" valign="middle"><div style="border-bottom:1px dashed #e3e3e3; width:100%">&nbsp;</div></td>
+	</tr>
+<!--Activity Listing end -->
+
+<!--Top Activity views start -->
+
+<tr>
+		<td height="20"></td>
+	</tr>
+    <tr>
+		<td height="24" align="left" valign="middle" style="color:#4495b0; font-size:16px;font-weight:bold;">Top Activity Views </td>
+	</tr>
+    <tr>
+		<td height="10"></td>
+	</tr>
+     <tr>
+		<td align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#000000;">
+			<table border="0" cellpadding="0" cellspacing="0" style="border:1px solid #efefef; background-color:#fbfbfb; PADDING:6px 6px;" width="100%">
+			
+				<%
+				@cal = 0
+				@current_wk_val = 0
+				@last_wk_val = 0
+				@current_week = Activity.total_view_list(@user.user_id) if !@user.nil? && @user.present? && !@user.user_id.nil? && @user.user_id!=''
+				@last_week = Activity.total_view_list_lastweek(@user.user_id) if !@user.nil? && @user.present? && !@user.user_id.nil? && @user.user_id!=''
+				if !@current_week.nil? && @current_week.present? && @current_week.length > 0
+					@current_week.each do |val|
+						@current_wk_val = val.view_count
+					end
+				else
+					@current_wk_val = 0
+				end
+				if !@last_week.nil? && @last_week.present? && @last_week.length > 0
+					@last_week.each do |val|
+						@last_wk_val = val.view_count
+					end
+				else
+					@last_wk_val = 0
+				end
+				
+				if @current_wk_val!='' && @last_wk_val!=''
+					@cal = (@current_wk_val.to_f) - (@last_wk_val.to_f)
+					@percentage = ((@current_wk_val.to_f) - (@last_wk_val.to_f))/100
+				else
+					@cal = 0
+					@percentage = 0
+				end
+				%>	
+					
+			<tr>
+				<td colspan="3" height="6"></td>
+			</tr>
+			   
+			<tr>
+				
+			    <td align="left" valign="top"  height="28">
+				<table border="0" cellpadding="0" cellspacing="0" style="margin-left: -16px;">
+				<% @top_view_activity_list = Activity.top_view_activities(@user.user_id) if !@user.nil? && @user.present? && !@user.user_id.nil? && @user.user_id!=''
+				if !@top_view_activity_list.nil? && @top_view_activity_list.length > 0			
+					@top_view_activity_list.each do |activity|
+					if !activity.nil? && !activity.activity_count.nil? && activity.activity_count!=0
+					%>
+					<tr>
+						<div style="margin-bottom:35px;">
+						<td align="left" valign="middle" height="28">
+							<img src="<%= $image_global_path%>/assets/email/bullet_icon.png" alt="" width="10" height="10" />
+						</td>
+						<td align="left" width="6"></td>
+						<td align="left" valign="middle" height="28" >
+							<% act = Activity.find_by_activity_id(activity.activity_id) if activity%>							
+							<% if !activity.activity_count.nil? && activity.activity_count.present?
+								 if activity.activity_count!=''
+									@top_count = activity.activity_count
+								else
+									@top_count = 0
+								end
+							end %>
+							<%= "#{act.activity_name.capitalize}  : " if act && act.present? && !act.activity_name.nil?%><span style="color:#4495b0;"><%= "#{@top_count}" if act && act.present? && !act.activity_name.nil?%> </span>
+						</td>
+					</div>
+					</tr>
+					<%	
+					end
+					end
+				else%>
+					<tr>
+						<td align="left" valign="middle" height="28">
+							<img src="<%= $image_global_path%>/assets/email/arrow_blue.png" alt="" width="12" height="9" />
+						</td>
+						<td align="left" width="6"></td>
+						<td align="left" valign="middle" height="28" >
+							No activities
+						</td>
+					</tr>
+				<%end %>
+				
+				</table>                        
+			    </td>
+			</tr>
+</table>
+		</td>
+	</tr>
+
+	<tr>
+		<td height="10"></td>
+	</tr>
+    <tr>
+		<td align="left" valign="middle"><div style="border-bottom:1px dashed #e3e3e3; width:100%">&nbsp;</div></td>
+	</tr>
+
+	<!--Top Activity views end -->
+
+	<!--Parents can start -->
+	<tr>
+		<td height="20"></td>
+	</tr>
+     <tr>
+		<td height="24" align="left" valign="middle" style="color:#4495b0; font-size:16px;font-weight:bold;">Parents can find you on Famtivity in the following ways:</td>
+	</tr>
+    <tr>
+		<td height="10"></td>
+	</tr>
+    <tr>
+      <td align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#000000;">
+			<table border="0" cellpadding="0" cellspacing="0" style="border:1px solid #efefef; background-color:#fbfbfb; PADDING:6px 6px;" width="100%">
+			<tr>
+            	<td align="center" valign="middle" width="29" height="28">
+                	<img src="<%= $image_global_path%>/assets/newsletter/search_icon.png" alt="Search" width="18" height="18" />
+                </td>
+            	<td align="left" valign="middle" width="7">&nbsp;</td>
+                <td align="left" valign="middle" width="646" height="28">
+                	Search
+                </td>
+                <td align="center" valign="middle" width="27" height="28">
+                	<img src="<%= $image_global_path%>/assets/newsletter/featured_icon.png" alt="Featured Row" width="20" height="18" />
+                </td>
+                <td align="left" valign="middle" width="8">&nbsp;</td>
+                <td align="left" valign="middle" width="581" height="28">
+                	Featured Row
+                </td>
+                <td align="center" valign="middle" width="33" height="28">
+                	<img src="<%= $image_global_path%>/assets/newsletter/scrolling_icon.png" alt="Scrolling Banner" width="26" height="16" />
+                </td>
+                <td align="left" valign="middle" width="8">&nbsp;</td>
+                <td align="left" valign="middle" width="493" height="28">
+                	Scrolling Banner
+                </td>
+            </tr>
+            <tr>
+            	<td align="center" valign="middle" height="28">
+                	<img src="<%= $image_global_path%>/assets/newsletter/activty_icon.png" alt="Activity Cards" width="18" height="24" />
+                </td>
+            	<td align="left" valign="middle">&nbsp;</td>
+                <td align="left" valign="middle" height="28">
+                	Activity Cards
+                </td>
+                <td align="center" valign="middle"  height="28">
+                	<img src="<%= $image_global_path%>/assets/newsletter/more_info_icon.png" alt="More Info" width="22" height="22" />
+                </td>
+                <td align="left" valign="middle">&nbsp;</td>
+                <td align="left" valign="middle" height="28">
+                	More info
+                </td>
+                <td align="center" valign="middle" height="28">
+                	<img src="<%= $image_global_path%>/assets/newsletter/buy_now_icon.png" alt="Buy Now" width="22" height="20"/>
+                </td>
+                <td align="left" valign="middle">&nbsp;</td>
+                <td align="left" valign="middle"  height="28">
+                	Buy now
+                </td>
+            </tr>
+            <tr>
+            	<td align="center" valign="middle" height="28">
+                	<img src="<%= $image_global_path%>/assets/newsletter/message_icon.png" alt="Messages" width="25" height="18" />
+                </td>
+            	<td align="left" valign="middle">&nbsp;</td>
+                <td align="left" valign="middle"  height="28">
+                	Messages
+                </td>
+                <td align="center" valign="middle"  height="28">
+                	
+                </td>
+                <td align="left" valign="middle"></td>
+                <td align="left" valign="middle" height="28">
+                
+                </td>
+                <td align="center" valign="middle"  height="28">
+                	
+                </td>
+                <td align="left" valign="middle"></td>
+                <td align="left" valign="middle" height="28">
+                	
+                </td>
+            </tr>
+            <tr>
+              <td align="left" valign="middle" height="10"></td>
+              <td align="left" valign="middle"></td>
+              <td align="left" valign="middle"></td>
+              <td align="left" valign="middle"></td>
+              <td align="left" valign="middle"></td>
+              <td align="left" valign="middle"></td>
+              <td align="left" valign="middle"></td>
+              <td align="left" valign="middle"></td>
+              <td align="left" valign="middle"></td>
+            </tr>
+            <tr>
+              <td align="left" valign="middle"></td>
+              <td align="left" valign="middle">&nbsp;</td>
+              <td height="20" colspan="7" align="left" valign="middle">We also promote our providers to our 6,000+ Facebook fans and on our <a href="http://blog.famtivity.com" title="" style="color:#4495ae; font-weight:normal; text-decoration:none;">Blog</a>.</td>
+              </tr>
+            <tr>
+              <td align="left" valign="middle"  height="10"></td>
+              <td align="left" valign="middle"></td>
+              <td align="left" valign="middle"></td>
+              <td align="left" valign="middle"></td>
+              <td align="left" valign="middle"></td>
+              <td align="left" valign="middle"></td>
+              <td align="left" valign="middle"></td>
+              <td align="left" valign="middle"></td>
+              <td align="left" valign="middle"></td>
+            </tr>
+            </table>      	
+      </td>
+    </tr>
+    <tr>
+		<td height="20"></td>
+	</tr>
+	<tr>
+		<td align="left" valign="middle"><div style="border-bottom:1px dashed #e3e3e3; width:100%">&nbsp;</div></td>
+	</tr>
+	<!--Parents can end -->
+
+
+       <!--
+	<tr>
+		<td height="20"></td>
+	</tr>
+    <tr>
+		<td height="24" align="left" valign="middle" style="color:#4495b0; font-size:16px;font-weight:bold;">Famtivity Network Stats</td>
+	</tr>
+    <tr>
+		<td height="10"></td>
+	</tr>
+     <tr>
+		<td align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#000000;">
+			<table border="0" cellpadding="0" cellspacing="0" style="border:1px solid #efefef; background-color:#fbfbfb; PADDING:6px 6px;" width="100%">
+			
+				<%
+				@cal = 0
+				@current_wk_val = 0
+				@last_wk_val = 0
+				@current_week = Activity.total_view_list(@user.user_id) if !@user.nil? && @user.present? && !@user.user_id.nil? && @user.user_id!=''
+				@last_week = Activity.total_view_list_lastweek(@user.user_id) if !@user.nil? && @user.present? && !@user.user_id.nil? && @user.user_id!=''
+				if !@current_week.nil? && @current_week.present? && @current_week.length > 0
+					@current_week.each do |val|
+						@current_wk_val = val.view_count
+					end
+				else
+					@current_wk_val = 0
+				end
+				if !@last_week.nil? && @last_week.present? && @last_week.length > 0
+					@last_week.each do |val|
+						@last_wk_val = val.view_count
+					end
+				else
+					@last_wk_val = 0
+				end
+				
+				if @current_wk_val!='' && @last_wk_val!=''
+					@cal = (@current_wk_val.to_f) - (@last_wk_val.to_f)
+					@percentage = ((@current_wk_val.to_f) - (@last_wk_val.to_f))/100
+				else
+					@cal = 0
+					@percentage = 0
+				end
+				%>	
+					
+			<tr>
+				<td colspan="3" height="6"></td>
+			</tr>
+			<tr>
+				<td align="left" valign="middle" width="10" height="28">
+				<img src="<%= $image_global_path%>/assets/email/bullet_icon.png" alt="" width="10" height="10" />
+			    </td>
+			    <td align="left" valign="middle" width="6"></td>
+			    <td align="left" valign="middle"  height="28">
+				Top Activity views : 
+			    </td>                                        
+			</tr>      
+			<tr>
+				<td align="left" valign="top" width="10" height="28">&nbsp;                    	
+			    </td>
+			    <td align="left" valign="middle" width="6"></td>
+			    <td align="left" valign="top"  height="28">
+				<table border="0" cellpadding="0" cellspacing="0">
+				<% @top_view_activity_list = Activity.top_view_activities(@user.user_id) if !@user.nil? && @user.present? && !@user.user_id.nil? && @user.user_id!=''
+				if !@top_view_activity_list.nil? && @top_view_activity_list.length > 0			
+					@top_view_activity_list.each do |activity|
+					%>
+					<tr>
+						<td align="left" valign="middle" height="28">
+							<img src="<%= $image_global_path%>/assets/email/arrow_blue.png" alt="" width="12" height="9" />
+						</td>
+						<td align="left" width="6"></td>
+						<td align="left" valign="middle" height="28" >
+							<% act = Activity.find_by_activity_id(activity.activity_id) if activity%>
+							<%= act.activity_name.capitalize if act && act.present? && !act.activity_name.nil?%>
+						</td>
+					</tr>
+					<%	
+					end
+				else%>
+					<tr>
+						<td align="left" valign="middle" height="28">
+							<img src="<%= $image_global_path%>/assets/email/arrow_blue.png" alt="" width="12" height="9" />
+						</td>
+						<td align="left" width="6"></td>
+						<td align="left" valign="middle" height="28" >
+							No activities
+						</td>
+					</tr>
+				<%end %>
+				
+				</table>                        
+			    </td>
+			</tr>          
+			<tr>
+				<td colspan="3" height="6"></td>
+			</tr>
+			<tr>
+				<td align="left" valign="middle" width="10" height="28">
+				<img src="<%= $image_global_path%>/assets/email/bullet_icon.png" alt="" width="10" height="10" />
+			    </td>
+			    <td align="left" valign="middle" width="6"></td>
+			    <td align="left" valign="middle"  height="28">
+				Top Activity Shares :
+			    </td>                    
+			</tr>
+			<tr>
+				<td align="left" valign="top" width="10" height="28">&nbsp;                    	
+			    </td>
+			    <td align="left" valign="middle" width="6"></td>
+			    <td align="left" valign="top"  height="28">
+				<table border="0" cellpadding="0" cellspacing="0">
+					<% @top_activity_share_list = Activity.top_share_activities(@user.user_id) if !@user.nil? && @user.present? && !@user.user_id.nil? && @user.user_id!=''
+				if !@top_activity_share_list.nil? && @top_activity_share_list.length > 0			
+					@top_activity_share_list.each do |activity|
+					%>
+					<tr>
+						<td align="left" valign="middle" height="28">
+							<img src="<%= $image_global_path%>/assets/email/arrow_blue.png" alt="" width="12" height="9" />
+						</td>
+						<td align="left" width="6"></td>
+						<td align="left" valign="middle" height="28" >
+							<%act = Activity.find_by_activity_id(activity.activity_id) if activity%>
+							<%= act.activity_name.capitalize if act && act.present? && !act.activity_name.nil? %>
+						</td>
+					</tr>
+					<%
+					end
+				else %>
+					<tr>
+						<td align="left" valign="middle" height="28">
+							<img src="<%= $image_global_path%>/assets/email/arrow_blue.png" alt="" width="12" height="9" />
+						</td>
+						<td align="left" width="6"></td>
+						<td align="left" valign="middle" height="28" >
+							No activities
+						</td>
+					</tr>
+				<% end %>
+				</table>                        
+			    </td>
+			</tr>    
+			<tr>
+				<td colspan="3" height="6"></td>
+			</tr>
+			<tr>
+				<td align="left" valign="middle" width="10" height="28">
+				<img src="<%= $image_global_path%>/assets/email/bullet_icon.png" alt="" width="10" height="10" />
+			    </td>
+			    <td align="left" valign="middle" width="6"></td>
+			    <td align="left" valign="middle"  height="28">
+				Leads : <span style="color:#4495b0;">
+				<% @leads_list = Activity.lead_user_list(@user.email_address) if !@user.nil? && @user.present? && !@user.email_address.nil? && @user.email_address!=''
+				if !@leads_list.nil? && @leads_list.length > 0 %>
+					<%= @leads_list.length%>
+				<% else%>
+					0
+				<% end%>
+				</span>
+			    </td>                    
+			</tr>
+			<tr>
+				<td colspan="3" height="6"></td>
+			</tr>
+		    </table>
+		</td>
+	</tr>
+   
+    <tr>
+		<td height="10"></td>
+	</tr>
+    <tr>
+		<td align="left" valign="middle"><div style="border-bottom:1px dashed #e3e3e3; width:100%">&nbsp;</div></td>
+	</tr>
+      -->
+    <tr>
+		<td height="20"></td>
+	</tr>
+    
+    <tr>
+		<td height="24" align="left" valign="middle" style="color:#4495b0; font-size:16px;font-weight:bold;">
+        	Want More Customers?
+        </td>
+	</tr>
+    <tr>
+		<td height="10"></td>
+	</tr>
+    <tr>
+		<td align="left" valign="top" style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#333333;">
+			<table border="0" cellpadding="0" cellspacing="0" style="border:1px solid #efefef; background-color:#fbfbfb; PADDING:6px 6px;" width="100%">
+			<tr>
+				<td align="left" valign="top" width="10" height="28">
+				<img src="<%= $image_global_path%>/assets/email/bullet_icon.png" alt="" width="10" height="10" />
+			    </td>
+			    <td align="left" valign="middle" width="6"></td>
+			    <td align="left" valign="top"  height="28">
+				Add the <a href="<%= $image_global_path%>/?findus=view" title="" style="color:#4495b0; text-decoration:none;">Find us on Famtivity</a> link to your website and we'll give you a Facebook Boost! 
+			    </td>                    
+			</tr>
+			<tr>
+				<td colspan="3" height="6"></td>
+			</tr>
+			<tr>
+				<td align="left" valign="top" width="10" height="28">
+				<img src="<%= $image_global_path%>/assets/email/bullet_icon.png" alt="" width="10" height="10" />
+			    </td>
+			    <td align="left" valign="middle" width="6"></td>
+			    <td align="left" valign="top"  height="28">
+				Promote specific classes, camps, or lessons by accepting Famtivity Discount Dollars. <a href="<%= $image_global_path%>/?login=view" title="" style="color:#4495b0; text-decoration:none;">Login</a> now to sign-up and get more customers.				
+			    </td>                    
+			</tr>   
+		    </table>
+        </td>
+	</tr>
+    <tr>
+		<td height="20"></td>
+	</tr>
+    <tr>
+    	<td align="left" valign="top">
+        	Contact us anytime for help at <a href="mailto:support@famtivity.com" title="" style="color:#4495b0; text-decoration:none;">support@famtivity.com</a> or toll-free at <font style="color:#4495b0;">+1 (800)-386-6479</font>	
+        </td>
+    </tr>
+    <tr>
+		<td height="10"></td>
+	</tr>
+</table>

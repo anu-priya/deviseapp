@@ -1,0 +1,269 @@
+<link rel="stylesheet" type="text/css" href="/assets/login/login_new.css" />
+<link rel="stylesheet" href="/assets/contacts_users_new/contact_user.css" type="text/css" />
+
+<script type="text/javascript" src="/assets/contacts_users_new/contact_user.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css" />
+<script class="jsbin" src="/assets/event/jquery.min.js"></script>
+<script class="jsbin" src="/assets/event/jquery-ui.min.js"></script>
+
+
+<script language="javascript"> 
+function closepopup() {
+  self.close();
+//    parent.contactImportPage.hide();
+}
+  function closepopup_check() {
+
+ // $('#check_box_alert').css("display","none");
+ // $("#contact_list").css("height","auto");
+ // $("#c_list").css("display","block");
+  
+  document.getElementById('c_list').style.display="block";
+document.getElementById('check_box_alert').style.display="none";
+$(".popupContainer").css("height","760px");
+
+    //parent.contactImportPage.hide();
+    //parent.location.reload(true);
+    //opener.location.reload(true);
+    //flag=2;
+  }
+</script>
+<script type="text/javascript">
+  function get_contact_id(){
+    $("#from").val("gmail");
+  }
+</script>
+
+<div id="contact_container" class="">
+  <div class="popupContainer" style="height: 760px;">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Import Friends</div>
+          </div>
+                   <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> <img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" /> </a>
+          </div>
+        </div>   
+        <div id="contact_list" class="centerCont contactNew">
+          <div id="check_box_alert" style="padding:50px; display:none">
+<p align="center" style="font-family:arial; font-size:18px; color:#000;">Please select at least one friend</p>
+<div align="center" style="margin-top:40px;">
+    <input type="hidden" value="40," id="to_delete">
+    <a href="javascript:void(0)" title="" onclick="closepopup_check()" ><img alt="" src="/assets/contact/ok_button.png"></a>
+     
+  </div>
+
+     
+
+    <!--ajax loader -->
+<div class='loadingmessage' style='display:none;margin-top:-155px;float:left;margin-left:135px;' align="center">
+    <img src='/assets/ajax-loader.gif'/>
+  </div>
+</div>
+
+  <%if @contacts.length>0 %>
+  <form action="/add_contact_success" method="post" name="contact_form" id="contact_form">
+   <div id="c_list">
+       <input type="hidden" id="select_all" name="selectAll" value="">
+  
+    <div id="checkout" style="width:500px;margin:0 auto;">
+      <table cellspacing="0" cellpadding="0" border="0"  class="checkout_top" >
+        <tr>
+          <td><div class="set_style_1" style="background:#CCE9EF;float:left;display:inline-block;"><span class="number_1">1</span></div></td>
+          <td><div style="float:left;display:inline-block;"><img src="/assets/checkout/line.png" width="458" height="1" class="setLineImg"></div></td>
+          <td><div class="set_style_2" style="background:#none;float:left;display:inline-block;"><span class="number_1">2</span></div></td>
+        </tr>
+      </table>
+      <table cellspacing="0" cellpadding="0" border="0"  style="margin-top:2px; .margin-top:7px;">
+        <tr>
+          <td><div style="float:left;display:inline-block;"><span class="number_1 chkout_ftSz12" style="margin:0 0 0 -12px; .margin:0px 0 0 -7px; position:relative; display:block; width:60px; color:#2B91AF;"><b>Import</b></span></div></td>
+          <td><div style="float:left;display:inline-block;"><span class="number_1 chkout_clr_ftSz12" style="margin-left:423px;color:#2B91AF;">Invite</span></div></td>
+        </tr>
+      </table>
+    </div>
+        
+  <div class="clear"></div>
+  
+  <div class="friendsList">
+  
+    
+    <div class="selectAll"><div style="padding:10px;" ><input type="checkbox" name="checkbox_contact" id="parent_checkbox" onclick="importAll()" /><span onclick="importAll()">Select All</span></div></div>
+ 
+    <div  style="height:525px; overflow-y:auto; overflow-x:hidden;">            
+    <input type="hidden" name="from" id="from" value="<%=current_user.id%>">
+                 
+            <%i=1 %>
+                <%(0..@contacts.length.to_i).step(2) do |n| %>
+                  <div class="friendsListDivBg2" style="background-color:<%if i.even? %>#F9FBFA;<%else%>#ffffff;<%end%>">
+                    <div class="lfrdDiv" style="display:inline-block;">
+                      <table cellspacing="0" cellpadding="0" border="0" height="65">
+                        <tr id="leftDiv">
+		   <%if !@contacts[n].nil?%>
+                          <td width="21">
+                        <%wlive=@contacts[n][:email_hashes] if !@contacts[n].nil? && !@contacts[n][:email_hashes].nil?%>
+                        <%a=@contacts[n][:email] if !@contacts[n].nil? && !@contacts[n][:email].nil?%>
+                        <%b=@contacts[n][:name] if !@contacts[n].nil? && !@contacts[n][:name].nil?%>
+                        <%c=a.split("@") if !@contacts[n].nil? && !@contacts[n][:email].nil?%>
+                        <%name=c[0] if !@contacts[n].nil? && !@contacts[n][:email].nil?%>
+                        <% if !b.nil? && b.present?%><%b%><%else%><%b=c[0]%><%end%>
+
+                            <input type="checkbox" class="case" name="subList[]" id='subList' value="<%="#{a}^#{b}"%>" onchange="unselect()"/>
+                          </td>
+                          
+                          <input type="hidden" id="wl_email" name="wl_email" value="<%=wlive if !wlive.nil? %>">
+                          <td>
+                            <img src="/assets/default/user_medium.png" width="38" height="38" class="">
+                          </td>
+                          <td class="nameList">
+                      
+                            <div class="cont1"><% if !b.nil? && b.present?%><%=b%><%else%><%=c[0] if !c.nil?%><%end%></div>
+                            <div class="cont3" style="cursor:default;color: #2B91AF;margin-bottom: 5px;" title="<%= a=@contacts[n][:email] if !@contacts[n].nil? && !@contacts[n][:email].nil?%>">
+                              <% a=@contacts[n][:email] if !@contacts[n].nil? && !@contacts[n][:email].nil?%>
+                              <%if !a.nil? %><%=truncate(a, :length =>40, :omission => '... ')%><%end%>
+                            </div>
+
+                            <div class="cont2"><% @olduser= User.where("email_address = ?",a)%>
+                              <% @oldcontact= ContactUser.where("contact_email = ? and user_id = ?",a,current_user.user_id)%>
+                            
+
+                              <%if !@olduser.nil? && @olduser.present?%>
+                                 Member
+                              <%else%>
+                                 Non-Member
+                              <%end%>
+                            </div>
+                          </td>
+		<%end%>
+                        </tr>
+                      </table>
+                      <div class="clear"></div>
+                    </div>
+                    <div class="lfrdDiv" style="display:inline-block;">
+                      <table cellspacing="0" cellpadding="0" border="0" height="65">
+                        <tr id="leftDiv">
+                          <%if !@contacts[n+1].nil?%>
+                          <td width="21">
+                            <%wlive=@contacts[n+1][:email_hashes] if !@contacts[n+1].nil? && !@contacts[n+1][:email_hashes].nil?%>
+                           <%a=@contacts[n+1][:email] if !@contacts[n+1].nil? && !@contacts[n+1][:email].nil?%>
+                           <%b=@contacts[n+1][:name] if !@contacts[n+1].nil? && !@contacts[n+1][:name].nil?%>               
+                            <%c=a.split("@")  if !@contacts[n+1].nil? && !@contacts[n+1][:email].nil?%>
+                            <%name=c[0]  if !@contacts[n+1].nil? && !@contacts[n+1][:email].nil?%>
+                            <% if !b.nil? && b.present?%><%b%><%else%><%b=c[0]%><%end%>
+                            <input type="hidden" id="wl_email" name="wl_email" value="<%=wlive if !wlive.nil? %>">
+                            <input type="checkbox" class="case" name="subList[]" id='subList' value="<%="#{a}^#{b}"%>" onchange="unselect()"/>
+                          </td>
+                          <td>
+                            <img src="/assets/default/user_medium.png" width="38" height="38" class="">
+                          </td>
+                          
+                          <td class="nameList">
+                     
+
+                            <div class="cont1"><% if !b.nil? && b.present?%><%=b%><%else%><%=b=c[0] if !c.nil?%><%end%></div>
+                            <div class="cont3" style="cursor:default;color: #2B91AF;margin-bottom: 5px;" title="<%= a=@contacts[n+1][:email] if !@contacts[n+1].nil? && !@contacts[n+1][:email].nil?%>">
+                              <% a=@contacts[n+1][:email] if !@contacts[n+1].nil? && !@contacts[n+1][:email].nil?%>
+                              <%if !a.nil? %><%=truncate(a, :length =>40, :omission => '... ')%><%end%>
+                            </div>
+                            <div class="cont2"><% @olduser= User.where("email_address = ?",a)%>
+                               <% @oldcontact= ContactUser.where("contact_email = ? and user_id = ?",a,current_user.user_id)%>
+                              <%if !@olduser.nil? && @olduser.present?%>
+                                 Member
+                              <%else%>
+                                 Non-Member
+                              <%end%>
+                            </div>
+                          </td>
+                          <%end%>
+                        </tr>
+                      </table>
+                      <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+
+                 <%i=i+1%> 
+                <%end%>
+          <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+      </div>
+      
+    <input src="/assets/contact/import_button.png" type="image" height ="39" width = "111" value="Save"  onClick="return doSubmit()"/>
+    <span id='loadingSave' style='display: none;padding-left: 10px;position: relative;top: -10px;' ><img src='/assets/loading.gif'/></span>
+      <div class="clear"></div>
+   </div>
+      </form>
+      <% else %>
+      <div class="lists" style="width:99%;display:block;text-align:center;">
+           <table border="0" cellpadding="0" cellspacing="0" width="100%" align="center">
+               <tr>
+                 <td class="no_activities" width="100%" align="center" valign="middle" style="text-align:center;padding-top:50px;color: #000000;">You have no friends to Import.</td>
+              </tr>
+            </table>
+               <div class="buttons" align="center">
+                   <a href="javascript:void(0)" onClick="closepopup();"><img src="/assets/contact/ok_button.png" alt="" style="margin-top:20px;"/></a>
+                   <div class="clear"></div>
+             </div>
+        </div>
+      <% end %>
+    </div>
+
+      </div>
+   </div>
+
+    
+        <div class="popupContainerBottom" style="margin-top:0px;"></div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+
+ </div>
+ </div>
+  </div>
+<script type="text/javascript">
+
+  function doSubmit()
+{
+
+  //$("#contact_list").css("height","170px");
+  var c = document.getElementsByTagName('input'); 
+  for( var i = 0; i < c.length; i++ )
+  { 
+    if( c[i].type.toLowerCase() == 'checkbox' && c[i].checked ) 
+    {    $("#loadingSave").css("display","inline-block");
+         return( true );
+    
+    } 
+  }
+ 
+document.getElementById('check_box_alert').style.display="block";
+document.getElementById('c_list').style.display="none";  
+$(".popupContainer").css("height","260px");
+
+  return( false );
+}
+
+  //when the user onclicking the the price_all check box it will call this function.
+  function select_all_contacts(){
+    if($('input[name=checkbox_contact]').is(':checked')){
+      $('input[name=subList]').attr('checked', true);
+      $("#selectAll").val("All");
+    }
+    else{
+      $('input[name=subList]').attr('checked', false);
+      $("#selectAll").val("");
+    }
+  }
+
+    $(document).ready(function() {
+
+      $('input[name=subList]').attr('checked', false);
+   
+    });
+
+
+</script>

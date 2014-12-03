@@ -1,0 +1,685 @@
+<%=javascript_include_tag "global/jquery.lazyload","admin/admin"%>
+<%=stylesheet_link_tag "admin/admin", :media => "all"%>
+<script type="text/javascript">
+  function showPriceDetails_admin(act_id){
+    $("#pricingDetail"+act_id).show();
+  }
+  function hidePriceDetails_admin(act_id){
+    $("#pricingDetail"+act_id).hide();
+  }
+
+
+
+  function closePopup(activity_id){
+    $('#raise_popup_'+activity_id).hide();
+  }
+  //before image load show loading image
+  $(function() {
+    $("#div_act img").lazyload({
+      placeholder : "/assets/ajax-loader.gif"
+				
+    });
+  });
+</script>
+
+<div class="pro_pagination" align="right" style="margin-top:-35px;.margin-top:10px;.margin-bottom:-35px;">
+  <div class="clear"></div>
+  <%= will_paginate @activities%>
+  <div class="clear"></div>
+</div>
+
+<div id="wrapper" class="BoardLayout">
+
+  <div id="ColumnContainer" style="margin-top: 49px;" class="activityDetailView">
+    <div class="memo" style="display: none"></div>
+    <%if !@activities.nil? && @activities !="" %>
+      <%@activities && @activities.each do |act|%>
+        <div class="field" id="act<%= act.activity_id %>">
+          <div align="center" style="width:209px; overflow:hidden;" id="div_act"><%= image_tag act.avatar.url(:thumb), :alt=>"#{act.activity_name if act && act.activity_name}, #{act.category if act && act.category} Activities - #{act.sub_category if act && act.sub_category}"%></div>
+          <div>
+            <!-- approved top buttons start-->
+            <input type="hidden" id="pop" value="<%= act.activity_id %>">
+            <div style="margin:9px 0 9px 0;">
+              <span id="approve_<%=act.activity_id%>">
+                <%if act.approve_flag ==true %>
+                  <span>
+                    <%=image_tag("/assets/admin/tig_image.png", :width=>"13", :height=>"13", :class=>"tig_image")%>
+                    <span class="ftSz12" style="left: 4px; position: relative; top: 6px;vertical-align: top;">Approved</span>
+                  </span>
+                <%else%>
+                  <span>
+                    <a href="javascript:void(0)" title="" onclick="raise_a_flag('<%= act.activity_id %>','true')"><%=image_tag("/assets/admin/approve_button.png", :width=>"69", :height=>"27")%></a>
+                  </span>
+                <%end%>
+              </span>
+
+              <span id="raised_<%= act.activity_id %>">
+                <%if act.raised_flag ==true %>
+                  <span>
+                     <%=image_tag("/assets/admin/tig_image.png", :width=>"13", :height=>"13", :class=>"tig_image")%>
+                    <span class="ftSz12" style="left: 4px; position: relative; top: 6px;vertical-align: top;">Raised&nbsp;</span>
+                  </span>
+                <%else%>
+                  <span>
+                    <a href="javascript:void(0)" id="<%= act.activity_id %>" title="" style="margin-left:9px;" onclick="showPop(<%= act.activity_id %>,<%= act.activity_id %>);"><%=image_tag("/assets/admin/raise_a_flag_button.png", :width=>"91", :height=>"26")%></a>
+                  </span>
+                <%end%>
+              </span>
+
+              <span><a href="javascript:void(0)" onclick="pop_edit_activity('/edit_activity?activity_id=<%=act.activity_id%>&cat=<%= params[:cat] %>&cat_zc=<%= params[:cat_zc] %>&page=<% if !params[:page].nil? && params[:page].present? %><%=params[:page]%><%else%>1<%end%>&edit_from=admin_gall_event')" title="" class="ftSz12" style="left: 4px; position: relative; top: 6px;vertical-align: top;">&nbsp;Edit</a></span>
+            </div>
+            <!-- approved top buttons end-->
+            <!-- raise pop up start-->
+            <div class="raise_popup" id="raise_popup_<%= act.activity_id %>" style="display:none;">
+              <div style="position:relative;">
+                <div class="raise_top_popup"><%=image_tag("/assets/event_index/popup_top.png", :width=>"221", :height=>"16", :class=>"raise_top_pop")%></div>
+
+                <div class="raise_center_pop">
+                  <div style="float:right; margin-right: 14px; margin-top: 6px;"><a href="javascript:void(0)" title="" id="close_<%= act.activity_id %>" onclick="closePopup('<%= act.activity_id %>','false')";><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15")%></a></div>
+                  <textarea cols="" rows=""  id="raiseFlag_<%= act.activity_id %>" name="raiseFlag" class="textarea_admin" value="Enter report about this activity" onfocus="if(this.value=='Enter report about this activity'){this.value=''; this.style.color='#444444';}">Enter report about this activity</textarea>
+                  <div class="clear"></div>
+                  <div style="border 1px solid red;" class="save_button"><a href="javascript:void(0)" title=""><%=image_tag("/assets/event_index/save_button.png", :width=>"67", :height=>"26", :onclick=>"raise_a_flag('#{act.activity_id}','false')")%></a></div>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="raise_bottom_pop" style=""><%=image_tag("/assets/event_index/popup_bottom.png", :width=>"221", :height=>"12")%></div>
+
+                <div class="clear"></div>
+              </div>
+              <div class="clear"><br/></div>
+            </div>
+            <!-- raise pop up end-->
+            <div class="Title" style="padding-top:9px; width:205px;"><span><b><%=act.activity_name%></b></span></div>
+            <div class="description" style="padding-top:9px; width:205px;"><span class="ftSz12">Description</span>&nbsp;<br /><span><%=raw (act.description)%></span></div>
+            <%@use = User.find_by_user_id(act.user_id) if !act.nil?%>
+            <div class="description" style="padding-top:9px; width:205px;"><span class="ftSz12">Schedule Mode&nbsp;</span><span><%=act.schedule_mode if !act.schedule_mode.nil?%></span></div>
+            <div style="position:relative;" class="div_margin">
+              <%if !act.activity_schedule.last.nil?%>
+                <%if (act.activity_schedule.last.start_date || act.activity_schedule.last.start_time && act.activity_schedule.last.end_time) || (act.activity_schedule.last.start_time && act.activity_schedule.last.end_time) %>
+                  <% if act.activity_schedule.last.schedule_mode!="By Appointment" && act.activity_schedule.last.schedule_mode!="Any Time"%>
+                  <%end%>
+                  <% act.activity_schedule.last.schedule_mode=="Any Time"%>
+
+                <%end%>
+              <%end%>
+
+              <div class="description" style="float:left; display:inline-block; width:230px; color: #5099AC;">
+                <% if !act.activity_schedule.last.nil?%>
+                  <% if act.activity_schedule.last.schedule_mode=="Schedule"%>
+                    <%=act.activity_schedule.last.start_date.strftime("%a %b/%d") if !act.activity_schedule.last.start_date.nil?%> <%=act.activity_schedule.last.start_time.strftime(",%I:%M%P") if !act.activity_schedule.last.start_time.nil?%> <%if !act.activity_schedule.last.start_time.nil? && !act.activity_schedule.last.end_time.nil?%>to<%end%> <%=act.activity_schedule.last.end_time.strftime("%I:%M%P") if !act.activity_schedule.last.end_time.nil?%>
+                  <%end%>
+                  <% if act.activity_schedule.last.schedule_mode=="By Appointment"%>
+                              <!--<%#=act.activity_schedule.last.start_date.strftime("%a %b/%d") if !act.activity_schedule.last.start_date.nil?%> <%=act.activity_schedule.last.start_time.strftime(",%I:%M%P") if !act.activity_schedule.last.start_time.nil?%> <%if !act.activity_schedule.last.start_time.nil? && !act.activity_schedule.last.end_time.nil?%>to<%end%> <%=act.activity_schedule.last.end_time.strftime("%I:%M%P") if !act.activity_schedule.last.end_time.nil?%>-->
+                  <%end%>
+                  <% if act.activity_schedule.last.schedule_mode=="Camps/Workshop"%>
+                    <%=act.activity_schedule.last.start_date.strftime("%a %b/%d") if !act.activity_schedule.last.start_date.nil?%> <%=act.activity_schedule.last.start_time.strftime(",%I:%M%P") if !act.activity_schedule.last.start_time.nil?%> <%if !act.activity_schedule.last.start_time.nil? && !act.activity_schedule.last.end_time.nil?%>to<%end%> <%=act.activity_schedule.last.end_date.strftime("%a %b/%d") if !act.activity_schedule.last.end_date.nil?%> <%=act.activity_schedule.last.end_time.strftime(",%I:%M%P") if !act.activity_schedule.last.end_time.nil?%>
+                  <%end%>
+                  <% if act.activity_schedule.last.schedule_mode=="Any Time"%>
+                    <%=act.activity_schedule.last.start_time.strftime("%a %b/%d") if !act.activity_schedule.last.start_time.nil?%> <%=act.activity_schedule.last.start_time.strftime(",%I:%M%P") if !act.activity_schedule.last.start_time.nil?%> <%if !act.activity_schedule.last.start_time.nil? && !act.activity_schedule.last.end_time.nil?%>to<%end%> <%=act.activity_schedule.last.end_time.strftime("%I:%M%P") if !act.activity_schedule.last.end_time.nil?%>
+                  <%end%>
+                <%end%><!--first if end-->
+              </div>
+            </div>
+
+            <div class="description" style="padding-top:9px; width:205px;"><span class="ftSz12">Category&nbsp;</span><span><%= act.category %></span></div>
+            <div class="description" style="padding-top:9px; width:205px;"><span class="ftSz12">Sub Category&nbsp;</span><span><%= act.sub_category %></span></div>
+            <div class="description" style="padding-top:9px; width:205px;"><span style="color:orange;">
+
+                <%if !act.price_type.nil? && act.price_type == "1"%>
+                  <div class="proCon" style="float:left; display:inline-block; width:230px;"><b>Price</b></div>
+                  <div class="proCon" style="float:left; display:inline-block; width:230px; color: #D2691E; cursor:pointer; height:15px;" onmouseOver="showPriceDetails_admin('<%= act.activity_id %>')" onmouseOut="hidePriceDetails_admin('<%= act.activity_id %>')">See details</div>
+                  <style>
+                    .pricingDetail{
+                      background: none repeat scroll 0 0 #F9F9F9;
+                      font-family: Arial,Helvetica,sans-serif;
+                      padding: 10px 15px;
+                      width: 670px;
+                      z-index: 1000;
+                      border:1px solid #C3DDE5;
+                    }
+                    .pricingDetail .topArrow{
+                      margin-top: -22px;
+                      .margin-top: -22px;
+                      padding-bottom: 0px;
+                    }
+                    .pricingText{
+                      color:#3E8FA4;
+                      font-size:15px;
+                      margin-left:5px;
+                    }
+                    .paymentType{
+                      width:660px;
+                      margin:0;
+                      padding:15px 10px;
+                    }
+                    .paymentHead{
+                      color:#3E8FA4;
+                      width:650px;
+                      padding:5px 0 10px 10px;
+                      font-size:15px;
+                    }
+                    .checkboxColumn{
+                      width:20px;
+                      margin-right:10px;
+                    }
+                    .checkboxColumn .checkbox{
+                      position:relative;
+                      top:-3px;
+                    }
+                    .paymentPeriodTop{
+                      width:145px;
+                      float:left;
+                    }
+                    .paymentPeriod{
+                      width:120px;
+                      float:left;
+                    }
+                    .paymentPrice{
+                      width:60px;
+                      float:left;
+                    }
+                    .paymentDuration{
+                      width:90px;
+                      float:left;
+                    }
+                    .discountType{
+                      width:190px;
+                      float:left;
+                    }
+                    .paymentDiscount{
+                      width:90px;
+                      float:left;
+                    }
+                    .paymentTotal{
+                      width:70px;
+                      float:left;
+                    }
+                    .paymentList{
+                      color:#7B797A;
+                      width:650px;
+                      font-size:12px;
+                      padding:30px 0 10px 10px;
+                      height:0px;
+                    }
+                    .setPadLeft{
+                      padding-left:5px;
+                    }
+                    .setPadLeft45{
+                      padding-left:45px;
+                    }
+                    .clear{
+                      clear:both;
+                    }
+                    .paymentDiscountImg{
+                      width:16px;
+                      height:16px;
+                      margin-left:3px;
+                    }
+                    .notes{
+                      margin-top:10px;
+                    }
+                    .paymentNotes{
+                      color:#000;
+                      font-size:14px;
+                      margin-right:10px;
+                    }
+
+                    .paymentContent{
+                      color:#7B797A;
+                      font-size:13px;
+                      background:#f6f6f6;
+                      padding:7px 14px 20px 10px;
+                      width:600px;
+                    }
+                    .selectDollar{
+                      margin-left:10px;
+                      float:right;
+                    }
+                    .arrow{
+                      background: transparent url('images/arrow_down_6x3.gif') no-repeat right center scroll;
+                      width: 10px;
+                      _width:13px;
+                      height:12px;
+                      _height: 18px;
+                      z-index: 10000;
+
+                      display: inline-block;
+                      margin:0;
+                      padding: 0;
+                    }
+                    .select-wrapper {
+                      position: relative;
+                      width: 160px;
+                      height: 25px;
+                      padding: 0 25px 0 0;
+                      font-size:12px;
+                      margin: 0;
+                      overflow: hidden;
+                      background: url(select-arrow.png) no-repeat right center transparent;
+                      color:#7B797A;
+                    }
+                    select {
+                      position: absolute;
+                      left: 0;
+                      top: 0;
+                      opacity : 0;
+                      width: 186px;
+                      height: 25px;
+                      padding: 5px 0;
+                      border: none;
+                      color:#7B797A;
+                      font-size:13px;
+                    }
+
+                    .select-wrapper span {
+                      display: block;
+                      width: 190px;
+                      height: 25px;
+                      line-height: 28px;
+                      padding: 0 0 0 -10px;
+                    }
+                  </style>
+                  <!--------------------Date and Price------------------->
+                  <div id="pricingDetail<%= act.activity_id %>" class="pricingDetail"  style="display:none;position: absolute; margin: 45px 0 0 0;.margin: 14px 0px 0px 0px;">
+                    <div class="topArrow" align="left"><%=image_tag("/assets/activity_schedule/top_arrow.png", :width=>"15", :height=>"12")%></div>
+                    <div class="pricingText"></div>
+                    <div class="paymentType">
+                      <div class="paymentHead" style="width:650px;">
+                        <div class="paymentPeriod">Payment Period</div>
+                        <div class="paymentPrice">Price</div>
+                        <div class="discountType">Discount Type</div>
+                        <div class="paymentDiscount">Discount</div>
+                      </div>
+                      <%@activity_price = ActivityPrice.where("activity_id = ?", act.activity_id)%>
+                      <% price_arr = []
+                      @activity_price.each do |price|
+                        @price_discount = ActivityDiscountPrice.where("activity_price_id=#{price.activity_price_id}")
+                        @discount_arr = []
+                        @session_arr = []
+                        @participant_arr = []
+                        if !@price_discount.nil? && @price_discount!='' && @price_discount.present?
+                          @price_discount.each do |discountval|
+                            if (discountval.discount_type).downcase == "multiple participant discount"
+                              @participant_arr << {"discount_id"=>discountval.discount_id,"discount_type"=>discountval.discount_type,
+                                "discount_number"=>discountval.discount_number,"discount_valid"=>discountval.discount_valid,
+                                "payment_type"=>discountval.discount_currency_type,"discount_price"=>discountval.discount_price}
+                            elsif (discountval.discount_type).downcase == "multiple session discount"
+                              @session_arr << {"discount_id"=>discountval.discount_id,"discount_type"=>discountval.discount_type,
+                                "discount_number"=>discountval.discount_number,"discount_valid"=>discountval.discount_valid,
+                                "payment_type"=>discountval.discount_currency_type,"discount_price"=>discountval.discount_price}
+                            else
+                              #early
+                              @attend = ActivityAttendDetail.where("activity_id=#{price.activity_price_id} and lower(payment_status)='paid' and lower(discount_type)='early bird discount'")
+                              if !@attend.nil? && @attend!='' && @attend.present?
+                                @count = @attend.length
+                              else
+                                @count = 0
+                              end
+                              @cdate = (DateTime.now).strftime("%Y-%m-%d")
+                              @date = discountval["discount_valid"].strftime("%Y-%m-%d") if !discountval["discount_valid"].nil?
+                              if !@date.nil? && @date!='' && @date.present?
+                                if @date >= @cdate
+                                  if !discountval.discount_number.nil?
+                                    if (discountval.discount_number).to_i > @count.to_i
+                                      @discount_arr << {"discount_id"=>discountval.discount_id,"discount_type"=>discountval.discount_type,
+                                        "discount_number"=>discountval.discount_number,"discount_valid"=>discountval.discount_valid,
+                                        "payment_type"=>discountval.discount_currency_type,"discount_price"=>discountval.discount_price}
+                                    end
+                                  end
+                                end
+                              end
+                            end
+                          end
+                        end
+                        price_arr << {"price_id"=>price.activity_price_id,"no_of_class"=>price.no_of_class,"payment_period"=>price.payment_period,
+                          "price"=>price.price,"early"=>@discount_arr,"participant"=>@participant_arr,"session"=>@session_arr}
+                      end%>
+
+                      <%price_arr.each do |p|%>
+                        <%if p["payment_period"] =="Class Card" %>
+                          <%pay_calss = "#{p["no_of_class"]} Class Card"%>
+                          <%if p["no_of_class"] == "1"%>
+                            <%pay_calss_value = "#{p["no_of_class"]} Class" %>
+                          <%else%>
+                            <%pay_calss_value = "#{p["no_of_class"]} Classes" %>
+                          <%end%>
+                        <%elsif p["payment_period"] =="Per Class" %>
+                          <%if p["no_of_class"] == "1"%>
+                            <%pay_calss = "#{p["no_of_class"]} Day" %>
+                          <%else%>
+                            <%pay_calss = "#{p["no_of_class"]} Days" %>
+                          <%end%>
+                        <%elsif p["payment_period"] =="Per Session" %>
+                          <%hour = "" %>
+                          <%if !p["no_of_hours"].nil?%>
+                            <%hour = "#{p['no_of_hours']} hours" %>
+                          <%end%>
+                          <%pay_calss = "Per Session (#{p["no_of_class"]} days #{hour}) " %>
+                        <%elsif p["payment_period"] =="Per Hour" %>
+                          <%if p["no_of_class"] == "1"%>
+                            <%pay_calss = "#{p["no_of_class"]} Hour" %>
+                          <%else%>
+                            <%pay_calss = "#{p["no_of_class"]} Hours" %>
+                          <%end%>
+                        <%elsif p["payment_period"] =="Weekly" %>
+                          <%if p["no_of_class"] == "1"%>
+                            <%pay_calss = "#{p["no_of_class"]} Week" %>
+                          <%else%>
+                            <%pay_calss = "#{p["no_of_class"]} Weeks" %>
+                          <%end%>
+                        <%elsif p["payment_period"] =="Monthly" %>
+                          <%if p["no_of_class"] == "1"%>
+                            <%pay_calss = "#{p["no_of_class"]} Month" %>
+                          <%else%>
+                            <%pay_calss = "#{p["no_of_class"]} Months" %>
+                          <%end%>
+                        <%elsif p["payment_period"] =="Yearly" %>
+                          <%if p["no_of_class"] == "1"%>
+                            <%pay_calss = "#{p["no_of_class"]} Year" %>
+                          <%else%>
+                            <%pay_calss = "#{p["no_of_class"]} Years" %>
+                          <%end%>
+                        <%end%>
+                        <%if p["early"].empty? && p["participant"].empty? && p["session"].empty?%>
+                          <div class="paymentList" style="width:650px;">
+                            <div class="paymentPeriod"><%= pay_calss %></div>
+                            <%if !p["price"].nil? && p["price"]!="" && p["price"]!="% or USD"%>
+                              <div class="paymentPrice">$<%= p["price"] %></div>
+                            <%else%>
+                              <div class="paymentPrice">-</div>
+                            <%end%>
+                            <div class="discountType">-</div>
+                            <div class="paymentDiscount">-</div>
+                            <div class="clear"></div>
+                          </div>
+                        <%end%>
+                        <%if !p["early"].empty?%>
+                          <div class="paymentList">
+                            <div class="paymentPeriod"><%= pay_calss %></div>
+                            <%if !p["price"].nil? && p["price"]!="" && p["price"]!="% or USD"%>
+                              <div class="paymentPrice">$<%= p["price"] %></div>
+                            <%else%>
+                              <div class="paymentPrice">-</div>
+                            <%end%>
+                            <div class="discountType">
+                              <div class="lt ActiveDivMenu" id="menu_active">
+                                <ul><span class="lt">Early Bird Discount&nbsp;</span>
+                                  <li style="float:none;display: inline-block;cursor:pointer;margin-top:-5px;"><%=image_tag("/assets/provider_register/help.png", :width=>"17", :height=>"17")%>
+                                    <ul class="sub-menu dispParticipantToll" style="width:292px;">
+                                      <li>A discount for those participants who sign up early</li>
+                                    </ul>
+                                  </li>
+                                </ul>
+                                <div class="clear"></div>
+                              </div>
+                            </div>
+                            <%p["early"].each do |e|%>
+                              <div class="paymentDiscount"><%= e["payment_type"] %><%= e["discount_price"] %></div>
+                            <%end%>
+                            <div class="clear"></div>
+                          </div>
+                        <%end%>
+                        <%if !p["session"].empty?%>
+                          <div class="paymentList">
+                            <div class="paymentPeriod"><%= pay_calss %></div>
+                            <%if !p["price"].nil? && p["price"]!="" && p["price"]!="% or USD"%>
+                              <div class="paymentPrice">$<%= p["price"] %></div>
+                            <%else%>
+                              <div class="paymentPrice">-</div>
+                            <%end%>
+                            <div class="discountType">
+                              <div class="lt ActiveDivMenu" id="menu_active">
+                                <ul><span class="lt">Multiple Session Discount&nbsp;</span>
+                                  <li style="float:none;display: inline-block;cursor:pointer;margin-top:-5px;"><%=image_tag("/assets/provider_register/help.png", :width=>"17", :height=>"17")%>
+                                    <ul class="sub-menu dispParticipantToll" style="width:275px;">
+                                      <li>A discount for those who buy multiple sessions</li>
+                                    </ul>
+                                  </li>
+                                </ul>
+                                <div class="clear"></div>
+                              </div>
+                            </div>
+
+                            <div class="paymentDiscount" id="provider_event_list">
+                              <div class="lt ActiveDivMenu" id="menu_active">
+                                <ul>
+                                  <%if !p["session"][0].nil? && !p["session"][0].empty?%>
+                                    <%if p["session"][0]["payment_type"]  == "$"%>
+                                      <% ses_pay = "$#{p["session"][0]["discount_price"]}" %>
+                                    <%else%>
+                                      <% ses_pay  = "#{p["session"][0]["discount_price"]}%"%>
+                                    <%end%>
+                                    <%if p["session"][0]["discount_number"] ==1 %>
+                                      <%ses_set = "#{p["session"][0]["discount_number"]} session" %>
+                                    <%else%>
+                                      <%ses_set = "#{p["session"][0]["discount_number"]} sessions" %>
+                                    <%end%>
+                                  <%end%>
+                                  <li><a class="active_Div ActiveDiv" href="#" style="width:160px;margin:-5px 0 0 -5px;"><span id="multiple_session_setVal_1"><%= ses_pay %> for <%= ses_set %></span><span><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4", :style=>"position: relative; top: -1px; left:5px;")%></span></a>
+                                    <ul class="sub-menu dispSessionDiv" style="width:165px;margin-left:-5px;.margin:18px 0 0 -129px;">
+                                      <%p["session"].each do |e|%>
+                                        <%if e["payment_type"]  == "$"%>
+                                          <% ses_pay = "$#{e["discount_price"]}" %>
+                                        <%else%>
+                                          <% ses_pay  = "#{e["discount_price"]} %"%>
+                                        <%end%>
+                                        <%if  e["discount_number"] == 1 %>
+                                          <%ses_set = "#{e["discount_number"]} session" %>
+                                        <%else%>
+                                          <%ses_set = "#{e["discount_number"]} sessions" %>
+                                        <%end%>
+                                        <li><a href="javascript:void(0)" style="width:160px;height:18px;"><%= ses_pay %> for <%= ses_set %></a ></li>
+                                      <%end%>
+                                    </ul>
+                                  </li>
+                                </ul>
+                                <div class="clear"></div>
+                              </div>
+                            </div>
+                          </div>
+                        <%end%>
+                        <%if !p["participant"].empty?%>
+                          <div class="paymentList">
+                            <div class="paymentPeriod"><%= pay_calss %></div>
+                            <%if !p["price"].nil? && p["price"]!="" && p["price"]!="% or USD"%>
+                              <div class="paymentPrice">$<%= p["price"] %></div>
+                            <%else%>
+                              <div class="paymentPrice">-</div>
+                            <%end%>
+                            <div class="discountType">
+                              <div class="lt ActiveDivMenu" id="menu_active">
+                                <ul><span class="lt">Multiple Participant Discount&nbsp;</span>
+                                  <li style="float:none;display: inline-block;cursor:pointer;margin-top:-5px;"><%=image_tag("/assets/provider_register/help.png", :width=>"17", :height=>"17")%>
+                                    <ul class="sub-menu dispParticipantToll">
+                                      <li>A discount for those who register multiple participants</li>
+                                    </ul>
+                                  </li>
+                                </ul>
+                                <div class="clear"></div>
+                              </div>
+                            </div>
+
+                            <div class="paymentDiscount" id="provider_event_list">
+                              <div class="lt ActiveDivMenu" id="menu_active">
+                                <ul>
+                                  <%if !p["participant"][0].nil? && !p["participant"][0].empty?%>
+                                    <%if p["participant"][0]["payment_type"]  == "$"%>
+                                      <% par_pay = "$#{p["participant"][0]["discount_price"]}" %>
+                                    <%else%>
+                                      <% par_pay  = "#{p["participant"][0]["discount_price"]}%"%>
+                                    <%end%>
+                                    <%if p["participant"][0]["discount_number"] == 1 %>
+                                      <%par_set = "#{p["participant"][0]["discount_number"]} Participant" %>
+                                    <%else%>
+                                      <%par_set = "#{p["participant"][0]["discount_number"]} Participants" %>
+                                    <%end%>
+                                  <%end%>
+                                  <li><a class="active_Div ActiveDiv" href="#" style="width:160px;margin:-5px 0 0 -5px;"><span id="multiple_session_setVal_1"><%= par_pay %> for <%= par_set %></span><span><%=image_tag("/assets/event_index/dropdown_arrow.png", :width=>"7", :height=>"4", :style=>"position: relative; top: -1px; left:5px;")%></span></a>
+                                    <ul class="sub-menu dispSessionDiv" style="width:165px;margin-left:-5px;.margin:18px 0 0 -129px;">
+                                      <%p["participant"].each do |ps|%>
+                                        <%if ps["payment_type"]  == "$"%>
+                                          <% par_pay = "$#{ps["discount_price"]}" %>
+                                        <%else%>
+                                          <% par_pay  = "#{ps["discount_price"]} %"%>
+                                        <%end%>
+                                        <%if ps["discount_number"] =="1" %>
+                                          <%par_set = "#{ps["discount_number"]} Participant" %>
+                                        <%else%>
+                                          <%par_set = "#{ps["discount_number"]} Participants" %>
+                                        <%end%>
+                                        <li><a href="javascript:void(0)" style="width:160px;height:18px;"><%= par_pay %> for <%= par_set %></a ></li>
+                                      <%end%>
+                                    </ul>
+                                  </li>
+                                </ul>
+                                <div class="clear"></div>
+                              </div>
+                            </div>
+                          </div>
+                        <%end%>
+
+                      <%end%>
+                    </div>
+
+                    <div class="clear"></div>
+                    <div class="notes">
+                      <div class="lt paymentNotes">Notes</div>
+                      <div class="lt paymentContent"><%= act.note %></div>
+                    </div>
+                    <div class="clear"></div>
+
+                  </div>
+                  <!---------------------End------------------->
+                <%elsif act.price_type == "3" || act.filter_id == "3"%>
+
+                  <div class="proCon" style="float:left; display:inline-block; width:230px;"><b>Price</b></div>
+                  <div class="proCon" style="float:left; display:inline-block; width:230px; color: #D2691E;">Free</div>
+                <%elsif act.price_type == "4"%>
+                  <div class="proCon" style="float:left; display:inline-block; width:230px;"><b>Price</b></div>
+                  <div class="proCon" style="float:left; display:inline-block; width:230px; color: #D2691E;">Contact Provider</div>
+                <%else%>
+                  <div class="proCon" style="float:left; display:inline-block; width:230px;"><b>Price</b></div>
+                  <div class="proCon" style="float:left; display:inline-block; width:230px; color: #D2691E;">$<%= act.price %></div>
+
+                <%end%>
+
+              </span>
+            </div>
+            <div class="description" style="padding-top:9px; width:205px;"><span class="ftSz12">Provided By&nbsp;</span><span><%=@use.user_name if !@use.nil?%></span></div>
+
+            <div class="description" style="padding-top:9px; width:205px;"><span class="ftSz12">Address&nbsp;</span><span><%= act.address_1%>, <br/><%=act.address_2 %></span></div>
+            <div class="description" style="padding-top:9px; width:205px;"><span class="ftSz12">City&nbsp;</span><span><%= act.city%></span></div>
+            <div class="description" style="padding-top:9px; width:205px;"><span class="ftSz12">Zip Code&nbsp;</span><span><%= act.zip_code%></span></div>
+
+            <!--%if !act.no_participants.nil? &&  !act.no_participants.blank? %-->
+            <div class="description" style="padding-top:9px; width:205px;"><span class="ftSz12">No Of Participant&nbsp;&nbsp;</span><span><%= act.no_participants %></span></div>
+            <!--%end%-->
+            <div class="description" style="padding-top:9px; width:205px;"><span class="ftSz12">Age Range&nbsp;</span><span><%= act.min_age_range%> - <%= act.max_age_range%></span></div>
+            <%if !act.skill_level.nil? &&  !act.skill_level.blank? && act.skill_level !="--Select--"%>
+              <div class="description" style="padding-top:9px; width:205px;"><span class="ftSz12">Skill Level&nbsp;</span><span><%= act.skill_level %></span></div>
+            <%end%>
+            <!-- %if !act.leader.nil? &&  !act.leader.blank? %-->
+            <div class="description" style="padding-top:9px; width:205px;"><span class="ftSz12">Leader&nbsp;</span><span><%= act.leader %></span></div>
+            <!-- %end% -->
+            <div class="description" style="padding-top:9px; width:205px;"><span class="ftSz12">Email Address&nbsp;</span><br /><span><%= act.email%></span></div>
+            <div class="description" style="padding-top:9px; width:205px;"><span class="ftSz12">Phone&nbsp;</span><span><%= act.phone%></span></div>
+            <!--%if !act.website.nil? &&  !act.website.blank? %-->
+            <div class="description" style="padding-top:9px; width:205px;"><span class="ftSz12">Website&nbsp;</span><br /><span><%=truncate(act.website, :length =>29, :omission => '... ')%></span></div>
+            <!--%end%-->
+
+            <!--%if !act.no_participants.nil? &&  !act.no_participants.blank? %-->
+            <div class="description" style="padding-top:9px; width:205px;"><span class="ftSz12">No Of Occupied&nbsp;&nbsp;</span><span> </span></div>
+            <!--%end%-->
+            <div class="description" style="padding-top:9px; width:205px;"><span class="ftSz12">No Of Vacant&nbsp;&nbsp;</span><span> </span></div>
+          </div>
+        </div>
+        <div class="clear"></div>
+
+        <script>
+          //before image load show loading image
+          $(function() {
+            $("#div_act img").lazyload({
+              placeholder : "/assets/ajax-loader.gif"
+				
+            });
+          });
+
+        </script>
+
+      <%end%>
+    <%end%>
+  </div><!-- #ColumnContainer -->
+
+  <div class="pro_pagination">
+    <div class="clear"></div>
+    <%= will_paginate @activities%>
+    <div class="clear"></div>
+  </div>
+
+  <div class="clear"></div>
+</div><!-- #wrapper -->
+
+<script type="text/javascript">
+
+  BoardLayout.setup();
+  Home.setup();
+
+        
+
+  $.pageless.settings.complete = function() {
+
+            
+    if ($.pageless.settings.currentPage == 15) {
+                    
+      if ($.pageless.settings.currentPage >= 50) {
+        $(".MoreGrid").attr("href", "/popular/");
+        $(".MoreGrid strong").text("Start Over");
+      }
+      $(".MoreGrid").css('display', 'block');
+                    
+    }
+            
+
+    BoardLayout.newPins();
+
+  };
+
+  $(document).ready(function() {
+
+    // iPad with iOS 4 doesn't like the lazy load
+    var params = {'lazy':'1'};
+    if (!useLazyLoad) {
+      params['lazy'] = 0
+    }
+
+    $('#ColumnContainer').pageless({
+      "totalPages": 15,
+      "currentPage": 1,
+      "loader":"LoadingPins",
+      "distance": 3000,
+      "marker": "208080445255522882",
+      "params": params
+    });
+
+    if (50 > 49) {
+      $('#LoadingPins').hide();
+    }
+
+  });
+</script>
+
+
+
+<!--<div id="SearchAutocompleteHolder"></div>
+<button id="ScrollToTop" class="Button WhiteButton Offscreen Indicator" type="button">
+  Scroll to Top
+</button>
+
+ <script type="text/javascript">
+$(document).ready(function() {
+
+    if (top != self) {
+        $('body').html('<h1>Unauthorized</h1>')
+    }
+});
+</script>-->

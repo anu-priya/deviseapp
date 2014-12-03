@@ -1,0 +1,93 @@
+<%=stylesheet_link_tag "activity_view_detail/activity_details","event_index/event_index","activity_view_detail/paymentDetail", :media => "all"%>
+<%=javascript_include_tag "acitivity_view_details/schedule_price","acitivity_view_details/activity_validation"%>
+<script language="javascript">
+  var activityDeletePage;
+  var addparticipantpage;
+
+  function before_login_closepopup() {
+    parent.window.location.href = "/";
+  }
+
+  function pop_add_participant(url){
+    addparticipantpage = dhtmlmodal.open("Add Participant","iframe",url,"", "width=910px,height=1600px,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; border:1px solid red; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100)
+    return false;
+  }
+  $(document).ready(function(){
+    $("#detail_fb").hide();
+    $("#u_0_1").hide();
+    $("#u_0_1").css("display","none");
+ });
+
+  
+</script> 
+<script>
+(function(){
+var twitterWidgets = document.createElement('script');
+twitterWidgets.type = 'text/javascript';
+twitterWidgets.async = true;
+twitterWidgets.src = '//platform.twitter.com/widgets.js';
+// Setup a callback to track once the script loads.
+twitterWidgets.onload = _ga.trackTwitter;
+document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+})();
+</script>
+<!-- added pixel for conversion tracking-->
+<script type="text/javascript">
+	var fb_param = {};
+	fb_param.pixel_id = '6009203206329';
+	fb_param.value = '0.00';
+	fb_param.currency = 'USD';
+	(function(){
+		var fpw = document.createElement('script');
+		fpw.async = true;
+		fpw.src = '//connect.facebook.net/en_US/fp.js';
+		var ref = document.getElementsByTagName('script')[0];
+		ref.parentNode.insertBefore(fpw, ref);
+	})();
+</script>
+<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/offsite_event.php?id=6009203206329&amp;value=0&amp;currency=USD" />
+</noscript>
+<!-- end of pixel for conversion tracking-->
+  <div id="activity_new" style="display:none;">
+    <%= render :partial =>"landing/follow_city_activity_card" %>
+  </div>
+
+  <script language="javascript">
+     //login feature bpopup displayed
+	function login_feature(act)
+	{ 
+	var activity_id=act;
+	var before_login_value=beforelogin;
+	$('#login_use_feature').bPopup(function(){
+		$( "#loginFeature" ).click(function(){
+		//~ pop_Login('/login?activity_id='+activity_id+'&before_login_value='+before_login_value);
+		pop_Login('/login?activity_id='+activity_id);
+		});
+	});
+	}
+	
+    function save_to_favour(){
+      $.post("/activity_favorites/add_favorite", {"activity_id":$('#activity_id').val(),"user_id":$('#user_id').val()}, null, "json");
+    }
+    $('.dispSessionDiv li a').mouseover(function (){
+      $(this).parent().parent().parent("li").children('a:first').addClass('selectedSessionDiv');
+    
+    });
+    $('.dispSessionDiv li a').mouseout(function (){
+      $(this).parent().parent().parent("li").children('a:first').removeClass('selectedSessionDiv');
+      
+    });
+  </script>
+
+</body>
+<style type="text/css">
+  .setfeedbackDiv {
+    background: none repeat scroll 0 0 #EDF1F2;
+    color: #444444;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    padding: 8px;
+    width: 250px;
+  }
+</style> 

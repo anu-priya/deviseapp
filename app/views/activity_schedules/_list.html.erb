@@ -1,0 +1,17 @@
+<table id="list_table" class="table table-bordered" cellpadding="10" cellspacing="0" width="100%" border="0">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Start Time</th>
+      <th>End Time </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @activity.each do |s|%>
+        <tr>
+          <td><%= s.activity_name %></td>
+        </tr>
+    <% end %>
+  </tbody>
+</table>

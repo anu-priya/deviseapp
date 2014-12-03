@@ -1,0 +1,55 @@
+<%if !@credit_list.nil? && @credit_list!="" && @credit_list.present? && @cdt_tot > 0  %>
+<table width="100%" cellspacing="0" border="0" cellpadding="0">
+    <tr>
+      <td class="headText setPadLt" width="20%" valign="middle" align="left"><div  style="margin-right:10px;">Provider/Friend</div></td>
+      <td class="headText" width="20%" valign="middle" align="left"><div  style="margin-right:10px;">Date & Time</div></td>
+      <td class="headText" width="20%" valign="middle" align="left"><div  style="margin-right:10px;">Description</div></td>
+      <td class="headText" width="20%" valign="middle" align="left"><div  style="margin-right:10px;">Amount</div></td>
+      <td class="headText td_hide" width="20%" valign="middle" align="left"><div  style="margin-right:10px;">&nbsp;</div></td>
+    </tr>    
+      <%i = 0%>
+      <%@credit_list && @credit_list.each do |credit|%>
+        <%i = i + 1%>
+        <%if i.even? %>
+          <tr class="setBg2"></tr>
+        <%else%>
+          <tr class="setBg1"></tr>
+        <%end%>
+        <tr>
+          <%detail_credits = detail_user(credit,'cred')%>
+	  
+	  <%dotted_class=(i==@cdt_tot) ? "contentBorderNone" : "contentText"%> 
+	  
+          <td align="left" class="<%=dotted_class%>"  ><div  style="margin-right:10px;padding-left:20px;">
+              <%if (detail_credits && !detail_credits.nil? && credit.invitee_plan.downcase=='parent' && detail_credits.user_name.present? && !detail_credits.user_name.nil?)%>
+                <%=detail_credits.user_name%>
+              <%elsif(detail_credits && !detail_credits.nil? && credit.invitee_plan.downcase=='provider')%>
+                <%=provider_user_name(detail_credits)%>
+              <%elsif !credit.nil? && !credit.credit_type.nil? && current_user.present? %>
+                <%=current_user.user_name if !current_user.nil? && !current_user.user_name.nil?%>
+              <%end%>
+            </div>
+          </td>
+          <td  align="left" class="<%=dotted_class%>" ><div  style="margin-right:10px;"><%=(!credit.inserted_date.nil? && credit.inserted_date.present?) ? credit.inserted_date.strftime("%a, %b %d, %Y, %l:%M %p") : ""%></div></td>
+
+          <td  align="left" class="<%=dotted_class%>"><div  style="margin-right:10px;"><%if(detail_credits && !detail_credits.nil? && credit.invitee_plan=='Parent') %>For getting Friends to join Famtivity
+              <%elsif(detail_credits && !detail_credits.nil? && credit.invitee_plan=='Provider')%>For getting providers to join Famtivity
+              <%elsif !credit.nil? && !credit.credit_type.nil? && credit.credit_type=="register" && current_user.present?%>
+                Sign-up credit
+              <%elsif !credit.nil? && !credit.credit_type.nil? && credit.credit_type=="register discount code" && current_user.present?%>
+                Promo code discount credit
+              <%end%>
+            </div></td>
+
+          <td  align="left" class="<%=dotted_class%>" ><div  style="margin-right:10px;">$<%=(!credit.credit_amount.nil? && credit.credit_amount.present?) ? (number_with_precision credit.credit_amount, :precision => 2) : ""%></div></td>
+        </tr>
+      <%end%>
+</table>
+<%else%>
+<div align="center" width="100%">
+         <img src="/assets/discount_dollar/no_credit.png" alt="Search_cn_icon">
+	<br>
+	<span  class="no-debit-text" >No credits for your account.</span>
+</div>
+
+ <%end%>

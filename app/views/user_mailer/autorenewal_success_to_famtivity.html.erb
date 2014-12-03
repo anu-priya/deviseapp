@@ -1,0 +1,30 @@
+<table cellpadding="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+	  <table cellpadding="0" cellpadding="0">
+	  	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="50">Hello Admin,</td>
+		</tr>
+	  	<!--displayed the content for auto renewal and deactivate amount detection-->
+		<%if !@user.nil? && !@user.user_status.nil? && @user.user_status.present? && @user.user_status == "deactivate" %>
+			<tr>
+				<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="40">This is to inform you that the provider account of <b><%= @user.user_name%></b> has been debited the <span style="color:red">$<%=@uamount if !@uamount.nil?%></span> maintenance fee. The amount has been debited from the credit card on file.</td>
+			</tr>
+		<%else%>
+			<tr>
+				<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="40">This is to inform you that the provider account, <b><%= @user.user_name%></b>, has been automatically renewed and the monthly fee of <span style="color:red">$<%=@uamount if !@uamount.nil?%></span> was debited from the credit card on file.</td>
+			</tr>
+		<%end%>
+		<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="60">Thanks!</td>
+		</tr>
+		<tr>
+			<td><span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;">The Famtivity Team</span></td>
+		</tr>
+		
+	  </table>
+      
+
+  </td>
+  </tr>
+</table>

@@ -1,0 +1,29 @@
+<table cellpadding="0" cellpadding="0">
+  <tr>
+    <td style="padding:12px;">
+	  <table cellpadding="0" cellpadding="0">
+	  	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#444444;" height="50">Hello Admin,</td>
+		</tr>
+	  	<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="40">
+			<%if !@user.nil? && !@user.user_status.nil? && @user.user_status.present? && @user.user_status == "deactivate" %>
+				This is to inform you that the provider account of <b><%= @user.user_name%></b> has not been detected. The monthly maintenance fee of <span style="color:red">$<%=@uamount if !@uamount.nil?%></span> was not billed because the credit card on file is invalid or expired.
+			<%else%>
+				This is to inform you that the provider account of <b><%= @user.user_name%></b> has not been renewed. The monthly subscription fee of <span style="color:red">$<%=@uamount if !@uamount.nil?%></span> was not billed because the credit card on file is invalid or expired.
+			<%end%>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333;" height="60">Thanks!</td>
+		</tr>
+		<tr>
+			<td><span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#9c9b9b;">The Famtivity Team</span></td>
+		</tr>
+		
+	  </table>
+      
+
+  </td>
+  </tr>
+</table>

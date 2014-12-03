@@ -1,0 +1,1344 @@
+<%=stylesheet_link_tag "create_new_activity_new/create_new_activity","global/pop_up","global/jquery.ui.datepicker","global/jquery.ui.theme", :media => "all"%>
+<%=javascript_include_tag "create_new_activity_new/create_new_activity","create_new_activity_new/validate","create_new_activity_new/create_new_activity_date","global/jquery.ui.core","global/jquery.ui.datepicker","jquery.form"%>
+
+<script language="javascript">
+  $('#ui-datepicker-div').css('left', '90px');
+
+  $(function() {
+    $("#dateFormate_1_1").datepicker({
+      showOn : "button",
+      buttonImage : "/assets/create_new_activity/date_icon.png",
+      buttonImageOnly : true,
+      dateFormat: "D, M d, yy",
+      minDate: 0,
+      altField : "#date_1_1",
+      altFormat : "yy-m-d",
+      onClose: function(selectedDate) {
+        $("#repeat_on_date_1").datepicker( "option", "minDate", selectedDate );
+        $("#dateFormate_2_1").datepicker( "option", "minDate", selectedDate );
+        var radio3 = $("#r3_1").val();
+        if(radio3==0){
+          $(".dateDivRepeat img").hide();
+        }
+      }
+    });
+    $("#dateFormate_2_1").datepicker({
+      showOn: "button",
+      buttonImage: "/assets/create_new_activity/date_icon.png",
+      buttonImageOnly: true,
+      dateFormat: "D, M d, yy",
+      minDate: 0,
+      altField : "#date_2_1",
+      altFormat : "yy-m-d"
+    });
+    $("#repeat_on_date_1" ).datepicker({
+      showOn: "button",
+      buttonImage: "/assets/create_new_activity/date_icon.png",
+      buttonImageOnly: true,
+      dateFormat: "D, M d, yy",
+      minDate: 0,
+      altField : "#repeat_alt_on_date_1",
+      altFormat : "yy-m-d"
+    });
+  });
+
+  var hflag = false;
+  var mflag = false;
+  var sflag = false;
+  var msflag = false;
+/* validate the age ranges in create edit activities for parent */
+ function changeAgeRange(dval,range)
+  {	
+	$('#'+range+"_type").css("color","#444444");
+	age_type = dval.toLowerCase();						
+	if(age_type=='')
+	{
+		$('#div_'+range+'_month').hide();
+		$('#div_'+range+'_year').hide();
+	}
+	if(age_type=='month')
+	{ 
+		$('#div_'+range+'_month').show();
+		$('#div_'+range+'_year').hide();
+	}						
+	if(age_type=='year')
+	{ 
+		$('#div_'+range+'_year').show();	
+		$('#div_'+range+'_month').hide();
+	}
+  }
+  $(document).ready(function() {
+    var status = '';
+    var curTime = new Date();
+
+    /*  Find Current time */
+
+    var curTime = new Date();
+    var cdate = curTime.getDate();
+    var ccmonth = curTime.getMonth();
+    var cyear = curTime.getFullYear();
+    ccmonth = parseInt(ccmonth) + 1;
+    var weekday = new Array(7);
+    weekday[0] = "Sun";
+    weekday[1] = "Mon";
+    weekday[2] = "Tue";
+    weekday[3] = "Wed";
+    weekday[4] = "Thu";
+    weekday[5] = "Fri";
+    weekday[6] = "Sat";
+    var cday = curTime.getDay();
+    var incval = parseInt(cday) + 1;
+    var dayname = weekday[cday];
+  
+    var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];    
+    var cmonth = monthNames[curTime.getMonth()];
+
+    var cuday = dayname + ", " + cmonth + " " + cdate + ", " + cyear;
+    var repeat_day = ccmonth + "/" + cdate + "/" + cyear;
+    //var date_value = cdate + "-" + cmonth + "-" + cyear;
+    var date_value = cyear + "-" + ccmonth + "-" + cdate;
+
+    $('#date_1_1').val(date_value);
+    $('#dateFormate_1_1').val(cuday);
+    $('#date_2_1').val(date_value);
+    $('#dateFormate_2_1').val(cuday);
+
+
+    //$('#createactivity').submit(function (){
+    $('#createactivity').on('submit', function(e) {{
+        e.preventDefault();
+        $("#sub_category_error").css("marginLeft","0px");
+        $("#e_error").css("marginLeft","110px");
+        $("#state_error").css("marginLeft","0px");
+
+        var title = $("#title").val();
+        $("#title").css("border","1px solid #CDE0E6");
+        $("#title_error").html("");
+        $("#title_error").parent().css("display","none");
+
+        var category = $("#category").val();
+        $("#category").css("border","1px solid #CDE0E6");
+        $("#category_error").html("");
+        $("#category_errorDiv").css("display","none");
+	
+        var sub_category = $("#sub_category").val();
+        $("#sub_category").css("border","1px solid #CDE0E6");
+        $("#sub_category_error").html("");
+        $("#sub_category_error").parent().css("display","none");
+	
+        var desc= $("#desc").val();
+        $("#desc").css("border","1px solid #CDE0E6");
+        $("#desc_error").html("");
+        $("#desc_error").parent().css("display","none");
+
+        var add_1 = $("#add_1").val();
+        $("#add_1").css("border","1px solid #CDE0E6");
+        var add_2 = $("#add_2").val();
+        $("#add_2").css("border","1px solid #CDE0E6");
+        $("#venue_error").html("");
+        $("#venue_error").parent().css("display","none");
+
+        var state = $("#act_state").val();
+        $("#act_state").css("border","1px solid #CDE0E6");
+        $("#state_error").html("");
+        var city = $("#act_city").val();
+        $("#act_city").css("border","1px solid #CDE0E6");
+        $("#city_error").html("");
+        $("#cityState_errorDiv").css("display","none");
+	
+        var zip_code = $("#zip_code").val();
+        $("#zip_code").css("border","1px solid #CDE0E6");
+        $("#zipcode_error").html("");
+        $("#zipcode_error").parent().css("display","none");
+
+        var mon_age1 = $("#month_age1").val();
+	var year_age1 = $("#year_age1").val();
+	var mon_age2 = $("#month_age2").val();					    
+	var year_age2 = $("#year_age2").val();
+	$("#month_age1").css("border","1px solid #CDE0E6");
+	$("#year_age1").css("border","1px solid #CDE0E6");
+	$("#month_age2").css("border","1px solid #CDE0E6");
+	$("#year_age2").css("border","1px solid #CDE0E6");
+        $("#age_range_error").html("");
+        $("#age_range_error").parent().css("display","none");
+
+        var no_pat = $("#no_pat").val();
+        $("#no_pat").css("border","1px solid #CDE0E6");
+        $("#no_pat_error").html("");
+        $("#no_pat_error").parent().css("display","none");
+
+        var activity_photo = $("#photo1").val();
+        $("#photo1").css("border","1px solid #CDE0E6");
+        $("#activity_photo_error").html("");
+        $("#activity_photo_error").parent().css("display","none");
+
+       	var billing_type = $("#billing_type").val(); 
+        $("#billing_type").css("border","1px solid #CDE0E6");
+        $("#billing_error").html("");
+        $("#billing_error").parent().css("display","none");
+	 
+        var schedule_stime_1 = $('#schedule_stime_1_1').val();
+        var schedule_stime_2 = $('#schedule_stime_2_1').val();
+        var schedule_etime_1 = $('#schedule_etime_1_1').val();
+        var schedule_etime_2 = $('#schedule_etime_2_1').val();
+	
+        var schedule_stime_1 = $('#schedule_stime_1_1').val();
+        $('#schedule_stime_1_1').css('border','1px solid #CDE0E6');
+        var schedule_stime_2 = $('#schedule_stime_2_1').val();
+        var schedule_etime_1 = $('#schedule_etime_1_1').val();
+        $('#schedule_etime_1_1').css('border','1px solid #CDE0E6');
+        var schedule_etime_2 = $('#schedule_etime_2_1').val();
+        $("#schedule_time_error").html("");
+        $("#schedule_time_error").parent().css("display","none");
+
+        var date_1 = $('#date_1_1').val();
+        var date_2 = $('#date_2_1').val();
+
+        var repeatCheck = $("#repeatCheck_1").val();
+        var radio3 = $("#r3_1").val();
+	
+        var any_address = $("#any_address").val();
+	
+        var errorFlag = false;
+
+        title = title.replace(/^\s+|\s+$/g, "");
+        if(title == "" ||  title == "Enter Activity Name"){
+          $("#title").css("border","1px solid #fc8989");
+          $("#title_error").html("Please provide a title for the activity");
+          $("#title_error").parent().css("display","block");
+          errorFlag = true;
+        }
+        /*else if(title.length>26){
+                $("#title").css("border","1px solid #fc8989");
+                $("#title_error").html("Please do not exceed 25 characters");
+                $("#title_error").parent().css("display","block");
+                errorFlag = true;
+        }*/
+
+        if(desc == "" || desc == "Description should not exceed 1000 characters"){
+          $("#desc").css("border","1px solid #fc8989");
+          $("#desc_error").html("Please enter the description");
+          $("#desc_error").parent().css("display","block");
+          errorFlag = true;
+        }
+        if(desc != "" ){
+          if(desc.length>1000){
+            $("#desc").css("border","1px solid #fc8989");
+            $("#desc_error").html("Please enter the description should not exceed 1000 characters");
+            $("#desc_error").parent().css("display","block");
+            errorFlag = true;
+          }
+        }
+        if(billing_type =="Select" || billing_type ==""){
+          $("#biling_type").css("border","1px solid #fc8989");
+          $("#billing_error").html("Please select the billing type");
+          $("#billing_error").parent().css("display","block");
+          errorFlag = true;
+        }
+        var split_schedule_stime_1 = schedule_stime_1.split(":");
+        var split_schedule_etime_1 = schedule_etime_1.split(":");
+
+        var s_val_1 = split_schedule_stime_1[0];
+        var s_val_2 = split_schedule_stime_1[1];
+
+        var e_val_1 = split_schedule_etime_1[0];
+        var e_val_2 = split_schedule_etime_1[1];
+
+        if(billing_type == "Schedule"){
+          if(repeatCheck == "yes"){
+            if(radio3==1){
+              if(date_1 == date_2 ){
+                if(s_val_1 == e_val_1 && s_val_2 >= e_val_2 && schedule_stime_2 == schedule_etime_2){
+                  $('#schedule_stime_1_1').css('border','1px solid #fc8989');
+                  $('#schedule_etime_1_1').css('border','1px solid #fc8989');
+                  $("#schedule_time_error").html("Invalid time");
+                  $("#schedule_time_error").parent().css("display","block");
+                  rrorFlag = true;
+                }
+                if( s_val_1 > e_val_1 && s_val_1 != 12 && e_val_1 != 12 && schedule_stime_2 == schedule_etime_2 ){
+                  $('#schedule_stime_1_1').css('border','1px solid #fc8989');
+                  $('#schedule_etime_1_1').css('border','1px solid #fc8989');
+                  $("#schedule_time_error").html("Invalid time");
+                  $("#schedule_time_error").parent().css("display","block");
+                  errorFlag = true;
+                }
+                if( ((s_val_1 > 0 && s_val_1 != 12)  &&  e_val_1 == 12  && ( schedule_stime_2 == schedule_etime_2 ) ) || ( s_val_1 == 12 && e_val_1 > 12 ) ){
+                  $('#schedule_stime_1_1').css('border','1px solid #fc8989');
+                  $('#schedule_etime_1_1').css('border','1px solid #fc8989');
+                  $("#schedule_time_error").html("Invalid time");
+                  $("#schedule_time_error").parent().css("display","block");
+                  errorFlag = true;
+                }
+              }
+              else{
+                if(s_val_1 == e_val_1 && s_val_2 >= e_val_2 && schedule_stime_2 == schedule_etime_2){
+                  $('#schedule_stime_1_1').css('border','1px solid #fc8989');
+                  $('#schedule_etime_1_1').css('border','1px solid #fc8989');
+                  $("#schedule_time_error").html("Invalid time");
+                  $("#schedule_time_error").parent().css("display","block");
+                  rrorFlag = true;
+                }
+              }
+            }
+            else{
+              if(s_val_1 == e_val_1 && s_val_2 >= e_val_2 && schedule_stime_2 == schedule_etime_2){
+                $('#schedule_stime_1_1').css('border','1px solid #fc8989');
+                $('#schedule_etime_1_1').css('border','1px solid #fc8989');
+                $("#schedule_time_error").html("Invalid time");
+                $("#schedule_time_error").parent().css("display","block");
+                rrorFlag = true;
+              }
+              if( s_val_1 > e_val_1 && s_val_1 != 12 && e_val_1 != 12 && schedule_stime_2 == schedule_etime_2 ){
+                $('#schedule_stime_1_1').css('border','1px solid #fc8989');
+                $('#schedule_etime_1_1').css('border','1px solid #fc8989');
+                $("#schedule_time_error").html("Invalid time");
+                $("#schedule_time_error").parent().css("display","block");
+                errorFlag = true;
+              }
+              if( ((s_val_1 > 0 && s_val_1 != 12)  &&  e_val_1 == 12  && ( schedule_stime_2 == schedule_etime_2 ) ) || ( s_val_1 == 12 && e_val_1 > 12 ) ){
+                $('#schedule_stime_1_1').css('border','1px solid #fc8989');
+                $('#schedule_etime_1_1').css('border','1px solid #fc8989');
+                $("#schedule_time_error").html("Invalid time");
+                $("#schedule_time_error").parent().css("display","block");
+                errorFlag = true;
+              }
+            }
+          }
+          if(repeatCheck == ""){
+            if(date_1 == date_2 ){
+              if(s_val_1 == e_val_1 && s_val_2 >= e_val_2 && schedule_stime_2 == schedule_etime_2){
+                $('#schedule_stime_1_1').css('border','1px solid #fc8989');
+                $('#schedule_etime_1_1').css('border','1px solid #fc8989');
+                $("#schedule_time_error").html("Invalid time");
+                $("#schedule_time_error").parent().css("display","block");
+                errorFlag = true;
+              }
+              if( s_val_1 > e_val_1 && s_val_1 != 12 && e_val_1 != 12 && schedule_stime_2 == schedule_etime_2 ){
+                $('#schedule_stime_1_1').css('border','1px solid #fc8989');
+                $('#schedule_etime_1_1').css('border','1px solid #fc8989');
+                $("#schedule_time_error").html("Invalid time");
+                $("#schedule_time_error").parent().css("display","block");
+                errorFlag = true;
+              }
+              if( ((s_val_1 > 0 && s_val_1 != 12)  &&  e_val_1 == 12  && ( schedule_stime_2 == schedule_etime_2 ) ) || ( s_val_1 == 12 && e_val_1 > 12 ) ){
+                $('#schedule_stime_1_1').css('border','1px solid #fc8989');
+                $('#schedule_etime_1_1').css('border','1px solid #fc8989');
+                $("#schedule_time_error").html("Invalid time");
+                $("#schedule_time_error").parent().css("display","block");
+                errorFlag = true;
+              }
+            }
+          }
+        }
+        if(category == "--Select Category--" || category == ""){
+          $("#category").css("border","1px solid #fc8989");
+          $("#category_errorDiv").css("display","block");
+          $("#category_error").html("Please select the category");
+          errorFlag = true;
+        }
+        if(sub_category == "--Select Sub Category--" || sub_category == ""){
+          $("#sub_category").css("border","1px solid #fc8989");
+          $("#category_errorDiv").css("display","block");
+          $("#sub_category_error").html("Please select the sub category");
+          if(category == "Select" || category == "")
+            $("#sub_category_error").css("marginLeft","0px");
+          else
+            $("#sub_category_error").css("marginLeft","275px");
+          errorFlag = true;
+        }
+	
+        if( (billing_type == "Any Time" && any_address == 1 ) || billing_type == "Schedule" ){
+          add_1 = add_1.replace(/^\s+|\s+$/g, "");
+          add_2 = add_2.replace(/^\s+|\s+$/g, "");
+          if(add_1 == "" || add_1 == "Address Line 1" ){
+            $("#add_1").css("border","1px solid #fc8989");
+            $("#venue_error").html("Please enter the venue details");
+            $("#venue_error").parent().css("display","block");
+            errorFlag = true;
+          }
+          if(city == "Select" || city == "" ){
+            $("#act_city").css("border","1px solid #fc8989");
+            $("#cityState_errorDiv").css("display","block");
+            $("#city_error").html("Please select the city");
+            errorFlag = true;
+          }
+          if(state == "Select" || state == ""){
+            $("#act_state").css("border","1px solid #fc8989");
+            $("#cityState_errorDiv").css("display","block");
+            $("#state_error").html("Please select the state");
+            if(city == "Select" || city == "")
+              $("#state_error").css("marginLeft","0px");
+            else
+              $("#state_error").css("marginLeft","275px");
+            errorFlag = true;
+          }
+          zip_code = zip_code.replace(/^\s+|\s+$/g, "");
+          if(zip_code == "Enter Zip Code" ||  zip_code == ""){
+            $("#zip_code").css("border","1px solid #fc8989");
+            $("#zipcode_error").html("Please enter the zipcode");
+            $("#zipcode_error").parent().css("display","block");
+            errorFlag = true;
+          }
+          else if(isNaN(zip_code)){
+            $("#zip_code").css("border","1px solid #fc8989");
+            $("#zipcode_error").html("Please enter the valid zipcode");
+            $("#zipcode_error").parent().css("display","block");
+            errorFlag = true;
+          }
+        }
+        /*if(age1 == '' && age2 != '' ){
+          $(".age_range1 .selectBoxCity").css("border","1px solid #fc8989");
+          $("#age_range_error").html("Please select min age range");
+          $("#age_range_error").parent().css("display","block");
+          errorFlag = true;
+        }
+        if(age1 != '' && age2 == '' ){
+          $("#age2").css("border","1px solid #fc8989");
+          $("#age_range_error").html("Please select max age range");
+          $("#age_range_error").parent().css("display","block");
+          errorFlag = true;
+        }
+        if((parseInt(age2) < parseInt(age1)) && (age1 != "Adults") && (age2 != "Adults") && (age1 != "All") && (age2 != "All")){
+          $("#age2").css("border","1px solid #fc8989");
+          $("#age_range_error").html("Please select valid max range");
+          $("#age_range_error").parent().css("display","block");
+          errorFlag = true;
+        }*/
+	/*validate the age ranges in create_new_activity.js */
+	var min_age_type = $("#min_type").val();
+	var max_age_type = $("#max_type").val();
+	var age1 = ((min_age_type=='month') ? $("#month_age1").val() : $("#year_age1").val());
+	var age2 = ((max_age_type=='month') ? $("#month_age2").val() : $("#year_age2").val());
+	/*if((min_age_type!='' && max_age_type=='')  || (min_age_type=='' && max_age_type!=''))
+	{
+		$("#age_range_error").html("Please select age type");
+		$("#age_range_error").parent().css("display","block");
+		errorFlag=true;
+	}
+	else if(min_age_type=='month' || min_age_type=='year')
+	{						
+		if(min_age_type=='month' && $("#month_age1").val()=='')
+		{							
+			$("#age_range_error").html("Please select age type");
+			$("#age_range_error").parent().css("display","block");
+			errorFlag=true;
+			
+		}							
+		if(min_age_type=='year' && $("#year_age1").val()=='')
+		{
+			$("#age_range_error").html("Please select age type");
+			$("#age_range_error").parent().css("display","block");
+			errorFlag=true;
+		}												
+	}
+	else if(max_age_type=='month' || max_age_type=='year')
+	{	if(max_age_type=='month' && $("#month_age2").val()=='')
+		{	$("#age_range_error").html("Please select age type");
+			$("#age_range_error").parent().css("display","block");
+			errorFlag=true;
+		}	
+		if(max_age_type=='year' && $("#year_age2").val()=='')
+		{
+			$("#age_range_error").html("Please select age type");
+			$("#age_range_error").parent().css("display","block");
+			errorFlag=true;
+		}
+	}*/
+	if(age1!='' || age2!='')
+	{					   
+	    var test = validate_age_ranges(min_age_type,max_age_type,age1,age2)
+	    if (!test)
+	    {
+	    errorFlag = true;
+	    }
+	}
+        no_pat = no_pat.replace(/^\s+|\s+$/g, "");
+        var firstValPart = no_pat.charAt(0);
+        if(no_pat != "Specify Number" ){
+          if(!validateNumber(no_pat)){
+            $("#no_pat").css("border","1px solid #fc8989");
+            $("#no_pat_error").html("Please allow only valid number");
+            $("#no_pat_error").parent().css("display","block");
+            errorFlag = true;
+          }
+          if(firstValPart==0 && firstValPart !="" ){
+            $("#no_pat").css("border","1px solid #fc8989");
+            $("#no_pat_error").html("Please do not use 0 as a first character");
+            $("#no_pat_error").parent().css("display","block");
+            errorFlag = true;
+          }
+        }
+        if(activity_photo == ""){
+          $("#photo1").css("border","1px solid #fc8989");
+          $("#activity_photo_error").html("Please select an image");
+          $("#activity_photo_error").parent().css("display","block");
+          errorFlag = true;
+        } 
+        if(activity_photo != ""){
+          val=validateBrowse();
+          if(!val){
+            $("#photo1").css("border","1px solid #fc8989");
+            $("#activity_photo_error").html("Please select an valid image");
+            $("#activity_photo_error").parent().css("display","block");
+            errorFlag = true;
+          }
+        }
+        if(errorFlag){
+          return false;
+        }
+
+        else{
+          // alert(this.id);
+          //$('#'+this.id).ajaxForm(function() {
+          //alert("Thank you for your comment!");
+          ///});
+          /*var formData = new FormData(this);
+
+                formData.append( "contact_user[contact]",$("#photo")[0].files[0]);
+                $.ajax({
+                url:$(this).attr('action'),
+                type:"post",
+                dataType:"script",
+                processData: false,
+                contentType: false,
+                data:formData,
+                success:function(data){
+                }
+                });*/
+          $('#new_img').show();
+          $('#save_img').hide();
+          //$('#loading_img').show();
+          $('#loading_img').css("display","inline-block");
+          $(this).ajaxSubmit({
+            target: '#activity_render',
+            success:  afterSuccess
+          });
+          return false;
+        }
+      }
+    })
+  });
+
+  function afterSuccess(){
+    $('#loading_img').hide();
+  }
+  function fakepath(filepath){
+    inputNode = filepath.replace('C:\\fakepath\\', '');
+    var pos = filepath.lastIndexOf( filepath.charAt( filepath.indexOf(":")+1) );
+    var filename = filepath.substring( pos+1);
+
+    var ua=navigator.userAgent;
+    if(ua.indexOf("Firefox")!=-1){
+      $("#photo1").val(filepath);
+    }
+    else {
+      $("#photo1").val(filename);
+    }
+  }
+</script>
+<script language="javascript">
+  function closepopup() {
+    parent.newActivityPage.hide();
+    parent.location.href += "";
+    return false;
+  }
+</script>
+<style>
+  .setfeedbackDiv {
+    background: none repeat scroll 0 0 #EDF1F2;
+    color: #444444;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    margin: 15px auto 0;
+    padding: 15px;
+    width: 500px;
+  }
+
+
+</style>
+<script language="javascript">
+  $(document).ready(function(){
+    document.getElementById("title").focus();
+    document.getElementById("title").value="";
+    document.getElementById("title").style.color="#444444;"
+  });
+</script>
+
+
+
+<div id="new_act_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">
+		Create New Activity
+            </div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%> </a>
+          </div>
+        </div>
+
+        <div id ="activity_render">
+          <div class="centerCont">
+            <!--<div align="center" class="setfeedbackDiv" style="margin: 20px auto 0;width: 325px; font-weight:bold;"><span class="required">*</span>&nbsp;Please fill out required fields.</div>-->
+            <form id="createactivity" name="activity" action="/activity_create" method="post" enctype="multipart/form-data">
+              <div class="paddingTop10">
+                <div class="paddingTop10">
+                  <div class="lt leftSideField">
+									Activity Name<span class="required">*</span>
+                  </div>
+                  <input type="text" name="activity[activity_name]" id="title" class="lt textbox" value="Enter Activity Name" onfocus="if(this.value == 'Enter Activity Name'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter Activity Name'}" tabindex="1" maxlength="100"/>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">
+                    &nbsp;
+                  </div>
+                  <div class="lt" id="title_error"></div>
+                </div>
+                <input type="hidden" id="title_er" name="title_er" value="" />
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop7">
+                <div class="lt leftSideField">
+								Choose Category<span class="required">*</span>
+                </div>
+                <div class="lt">
+                  <div class="lt col1">
+                    <select  id="category" name="activity[category]" size="1" tabindex="2" class="drop_down_left width_set2" onkeyup="set_category(this.value)" onchange="set_category(this.value)">
+                      <option value="" selected="selected">--Select Category--</option>
+                      <% @activities_category = ActivityCategory.order(:category_name).where("lower(category_name)!= ?","default")%>
+                      <% @activities_category.each do |cat|%>
+                        <option value="<%= cat.category_name.html_safe %>"><%= cat.category_name.html_safe %></option>
+                      <%end%>
+                    </select>
+                  </div>
+                  <div class="lt col2">
+                    <div class="lt sub_category">
+                      <select  id="sub_category" name="activity[sub_category]" size="1" tabindex="2" class="drop_down_left width_set2" onChange="$(this).css('color','#444444')">
+                        <%= render :partial => 'sub_category'  %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="clear"></div>
+              <div id="category_errorDiv" class="errorDiv" style="display:none">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+                <div class="lt" id="category_error"></div>
+                <div class="lt" id="sub_category_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="paddingTop10">
+                <div class="lt leftSideField">
+								Description<span class="required">*</span>
+                </div>
+                <textarea name="description" id="desc" rows="10" cols="40"  class="lt textbox descTextbox" onfocus="if(this.value == 'Description should not exceed 1000 characters'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Description should not exceed 1000 characters'}" tabindex="4">Description should not exceed 1000 characters</textarea>
+
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+                <div class="lt" id="desc_error"></div>
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+
+              <input type="hidden" value="" id="schedule_sdate_time_1" name="schedule_sdate_time_val"/>
+              <input type="hidden" value="" id="schedule_edate_time_1" name="schedule_edate_time_val"/>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">
+								Schedule Type<span class="required">*</span>
+                </div>
+                <div class="lt">
+                  <select  id="billing_type" name="activity[schedule_mode]" size="1" tabindex="5" class="drop_down_left width_set1" onkeyup="parentScheduleDropDown(this.value)" onChange="parentScheduleDropDown(this.value)" style="color:#444444;">
+                    <option value="Schedule" selected="selected">By Schedule</option>
+                    <option value="Any Time">Any Time</option>
+                  </select>
+                </div>
+                <div class="clear"></div>
+              </div>
+
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+                <div class="lt" id="billing_error"></div>
+                <div class="clear"></div>
+              </div>
+
+              <div id="billing_any" style="display:none;">
+                <div class="paddingTop10">
+                  <div class="lt leftSideField"></div>
+                  <div class="lt">
+                    <div class="anytimeRow">
+                      <input id="any_address" name="any_address" value="1" type="hidden" />
+                      <a href="javascript:void(0)" title="" class="lt price_Checkbox radio_selected_anytime" id="radio_selected_anytime_1" onclick="dispCheckAnytime('radio_normal_anytime',1)" tabindex="67">
+                        <%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22", :style=>"border:0px;")%>
+                      </a>
+                      <a href="javascript:void(0)" title="" class="lt price_Checkbox radio_normal_anytime"  id="radio_normal_anytime_1" onclick="dispCheckAnytime('radio_normal_anytime',1)" tabindex="67" style="display: none"  >
+                         <%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22", :style=>"border:0px;")%>
+                      </a>
+                      <span class="lt priceTt">Address</span>
+
+                      <input id="any_where" name="any_where" value="0" type="hidden" />
+                      <a href="javascript:void(0)" title="" class="lt price_Checkbox radio_selected_anytime" id="radio_selected_anytime_2" onclick="dispCheckAnytime'radio_normal_anytime',2)" style="display: none"  tabindex="68">
+                        <%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22", :style=>"border:0px;")%>
+                      </a>
+                      <a href="javascript:void(0)" title="" class="lt price_Checkbox radio_normal_anytime"  id="radio_normal_anytime_2" onclick="dispCheckAnytime('radio_normal_anytime',2)" tabindex="68">
+                         <%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22", :style=>"border:0px;")%>
+                      </a>
+                      <span class="lt priceTt">Anywhere</span>
+                      <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+
+              <div class="paddingTop10" id="dtstyle" style="display:block;">
+               <input type="hidden" id="schedule_tabs" name="schedule_tabs" value="0">
+                <div class="lt leftSideField">
+		Date &amp; Time<span class="required">*</span>
+                </div>
+                <div class="lt dateTimeDiv" id="dateTimeDiv_1" style="background:#f5fafd; width:485px; border:1px solid #f3f7f8;">
+                  <div class="lt" style="padding:13px 0 0 10px; width:400px; ">
+                    <div class="dateDiv startdatediv" style="float:left; height:27px; padding: 1px 5px 0;"><input type="text"  id="dateFormate_1_1" name="dateFormate_1_1" class="dateTextbox" value="" readonly="readonly" style="outline: none;" tabindex="6" onChange="modifyDate(1);$(this).css('color','#444444');"/>
+                      <input type="hidden" id="date_1_1" name="date_1_1" value=""/>
+                    </div>
+
+                    <div id="toText" style="vertical-align:top; top:7px; left:6px; position:relative; width:27px; float:left; font-size:13px; color:#999999;">To</div>
+                    <div class="dateDiv enddatediv" id="sched_end_date1" style="height:27px; padding: 1px 5px 0;">
+                      <input type="text" id="dateFormate_2_1" name="dateFormate_2_1" class="dateTextbox" value="" readonly="readonly" style="outline:none;" onChange="modifyDateTo(1);summary_date_time_changes(1);changed_summary(1);$(this).css('color','#444444');" tabindex="7"/>
+                      <input type="hidden" id="date_2_1" name="date_2_1" value=""/>
+                    </div>
+                    <div class="lt" id="sched_end_date2" style="display:none;">
+                      <div class="finalResult"></div>
+                    </div>
+
+
+                    <div class="lt" id="multipledate_1">
+
+                      <div class="multipledate" style="padding:12px 0 12px 0;">
+                        <div class="timelabel"  id="timelabel" style="float:left; display: inline-block; padding-top: 8px;">
+											Start
+                        </div>
+                        <div class="timStart" id="schedule_start_time_1" style="width: 140px;margin-bottom:0;">
+
+                          <select  id="schedule_stime_1_1" name="schedule_stime_1_1" size="1" tabindex="8" class="drop_down_left width_set3" onkeyup="callSummay(1)" onChange="callSummay(1)">
+				<option value="01:00">01:00</option>
+				<option value="01:15">01:15</option>
+				<option value="01:30">01:30</option>
+				<option value="01:45">01:45</option>
+				<option value="02:00">02:00</option>
+				<option value="02:15">02:15</option>
+				<option value="02:30">02:30</option>
+				<option value="02:45">02:45</option>
+				<option value="03:00">03:00</option>
+				<option value="03:15">03:15</option>
+				<option value="03:30">03:30</option>
+				<option value="03:45">03:45</option>
+				<option value="04:00">04:00</option>
+				<option value="04:15">04:15</option>
+				<option value="04:30">04:30</option>
+				<option value="04:45">04:45</option>
+				<option value="05:00">05:00</option>
+				<option value="05:15">05:15</option>
+				<option value="05:30">05:30</option>
+				<option value="05:45">05:45</option>
+				<option value="06:00">06:00</option>
+				<option value="06:15">06:15</option>
+				<option value="06:30">06:30</option>
+				<option value="06:45">06:45</option>
+				<option value="07:00">07:00</option>
+				<option value="07:15">07:15</option>
+				<option value="07:30">07:30</option>
+				<option value="07:45">07:45</option>
+				<option value="08:00">08:00</option>
+				<option value="08:15">08:15</option>
+				<option value="08:30">08:30</option>
+				<option value="08:45">08:45</option>
+				<option value="09:00" selected="selected">09:00</option>
+				<option value="09:15">09:15</option>
+				<option value="09:30">09:30</option>
+				<option value="09:45">09:45</option>
+				<option value="10:00">10:00</option>
+				<option value="10:15">10:15</option>
+				<option value="10:30">10:30</option>
+				<option value="10:45">10:45</option>
+				<option value="11:00">11:00</option>
+				<option value="11:15">11:15</option>
+				<option value="11:30">11:30</option>
+				<option value="11:45">11:45</option>
+				<option value="12:00">12:00</option>
+				<option value="12:15">12:15</option>
+				<option value="12:30">12:30</option>
+				<option value="12:45">12:45</option>
+                          </select>
+
+                          <select  id="schedule_stime_2_1" name="schedule_stime_2_1" size="1" tabindex="9" class="drop_down_left width_set3" onkeyup="callSummay(1)" onChange="callSummay(1)">
+                            <option value="AM" selected="selected">AM</option>
+                            <option value="PM" >PM</option>
+                          </select>
+
+                        </div>
+
+                        <div class="timelabel" style="float:left; display: inline-block; padding-top: 8px; margin-left:3px;">
+											End
+                        </div>
+
+                        <div class="timStart" id="schedule_end_time_1" style="width: 145px;margin-bottom:0;">
+                          <select  id="schedule_etime_1_1" name="schedule_etime_1_1" size="1" tabindex="10" class="drop_down_left width_set3" onkeyup="callSummay(1)" onChange="callSummay(1)">
+				<option value="01:00">01:00</option>
+				<option value="01:15">01:15</option>
+				<option value="01:30">01:30</option>
+				<option value="01:45">01:45</option>
+				<option value="02:00">02:00</option>
+				<option value="02:15">02:15</option>
+				<option value="02:30">02:30</option>
+				<option value="02:45">02:45</option>
+				<option value="03:00">03:00</option>
+				<option value="03:15">03:15</option>
+				<option value="03:30">03:30</option>
+				<option value="03:45">03:45</option>
+				<option value="04:00">04:00</option>
+				<option value="04:15">04:15</option>
+				<option value="04:30">04:30</option>
+				<option value="04:45">04:45</option>
+				<option value="05:00">05:00</option>
+				<option value="05:15">05:15</option>
+				<option value="05:30">05:30</option>
+				<option value="05:45">05:45</option>
+				<option value="06:00" selected="selected">06:00</option>
+				<option value="06:15">06:15</option>
+				<option value="06:30">06:30</option>
+				<option value="06:45">06:45</option>
+				<option value="07:00">07:00</option>
+				<option value="07:15">07:15</option>
+				<option value="07:30">07:30</option>
+				<option value="07:45">07:45</option>
+				<option value="08:00">08:00</option>
+				<option value="08:15">08:15</option>
+				<option value="08:30">08:30</option>
+				<option value="08:45">08:45</option>
+				<option value="09:00">09:00</option>
+				<option value="09:15">09:15</option>
+				<option value="09:30">09:30</option>
+				<option value="09:45">09:45</option>
+				<option value="10:00">10:00</option>
+				<option value="10:15">10:15</option>
+				<option value="10:30">10:30</option>
+				<option value="10:45">10:45</option>
+				<option value="11:00">11:00</option>
+				<option value="11:15">11:15</option>
+				<option value="11:30">11:30</option>
+				<option value="11:45">11:45</option>
+				<option value="12:00">12:00</option>
+				<option value="12:15">12:15</option>
+				<option value="12:30">12:30</option>
+				<option value="12:45">12:45</option>
+                          </select>
+                          <select id="schedule_etime_2_1" name="schedule_etime_2_1" size="1" tabindex="11" class="drop_down_left width_set3" onkeyup="callSummay(1)" onChange="callSummay(1)">
+                            <option value="AM">AM</option>
+                            <option value="PM" selected="selected">PM</option>
+                          </select>
+                        </div>
+
+                        <input type="hidden" name="repeatCheck_1" id="repeatCheck_1" value="" />
+		    <span  class="lt checkbox setstyle" style="margin-right:0px;"> <a href="javascript:void(0)" title="" class="checkbox_selected_s" id="checkbox_selected_s1_1" onclick="dispCheck('checkbox_selected',1)" style="display: none" tabindex="6"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_s" id="checkbox_normal_s1_1" onclick="dispCheck('checkbox_normal',1)" tabindex="6"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+		    <span class="lt"><a style="display:none;position:relative;top:6px;left:3px;right:5px;" tabindex="7" onclick="disp_edit(1)" id="repeatEdit_1" title="Edit Repeat" href="javascript:void(0)"><%=image_tag("/assets/provider_event_list/edit_icon.png", :width=>"29", :height=>"26", :align=>"absbottom")%></a></span>
+		    <span class="lt repeatTest ftSz13Clr">Repeat</span>
+		    <div class="clear"></div>
+		
+                      </div>
+                    </div>
+
+                    <div class="clear"></div>
+
+
+                    <link rel="stylesheet" type="text/css" href="/assets/create_new_activity_new/repeat_popup.css" />
+                    <script type="text/javascript" src="/assets/create_new_activity_new/repeat_popup.js"></script>
+
+
+                  <div class="repeatContainer" id="repeatPOPUPDiv_1" style="display:none;margin-left:-15px;margin-top:-15px;">
+                    <div class="repeatContainerTop"></div>
+                    <div class="repeatContainerCenter">
+                      <div class="innerContainer">
+                        <div class="headTab">
+                          <div class="heading">
+                            <div class="headCont">
+														Repeat
+                            </div>
+                          </div>
+                          <div class="closeButton" style="padding:0px;">
+                            <input type="hidden" id="repeat_save_1"  value="" />
+                            <a href="javascript:void(0)" onClick="closeRepeatDiv(1)" onkeydown="cancelRepeatKeyDown(event,0)" title=""><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%></a>
+                          </div>
+                        </div>
+                        <div class="repeatFormContent">
+                          <!--form name="r_form" id="r_form" method="post" action=""-->
+                          <div class="row">
+                            <div class="lt ltField ">
+														Repeats
+                            </div>
+                            <div class="lt">			    
+				<select id="repeatWeekVal_1" name="repeatWeekVal_1" size="1" tabindex="8" class="drop_down_left width_set4" onkeyup="repeatsValue(1)" onChange="repeatsValue(1)">
+					<option value="Daily" selected="selected">Daily</option>
+					 <!--<option value="Every week (Monday to Friday)">Every week (Monday to Friday)</option>
+					 <option value="Every Monday,Wednesday and Friday">Every Monday,Wednesday and Friday</option>
+					 <option value="Every Tuesday and Thursday">Every Tuesday and Thursday</option>-->
+					<option value="Weekly">Weekly</option>
+					<option value="Monthly">Monthly</option>
+					<option value="Yearly">Yearly</option>
+				</select>                            
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+                          <div class="row repeatEvery">
+                            <div class="lt ltField">
+														Repeat Every
+                            </div>
+
+                            <div class="lt">
+				<select id="repeatNumWeekVal_1" name="repeatNumWeekVal_1" size="1" tabindex="9" class="drop_down_left width_set3" onkeyup="repeatEveryValue(1)" onChange="repeatEveryValue(1)">
+					<option value="1" selected="selected">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+					<option value="12">12</option>
+					<option value="13">13</option>
+					<option value="14">14</option>
+					<option value="15">15</option>
+					<option value="16">16</option>
+					<option value="17">17</option>
+					<option value="18">18</option>
+					<option value="19">19</option>
+					<option value="20">20</option>
+					<option value="21">21</option>
+					<option value="22">22</option>
+					<option value="23">23</option>
+					<option value="24">24</option>
+					<option value="25">25</option>
+					<option value="26">26</option>
+					<option value="27">27</option>
+					<option value="28">28</option>
+					<option value="29">29</option>
+					<option value="30">30</option>
+				</select>&nbsp;&nbsp; 
+                            </div>
+                            <div class="lt weekText repeatEveryText_1">Day</div>
+                            <div class="clear"></div>
+                          </div>
+		     
+                          <div class="row repeatOn">
+                            <div class="lt ltField" >
+														Repeat On
+                            </div>
+                            <div class="lt" style="padding-left:2px;">
+			<input id="repeat_no_of_days_1" name="repeat_no_of_days_1" type="hidden" value=""/>
+			<input id="repeat_days_1" name="repeat_days_1" type="hidden" value="0"/>
+                              <span  class="lt checkbox">
+			  <input id="day1_1" name="day1_1" type="hidden" value=""/>
+                                <a href="javascript:void(0)" title="" class="checkbox_selected_repeat" id="checkbox_selected_repeat_1_1" onclick="dispCheckRepeat('checkbox_selected_repeat',1,'Sun',1)" style="display: none" tabindex="10"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat" id="checkbox_normal_repeat_1_1" onclick="dispCheckRepeat('checkbox_normal_repeat',1,'Sun',1)" tabindex="10"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">S</span>
+
+                              <span  class="lt checkbox">                                
+			  <input id="day2_1" name="day2_1" type="hidden" value=""/>
+                                <a href="javascript:void(0)" title="" class="checkbox_selected_repeat" id="checkbox_selected_repeat_2_1" onclick="dispCheckRepeat('checkbox_selected_repeat',2,'Mon',1)" style="display: none" tabindex="11"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat"  id="checkbox_normal_repeat_2_1" onclick="dispCheckRepeat('checkbox_normal_repeat',2,'Mon',1)" tabindex="11"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">M</span>
+
+                              <span  class="lt checkbox">			  
+                                <input id="day3_1" name="day3_1" type="hidden" value=""/>			  
+                                <a href="javascript:void(0)" title="" class="checkbox_selected_repeat" id="checkbox_selected_repeat_3_1" onclick="dispCheckRepeat('checkbox_selected_repeat',3,'Tue',1)" style="display: none" tabindex="12"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat" id="checkbox_normal_repeat_3_1" onclick="dispCheckRepeat('checkbox_normal_repeat',3,'Tue',1)" tabindex="12"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">T</span>
+
+                              <span  class="lt checkbox">			 
+                                <input id="day4_1" name="day4_1" type="hidden" value=""/>
+                                <a href="javascript:void(0)" title="" class="checkbox_selected_repeat" id="checkbox_selected_repeat_4_1" onclick="dispCheckRepeat('checkbox_selected_repeat',4,'Wed',1)" style="display: none" tabindex="13"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat" id="checkbox_normal_repeat_4_1" onclick="dispCheckRepeat('checkbox_normal_repeat',4,'Wed',1)" tabindex="13"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">W</span>
+
+                              <span  class="lt checkbox">			  
+                                <input id="day5_1" name="day5_1" type="hidden" value=""/>
+                                <a href="javascript:void(0)" title="" class="checkbox_selected_repeat" id="checkbox_selected_repeat_5_1" onclick="dispCheckRepeat('checkbox_selected_repeat',5,'Thu',1)" style="display: none" tabindex="14"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat" id="checkbox_normal_repeat_5_1" onclick="dispCheckRepeat('checkbox_normal_repeat',5,'Thu',1)" tabindex="14"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">T</span>
+
+                              <span  class="lt checkbox">			  
+                                <input id="day6_1" name="day6_1" type="hidden" value=""/>
+                                <a href="javascript:void(0)" title="" class="checkbox_selected_repeat"  id="checkbox_selected_repeat_6_1"  onclick="dispCheckRepeat('checkbox_selected_repeat',6,'Fri',1)" style="display: none" tabindex="15"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat" id="checkbox_normal_repeat_6_1" onclick="dispCheckRepeat('checkbox_normal_repeat',6,'Fri',1)" tabindex="15"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">F</span>
+
+                              <span  class="lt checkbox">			  
+                                <input id="day7_1" name="day7_1" type="hidden" value=""/>
+                                <a href="javascript:void(0)" title=""  class="checkbox_selected_repeat" id="checkbox_selected_repeat_7_1" onclick="dispCheckRepeat('checkbox_selected_repeat',7,'Sat',1)" style="display: none" tabindex="16"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat" id="checkbox_normal_repeat_7_1" onclick="dispCheckRepeat('checkbox_normal_repeat',7,'Sat',1)" tabindex="16"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">S</span>
+                              <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+                          <div class="errorDiv" style="display:none">
+                            <div class="lt ltField">
+                              &nbsp;
+                            </div>
+                            <div id="repeat_on_error_1"></div>
+                          </div>
+                          <div class="clear"></div>
+
+                          <div class="row repeated_by" style="display:none;">
+                            <div class="lt ltField">Repeated by</div>
+                            <div class="lt">
+                              <div class="col month">
+                                <span class="lt radio">                                  
+			    <input id="month1_1" name="month1_1" value="1" type="hidden"/>
+                                  <a href="javascript:void(0)" title="" class="month_selected_repeat" id="month_selected_repeat_1_1" onclick="dispCheckMonthlyRepeat('month_selected_repeat',1,1)" tabindex="17"><%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a><a href="javascript:void(0)" title="" class="month_normal_repeat" id="month_normal_repeat_1_1" onclick="dispCheckMonthlyRepeat('month_normal_repeat',1,1)" style="display: none" tabindex="17"> <%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a></span><span class="lt radioText">Day of the month&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+                                <span class="lt radio">			    
+                                  <input id="month2_1" name="month2_1" value="0" type="hidden"/>
+                                  <a href="javascript:void(0)" title="" class="month_selected_repeat" id="month_selected_repeat_2_1" onclick="dispCheckMonthlyRepeat('month_selected_repeat',2,1)" style="display: none" tabindex="18"><%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a><a href="javascript:void(0)" title="" class="month_normal_repeat" id="month_normal_repeat_2_1" onclick="dispCheckMonthlyRepeat('month_normal_repeat',2,1)" tabindex="18"> <%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a></span><span class="lt radioText">Day of the week</span>
+                                <div class="clear"></div>
+                              </div>
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+
+                          <div class="row">
+                            <div class="lt ltField">
+														Starts On
+                            </div>
+                            <div class="lt">
+                                 <input type="hidden" value="" class="repeatTextBox" id="started_date_1" name="started_date_1" />
+                                <input type="text" value="" class="repeatTextBox" id="started_date_disp_1" disabled />
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+                          <div class="row">
+                            <div class="lt ltField">
+														Ends
+                            </div>
+                            <div class="lt">
+                              <div class="col">
+                                <span class="lt radio r_value">			    
+                                  <input id="r1_1" name="r1_1" value="0" type="hidden"/>
+                                  <a href="javascript:void(0)" title="" class="radio_selected_repeat" id="radio_selected_repeat_1_1" onclick="dispCheckRepeat('radio_selected_repeat',1,1,1)" tabindex="19"><%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a><a href="javascript:void(0)" title="" class="radio_normal_repeat" id="radio_normal_repeat_1_1" onclick="dispCheckRepeat('radio_normal_repeat',1,1,1)" style="display: none" tabindex="19"> <%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a></span><span class="lt radioText">Never</span>
+
+                                <div class="clear"></div>
+                              </div>
+
+                              <div class="col">
+                                <span class="lt radio r_value">			    
+                                  <input id="r2_1" name="r2_1" value="0" type="hidden"/>
+                                  <a href="javascript:void(0)" title="" class="radio_selected_repeat" id="radio_selected_repeat_2_1" onclick="dispCheckRepeat('radio_selected_repeat',2,1,1)" style="display: none" tabindex="20"><%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a><a href="javascript:void(0)" title="" class="radio_normal_repeat" id="radio_normal_repeat_2_1" onclick="dispCheckRepeat('radio_normal_repeat',2,1,1)" tabindex="20"> <%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a></span><span class="lt radioText">After&nbsp;&nbsp;&nbsp;</span>
+                                 
+			   <input type="text" maxlength="10" value="5" class="repeatTextBox afterTextBox" id="after_occ_1" name="after_occ_1" onKeyPress="return number(event);" onkeyUp="changed_summary(1);" onFocus="$(this).css('color','#444444')" tabindex="21"/>
+                                 <span class="lt radioText">&nbsp;&nbsp;&nbsp;occurrences</span>
+
+                                <div class="clear"></div>
+                              </div>
+
+                              <div class="errorDiv" style="display:none">
+                                <div id="after_occ_error_1" style="padding:0 0 10px 62px;"></div>
+                              </div>
+
+                              <div class="col">
+                                <span class="lt radio r_value">			    
+                                  <input id="r3_1" name="r3_1" value="1" type="hidden" />
+                                  <a href="javascript:void(0)" title="" class="radio_selected_repeat" id="radio_selected_repeat_3_1" onclick="dispCheckRepeat('radio_selected_repeat',3,1,1)" style="display: none" tabindex="22"><%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a><a href="javascript:void(0)" title="" class="radio_normal_repeat"  id="radio_normal_repeat_3_1" onclick="dispCheckRepeat('radio_normal_repeat',3,1,1)" tabindex="22"> <%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a></span><span class="lt radioText">On&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <div class="lt dateDivRepeat">				
+                                  <input type="text" id="repeat_on_date_1" name="repeat_on_date_1" class="rdateTextbox" value="" style="outline: none;" tabindex="23" onChange="modifyDateEndsOn(1);$(this).css('color','#444444');" readonly="readonly" />
+                                  <input type="hidden" id="repeat_alt_on_date_1" name="repeat_alt_on_date_1" value=""   />
+			
+                                </div>
+                                <div class="clear"></div>
+                              </div>
+
+                              <div class="errorDiv" style="display:none">
+                                <div id="repeat_alt_error_1"></div>
+                              </div>
+
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+                           <div class="summaryDiv" id="repeat_summary_1">
+                            <div class="lt ltField">
+			Summary <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
+                            </div>
+                            <div class="lt">
+                              <span class="lt summaryText"><span class="summary weekText">Weekly on Wednesday</span></span>
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+                          <div class="buttonDiv">
+                            <div class="lt ltField">
+                              &nbsp;
+                            </div>
+                            <div class="lt">
+                              <a href="javascript:void(0)" tabindex="24" onclick="saveRepeatDiv('parent',1)" onkeydown="cancelRepeatKeyDown(event,1)"><%=image_tag("/assets/create_new_activity/repeat/save.png", :width=>"67", :height=>"33", :style=>"border:0px;")%></a>
+                              <a href="javascript:void(0)" tabindex="25" onClick="cancelRepeatDiv(1)" onkeydown="cancelRepeatKeyDown(event,1)"><%=image_tag("/assets/create_new_activity/repeat/cancel.png", :width=>"67", :height=>"33", :style=>"border:0px;")%></a>
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+
+                          <!--/form-->
+                        </div>
+                      </div>
+                    </div>
+                    <div class="repeatContainerBottom"></div>
+                    <div class="clear"></div>
+                  </div>
+	
+
+
+                    <div class="clear"></div>
+                    <div class="errorDiv" style="display:none;">
+                      <div class="lt" id="schedule_time_error"></div>
+                    </div>
+
+                  </div>
+
+
+                  <div class="clear"></div>
+	<div class="new_summary" id="schedule_summary_1" style="display:none;margin:0 0 10px 10px;">
+				<div class="lt" style="border-top:none">
+				<span class="lt">Summary&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+				<div class="lt">
+				<div class="outSummary" id="dateSummay" style=" width: 380px;"></div>
+				<div class="outSummary" id="repeat_summary_text" style="display:none;width: 380px;"><span id="repeatText">Repeats&nbsp;</span><span class="summary"></span></div>
+				<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+				</div>
+			
+			<div class="clear"></div>
+			</div>
+			
+                <div class="clear"></div>
+
+              </div>
+              <div class="clear"></div>
+
+              <div id="address">
+                <div class="paddingTop10">
+                  <div class="lt leftSideField">
+									Address<span class="required">*</span>
+                  </div>
+                  <input type="text" name="address_1" id="add_1" class="lt textbox" value="Address Line 1" onfocus="if(this.value == 'Address Line 1'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Address Line 1'}" tabindex="31"/>
+                  <div class="clear"></div>
+                </div>
+                <div class="paddingTop2">
+                  <div class="lt leftSideField">
+                    &nbsp;
+                  </div>
+                  <input type="text" name="address_2" id="add_2" class="lt textbox" value="Address Line 2"  onfocus="if(this.value == 'Address Line 2'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Address Line 2'}" onblur="blurChangeBorderColor('add_2')" tabindex="32"/>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt" id="venue_error"></div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div id="city_state">
+                <div class="paddingTop10">
+                  <div class="lt leftSideField">City<span class="required">*</span> &amp; State<span class="required">*</span></div>
+                  <div class="lt">
+                    <div class="lt col1">
+                      <select id="act_city" name="city" size="1" tabindex="33" class="drop_down_left width_set2" onChange="$(this).css('color','#444444');">
+                        <option value="" selected="selected">--Choose City--</option>
+                        <% @cities.each do |city|%>
+                          <option value="<%=city%>"><%=city%></option>
+                        <%end%>
+                      </select>
+                    </div>
+                    <div class="lt col2" >
+                      <select id="act_state" name="state" size="1" tabindex="34" class="drop_down_left width_set2" style="color:#444444;">
+                        <option value="California" selected="selected">California</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div id="cityState_errorDiv" class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">&nbsp;</div>
+                  <div class="lt dateTimeDiv city_zipcode">
+                    <div class="lt" id="city_error"  style="width: 275px;"></div>
+                    <div class="lt" id="state_error"></div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+              <div class="clear"></div>
+
+              <div id="zipcode">
+                <div class="paddingTop10">
+                  <div class="lt leftSideField">Zip Code<span class="required">*</span></div>
+                  <input type="text" name="zip_code" id="zip_code" class="lt textbox" value="Enter Zip Code" onfocus="if(this.value == 'Enter Zip Code'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter Zip Code'}" onblur="blurChangeBorderColor('add_2')"  maxlength="10" tabindex="35"/>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField"> &nbsp;</div>
+                  <div class="lt" id="zipcode_error"></div>
+                </div>
+              </div>
+              <div class="clear"></div>
+
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">
+							Age Range
+                </div>
+
+                <div class="lt col2_center">
+		<div  class="lt col2_right">
+		 <select name="min_type" id="min_type" class="drop_down_left width_set4 " size="1" onchange="changeAgeRange(this.value,'min')">			
+			<option value="month" >Month</option>
+			<option value="year">Year</option>
+		    </select>
+		</div>
+		<div id="div_min_month">   
+			    <select id="month_age1" name="month_age1" size="1" tabindex="17" class="drop_down_left width_set7"  onChange="$(this).css('color','#444444');">
+			      <option value="" selected="selected">--Set a Minimum age--</option>			      
+			      <% (1..11) .each do |num| %>
+				<option value="<%= num%>"><%= num%></option>
+			      <%end%>			      
+			    </select>
+		</div>
+		<div id="div_min_year" style="display:none;">   
+			    <select id="year_age1" name="year_age1" size="1" tabindex="17" class="drop_down_left width_set7" onkeyup="setAgeDropDownValue('min','year',this.value);"  onChange="setAgeDropDownValue('min','year',this.value); $(this).css('color','#444444');">
+			      <option value="" selected="selected">--Set a Minimum age--</option>
+			      <option value="All">All</option>
+			      <% (1..18) .each do |num| %>
+				<option value="<%= num%>"><%= num%></option>
+			      <%end%>
+			      <option value="Adults">Adults</option>
+			    </select>
+		</div>
+                  </div>
+		  <div class="lt cenderSideField" align="center">
+			To
+		</div>
+                  <div class="lt col2_center">
+		<div  class="lt col2_right">
+		<select name="max_type" id="max_type" class="drop_down_left width_set4 " size="1" onchange="changeAgeRange(this.value,'max')">			
+			<option value="month" >Month</option>
+			<option value="year">Year</option>
+		</select>
+		</div>
+		<div id="div_max_month" >
+			    <select id="month_age2" name="month_age2" size="1" tabindex="18" class="drop_down_left width_set7" onChange="$(this).css('color','#444444');">
+			      <option value="" selected="selected">--Set a Maximum age--</option>			      
+			      <% (1..11) .each do |num| %>
+				<option value="<%= num%>"><%= num%></option>
+			      <%end%>			      
+			    </select>
+		</div>
+		<div id="div_max_year" style="display:none;">
+			<select id="year_age2" name="year_age2" size="1" tabindex="18" class="drop_down_left width_set7" onkeyup="setAgeDropDownValue('max','year',this.value);" onChange="setAgeDropDownValue('max','year',this.value); $(this).css('color','#444444');">
+			      <option value="" selected="selected">--Set a Maximum age--</option>
+			      <option value="All">All</option>
+			      <% (1..18) .each do |num| %>
+				<option value="<%= num%>"><%= num%></option>
+			      <%end%>
+			      <option value="Adults">Adults</option>
+			    </select>
+		</div>
+                  </div>
+
+                <div class="clear"></div>
+              </div>
+
+
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+                <div class="lt" id="age_range_error"></div>
+              </div>
+              <div class="clear"></div>
+
+
+              <div class="paddingTop10">
+                <input type="hidden" name="created_by" value ="Parent"/>
+                <input type="hidden" name="activity_type" value ="U">
+                <div class="lt leftSideField">
+								No of Participants
+                </div>
+                <input type="text" name="no_participants" id="no_pat" class="lt textbox" value="Specify Number" onKeyPress="return number(event);" onfocus="if(this.value == 'Specify Number'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Specify Number'}" maxlength="5" tabindex="38"/>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+                <div class="lt" id="no_pat_error"></div>
+              </div>
+              <div class="clear"></div>
+
+		<div class="paddingTop10">
+			<div class="lt leftSideField">Activity Image<span class="required">*</span></div>
+			<div>
+				<div class="file_hidden">
+					<input type="text" name="photo1" id="photo1" class="file_input" readonly="readonly" disabled="disabled"/>
+				</div>
+				<div class="file_upload">
+					<input type="file" name="activity[avatar]" id="photo" accept="image/*" onChange="document.getElementById('photo1').value =this.value;fakepath(this.value);" tabindex="39" />
+				</div>  
+			</div>
+			<div class="clear"></div>
+		</div>
+              <div class="clear"></div>
+          </div>
+
+          <div class="errorDiv" style="display:none">
+            <div class="lt leftSideField">
+              &nbsp;
+            </div>
+            <div class="lt" id="activity_photo_error" style="padding-left:10px;"></div>
+          </div>
+          <div class="clear"></div>
+
+          <div class="clear"></div>
+          <div class="buttonDiv" style="margin-left: 10px;">
+            <div class="lt leftSideField">
+              &nbsp;
+            </div>
+            <div class="lt">
+              <span id="new_img" style="display:none;"><%=image_tag("/assets/create_new_activity/Save_BTN.png", :width=>"115", :height=>"43")%></span>
+              <span ><input type="image" id="save_img" src="/assets/create_new_activity/save.png" alt="" tabindex="41" style="position:relative; display:inline-block;" onClick="_gaq.push(['_trackEvent', 'Parent Module', 'clickAddActivity','Save'])"/></span>
+              <span id="setFocus"><a href="javascript:void(0)" tabindex="42" onkeydown="cancelKeyDown(event);_gaq.push(['_trackEvent', 'Parent Module', 'clickAddActivity','Cancel']);" onClick="closepopup();_gaq.push(['_trackEvent', 'Parent Module', 'clickAddActivity','Cancel']);" style="position:relative; display:inline-block;"><%=image_tag("/assets/create_new_activity/cancel.png", :width=>"113", :height=>"41", :style=>"border:0px;")%></a>
+            <span id="loading_img" style="display:none; position:relative; top:-12px; left: 5px;"><%=image_tag("/assets/loading_small.gif", :width=>"16", :height=>"16")%></span></span>
+	    </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+      </form>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+</div>
+<div class="clear"></div>
+</div>

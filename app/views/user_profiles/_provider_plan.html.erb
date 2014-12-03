@@ -1,0 +1,607 @@
+    <div class="setBg" style="margin: 0 auto; margin-top:20px;">
+      <div>
+        <div class="lt" id="marketDiv" style="position: relative;">
+            <table cellpadding="0" cellspacing="0" border="0" width="333">
+              <tr>
+                <td height="80" class="setfont" align="center"><b>Basic Market Plan</b></td>
+              </tr>              
+              <tr>
+                <td height="50" class="setFont20" align="center">List your activities for FREE</td>
+              </tr>
+              <tr>
+                <td height="115" align="center" class="setBorder"><p class="setfont18"><b>Key Features</b></p>
+                  <p class="setfont14">Create &amp; manage activity pages</p>
+                <!--<p class="setfont14">Update pictures / videos / text</p>--><p class="setfont14">Manage contact information</p></td>
+              </tr>
+              <tr>
+                <td align="center" height="319" valign="top" class="setBorder">
+                  <div class="setfont18" style="margin: 15px 0px 10px 0px;"><b>Get Leads for 99 cents</b><ul class="providerHover"><li>
+                    <%= image_tag("/assets/provider_register/help.png", size:"17x17", class: "regImgpos")%>
+                  <ul style="z-index: 1000"><li><p class="fts14 regHovTxt">When a parent is interested in  your activity, they can click on the contact button or links to your site.</p>
+                  <%= image_tag("/assets/provider_register/1.png", align: "center")%>
+                  <div class="clear"></div>
+                  <p class="famFormTxt">Famtivity makes it easy for perspective customers to contact you through our form</p>
+                  <%= image_tag("/assets/provider_register/3.png", align: "center")%>
+                  <p class="regBottxt">You will receive a report each month on the leads you receive and your credit card will be charged 99 cents for each web link click, e-mail or form lead</p>
+                  </li></ul>
+                  </li></ul></div>
+                  <div class="clear"></div>
+                  <p class="setfont14" style="line-height: 18px;">Take advantage of Famtivity's exposure to thousands of families and pay only 99 cents<br/> when you receive each lead from Famtivity. This<br/> is a great way to get extra customers for very<br/> little cost</p>
+                </td>
+              </tr>
+              <tr>
+                <td align="center" height="77">
+      <div id="free_normal">
+		    <% if current_user.user_plan == "free"%>
+		      <div>
+			<a title="" href="javascript:void(0)" style="font-family: Arial,Helvetica,sans-serif; font-size:25px;color:#E13a2a;"><b>Your Plan</b></a>
+		      </div>
+		    <%elsif current_user.user_plan ==  "curator" %>
+		      <!--<div>
+			<a title="" href="provider_sponsor" style="font-family: Arial,Helvetica,sans-serif; font-size:25px;color:#E13a2a;"><b>Your Plan</b></a>
+			<a href="#market_planChange1" title=""  class="plan_down"><img src="/assets/provider_register/upgrade_button.png" alt=""/></a>
+		      </div>-->
+			<div>
+			<a title="" href="javascript:void(0)" onclick="pop_sell_page('/provider_curator_upgrade')">
+        <%= image_tag("/assets/provider_register/upgrade_button.png")%>
+      </a>
+			</div>
+		    <% else %>
+		      <input type="hidden" id="partiicai_<%= current_user.user_id %>"/>
+		      <div>
+			 <a href="#market_planChange1" title=""  class="plan_down">
+        <%= image_tag("/assets/provider_register/downgrade_button.png")%>
+      </a>
+		      </div>
+		    <%end%>
+		    </div> 
+
+              <div id="div_free" style="display:none;">
+              <div id="free1" style="display:none;">
+                <a href="#market_planChange2" title="" class="plan_down" >
+                  <%= image_tag("/assets/provider_register/downgrade_button.png")%>
+                </a>
+                <!-- <a title="" href="/user_profiles/down_free" onclick="alert('Are you sure want to change your plan?');"><img src="/assets/provider_register/downgrade_button.png" alt=""></a>-->
+              </div>
+
+
+                  <div id="free2" style="display:none;" >
+                <a title="" href="javascript:void(0)" style="font-family: Arial,Helvetica,sans-serif; font-size:25px;color:#E13a2a;"><b>Your Plan</b></a>
+              </div>
+
+                  </div>
+
+
+
+
+
+
+
+                </td>
+              </tr>
+            </table>            
+	</div>
+     <div class="lt" id="sellDiv">
+            <table cellpadding="0" cellspacing="0" border="0" width="333" style="margin-left:5px;">
+              <tr>
+                <td height="80" class="setfont" align="center" valign="top"><div align="center" style="color:#FE0003;font-size:18px;padding-bottom:4px;" ><b>Most Popular</b></div><b>Sell-Through Plan</b></td>
+              </tr>
+              <tr>
+                <td height="50" class="setFont20" align="center"><b>List your activities for FREE</b></td>
+              </tr>
+
+              <tr>
+                <td height="115" align="center" class="setBorder"><p class="setfont18"><b>Key Basic Features</b></p>
+                  <p class="setfont14">Create &amp; manage activity pages</p><!--<p class="setfont14">update pictures / video / text</p>--><p class="setfont14">Manage contact information</p></td>
+              </tr>
+              <tr>
+                <td height="184" align="center" class="setBorder" valign="top">
+		  <div class="setfont18" style="margin: 15px 0px 10px 0px;position: relative;"><b>Get Leads for 99 cents</b><ul class="providerHover"><li>
+        <%= image_tag("/assets/provider_register/help.png", size:"17x17", class: "regImgpos")%>
+                  <ul style="right: 83px;top: -225px;"><li><p class="fts14 regHovTxt">When a parent is interested in  your activity, they can click on the contact button or links to your site.</p>
+                  <%= image_tag("/assets/provider_register/1.png", align:"center")%>
+                  <div class="clear"></div>
+                  <p class="famFormTxt">Famtivity makes it easy for perspective customers to contact you through our form</p>
+                  <%= image_tag("/assets/provider_register/3.png", align:"center")%>
+                  <p class="regBottxt">You will receive a report each month on the leads you receive and your credit card will be charged 99 cents for each web link click, e-mail or form lead</p>
+                  </li></ul>
+                  </li></ul></div>
+		  <p class="setfont18"><b>&</b></p>
+		  <p class="setfont18"><b>Sell activities instantly:</b></p>
+                  <p class="setfont14" style="line-height: 18px;padding: 7px 0px;">(2.5% Famtivity convenience fee or 99 cents minimum per transaction)</p>
+                  <p class="setfont14" style="line-height: 18px;"><b>and drive popularity display rank through transaction volume!</b></p>
+                </td>
+              </tr>
+              <tr>
+                <td height="135" align="center" class="setBorder">
+                  <p class="setfont18"><b>PLUS</b>
+                  <p class="setfont18" style="line-height: 25px;padding-top: 10px;"><b>Get direct deposit</b></p>
+                  <p class="setfont14">into your bank for all activities sold</p>
+                  <p class="setfont18" style="line-height: 25px;"><b>Manage Registrations</b></p>
+		<p class="setfont14">Excludes 3% Credit Card fees</p>
+		</td>
+              </tr>
+              <tr>
+                <td align="center" height="77">
+		 <div id="sell_normal">
+          <% if current_user.user_plan == "sell"%>
+            <div>
+            <a title="" href="javascript:void(0)" style="font-family: Arial,Helvetica,sans-serif; font-size:25px;color:#E13a2a;"><b>Your Plan</b></a>
+            </div>
+          <% elsif current_user.user_bank_detail.nil?%>  
+            <div>
+            <a title="" href="javascript:void(0)" onclick="pop_sell_page('/provider_sell_upgrade')">
+              <%= image_tag("/assets/provider_register/upgrade_button.png")%>
+            </a>
+            </div>
+          <% else %>
+            <div>
+             <a href="#sell_planChange1" title="" class="plan_down" ><%= image_tag("/assets/provider_register/upgrade_button.png")%></a>
+            </div>
+          <%end%>
+          </div> 
+                    <div id="div_sell" style="display:none;">
+          <div style="display:none;" id="sell_plan" >
+            <a title="" href="javascript:void(0)" style="font-family: Arial,Helvetica,sans-serif; font-size:25px;color:#E13a2a;"><b>Your Plan</b></a>
+          </div>
+          <div style="display:none;" id="sell_up">
+
+           <% if current_user.user_bank_detail.nil?%>  
+           <a href="javascript:void(0)" title="" onclick="pop_sell_page('/provider_sell_upgrade')"><%= image_tag("/assets/provider_register/upgrade_button.png")%></a>
+           <% else %>
+           <a href="#sell_planChange2" title="" class="plan_down" ><%= image_tag("/assets/provider_register/upgrade_button.png")%></a>
+           <% end %>
+    
+          </div>
+                  </div>
+		</td>
+              </tr>
+
+            </table>            
+          </div>
+           		
+					
+        <div id="sellDiv" style="display:none;" class="lt"><!-- hide sponsor plan-->
+                    <table cellpadding="0" cellspacing="0" border="0" width="267">
+                      <tr>
+                        <td height="40" class="setfont" align="center"><span><b>Ad Sponsor Plan</b></span></td>
+                      </tr>
+                      <tr>
+                        <td height="30" class="setfont14" align="center">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td height="20" class="setfont14" align="center">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td height="20" class="setfont12" align="center">List your activities for FREE</td>
+                      </tr>
+
+                      <tr>
+                        <td height="47" class="setfont12" align="center"><span>Advertise within Famtivity for premium placement</span></td>
+                      </tr>
+
+                      <tr>
+                        <td height="25" class="setfont12" align="center">&nbsp;</td>
+                      </tr>
+
+                      <tr>
+                        <td height="55" class="setfont18" align="center"><span><b>All basic features PLUS:</b></span></td>
+                      </tr>
+                      <tr>
+                        <td height="25" class="setfont12" align="center"><span>Use pay-per-click ads for premium placement<br/> of activity listings</span></td>
+                      </tr>
+                      <tr>
+                        <td height="16" class="setfont12" align="center">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td height="25" class="setfont12" align="center"><span>Set spending limits, locations and maximum<br/> bids for pay-for-click ads</span></td>
+                      </tr>
+                      <tr>
+                        <td height="13" class="setfont12" align="center">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td height="20" class="setfont12" align="center"><span>Turn on or off at any time</span></td>
+                      </tr>
+
+                    </table>
+
+             <div id="sponsor_normal">
+            <% if current_user.user_plan == "sponsor"%>
+              <div align="center" style="margin-top:192px; width:268px;">
+               <a title="" href="javascript:void(0)" style="font-family: Arial,Helvetica,sans-serif; font-size:25px;color:#E13a2a;"><b>Your Plan</b></a>
+              </div>
+            <% elsif current_user.user_plan == "sell"%>
+              <div align="center" style="margin-top:177px; width:268px;">
+                <a href="#sponsor_planChange1" title="" class="plan_down" ><%= image_tag("/assets/provider_register/downgrade_button.png")%></a>
+
+               <!--<a href="javascript:void(0)" title="" onclick="downgrade_sponsor('<%= current_user.user_id %>');"><img src="/assets/provider_register/downgrade_button.png" alt=""></a>-->
+
+              </div>
+
+            <% elsif current_user.user_transaction.nil?%>
+                <div align="center" style="margin-top:182px; width:268px;">
+                <a href="javascript:void(0)" title="" onclick="pop_sponcer_page('/user_profiles/provider_sponsor')">
+                  <%= image_tag("/assets/provider_register/upgrade_button.png")%></a>
+              </div>
+              
+            <% else%>
+      
+              <div align="center" style="margin-top:177px; width:268px;">
+                <a href="#sponsor_planChange3" title="" class="plan_down" ><%= image_tag("/assets/provider_register/upgrade_button.png")%></a>
+                <!--<a title="" href="#planChange" onclick="pop_sponcer_page('/user_profiles/provider_sponsor')"><img src="/assets/provider_register/upgrade_button.png"></a>-->
+              </div>
+            <%end%>
+          </div>
+          <div id="div_sponsor" style="display:none;">
+
+            <div align="center" style="margin-top:192px; width:268px; display:none; " id="sponsor_plan">
+              <a title="" href="javascript:void(0)" style="font-family: Arial,Helvetica,sans-serif; font-size:25px;color:#E13a2a;"><b>Your Plan</b></a>
+            </div>
+            <div align="center" style="margin-top:177px; width:268px; display:none;" id="sponsor_down">
+              <a href="#sponsor_planChange2" title="" class="plan_down" ><%= image_tag("/assets/provider_register/downgrade_button.png")%></a>
+              <!--<a href="javascript:void(0)" title="" onclick="downgrade_sponsor('<%= current_user.user_id %>');"><img src="/assets/provider_register/downgrade_button.png" alt=""></a>-->
+            </div>
+            <div align="center" style="margin-top:177px; width:268px; display:none;" id="sponsor_up">
+             <a href="#sponsor_planChange4" title="" class="plan_down" ><%= image_tag("/assets/provider_register/upgrade_button.png")%></a>
+
+              <!--<a href="javascript:void(0)" title="" onclick="upgrade_sponsor('<%= current_user.user_id %>');"><img src="/assets/provider_register/upgrade_button.png"></a>-->
+            </div>
+
+          </div>
+          <!--onclick="pop_sponcer_page('/user_profiles/provider_sponsor')"
+          onclick="alert('Are you sure want to change your plan?');"-->
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<div id="market_planChange1" class="plan_popup">
+  <div class="closeButton" style="padding:0px 0px 0px 346px;margin-top:-48px;">
+            <a href="javascript:void(0)"  id="close_1" onclick="closepopup_plan('1')" onClick="closepopup()" title="">
+              <%= image_tag("/assets/global/pop_up/button_close.png", size:"15x15")%>
+            </a>
+  </div>
+  <br>
+  <br>
+<%if current_user.user_plan.downcase=='curator' %>
+<p align="center" style="font-family:arial; font-size:18px; color:#000;">Upgrading to Market Plan means you will be charged a fee of 99 cents per lead through the Famtivity Network. You will be prompted to enter your credit card information in order to receive these leads.
+<!--Upgrading to the Market plan means you can not get direct deposite and manage registrations. Do you want to proceed with the upgrade?--></p>
+<%else%>
+<p align="center" style="font-family:arial; font-size:18px; color:#000;">Downgrading to the Market Plan will disable your ability to Sell-Activities. Do you want to proceed with the downgrade?</p>
+<%end%>
+
+
+<div style="margin-top:40px;margin-left: 46px;">
+    <input type="hidden" value="40," id="to_delete">
+    <table>
+    <tr>
+    <td><a href="javascript:void(0)" title="" onclick="downgrade_free('<%= current_user.user_id %>');" >
+      <%= image_tag("/assets/contact/ok_button.png")%></a></td>
+     <td><a id="close_1" onclick="closepopup_plan('1')" href="javascript:void(0)" class="cancel">
+      <%= image_tag("/assets/contact/cancel_button_new.png")%></a></td>
+     <td><a class='loadingmessage' style='display:none;'><%= image_tag("/assets/loading_small.gif")%></a></td>
+   </tr>
+  </table>
+  </div>
+
+</div>
+
+<div id="market_planChange2" class="plan_popup">
+  <div class="closeButton" style="padding:0px 0px 0px 346px;margin-top:-48px;">
+            <a href="javascript:void(0)"  id="close_2" onclick="closepopup_plan('2')" onClick="closepopup()" title="">
+            <%= image_tag("/assets/global/pop_up/button_close.png", size:"15x15")%>
+            </a>
+  </div>
+  <br>
+  <br>
+<p align="center" style="font-family:arial; font-size:18px; color:#000;">Downgrading to the Market Plan will disable your ability to Sell-Activities. Do you want to proceed with the downgrade?</p>
+<div style="margin-top:40px;margin-left: 46px;">
+    <input type="hidden" value="40," id="to_delete">
+  <table>
+    <tr>
+    <td><a href="javascript:void(0)" title="" onclick="downgrade_free('<%= current_user.user_id %>');" >
+      <%= image_tag("/assets/contact/ok_button.png")%></a></td>
+     <td><a id="close_2" onclick="closepopup_plan('2')" href="javascript:void(0)" class="cancel">
+      <%= image_tag("/assets/contact/cancel_button_new.png")%></a></td>
+     <td><a class='loadingmessage' style='display:none;'><%= image_tag("/assets/loading_small.gif")%></a></td>
+     </tr>
+  </table>
+  </div>
+ 
+</div>
+
+
+
+<div id="sponsor_planChange1" class="plan_popup">
+    <div class="closeButton" style="padding:0px 0px 0px 346px;margin-top:-48px;">
+            <a href="javascript:void(0)"  id="close_1" onclick="closepopup_plan('1')" onClick="closepopup()" title="">
+            <%= image_tag("/assets/global/pop_up/button_close.png", size:"15x15")%>
+            </a>
+  </div>
+  <br>
+  <br>
+<p align="center" style="font-family:arial; font-size:18px; color:#000;">
+You are about to downgrade your plan to the Sponsor Plan. Do you want to proceed?</p>
+<div style="margin-top:40px;margin-left: 46px;">
+    <input type="hidden" value="40," id="to_delete">
+    <a href="javascript:void(0)" title="" onclick="downgrade_sponsor('<%= current_user.user_id %>');" ><%= image_tag("/assets/contact/ok_button.png")%></a>
+     <a id="close_1" onclick="closepopup_plan('1')" href="javascript:void(0)" class="cancel"><%= image_tag("/assets/contact/cancel_button_new.png")%></a>
+     <a class='loadingmessage' style='display:none;'><%= image_tag("/assets/loading_small.gif")%></a>
+  </div>
+</div>   
+
+<div id="sponsor_planChange2" class="plan_popup">
+    <div class="closeButton" style="padding:0px 0px 0px 346px;margin-top:-48px;">
+            <a href="javascript:void(0)"  id="close_2" onclick="closepopup_plan('2')" onClick="closepopup()" title="">
+              <%= image_tag("/assets/global/pop_up/button_close.png", size:"15x15")%> </a>
+  </div>
+  <br>
+  <br>
+<p align="center" style="font-family:arial; font-size:18px; color:#000;">You are about to downgrade your plan to the Sponsor Plan. Do you want to proceed?</p>
+<div style="margin-top:40px;margin-left: 46px;">
+    <input type="hidden" value="40," id="to_delete">
+    <a href="javascript:void(0)" title="" onclick="downgrade_sponsor('<%= current_user.user_id %>');" ><%= image_tag("/assets/contact/ok_button.png")%></a>
+     <a id="close_2" onclick="closepopup_plan('2')" href="javascript:void(0)" class="cancel"><%= image_tag("/assets/contact/cancel_button_new.png")%></a>
+     <a class='loadingmessage' style='display:none;'><%= image_tag("/assets/loading_small.gif")%></a>
+  </div>
+</div>
+
+<div id="sponsor_planChange3" class="plan_popup">
+    <div class="closeButton" style="padding:0px 0px 0px 346px;margin-top:-48px;">
+            <a href="javascript:void(0)"  id="close_2" onclick="closepopup_plan('2')" onClick="closepopup()" title="">
+              <%= image_tag("/assets/global/pop_up/button_close.png", size:"15x15")%> </a>
+  </div>
+  <br>
+  <br>
+<p align="center" style="font-family:arial; font-size:18px; color:#000;">You are about to upgrade your plan to the Sponsor Plan. Do you want to proceed?
+</p>
+<div style="margin-top:40px;margin-left: 46px;">
+    <input type="hidden" value="40," id="to_delete">
+    <a href="javascript:void(0)" title="" onclick="upgrade_sponsor('<%= current_user.user_id %>');" ><%= image_tag("/assets/contact/ok_button.png")%></a>
+     <a id="close_2" onclick="closepopup_plan('2')" href="javascript:void(0)" class="cancel"><%= image_tag("/assets/contact/cancel_button_new.png")%></a>
+     <a class='loadingmessage' style='display:none;'><%= image_tag("/assets/loading_small.gif")%></a>
+  </div>
+</div>
+
+<div id="sponsor_planChange4" class="plan_popup">
+    <div class="closeButton" style="padding:0px 0px 0px 346px;margin-top:-48px;">
+            <a href="javascript:void(0)"  id="close_4" onclick="closepopup_plan('4')" onClick="closepopup()" title="">
+            <%= image_tag("/assets/global/pop_up/button_close.png", size:"15x15")%></a>
+  </div>
+  <br>
+  <br>
+<p align="center" style="font-family:arial; font-size:18px; color:#000;">You are about to upgrade your plan to the Sponsor Plan. Do you want to proceed?
+</p>
+<div style="margin-top:40px;margin-left: 46px;">
+    <input type="hidden" value="40," id="to_delete">
+    <a href="javascript:void(0)" title="" onclick="upgrade_sponsor('<%= current_user.user_id %>');" ><%= image_tag("/assets/contact/ok_button.png")%></a>
+     <a id="close_4" onclick="closepopup_plan('4')" href="javascript:void(0)" class="cancel"><%= image_tag("/assets/contact/cancel_button_new.png")%></a>
+     <a class='loadingmessage' style='display:none;'><%= image_tag("/assets/loading_small.gif")%></a>
+  </div>
+    <!--ajax loader -->
+
+</div>
+
+<div id="sell_planChange1" class="plan_popup">
+    <div class="closeButton" style="padding:0px 0px 0px 346px;margin-top:-48px;">
+            <a href="javascript:void(0)"  id="close_1" onclick="closepopup_plan('1')" onClick="closepopup()" title=""> 
+              <%= image_tag("/assets/global/pop_up/button_close.png", size:"15x15")%></a>
+  </div>
+  <br>
+  <br>
+<p align="center" style="font-family:arial; font-size:18px; color:#000;">Upgrading to the Sell Through plan means your customers will have the option to buy the activity directly on Famtivity. Do you want to proceed with the upgrade?</p>
+<div style="margin-top:40px;margin-left: 46px;">
+    <input type="hidden" value="40," id="to_delete">
+    <table>
+    <tr>
+    <td><a href="javascript:void(0)" title="" onclick="upgrade_sell('<%= current_user.user_id %>');" ><%= image_tag("/assets/contact/ok_button.png")%></a></td>
+     <td><a id="close_1" onclick="closepopup_plan('1')" href="javascript:void(0)" class="cancel"><%= image_tag("/assets/contact/cancel_button_new.png")%></a></td>
+     <td><a class='loadingmessage' style='display:none;'><%= image_tag("/assets/loading_small.gif")%></a></td>
+   </tr>
+  </table>
+
+  </div>
+    <!--ajax loader -->
+
+</div>
+
+<div id="sell_planChange2" class="plan_popup">
+    <div class="closeButton" style="padding:0px 0px 0px 346px;margin-top:-48px;">
+            <a href="javascript:void(0)"  id="close_2" onclick="closepopup_plan('2')" onClick="closepopup()" title="">
+            <%= image_tag("/assets/global/pop_up/button_close.png", size:"15x15")%> </a>
+  </div>
+  <br>
+  <br>
+<p align="center" style="font-family:arial; font-size:18px; color:#000;">Upgrading to the Sell Through plan means your customers will have the option to buy the activity directly on Famtivity. Do you want to proceed with the upgrade?</p>
+<div style="margin-top:40px;margin-left: 46px;">
+    <input type="hidden" value="40," id="to_delete">
+  <table>
+    <tr>
+    <td><a href="javascript:void(0)" title="" onclick="upgrade_sell('<%= current_user.user_id %>');" ><%= image_tag("/assets/contact/ok_button.png")%></a></td>
+     <td><a id="close_2" onclick="closepopup_plan('2')" href="javascript:void(0)" class="cancel"><%= image_tag("/assets/contact/cancel_button_new.png")%></a></td>
+     <td><a class='loadingmessage' style='display:none;'><%= image_tag("/assets/loading_small.gif")%></a></td>
+   </tr>
+  </table>
+  </div>
+  <div class="clear"></div> 
+</div>
+<div id="popup_friend"></div>
+ <script type="text/javascript">
+    function downgrade_free(id)
+  {
+       $('.loadingmessage').show();
+ 
+                 $.ajax({  
+                      url: "/down_free",  
+                      type: "POST",
+                      data: {"id": id},
+                      dataType: "json",   
+                      success: function(data){  
+                          $("#free_normal").hide(); 
+                          $("#div_free").show();
+                          $("#free1").hide();
+                          $("#free2").show();
+                          $("#sponsor_normal").hide();
+                          $("#sponsor_plan").hide();
+                          $("#div_sponsor").show();
+                          $("#sponsor_up").show();
+                          $("#sponsor_down").hide();
+                          $("#sell_normal").hide();
+                          $("#div_sell").show();
+                          $("#sell_up").show();
+                          $("#sell_plan").hide(); 
+                          $("#market_planChange1").hide(); 
+                          $("#market_planChange2").hide(); 
+                          $('#mask').remove(); 
+                          $('.loadingmessage').hide();
+                        
+                      }  
+                  });  
+           return false;              
+
+  }
+
+
+    function upgrade_sell(id)
+  {
+         $('.loadingmessage').show();
+ 
+                 $.ajax({  
+                      url: "/provider_sell_upgrade",  
+                      type: "POST",
+                      data: {"id": id},
+                      dataType: "json",   
+                      success: function(data){  
+                           $("#free_normal").hide(); 
+                           $("#div_free").show();
+                           $("#free1").show();
+                           $("#free2").hide();
+                           $("#sponsor_normal").hide();
+                           $("#div_sponsor").show();
+                           $("#sponsor_plan").hide();
+                           $("#sponsor_down").show();
+                           $("#sell_normal").hide();
+                           $("#sponsor_up").hide();
+                           $("#div_sell").show();
+                           $("#sell_plan").show(); 
+                           $("#sell_up").hide();
+                           $("#sell_planChange1").hide(); 
+                           $("#sell_planChange2").hide(); 
+                           $('#mask').remove(); 
+                           $('.loadingmessage').hide();
+                        
+                      }  
+                  });  
+           return false;              
+
+  }
+    
+   
+    function downgrade_sponsor(id) 
+    {
+
+       if (true)
+      {
+      $('.loadingmessage').show();
+        $.ajax({
+          type: "POST",
+          url: '/user_profiles/down_sponcer/',
+          //url: "down_free",
+          data: {
+            "id": id
+          },
+          dataType : 'json',
+          success: function(data){
+            //alert(id)
+            
+            $("#free_normal").hide(); 
+            $("#div_free").show();
+            $("#free1").show();
+            $("#free2").hide();
+            $("#sponsor_normal").hide();
+            $("#div_sponsor").show();
+            $("#sponsor_plan").show();
+            $("#sponsor_down").hide();
+            $("#sponsor_up").hide();
+            $("#sell_normal").hide();
+            $("#div_sell").show();
+            $("#sell_plan").hide();
+            $("#sell_up").show();
+            $("#sponsor_planChange1").hide(); 
+            $("#sponsor_planChange2").hide(); 
+            $('#mask').remove(); 
+            //alert("Your Plan Was Changed");
+      $('.loadingmessage').hide();
+
+          }
+        });
+      }
+      else
+      {
+       }
+      
+    }
+
+    function upgrade_sponsor(id)
+  {
+    if (true)
+      {
+      $('.loadingmessage').show();
+        $.ajax({
+          type: "POST",
+          url: '/user_profiles/provider_sponsor/',
+          //url: "down_free",
+          data: {
+            "id": id
+          },
+          dataType : 'json',
+          success: function(data){
+            //alert(id)
+            //alert("Your Plan Was Changed");   
+            $("#free_normal").hide(); 
+            $("#div_free").show();
+            $("#free1").show();
+            $("#free2").hide();
+            $("#sponsor_normal").hide();
+            $("#div_sponsor").show();
+            $("#sponsor_plan").show();
+            $("#sponsor_up").hide();
+            $("#sell_normal").hide();
+            $("#div_sell").show();
+            $("#sell_up").show();
+            $("#sponsor_planChange3").hide(); 
+            $("#sponsor_planChange4").hide(); 
+            $('#mask').remove(); 
+            //alert("Your Plan Was Changed");
+      $('.loadingmessage').hide();
+
+          }
+        });
+      }
+      else
+      {
+        
+      }
+      
+    }
+
+    
+
+
+  </script>
+
+<style type="text/css">
+#dvLoading
+  {
+   /* background: transparent url(assets/loading_small.gif) no-repeat center center;*/
+    height: 50px;
+    width: 50px;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    margin: -25px 0 0 -25px;
+  }
+  </style>
+  

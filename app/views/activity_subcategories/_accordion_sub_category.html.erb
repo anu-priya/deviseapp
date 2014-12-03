@@ -1,0 +1,56 @@
+<div class="lt leftPanel" style="width:580px;">
+  <%i = 5%>
+
+  <div class="scroll-pane-category">
+    <%if @ac_sub.length > 0 %>
+      <%@ac_sub.each do |sub|%>
+        <!-- Inner Div Start-->
+        <div class="lt subCat" id="subCat_<%= sub['id'] %>">
+          <input id="sc<%= sub['id'] %>" name="sc<%= sub['id'] %>" type="checkbox" value="<%= sub['id'] %>"/>
+          <span class="scImg" onClick="modifyText_ev(<%= sub['id'] %>,<%= sub['id'] %>)"><label class="altCheckboxoff" for="sc<%= sub['id'] %>" style="vertical-align:top;">&nbsp;</label></span>
+          <span class="scText" onClick="modifyText_ev(<%= sub['id'] %>,<%= sub['id'] %>); _gaq.push(['_trackEvent','ActivitiesCategory','clickFollowRows','<%= params[:id]%>','<%= sub['name'].html_safe %>'])
+"><%= sub['name'].html_safe %></span>
+          <div class="clear"></div>
+        </div>
+      <% end %>
+    <%else%>
+      <div style="padding-top:165px;" align="center">There are no sub categories</div>
+    <% end %>
+    <!-- End -->
+  </div>
+  <script type="text/javascript" >
+    var fav = $("#fav_val").val();
+    if (fav!=""){
+      fav_cal = fav.split(",")
+      jQuery.each(fav_cal, function(index, value) {
+        $("#subCat_"+value+" input").attr('checked', true);
+        $("#subCat_"+value+" label").addClass('altCheckboxOn');
+        $("#subCat_"+value+" label").removeClass('altCheckboxOff');
+      });
+    }
+
+  var activity_check ="<%= @provider_activites_check%>"
+  if (activity_check!=""){
+    activity_check = activity_check.replace("[","");
+    activity_check = activity_check.replace("]","");
+    activity_check_cal = activity_check.split(",")
+
+    jQuery.each(activity_check_cal, function(index, value) {
+      value = parseInt(value);
+      $("#subCat_"+value+" input").attr('checked', true);
+      $("#subCat_"+value+" label").addClass('altCheckboxOn');
+      $("#subCat_"+value+" label").removeClass('altCheckboxOff');
+    });
+  }
+  var rem_fav = $("#rem_fav_val").val();
+  if (rem_fav!=""){
+    rem_fav_cal = rem_fav.split(",")
+    jQuery.each(rem_fav_cal, function(index, value) {
+      $("#subCat_"+value+" input").attr('checked', false);
+      $("#subCat_"+value+" label").addClass('altCheckboxOff');
+      $("#subCat_"+value+" label").removeClass('altCheckboxOn');
+    });
+  }
+
+  </script>
+</div>

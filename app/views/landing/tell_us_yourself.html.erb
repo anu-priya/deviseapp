@@ -1,0 +1,644 @@
+<%= stylesheet_link_tag "contacts_users/contact_user.css" %>
+<%= stylesheet_link_tag "event/add_participant.css" %>
+<%= stylesheet_link_tag "global/pop_up.css" %>
+<%= javascript_include_tag "contacts_users/contact_user.js" %>
+<%= javascript_include_tag "profile/add_participant_profile.js" %>
+<style type="text/css">
+  body{
+    backgrond:#fff;
+  }
+  .setfontFacebook{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:13px;
+    color:#666666;
+    vertical-align:top;
+    top:8px;
+    position:relative;
+
+  }
+</style>
+<script language="javascript">
+  function closepopup() {
+    parent.PopTellUsPage.hide();
+    //parent.parent.location.reload(true);   
+  }
+  var flag_s=false;
+  function show_comment(val){
+    $("#img1").attr("src","/assets/register/comments_selection.png");
+    $("#img2").attr("src","/assets/register/error.png");
+    $("#img3").attr("src","/assets/register/suggestion.png");
+    $("#img4").attr("src","/assets/register/like.png");
+    $("#comment_test").css("font-weight","bold");
+    $("#error_text").css("font-weight","normal");
+    $("#suggest_text").css("font-weight","normal");
+    $("#like_text").css("font-weight","normal");
+    $("#support_type").val('comments');
+    flag_s=true;
+  }
+  function show_error(){
+    $("#img1").attr("src","/assets/register/comments.png");
+    $("#img2").attr("src","/assets/register/error_selection.png");
+    $("#img3").attr("src","/assets/register/suggestion.png");
+    $("#img4").attr("src","/assets/register/like.png");
+    $("#comment_test").css("font-weight","normal");
+    $("#error_text").css("font-weight","bold");
+    $("#suggest_text").css("font-weight","normal");
+    $("#like_text").css("font-weight","normal");
+    $("#support_type").val('error');
+    flag_s=true;
+  }
+  function show_suggest(){
+    $("#img1").attr("src","/assets/register/comments.png");
+    $("#img2").attr("src","/assets/register/error.png");
+    $("#img3").attr("src","/assets/register/suggestion_selection.png");
+    $("#img4").attr("src","/assets/register/like.png");
+    $("#comment_test").css("font-weight","normal");
+    $("#error_text").css("font-weight","normal");
+    $("#suggest_text").css("font-weight","bold");
+    $("#like_text").css("font-weight","normal");
+    $("#support_type").val('suggestion');
+    flag_s=true;
+  }
+  function show_like(){
+    $("#img1").attr("src","/assets/register/comments.png");
+    $("#img2").attr("src","/assets/register/error.png");
+    $("#img3").attr("src","/assets/register/suggestion.png");
+    $("#img4").attr("src","/assets/register/like_selection.png");
+    $("#comment_test").css("font-weight","normal");
+    $("#error_text").css("font-weight","normal");
+    $("#suggest_text").css("font-weight","normal");
+    $("#like_text").css("font-weight","bold");
+    $("#support_type").val('like');
+    flag_s=true;
+  }
+
+  function support_setLabel(id,val){
+    document.getElementById("label").value=val;
+    document.getElementById("label_id").value=id;
+    document.getElementById("field1").innerHTML=val;
+    document.getElementById("field1").style.color="#444444"
+    document.getElementById("dropDownDiv1").style.display="none";
+  }
+
+</script>
+
+
+<div id="contact_container" class="support_form" style="background:#fff;">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Tell us more about yourself</div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> <%= image_tag("/assets/global/pop_up/button_close.png",:width=>"15",:height=>"15") %></a>
+          </div>
+        </div>
+
+        <div class="centerCont contactNew">  
+          <div align="center" class="setfeedbackDiv" style="width:570px;">Finish setting up your profile to automatically sign your kids into classes, link with friends easier, get beeter suggestions and deals</div>
+          <div class="paddingTop10"></div>
+          <div class="paddingTop10">
+
+            <div class="clear"></div>
+            <div class="clear"></div>
+
+
+            <div class="paddingTop10">
+              <div class="lt leftSideField">Linked Accounts</div>
+              <div class="lt" style="background:#edf2f5; width:418px; padding:8px; border:1px solid #dee8ea; height:30px;">
+                <span> <%= image_tag("/assets/profile/face_icon.png") %></span>
+                <span class="setfontFacebook">Facebook</span>
+                <span style="float:right; display:inline-block;"><%= image_tag("/assets/profile/connect_button.png") %></span>
+              </div>
+
+              <div class="lt leftSideField">&nbsp;</div>
+              <div class="lt" style="background:#edf2f5; width:418px; padding:8px; border:1px solid #dee8ea; height:30px;">
+                <span><%= image_tag("/assets/profile/twitter_icon.png") %></span>
+                <span class="setfontFacebook">Twitter</span>
+                <span style="float:right; display:inline-block;"><%= image_tag("/assets/profile/connect_button.png") %></span>
+              </div>
+              <div class="clear"></div>
+              <div class="lt leftSideField">&nbsp;</div>
+              <div class="lt" style="background:#edf2f5; width:418px; padding:8px; border:1px solid #dee8ea; height:30px;">
+                <span><%= image_tag("/assets/profile/pinterest_icon.png") %></span>
+                <span class="setfontFacebook">Pinterest</span>
+                <span style="float:right; display:inline-block;"><%= image_tag("/assets/profile/connect_button.png") %></span>
+              </div>
+              <div class="clear"></div>
+
+              <div class="clear"></div>
+            </div>
+
+            <div class="clear"></div>
+            <div class="errorDiv" style="display:none">
+              <div class="lt leftSideField">&nbsp;</div>
+              <div class="lt" id="message_no_error"></div>
+              <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+
+
+
+            <!-- Add Participant Page-->
+            <input type="hidden" value="" id="part_count" name="part_count" />
+            <div id="add_participant" class="setPadd" style="margin:14px 0 0 24px; display: block; width: 850px;">
+              <form id="add_participant2" name="add_participant"  target="_blank" method="post" enctype="multipart/form-data" OnSubmit="return checkValidation()">
+                <div class="edit_personal_text" style="margin-left:1px;">Participant Details</div>
+                <div class="centerArea">
+                  <table cellspacing="0" cellspadding="0" border="0" width="100%" id="participant_1">
+                    <tr height="35">
+                      <td width="70" class="thead thead1">Image</td>
+                      <td width="156" class="thead">Participant Name</td>
+                      <td width="155" class="thead"><span class="setLeft">Date of Birth</span></td>
+                      <td width="80" class="thead"><span class="setLeft">Age Range</span></td>
+                      <td width="63" class="thead"><span class="setLeft">Gender</span></td>
+                      <!--td width="232" class="thead"><span class="setLeft">Schedule</span></td-->
+                      <td width="50" class="thead">&nbsp;<!--span id="actionTitle" style="display:none;">Action</span--></td>
+                    </tr>
+
+
+                    <input type="hidden" name ="total_value" value="<%= current_user.participant.collect {|r| r.participant_id if !r.participant_id.nil?} %>" />
+
+                    <% current_user.participant.each do |part| %>
+
+                      <tr id="partiicai_<%= part.participant_id %>" height="80">
+
+                      <input type="hidden" name="aa<%= part.participant_id %>" class="lt textbox" value="<%= part.participant_id %>"/>
+
+                      <td class="contentText thead1 setBG1">
+                        <% if !part.participant_file_name.nil?%>
+                          <%= image_tag part.participant.url(:small),:style=>"width:69px;height:69px;" %></td>
+                      <% else %>
+                      <% end %>
+                      <td value="<%= part.participant_id %>" class="contentText setBG1<%= part.participant_id %>"><input type="text" id="name_1" name="name_<%= part.participant_id %>" class="lt textbox" value="<%if !part.participant_name.nil?%><%= part.participant_name %><% else%> <%end%>" tabindex="2"/>
+                      </td>
+
+                        <!--  <td class="contentText setBG1"><span class="setLeft"><%= part.participant_birth_date if !part.participant_birth_date.nil?%></span></td>-->
+
+                      <td value="<%= part.participant_id %>" width="155" class="tdata setIEcen<%= part.participant_id %>">
+                        <input type="hidden" id="day_<%= part.participant_id %>" name="day_<%= part.participant_id %>" value="<% if part.participant_birth_date.blank? %><% else %><%=part.participant_birth_date.strftime("%d")%><% end %>" />
+                        <div id="menu" class="lt dayDivMenu">
+                          <ul>
+                            <li value="<%= part.participant_id%>"><a href="#" class="dayDiv" tabindex="3"><span id="day_setVal_<%= part.participant_id %>"><% if part.participant_birth_date.blank? %>Day<% else %><%=part.participant_birth_date.strftime("%d")%><% end %></span><span> <%= image_tag("/assets/event_index/dropdown_arrow.png",:style=>"position:relative;top:-1px;left:5px;",:height=>"4",:width=>"7") %></span></a>
+                              <ul class="sub-menu dispDayDiv">
+                                <li><a href="#" onClick="setDayVal(01,<%= part.participant_id %>)">1</a></li>
+                                <li><a href="#" onClick="setDayVal(02,<%= part.participant_id %>)">2</a></li>
+                                <li><a href="#" onClick="setDayVal(03,<%= part.participant_id %>)">3</a></li>
+                                <li><a href="#" onClick="setDayVal(04,<%= part.participant_id %>)">4</a></li>
+                                <li><a href="#" onClick="setDayVal(05,<%= part.participant_id %>)">5</a></li>
+                                <li><a href="#" onClick="setDayVal(06,<%= part.participant_id %>)">6</a></li>
+                                <li><a href="#" onClick="setDayVal(07,<%= part.participant_id %>)">7</a></li>
+                                <li><a href="#" onClick="setDayVal(08,<%= part.participant_id %>)">8</a></li>
+                                <li><a href="#" onClick="setDayVal(09,<%= part.participant_id %>)">9</a></li>
+                                <li><a href="#" onClick="setDayVal(10,<%= part.participant_id %>)">10</a></li>
+                                <li><a href="#" onClick="setDayVal(11,<%= part.participant_id %>)">11</a></li>
+                                <li><a href="#" onClick="setDayVal(12,<%= part.participant_id %>)">12</a></li>
+                                <li><a href="#" onClick="setDayVal(13,<%= part.participant_id %>)">13</a></li>
+                                <li><a href="#" onClick="setDayVal(14,<%= part.participant_id %>)">14</a></li>
+                                <li><a href="#" onClick="setDayVal(15,<%= part.participant_id %>)">15</a></li>
+                                <li><a href="#" onClick="setDayVal(16,<%= part.participant_id %>)">16</a></li>
+                                <li><a href="#" onClick="setDayVal(17,<%= part.participant_id %>)">17</a></li>
+                                <li><a href="#" onClick="setDayVal(18,<%= part.participant_id %>)">18</a></li>
+                                <li><a href="#" onClick="setDayVal(19,<%= part.participant_id %>)">19</a></li>
+                                <li><a href="#" onClick="setDayVal(20,<%= part.participant_id %>)">20</a></li>
+                                <li><a href="#" onClick="setDayVal(21,<%= part.participant_id %>)">21</a></li>
+                                <li><a href="#" onClick="setDayVal(22,<%= part.participant_id %>)">22</a></li>
+                                <li><a href="#" onClick="setDayVal(23,<%= part.participant_id %>)">23</a></li>
+                                <li><a href="#" onClick="setDayVal(24,<%= part.participant_id %>)">24</a></li>
+                                <ul class="sub-menu dispMonthDiv">
+                                  <li><a href="#" onClick="setMonthVal('Jan',<%= part.participant_id %>)">January</a></li>
+                                  <li><a href="#" onClick="setMonthVal('Feb',<%= part.participant_id %>)">February</a></li>
+                                  <li><a href="#" onClick="setMonthVal('Mar',<%= part.participant_id %>)">March</a></li>
+                                  <li><a href="#" onClick="setMonthVal('Apr',<%= part.participant_id %>)">April</a></li>
+                                  <li><a href="#" onClick="setMonthVal('May',<%= part.participant_id %>)">May</a></li>
+                                  <li><a href="#" onClick="setMonthVal('Jun',<%= part.participant_id %>)">June</a></li>
+                                  <li><a href="#" onClick="setMonthVal('Jul',<%= part.participant_id %>)">July</a></li>
+                                  <li><a href="#" onClick="setMonthVal('Aug',<%= part.participant_id %>)">August</a></li>
+                                  <li><a href="#" onClick="setMonthVal('Sep',<%= part.participant_id %>)">September</a></li>
+                                  <li><a href="#" onClick="setMonthVal('Oct',<%= part.participant_id %>)">October</a></li>
+                                  <li><a href="#" onClick="setMonthVal('Nov',<%= part.participant_id %>)">November</a></li>
+                                  <li><a href="#" onClick="setMonthVal('Dec',<%= part.participant_id %>)">December</a></li>
+                                </ul>
+                            </li>
+                          </ul>
+                          <div class="clear"></div>
+                        </div>
+                        <input type="hidden" id="year_<%= part.participant_id %>" name="year_<%= part.participant_id %>" value="<% if part.participant_birth_date.blank? %><% else %><%=part.participant_birth_date.strftime("%Y")%><% end %>" /> <%#= Time.now.year %>
+                        <div id="menu" class="lt yearDivMenu<%= part.participant_id%>">
+                          <ul>
+                            <li value="<%= part.participant_id%>"><a href="#" class="yearDiv %>" tabindex="5"><span id="year_setVal_<%= part.participant_id %>"><% if part.participant_birth_date.blank? %>year<% else %><%=part.participant_birth_date.strftime("%Y")%><% end %></span><span> <%= image_tag("/assets/event_index/dropdown_arrow.png",:style=>" position: relative; top: -1px; left:5px;",:height=>"4",:width=>"7") %></span></a>
+                              <!-- <ul class="sub-menu dispYearDiv" id="yearDisp_1" style="height:108px;"></ul>-->
+
+                              <ul class="sub-menu dispYearDiv" >
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 1%>',<%= part.participant_id %>)"><%= Time.now.year - 1 %></a></li>
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 2%>',<%= part.participant_id %>)"><%= Time.now.year - 2 %></a></li>
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 3%>',<%= part.participant_id %>)"><%= Time.now.year - 3 %></a></li>
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 4%>',<%= part.participant_id %>)"><%= Time.now.year - 4 %></a></li>
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 5%>',<%= part.participant_id %>)"><%= Time.now.year - 5 %></a></li>
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 6%>',<%= part.participant_id %>)"><%= Time.now.year - 6 %></a></li>
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 7%>',<%= part.participant_id %>)"><%= Time.now.year - 7 %></a></li>
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 8%>',<%= part.participant_id %>)"><%= Time.now.year - 8 %></a></li>
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 9%>',<%= part.participant_id %>)"><%= Time.now.year - 9 %></a></li>
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 10%>',<%= part.participant_id %>)"><%= Time.now.year - 10 %></a></li>
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 11%>',<%= part.participant_id %>)"><%= Time.now.year - 11 %></a></li>
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 12%>',<%= part.participant_id %>)"><%= Time.now.year - 12 %></a></li>
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 13%>',<%= part.participant_id %>)"><%= Time.now.year - 13 %></a></li>
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 14%>',<%= part.participant_id %>)"><%= Time.now.year - 14 %></a></li>
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 15%>',<%= part.participant_id %>)"><%= Time.now.year - 15 %></a></li>
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 16%>',<%= part.participant_id %>)"><%= Time.now.year - 16 %></a></li>
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 17%>',<%= part.participant_id %>)"><%= Time.now.year - 17 %></a></li>
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 18%>',<%= part.participant_id %>)"><%= Time.now.year - 18 %></a></li>
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 19%>',<%= part.participant_id %>)"><%= Time.now.year - 19 %></a></li>
+                                <li><a href="#" onClick="setyearParti('<%= Time.now.year - 20%>',<%= part.participant_id %>)"><%= Time.now.year - 20 %></a></li>
+                              </ul>
+                            </li>
+                          </ul>
+                          <div class="clear"></div>
+                        </div>
+                      </td>
+
+                        <!--<td class="contentText setBG1"><span class="setLeft"><%= part.participant_age if !part.participant_age.nil?%></span></td>-->
+                      <td value="<%= part.participant_id %>" width="80" class="tdata setIEcen<%= part.participant_id %>">
+                        <input type="hidden" id="age_<%= part.participant_id %>" name="age_<%= part.participant_id %>" value="<% if part.participant_age.blank? %><% else %><%=part.participant_age%><%end%>" />
+                        <div id="menu" class="lt ageDivMenu">
+                          <ul>
+                            <li value="<%= part.participant_id %>"><a href="#" class="ageDiv" tabindex="6"><span id="age_setVal_<%= part.participant_id %>"><% if part.participant_age.blank? %>select<% else %><%=part.participant_age%><% end %></span><span> <%= image_tag("/assets/event_index/dropdown_arrow.png",:style=>" position: relative; top: -1px; left:5px;",:height=>"4",:width=>"7") %></span></a>
+                              <ul class="sub-menu dispAgeDiv" style="height:107px;">
+                                <li><a href="#" onClick="setAgeVal('1-3',<%= part.participant_id %>)">1-3</a></li>
+                                <li><a href="#" onClick="setAgeVal('4-6',<%= part.participant_id %>)">4-6</a></li>
+                                <li><a href="#" onClick="setAgeVal('7-9',<%= part.participant_id %>)">7-9</a></li>
+                                <li><a href="#" onClick="setAgeVal('10-12',<%= part.participant_id %>)">10-12</a></li>
+                                <li><a href="#" onClick="setAgeVal('13-15',<%= part.participant_id %>)">13-15</a></li>
+                                <li><a href="#" onClick="setAgeVal('16-18',<%= part.participant_id %>)">16-18</a></li>
+                                <li><a href="#" onClick="setAgeVal('Adults',<%= part.participant_id %>)">Adults</a></li>
+                              </ul>
+                            </li>
+                          </ul>
+                          <div class="clear"></div>
+                        </div>
+                      </td>
+
+               <!--<td class="contentText setBG1"><span class="setLeft"><%= part.participant_gender if !part.participant_gender.nil?%></span></td>-->
+                      <td value="<%= part.participant_id %>"  width="63" class="contentText setBG1<%= part.participant_id %>">
+                        <input type="hidden" id="gender_<%= part.participant_id %>" name="pnn_<%= part.participant_id %>" value="<% if part.participant_gender.blank? %><% else %><%=part.participant_gender%><% end %>" />
+                        <div id="menu" class="lt genderDivMenu">
+                          <ul>
+                            <li value="<%= part.participant_id %>" ><a href="#" class="ageDiv genderDiv<%= part.participant_id %>" tabindex="7"><span id="gender_setVal_<%= part.participant_id %>"><% if part.participant_gender.blank? %>select<% else %><%=part.participant_gender%><% end %></span><span><img src="/assets/event_index/dropdown_arrow.png" alt="" style=" position: relative; top: -1px; left:5px;" height="4" width="7"/></span></a>
+                              <ul class="sub-menu dispGenderDiv">
+                                <li ><a href="#"  onClick="setGenderVal('Male',<%= part.participant_id %>)">Male</a></li>
+                                <li><a href="#"  onClick="setGenderVal('Female',<%= part.participant_id %>)">Female</a></li>
+                              </ul>
+                            </li>
+                          </ul>
+                          <div class="clear"></div>
+                        </div>
+                      </td>
+
+
+                      <td class="contentText setBG1"><span class="setLeft">
+                          <a href="javascript:void(0)" title="" onclick="raja_sekar('<%= part.participant_id %>');"> <%= image_tag("/assets/provider_event_list/delete_icon.png",:class=>"lt addButton") %></a>
+                       <!--   <input type="button" onclick="raja_sekar('<%= part.participant_id %>');">-->
+  <%#= link_to image_tag('/assets/provider_event_list/delete_icon.png') , url_for({:controller => 'user_profiles', :action => 'participant_destroy', :id => part}), :class => 'quick', :title => "Delete!", :remote => true ,:confirm => "Are you sure you want to delete this image?"%>
+                        </span></td>
+
+
+
+                      </tr>
+                    <%end%>
+
+
+
+                    <tr><td colspan="7" class="errorDiv" id="errorDiv_1" style="display:none;"></td></tr>
+                    <tr height="90">
+                      <td width="70" class="tdata tdata1">
+                        <span class="browse" id="filediv_1" style="top:1px;"><a href="#" onClick="selectFile(1)" tabindex="1" class="lt"><%= image_tag("/assets/create_new_activity/browse_image.png",:width=>"65",:height=>"69") %></a></span>
+                        <input type="file" accept="image/*" onChange="readURL(this);" size="30" id="photo_1" name="photo_1" value="" style="display:none;"/>
+
+                        <div id="imagediv_1" class="browse1" style="display:none;">
+                          <a href="#" onClick="selectFile(1)" class="lt" tabindex="1" ><img id="blah_1" src="#" alt="" /></a>
+                        </div>
+                      </td>
+                    <input type="hidden" id="activity_id" name="activity_id" class="lt textbox" value="<%= @activity.activity_id if !@activity.nil? %>"/>
+                    <td width="156" class="tdata">
+                      <input type="text" id="participant_name_1" name="participant_name_1" class="lt textbox" value="" tabindex="2"/>
+                    </td>
+                    <td width="155" class="tdata setIEcen">
+                      <input type="hidden" id="day_1" name="day_1" value="" />
+                      <div id="menu" class="lt dayDivMenu">
+                        <ul>
+                          <li><a href="#" class="dayDiv" tabindex="3"><span id="day_setVal_1">Day</span><span> <%= image_tag("/assets/event_index/dropdown_arrow.png",:style=>"position:relative;top:-1px;left:5px;",:height=>"4",:width=>"7") %></span></a>
+                            <ul class="sub-menu dispDayDiv">
+                              <li><a href="#" onClick="setDayVal(01,1)">1</a></li>
+                              <li><a href="#" onClick="setDayVal(02,1)">2</a></li>
+                              <li><a href="#" onClick="setDayVal(03,1)">3</a></li>
+                              <li><a href="#" onClick="setDayVal(04,1)">4</a></li>
+                              <li><a href="#" onClick="setDayVal(05,1)">5</a></li>
+                              <li><a href="#" onClick="setDayVal(06,1)">6</a></li>
+                              <li><a href="#" onClick="setDayVal(07,1)">7</a></li>
+                              <li><a href="#" onClick="setDayVal(08,1)">8</a></li>
+                              <li><a href="#" onClick="setDayVal(09,1)">9</a></li>
+                              <li><a href="#" onClick="setDayVal(10,1)">10</a></li>
+                              <li><a href="#" onClick="setDayVal(11,1)">11</a></li>
+                              <li><a href="#" onClick="setDayVal(12,1)">12</a></li>
+                              <li><a href="#" onClick="setDayVal(13,1)">13</a></li>
+                              <li><a href="#" onClick="setDayVal(14,1)">14</a></li>
+                              <li><a href="#" onClick="setDayVal(15,1)">15</a></li>
+                              <li><a href="#" onClick="setDayVal(16,1)">16</a></li>
+                              <li><a href="#" onClick="setDayVal(17,1)">17</a></li>
+                              <li><a href="#" onClick="setDayVal(18,1)">18</a></li>
+                              <li><a href="#" onClick="setDayVal(19,1)">19</a></li>
+                              <li><a href="#" onClick="setDayVal(20,1)">20</a></li>
+                              <li><a href="#" onClick="setDayVal(21,1)">21</a></li>
+                              <li><a href="#" onClick="setDayVal(22,1)">22</a></li>
+                              <li><a href="#" onClick="setDayVal(23,1)">23</a></li>
+                              <li><a href="#" onClick="setDayVal(24,1)">24</a></li>
+                              <li><a href="#" onClick="setDayVal(25,1)">25</a></li>
+                              <li><a href="#" onClick="setDayVal(26,1)">26</a></li>
+                              <li><a href="#" onClick="setDayVal(27,1)">27</a></li>
+                              <li><a href="#" onClick="setDayVal(28,1)">28</a></li>
+                              <li><a href="#" onClick="setDayVal(29,1)">29</a></li>
+                              <li><a href="#" onClick="setDayVal(30,1)">30</a></li>
+                              <li><a href="#" onClick="setDayVal(31,1)">31</a></li>
+                            </ul>
+                          </li>
+                        </ul>
+                        <div class="clear"></div>
+                      </div>
+
+                      <input type="hidden" id="month_1" name="month_1" value="" />
+                      <div id="menu" class="lt monthDivMenu">
+                        <ul>
+                          <li><a href="#" class="monthDiv" tabindex="4"><span id="month_setVal_1">Month</span><span><%= image_tag("/assets/event_index/dropdown_arrow.png",:style=>"position:relative;top:-1px;left:5px;",:height=>"4",:width=>"7") %></span></a>
+                            <ul class="sub-menu dispMonthDiv">
+                              <li><a href="#" onClick="setMonthVal('Jan',1)">January</a></li>
+                              <li><a href="#" onClick="setMonthVal('Feb',1)">February</a></li>
+                              <li><a href="#" onClick="setMonthVal('Mar',1)">March</a></li>
+                              <li><a href="#" onClick="setMonthVal('Apr',1)">April</a></li>
+                              <li><a href="#" onClick="setMonthVal('May',1)">May</a></li>
+                              <li><a href="#" onClick="setMonthVal('Jun',1)">June</a></li>
+                              <li><a href="#" onClick="setMonthVal('Jul',1)">July</a></li>
+                              <li><a href="#" onClick="setMonthVal('Aug',1)">August</a></li>
+                              <li><a href="#" onClick="setMonthVal('Sep',1)">September</a></li>
+                              <li><a href="#" onClick="setMonthVal('Oct',1)">October</a></li>
+                              <li><a href="#" onClick="setMonthVal('Nov',1)">November</a></li>
+                              <li><a href="#" onClick="setMonthVal('Dec',1)">December</a></li>
+                            </ul>
+                          </li>
+                        </ul>
+                        <div class="clear"></div>
+                      </div>
+
+                      <input type="hidden" id="year_1" name="year_1" value="" /> <%#= Time.now.year %>
+                      <div id="menu" class="lt yearDivMenu">
+                        <ul>
+                          <li><a href="#" class="yearDiv" tabindex="5"><span id="year_setVal_1"><%= Time.now.year %></span><span><%= image_tag("/assets/event_index/dropdown_arrow.png",:style=>"position:relative;top:-1px;left:5px;",:height=>"4",:width=>"7") %></span></a>
+                            <ul class="sub-menu dispYearDiv" id="yearDisp_1" style="height:108px;"></ul>
+                          </li>
+                        </ul>
+                        <div class="clear"></div>
+                      </div>
+                    </td>
+                    <td width="80" class="tdata setIEcen">
+                      <input type="hidden" id="age_1" name="age_1" value="" />
+                      <div id="menu" class="lt ageDivMenu">
+                        <ul>
+                          <li><a href="#" class="ageDiv" tabindex="6"><span id="age_setVal_1">Select</span><span><%= image_tag("/assets/event_index/dropdown_arrow.png",:style=>"position:relative;top:-1px;left:5px;",:height=>"4",:width=>"7") %></span></a>         <ul class="sub-menu dispAgeDiv" style="height:107px;">
+                              <li><a href="#" onClick="setAgeVal('1-3',1)">1-3</a></li>
+                              <li><a href="#" onClick="setAgeVal('4-6',1)">4-6</a></li>
+                              <li><a href="#" onClick="setAgeVal('7-9',1)">7-9</a></li>
+                              <li><a href="#" onClick="setAgeVal('10-12',1)">10-12</a></li>
+                              <li><a href="#" onClick="setAgeVal('13-15',1)">13-15</a></li>
+                              <li><a href="#" onClick="setAgeVal('16-18',1)">16-18</a></li>
+                              <li><a href="#" onClick="setAgeVal('Adults',1)">Adults</a></li>
+                            </ul>
+                          </li>
+                        </ul>
+                        <div class="clear"></div>
+                      </div>
+                    </td>
+                    <td width="63" class="tdata setIEcen">
+                      <input type="hidden" id="gender_1" name="gender_1" value="" />
+                      <div id="menu" class="lt genderDivMenu">
+                        <ul>
+                          <li><a href="#" class="ageDiv genderDiv" tabindex="7"><span id="gender_setVal_1">Select</span><span><%= image_tag("/assets/event_index/dropdown_arrow.png",:style=>"position:relative;top:-1px;left:5px;",:height=>"4",:width=>"7") %></span></a>
+                            <ul class="sub-menu dispGenderDiv">
+                              <li><a href="#" onClick="setGenderVal('Male',1)">Male</a></li>
+                              <li><a href="#" onClick="setGenderVal('Female',1)">Female</a></li>
+                            </ul>
+
+                          </li>
+                        </ul>
+                        <div class="clear"></div>
+                      </div>
+                    </td>
+
+                    </tr>
+                  </table>
+                  <span class="createDynamicDivs"></span>
+                </div>
+                <div class="addButtonDiv">
+                  <div class="lt"><a href="javascript:void(0)" title="" onclick="checkValidation()"><%= image_tag("/assets/create_new_activity/add_button.png",:class=>"lt addButton",:width=>"20",:height=>"20") %>
+                      <span class="lt addText">Add</span></a>
+                  </div>
+                </div>
+
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+
+            <div class="buttonDiv">
+              <div class="lt leftSideField">
+                &nbsp;
+              </div>
+              <div class="lt">
+                <input type="image" src="/assets/login/send_button.png" alt="" tabindex="6"/>
+
+                <a href="javascript:void(0)" onClick="closepopup()" onkeydown="cancelActivityClearData(event)"> <%= image_tag("/assets/login/close_button.png") %></a>
+              </div>
+              <div class="clear"></div>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>
+
+<script type="text/javascript" language="javascript">
+  $(document).ready(function (){
+
+    $('#support_contact').submit(function (){
+	
+      var email_id= $("#email_id").val();
+      var message = $("#message").val();
+      var label=$("#label").val();
+	
+      var errorFlag = false;
+      
+      $("#email_id").css("border","1px solid #CDE0E6");
+      $("#email_id_error").html("");
+      $("#email_id_error").parent().css("display","none");
+      $("#label_border").css("border","1px solid #CDE0E6");
+      $("#label_error").html("");
+      $("#label_error").parent().css("display","none");
+      $("#message").css("border","1px solid #CDE0E6");
+      $("#message_no_error").html("");
+      $("#message_no_error").parent().css("display","none");
+	  
+      email_id = email_id.replace(/^\s+|\s+$/g, "");
+      if(email_id == "" ){
+        $("#email_id").css("border","1px solid #fc8989");
+        $("#email_id_error").html("Please enter Email");
+        $("#email_id_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(!validateCorrectEmail(email_id)){
+        $("#email_id").css("border","1px solid #fc8989");
+        $("#email_id_error").html("Please enter valid Email");
+        $("#email_id_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(!validateDot(email_id)){
+        $("#email_id").css("border","1px solid #fc8989");
+        $("#email_id_error").html("Please enter valid Email");
+        $("#email_id_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      if(label == "" || label == "--Select--"){
+        $("#label_border").css("border","1px solid #fc8989");
+        $("#label_error").html("Please select label");
+        $("#label_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      message = message.replace(/^\s+|\s+$/g, "");
+      if(message==""){
+        $("#message").css("border","1px solid #fc8989");
+        $("#message_no_error").html("Please enter comments");
+        $("#message_no_error").parent().css("display","block");
+        errorFlag = true;
+      }
+
+      if(errorFlag == false){
+    
+      }
+
+
+
+      if(errorFlag){
+        return false;
+      }
+      //~ else{
+      //~ var error_Flag = "";
+      //~ $.ajax({
+      //~ type: "POST",
+      //~ url: "check_contact_exist",
+      //~ data: {
+      //~ "email": email_id
+      //~ },
+      //~ dataType : 'json',
+      //~ cache: false,
+      //~ success: function(data){
+      //~ if (data == "failed"){
+      //~ $("#email_id").css("border","1px solid #fc8989");
+      //~ $("#email_id_error").html("Please enter valid email id");
+      //~ $("#email_id_error").parent().css("display","block");
+      //~ error_Flag = true;
+      //~ }
+      //~ else{
+      //~ error_Flag = false;
+      //~ }
+
+      //~ },
+      //~ error : function(xhr,status,error){
+      //~ alert(status);
+      //~ }
+      //~ });
+      //~ if (error_Flag == false){
+
+      //~ var formData = new FormData(this);
+
+      //~ formData.append( "contact",$("#photo")[0].files[0]);
+      //~ $.ajax({
+      //~ url:$(this).attr('action'),
+      //~ type:"post",
+      //~ dataType:"script",
+      //~ processData: false,
+      //~ contentType: false,
+      //~ data:formData,
+      //~ success:function(data){
+      //~ }
+      //~ });
+         
+      //~ }
+      //~ return false;
+      //~ }
+    });
+	
+  });
+  
+  function validateBrowse(){
+    var fup = document.getElementById('photo');
+    var fileName = fup.value;
+    var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+    if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg" || ext == "JPG" || ext == "png" || ext == "PNG")
+    {
+      //errorFlag = false;
+      return true;
+    }
+    else
+    {
+      $('#photo_error').parent().css("display","block");
+      $("#photo1").css("border","1px solid #CDE0E6");
+      $('#photo_error').html('Please select the valid file');
+      return false;
+    }
+  }
+  
+  function clearfields(){
+    $("#contact_name").val('');
+    $("#email_id").val('');
+    $("#mobile_no").val('');
+    $("#gender").val('');
+    $("#field1").html('--Select--');
+    $("#contact_name_error").html("");
+    $("#email_id_error").html("");
+    $("#mobile_no_error").html("");
+    $("#insti_name").html("");
+    $("#message").html("");
+    $("#label").val('');
+    $("#field1").html('--Select--');
+    $("#field1").css("color","#999999");
+
+
+
+    $("#contact_name").css("border","1px solid #CDE0E6");
+    $("#contact_name_error").html("");
+    $("#contact_name_error").parent().css("display","none");
+    $("#email_id").css("border","1px solid #CDE0E6");
+    $("#email_id_error").html("");
+    $("#email_id_error").parent().css("display","none");
+    $("#mobile_no").css("border","1px solid #CDE0E6");
+    $("#mobile_no_error").html("");
+    $("#mobile_no_error").parent().css("display","none");
+    $("#insti_name").css("border","1px solid #CDE0E6");
+    $("#insti_no_error").html("");
+    $("#insti_no_error").parent().css("display","none");
+    $("#message").css("border","1px solid #CDE0E6");
+    $("#message_no_error").html("");
+    $("#message_no_error").parent().css("display","none");
+    $("#label_border").css("border","none");
+    $("#label_error").html("");
+    $("#label_error").parent().css("display","none");
+  }
+
+</script>
+

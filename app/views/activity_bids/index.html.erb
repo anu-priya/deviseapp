@@ -1,0 +1,37 @@
+<h1>Listing activity_bids</h1>
+
+<table>
+  <tr>
+    <th>Activity</th>
+    <th>Bid amount</th>
+    <th>No clicks</th>
+    <th>Total bid amount</th>
+    <th>Balance budget</th>
+    <th>City</th>
+    <th>Userid</th>
+    <th>Bid status</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @activity_bids.each do |activity_bid| %>
+  <tr>
+    <td><%= activity_bid.activity_id %></td>
+    <td><%= activity_bid.bid_amount %></td>
+    <td><%= activity_bid.no_clicks %></td>
+    <td><%= activity_bid.total_bid_amount %></td>
+    <td><%= activity_bid.balance_budget %></td>
+    <td><%= activity_bid.city_id %></td>
+    <td><%= activity_bid.userid %></td>
+    <td><%= activity_bid.bid_status %></td>
+    <td><%= link_to 'Show', activity_bid %></td>
+    <td><%= link_to 'Edit', edit_activity_bid_path(activity_bid) %></td>
+    <td><%= link_to 'Destroy', activity_bid, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Activity bid', new_activity_bid_path %>

@@ -1,0 +1,9 @@
+	if(navigator.appName=="Microsoft Internet Explorer"){
+	window.location.hash="/parent_register_success";
+	}
+	else{
+	parent.history.pushState(null, "Login", "/parent_register_success");
+	}
+	$('#register_outerContainer').html("<%=escape_javascript(render 'parent_register_thank')%>");
+
+

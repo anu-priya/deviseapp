@@ -1,0 +1,226 @@
+<%=stylesheet_link_tag "contacts_users/contact_user", :media => "all"%>
+<script language="javascript">
+  $(document).ready(function(){
+    
+   $("#deletePopupContainer").scrollTop(0);
+   $("#deletePopupContainer").css("top","0");
+   $("#deletePopupContainer").css("positio","absolute");
+   $('html, body').animate({scrollTop:$('#deletePopupContainer').position().top}, 'slow');
+  //  window.scrollTo(0,0);
+    });
+  function closepopup() {
+    parent.newActivitysuccessPage.hide();	
+  }
+  function list_popup()
+  {
+    //alert("save_copy_success")
+    parent.newActivitysuccessPage.hide();
+    parent.parent.newActivityPage.hide(); 
+    parent.parent.parent.location.reload();
+  }
+  function save_popup()
+  {
+    //alert("save_copy_success")
+    parent.newActivitysuccessPage.hide();
+    parent.parent.editActivityPage.hide(); 
+    parent.parent.parent.location.reload();
+  }
+
+  function save_popup_edit(){
+    var just_me = 0;
+    var man_ager = 0;
+    var atten_dies = 0;
+    var represen_tative = 0;
+    if ( $("#just_me").attr('checked')){
+      just_me = 1;
+    }
+    if ( $("#man_ager").attr('checked')){
+      man_ager = 1;
+    }
+    if ( $("#atten_dies").attr('checked')){
+      atten_dies = 1;
+    }
+    if ( $("#represen_tative").attr('checked')){
+      represen_tative = 1;
+    }
+
+    var act_id = $("#act_id").val();
+
+    $.ajax({
+      url: "/activity_detail/send_edit_mail",
+      type:'POST',
+      data: {"man_ager":man_ager,
+        "just_me":just_me,
+        "atten_dies" :atten_dies,
+        "represen_tative" :represen_tative,
+        "act_id" :act_id
+      },
+      dataType: "json",
+      success: function(data){
+        parent.newActivitysuccessPage.hide();
+        parent.parent.editActivityPage.hide();
+        parent.parent.parent.location.reload();
+      }
+    });
+  }
+
+  function add_value()  //list view save copy
+  {
+    parent.$('#new_img').show();
+    parent.$('#save_img').hide();
+    parent.$('#loading_img').css("display","inline-block");
+    parent.$("#createactivity").ajaxSubmit({ success: SaveCopyResponse });
+  }
+  function edit_value()  //edit page save copy
+  { 
+    parent.$('#new_img').show();
+    parent.$('#save_img').hide();               
+    parent.$('#loading_img').css("display","inline-block");
+    parent.newActivitysuccessPage.hide();
+    parent.$("#createactivity").ajaxSubmit({url: 'provider_create', success: SaveCopyEditResponse});
+
+  }
+  function SaveCopyResponse() //list view save copy success
+  {             
+    parent.$("#loading_img").delay(2000).fadeOut();
+    parent.newActivitysuccessPage.hide();
+    parent.addSuccess();
+  }
+  function SaveCopyEditResponse() //edit page save copy success
+  {           
+    parent.$("#loading_img").delay(2000).fadeOut();
+    parent.$("#save_copy").val("");
+    parent.$("#close_value").val("target");
+    parent.addSuccess();
+  }
+</script>
+<style>
+  .deletePopupContainer{
+    height: 160px;
+    margin:0 auto;width:400px;display:block;
+    overflow:hidden;
+  }
+  .deletePopupContainer .p1{
+    padding-top: 30px;
+  }
+  .deletePopupContainer .buttons{
+    padding-top: 30px;
+  }
+  #page_wrapper{
+    margin-bottom:0px;
+  }
+</style>
+<%if !@msg.nil? && @msg.present? && @msg=="user_add"%>
+  <div class="deletePopupContainer">
+    <div class="p1" align="center">Are you sure you want to create a copy of this activity?</div>
+    <div class="buttons" align="center">
+      <a href="javascript:void(0)" onClick="edit_value();"><%=image_tag("/assets/register/ok_btn.png", :width=>"115", :height=>"42", :style=>"border:0px;")%></a>
+      <a href="javascript:void(0)" onClick="closepopup();"><%=image_tag("/assets/create_new_activity/cancel.png", :width=>"113", :height=>"41", :style=>"border:0px;")%></a>
+    </div>
+  </div>
+<%elsif !@msg.nil? && @msg.present? && @msg=="user_edit"%>
+  <div class="deletePopupContainer">
+    <div class="p1" align="center">Are you sure you want to create a copy of this activity?</div>
+    <div class="buttons" align="center">
+      <a href="javascript:void(0)" onClick="edit_value();"><%=image_tag("/assets/register/ok_btn.png", :width=>"115", :height=>"42", :style=>"border:0px;")%></a>
+      <a href="javascript:void(0)" onClick="closepopup();"><%=image_tag("/assets/create_new_activity/cancel.png", :width=>"113", :height=>"41", :style=>"border:0px;")%></a>
+    </div>
+  </div>
+<%elsif !@msg.nil? && @msg.present? && @msg=="save_copy"%>
+  <div class="deletePopupContainer">
+    <div class="headTab" style="border-bottom: 1px solid #d7dadb;">
+      <div class="closeButton" style="padding: 5px 375px;"><a href="javascript:void(0)" onClick="save_popup()" title=""> <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%> </a></div>
+    </div>
+    <div class="p1" align="center">You have successfully created your activity!</div>
+    <div class="buttons" align="center">
+      <a href="javascript:void(0)" onClick="save_popup();"><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38", :style=>"border:0px;")%></a>
+    </div>
+  </div>
+<%elsif !@msg.nil? && @msg.present? && @msg=="edit"%>
+  <div class="deletePopupContainer" style="height: 200px;">
+    <div class="headTab" style="border-bottom: 1px solid #d7dadb;">
+  </div>
+    <table border="0" cellpadding="0" cellspacing="0" width="370">
+      <tr>
+        <td colspan="2">
+          <div id="firstrow">All Changes have been successfully saved!</div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div id="secondtrow">  Select who all you want to send the notification</div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="mLtRow3">
+            <div class="thirdrow trow3"><input type="checkbox" name="just_me" value="" id="just_me"/>&nbsp;Just Me</div>
+            <div id="attend_rep" class="thirdrow trow3" style="display:none;"><input type="checkbox" name="atten_dies" id="atten_dies"/>&nbsp;Attendees</div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="mLtRow3">
+            <div class="thirdrow trow3 " id="mana_td" style="display:none;"><input type="checkbox" name="man_ager" id="man_ager"/>&nbsp;Managers</div>
+            <div class="thirdrow trow3" id="repre_td" style="display:none;"><input type="checkbox" name="represen_tative" id="represen_tative"/>&nbsp;Representative</div>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+
+    <input type="hidden" name="act_id" id="act_id" value="<%= params[:act_id] %>"/>
+    <div class="buttons" align="center" style="padding-top:12px;">
+      <a href="javascript:void(0)" onClick="save_popup_edit();"><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38", :style=>"border:0px;")%></a>
+    </div>
+  </div>
+<%else%>
+  <div class="deletePopupContainer">
+    <div class="p1" align="center"><%=@msg%></div>
+    <div class="buttons" align="center">
+      <a href="javascript:void(0)" onClick="list_popup();"><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38", :style=>"border:0px;")%></a>
+    </div>
+  </div>
+<%end%>
+<style>
+  .mLtRow3{margin-left:70px;}
+  #firstrow{
+    color: #000;
+    font-size: 18px;
+    text-align: center;
+    padding: 9px;
+  }
+  #secondtrow{
+    color: #4395ad;
+    font-size: 15px;
+    text-align: center;
+    padding: 7px;
+  }
+
+  .thirdrow{
+    color: #7f7b7c;
+    font-size: 12px;
+    margin-left1: 20px;
+    padding: 6px;
+  }
+  .trow3{width:130px;float:left;}
+</style>
+
+<script language="javascript">
+<%if !@msg.nil? && @msg.present? && @msg=="edit"%>
+  <%if !@manager.empty?%>
+      $("#mana_td").css("display","block");
+  <%end%>
+
+  <%if !@school_rep.empty?%>
+      $("#repre_td").css("display","block");
+  <%end%>
+  <%if !@attend_rep.empty?%>
+      $("#attend_rep").css("display","block");
+  <%end%>
+<%end%>
+</script>
+
+
+

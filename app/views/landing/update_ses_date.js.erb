@@ -1,0 +1,2 @@
+parent.$("#top_menu_location").html('<%=escape_javascript(render '/common/location_top')%> ');
+parent.location.href  = "?cities/<%=cookies[:selected_city].parameterize if cookies[:selected_city] && !cookies[:selected_city].nil?%>";

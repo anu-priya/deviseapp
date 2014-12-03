@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<style>
+	#how_it_work{
+		margin:auto;
+		background:#fff;
+		border:1px solid #dbdddc;
+		width:883px;
+		height:530px;
+		padding-top:10px;
+	}
+	.borde_rows{
+		clear: both;
+		width: 100%
+	}
+	#first{
+		width: 95%;
+		height: 40px;
+		border-bottom: 1px solid #dbdddc;
+		text-align: center;
+			float: left;
+	}
+	#vidFrame_1,#vidFrame_2{
+		border:3px solid #e5e5e5;
+		width:720px;
+		height:405px;
+		padding: 10px;
+	}
+	.third{
+		width: 100%;
+		height: 50px;
+		float: left;
+	}
+	#left{
+		width: 47%;
+		text-align:right;
+		
+	}
+	#right{
+		width: 47%;
+		text-align:left;
+	}
+	#middle{
+		width: 6%;
+		text-align:center;
+		color:#dbdddc;
+		font-size: 30px;
+		margin-top: -7px
+	}
+	#outer_img{
+		/*padding: 30px 70px;*/
+		width:85%;
+		margin:0 auto;
+		
+	}
+	#haeding_how{
+		color: #3C93AC;
+		font-size: 20px;
+		font-weight: bold;
+	}
+	#close_howit{
+		width: 5%;
+		height: 35px;
+		float: left;
+		border-bottom: 1px solid #dbdddc;
+		padding-top: 5px;
+	}
+	.split_code{
+	margin-left:5px;
+	color:#3C93AC;
+	}
+	.right_div{
+	float:right;
+	color:#3C93AC;
+	padding: 0px 5px 0px 0px;
+	}
+	.mpreview,.drag-contentarea{
+	background-color:#FFFFFF;
+	}
+	
+</style>
+<html>
+<head>
+<%=stylesheet_link_tag "jsliding/style", :media => "all"%>
+<%=javascript_include_tag "jsliding/modernizr"%>
+</head>
+<body>
+<div id="how_it_work" class="pop_howit_up" >
+	<div class="borde_rows">
+		
+			<div id="first">
+				<span class="setBoxText" id="haeding_how" align="center" style="top:4px; position:relative;"><b>Attachments</b></span>
+			</div>
+			<div id="close_howit">
+				<span style="cursor:pointer"><a onclick="closemessagepop()" title="close"><%=image_tag("/assets/landing/close_button_how.png", :width=>"13", :height=>"13", :align=>"absmiddle")%></a></span>
+			</div>
+		
+		<div class="borde_rows">
+			<div id="outer_img">
+					<%message_file_list = MsgFile(@thread) if !@thread.nil?%>
+					<div class="download_all" style="padding:10px 0px;position:relative;">
+						<input type ='hidden' id='down_id' value=''>
+						<%if message_file_list && message_file_list.present? && !message_file_list.nil? && message_file_list.count == 1%><a href="/download_message_files?id=<%=message_file_list[0].message_file_id%>&mode=<%=params[:mode]%>" id='down_id123' title="Download"><%=image_tag("/assets/policies/download_arrow.png", :width=>"9", :height=>"14", :style=>"margin-right:5px;position:relative;top:3px;")%><span class="ftcBlue fts12"><b>Download</b></span></a><%end%>
+						<!--span class="split_code"><b>|</b>&nbsp;</span-->
+						<!--download all the attachement files-->
+						<%if message_file_list && message_file_list.present? && !message_file_list.nil?%>
+							<%if message_file_list.count>1%><a href="/download_message_files?id=<%=message_file_list.map(&:message_file_id)%>&mode=<%=params[:mode]%>" title="Download All"><%=image_tag("/assets/policies/download_arrow.png", :width=>"9", :height=>"14", :style=>"margin-right:5px;position:relative;top:3px;")%><span class="ftcBlue fts12"><b>Download All</b></span></a><%end%>
+						<%end%>
+						<!--pagination link added here-->
+							
+							<%if message_file_list && message_file_list.present? && !message_file_list.nil?%>
+								<p data-jcarouselpagination="true" class="jcarousel-pagination">
+								<%message_file_list && message_file_list.each do |file|%>
+								<a class="" href="#<%=file.message_file_id if file.message_file_id%>"><%=file.message_file_id if file.message_file_id%></a>
+								<%end%>
+								
+							<%end%>
+							</p>
+						<!--pagination link ending here-->
+					</div>
+				 
+				 <!--new slider starting here-->
+					<div id="wrapper">
+					       <div class="stage-wrapper clearfix">
+						<div class="stage clearfix">
+						    <div class="stage-container">
+							<div class="jcarousel-wrapper">
+							    <div data-jcarousel="true" class="jcarousel">
+								<ul style="transition-duration: 0s; transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1); transition-property: all; transform: translate3d(-1496px, 0px, 0px);" class="clearfix">
+									
+									<!--displayed the message thread attached files dynamically-->
+									<%if message_file_list && message_file_list.present? && !message_file_list.nil?%>
+										<%message_file_list && message_file_list.each do |file|%>
+										<%format_result = formatFileSupports(file,'att_preview')%>
+										<li>
+											<a href="<%=file.message_file if !file.nil? && !file.message_file.nil? %>" target="_blank">
+											<img src=<%=format_result%> class='file_class' id="<%=file.message_file_id%>" alt="Loading..." height="410"></a>
+										</li>
+										<%end%>
+									<%end%>
+								</ul>
+							    </div>
+							    
+							    <%if message_file_list && message_file_list.present? && !message_file_list.nil? && message_file_list.count > 1%>
+							    <a data-jcarouselcontrol="true" href="#" class="jcarousel-control-prev"><%=image_tag("/assets/landing/left_arrow_1.png", :width=>"", :height=>"")%></a>
+							    <a data-jcarouselcontrol="true" href="#" class="jcarousel-control-next"><%=image_tag("/assets/landing/right_arrow_1.png", :width=>"", :height=>"")%></a>
+							    <%end%>
+							</div>
+						    </div>
+						</div>
+					    </div>
+					</div>
+				 <!--new slider ending here-->
+				 
+				 
+			</div>
+		</div>
+   
+</div>
+<%=javascript_include_tag "jsliding/jquery_002","jsliding/jquery"%>
+<script>
+//close the div
+	function closemessagepop()
+	{
+		parent.MessagePreviewPopup.hide();
+	}
+	//previous and next button display
+	//~ onclick="preview_show();"
+	//~ function preview_show(){
+	//alert($('.file_class').attr('src'));
+		//~ $.ajax({
+			//~ url: "/get_preview_images",
+			//~ type:'get',
+			//~ dataType: 'script',
+			//~ data:  {"sno":num}
+		//~ });
+	//~ }
+
+//js carousel
+        $(function () {
+            var jcarousel = $('.jcarousel');
+
+            jcarousel
+                    .on('jcarousel:reload jcarousel:create', function () {
+                        jcarousel.jcarousel('items').width(jcarousel.innerWidth());
+                    })
+                    .jcarousel({
+                        wrap: 'circular',
+                        transitions: Modernizr.csstransitions ? {
+                            transforms:   Modernizr.csstransforms,
+                            transforms3d: Modernizr.csstransforms3d,
+                            easing:       'ease'
+                        } : false
+                    });
+
+            $('.jcarousel-control-prev')
+                    .on('jcarouselcontrol:active', function() {
+                        $(this).removeClass('inactive');
+                    })
+                    .on('jcarouselcontrol:inactive', function() {
+                        $(this).addClass('inactive');
+                    })
+		    
+		    .on('click', function(e) {
+		    
+		   
+		    var ids =  $('.jcarousel-pagination .active').text();
+		    // alert(ids);
+		     var limit= $('.jcarousel li').length;
+		     if(ids==1){
+		       $('#down_id').val(limit);	
+		     }
+		     else if(ids==limit)
+		     {
+		       $('#down_id').val('1');	
+		     }
+		     else{
+		    var ids=  parseInt(ids)-1;
+		    $('#down_id').val(ids);	
+		    }
+                        e.preventDefault();
+                    })
+		    
+                    .jcarouselControl({
+                        target: '-=1'
+                    });
+
+            $('.jcarousel-control-next')
+                    .on('jcarouselcontrol:active', function() {
+                        $(this).removeClass('inactive');
+                    })
+                    .on('jcarouselcontrol:inactive', function() {
+                        $(this).addClass('inactive');
+                    })
+                    .on('click', function(e) {
+		    
+		   // alert($('.file_class').attr('id'));
+		    //~ var lala = $(this).attr('id');
+		    //~ alert(lala);
+		    var ids =  $('.jcarousel-pagination .active').text();
+		   var limit= $('.jcarousel li').length;
+		     if(ids==1){
+		       $('#down_id').val(limit);	
+		     }
+		     else if(ids==limit)
+		     {
+		       $('#down_id').val('1');	
+		     }
+		     else{
+		    var ids=  parseInt(ids)-1;
+		    $('#down_id').val(ids);	
+		    }
+                        e.preventDefault();
+                    })
+                    .jcarouselControl({
+                        target: '+=1'
+                    });
+
+            $('.jcarousel-pagination')
+                    .on('jcarouselpagination:active', 'a', function() {
+                        $(this).addClass('active');
+                    })
+                    .on('jcarouselpagination:inactive', 'a', function() {
+                        $(this).removeClass('active');
+                    })
+                    .on('click', function(e) {
+                        e.preventDefault();
+                    })
+                    .jcarouselPagination({
+                        item: function(page, carouselItems) {
+			   return '<a href="#' + page + '">' + page + '/<%=message_file_list.count if message_file_list && message_file_list.present? && !message_file_list.nil?%></a>';
+                        }
+                    });
+		    
+		$('.jcarousel-pagination').jcarouselPagination({
+		'perPage': 1
+		});
+		
+		//list item index
+		$('.jcarousel').jcarousel('scroll', 0);
+		
+		//circular stop
+		//~ $('.jcarousel').jcarousel({
+		//~ wrap: 'null'
+		//~ });
+    
+        });
+    </script>
+</body>
+</html>

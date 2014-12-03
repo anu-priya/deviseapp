@@ -1,0 +1,138 @@
+<style>
+	.bluehead{
+		color:#347d91;
+		font-size:14px;
+	}
+	.bluehead a{
+		color:#585858;
+	}
+	.tbl_fontcolor{
+		color:#347d91;
+		font-size:14px;
+	}
+	.dvpad{padding: 20px 8px 0px 0px;
+	}
+	.formtxt{
+	color:#347D91; 
+	font-family:'open_sansregular',Sans-Serif; 
+	font-size:14px; 
+	}
+	.fntsixten{font-size:16px;color:#585858;}
+	.algleft{
+	margin-left:5px;
+	}
+</style>
+<div class="dvpad">
+<table border="0" cellpadding="0" cellspacing="0" width="300" class="tbl_fontcolor">
+	<tr>
+		<td align="center" valign="bottom" height="28">
+		<%=image_tag("/assets/provider_settings/create_form_icon.png", :width=>"20", :height=>"20", :alt=>"Create Form")%>
+		</td>
+		<td align="left" valign="middle" class="bluehead fntsixten">
+			 <a href="javascript:void(0);" class="algleft" title="" onclick="pop_add_form_builder('/add_form_builder'); _gaq.push(['_trackEvent','Provider Module', 'clickForm','Create Your Activity Form']);">Create Your Activity Form <%=image_tag("/assets/provider_register/help.png", :align=>"top", :onmouseover=>"form_helptxt_show();", :onmouseout=>"form_helptxt_hide();")%></a>
+			<div id="fhelptext" style="display:none; position:absolute;float:left; z-index:1000;" onmouseover="form_helptxt_show();" onmouseout="form_helptxt_hide();" class="frm_helpText">
+			Create a new form to be filled out by the participants in your <br>activities using the Famtivity form builder.
+			</div>			
+		</td>
+		<td align="left" valign="middle">&nbsp;
+		</td>
+	</tr>
+	<tr>
+		<td  align="left" valign="middle" height="8"></td>
+		<td align="left" valign="middle"></td>
+		<td align="left" valign="middle"></td>
+	</tr>
+	<tr>
+		<td align="left" valign="middle">&nbsp;</td>
+		<td align="left" valign="middle">
+			<table width="100%" border="0" align="left" cellpadding="0" cellspacing="0">
+			<%if !current_user.nil? && current_user.present? && current_user!='' %>
+				<%@form=get_form_details(current_user.user_id) %>
+				<%if !@form.nil? && @form!='' && @form.length > 0%>
+					<%@form.each do |frmval|%>
+						<tr id="frm_<%=frmval["form_id"]%>">
+							<td width="8%" align="center" valign="middle" height="30">
+								<%=image_tag("/assets/form_builder/form.png", :align=>"absbottom", :alt=>"Form")%>
+							</td>
+							<td width="1%" align="left">&nbsp;</td>
+							<td width="74%" align="left" valign="middle">
+								<a href="javascript:void(0);" title="<%=frmval["title"]%>" class="formtxt" onclick="form_preview(<%=frmval["form_id"]%>); _gaq.push(['_trackEvent','Provider Module', 'clickFormBuilder','Preview','<%=frmval["form_id"]%>']);"><%=frmval["title"]%></a>
+							</td>
+							<td width="7%" align="left" valign="middle">
+								<a href="javascript:void(0);" title="Edit" style="color:#5AA3B6; font-family:Arial; font-size:14px; font-weight:bold;" onclick="pop_edit_form_builder('/edit_form_builder?formid=<%=frmval["form_id"]%>'); _gaq.push(['_trackEvent','Provider Module', 'clickFormBuilder','Edit','<%=frmval["form_id"]%>']);">
+									<%=image_tag("/assets/provider_settings/policy_edit.png", :alt=>"Edit")%>
+								</a>
+							</td>
+							<td width="1%" align="left" valign="middle">&nbsp;</td>
+							<td width="4%" align="left" valign="top"><p style="font-size: 16px;color:#e3e3e3;" class="pdfupload">|</p></td>
+							<td width="1%" align="left" valign="middle">&nbsp;</td>
+							<td width="4%" align="left" valign="middle">
+								<a href="javascript:void(0);" title="Delete" onclick="delete_form_builder(<%=frmval["form_id"]%>); _gaq.push(['_trackEvent','Provider Module', 'clickFormBuilder','Edit','<%=frmval["form_id"]%>']);"><%=image_tag("/assets/provider_settings/policy_delete.png", :alt=>"Delete")%></a>
+							</td>
+						</tr>							
+					<%end%>							
+				<%else%>
+				
+				<%end%>
+			<%end%>						
+			</table>
+		</td>
+		<td align="left" valign="middle">&nbsp;</td>
+	</tr>
+</table>	
+</div>
+<input type="hidden" id="form_id" name="form_id">
+<div id="frmdelete" style="display:none;">
+		<div class="ppdeletefile">
+		<div style="padding:20px;">
+			<div class="p1" align="center">Are you sure you want to delete this Form?</div><br/>
+			<div class="buttons" align="center">
+			<a class="le save-button"  href="javascript:void(0)" title="" onclick="formdel_success(); _gaq.push(['_trackEvent','Provider Module', 'clickFormBuilder','Ok']);">Ok</a>
+			  <a class="le cancel-button"  href="javascript:void(0)" title="" onclick="closefrmpopup(); _gaq.push(['_trackEvent','Provider Module', 'clickFormBuilder','Cancel']);">Cancel</a>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+function delete_form_builder(data){
+       $("#form_id").val(data);
+	frmdelete=dhtmlmodal.open('agebox', 'div', 'frmdelete', 'Delete Form', 'width=545px,height=250px,left=45%,top=300px,resize=0,scrolling=0');
+	var winwidt = $(window).width();
+	var winheight = $(window).height();
+	//alert(winwidt+" "+winheight);
+	$('#agebox').css({'left':((winwidt-545)/2),'top':((winheight-250)/2)});
+}
+function closefrmpopup()
+{
+	frmdelete.hide();
+}
+function formdel_success(){
+	var val =  $("#form_id").val();
+	$.ajax({
+	data: {"formid": val},
+	url: "/formbuilder_delete",
+	success: function(data){
+		if (data)
+		{
+			frmdelete.hide();
+			$("#frm_"+val).remove();
+		}
+		else
+		{
+			return false;
+		}
+	}
+	});
+}
+function form_preview(frmid)
+{
+	popup_preview_form('/form_preview?formid='+frmid);
+}
+function form_helptxt_show()
+{
+	$('#fhelptext').css('display','inline-block');
+}
+function form_helptxt_hide()
+{
+	$('#fhelptext').hide();
+}
+</script>

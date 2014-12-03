@@ -1,0 +1,71 @@
+<%= stylesheet_link_tag "landing/how_it_works" %>
+<%= stylesheet_link_tag "event_index/menu" %>
+<%= stylesheet_link_tag "event_index/event_index" %>
+<style type="text/css" id="page-css">
+  /* Styles specific to this particular page
+	.scroll-pane
+	{
+		width: 100%;
+		height1: 570px;
+		overflow: auto;
+	}
+	.horizontal-only
+	{
+		height: auto;
+		max-height1: 500px;
+	}*/
+  .terms_of_service{
+    padding:8px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:14px;
+    color: #7E7979;
+    margin:0 0 0 40px;
+  }
+  .clrBlueLight{
+    color: #4495AE;
+  }
+</style>
+<div id="how_it_worksDiv" style="margin-top:43px; background:#F6F8F7;">
+  <div class="clear"></div>
+
+  <%if !current_user.nil?%>
+    <div class="TopListText" align="center" style="width:100%; marign:0 auto; padding-top:20px; padding-bottom:10px;">
+    <%else%>
+      <div class="TopListText" align="center" style="width:100%; marign:0 auto; padding-top:47px; padding-bottom:10px;">
+      <%end%>
+
+      <span><a href=<%=(!params[:act_name].nil? && !params[:pid].nil?) ? "/provider_terms/#{params[:act_name]}/#{params[:pid]}" : "#" %> class="menuText"><b>Provider Terms</b></a></span>
+      <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div class="setTopBprder"></div>
+    <div class="TopDiv">
+      <div class="scroll-pane">
+        <!--p class="terms_of_servie_text" align="center"><b>Famtivity Terms of Use</b></p-->
+        <p class="para_inner_text">
+        <div id="selected_content" style="display:block" >
+          <% if @policy_old && @policy_old.present? %>
+            <%i=0%>
+            <% @policy_old.each do |p_cont|%>
+              <% if !p_cont.nil? %>
+                <%ptype_title = PolicyType.where("ptype_id=?",p_cont.ptype_id).first%>
+                <%i=i+1%>
+                <p class="menuText" style="padding-bottom:10px;font-size:15px;color:#2b91af;"><b><%=ptype_title.type_name if ptype_title && !ptype_title.type_name.nil?%></b></p>
+                <div class="terms_text" id="field_<%=i%>" style="padding-bottom:10px;"><%= p_cont.content.html_safe%></div>
+
+              <%end%>
+            <%end%>
+          <%else%>
+            <div class="terms_text" style="text-align:center;">No terms available.</div>
+          <%end %>
+        </div>
+        <div class="clear"></div>
+      </div>
+      </p>
+    </div>
+
+  </div>
+  <div class="clear"></div>
+
+</div> 
+</div>

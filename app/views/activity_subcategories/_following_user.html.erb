@@ -1,0 +1,373 @@
+<!-- Following Structure -->
+<div class="lt leftPanel" style="height:335px;">
+  <div class="headerPart">
+    <div class="lt followText" style="width:270px;">
+      <div class="lt">Currently Following&nbsp;</div>
+      <div class="lt dottedDiv" style="width:150px;"></div>
+    </div> 
+    <div class="lt followText" style="width:285px; ">
+      <div class="lt">Currently Following You&nbsp;</div>
+      <div class="lt dottedDiv"  style="width:140px; margin-left:3px;"></div>
+    </div> 
+    <div class="clear"></div>
+  </div>
+  <div class="rightSection">
+    <div class="rightSectionDiv">
+      <%i=1%>
+      <% show_no = true%>
+      <div class="scroll-pane-following" <%if !@following_user_cat.nil? && @following_user_cat.present?%>style="height: auto;max-height: 150px;"<%end%>>
+        <%  if !@following_user.nil? && @following_user.present?  %>
+          <% show_no = false%>
+          <%@following_user.each do |fol|%>
+            <!-- Inner Div Start-->
+            <div class="subCat followingSubCateg" id="subCat_<%=i%>">
+              <input id="sc<%= i%>" name="sc<%= i%>" type="checkbox" checked="checked" value="<%= fol.row_user_id%>"/>
+              <%if (fol.user_type).downcase == "p" %>
+                <span class="scImg" onClick="provider_row(<%=i%>,<%= fol.row_user_id%>)"><label class="altCheckboxOn" for="sc<%= i%>">&nbsp;</label></span>
+              <%else%>
+                <span class="scImg" onClick="parent_row(<%= i %>,<%= fol.row_user_id %>)"><label class="altCheckboxOn" for="sc<%= i%>">&nbsp;</label></span>
+              <%end%>
+              <a href="javascript:void(0)" onmouseOver="detailedView('follow_user_<%=i%>')" onmouseOut="detailedClose('follow_user_<%= i%>')" class="smallImg">
+                <% @fuser = User.find_by_user_id(fol.row_user_id) if !fol.nil?%>
+
+
+                <%if (fol.user_type).downcase == "p" %>
+                  <%if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.profile.nil? && @fuser.user_profile.profile.present? %>
+                    <%= image_tag (@fuser.user_profile.profile.url(:small)),  :width => '21', :height => '21', :style =>"position:relative;"%>
+                  <%else%>
+                   <%=image_tag("/assets/landing/user_icon_21.png", :width=>"21", :height=>"21", :style=>"position:relative;")%>
+                  <%end%>
+                <%else%>
+                  <%if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.user_photo.nil? && @fuser.user_profile.user_photo.present? %>
+                    <%= image_tag (@fuser.user_profile.user_photo.url(:small)),  :width => '21', :height => '21', :style =>"position:relative;"%>
+                  <%else%>
+                    <%=image_tag("/assets/landing/user_icon_21.png", :width=>"21", :height=>"21", :style=>"position:relative;")%>
+                  <%end%>
+                <%end%>
+
+              </a>
+              <%if (fol.user_type).downcase == "p" %>
+                <span class="scText setWidthCF"><%if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.business_name.nil? && @fuser.user_profile.business_name.present? %><%= @fuser.user_profile.business_name %><%else%><%= @fuser.user_name if !@fuser.nil?  %><%end%></span>
+              <%else%>
+                <span class="scText setWidthCF"><%= @fuser.user_name if !@fuser.nil? %></span>
+              <%end%>
+
+              <div class="clear"></div>
+              <!--  ID: follow_user_incrementValue(dynamically incremented) ! important -->
+              <div class="detailedViewDivOuter detailedViewRt" id="follow_user_<%= i%>" style="display:none;">
+                <table cellspacing="0" cellpadding="0" border="0" width="220">
+                  <tr>
+                    <td class="detailedViewDivInner" width="205">
+                      <table cellspacing="0" cellpadding="0" border="0" width="205">
+                        <tr>
+                          <td width="40" valign="top">
+                            <% @fuser = User.find_by_user_id(fol.row_user_id) if !fol.nil?%>
+
+                            <%if (fol.user_type).downcase == "p" %>
+                              <%if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.profile.nil? && @fuser.user_profile.profile.present? %>
+                                <%= image_tag (@fuser.user_profile.profile.url(:small)),  :width => '40', :height => '40', :style =>"position:absolute;overflow:hidden;"%>
+                              <%else%>
+                                <%=image_tag("/assets/landing/user_icon_40.png", :width=>"40", :height=>"40", :style=>"position:absolute;overflow:hidden;border:none;")%>
+                              <%end%>
+                            <%else%>
+                              <%if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.user_photo.nil? && @fuser.user_profile.user_photo.present? %>
+                                <%= image_tag (@fuser.user_profile.user_photo.url(:small)),  :width => '40', :height => '40', :style =>"position:absolute;overflow:hidden;"%>
+                              <%else%>
+                                <%=image_tag("/assets/landing/user_icon_40.png", :width=>"40", :height=>"40", :style=>"position:absolute;overflow:hidden;border:none;")%>
+                              <%end%>
+                            <%end%>
+
+                          </td>
+                          <td valign="top" class="info">
+                            <%if (fol.user_type).downcase == "p" %>
+                              <p class="fstText"><b><%if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.business_name.nil? && @fuser.user_profile.business_name.present? %><%= @fuser.user_profile.business_name %><%else%><%= @fuser.user_name if !@fuser.nil? %><%end%></b></p>
+                            <%else%>
+                              <p class="fstText"><b><%= @fuser.user_name if !@fuser.nil? %></b></p>
+                            <%end%>
+                            <p class="thdText"><%= @fuser.user_profile.city if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.city.nil? && @fuser.user_profile.city.present?%>, <%= @fuser.user_profile.state  if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.state.nil? && @fuser.user_profile.state.present? %>,<%= @fuser.user_profile.country if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.country.nil? && @fuser.user_profile.country.present?%></p>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td width="15" class="arrowRt">
+                      <%=image_tag("/assets/event/right_arrow.png", :width=>"12", :height=>"20", :class=>"de_right_arrow")%>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+
+            </div>
+            <%i=i+1%>
+            <!-- End -->
+
+          <%end%>
+        <%else%>
+          <% show_no = true%>
+        <%end%>
+
+        <%  if !@net_following.nil? && @net_following.present?  %>
+          <% show_no = false%>
+          <%@net_following.each do |s|%>
+            <div class="lt subCat" id="subCat_<%= s.group_id %>" >
+              <input id="sc<%= s.group_id %>" name="sc<%= s.group_id %>" type="checkbox" value="<%= s.group_id %>"/>
+
+              <span class="scImg" onClick="modifyText_fam_ev(<%= s.group_id %>,<%= s.group_id %>)"><label class="altCheckboxOff" for="sc<%= s.group_id%>" style="vertical-align:top;">&nbsp;</label></span>
+              <a href="javascript:void(0)" onmouseOver="detailedView('follow_user_<%=i%>')" onmouseOut="detailedClose('follow_user_<%=i%>')" class="smallImg">
+                <%=image_tag("/assets/fam_networks/fam_network_land_icon.png", :width=>"17", :height=>"19")%>
+              </a>
+              <span style="top:-4px;width: 195px" class="scText" onClick="modifyText_fam_ev(<%= s.group_id %>,<%= s.group_id %>); _gaq.push(['_trackEvent','Famnetwork','clickFollowRows','<%= params[:id]%>','<%= s.group_name.html_safe %>'])"><%=truncate(s.group_name.html_safe, :length =>20, :omission => '... ')%></span>
+
+              <div class="clear"></div>
+
+              <div class="detailedViewDivOuter detailedViewRt" id="follow_user_<%= i %>" style="display:none;">
+                <table cellspacing="0" cellpadding="0" border="0" width="220">
+                  <tr>
+                    <td class="detailedViewDivInner" width="205">
+                      <table cellspacing="0" cellpadding="0" border="0" width="205">
+                        <tr>
+                          <td width="40" valign="top">
+                            <% @fuser = User.find_by_user_id(s.user_id) if !s.nil?%>
+
+                            <%if (@fuser.user_type).downcase == "p" %>
+                              <%if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.profile.nil? && @fuser.user_profile.profile.present? %>
+                                <%= image_tag (@fuser.user_profile.profile.url(:small)),  :width => '40', :height => '40', :style =>"position:absolute;overflow:hidden;"%>
+                              <%else%>
+                               <%=image_tag("/assets/landing/user_icon_40.png", :width=>"40", :height=>"40", :style=>"position:absolute;overflow:hidden;border:none;")%>
+                              <%end%>
+                            <%else%>
+                              <%if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.user_photo.nil? && @fuser.user_profile.user_photo.present? %>
+                                <%= image_tag (@fuser.user_profile.user_photo.url(:small)),  :width => '40', :height => '40', :style =>"position:absolute;overflow:hidden;"%>
+                              <%else%>
+                                <%=image_tag("/assets/landing/user_icon_40.png", :width=>"40", :height=>"40", :style=>"position:absolute;overflow:hidden;border:none;")%>
+                              <%end%>
+                            <%end%>
+
+                          </td>
+                          <td valign="top" class="info">
+                            <p class="fstText"><b><%=truncate(s.group_name.html_safe, :length =>20, :omission => '... ')%></b></p>
+                            <%if (@fuser.user_type).downcase == "p" %>
+                              <p class="thdText"><%if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.business_name.nil? && @fuser.user_profile.business_name.present? %><%= @fuser.user_profile.business_name %><%else%><%= @fuser.user_name if !@fuser.nil? %><%end%></p>
+                            <%else%>
+                              <p class="thdText"><%= @fuser.user_name if !@fuser.nil? %></p>
+                            <%end%>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td width="15" class="arrowRt">
+                      <%=image_tag("/assets/event/right_arrow.png", :width=>"12", :height=>"20", :class=>"de_right_arrow")%>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+            <%i=i+1%>
+
+          <%end%>
+        <%else%>
+          <% show_no = true if show_no == true%>
+        <%end%>
+
+
+
+        <%if show_no == true%>
+          <div style="padding:10px;">You are not currently following any Parents/Providers/Networks</div>
+        <% end%>
+
+      </div>
+    </div>
+    <div class="rightSectionDiv">
+      <div class="scroll-pane-following"  style="height: auto;max-height: 150px;">
+        <% j=1%>
+        <%  if !@following_you_user.nil? && @following_you_user.present?  %>
+
+          <%@following_you_user.each do |fol|%>
+            <% @fuser = User.find_by_user_id(fol) if !fol.nil?%>
+            <!-- Inner Div Start-->
+            <%if !@fuser.nil?%>
+              <div class="lt subCat followingSubCateg" id="subCatyou_<%= j%>">
+                <!--<input id="scyou<%= fol%>" name="scyou<%= j%>" type="checkbox" value="<%= fol%>"/>
+                <span class="scImg" onClick="following_you_user(<%= fol%>)"><label class="altCheckboxoff" for="scyou<%= fol%>">&nbsp;</label></span-->
+                <a href="javascript:void(0)" class="smallImg">
+
+
+                  <%if (@fuser.user_type).downcase == "p" %>
+                    <%if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.profile.nil? && @fuser.user_profile.profile.present? %>
+                      <%= image_tag (@fuser.user_profile.profile.url(:small)),  :width => '21', :height => '21', :style =>"position:relative;"%>
+                    <%else%>
+                     <%=image_tag("/assets/landing/user_icon_21.png", :width=>"21", :height=>"21", :style=>"position:relative;")%>
+                    <%end%>
+                  <%else%>
+                    <%if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.user_photo.nil? && @fuser.user_profile.user_photo.present? %>
+                      <%= image_tag (@fuser.user_profile.user_photo.url(:small)),  :width => '21', :height => '21', :style =>"position:relative;"%>
+                    <%else%>
+                      <%=image_tag("/assets/landing/user_icon_21.png", :width=>"21", :height=>"21", :style=>"position:relative;")%>
+                    <%end%>
+                  <%end%>
+
+                </a>
+                <span class="scText setWidthCF"><a href="javascript:void(0)" onmouseOver="detailedView('following_you_user_<%=j%>')" onmouseOut="detailedClose('following_you_user_<%= j%>')"><%= @fuser.user_name if !@fuser.nil? %></a></span>
+                <div class="clear"></div>
+
+                <div class="detailedViewDivOuter detailedViewRt" id="following_you_user_<%= j%>" style="display:none;">
+                  <table cellspacing="0" cellpadding="0" border="0" width="220">
+                    <tr>
+                      <td class="detailedViewDivInner" width="205">
+                        <table cellspacing="0" cellpadding="0" border="0" width="205">
+                          <tr>
+                            <td width="40" valign="top">
+                              <% @fuser = User.find_by_user_id(fol) if !fol.nil?%>
+                              <%if (@fuser.user_type).downcase == "p" %>
+                                <%if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.profile.nil? && @fuser.user_profile.profile.present? %>
+                                  <%= image_tag (@fuser.user_profile.profile.url(:small)),  :width => '40', :height => '40', :style =>"position:absolute;overflow:hidden;"%>
+                                <%else%>
+                                  <%=image_tag("/assets/landing/user_icon_40.png", :width=>"40", :height=>"40", :style=>"position:absolute;overflow:hidden;border:none;")%>
+                                <%end%>
+                              <%else%>
+                                <%if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.user_photo.nil? && @fuser.user_profile.user_photo.present? %>
+                                  <%= image_tag (@fuser.user_profile.user_photo.url(:small)),  :width => '40', :height => '40', :style =>"position:absolute;overflow:hidden;"%>
+                                <%else%>
+                                  <%=image_tag("/assets/landing/user_icon_40.png", :width=>"40", :height=>"40", :style=>"position:absolute;overflow:hidden;border:none;")%>
+                                <%end%>
+                              <%end%>
+                            </td>
+                            <td valign="top" class="info">
+                              <%if @fuser.user_type == "P" %>
+                                <p class="fstText"><b><%if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.business_name.nil? && @fuser.user_profile.business_name.present? %><%= @fuser.user_profile.business_name %><%else%><%= @fuser.user_name if !@fuser.nil? %><%end%></b></p>
+                              <%else%>
+                                <p class="fstText"><b><%= @fuser.user_name if !@fuser.nil? %></b></p>
+                              <%end%>
+                              <p class="thdText"><%= @fuser.user_profile.city if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.city.nil? && @fuser.user_profile.city.present?%>, <%= @fuser.user_profile.state  if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.state.nil? && @fuser.user_profile.state.present? %>,<%= @fuser.user_profile.country if !@fuser.nil? && !@fuser.user_profile.nil? && !@fuser.user_profile.country.nil? && @fuser.user_profile.country.present?%></p>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                      <td width="15" class="arrowRt">
+                       <%=image_tag("/assets/event/right_arrow.png", :width=>"12", :height=>"20", :class=>"de_right_arrow")%>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+
+              </div>
+
+
+              <%j=j+1%>
+            <%end%>
+            <!-- End -->
+          <%end%>
+
+        <%else%>
+          <div style="padding:10px;">No followers/Network followers found</div>
+        <% end%>
+      </div>
+    </div>
+  </div>
+
+
+
+  <%  if !@following_user_cat.nil? && @following_user_cat.present?  %>
+    <!--catetory row line dotted added -->
+    <div class="headerPart">
+      <div class="lt followCategory">Currently Following Category</div>
+      <div class="lt dottedDiv" style="width:389px;"></div>
+      <div class="clear"></div>
+    </div>
+    <!--catetory row line dotted added end-->
+    <!--category row started-->
+    <div class="scroll-pane-following" style="max-height: 114px;width:562px;">
+
+      <%  if !@following_user_cat.nil? && @following_user_cat.present?  %>
+
+        <%@following_user_cat.each do |fol|%>
+          <!-- Inner Div Start-->
+          <div class="lt subCat followingSubCat" id="subCat_<%=i%>">
+            <input id="sc<%= i%>" name="sc<%= i%>" type="checkbox" checked="checked" value="<%= fol.category_id%>"/>
+
+            <span class="scImg" onClick="provider_row_cat(<%=i%>,<%= fol.category_id%>)"><label class="altCheckboxOn" for="sc<%= i%>">&nbsp;</label></span>
+
+            <a href="javascript:void(0)" onmouseOver="detailedView('follow_user_<%=i%>')" onmouseOut="detailedClose('follow_user_<%= i%>')" class="smallImg">
+              <%category_values=ActivityCategory.find_by_category_name(fol.category_name) if !fol.nil?%>
+              <%if !category_values.nil? && !category_values.category_file_name.nil? && !category_values.category_file_name.blank? && category_values.category.present?%>
+                <%= image_tag(category_values.category.url(:small), :width => '21', :height => '21', :style =>"position:relative;") if !category_values.category.nil? && category_values.category.present?%>
+              <%else%>
+	      <%= image_tag("assets/categories/my_created.png", :width=>"21", :height=>"21", :style=>"position:relative;")%>
+              <%end%>
+            </a>
+
+            <span class="scText setWidthCF"><%= fol.category_name if !fol.nil? && !fol.category_name.nil? %></span>
+
+            <div class="clear"></div>
+            <!--  ID: follow_user_incrementValue(dynamically incremented) ! important -->
+
+          </div>
+          <%i=i+1%>
+          <!-- End -->
+        <%end%>
+
+      <%else%>
+        <div style="padding:10px;">You are not currently following any categories</div>
+      <% end%>
+
+    </div>
+    <!--category row ended-->
+  <%end%>
+</div><!--lt left panel end-->
+
+
+<script type="text/javascript">
+  var providerremove_val = $("#providerremove_val").val();
+  if (providerremove_val!=""){
+    providerremove_val_cal = providerremove_val.split(",")
+    jQuery.each(providerremove_val_cal, function(index, value) {
+      $("#subCat_"+value+" input").attr('checked', false);
+      $("#subCat_"+value+" label").addClass('altCheckboxOff');
+      $("#subCat_"+value+" label").removeClass('altCheckboxOn');
+    });
+  }
+
+
+  var parentremove_val = $("#parentremove_val").val();
+  if (parentremove_val!=""){
+    parentremove_val_cal = parentremove_val.split(",")
+    jQuery.each(parentremove_val_cal, function(index, value) {
+      $("#subCat_"+value+" input").attr('checked', false);
+      $("#subCat_"+value+" label").addClass('altCheckboxOff');
+      $("#subCat_"+value+" label").removeClass('altCheckboxOn');
+    });
+  }
+
+  var fam_net_val = $("#fam_net_val").val();
+  if (fam_net_val!=""){
+    fam_net_cal = fam_net_val.split(",")
+    jQuery.each(fam_net_cal, function(index, value) {
+      $("#subCat_"+value+" input").attr('checked', true);
+      $("#subCat_"+value+" label").addClass('altCheckboxOn');
+      $("#subCat_"+value+" label").removeClass('altCheckboxOff');
+    });
+  }
+
+  var fam_net_check ="<%= @net_following_check%>"
+  if (fam_net_check!=""){
+    fam_net_check = fam_net_check.replace("[","");
+    fam_net_check = fam_net_check.replace("]","");
+    fam_net_check_cal = fam_net_check.split(",");
+    jQuery.each(fam_net_check_cal, function(index, value) {
+      value = parseInt(value);
+      $("#subCat_"+value+" input").attr('checked', true);
+      $("#subCat_"+value+" label").addClass('altCheckboxOn');
+      $("#subCat_"+value+" label").removeClass('altCheckboxOff');
+    });
+  }
+  var rem_fam_net = $("#rem_fam_net_val").val();
+  if (rem_fam_net!=""){
+    rem_fam_net_cal = rem_fam_net.split(",")
+    jQuery.each(rem_fam_net_cal, function(index, value) {
+      $("#subCat_"+value+" input").attr('checked', false);
+      $("#subCat_"+value+" label").addClass('altCheckboxOff');
+      $("#subCat_"+value+" label").removeClass('altCheckboxOn');
+    });
+  }
+
+</script>

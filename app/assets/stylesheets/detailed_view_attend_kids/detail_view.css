@@ -1,0 +1,277 @@
+/** General Styles **/
+a:focus{outline:1px dotted #A5C9D5;}
+input{outline:none;}
+/** Structural Styles **/
+body{
+	font-family:Arial, Helvetica, sans-serif;
+}
+
+#event_container .Details_outer{
+	width:686px;
+	margin: 0 auto;
+	top:20px;
+	position:relative;
+}
+#event_container .DetailsTopHeader{
+	width:646px;
+	background:#efe7d4;
+	padding: 5px 20px 5px 20px;
+}
+#event_container .DetailsFormOuter{
+
+}
+#event_container .DetailsForm{
+	width:684px;
+	margin: 0 auto;
+	margin-top:3px;
+	background: #ecf7fb;
+	border: 1px solid #CDE0E6;
+	padding-bottom: 6px;
+}
+#event_container .DetailsForm input{
+	color:#959292;
+	font-size:13px;
+	
+}
+#event_container .childTop{
+	margin-top: 40px;
+}
+#event_container .DetailsTextbox{
+	width:540px;
+	height:33px;
+	*height:25px;
+	*width:540px;
+	*padding:8px 2px 2px 2px;
+	*margin-left:3px;
+	padding-left:3px;	
+	border: 1px solid #CDE0E6;
+}
+#event_container .Details_Font{
+	color:#5A5757;
+	font-size:14px;
+}
+#event_container .Details_Font13
+{
+	color:#959292;
+	font-size:13px;
+}
+#event_container .Details_Font13_clr{
+	color:#4D99B3;
+	font-size:14px;
+	
+}
+#event_container .DeatailsTextarea{
+	font-family:Arial, Helvetica, sans-serif;
+	width:546px;
+	height: 71px;
+	float:left;
+	top:28px;
+	position:relative;
+	*margin-left: -5px;
+	/*margin-lef:136px;
+	*margin-left:129px;
+	padding: 5px 0 0 5px;*/
+	border: 1px solid #CDE0E6;
+	font-size:13px;	
+	color:#959292;
+}
+#event_container .outerImageDiv{
+	width: 159px;
+	float:left;
+	margin-left:1px;
+	*left:-4px;
+	position:relative;
+}
+
+#event_container .selectBoxAge{
+	background:url('/assets/create_new_activity/select_bg.png') no-repeat;
+	width: 215px;
+	height: 31px;
+	top:0px;
+	position:relative;
+	*margin-left: -3px;
+	
+}
+#event_container .selectBoxGender{
+	background:url('/assets/create_new_activity/select_bg.png') no-repeat;
+	width: 215px;
+	height: 31px;
+	top:0px;
+	position:relative;
+	
+}
+#event_container .selectBoxSchedule{
+	background:url('/assets/create_new_activity/select_bg_1.png') no-repeat;
+	width:545px;
+	height:32px;
+	*margin-left: -3px;
+}
+/*Browse */
+#new_act_container .DetailsFormOuter .BrowserHidden {
+    position:relative;
+    z-index:2;  
+	
+	width:151px;
+	height:16px;	
+    
+    -moz-opacity:0;
+    filter:alpha(opacity= 0);
+    opacity: 0;
+   
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:.5em;
+	font-weight:normal;
+	color: #999999;
+	margin-top:72px;
+	cursor: pointer;	
+}
+#new_act_container .DetailsFormOuter .browse{
+	font-size:14px;
+	width:53px;	
+    color:#fd7d0c;
+    font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
+	cursor:pointer;
+	display: inline-block;
+	position:relative;
+	z-index:1;
+	margin-left:-50px;	
+	top:5px;
+	*top:4px;
+}
+#new_act_container .DetailsFormOuter  .selectBoxAge .selectDiv, 
+.selectBoxSchedule .selectDiv{
+	display:inline-block;
+	cursor:default;
+	font-size:13px;	
+	color:#959292;
+	width1:502px;  
+	position:relative;
+	top:3px;
+	left:4px;
+	width:215px;  
+	height:23px;
+	overflow:hidden;
+	padding-left: 5px;
+}
+#event_container .selectBoxGender .selectDiv{
+	display:inline-block;
+	cursor:default;
+	font-size:13px;	
+	color:#959292;
+	width1:502px;  
+	position:relative;
+	top:3px;
+	left:4px;
+	width:215px;  
+	height:23px;
+	overflow:hidden;
+	padding-left: 5px;
+}
+#new_act_container .DetailsFormOuter .dropDownDivCity{
+	display:inline-block;	 
+	font-size:13px;	
+	background:#ffffff;
+	color:#959292;
+	border:1px solid #CDE0E6;
+	width:213px;
+	margin-top:-1px;
+	margin-left:0px;
+	position:absolute;
+	z-index:500;
+	*margin-left:-3px;
+	/* options are overflow set height and scroll */
+	/*height:66px; 
+	overflow-y:scroll;*/	
+}
+#new_act_container .DetailsFormOuter .dropDownDivSchedule{
+	display:inline-block;	 
+	font-size:13px;	
+	background:#ffffff;
+	color:#959292;
+	border:1px solid #CDE0E6;
+	width:543px;
+	margin-top:-1px;
+	margin-left:0px;
+	position:absolute;
+	z-index:500;
+	*margin-left: -3px;
+	max-height:200px;
+	overflow:auto;
+}
+#new_act_container .DetailsFormOuter .dropDownDivCity a,
+#new_act_container .DetailsFormOuter .dropDownDivSchedule a{	
+	color:#959292;
+	display:block;
+	text-decoration:none;
+	padding:3px 0px 3px 7px;
+}
+#new_act_container .DetailsFormOuter .dropDownDivCity a:hover,
+#new_act_container .DetailsFormOuter .dropDownDivSchedule a:hover{
+	background:#73C3DD;
+	color:#ffffff;
+}
+ 
+#new_act_container .setFontColor{
+	color:#c5c3c3;
+}
+#new_act_container .buttonDiv{
+	width: 678px;
+	padding:18px 0px 105px 0px;
+}
+#new_act_container .DetailsForm table{
+	margin-top: 3px;
+}
+#new_act_container .bottomSendButton{
+	width:421px;
+	margin: 0 auto;
+    padding-top: 9px;
+}
+
+#new_act_container .DetailsForm .Padding_left{
+	padding-left: 31px;
+}
+#new_act_container  .PaddingLeft3{
+	padding-left: 3px;
+}
+#new_act_container .errorDiv {
+    color: #FC8989;
+    font-size: 12px;
+}
+#new_act_container .ChildleftSideField {
+    color: #5A5757;
+    font-size: 14px;
+    font-weight: bold;
+    position: relative;
+    top: 6px;
+    width: 129px;
+}
+#new_act_container .setwidthRow1{
+	width: 678px;
+    padding-top: 5px;
+
+}
+#new_act_container .setwidthTextBox{
+	float: left;
+	display:inline-block;
+	width: 540px;
+	*margin-left: -3px;
+}
+#new_act_container .setwidthRow2{
+	width: 681px;
+	padding-top:10px;
+	height: 35px;
+}
+#new_act_container .SetwidthGender{
+	width: 217px;  margin:-16px 0 0 114px;
+}
+#new_act_container .setwidthRow3{
+	float: left; display:inline-block; width: 540px;
+}
+#new_act_container .DetailsareaDiv{
+	float: right;
+	width: 540px;
+	top:-18px;
+	position:relative;
+}
+
+

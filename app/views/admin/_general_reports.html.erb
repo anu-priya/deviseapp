@@ -1,0 +1,38 @@
+<%=javascript_include_tag "global/checkbox"%>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+	<tr>
+		<td align="left" width="100" class="headText setPadLt">User logged in status &amp; Outgoing Invites</td>
+		<td align="left" width="50" class="headText">No. of Percentage</td>
+		<!--<td align="left" width="50" class="headText">Count</td>-->
+	</tr>
+	<!--tr class="setBg1">
+		<td align="left" width="100" class="contentText setPadLt activityName">User who have been logged in during the week</td>
+		<td align="left" width="50" class="contentText">0.0%</td>
+	</tr-->
+	<tr class="setBg2">
+		<td align="left" width="100" class="contentText setPadLt activityName">User who have been invited</td>
+		<!--td align="left" width="50" class="contentText"><%#= user_percent_calc%>%</td-->
+		<td align="left" width="50" class="contentText">
+			<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			     <%=user_percent_calc_withdate(@week_s,@week_e)%>%
+			<%else%>
+			    <%= user_percent_calc%>%
+			<%end%>
+		</td>
+	</tr>
+	<tr class="setBg1">
+		<td align="left" width="100" class="contentText setPadLt activityName">Parents who made invite for this admin report</td>
+		<!--td align="left" width="50" class="contentText"><%#= parent_percent_calc%>%</td-->
+		<td align="left" width="50" class="contentText">
+			<%if @start_date && !@start_date.nil? && @start_date!="" && @end_date && !@end_date.nil? && @end_date!=""%>
+			     <%@week_s = @start_date%>
+			     <%@week_e = @end_date%>
+			     <%=parent_percent_calc_withdate(@week_s,@week_e)%>%
+			<%else%>
+			    <%= parent_percent_calc%>%
+			<%end%>
+		</td>
+	</tr>
+</table>

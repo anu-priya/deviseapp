@@ -1,0 +1,21 @@
+<%= form_for(@sponsor_ship) do |f| %>
+  <% if @sponsor_ship.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@sponsor_ship.errors.count, "error") %> prohibited this sponsor_ship from being saved:</h2>
+
+      <ul>
+      <% @sponsor_ship.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_area :name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

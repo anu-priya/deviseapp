@@ -1,0 +1,43 @@
+<h1>Listing activity_repeats</h1>
+
+<table>
+  <tr>
+    <th>Repeat</th>
+    <th>Repeats</th>
+    <th>Repeat every</th>
+    <th>Repeat on</th>
+    <th>Starts on</th>
+    <th>Ends never</th>
+    <th>Ends occurrences</th>
+    <th>Ends on</th>
+    <th>Activity schedule</th>
+    <th>Modified date</th>
+    <th>Repeated by month</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @activity_repeats.each do |activity_repeat| %>
+  <tr>
+    <td><%= activity_repeat.repeat_id %></td>
+    <td><%= activity_repeat.repeats %></td>
+    <td><%= activity_repeat.repeat_every %></td>
+    <td><%= activity_repeat.repeat_on %></td>
+    <td><%= activity_repeat.starts_on %></td>
+    <td><%= activity_repeat.ends_never %></td>
+    <td><%= activity_repeat.ends_occurrences %></td>
+    <td><%= activity_repeat.ends_on %></td>
+    <td><%= activity_repeat.activity_schedule_id %></td>
+    <td><%= activity_repeat.modified_date %></td>
+    <td><%= activity_repeat.repeated_by_month %></td>
+    <td><%= link_to 'Show', activity_repeat %></td>
+    <td><%= link_to 'Edit', edit_activity_repeat_path(activity_repeat) %></td>
+    <td><%= link_to 'Destroy', activity_repeat, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Activity repeat', new_activity_repeat_path %>

@@ -1,0 +1,99 @@
+   <div class="providerCategory" style="width: 228px;float:left;position:relative;margin-bottom: 10px;" id="field">
+      <div style="overflow: hidden;" id="borderFrame">
+        <div id="setHeightMac" class="center_bg_scroll" style="background:#F6F5F4;">
+	<div style="max-height:530px;overflow:hidden;background:#ffffff;padding-bottom: 4px;">
+	  <%get_city = (user_profile.city.downcase.gsub(/\s/,'-') if user_profile.city && !user_profile.city.nil? && user_profile.city.present?%>
+
+	<%providerlink = (!user_profile.nil? && get_city && !get_city.nil? && !user_profile.nil? && !user_profile.slug.nil?) ? ((check_for_state(user_profile.city)) ? get_city+url_state_value : get_city)+"/"+user_profile.slug) : ('')%>
+
+         <%if !user_profile.nil? && !user_profile.card_file_name.nil? && !user_profile.card.nil?%>
+            <div align="center" style="width:209px; overflow:hidden; margin-left:9px;" id="getid1" ><a data-pjax href="<%=providerlink%>" onclick="return setbreadcrumb();" title=""><%= image_tag user_profile.card.url(:profile), :alt=>"#{user_profile.business_name if user_profile && user_profile.business_name}, #{user_profile.city if user_profile && user_profile.city}, CA" if !user_profile.card.url(:profile).nil?%></a></div>
+          <%elsif !user_profile.nil? && !user_profile.profile_file_name.nil? && !user_profile.profile.nil?%>
+            <div align="center" style="width:209px; overflow:hidden; margin-left:9px;" id="getid1" ><a data-pjax href="<%=providerlink%>" onclick="return setbreadcrumb();" title=""><%= image_tag user_profile.profile.url(:medium), :alt=>"#{user_profile.business_name if user_profile && user_profile.business_name}, #{user_profile.city if user_profile && user_profile.city}, CA" if !user_profile.profile.url(:medium).nil?%></a></div>
+          <%else%>
+            <div align="center" style="width:209px; overflow:hidden; margin-left:9px; background-color:#F6F7F9;">
+	    <a data-pjax href="<%=providerlink%>" onclick="return setbreadcrumb();" title=""><img src="/assets/no_image.png" alt="<%user_profile.business_name if user_profile && user_profile.business_name%>, <%user_profile.city if user_profile && user_profile.city%>, CA"></a></div>
+          <%end%>
+          <table cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <!--<tr>
+                <td width="10">&nbsp;</td>
+                <td width="205" align="left">
+                  <a class="Title" title="<%= user.user_name %>" onclick="pop_provider_Detail_dhtml('/provider_detail_iframe?det=<%=user.user_id%>');" href="javascript:void(0)"><%= user.user_name %></a>
+                </td>
+                <td width="10">&nbsp;</td>
+              </tr> -->
+              <tr><td height="12"></td></tr>
+              <tr>
+                <td width="10">&nbsp;</td>
+                <td>
+                  <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+      		      <tr>
+      		        <td colspan="2"  valign="middle" class="price_text" style="bottom: 5px;position: relative; cursor: pointer;">
+                    <h2><a data-pjax href="<%=providerlink%>" onclick="return setbreadcrumb();" class="Title truncateText" title=""><%= user_profile.business_name if !user_profile.nil?%></a></h2>
+                  </td>
+      		      </tr>
+                      <tr>
+                        <td width="23" valign="middle" class="price_text" >
+                          <div style="width:75px;height:40px; overflow:hidden;position: relative;top: 5px; <%if !user_profile.nil? && !user_profile.profile_file_name.nil? && !user_profile.profile.nil?%> border:1px solid #CDE0E6;<%end%>">                       
+			<table border="0" cellspacing="0" cellpadding="0" width="75" height="40" align="center">
+				<tr>
+				<td align="center" valign="middle">
+					<%if !user_profile.nil? && !user_profile.profile_file_name.nil? && !user_profile.profile.nil?%>
+					<%= image_tag(user_profile.profile.url(:small), :style => "height1:75px;", :alt=>"#{user_profile.business_name if user_profile && user_profile.business_name}, #{user_profile.city if user_profile && user_profile.city}, CA")%>
+					  <%else%>
+					<img src="/assets/profile/default_logo.png" alt="<%user_profile.business_name if user_profile && user_profile.business_name%>, <%user_profile.city if user_profile && user_profile.city%>, CA" width="70" height="30" style="position: relative;top: 5px;border: 1px solid #CDE0E6;"/>
+					 <%end%>
+				</td>
+				</tr>
+			 </table>
+			  </div>                          
+                        </td>
+		<td  valign="middle" class="price_text " ><span  class="Title truncateText" style="font-size: 13px;font-weight: bold;position: relative;top: 5px;padding-left: 5px;width:123px;"><%= user_profile.city if !user_profile.nil?%></span></td>	
+                      </tr>
+		      
+                    </tbody>
+                  </table> 
+                </td>
+                <td width="10">&nbsp;</td>
+              </tr>
+              <tr><td height="8"></td></tr>
+              <tr>
+                <td width="10">&nbsp;</td>
+                <td align="left">
+                  <table cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                      <tr>
+                        <td valign="bottom" class="price_text">
+                          <div style="overflow:hidden;max-height:310px;line-height: 17px;position: relative;top: 10px;word-wrap:break-word;width:205px;"><%= user_profile.description if !user_profile.nil?%></div></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td width="10">&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="10">&nbsp;</td>
+                <td align="right">
+                  <table cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+			 <tr><td height="40" valign="bottom" align="right"><div><a href="/search?type=provider&user_id=<%=user.user_id if user && user.user_id%>&pro_name=<%=user_profile.business_name.parameterize if user_profile && user_profile.business_name%>" style="color:#3D8EA3;padding-right:8px;display:block;float:right;font-weight:bold;" onclick="_gaq.push(['_trackEvent', 'Parent Module',  'clickViewMore','View More Cards','<%=user.user_id if user && user.user_id%>']);">View More Cards</a></div></td></tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td width="10">&nbsp;</td>
+              </tr>
+              <tr><td height="8"></td></tr>
+
+            </tbody>
+          </table>
+        </div>
+	</div>
+      </div>
+    </div>
+<script>
+	function setbreadcrumb(){
+	"<%cookies[:past_action] = request.env['HTTP_REFERER'] %>"
+	}
+</script>

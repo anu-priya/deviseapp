@@ -1,0 +1,248 @@
+<%= stylesheet_link_tag "login/login_new" %>
+<%= stylesheet_link_tag "global/pop_up" %>
+<%= javascript_include_tag "login/login" %>
+<%= javascript_include_tag "login/validate" %>
+<%
+meta :title => "Famtivity - Kids Activities, Events, Camps, Classes",
+  :description => "Kids activities, events, day and summer camps, lessons, classes for children of all ages with local provider discounts and specials",
+  :keywords => "Kids Activities, Kids Events, Kids Camps"
+%>
+<!-- Banner Section and quick links start -->
+<%if current_user.nil? || !current_user.present?%>
+<!-- banner image gallery -->
+	<%=render :partial => "/banner/banner"%>
+<%end%>
+<%=render :partial => "common/qlinks_menu"%>
+<!-- Banner Section and quick links end-->
+ <div class="wrapper_static" >
+	<div class="feature_head">
+		<div class="feature_left lt">
+			<div class="page_head">		
+				<div class="head_line"></div>
+				<h1 class="search_head">Featured Providers & Activities&nbsp;</h1>
+			</div>
+		</div>
+	
+		<div class="feature_right">
+			<% if !current_user.nil? && current_user.present?%>
+			    <a href="javascript:void(0)" onclick="fam_pop_network('/fam_network'); _gaq.push(['_trackEvent','Parent Module', 'clickFriending','Create Fam Network']);">
+			<% else %>
+				<a href="javascript:void(0)" onclick="login_before('famnetwork');">
+			 <%end%>
+				<div class="lt famImg_icon">					
+				</div>				
+				<div class="lt famNetwork" >
+					<div class="famnet_txt">Create FamNetwork</div>					
+				</div>
+				<div class="famgroup" align="center">
+				 Group messages, signups, rideshares..!
+				</div>
+			</a>			
+		</div>
+		<div class="clear"></div>
+	</div>
+	<!--Fam Network and Featured Activity start-->
+	<div class="featuredContainer">
+		<div style="<% if !current_user.nil? && current_user.present?%>width:960px;float:left;<%else%>width:100%;float:left;<%end%>">
+				<div id="featured_activities" style="display:inline-block;"><%=render :partial => "activity_card/activity_short_desc"%></div>
+				<div id="featured_load" align="center" style="margin:10px auto;display: none;"><%=image_tag("/assets/loading.gif", :alt=>"loading...")%></div>
+				<!--div style="text-align:center;display:none;" id="showmorebtn"><a onclick="featured_activity_load();" href="javascript:void(0);"><span class="showtxt">Show More</span></a></div-->
+				<%if @total_pages > 1%><div align="center" id="showmorebtn"><a onclick="featured_activity_load();" href="javascript:void(0);"><span class="button_grey">Show More</span></a></div><%end%>
+		</div>
+		<% if !current_user.nil? && current_user.present?%>
+		<div class="fam_post_sec">
+			<div class="fampost_head">
+				<div class="fampost_hinner">
+					FamNetwork Posts
+				</div>
+			</div>
+			<div class="post_container">
+				<div class="postInnercontainer" style="border-bottom: 0;" id="fam-content">
+				</div>
+			</div>
+			<div class="clear"></div>
+			<div align="center" style="margin-top:5px;">
+				<a href="/messages?mode=parent">
+					<div class="button_grey rt">View More</div>
+				</a>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<%end%>
+		<div class="clear"></div>
+	</div>
+	<div class="clear"></div>
+	<!-- bpopup div start -->
+	<div id="popup_friend" style="top: 20px !important;"></div>
+	<!-- bpopup div end -->
+		<!-- login feature popup start -->
+		<div id="login_use_feature">
+			<div class="content_popup" style="display:block;"><br>You need to login to use this feature<br><br>
+			<span class="b-close" id="loginFeature"><a href="javascript:void(0)" title="" ><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38", :style=>"border:0px;")%></a></span>
+			<a href="javascript:void(0);" title=""><span class="b-close"><%=image_tag("/assets/landing/cancel_button.png", :border=>"0", :onclick=>"cancel_bpopup();")%></span></a>
+			</div>
+		</div>
+	<!-- login feature popup end -->
+
+	<!--blog content start-->	
+	<div  id="blogarticle">
+		<div align="center" class="blog_load">
+		  <%=image_tag("/assets/loading.gif", :alt=>"loading...", :width=>"25", :height=>"25")%>
+		</div>
+	</div>	
+	<!--blog content end-->
+	
+	<!-- Login popup start bpopup-->
+	  <div id="login_popup">
+	  <div class="contnt">
+	  
+	  </div>
+	  </div>
+	<!-- Login popup end bpopup-->
+	<div class="clear"></div>
+</div>
+<%=render :partial => "common/footer"%>
+<!-- GUEST POPUP-->
+<%=render :partial => 'landing/guest_feature' if current_user.nil? && !current_user.present?%>
+<!-- GUEST POPUP-->
+	
+<script type="text/javascript">
+  $(document).ready(function(){  
+  /*window.history.replaceState("", "", "/");*/
+<% if !current_user.nil? && !@fnetwork.nil? && @fnetwork=="fam_post" %> 
+  fam_pop_network('/fam_network');
+<% elsif !current_user.nil? && !cookies[:f_invited_user].nil? && cookies[:f_invited_user]=="friend" %>
+  pop_invite_friend_check('/invite_friend_famtivity?check_invite=invite&mode=parent&fam_last=/contact_users');
+<% elsif !current_user.nil? && !params[:invite_friend].nil? && params[:invite_friend]=="friend" %>
+  pop_invite_friend_check('/invite_friend_famtivity?check_invite=contact_import&fam_last=provider?<%=current_user.user_profile.business_name.parameterize if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.city.nil? %>');
+<%elsif (!current_user.nil? && current_user.sign_in_count==1 && cookies[:first_import].nil?)%>
+	<%if current_user.user_type.downcase=='p'%>
+	      pop_invite_friend_check('/invite_friend_famtivity?check_invite=contact_import&fam_last=provider?<%=current_user.user_profile.business_name.parameterize if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.city.nil? %>');
+	<%else%>
+		pop_invite_friend_check('/invite_friend_famtivity?check_invite=contact_import')
+	<%end%>
+  <%if ((!params[:dect].nil? && params[:dect] !="")||(!cookies[:fam_invited_user].nil? && cookies[:fam_invited_user] !=""))%>
+        setTimeout(function(){
+    <%if !params[:dect].nil? && params[:dect] !=""%>
+            $(".flash-message").html("Success!  You're now part of the Family Activity Network!");
+    <%elsif !cookies[:fam_invited_user].nil? && cookies[:fam_invited_user] !=""%>
+            $(".flash-message").html("You are now friends with <%=cookies[:fam_invited_user]%>");
+    <%end%>
+          var win=$(window).width();
+          var con=$(".flash_content").width();
+          var leftvalue=((win/2)-(con/2))
+          $(".flash_content").css("left",leftvalue+"px");
+          $(".flash_content").css("top","2.5%");
+          $('.flash_content').fadeIn().delay(20000).fadeOut();
+        },5000);
+  <%end%>
+  <%cookies[:first_import]='1'%>
+<%end%>
+    //displayed the popup for deactivate users dont remove this code
+<%if (!current_user.nil? && !current_user.user_status.nil? && current_user.user_status=="deactivate" && cookies[:activate_popup].nil?)%>
+      activate_account(); //displayed the activate popup for deactivated user by rajkumar
+  <%cookies[:activate_popup]='1'%>
+<%end%>
+  /* Featured Activity  start*/
+   //~ if ($(".card_width").length < 1){
+    //~ $('#showmorebtn').hide();
+    //~ $.ajax({
+      //~ url:'/landing/featured_activity_detail',
+      //~ success:function(data){
+        //~ if(data){
+	  //~ $('#showmorebtn').show();
+          //~ $("#featured_activities").append(data);
+        //~ }
+      //~ }
+    //~ });
+      /* Featured Activity  start*/
+      //~ blog_contents();  /* Featured Articles blog  start*/
+      //~ fam_network_content();
+      //~ }
+      
+       blog_contents();  /* Featured Articles blog  start*/
+  <%if !current_user.nil? || current_user.present?%>
+      fam_network_content(); 
+  <%end%>
+      
+  });
+
+
+    /* Featured Articles blog  start*/
+  function blog_contents(){
+  $.ajax({
+      url: "/home_articles",
+      dataType: 'script',
+      success: function(data){
+      }
+	});
+  }
+  function fam_network_content(){
+  $.ajax({
+	  url: "/home_fam_network",
+	  dataType: 'script',
+	  success: function(data){
+	  }
+	});
+  }
+   /* Featured Articles blog  end*/
+  function featured_activity_load(){
+    $("#featured_load").show();
+    $.ajax({
+      /*url:'/landing/featured_activity_detail?page=1',*/
+      url:'/featured_activity_detail?page=1',
+      success:function(data){
+        if(data){
+          $("#featured_load").hide();
+          $("#featured_activities").append(data);
+        }
+      }
+    });
+}
+
+
+//login feature bpopup displayed
+function login_before(page_check)
+{
+    $('#login_use_feature').bPopup({
+        fadeSpeed:100,
+        followSpeed:100,
+        opacity:0.8,
+        positionStyle: 'absolute',
+        modalClose: false
+    },function(){
+        $( "#loginFeature" ).click(function(){
+            parent.pop_Login('/login');
+            if (page_check == "friend"){
+              <%cookies.delete :fam_post_invite%>
+              document.cookie="f_invited_user=friend";
+            }
+            else {
+             <%cookies.delete :f_invited_user%>
+             document.cookie="fam_post_invite=fampost";
+           }
+        });
+    });
+}
+
+  $(document).ready(function() {
+<%if params[:guest_login] && params[:guest_login]=='true' && params[:guest_id] && params[:guest_id].present?%>
+  <%if current_user.nil?%>
+        parent.guest_login();
+  <%else%>
+        var stateObj = {
+          foo: "bar"
+        }
+        if(navigator.appName=="Microsoft Internet Explorer")
+        {
+          window.location.hash='';
+        }
+        else
+        {
+          history.replaceState(stateObj, "", "/");
+        }
+  <%end%>
+<%end%>
+  });
+
+</script>

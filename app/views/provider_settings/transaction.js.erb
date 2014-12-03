@@ -1,0 +1,7 @@
+<%if @activity_stats%><!---provider activity stats reports applied-->
+$("#provider_activity_stats").hide();
+$('#provider_partial_event_list').html("<%=escape_javascript(render 'provider_settings/email_metric_reports')%>");
+<%else%>
+$("#provider_activity_stats").show();
+$('#provider_partial_event_list').html("<%=escape_javascript(render 'provider_settings/transaction_list')%>");
+<%end%>

@@ -1,0 +1,378 @@
+/** General Styles **/
+a:focus{outline:1px dotted #A5C9D5;}
+input{outline:none;}
+/** Structural Styles **/
+body{
+	font-family:Arial, Helvetica, sans-serif;
+}
+.outerSearchBox{
+	width:808px;
+	margin: 0 auto;
+	padding-top: 15px;
+}
+.catgry{
+	width: 180px;
+	height: 38px;
+}
+.catgry_select{
+		width: 202px; 
+		height: 33px;
+
+}
+.activity{
+	width:180px;
+	height: 33px;
+}
+.activity_select{
+	width: 94px;
+	height: 33px;
+}
+.catgrySelect{
+	width: 70px;
+}
+.catgrySearch{
+	width: 100px;
+}
+.clr_value{
+	font-size:14px;
+	color:#555354;
+	font-weight: bold;
+}
+.selectedCityCtgry a,.selectedCityActivity a, .selectedsubCtgry a, .selectedAge a, .selectedLeader a, .selectedPrice a{
+	color:#4D99B3;
+	font-size: 14px;
+	font-weight:bold;
+}
+.selectedCityCtgry img{
+	cursor: pointer;
+}
+#event_container #selectdCatgryBg{	
+	display:inline-block;	
+	position:relative;
+	z-index:1;	
+	top:3px;
+	*top:1px;
+	left: -10px;
+}
+#event_container #selectdCatgryBg .leftSelectedCatgryBg,
+#event_container #selectdActivityBg .leftSelectedActivityBg,
+#event_container #selectdSubCatgryBg .leftSelectedCatgryBg,
+#event_container #selectdAgeBg .leftSelectedActivityBg,
+#event_container #selectdLeaderBg .leftSelectedCatgryBg,
+#event_container #selectdPriceBg .leftSelectedActivityBg
+{
+	display:inline-block;
+	float:left;
+	background:url('/assets/event/selected_city_bg_left.png') no-repeat;
+	width:6px;
+	height:28px;		
+}
+#event_container #selectdCatgryBg .centerSelectedCatgryBg,
+#event_container #selectdActivityBg .centerSelectedActivityBg,
+#event_container #selectdSubCatgryBg .centerSelectedCatgryBg,
+#event_container #selectdAgeBg .centerSelectedActivityBg,
+#event_container #selectdLeaderBg .centerSelectedCatgryBg,
+#event_container #selectdPriceBg .centerSelectedActivityBg
+{
+	display:inline-block;
+	float:left;
+	background:url('/assets/event/selected_city_bg_center.png') repeat-x;	
+	height:24px;
+	padding: 4px 7px 0 4px;	
+}
+#event_container #selectdCatgryBg .centerSelectedCatgryBg .selected_city_name,
+#event_container #selectdActivityBg .centerSelectedActivityBg .selected_city_name,
+#event_container #selectdSubCatgryBg .centerSelectedCatgryBg .selected_city_name,
+#event_container #selectdAgeBg .centerSelectedActivityBg .selected_city_name,
+#event_container #selectdLeaderBg .centerSelectedActivityBg .selected_city_name,
+#event_container #selectdPriceBg .centerSelectedActivityBg .selected_city_name,
+#event_container #selectdActivityBg .centerSelectedActivityBg,
+#event_container #selectdAgeBg .centerSelectedActivityBg
+{
+	display:inline-block;
+	float:left;	
+	font-size:14px;
+	font-weight:bold;
+	color:#4D99B3;	
+}
+#event_container #selectdCatgryBg .rightSelectedCatgryBg,
+#event_container #selectdActivityBg .rightSelectedActivityBg,
+#event_container #selectdSubCatgryBg .centerSelectedActivityBg,
+#event_container #selectdPriceBg .rightSelectedActivityBg,
+#event_container #selectdLeaderBg .rightSelectedActivityB
+#event_container #selectdAgeBg .rightSelectedActivityBgg
+{
+	display:inline-block;
+	float:left;	
+	background:url('/assets/event/selected_city_bg_right.png') no-repeat;
+	width:6px;
+	height:28px;	
+}
+.dispNone{
+	display:none;
+}
+div.dispBlock{
+	display:inline-block;
+}
+#event_container #dispAllCategoryDiv{	
+	position:absolute;
+	z-index:201;	
+	top:74px;
+	*top:85px;
+	margin-left: -114px;
+	/*left:722px;	*/
+}
+#event_container .topie{
+    *top:0px;
+	*position:relative;
+	 position: relative;
+}
+#event_container #dispAllCategoryDiv .category_droplist_bg{	
+	/*background:url('/assets/event/city_droplist_bg.png') no-repeat;*/
+	background:url('/assets/search_advanced/city_droplist_bg_center.png') repeat-y;
+	width:191px;
+	margin-top: -4px;
+}
+#event_container #dispAllLeaderDiv .Leader_droplist_bg{
+	background:url('/assets/search_advanced/city_droplist_bg_center.png') repeat-y;
+	width:191px;
+	margin-top: -4px;
+}
+#event_container #dispAllPriceDiv .Price_droplist_bg{
+	background:url('/assets/search_advanced/city_droplist_bg_center.png') repeat-y;
+	width:191px;
+	margin-top: -4px;
+}
+#event_container #dispAllPriceDiv .city_droplist{
+	height:128px;
+	width:191px;
+	/*overflow-y:scroll;*/	
+	padding-top:12px;	
+	position: relative;
+    top: 1px;
+    bottom:1px;
+	right:3px;  
+	overflow-y:scroll;
+}
+#event_container #dispAllLeaderDiv .city_droplist{
+	height:128px;
+	width:191px;
+	/*overflow-y:scroll;*/	
+	padding-top:12px;	
+	position: relative;
+    top: 1px;
+    bottom:1px;
+	right:3px;  
+	overflow-y:scroll;
+}
+#event_container #dispAllCategoryDiv .city_droplist{
+	height:128px;
+	width:191px;
+	/*overflow-y:scroll;*/	
+	padding-top:12px;	
+	position: relative;
+    top: 1px;
+    bottom:1px;
+	right:3px;  
+	overflow-y:scroll;
+}
+#event_container #dispAllageDiv .city_droplist,
+#event_container #dispAllLeaderDiv .category_droplist_bg,
+#event_container #dispAllPriceDiv .Activity_droplist_bg {
+	height:128px;
+	width:191px;
+	/*overflow-y:scroll;*/	
+	padding-top:12px;	
+	position: relative;
+    top: 1px;
+    bottom:1px;
+	right:3px;  
+	overflow-y:scroll;
+}
+#event_container #dispAllCategoryDiv a,
+#event_container #dispAllActivityDiv a,
+#event_container #dispAllSubCategoryDiv a,
+#event_container #dispAllageDiv a,
+#event_container #dispAllLeaderDiv a,
+#event_container #dispAllPriceDiv a
+{
+	font-size:12px;
+	color:#333534;
+	width:157px;
+	display:block;
+	margin:0px 0px 10px 14px;
+}
+#event_container #dispAllCategoryDiv a:hover,
+#event_container #dispAllActivityDiv a:hover,
+#event_container #dispAllSubCategoryDiv a:hover,
+#event_container #dispAllageDiv a:hover,
+#event_container #dispAllLeaderDiv a:hover,
+#event_container #dispAllPriceDiv a:hover
+{
+	font-size:12px;
+	color:#fd7d0c;
+	width:157px;
+	display:block;
+	margin:0px 0px 10px 14px;
+}
+
+/* Activity select box */
+#event_container .selectedCityActivity a, .selectedsubCtgry a, .selectedAge a,.selectedLeader a, .selectedPrice a{
+	color:#4D99B3;
+	font-size: 14px;
+}
+#event_container .selectedCityActivity img, #event_container .selectedsubCtgry img, .selectedAge img, .selectedLeader img, .selectedPrice img{
+	cursor: pointer;
+}
+
+#event_container #dispAllActivityDiv{	
+	position:absolute;
+	z-index:201;	
+	top:76px;
+	*top:87px;
+	margin-left: -114px;
+	/* left:1030px;*/	
+}
+#event_container #dispAllSubCategoryDiv{	
+	position:absolute;
+	z-index:201;	
+	top:112px;
+	*top:123px;
+	margin-left: -119px;
+	/* left:1030px;*/	
+}
+#event_container #dispAllageDiv{	
+	position:absolute;
+	z-index:201;	
+	top:114px;
+	*top:125px;
+	margin-left: -119px;
+	/* left:1030px;*/	
+}
+#event_container #dispAllLeaderDiv{	
+	position:absolute;
+	z-index:201;	
+	top:150px;
+	*top:161px;
+	margin-left: -119px;
+	/* left:1030px;*/	
+}
+#event_container #dispAllPriceDiv{	
+	position:absolute;
+	z-index:201;	
+	top:150px;
+	*top:161px;
+	margin-left: -113px;
+	/* left:1030px;*/	
+}
+#event_container #dispAllActivityDiv .Activity_droplist_bg,
+#event_container #dispAllSubCategoryDiv  .Activity_droplist_bg,
+#event_container #dispAllageDiv  .Activity_droplist_bg,
+#event_container #dispAllLeaderDiv  .category_droplist_bg,
+#event_container #dispAllPriceDiv  .Activity_droplist_bg
+{	
+	background:url('/assets/search_advanced/city_droplist_bg_center.png') repeat-y;
+	width:191px;
+	margin-top: -4px;
+	
+}
+#event_container #dispAllActivityDiv .city_droplist{
+	height:128px;
+	width:191px;
+	/*overflow-y:scroll;*/	
+	padding-top:12px;	
+	position: relative;
+    top: 1px;
+    bottom:1px;
+	right:3px;  
+	overflow-y:scroll;
+}
+#event_container #dispAllSubCategoryDiv .city_droplist{
+	height:128px;
+	width:191px;
+	/*overflow-y:scroll;*/	
+	padding-top:12px;	
+	position: relative;
+    top: 1px;
+    bottom:1px;
+	right:3px;  
+	overflow-y:scroll;
+}
+#event_container #dispAllageDiv .city_droplist{
+	height:128px;
+	width:191px;
+	/*overflow-y:scroll;*/	
+	padding-top:12px;	
+	position: relative;
+    top: 1px;
+    bottom:1px;
+	right:3px;  
+	overflow-y:scroll;
+}
+#event_container #selectdActivityBg{	
+	display:inline-block;	
+	position:relative;
+	z-index:1;	
+	top:5px;
+	*top:3px;
+	left: -10px;
+	width: 92px;
+}
+#event_container #selectdSubCatgryBg{	
+	display:inline-block;	
+	position:relative;
+	z-index:1;	
+	top:3px;
+	*top:1px;
+	left: -10px;
+	
+}
+#event_container #selectdAgeBg{	
+	display:inline-block;	
+	position:relative;
+	z-index:1;	
+	top:5px;
+	*top:3px;
+	left: -10px;
+	width: 92px;
+}
+#event_container #selectdLeaderBg{	
+	display:inline-block;	
+	position:relative;
+	z-index:1;	
+	top:3px;
+	*top:1px;
+	left: -10px;
+	width: 92px;
+}
+#event_container #selectdPriceBg{	
+	display:inline-block;	
+	position:relative;
+	z-index:1;	
+	top:3px;
+	*top:1px;
+	left: -10px;
+	width: 92px;
+}
+.basicSearchText{
+	color: #4D99B3;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    top:-10px;
+    position:relative;
+}
+#event_container #selectdAgeBg a{
+	color:#4D99B3;
+	font-size: 14px;
+	font-weight:bold;
+}
+.search_rt{
+ position: absolute; 
+ float: right;
+ display: inline;
+ width: 200px;
+ margin: -35px 0px 0 684px;
+}
+
+

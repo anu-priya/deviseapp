@@ -1,0 +1,115 @@
+<div class="lt leftPanel" style="width:580px;">
+  <div class="setBorder">
+    <div id="advanceSearchDiv">
+      <div class="ad_textbox" style="width:265px;" id="ProviderSearch">
+        <div class="lt_search"><input type="text" onkeypress="handleEnter(this, event)" style="width:235px;outline:none" id="provider_search" name="provider_search" value="Search Following" class="textbox" onfocus="if(this.value == 'Search Following'){this.value=''; this.style.color='#444444';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.value='Search Following'}" /></div>
+        <div class="lt_search"><a href="javascript:void(0)" onclick="search_provider('p')" class="set_search_icon" title=""><%=image_tag("/assets/event_index/search_icon.png", :width=>"18", :height=>"19")%></a></div>
+        <div class="clear"></div>
+      </div>
+    </div>
+  </div>
+
+  <%i = 5%>
+
+  <div class="scroll-pane-provider">
+     <%= render :partial=>"/activity_subcategories/provider" %>
+  </div>
+  <div id='loading' style="text-align: center; display:none">
+     <span class="load-new"><%=image_tag("/assets/loading_small.gif", :width=>"16", :height=>"16")%></span>
+  </div>
+  <script type="text/javascript" >
+    var provideradd_val = $("#provideradd_val").val();
+    if (provideradd_val!=""){
+      provideradd_val_cal = provideradd_val.split(",")
+      jQuery.each(provideradd_val_cal, function(index, value) {
+        $("#subCat_"+value+" input").attr('checked', true);
+        $("#subCat_"+value+" label").addClass('altCheckboxOn');
+        $("#subCat_"+value+" label").removeClass('altCheckboxOff');
+      });
+    }
+    var activity_check ="<%= @user_row%>"
+
+    if (activity_check!=""){
+      activity_check = activity_check.replace("[","");
+      activity_check = activity_check.replace("]","");
+      activity_check_cal = activity_check.split(",")
+
+      jQuery.each(activity_check_cal, function(index, value) {
+        value = parseInt(value);
+        $("#subCat_"+value+" input").attr('checked', true);
+        $("#subCat_"+value+" label").addClass('altCheckboxOn');
+        $("#subCat_"+value+" label").removeClass('altCheckboxOff');
+      });
+    }
+    var providerremove_val = $("#providerremove_val").val();
+    if (providerremove_val!=""){
+      providerremove_val_cal = providerremove_val.split(",")
+      jQuery.each(providerremove_val_cal, function(index, value) {
+        $("#subCat_"+value+" input").attr('checked', false);
+        $("#subCat_"+value+" label").addClass('altCheckboxOff');
+        $("#subCat_"+value+" label").removeClass('altCheckboxOn');
+      });
+    }
+
+
+
+     function prepdraggables(){
+      var provideradd_val = $("#provideradd_val").val();
+    if (provideradd_val!=""){
+      provideradd_val_cal = provideradd_val.split(",")
+      jQuery.each(provideradd_val_cal, function(index, value) {
+        $("#subCat_"+value+" input").attr('checked', true);
+        $("#subCat_"+value+" label").addClass('altCheckboxOn');
+        $("#subCat_"+value+" label").removeClass('altCheckboxOff');
+      });
+    }
+    var activity_check ="<%= @user_row%>"
+
+    if (activity_check!=""){
+      activity_check = activity_check.replace("[","");
+      activity_check = activity_check.replace("]","");
+      activity_check_cal = activity_check.split(",")
+
+      jQuery.each(activity_check_cal, function(index, value) {
+        value = parseInt(value);
+        $("#subCat_"+value+" input").attr('checked', true);
+        $("#subCat_"+value+" label").addClass('altCheckboxOn');
+        $("#subCat_"+value+" label").removeClass('altCheckboxOff');
+      });
+    }
+    var providerremove_val = $("#providerremove_val").val();
+    if (providerremove_val!=""){
+      providerremove_val_cal = providerremove_val.split(",")
+      jQuery.each(providerremove_val_cal, function(index, value) {
+        $("#subCat_"+value+" input").attr('checked', false);
+        $("#subCat_"+value+" label").addClass('altCheckboxOff');
+        $("#subCat_"+value+" label").removeClass('altCheckboxOn');
+      });
+     }
+
+
+     }
+      var count = 2; 
+        $('.scroll-pane-provider').scroll(function(){ 
+          if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight){
+                 count=count+1; 
+                 loadcontact(count); 
+             }
+        });  
+        function loadcontact(pageNumber){
+                 $("#loading").show();
+                 $.ajax({  
+                      url: "/activity_subcategories/get_follow_user",  
+                      type:'GET',  
+                      data: "page="+ pageNumber + '&id=Provider',
+                      dataType: "script",   
+                      success: function(html){  
+                      initARC('event_more','altCheckboxOn','altCheckboxOff');  
+                      }  
+                  });  
+              return false;  
+          } 
+
+
+  </script>
+</div>

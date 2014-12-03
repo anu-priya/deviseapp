@@ -1,0 +1,101 @@
+<style type="text/css">
+#add_participant # a {
+	color:#5099AC !important;
+}
+#add_participant #menu ul.sub-menu li a{
+	color:#959292 !important;
+}menu
+#add_participant .centerArea{
+	border-bottom:1px solid #E8ECED !important;
+}
+#add_participant .tdata{
+	border-bottom:none !important;
+	background:none !important;
+}
+#add_participant .textbox{
+	width:180px !important;
+}
+</style>
+<%=javascript_include_tag "event/network_add_participant"%>
+<%=stylesheet_link_tag "event/add_participant", :media => "all"%>
+<script type="text/javascript">
+/*  function readURL(input,fileid) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('#filediv_'+fileid).hide();
+        $('#imagediv_'+fileid).show();
+        $('#blah_'+fileid)
+        .attr('src', e.target.result)
+        .width(65)
+        .height(65);
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  } 
+ */
+</script>
+<form id="invite_parent" name="invite_parent" target="_parent" action="invite_attend" method="post" >
+    <input type="hidden" value="<%if !@activity.nil? && !@activity.activity_id.nil?%><%=@activity.activity_id%><%end%>" name="act_id" id="act_id">
+
+    <%if !@activity_sch_id.nil? && @activity_sch_id.present?%>
+    <%@activity_schedules = ActivitySchedule.where("schedule_id=?",@activity_sch_id).first%>
+    <%elsif !@activity.nil? && !@activity.activity_id.nil?%>
+    <%@activity_schedules = ActivitySchedule.where("activity_id=?",@activity.activity_id).first%>
+    <%@activity_schedules.schedule_id%>
+    <%end%>
+    <% schedule_price = (@activity_schedules.schedule_mode.downcase=='any time' || @activity_schedules.schedule_mode.downcase=='by appointment') ? SchedulePriceAnyTime(@activity) : SchedulePrice(@activity_schedules)%>
+                <%@sh_price=(schedule_price && schedule_price[1] && !schedule_price[1].nil? && !schedule_price[1].price.nil?) ? '$'+schedule_price[1].price : ''%>
+        <input type="hidden" name="sh_price" id="sh_price" value="<%=@sh_price%>"/>
+        <input type="hidden" value="<%if !@activity_sch_id.nil? && @activity_sch_id.present?%><%=@activity_sch_id%><%elsif !@activity.nil? && !@activity_schedules.nil?%><%=@activity_schedules.schedule_id%><%end%>" name="shedule_id" id="shedule_id">
+  <div class="inviteAttendeesJoin" style="display:none;">						
+							<div align="center"><p class="actGrayBg fts12" align="center">Invite  Non-Famtivity attendees to join this activity group</p></div>
+								<div class="row1">
+									<div class="lt leftText fts14" style="margin-left:75px;"><b> Email</b></div>									
+									<input type="text" name="attendees_parent_email" id="attendees_parent_email" class="lt textBox" tabindex="3" style="outline:none;color:#999999;" value="jhonjoe@gmail.com,smith@yahoo.com" onFocus="if(this.value == 'jhonjoe@gmail.com,smith@yahoo.com') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onBlur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='jhonjoe@gmail.com,smith@yahoo.com'}" />
+									<div class="clear"></div>
+								</div>
+								<div class="row1 errorDiv" style="display:none;padding:2px 0">
+									<div class="lt leftText" style="margin-left:75px;">&nbsp;</div>	
+									<div class="lt" id="attendees_parent_email_error"></div>
+									<div class="clear"></div>
+								</div>
+								<div class="row1">
+									<div class="lt leftText fts14" style="margin-left:75px;"><b>Message</b></div>
+									<textarea name="invite_parent_message" tabindex="4"  class="lt textBox descTextbox"style="height: 100px;padding-top: 5px;outline:none;color:#999999;"id="invite_parent_message" onFocus="if(this.value == 'Enter Message') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onBlur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter Message'}">Enter Message</textarea>
+								</div>
+
+								<div class="row1 errorDiv" style="display:none;padding:2px 0">
+									<div class="lt leftText" style="margin-left:75px;">&nbsp;</div>	
+									<div class="lt" id="invite_parent_message_error"></div>
+									<div class="clear"></div>
+								</div>
+								<div class="clear"></div>
+								<!--
+								
+								<div class="row1">
+									<div class="lt leftText fts14"><b>No of Participants</b></div>
+									<input type="text" name="attendees_noof_participants" id="attendees_noof_participants" value="" class="lt textBox" onfocus="this.style.color='#444444'" />
+									<div class="clear"></div>
+								</div>
+								<div class="row1 errorDiv" style="display:none;padding:2px 0">
+									<div class="lt leftText">&nbsp;</div>	
+									<div class="lt" id="attendees_message_error"></div>
+									<div class="clear"></div>
+								</div>-->
+
+
+              <div class="clear"></div>
+
+	<div class="row1">
+	<div class="lt leftText fts14" style="margin-left:205px;width: 210px; padding-bottom: 10px;">	
+	<a href="javascript:void(0)" title="" onclick="validate_invite_attendees(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Send']);"><%=image_tag("/assets/event/send_button.png", :width=>"91", :height=>"34")%></a>
+	<a href="javascript:void(0)" title="" onclick="invite_attendees_close(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Close']); "><%=image_tag("/assets/event/invite_close.png", :width=>"91", :height=>"34")%></a>
+
+	<div class="clear"></div>	
+  </div>
+	</div>
+	<div class="clear"></div>
+	<div class="clear"></div>
+</div>
+</form>

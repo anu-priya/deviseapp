@@ -1,0 +1,159 @@
+<%=stylesheet_link_tag "discount_dollar/discount_dollar", :media => "all"%>
+<%= render "parent_settings/parent_header" %>
+  <div class="wrapper_contianer_inner_login">
+  <div class="staic_inner">
+         <div class="page_head">		
+			<div class="head_line" style="top:27px;"></div>
+			<h1 class="search_head">Discount Dollars&nbsp;</h1>
+			
+           </div><br>
+	   <div class="discountDropMenu" align="right" style="">
+				<div class="transDivMenu" id="menu" align="left">
+					<ul>
+						<li><a class="transDiv" href="#" ><span class="menuText"><b id="setActivity">Discount Detail</b></span><span class="actImg" style="padding-left: 5px;"><img width="7" height="4" style=" position: relative; top: -1px;" alt="" src="/assets/event_index/dropdown_arrow.png" id="arrow1"></span></a>
+							<ul style="width:152px;height:auto;margin-left: 0px;z-index:100000; .top:-10px;background-color: #ffffff;" class="sub-menu dispProvidertransDiv">
+								<div align="right" class="netmenu" style="margin-top: -11px;"><img src="/assets/event/schedule_top_arrow.png" alt=""></div>
+								<li><a href="javascript:void(0)" title="" id="select" onClick="activity_transaction('Discount'); _gaq.push(['_trackEvent','Parent Module', 'clickDiscountDollar','Discount']);" >Discount Dollars</a></li>
+								<li><a href="javascript:void(0)" title="" id="select" onClick="activity_transaction('Credit'); _gaq.push(['_trackEvent','Parent Module', 'clickDiscountDollar','Credit']);" >Credit History</a></li>
+								<li><a href="javascript:void(0)" title="" id="select" onClick="activity_transaction('Debit'); _gaq.push(['_trackEvent','Parent Module', 'clickDiscountDollar','Debit']);" >Debit History</a></li>
+								<li><a href="javascript:void(0)" title="" id="select" onClick="activity_transaction('InvitedHistory'); _gaq.push(['_trackEvent','Parent Module', 'clickDiscountDollar','InvitedHistory']);" >Invite History</a></li>
+							</ul>
+						</li>
+					</ul>
+				<div class="clear"></div>
+				</div>
+			</div>
+   <div class="boxContainer">
+   <input type="hidden" id="actid_chk" name="actid_chk" value="" />
+    <div style="background:none " id="providerEventList" >
+
+      <div id="credit_history_list" class="discount_list tablebrder">
+        <%= render "credit_history_list" %>
+      </div>
+      <div id="debit_history_list" class="discount_list tablebrder">
+        <%= render "debit_history_list" %>
+      </div>
+      <div id="invited_history_list" class="discount_list tablebrder">
+        <%= render "invited_list" %>
+      </div>
+    </div>
+    <div class="discntWrapper">
+      <div class="discntwrap" id="discount_index" style="display:block;">
+        <table cellpadding="0" cellspacing="0" width="100%">
+          <tr>
+            <td width="100%">
+		<div class="debitCreditContainer">
+			<div class="creditInner">
+				<div class="lt">
+					<div class="topleft_box" align="center">                  
+						<a onclick="pop_invite_provider('/invite_provider?aclick=parent');" title="" href="javascript:void(0)">					
+						<div class="topleft_box_inner">
+							<div class="topleft_getred">Get $<%=(number_with_precision $dollar, :precision => 2)%></div>
+							<div class="topleft_signup">Credit for signing up <br>your Provider!</div>
+						</div>
+						</a>
+					</div>
+				</div>
+				<div class="lt creditInnerRt">
+					<p class="blackText setPadding">Send an Invite to your favorite activity Provider <a onclick="pop_invite_provider('/invite_provider?aclick=parent');" title="" href="javascript:void(0)"><font color="#4795AC">here!</font></a></p>
+					<p class="blackText setPadding">Once your provider clicks their customized link and registers for the "Sell-Through" Plan, you'll receive $<%=(number_with_precision $dollar, :precision => 2)%>  Discount Dollars that you can apply to the purchase of any activity accepting Discount Dollars as part of the purchase price.</p>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+			<div class="creditInner">
+				<div class="lt">
+					<div class="topleft_box" align="center">                   
+						<a onclick="pop_invite_friend_check('/invite_friend_famtivity?check_invite=invite');" title="" href="javascript:void(0)">					
+							<div class="topleft_box_inner">
+								<div class="topleft_getred">Get $1.00</div>
+								<div class="topleft_signup">Credit for signing up <br>each your Friends!</div>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="lt creditInnerRt">
+					<p class="blackText setPadding">Send an Invite to your friend <a href="javascript:void(0)" onclick="pop_invite_friend_check('/invite_friend_famtivity?check_invite=invite');" title=""><font color="#4795AC">here!</font></a></p>
+					<p class="blackText setPadding">Once your friends click their custom links and register on Famtivity, you'll receive $1.00 Discount Dollar for each friend that joins, apply to the purchase of any activity accepting Discount Dollars as part of the purchase price.</p>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+			<div class="creditInner" style="border:none">
+				<div class="setPadding"><span class="redText">CREDITS</span><span class="blackText">&nbsp;-&nbsp;Discount Dollars available for purchasing activities</span></div>
+				<div class="setPadding"><span  class="redText">DEBITS</span><span class="blackText">&nbsp;-&nbsp;Discount Dollars already used for past purchases</span></div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="discountdollarsummary">
+				<div class="discountdollarsummaryTit">Discount Dollars Summary</div>
+				<div class="discountdollarsummarybody" style="display:block">
+				<% if (!@t_cred_amount.nil? && @t_cred_amount.round==0 && !@t_debit_amount.nil? && @t_debit_amount.round==0)%>
+					<!--p class="DesiTitbg">You currently have no discount credits. Invite a provider now, and get $<%=$dollar%> of discount credits!&#34;</p-->
+					<div class="nodiscountText">You currently have no Discount Dollars credits.<br/>Invite your favorite Provider and Friends to join today!</div>
+				<% else %>
+					<p class="lsitTxt"><span class="listNameDis">Total Credit Amount</span><span class="listNameDisCur">$<%=(@t_cred_amount && @t_cred_amount!=0 && !@t_cred_amount.nil?) ? (number_with_precision @t_cred_amount, :precision => 2): 0%></span></p>
+					<p class="lsitTxt"><span class="listNameDis">Total Debit Amount</span><span class="listNameDisCur">$<%=(@t_debit_amount && @t_debit_amount!=0 && !@t_debit_amount.nil?) ? (number_with_precision @t_cred_amount, :precision => 2) : 0%></span></p>
+					<p class="lsitTxtTotal"><span class="listNameDis" style="color: #347d91;">Current Balance</span><span class="listNameDisCur" style="color: #E24C4B;">$<%=(number_with_precision (@t_cred_amount-@t_debit_amount), :precision => 2) if !@t_cred_amount.nil? && !@t_debit_amount.nil?%></span></p>
+				<% end %>
+				</div>				
+		</div>
+		<div class="clear"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="clear"></div>
+    </div>
+  </div>
+  </div>
+
+  <!--ajax loader -->
+  <div id='loadingmessage' style='display:none;margin-top:-415px' align="center">
+  <%=image_tag("/assets/ajax-loader.gif", :width=>"32", :height=>"32")%>
+  </div>
+
+  <div class="clear"></div>
+<script type="text/javascript">
+  function activity_transaction(args) {
+    if(args == "Discount"){
+      $("#setActivity").html('Discount Dollar');
+      $("#filter_admin_date").css('display','inline-block');
+      $("#byActivityDiv").css('display','none');
+      $("#debit_history_list").css('display','none');
+      $("#credit_history_list").css('display','none');
+      $("#invited_history_list").css('display','none');
+      $("#discount_index").css('display','block');
+    }
+    if(args == "Credit"){
+      $("#setActivity").html('Credit History');
+      $("#filter_admin_date").css('display','inline-block');
+      $("#byActivityDiv").css('display','none');
+      $("#discount_index").css('display','none');
+      $("#debit_history_list").css('display','none');
+      $("#invited_history_list").css('display','none');
+      $("#credit_history_list").css('display','block');
+    }
+    if(args == "Debit"){
+      $("#setActivity").html('Debit History');
+      $("#filter_admin_date").css('display','inline-block');
+      $("#byActivityDiv").css('display','none');
+      $("#discount_index").css('display','none');
+      $("#credit_history_list").css('display','none');
+      $("#invited_history_list").css('display','none');
+      $("#debit_history_list").css('display','block');
+    }
+    if(args == 'InvitedHistory'){
+      $("#setActivity").html('Invite History');
+      $("#filter_admin_date").css('display','inline-block');
+      $("#byActivityDiv").css('display','none');
+      $("#discount_index").css('display','none');
+      $("#credit_history_list").css('display','none');
+      $("#debit_history_list").css('display','none');
+      $("#invited_history_list").css('display','block');
+    }
+  }
+ 
+</script>

@@ -1,0 +1,49 @@
+<h1>Listing payment_details</h1>
+
+<table>
+  <tr>
+    <th>Payment method</th>
+    <th>Cardholder name</th>
+    <th>Card number</th>
+    <th>Expire date</th>
+    <th>Billing address1</th>
+    <th>Billing address2</th>
+    <th>City</th>
+    <th>Zipcode</th>
+    <th>State</th>
+    <th>Country</th>
+    <th>Contact no</th>
+    <th>Email</th>
+    <th>Payment status</th>
+    <th>Payment date</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @payment_details.each do |payment_detail| %>
+  <tr>
+    <td><%= payment_detail.payment_method %></td>
+    <td><%= payment_detail.cardholder_name %></td>
+    <td><%= payment_detail.card_number %></td>
+    <td><%= payment_detail.expire_date %></td>
+    <td><%= payment_detail.billing_address1 %></td>
+    <td><%= payment_detail.billing_address2 %></td>
+    <td><%= payment_detail.city %></td>
+    <td><%= payment_detail.zipcode %></td>
+    <td><%= payment_detail.state %></td>
+    <td><%= payment_detail.country %></td>
+    <td><%= payment_detail.contact_no %></td>
+    <td><%= payment_detail.email %></td>
+    <td><%= payment_detail.payment_status %></td>
+    <td><%= payment_detail.payment_date %></td>
+    <td><%= link_to 'Show', payment_detail %></td>
+    <td><%= link_to 'Edit', edit_payment_detail_path(payment_detail) %></td>
+    <td><%= link_to 'Destroy', payment_detail, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Payment detail', new_payment_detail_path %>

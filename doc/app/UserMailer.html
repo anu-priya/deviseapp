@@ -1,0 +1,2877 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+<title>class UserMailer - Rails Application Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>app/mailers/user_mailer.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">ActionMailer::Base
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-accept_email">#accept_email</a>
+    
+    <li><a href="#method-i-accept_manager">#accept_manager</a>
+    
+    <li><a href="#method-i-accepted_status_to_manager">#accepted_status_to_manager</a>
+    
+    <li><a href="#method-i-accepted_status_to_provider">#accepted_status_to_provider</a>
+    
+    <li><a href="#method-i-ack_user_discount">#ack_user_discount</a>
+    
+    <li><a href="#method-i-ack_user_discount_api">#ack_user_discount_api</a>
+    
+    <li><a href="#method-i-activity_create_api">#activity_create_api</a>
+    
+    <li><a href="#method-i-activity_represent_invite_mail">#activity_represent_invite_mail</a>
+    
+    <li><a href="#method-i-activity_reschedule_api">#activity_reschedule_api</a>
+    
+    <li><a href="#method-i-activity_reschedule_participant_api">#activity_reschedule_participant_api</a>
+    
+    <li><a href="#method-i-activity_status_mail">#activity_status_mail</a>
+    
+    <li><a href="#method-i-admin_user_mail">#admin_user_mail</a>
+    
+    <li><a href="#method-i-after_payment_api">#after_payment_api</a>
+    
+    <li><a href="#method-i-after_payment_mail">#after_payment_mail</a>
+    
+    <li><a href="#method-i-after_payment_new_api">#after_payment_new_api</a>
+    
+    <li><a href="#method-i-assign_to_manager">#assign_to_manager</a>
+    
+    <li><a href="#method-i-autorenewal_failure_to_famtivity">#autorenewal_failure_to_famtivity</a>
+    
+    <li><a href="#method-i-autorenewal_failure_to_provider">#autorenewal_failure_to_provider</a>
+    
+    <li><a href="#method-i-autorenewal_report_to_famtivity">#autorenewal_report_to_famtivity</a>
+    
+    <li><a href="#method-i-autorenewal_success_to_famtivity">#autorenewal_success_to_famtivity</a>
+    
+    <li><a href="#method-i-autorenewal_success_to_provider">#autorenewal_success_to_provider</a>
+    
+    <li><a href="#method-i-become_provider_user">#become_provider_user</a>
+    
+    <li><a href="#method-i-before_message_toprovider_api">#before_message_toprovider_api</a>
+    
+    <li><a href="#method-i-beforeln_msg_to_cardprovider">#beforeln_msg_to_cardprovider</a>
+    
+    <li><a href="#method-i-beforeln_msg_toprovider">#beforeln_msg_toprovider</a>
+    
+    <li><a href="#method-i-beta_feedback">#beta_feedback</a>
+    
+    <li><a href="#method-i-beta_feedback_image">#beta_feedback_image</a>
+    
+    <li><a href="#method-i-cancel_activity_mail_to_parent">#cancel_activity_mail_to_parent</a>
+    
+    <li><a href="#method-i-cancel_activity_mail_to_provider">#cancel_activity_mail_to_provider</a>
+    
+    <li><a href="#method-i-change_email_address">#change_email_address</a>
+    
+    <li><a href="#method-i-change_email_address_api">#change_email_address_api</a>
+    
+    <li><a href="#method-i-change_email_success">#change_email_success</a>
+    
+    <li><a href="#method-i-change_password_api">#change_password_api</a>
+    
+    <li><a href="#method-i-change_password_mail">#change_password_mail</a>
+    
+    <li><a href="#method-i-contact_invite">#contact_invite</a>
+    
+    <li><a href="#method-i-contact_mail_api">#contact_mail_api</a>
+    
+    <li><a href="#method-i-contact_provider_mail_api">#contact_provider_mail_api</a>
+    
+    <li><a href="#method-i-contact_register">#contact_register</a>
+    
+    <li><a href="#method-i-contact_success_mail_api">#contact_success_mail_api</a>
+    
+    <li><a href="#method-i-contact_us">#contact_us</a>
+    
+    <li><a href="#method-i-curated_user_activities">#curated_user_activities</a>
+    
+    <li><a href="#method-i-curated_user_activities_api">#curated_user_activities_api</a>
+    
+    <li><a href="#method-i-curator_actinfo_tofam">#curator_actinfo_tofam</a>
+    
+    <li><a href="#method-i-curator_actinfo_tofam_api">#curator_actinfo_tofam_api</a>
+    
+    <li><a href="#method-i-curator_msg_admin">#curator_msg_admin</a>
+    
+    <li><a href="#method-i-curator_upgrade_info">#curator_upgrade_info</a>
+    
+    <li><a href="#method-i-delete_activity_mail">#delete_activity_mail</a>
+    
+    <li><a href="#method-i-delete_activity_schedule_mail">#delete_activity_schedule_mail</a>
+    
+    <li><a href="#method-i-delete_msg_parent_api">#delete_msg_parent_api</a>
+    
+    <li><a href="#method-i-delete_msg_participants_api">#delete_msg_participants_api</a>
+    
+    <li><a href="#method-i-device_activation_api">#device_activation_api</a>
+    
+    <li><a href="#method-i-edit_activity_parent_mail">#edit_activity_parent_mail</a>
+    
+    <li><a href="#method-i-edit_activity_provider_mail">#edit_activity_provider_mail</a>
+    
+    <li><a href="#method-i-edit_parent_participant_mail">#edit_parent_participant_mail</a>
+    
+    <li><a href="#method-i-edit_provider_participant_mail">#edit_provider_participant_mail</a>
+    
+    <li><a href="#method-i-facebook_login_api">#facebook_login_api</a>
+    
+    <li><a href="#method-i-fam_create_network_mail_api">#fam_create_network_mail_api</a>
+    
+    <li><a href="#method-i-famtivity_welcome">#famtivity_welcome</a>
+    
+    <li><a href="#method-i-famtivity_welcome_api">#famtivity_welcome_api</a>
+    
+    <li><a href="#method-i-following_user_api">#following_user_api</a>
+    
+    <li><a href="#method-i-following_user_create_api">#following_user_create_api</a>
+    
+    <li><a href="#method-i-following_user_create_mail">#following_user_create_mail</a>
+    
+    <li><a href="#method-i-following_user_mail">#following_user_mail</a>
+    
+    <li><a href="#method-i-following_user_mail_provider">#following_user_mail_provider</a>
+    
+    <li><a href="#method-i-forgot_password_api">#forgot_password_api</a>
+    
+    <li><a href="#method-i-free_activity_attend_api">#free_activity_attend_api</a>
+    
+    <li><a href="#method-i-free_downgrade_mail">#free_downgrade_mail</a>
+    
+    <li><a href="#method-i-friend_request">#friend_request</a>
+    
+    <li><a href="#method-i-friend_request_fam_member">#friend_request_fam_member</a>
+    
+    <li><a href="#method-i-get_information_mail">#get_information_mail</a>
+    
+    <li><a href="#method-i-getinfo_activity_api">#getinfo_activity_api</a>
+    
+    <li><a href="#method-i-group_invite">#group_invite</a>
+    
+    <li><a href="#method-i-hello_world">#hello_world</a>
+    
+    <li><a href="#method-i-incorrect_mailto_fam">#incorrect_mailto_fam</a>
+    
+    <li><a href="#method-i-incorrect_mailto_fam_forsell">#incorrect_mailto_fam_forsell</a>
+    
+    <li><a href="#method-i-incorrect_mailto_pro">#incorrect_mailto_pro</a>
+    
+    <li><a href="#method-i-incorrect_mailto_pro_forsell">#incorrect_mailto_pro_forsell</a>
+    
+    <li><a href="#method-i-incorrectcc_free_fam_api">#incorrectcc_free_fam_api</a>
+    
+    <li><a href="#method-i-incorrectcc_free_pro_api">#incorrectcc_free_pro_api</a>
+    
+    <li><a href="#method-i-incorrectcc_sell_fam_api">#incorrectcc_sell_fam_api</a>
+    
+    <li><a href="#method-i-incorrectcc_sell_pro_api">#incorrectcc_sell_pro_api</a>
+    
+    <li><a href="#method-i-invite_attendies_mail">#invite_attendies_mail</a>
+    
+    <li><a href="#method-i-invite_friend_api">#invite_friend_api</a>
+    
+    <li><a href="#method-i-invite_manager_to_join">#invite_manager_to_join</a>
+    
+    <li><a href="#method-i-invite_provider_api">#invite_provider_api</a>
+    
+    <li><a href="#method-i-invite_provider_mail">#invite_provider_mail</a>
+    
+    <li><a href="#method-i-invite_to_famtivity_api">#invite_to_famtivity_api</a>
+    
+    <li><a href="#method-i-invite_to_join_famtivity">#invite_to_join_famtivity</a>
+    
+    <li><a href="#method-i-invite_to_manager">#invite_to_manager</a>
+    
+    <li><a href="#method-i-invitefriend_member_api">#invitefriend_member_api</a>
+    
+    <li><a href="#method-i-join_famtivity_api">#join_famtivity_api</a>
+    
+    <li><a href="#method-i-joined_manager_accepted">#joined_manager_accepted</a>
+    
+    <li><a href="#method-i-joined_mgr_acpted_to_provider">#joined_mgr_acpted_to_provider</a>
+    
+    <li><a href="#method-i-manager_permission_changes">#manager_permission_changes</a>
+    
+    <li><a href="#method-i-message_to_provider">#message_to_provider</a>
+    
+    <li><a href="#method-i-message_to_provider_curator">#message_to_provider_curator</a>
+    
+    <li><a href="#method-i-message_toprovider_api">#message_toprovider_api</a>
+    
+    <li><a href="#method-i-message_toprovider_card_api">#message_toprovider_card_api</a>
+    
+    <li><a href="#method-i-monthly_budget_provider">#monthly_budget_provider</a>
+    
+    <li><a href="#method-i-monthly_budget_provider_api">#monthly_budget_provider_api</a>
+    
+    <li><a href="#method-i-network_friend_invite_mail_api">#network_friend_invite_mail_api</a>
+    
+    <li><a href="#method-i-network_invite_mail_api">#network_invite_mail_api</a>
+    
+    <li><a href="#method-i-network_member_invite_mail_api">#network_member_invite_mail_api</a>
+    
+    <li><a href="#method-i-network_to_join_famtivity_api">#network_to_join_famtivity_api</a>
+    
+    <li><a href="#method-i-network_user_create_api">#network_user_create_api</a>
+    
+    <li><a href="#method-i-nocc_free_fam_api">#nocc_free_fam_api</a>
+    
+    <li><a href="#method-i-nocc_free_pro_api">#nocc_free_pro_api</a>
+    
+    <li><a href="#method-i-nocc_sell_fam_api">#nocc_sell_fam_api</a>
+    
+    <li><a href="#method-i-nocc_sell_pro_api">#nocc_sell_pro_api</a>
+    
+    <li><a href="#method-i-nocrdcrt_det_to_fam">#nocrdcrt_det_to_fam</a>
+    
+    <li><a href="#method-i-nocrdcrt_det_to_fam_forsell">#nocrdcrt_det_to_fam_forsell</a>
+    
+    <li><a href="#method-i-nocrdcrt_det_to_pro">#nocrdcrt_det_to_pro</a>
+    
+    <li><a href="#method-i-nocrdcrt_det_to_pro_forsell">#nocrdcrt_det_to_pro_forsell</a>
+    
+    <li><a href="#method-i-page_issue_report">#page_issue_report</a>
+    
+    <li><a href="#method-i-parent_create_activity_mail">#parent_create_activity_mail</a>
+    
+    <li><a href="#method-i-parent_register_user">#parent_register_user</a>
+    
+    <li><a href="#method-i-parent_register_user_pass">#parent_register_user_pass</a>
+    
+    <li><a href="#method-i-parent_user_resend_activation">#parent_user_resend_activation</a>
+    
+    <li><a href="#method-i-payment_by_promo_discount">#payment_by_promo_discount</a>
+    
+    <li><a href="#method-i-payment_by_promo_discount_api">#payment_by_promo_discount_api</a>
+    
+    <li><a href="#method-i-plan_renewal_mail">#plan_renewal_mail</a>
+    
+    <li><a href="#method-i-provider_account_details">#provider_account_details</a>
+    
+    <li><a href="#method-i-provider_accountdetails_mail">#provider_accountdetails_mail</a>
+    
+    <li><a href="#method-i-provider_attend_activity_free">#provider_attend_activity_free</a>
+    
+    <li><a href="#method-i-provider_attend_activity_sell">#provider_attend_activity_sell</a>
+    
+    <li><a href="#method-i-provider_attend_free_api">#provider_attend_free_api</a>
+    
+    <li><a href="#method-i-provider_attend_sell_api">#provider_attend_sell_api</a>
+    
+    <li><a href="#method-i-provider_contact_price">#provider_contact_price</a>
+    
+    <li><a href="#method-i-provider_create_activity_mail">#provider_create_activity_mail</a>
+    
+    <li><a href="#method-i-provider_edit_profile_mail">#provider_edit_profile_mail</a>
+    
+    <li><a href="#method-i-provider_renewal_alert">#provider_renewal_alert</a>
+    
+    <li><a href="#method-i-provider_saleslimit_alert">#provider_saleslimit_alert</a>
+    
+    <li><a href="#method-i-register_user">#register_user</a>
+    
+    <li><a href="#method-i-register_user_api">#register_user_api</a>
+    
+    <li><a href="#method-i-register_user_transaction">#register_user_transaction</a>
+    
+    <li><a href="#method-i-require_form_edit_mail">#require_form_edit_mail</a>
+    
+    <li><a href="#method-i-require_form_edit_toprovider">#require_form_edit_toprovider</a>
+    
+    <li><a href="#method-i-require_form_mail">#require_form_mail</a>
+    
+    <li><a href="#method-i-require_form_mail_api">#require_form_mail_api</a>
+    
+    <li><a href="#method-i-resend_activation">#resend_activation</a>
+    
+    <li><a href="#method-i-school_register_to_provider">#school_register_to_provider</a>
+    
+    <li><a href="#method-i-school_register_toadmin">#school_register_toadmin</a>
+    
+    <li><a href="#method-i-sell_downgrade_mail">#sell_downgrade_mail</a>
+    
+    <li><a href="#method-i-sell_upgrade_mail">#sell_upgrade_mail</a>
+    
+    <li><a href="#method-i-send_image_message">#send_image_message</a>
+    
+    <li><a href="#method-i-send_message">#send_message</a>
+    
+    <li><a href="#method-i-send_message_to_networks">#send_message_to_networks</a>
+    
+    <li><a href="#method-i-send_password">#send_password</a>
+    
+    <li><a href="#method-i-sendmessagetofriend_api">#sendmessagetofriend_api</a>
+    
+    <li><a href="#method-i-sendmessagetofriend_image_api">#sendmessagetofriend_image_api</a>
+    
+    <li><a href="#method-i-share_activity_mail">#share_activity_mail</a>
+    
+    <li><a href="#method-i-shared_message_api">#shared_message_api</a>
+    
+    <li><a href="#method-i-someone_followme">#someone_followme</a>
+    
+    <li><a href="#method-i-sponcor_downgrade_mail">#sponcor_downgrade_mail</a>
+    
+    <li><a href="#method-i-sponcor_upgrade_mail">#sponcor_upgrade_mail</a>
+    
+    <li><a href="#method-i-support_message_api">#support_message_api</a>
+    
+    <li><a href="#method-i-support_nouser_mail">#support_nouser_mail</a>
+    
+    <li><a href="#method-i-support_reply_api">#support_reply_api</a>
+    
+    <li><a href="#method-i-support_team_mail">#support_team_mail</a>
+    
+    <li><a href="#method-i-support_user_mail">#support_user_mail</a>
+    
+    <li><a href="#method-i-ticket_send_mail">#ticket_send_mail</a>
+    
+    <li><a href="#method-i-ticket_send_mail_api">#ticket_send_mail_api</a>
+    
+    <li><a href="#method-i-ticket_send_mail_new_api">#ticket_send_mail_new_api</a>
+    
+    <li><a href="#method-i-trans_msgto_free_api">#trans_msgto_free_api</a>
+    
+    <li><a href="#method-i-trans_msgto_sell_api">#trans_msgto_sell_api</a>
+    
+    <li><a href="#method-i-trans_msgto_sellpro">#trans_msgto_sellpro</a>
+    
+    <li><a href="#method-i-trans_msgtoprovider">#trans_msgtoprovider</a>
+    
+    <li><a href="#method-i-transaction_fail_mail">#transaction_fail_mail</a>
+    
+    <li><a href="#method-i-user_account_deactivated">#user_account_deactivated</a>
+    
+    <li><a href="#method-i-user_account_deleted">#user_account_deleted</a>
+    
+    <li><a href="#method-i-user_account_deleted_admin">#user_account_deleted_admin</a>
+    
+    <li><a href="#method-i-user_fb_credit_discount_code">#user_fb_credit_discount_code</a>
+    
+    <li><a href="#method-i-user_message_send_api">#user_message_send_api</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./doc/README_FOR_APP.html">README_FOR_APP</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./ActivitiesController.html">ActivitiesController</a>
+  
+    <li><a href="./ActivitiesHelper.html">ActivitiesHelper</a>
+  
+    <li><a href="./Activity.html">Activity</a>
+  
+    <li><a href="./ActivityAttendDetail.html">ActivityAttendDetail</a>
+  
+    <li><a href="./ActivityAttendDetailsController.html">ActivityAttendDetailsController</a>
+  
+    <li><a href="./ActivityAttendDetailsHelper.html">ActivityAttendDetailsHelper</a>
+  
+    <li><a href="./ActivityBid.html">ActivityBid</a>
+  
+    <li><a href="./ActivityBidsController.html">ActivityBidsController</a>
+  
+    <li><a href="./ActivityBidsHelper.html">ActivityBidsHelper</a>
+  
+    <li><a href="./ActivityCategoriesController.html">ActivityCategoriesController</a>
+  
+    <li><a href="./ActivityCategoriesHelper.html">ActivityCategoriesHelper</a>
+  
+    <li><a href="./ActivityCategory.html">ActivityCategory</a>
+  
+    <li><a href="./ActivityClick.html">ActivityClick</a>
+  
+    <li><a href="./ActivityComment.html">ActivityComment</a>
+  
+    <li><a href="./ActivityCommentsController.html">ActivityCommentsController</a>
+  
+    <li><a href="./ActivityCommentsHelper.html">ActivityCommentsHelper</a>
+  
+    <li><a href="./ActivityCount.html">ActivityCount</a>
+  
+    <li><a href="./ActivityDetailController.html">ActivityDetailController</a>
+  
+    <li><a href="./ActivityDetailHelper.html">ActivityDetailHelper</a>
+  
+    <li><a href="./ActivityDiscountPrice.html">ActivityDiscountPrice</a>
+  
+    <li><a href="./ActivityFavorite.html">ActivityFavorite</a>
+  
+    <li><a href="./ActivityFavoritesController.html">ActivityFavoritesController</a>
+  
+    <li><a href="./ActivityFavoritesHelper.html">ActivityFavoritesHelper</a>
+  
+    <li><a href="./ActivityForm.html">ActivityForm</a>
+  
+    <li><a href="./ActivityNetworkController.html">ActivityNetworkController</a>
+  
+    <li><a href="./ActivityNetworkHelper.html">ActivityNetworkHelper</a>
+  
+    <li><a href="./ActivityNetworkPermission.html">ActivityNetworkPermission</a>
+  
+    <li><a href="./ActivityPrice.html">ActivityPrice</a>
+  
+    <li><a href="./ActivityPricesController.html">ActivityPricesController</a>
+  
+    <li><a href="./ActivityPricesHelper.html">ActivityPricesHelper</a>
+  
+    <li><a href="./ActivityRating.html">ActivityRating</a>
+  
+    <li><a href="./ActivityRatingsController.html">ActivityRatingsController</a>
+  
+    <li><a href="./ActivityRatingsHelper.html">ActivityRatingsHelper</a>
+  
+    <li><a href="./ActivityRepeat.html">ActivityRepeat</a>
+  
+    <li><a href="./ActivityRepeatsController.html">ActivityRepeatsController</a>
+  
+    <li><a href="./ActivityRepeatsHelper.html">ActivityRepeatsHelper</a>
+  
+    <li><a href="./ActivityRow.html">ActivityRow</a>
+  
+    <li><a href="./ActivityRowsController.html">ActivityRowsController</a>
+  
+    <li><a href="./ActivityRowsHelper.html">ActivityRowsHelper</a>
+  
+    <li><a href="./ActivitySchedule.html">ActivitySchedule</a>
+  
+    <li><a href="./ActivitySchedulesController.html">ActivitySchedulesController</a>
+  
+    <li><a href="./ActivitySchedulesHelper.html">ActivitySchedulesHelper</a>
+  
+    <li><a href="./ActivitySetting.html">ActivitySetting</a>
+  
+    <li><a href="./ActivitySettingsDetail.html">ActivitySettingsDetail</a>
+  
+    <li><a href="./ActivitySettingsType.html">ActivitySettingsType</a>
+  
+    <li><a href="./ActivityShared.html">ActivityShared</a>
+  
+    <li><a href="./ActivitySharedsController.html">ActivitySharedsController</a>
+  
+    <li><a href="./ActivitySharedsHelper.html">ActivitySharedsHelper</a>
+  
+    <li><a href="./ActivitySubcategoriesController.html">ActivitySubcategoriesController</a>
+  
+    <li><a href="./ActivitySubcategoriesHelper.html">ActivitySubcategoriesHelper</a>
+  
+    <li><a href="./ActivitySubcategory.html">ActivitySubcategory</a>
+  
+    <li><a href="./ActivityTotalCount.html">ActivityTotalCount</a>
+  
+    <li><a href="./ActivityTrack.html">ActivityTrack</a>
+  
+    <li><a href="./AdminController.html">AdminController</a>
+  
+    <li><a href="./AdminDiscountCode.html">AdminDiscountCode</a>
+  
+    <li><a href="./AdminDiscountCodesController.html">AdminDiscountCodesController</a>
+  
+    <li><a href="./AdminDiscountCodesHelper.html">AdminDiscountCodesHelper</a>
+  
+    <li><a href="./AdminHelper.html">AdminHelper</a>
+  
+    <li><a href="./AgeRangeColorsController.html">AgeRangeColorsController</a>
+  
+    <li><a href="./AgeRangeColorsHelper.html">AgeRangeColorsHelper</a>
+  
+    <li><a href="./AgerangeColor.html">AgerangeColor</a>
+  
+    <li><a href="./AgerangeColorsController.html">AgerangeColorsController</a>
+  
+    <li><a href="./AgerangeColorsHelper.html">AgerangeColorsHelper</a>
+  
+    <li><a href="./ApplicationController.html">ApplicationController</a>
+  
+    <li><a href="./ApplicationHelper.html">ApplicationHelper</a>
+  
+    <li><a href="./Authentication.html">Authentication</a>
+  
+    <li><a href="./AuthenticationsController.html">AuthenticationsController</a>
+  
+    <li><a href="./BlockUser.html">BlockUser</a>
+  
+    <li><a href="./CheckoutController.html">CheckoutController</a>
+  
+    <li><a href="./City.html">City</a>
+  
+    <li><a href="./CityGroup.html">CityGroup</a>
+  
+    <li><a href="./ContactGroup.html">ContactGroup</a>
+  
+    <li><a href="./ContactGroupsController.html">ContactGroupsController</a>
+  
+    <li><a href="./ContactGroupsHelper.html">ContactGroupsHelper</a>
+  
+    <li><a href="./ContactUser.html">ContactUser</a>
+  
+    <li><a href="./ContactUserGroup.html">ContactUserGroup</a>
+  
+    <li><a href="./ContactUsersController.html">ContactUsersController</a>
+  
+    <li><a href="./ContactUsersHelper.html">ContactUsersHelper</a>
+  
+    <li><a href="./Country.html">Country</a>
+  
+    <li><a href="./DefaultFilter.html">DefaultFilter</a>
+  
+    <li><a href="./DefaultFiltersController.html">DefaultFiltersController</a>
+  
+    <li><a href="./DefaultFiltersHelper.html">DefaultFiltersHelper</a>
+  
+    <li><a href="./DeletedSchedule.html">DeletedSchedule</a>
+  
+    <li><a href="./DetailPageIdentityHelper.html">DetailPageIdentityHelper</a>
+  
+    <li><a href="./DetailsPageController.html">DetailsPageController</a>
+  
+    <li><a href="./DetailsPageHelper.html">DetailsPageHelper</a>
+  
+    <li><a href="./DiscountDollarsController.html">DiscountDollarsController</a>
+  
+    <li><a href="./DiscountDollarsHelper.html">DiscountDollarsHelper</a>
+  
+    <li><a href="./EmbedController.html">EmbedController</a>
+  
+    <li><a href="./ErrorsController.html">ErrorsController</a>
+  
+    <li><a href="./FamFeeDetail.html">FamFeeDetail</a>
+  
+    <li><a href="./FamNetwork.html">FamNetwork</a>
+  
+    <li><a href="./FamNetworkGroup.html">FamNetworkGroup</a>
+  
+    <li><a href="./FamNetworkGroupsController.html">FamNetworkGroupsController</a>
+  
+    <li><a href="./FamNetworkGroupsHelper.html">FamNetworkGroupsHelper</a>
+  
+    <li><a href="./FamNetworkPost.html">FamNetworkPost</a>
+  
+    <li><a href="./FamNetworkPostsController.html">FamNetworkPostsController</a>
+  
+    <li><a href="./FamNetworkPostsHelper.html">FamNetworkPostsHelper</a>
+  
+    <li><a href="./FamNetworkRow.html">FamNetworkRow</a>
+  
+    <li><a href="./FamNetworksController.html">FamNetworksController</a>
+  
+    <li><a href="./FamNetworksHelper.html">FamNetworksHelper</a>
+  
+    <li><a href="./FamPost.html">FamPost</a>
+  
+    <li><a href="./FamPostsController.html">FamPostsController</a>
+  
+    <li><a href="./FamPostsHelper.html">FamPostsHelper</a>
+  
+    <li><a href="./FampassDetail.html">FampassDetail</a>
+  
+    <li><a href="./FamtivityNetworkMailer.html">FamtivityNetworkMailer</a>
+  
+    <li><a href="./FeaturedAuditLog.html">FeaturedAuditLog</a>
+  
+    <li><a href="./FeaturedAuditLogsController.html">FeaturedAuditLogsController</a>
+  
+    <li><a href="./FeaturedAuditLogsHelper.html">FeaturedAuditLogsHelper</a>
+  
+    <li><a href="./FollowingUser.html">FollowingUser</a>
+  
+    <li><a href="./Form.html">Form</a>
+  
+    <li><a href="./FormQuestion.html">FormQuestion</a>
+  
+    <li><a href="./FormResult.html">FormResult</a>
+  
+    <li><a href="./FormResultAnswer.html">FormResultAnswer</a>
+  
+    <li><a href="./FormsController.html">FormsController</a>
+  
+    <li><a href="./FormsHelper.html">FormsHelper</a>
+  
+    <li><a href="./GeneralTag.html">GeneralTag</a>
+  
+    <li><a href="./GuestDetail.html">GuestDetail</a>
+  
+    <li><a href="./HomeController.html">HomeController</a>
+  
+    <li><a href="./HomeHelper.html">HomeHelper</a>
+  
+    <li><a href="./InviteAttendees.html">InviteAttendees</a>
+  
+    <li><a href="./InvitesHelper.html">InvitesHelper</a>
+  
+    <li><a href="./InvitorList.html">InvitorList</a>
+  
+    <li><a href="./InvitorListHelper.html">InvitorListHelper</a>
+  
+    <li><a href="./LandingController.html">LandingController</a>
+  
+    <li><a href="./LandingHelper.html">LandingHelper</a>
+  
+    <li><a href="./LeadTransaction.html">LeadTransaction</a>
+  
+    <li><a href="./LoginController.html">LoginController</a>
+  
+    <li><a href="./LogoutController.html">LogoutController</a>
+  
+    <li><a href="./Manager.html">Manager</a>
+  
+    <li><a href="./Message.html">Message</a>
+  
+    <li><a href="./MessageFile.html">MessageFile</a>
+  
+    <li><a href="./MessageMailer.html">MessageMailer</a>
+  
+    <li><a href="./MessageThread.html">MessageThread</a>
+  
+    <li><a href="./MessageThreadViewer.html">MessageThreadViewer</a>
+  
+    <li><a href="./MessagesController.html">MessagesController</a>
+  
+    <li><a href="./MessagesHelper.html">MessagesHelper</a>
+  
+    <li><a href="./MonthlyBudget.html">MonthlyBudget</a>
+  
+    <li><a href="./MonthlyBudgetsController.html">MonthlyBudgetsController</a>
+  
+    <li><a href="./MonthlyBudgetsHelper.html">MonthlyBudgetsHelper</a>
+  
+    <li><a href="./NewsletterMailer.html">NewsletterMailer</a>
+  
+    <li><a href="./NewslettersController.html">NewslettersController</a>
+  
+    <li><a href="./NotificationDetail.html">NotificationDetail</a>
+  
+    <li><a href="./ParentNotification.html">ParentNotification</a>
+  
+    <li><a href="./ParentNotificationDetail.html">ParentNotificationDetail</a>
+  
+    <li><a href="./ParentSetting.html">ParentSetting</a>
+  
+    <li><a href="./ParentSettingDetail.html">ParentSettingDetail</a>
+  
+    <li><a href="./ParentSettingsController.html">ParentSettingsController</a>
+  
+    <li><a href="./Participant.html">Participant</a>
+  
+    <li><a href="./ParticipantsController.html">ParticipantsController</a>
+  
+    <li><a href="./ParticipantsHelper.html">ParticipantsHelper</a>
+  
+    <li><a href="./PaymentDetail.html">PaymentDetail</a>
+  
+    <li><a href="./PaymentDetailsController.html">PaymentDetailsController</a>
+  
+    <li><a href="./PaymentDetailsHelper.html">PaymentDetailsHelper</a>
+  
+    <li><a href="./PoliciesController.html">PoliciesController</a>
+  
+    <li><a href="./PoliciesHelper.html">PoliciesHelper</a>
+  
+    <li><a href="./Policy.html">Policy</a>
+  
+    <li><a href="./PolicyFile.html">PolicyFile</a>
+  
+    <li><a href="./PolicyType.html">PolicyType</a>
+  
+    <li><a href="./ProviderActivityFee.html">ProviderActivityFee</a>
+  
+    <li><a href="./ProviderActivityFeeType.html">ProviderActivityFeeType</a>
+  
+    <li><a href="./ProviderCount.html">ProviderCount</a>
+  
+    <li><a href="./ProviderDiscountCode.html">ProviderDiscountCode</a>
+  
+    <li><a href="./ProviderDiscountCodeType.html">ProviderDiscountCodeType</a>
+  
+    <li><a href="./ProviderDiscountType.html">ProviderDiscountType</a>
+  
+    <li><a href="./ProviderLead.html">ProviderLead</a>
+  
+    <li><a href="./ProviderListController.html">ProviderListController</a>
+  
+    <li><a href="./ProviderNotification.html">ProviderNotification</a>
+  
+    <li><a href="./ProviderNotificationDetail.html">ProviderNotificationDetail</a>
+  
+    <li><a href="./ProviderSetting.html">ProviderSetting</a>
+  
+    <li><a href="./ProviderSettingDetail.html">ProviderSettingDetail</a>
+  
+    <li><a href="./ProviderSettingsController.html">ProviderSettingsController</a>
+  
+    <li><a href="./ProviderSettingsHelper.html">ProviderSettingsHelper</a>
+  
+    <li><a href="./ProviderTransaction.html">ProviderTransaction</a>
+  
+    <li><a href="./ProviderTransactionLog.html">ProviderTransactionLog</a>
+  
+    <li><a href="./ProviderWebsiteTrack.html">ProviderWebsiteTrack</a>
+  
+    <li><a href="./Question.html">Question</a>
+  
+    <li><a href="./QuestionType.html">QuestionType</a>
+  
+    <li><a href="./QuestionValue.html">QuestionValue</a>
+  
+    <li><a href="./QuickLinksController.html">QuickLinksController</a>
+  
+    <li><a href="./QuickLinksHelper.html">QuickLinksHelper</a>
+  
+    <li><a href="./SchoolRepresentative.html">SchoolRepresentative</a>
+  
+    <li><a href="./SchoolRepresentativesController.html">SchoolRepresentativesController</a>
+  
+    <li><a href="./SearchController.html">SearchController</a>
+  
+    <li><a href="./SearchHelper.html">SearchHelper</a>
+  
+    <li><a href="./SendSMS.html">SendSMS</a>
+  
+    <li><a href="./Setting.html">Setting</a>
+  
+    <li><a href="./SettingsController.html">SettingsController</a>
+  
+    <li><a href="./SettingsHelper.html">SettingsHelper</a>
+  
+    <li><a href="./SmsStatus.html">SmsStatus</a>
+  
+    <li><a href="./SocialType.html">SocialType</a>
+  
+    <li><a href="./SponsorShip.html">SponsorShip</a>
+  
+    <li><a href="./SponsorShipsController.html">SponsorShipsController</a>
+  
+    <li><a href="./SponsorShipsHelper.html">SponsorShipsHelper</a>
+  
+    <li><a href="./State.html">State</a>
+  
+    <li><a href="./StaticController.html">StaticController</a>
+  
+    <li><a href="./Support.html">Support</a>
+  
+    <li><a href="./SupportsController.html">SupportsController</a>
+  
+    <li><a href="./SupportsHelper.html">SupportsHelper</a>
+  
+    <li><a href="./Ticket.html">Ticket</a>
+  
+    <li><a href="./TicketsController.html">TicketsController</a>
+  
+    <li><a href="./TicketsHelper.html">TicketsHelper</a>
+  
+    <li><a href="./TransactionDetail.html">TransactionDetail</a>
+  
+    <li><a href="./User.html">User</a>
+  
+    <li><a href="./UserBankDetail.html">UserBankDetail</a>
+  
+    <li><a href="./UserCalender.html">UserCalender</a>
+  
+    <li><a href="./UserCard.html">UserCard</a>
+  
+    <li><a href="./UserChild.html">UserChild</a>
+  
+    <li><a href="./UserChildrenController.html">UserChildrenController</a>
+  
+    <li><a href="./UserCredit.html">UserCredit</a>
+  
+    <li><a href="./UserDeactivateLog.html">UserDeactivateLog</a>
+  
+    <li><a href="./UserDebit.html">UserDebit</a>
+  
+    <li><a href="./UserDeletedAccount.html">UserDeletedAccount</a>
+  
+    <li><a href="./UserEmailChangeLog.html">UserEmailChangeLog</a>
+  
+    <li><a href="./UserMailer.html">UserMailer</a>
+  
+    <li><a href="./UserNotification.html">UserNotification</a>
+  
+    <li><a href="./UserProfile.html">UserProfile</a>
+  
+    <li><a href="./UserProfilesController.html">UserProfilesController</a>
+  
+    <li><a href="./UserProfilesHelper.html">UserProfilesHelper</a>
+  
+    <li><a href="./UserRow.html">UserRow</a>
+  
+    <li><a href="./UserSettingsHelper.html">UserSettingsHelper</a>
+  
+    <li><a href="./UserTransaction.html">UserTransaction</a>
+  
+    <li><a href="./UserTransactionsController.html">UserTransactionsController</a>
+  
+    <li><a href="./UserTransactionsHelper.html">UserTransactionsHelper</a>
+  
+    <li><a href="./UsersController.html">UsersController</a>
+  
+    <li><a href="./UsersHelper.html">UsersHelper</a>
+  
+    <li><a href="./WeekendActivity.html">WeekendActivity</a>
+  
+    <li><a href="./WeekendMailer.html">WeekendMailer</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class UserMailer</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-accept_email" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">accept_email</span><span
+            class="method-args">(to,uname, cname)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="accept_email-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 819</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">accept_email</span>(<span class="ruby-identifier">to</span>,<span class="ruby-identifier">uname</span>, <span class="ruby-identifier">cname</span>)  
+  <span class="ruby-ivar">@contact_name</span> = <span class="ruby-identifier">cname</span>
+  <span class="ruby-ivar">@user_name</span> = <span class="ruby-identifier">uname</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">to</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{@contact_name} accepted your invite!&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- accept_email-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- accept_email-method -->
+
+    
+      <div id="method-i-accept_manager" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">accept_manager</span><span
+            class="method-args">(prouser,activity,m_user,url)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>accept a manger for famtivity</p>
+          
+
+          
+          <div class="method-source-code" id="accept_manager-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 912</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">accept_manager</span>(<span class="ruby-identifier">prouser</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">m_user</span>,<span class="ruby-identifier">url</span>)
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">prouser</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-ivar">@m_user</span> = <span class="ruby-identifier">m_user</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-node">&quot;http://#{url}&quot;</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;Famtivity | #{@m_user.user_name.titlecase} accepted your assigned activity.&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- accept_manager-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- accept_manager-method -->
+
+    
+      <div id="method-i-accepted_status_to_manager" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">accepted_status_to_manager</span><span
+            class="method-args">(to_email,activity,pro_user,url)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>invite a manger for famtivity to join by rajkumar</p>
+          
+
+          
+          <div class="method-source-code" id="accepted_status_to_manager-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 941</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">accepted_status_to_manager</span>(<span class="ruby-identifier">to_email</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">pro_user</span>,<span class="ruby-identifier">url</span>)
+  <span class="ruby-ivar">@act</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-ivar">@to_user</span> = <span class="ruby-identifier">to_email</span>
+  <span class="ruby-ivar">@from_user</span> = <span class="ruby-identifier">pro_user</span>
+  <span class="ruby-ivar">@image_path</span> = <span class="ruby-node">&quot;http://#{url}&quot;</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@to_user</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;Famtivity | Successfully accepted #{@from_user.user_name.titlecase} manager invitation&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- accepted_status_to_manager-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- accepted_status_to_manager-method -->
+
+    
+      <div id="method-i-accepted_status_to_provider" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">accepted_status_to_provider</span><span
+            class="method-args">(to_email,activity,from_user,url)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>invite a manger for famtivity to join by rajkumar</p>
+          
+
+          
+          <div class="method-source-code" id="accepted_status_to_provider-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 950</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">accepted_status_to_provider</span>(<span class="ruby-identifier">to_email</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">from_user</span>,<span class="ruby-identifier">url</span>)
+  <span class="ruby-ivar">@act</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-ivar">@to_user</span> = <span class="ruby-identifier">to_email</span>
+  <span class="ruby-ivar">@from_user</span> = <span class="ruby-identifier">from_user</span>
+  <span class="ruby-identifier">mgr_actid</span> = <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">encode64</span>(<span class="ruby-node">&quot;#{@act.activity_id}&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@act</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-ivar">@url</span> = <span class="ruby-node">&quot;http://#{url}?mgrapt=true&amp;macid=#{mgr_actid}&quot;</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@to_user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Famtivity | Your manager invitation accepted successfully&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- accepted_status_to_provider-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- accepted_status_to_provider-method -->
+
+    
+      <div id="method-i-ack_user_discount" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">ack_user_discount</span><span
+            class="method-args">(invited_user,credits)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="ack_user_discount-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 973</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">ack_user_discount</span>(<span class="ruby-identifier">invited_user</span>,<span class="ruby-identifier">credits</span>)
+  <span class="ruby-ivar">@to_user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">'user_id=?'</span>,<span class="ruby-identifier">credits</span>.<span class="ruby-identifier">user_id</span>).<span class="ruby-identifier">first</span>
+  <span class="ruby-ivar">@invited_user</span> = <span class="ruby-identifier">invited_user</span>
+  <span class="ruby-ivar">@credits</span> = <span class="ruby-identifier">credits</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@to_user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;You have received $#{credits.credit_amount.to_i} discount credits from Famtivity!&quot;</span>)    
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- ack_user_discount-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- ack_user_discount-method -->
+
+    
+      <div id="method-i-ack_user_discount_api" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">ack_user_discount_api</span><span
+            class="method-args">(invited_user,credits)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="ack_user_discount_api-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1863</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">ack_user_discount_api</span>(<span class="ruby-identifier">invited_user</span>,<span class="ruby-identifier">credits</span>)
+  <span class="ruby-ivar">@to_user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">'user_id=?'</span>,<span class="ruby-identifier">credits</span>.<span class="ruby-identifier">user_id</span>).<span class="ruby-identifier">first</span>
+  <span class="ruby-ivar">@invited_user</span> = <span class="ruby-identifier">invited_user</span>
+  <span class="ruby-ivar">@credits</span> = <span class="ruby-identifier">credits</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@to_user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;You have received $#{credits.credit_amount.to_i} discount credits from Famtivity!&quot;</span>)    
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- ack_user_discount_api-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- ack_user_discount_api-method -->
+
+    
+      <div id="method-i-activity_create_api" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">activity_create_api</span><span
+            class="method-args">(user,activity)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>if parent create activity send mail</p>
+          
+
+          
+          <div class="method-source-code" id="activity_create_api-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1564</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">activity_create_api</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">activity</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;Famtivity Activity Added - #{@activity.activity_name}&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- activity_create_api-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- activity_create_api-method -->
+
+    
+      <div id="method-i-activity_represent_invite_mail" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">activity_represent_invite_mail</span><span
+            class="method-args">(school_repr,new_activity,to_user,sent_user,urls,request)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>school represent flow - send activity to representative</p>
+          
+
+          
+          <div class="method-source-code" id="activity_represent_invite_mail-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1173</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">activity_represent_invite_mail</span>(<span class="ruby-identifier">school_repr</span>,<span class="ruby-identifier">new_activity</span>,<span class="ruby-identifier">to_user</span>,<span class="ruby-identifier">sent_user</span>,<span class="ruby-identifier">urls</span>,<span class="ruby-identifier">request</span>)
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">new_activity</span>
+  <span class="ruby-ivar">@sent_user</span> = <span class="ruby-identifier">sent_user</span>
+  <span class="ruby-ivar">@to_user</span> = <span class="ruby-identifier">to_user</span>
+  <span class="ruby-ivar">@rep_share</span> = <span class="ruby-identifier">school_repr</span>.<span class="ruby-identifier">share</span>
+  <span class="ruby-ivar">@ven_share</span> = (<span class="ruby-value">100</span><span class="ruby-operator">-</span><span class="ruby-ivar">@rep_share</span>.<span class="ruby-identifier">to_f</span>)
+  <span class="ruby-ivar">@image_path</span> = <span class="ruby-node">&quot;http://#{urls}&quot;</span>
+  <span class="ruby-ivar">@url</span> = <span class="ruby-node">&quot;#{@image_path}/activate_representative_activity?school_rep=#{school_repr.school_rep_id}&quot;</span>
+  <span class="ruby-ivar">@req</span> = <span class="ruby-identifier">request</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">to_user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:from=</span><span class="ruby-operator">&gt;</span><span class="ruby-ivar">@sent_user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Represent the Activity&quot;</span>)  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- activity_represent_invite_mail-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- activity_represent_invite_mail-method -->
+
+    
+      <div id="method-i-activity_reschedule_api" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">activity_reschedule_api</span><span
+            class="method-args">(email,activity,user)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>reschedule activity</p>
+          
+
+          
+          <div class="method-source-code" id="activity_reschedule_api-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1298</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">activity_reschedule_api</span>(<span class="ruby-identifier">email</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">user</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@email</span> = <span class="ruby-identifier">email</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@email</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;Your Updated Activity Details - #{@activity.activity_name}&quot;</span>) 
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- activity_reschedule_api-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- activity_reschedule_api-method -->
+
+    
+      <div id="method-i-activity_reschedule_participant_api" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">activity_reschedule_participant_api</span><span
+            class="method-args">(email,activity,user)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>reschedule activity mail to participants</p>
+          
+
+          
+          <div class="method-source-code" id="activity_reschedule_participant_api-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1307</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">activity_reschedule_participant_api</span>(<span class="ruby-identifier">email</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">user</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@email</span> = <span class="ruby-identifier">email</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@email</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;Your Updated Activity Details - #{@activity.activity_name}&quot;</span>)     
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- activity_reschedule_participant_api-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- activity_reschedule_participant_api-method -->
+
+    
+      <div id="method-i-activity_status_mail" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">activity_status_mail</span><span
+            class="method-args">(user,activity,urls,msg,to,subject)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>send a mail while activity status changed</p>
+          
+
+          
+          <div class="method-source-code" id="activity_status_mail-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 410</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">activity_status_mail</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">urls</span>,<span class="ruby-identifier">msg</span>,<span class="ruby-identifier">to</span>,<span class="ruby-identifier">subject</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-ivar">@msg</span> = <span class="ruby-identifier">msg</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-identifier">urls</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">to</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">subject</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- activity_status_mail-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- activity_status_mail-method -->
+
+    
+      <div id="method-i-admin_user_mail" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">admin_user_mail</span><span
+            class="method-args">(activity,email_id,url,message)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="admin_user_mail-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 293</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">admin_user_mail</span>(<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">email_id</span>,<span class="ruby-identifier">url</span>,<span class="ruby-identifier">message</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-ivar">@msg</span> = <span class="ruby-identifier">message</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-identifier">url</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">email_id</span>, <span class="ruby-value">:bcc=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">$admin_bcc</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Famtivity Admin - Raised Flag for an Activity&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- admin_user_mail-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- admin_user_mail-method -->
+
+    
+      <div id="method-i-after_payment_api" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">after_payment_api</span><span
+            class="method-args">(user,activity,trans,status,amount,ticket_code)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>after payment send mail to parent</p>
+          
+
+          
+          <div class="method-source-code" id="after_payment_api-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1369</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">after_payment_api</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">trans</span>,<span class="ruby-identifier">status</span>,<span class="ruby-identifier">amount</span>,<span class="ruby-identifier">ticket_code</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-ivar">@trans</span> = <span class="ruby-identifier">trans</span>
+  <span class="ruby-ivar">@status</span> = <span class="ruby-identifier">status</span>
+  <span class="ruby-ivar">@amount</span> = <span class="ruby-identifier">amount</span>
+  <span class="ruby-ivar">@ticket_code</span> = <span class="ruby-identifier">ticket_code</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span><span class="ruby-identifier">user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Payment Confirmation&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- after_payment_api-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- after_payment_api-method -->
+
+    
+      <div id="method-i-after_payment_mail" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">after_payment_mail</span><span
+            class="method-args">(total_count_amount,activity,urls,user,ticket_number,trans,to,credit_num)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>sending mail for the payment process</p>
+          
+
+          
+          <div class="method-source-code" id="after_payment_mail-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 677</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">after_payment_mail</span>(<span class="ruby-identifier">total_count_amount</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">urls</span>,<span class="ruby-identifier">user</span>,<span class="ruby-identifier">ticket_number</span>,<span class="ruby-identifier">trans</span>,<span class="ruby-identifier">to</span>,<span class="ruby-identifier">credit_num</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-ivar">@amount</span> = <span class="ruby-identifier">total_count_amount</span>
+  <span class="ruby-ivar">@ticket_number</span> = <span class="ruby-identifier">ticket_number</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-node">&quot;http://#{urls}&quot;</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@trans</span> = <span class="ruby-identifier">trans</span>
+  <span class="ruby-ivar">@cred_num</span> = <span class="ruby-identifier">credit_num</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span><span class="ruby-identifier">to</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Payment Confirmation&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- after_payment_mail-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- after_payment_mail-method -->
+
+    
+      <div id="method-i-after_payment_new_api" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">after_payment_new_api</span><span
+            class="method-args">(user,email,activity,trans,status,amount,ticket_code,card_last)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>after payment send mail to parent</p>
+          
+
+          
+          <div class="method-source-code" id="after_payment_new_api-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 690</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">after_payment_new_api</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">email</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">trans</span>,<span class="ruby-identifier">status</span>,<span class="ruby-identifier">amount</span>,<span class="ruby-identifier">ticket_code</span>,<span class="ruby-identifier">card_last</span>)
+   <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+   <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+   <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>
+   <span class="ruby-ivar">@trans</span> = <span class="ruby-identifier">trans</span>     
+   <span class="ruby-ivar">@status</span> = <span class="ruby-identifier">status</span>
+   <span class="ruby-ivar">@amount</span> = <span class="ruby-identifier">amount</span>
+   <span class="ruby-ivar">@ticket_code</span> = <span class="ruby-identifier">ticket_code</span>
+   <span class="ruby-ivar">@card_last</span> = <span class="ruby-identifier">card_last</span>
+   <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span><span class="ruby-identifier">email</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Payment Confirmation&quot;</span>)    
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- after_payment_new_api-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- after_payment_new_api-method -->
+
+    
+      <div id="method-i-assign_to_manager" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">assign_to_manager</span><span
+            class="method-args">(managerid,activity,from_user,umid,url)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>assign a manger for famtivity</p>
+          
+
+          
+          <div class="method-source-code" id="assign_to_manager-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 883</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">assign_to_manager</span>(<span class="ruby-identifier">managerid</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">from_user</span>,<span class="ruby-identifier">umid</span>,<span class="ruby-identifier">url</span>)
+  <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">managerid</span>) <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">managerid</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-ivar">@from_user</span> = <span class="ruby-identifier">from_user</span>
+  <span class="ruby-identifier">mgr_record</span> = <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">encode64</span>(<span class="ruby-node">&quot;#{umid}&quot;</span>)
+  <span class="ruby-identifier">en_user_id</span> = <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">encode64</span>(<span class="ruby-node">&quot;#{@from_user.user_id}&quot;</span>)
+  <span class="ruby-ivar">@url</span> = <span class="ruby-node">&quot;http://#{url}/assign_manager_accept?sent_user=#{en_user_id}&amp;sent_user_email=#{@user.email_address}&amp;mrecord=#{mgr_record}&quot;</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-node">&quot;http://#{url}&quot;</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:from=</span><span class="ruby-operator">&gt;</span><span class="ruby-ivar">@from_user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{@from_user.user_name.titlecase} assigned you as manager to join famtivity.&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- assign_to_manager-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- assign_to_manager-method -->
+
+    
+      <div id="method-i-autorenewal_failure_to_famtivity" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">autorenewal_failure_to_famtivity</span><span
+            class="method-args">(user,uamt,fmsg)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>sent a mail to register user after transaction</p>
+          
+
+          
+          <div class="method-source-code" id="autorenewal_failure_to_famtivity-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 93</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">autorenewal_failure_to_famtivity</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">uamt</span>,<span class="ruby-identifier">fmsg</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@uamount</span> = <span class="ruby-identifier">uamt</span>
+  <span class="ruby-ivar">@failure_msg</span> = <span class="ruby-identifier">fmsg</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{$famadmin_email}&quot;</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Auto-Renewal Failure Notification&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- autorenewal_failure_to_famtivity-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- autorenewal_failure_to_famtivity-method -->
+
+    
+      <div id="method-i-autorenewal_failure_to_provider" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">autorenewal_failure_to_provider</span><span
+            class="method-args">(user,uamt,fmsg)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>sent a mail to register user after transaction</p>
+          
+
+          
+          <div class="method-source-code" id="autorenewal_failure_to_provider-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 114</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">autorenewal_failure_to_provider</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">uamt</span>,<span class="ruby-identifier">fmsg</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@uamount</span> = <span class="ruby-identifier">uamt</span>
+  <span class="ruby-ivar">@failure_msg</span> = <span class="ruby-identifier">fmsg</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@user</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@user</span><span class="ruby-operator">!=</span><span class="ruby-string">''</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">user_flag</span><span class="ruby-operator">==</span><span class="ruby-constant">TRUE</span> <span class="ruby-comment">#send a mail to provider</span>
+    <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Auto-Renewal Failure Notification&quot;</span>)
+  <span class="ruby-keyword">else</span> <span class="ruby-comment">#send a mail to admin </span>
+    <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{$famadmin_email}&quot;</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Auto-Renewal Failure Notification&quot;</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- autorenewal_failure_to_provider-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- autorenewal_failure_to_provider-method -->
+
+    
+      <div id="method-i-autorenewal_report_to_famtivity" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">autorenewal_report_to_famtivity</span><span
+            class="method-args">(rusers,gusers)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>auto renewal process to famtivity</p>
+          
+
+          
+          <div class="method-source-code" id="autorenewal_report_to_famtivity-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 36</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">autorenewal_report_to_famtivity</span>(<span class="ruby-identifier">rusers</span>,<span class="ruby-identifier">gusers</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@users_list</span> = <span class="ruby-identifier">rusers</span> <span class="ruby-comment">#renewal users list</span>
+  <span class="ruby-ivar">@grace_users_list</span> = <span class="ruby-identifier">gusers</span> <span class="ruby-comment">#grace period users list</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;urajkumar@i-waves.com,ambika@i-waves.com&quot;</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Auto-renewal process user's reports to support team&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- autorenewal_report_to_famtivity-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- autorenewal_report_to_famtivity-method -->
+
+    
+      <div id="method-i-autorenewal_success_to_famtivity" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">autorenewal_success_to_famtivity</span><span
+            class="method-args">(user,uamt)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>sent a mail to register user after transaction</p>
+          
+
+          
+          <div class="method-source-code" id="autorenewal_success_to_famtivity-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 85</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">autorenewal_success_to_famtivity</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">uamt</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@uamount</span> = <span class="ruby-identifier">uamt</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{$famadmin_email}&quot;</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Auto-Renewal Payment Confirmation!&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- autorenewal_success_to_famtivity-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- autorenewal_success_to_famtivity-method -->
+
+    
+      <div id="method-i-autorenewal_success_to_provider" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">autorenewal_success_to_provider</span><span
+            class="method-args">(user,uamt)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>sent a mail to register user after transaction</p>
+          
+
+          
+          <div class="method-source-code" id="autorenewal_success_to_provider-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 102</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">autorenewal_success_to_provider</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">uamt</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@uamount</span> = <span class="ruby-identifier">uamt</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@user</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@user</span><span class="ruby-operator">!=</span><span class="ruby-string">''</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">user_flag</span><span class="ruby-operator">==</span><span class="ruby-constant">TRUE</span> <span class="ruby-comment">#send a mail to provider</span>
+    <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Auto-Renewal Payment Confirmation!&quot;</span>)
+  <span class="ruby-keyword">else</span> <span class="ruby-comment">#send a mail to admin </span>
+    <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{$famadmin_email}&quot;</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Auto-Renewal Payment Confirmation!&quot;</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- autorenewal_success_to_provider-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- autorenewal_success_to_provider-method -->
+
+    
+      <div id="method-i-become_provider_user" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">become_provider_user</span><span
+            class="method-args">(user,urlr,plan)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="become_provider_user-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 831</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">become_provider_user</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">urlr</span>,<span class="ruby-identifier">plan</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@plan</span> = <span class="ruby-identifier">plan</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-identifier">urlr</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;You are Now an Activity Provider on Famtivity!&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- become_provider_user-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- become_provider_user-method -->
+
+    
+      <div id="method-i-before_message_toprovider_api" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">before_message_toprovider_api</span><span
+            class="method-args">(email,user,message,activity)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>before login send message in activity details page</p>
+          
+
+          
+          <div class="method-source-code" id="before_message_toprovider_api-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1623</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">before_message_toprovider_api</span>(<span class="ruby-identifier">email</span>,<span class="ruby-identifier">user</span>,<span class="ruby-identifier">message</span>,<span class="ruby-identifier">activity</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@email</span> = <span class="ruby-identifier">email</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>    
+  <span class="ruby-ivar">@msg</span> = <span class="ruby-identifier">message</span>   
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@user</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@user</span><span class="ruby-operator">!=</span><span class="ruby-string">''</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">user_flag</span> <span class="ruby-operator">==</span> <span class="ruby-constant">TRUE</span> 
+    <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:bcc=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">$admin_bcc</span>, <span class="ruby-value">:from</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@email</span>,  <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Famtivity - Request for more activity details&quot;</span>)
+  <span class="ruby-keyword">else</span> <span class="ruby-comment">#send a mail to admin </span>
+    <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{$proleads_email}&quot;</span>,<span class="ruby-value">:from</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@email</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Famtivity - Request for more activity details&quot;</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- before_message_toprovider_api-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- before_message_toprovider_api-method -->
+
+    
+      <div id="method-i-beforeln_msg_to_cardprovider" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">beforeln_msg_to_cardprovider</span><span
+            class="method-args">(cuser,puser,urls,msg)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>send a mail to provider</p>
+          
+
+          
+          <div class="method-source-code" id="beforeln_msg_to_cardprovider-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1040</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">beforeln_msg_to_cardprovider</span>(<span class="ruby-identifier">cuser</span>,<span class="ruby-identifier">puser</span>,<span class="ruby-identifier">urls</span>,<span class="ruby-identifier">msg</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@cuser</span> = <span class="ruby-identifier">cuser</span>
+  <span class="ruby-ivar">@puser</span> = <span class="ruby-identifier">puser</span>
+  <span class="ruby-ivar">@msg</span> = <span class="ruby-identifier">msg</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-identifier">urls</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@puser</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@puser</span><span class="ruby-operator">!=</span><span class="ruby-string">''</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@puser</span>.<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@puser</span>.<span class="ruby-identifier">user_flag</span><span class="ruby-operator">==</span><span class="ruby-constant">TRUE</span> <span class="ruby-comment">#send a mail to provider</span>
+    <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@puser</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:bcc=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">$admin_bcc</span>, <span class="ruby-value">:from=</span><span class="ruby-operator">&gt;</span><span class="ruby-ivar">@cuser</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Famtivity - Request for more activity details&quot;</span>)
+  <span class="ruby-keyword">else</span> <span class="ruby-comment">#send a mail to admin </span>
+    <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{$proleads_email}&quot;</span>, <span class="ruby-value">:from=</span><span class="ruby-operator">&gt;</span><span class="ruby-ivar">@cuser</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Famtivity - Request for more activity details&quot;</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- beforeln_msg_to_cardprovider-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- beforeln_msg_to_cardprovider-method -->
+
+    
+      <div id="method-i-beforeln_msg_toprovider" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">beforeln_msg_toprovider</span><span
+            class="method-args">(cuser,puser,acty,urls,msg)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>send a mail to provider</p>
+          
+
+          
+          <div class="method-source-code" id="beforeln_msg_toprovider-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1025</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">beforeln_msg_toprovider</span>(<span class="ruby-identifier">cuser</span>,<span class="ruby-identifier">puser</span>,<span class="ruby-identifier">acty</span>,<span class="ruby-identifier">urls</span>,<span class="ruby-identifier">msg</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@cuser</span> = <span class="ruby-identifier">cuser</span>
+  <span class="ruby-ivar">@puser</span> = <span class="ruby-identifier">puser</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">acty</span>
+  <span class="ruby-ivar">@msg</span> = <span class="ruby-identifier">msg</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-identifier">urls</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@puser</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@puser</span><span class="ruby-operator">!=</span><span class="ruby-string">''</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@puser</span>.<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@puser</span>.<span class="ruby-identifier">user_flag</span><span class="ruby-operator">==</span><span class="ruby-constant">TRUE</span> <span class="ruby-comment">#send a mail to provider</span>
+    <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@puser</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:bcc=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">$admin_bcc</span>, <span class="ruby-value">:from=</span><span class="ruby-operator">&gt;</span><span class="ruby-ivar">@cuser</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Famtivity - Request for more activity details&quot;</span>)
+  <span class="ruby-keyword">else</span> <span class="ruby-comment">#send a mail to admin </span>
+    <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{$proleads_email}&quot;</span>, <span class="ruby-value">:from=</span><span class="ruby-operator">&gt;</span><span class="ruby-ivar">@cuser</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Famtivity - Request for more activity details&quot;</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- beforeln_msg_toprovider-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- beforeln_msg_toprovider-method -->
+
+    
+      <div id="method-i-beta_feedback" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">beta_feedback</span><span
+            class="method-args">(subject,msg,name,email,urlr)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="beta_feedback-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 274</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">beta_feedback</span>(<span class="ruby-identifier">subject</span>,<span class="ruby-identifier">msg</span>,<span class="ruby-identifier">name</span>,<span class="ruby-identifier">email</span>,<span class="ruby-identifier">urlr</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@name</span> = <span class="ruby-identifier">name</span>
+  <span class="ruby-ivar">@email</span> = <span class="ruby-identifier">email</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-identifier">urlr</span>
+  <span class="ruby-ivar">@msg</span>=<span class="ruby-identifier">msg</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'support@famtivity.com'</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{subject}&quot;</span>, <span class="ruby-value">:from</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">email</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- beta_feedback-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- beta_feedback-method -->
+
+    
+      <div id="method-i-beta_feedback_image" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">beta_feedback_image</span><span
+            class="method-args">(subject,msg,name,email,urlr,image_url)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="beta_feedback_image-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 283</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">beta_feedback_image</span>(<span class="ruby-identifier">subject</span>,<span class="ruby-identifier">msg</span>,<span class="ruby-identifier">name</span>,<span class="ruby-identifier">email</span>,<span class="ruby-identifier">urlr</span>,<span class="ruby-identifier">image_url</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@name</span> = <span class="ruby-identifier">name</span>
+  <span class="ruby-ivar">@email</span> = <span class="ruby-identifier">email</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-identifier">urlr</span>
+  <span class="ruby-identifier">attachments</span>[<span class="ruby-string">'image.png'</span>] = <span class="ruby-identifier">image_url</span>
+  <span class="ruby-ivar">@msg</span>=<span class="ruby-identifier">msg</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'support@famtivity.com'</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{subject}&quot;</span>, <span class="ruby-value">:from</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">email</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- beta_feedback_image-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- beta_feedback_image-method -->
+
+    
+      <div id="method-i-cancel_activity_mail_to_parent" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cancel_activity_mail_to_parent</span><span
+            class="method-args">(name,activity,urls,to,activity_user)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>send a mail while cancel the schedule</p>
+          
+
+          
+          <div class="method-source-code" id="cancel_activity_mail_to_parent-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 499</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cancel_activity_mail_to_parent</span>(<span class="ruby-identifier">name</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">urls</span>,<span class="ruby-identifier">to</span>,<span class="ruby-identifier">activity_user</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@name</span>=<span class="ruby-identifier">name</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-ivar">@activity_user</span> = <span class="ruby-identifier">activity_user</span>
+  <span class="ruby-ivar">@image_url</span> =<span class="ruby-node">&quot;http://#{urls}&quot;</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">to</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{@activity.activity_name} Details Have Changed&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- cancel_activity_mail_to_parent-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- cancel_activity_mail_to_parent-method -->
+
+    
+      <div id="method-i-cancel_activity_mail_to_provider" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cancel_activity_mail_to_provider</span><span
+            class="method-args">(name,user_name,activity,urls,msg,to,subject)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>send a mail while cancel the schedule</p>
+          
+
+          
+          <div class="method-source-code" id="cancel_activity_mail_to_provider-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 488</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cancel_activity_mail_to_provider</span>(<span class="ruby-identifier">name</span>,<span class="ruby-identifier">user_name</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">urls</span>,<span class="ruby-identifier">msg</span>,<span class="ruby-identifier">to</span>,<span class="ruby-identifier">subject</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@name</span>=<span class="ruby-identifier">name</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user_name</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-ivar">@msg</span> = <span class="ruby-identifier">msg</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-identifier">urls</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">to</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Famtivity - Delete Activity&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- cancel_activity_mail_to_provider-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- cancel_activity_mail_to_provider-method -->
+
+    
+      <div id="method-i-change_email_address" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">change_email_address</span><span
+            class="method-args">(user,urlr,utype)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="change_email_address-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 232</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_email_address</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">urlr</span>,<span class="ruby-identifier">utype</span>)
+  <span class="ruby-ivar">@utype</span>=<span class="ruby-identifier">utype</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-identifier">urlr</span>
+  <span class="ruby-identifier">user_id</span>   = <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">encode64</span>(<span class="ruby-node">&quot;#{user.user_id}&quot;</span>)
+  <span class="ruby-ivar">@en_utype</span> = <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">encode64</span>(<span class="ruby-node">&quot;#{utype}&quot;</span>)
+  <span class="ruby-ivar">@url</span> = <span class="ruby-node">&quot;http://#{urlr}/email_activate?uid=#{user_id}&amp;utype=#{@en_utype}&quot;</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">new_email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Change Email Address!&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- change_email_address-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- change_email_address-method -->
+
+    
+      <div id="method-i-change_email_address_api" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">change_email_address_api</span><span
+            class="method-args">(user,urlr,utype)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Change mail id</p>
+          
+
+          
+          <div class="method-source-code" id="change_email_address_api-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1774</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_email_address_api</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">urlr</span>,<span class="ruby-identifier">utype</span>)
+  <span class="ruby-ivar">@utype</span>=<span class="ruby-identifier">utype</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@url</span> = <span class="ruby-node">&quot;#{$image_global_path}user_activate?email=#{user.email_address}&quot;</span>
+  <span class="ruby-identifier">user_id</span>   = <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">encode64</span>(<span class="ruby-node">&quot;#{user.user_id}&quot;</span>)
+  <span class="ruby-ivar">@en_utype</span> = <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">encode64</span>(<span class="ruby-node">&quot;#{utype}&quot;</span>)
+  <span class="ruby-ivar">@url</span> = <span class="ruby-node">&quot;#{$image_global_path}email_activate?uid=#{user_id}&amp;utype=#{@en_utype}&quot;</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">new_email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Change Email Address!&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- change_email_address_api-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- change_email_address_api-method -->
+
+    
+      <div id="method-i-change_email_success" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">change_email_success</span><span
+            class="method-args">(user,urlr,oldemail,utype)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="change_email_success-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 242</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_email_success</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">urlr</span>,<span class="ruby-identifier">oldemail</span>,<span class="ruby-identifier">utype</span>)
+  <span class="ruby-ivar">@utype</span>=<span class="ruby-identifier">utype</span>
+  <span class="ruby-ivar">@oldemail</span>=<span class="ruby-identifier">oldemail</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-identifier">urlr</span>
+  <span class="ruby-comment">#~ mail(:to =&gt; user.email_address, :subject =&gt; &quot;Change Email Success!&quot;) # flow changes by rajkumar</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{oldemail},#{@user.email_address}&quot;</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Change Email Success!&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- change_email_success-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- change_email_success-method -->
+
+    
+      <div id="method-i-change_password_api" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">change_password_api</span><span
+            class="method-args">(user)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="change_password_api-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1291</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_password_api</span>(<span class="ruby-identifier">user</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span><span class="ruby-identifier">user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Password Changed&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- change_password_api-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- change_password_api-method -->
+
+    
+      <div id="method-i-change_password_mail" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">change_password_mail</span><span
+            class="method-args">(user,urls,msg,to,subject)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>send a mail while changed the password</p>
+          
+
+          
+          <div class="method-source-code" id="change_password_mail-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 420</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_password_mail</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">urls</span>,<span class="ruby-identifier">msg</span>,<span class="ruby-identifier">to</span>,<span class="ruby-identifier">subject</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@msg</span> = <span class="ruby-identifier">msg</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-identifier">urls</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">to</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Change password details&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- change_password_mail-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- change_password_mail-method -->
+
+    
+      <div id="method-i-contact_invite" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">contact_invite</span><span
+            class="method-args">(user,urlr,to,contact)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="contact_invite-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 787</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">contact_invite</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">urlr</span>,<span class="ruby-identifier">to</span>,<span class="ruby-identifier">contact</span>)
+  <span class="ruby-comment">#~ added  attend_track param for analytic tracking</span>
+  <span class="ruby-ivar">@url</span> = <span class="ruby-node">&quot;http://#{urlr}/contact_activate?cid=#{contact}&amp;attend_track=true&quot;</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@image_path</span> = <span class="ruby-node">&quot;http://#{urlr}&quot;</span>
+  <span class="ruby-comment"># mail(:to =&gt; to, :subject =&gt; &quot;#{@user.user_name.titlecase} invites you to join Famtivity&quot;)</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">to</span>, <span class="ruby-value">:from=</span><span class="ruby-operator">&gt;</span><span class="ruby-ivar">@user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{@user.user_name.titlecase} invites you to join Famtivity!&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- contact_invite-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- contact_invite-method -->
+
+    
+      <div id="method-i-contact_mail_api" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">contact_mail_api</span><span
+            class="method-args">(email,name,phone,msg,areyou)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>contact us mailer function</p>
+          
+
+          
+          <div class="method-source-code" id="contact_mail_api-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1419</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">contact_mail_api</span>(<span class="ruby-identifier">email</span>,<span class="ruby-identifier">name</span>,<span class="ruby-identifier">phone</span>,<span class="ruby-identifier">msg</span>,<span class="ruby-identifier">areyou</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@email</span> = <span class="ruby-identifier">email</span>
+  <span class="ruby-ivar">@msg</span> = <span class="ruby-identifier">msg</span>
+  <span class="ruby-ivar">@name</span> = <span class="ruby-identifier">name</span>
+  <span class="ruby-ivar">@phone</span> = <span class="ruby-identifier">phone</span>  
+  <span class="ruby-ivar">@areyou</span> = <span class="ruby-identifier">areyou</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;support@famtivity.com&quot;</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Famtivity - Contact&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- contact_mail_api-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- contact_mail_api-method -->
+
+    
+      <div id="method-i-contact_provider_mail_api" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">contact_provider_mail_api</span><span
+            class="method-args">(activity_user,user,activity,message)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>contact provider to activity price details</p>
+          
+
+          
+          <div class="method-source-code" id="contact_provider_mail_api-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1589</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">contact_provider_mail_api</span>(<span class="ruby-identifier">activity_user</span>,<span class="ruby-identifier">user</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">message</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@activity_user</span> = <span class="ruby-identifier">activity_user</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-ivar">@msg</span> = <span class="ruby-identifier">message</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@activity_user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Request for activity price details&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- contact_provider_mail_api-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- contact_provider_mail_api-method -->
+
+    
+      <div id="method-i-contact_register" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">contact_register</span><span
+            class="method-args">(user,urlr,to,contact,name)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="contact_register-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 769</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">contact_register</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">urlr</span>,<span class="ruby-identifier">to</span>,<span class="ruby-identifier">contact</span>,<span class="ruby-identifier">name</span>)
+  <span class="ruby-comment">#~ added  attend_track param for analytic tracking</span>
+  <span class="ruby-ivar">@url</span> = <span class="ruby-node">&quot;http://#{urlr}/contact_activate?cid=#{contact}&amp;attend_track=true&quot;</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@name</span> = <span class="ruby-identifier">name</span>
+  <span class="ruby-ivar">@image_path</span> = <span class="ruby-node">&quot;http://#{urlr}&quot;</span>
+  <span class="ruby-comment">#mail(:to =&gt; to, :subject =&gt; &quot;#{@user.user_name.titlecase} invites you to join Famtivity&quot;)</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">to</span>, <span class="ruby-value">:from=</span><span class="ruby-operator">&gt;</span><span class="ruby-ivar">@user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{@user.user_name.titlecase} invites you to join Famtivity!&quot;</span>)
+  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- contact_register-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- contact_register-method -->
+
+    
+      <div id="method-i-contact_success_mail_api" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">contact_success_mail_api</span><span
+            class="method-args">(email_address,group_name,contact_users,url)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="contact_success_mail_api-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1882</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">contact_success_mail_api</span>(<span class="ruby-identifier">email_address</span>,<span class="ruby-identifier">group_name</span>,<span class="ruby-identifier">contact_users</span>,<span class="ruby-identifier">url</span>)
+  <span class="ruby-ivar">@image_path</span> = <span class="ruby-node">&quot;#{$image_global_path}&quot;</span>
+  <span class="ruby-ivar">@to</span> = <span class="ruby-identifier">email_address</span>
+  <span class="ruby-ivar">@fam_post</span> = <span class="ruby-identifier">group_name</span>
+  <span class="ruby-ivar">@contact</span> = <span class="ruby-identifier">contact_users</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@to</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{@contact.contact_email.split('@')[0] if @contact &amp;&amp; @contact.contact_email} accepted your invitation | Fam Network - #{@fam_post.group_name}&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- contact_success_mail_api-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- contact_success_mail_api-method -->
+
+    
+      <div id="method-i-contact_us" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">contact_us</span><span
+            class="method-args">(email,name,urlr,phone,msg,user_type)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="contact_us-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 263</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">contact_us</span>(<span class="ruby-identifier">email</span>,<span class="ruby-identifier">name</span>,<span class="ruby-identifier">urlr</span>,<span class="ruby-identifier">phone</span>,<span class="ruby-identifier">msg</span>,<span class="ruby-identifier">user_type</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">email</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-identifier">urlr</span>
+  <span class="ruby-ivar">@user_type</span> = <span class="ruby-identifier">user_type</span>
+  <span class="ruby-ivar">@msg</span>=<span class="ruby-identifier">msg</span>
+  <span class="ruby-ivar">@name</span>=<span class="ruby-identifier">name</span>
+  <span class="ruby-ivar">@phone</span>=<span class="ruby-identifier">phone</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'support@famtivity.com'</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Famtivity | Contact us&quot;</span>, <span class="ruby-value">:from</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">email</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- contact_us-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- contact_us-method -->
+
+    
+      <div id="method-i-curated_user_activities" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">curated_user_activities</span><span
+            class="method-args">(user,urlr)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="curated_user_activities-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 187</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">curated_user_activities</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">urlr</span>)
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-node">&quot;http://#{urlr}&quot;</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Welcome to Famtivity!&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- curated_user_activities-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- curated_user_activities-method -->
+
+    
+      <div id="method-i-curated_user_activities_api" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">curated_user_activities_api</span><span
+            class="method-args">(user)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>curator user activation</p>
+          
+
+          
+          <div class="method-source-code" id="curated_user_activities_api-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1253</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">curated_user_activities_api</span>(<span class="ruby-identifier">user</span>)
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Welcome to Famtivity!&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- curated_user_activities_api-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- curated_user_activities_api-method -->
+
+    
+      <div id="method-i-curator_actinfo_tofam" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">curator_actinfo_tofam</span><span
+            class="method-args">(user,urlr)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>curator activation mail to famtivity team</p>
+          
+
+          
+          <div class="method-source-code" id="curator_actinfo_tofam-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 194</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">curator_actinfo_tofam</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">urlr</span>)
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-node">&quot;http://#{urlr}&quot;</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{$proleads_email}&quot;</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;Famtivity | Curator Provider #{@user.user_name.titlecase} has taken ownership&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- curator_actinfo_tofam-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- curator_actinfo_tofam-method -->
+
+    
+      <div id="method-i-curator_actinfo_tofam_api" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">curator_actinfo_tofam_api</span><span
+            class="method-args">(user)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>curator activation mail to famtivity team</p>
+          
+
+          
+          <div class="method-source-code" id="curator_actinfo_tofam_api-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1258</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">curator_actinfo_tofam_api</span>(<span class="ruby-identifier">user</span>)
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{$proleads_email}&quot;</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;Famtivity | Curator Provider #{@user.user_name.titlecase} has taken ownership&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- curator_actinfo_tofam_api-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- curator_actinfo_tofam_api-method -->
+
+    
+      <div id="method-i-curator_msg_admin" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">curator_msg_admin</span><span
+            class="method-args">(user,urlr)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>if curator register as provider send mail to Elieen</p>
+          
+
+          
+          <div class="method-source-code" id="curator_msg_admin-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 180</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">curator_msg_admin</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">urlr</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-identifier">urlr</span>    
+  <span class="ruby-ivar">@url</span> = <span class="ruby-node">&quot;http://#{urlr}/user_activate?email=#{user.email_address}&amp;curated_flag=true&quot;</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span><span class="ruby-node">&quot;#{$famadmin_email}&quot;</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Curator Provider Register in Famtivity&quot;</span>) 
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- curator_msg_admin-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- curator_msg_admin-method -->
+
+    
+      <div id="method-i-curator_upgrade_info" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">curator_upgrade_info</span><span
+            class="method-args">(user)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>send a mail while changed the password</p>
+          
+
+          
+          <div class="method-source-code" id="curator_upgrade_info-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 429</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">curator_upgrade_info</span>(<span class="ruby-identifier">user</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{$famadmin_email}&quot;</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Curator upgrade information&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- curator_upgrade_info-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- curator_upgrade_info-method -->
+
+    
+      <div id="method-i-delete_activity_mail" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">delete_activity_mail</span><span
+            class="method-args">(user,activity,urls,to)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="delete_activity_mail-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 392</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_activity_mail</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">urls</span>,<span class="ruby-identifier">to</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-node">&quot;http://#{urls}&quot;</span>   
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">to</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{@activity.activity_name} Deleted Successfully&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- delete_activity_mail-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- delete_activity_mail-method -->
+
+    
+      <div id="method-i-delete_activity_schedule_mail" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">delete_activity_schedule_mail</span><span
+            class="method-args">(user,activity,delete_schedule,urls,to)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="delete_activity_schedule_mail-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 400</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_activity_schedule_mail</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">delete_schedule</span>,<span class="ruby-identifier">urls</span>,<span class="ruby-identifier">to</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@delete_schedule</span>=<span class="ruby-identifier">delete_schedule</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-node">&quot;http://#{urls}&quot;</span>   
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">to</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{@activity.activity_name} Deleted Successfully&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- delete_activity_schedule_mail-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- delete_activity_schedule_mail-method -->
+
+    
+      <div id="method-i-delete_msg_parent_api" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">delete_msg_parent_api</span><span
+            class="method-args">(email,activity,user)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="delete_msg_parent_api-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1315</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_msg_parent_api</span>(<span class="ruby-identifier">email</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">user</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@email</span> = <span class="ruby-identifier">email</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>    
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@email</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{@activity.activity_name} Deleted Successfully&quot;</span>)    
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- delete_msg_parent_api-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- delete_msg_parent_api-method -->
+
+    
+      <div id="method-i-delete_msg_participants_api" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">delete_msg_participants_api</span><span
+            class="method-args">(user,activity,activity_user)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="delete_msg_participants_api-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1323</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_msg_participants_api</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">activity_user</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>    
+  <span class="ruby-ivar">@activity_user</span> = <span class="ruby-identifier">activity_user</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{@activity.activity_name} Details Have Changed&quot;</span>) 
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- delete_msg_participants_api-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- delete_msg_participants_api-method -->
+
+    
+      <div id="method-i-device_activation_api" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">device_activation_api</span><span
+            class="method-args">(udit,message)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>deviceactivation mail</p>
+          
+
+          
+          <div class="method-source-code" id="device_activation_api-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1554</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">device_activation_api</span>(<span class="ruby-identifier">udit</span>,<span class="ruby-identifier">message</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@udit</span> = <span class="ruby-identifier">udit</span>    
+  <span class="ruby-ivar">@message</span> = <span class="ruby-identifier">message</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;admin@famtivity.com,sonyabokhari@gmail.com,durgadevi@i-waves.com&quot;</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Famtivity - Device Activation&quot;</span>)
+  <span class="ruby-comment">#admin@famtivity.com,sonyabokhari@gmail.com,durgadevi@i-waves.com</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- device_activation_api-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- device_activation_api-method -->
+
+    
+      <div id="method-i-edit_activity_parent_mail" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">edit_activity_parent_mail</span><span
+            class="method-args">(user,activity,urls,to)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>send a mail while editing the activity by the parent</p>
+          
+
+          
+          <div class="method-source-code" id="edit_activity_parent_mail-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 574</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">edit_activity_parent_mail</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">urls</span>,<span class="ruby-identifier">to</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-comment">#~ @new_activity = activity_old</span>
+  <span class="ruby-ivar">@user</span>=<span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-node">&quot;http://#{urls}&quot;</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">to</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{@activity.activity_name} has been edited&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- edit_activity_parent_mail-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- edit_activity_parent_mail-method -->
+
+    
+      <div id="method-i-edit_activity_provider_mail" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">edit_activity_provider_mail</span><span
+            class="method-args">(user,activity,urls,to,plan)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>send a mail while editing the activity by the provider</p>
+          
+
+          
+          <div class="method-source-code" id="edit_activity_provider_mail-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 552</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">edit_activity_provider_mail</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">urls</span>,<span class="ruby-identifier">to</span>,<span class="ruby-identifier">plan</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-comment">#~ @new_activity = activity_old</span>
+  <span class="ruby-ivar">@user</span>=<span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@plan</span> =  <span class="ruby-identifier">plan</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-node">&quot;http://#{urls}&quot;</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">to</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{@activity.activity_name} has been edited&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- edit_activity_provider_mail-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- edit_activity_provider_mail-method -->
+
+    
+      <div id="method-i-edit_parent_participant_mail" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">edit_parent_participant_mail</span><span
+            class="method-args">(user,activity,urls,to)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>send mail to attendies for parent activity edit</p>
+          
+
+          
+          <div class="method-source-code" id="edit_parent_participant_mail-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 584</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">edit_parent_participant_mail</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">urls</span>,<span class="ruby-identifier">to</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-comment">#~ @new_activity = activity_old</span>
+  <span class="ruby-ivar">@user</span>=<span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>
+  <span class="ruby-ivar">@act_user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find_by_user_id</span>(<span class="ruby-identifier">activity</span>.<span class="ruby-identifier">user_id</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">activity</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">activity</span>.<span class="ruby-identifier">present?</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-node">&quot;http://#{urls}&quot;</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">to</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;Your Updated #{@activity.activity_name} Details&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- edit_parent_participant_mail-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- edit_parent_participant_mail-method -->
+
+    
+      <div id="method-i-edit_provider_participant_mail" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">edit_provider_participant_mail</span><span
+            class="method-args">(user,activity,urls,to)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>send mail to attendies for provider activity edit</p>
+          
+
+          
+          <div class="method-source-code" id="edit_provider_participant_mail-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 563</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">edit_provider_participant_mail</span>(<span class="ruby-identifier">user</span>,<span class="ruby-identifier">activity</span>,<span class="ruby-identifier">urls</span>,<span class="ruby-identifier">to</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-comment">#~ @new_activity = activity_old</span>
+  <span class="ruby-ivar">@user</span>=<span class="ruby-identifier">user</span>
+  <span class="ruby-ivar">@activity</span> = <span class="ruby-identifier">activity</span>   
+  <span class="ruby-ivar">@act_user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find_by_user_id</span>(<span class="ruby-identifier">activity</span>.<span class="ruby-identifier">user_id</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">activity</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">activity</span>.<span class="ruby-identifier">present?</span>
+  <span class="ruby-ivar">@image_url</span> = <span class="ruby-node">&quot;http://#{urls}&quot;</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">to</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;Your Updated #{@activity.activity_name} Details&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- edit_provider_participant_mail-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- edit_provider_participant_mail-method -->
+
+    
+      <div id="method-i-facebook_login_api" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">facebook_login_api</span><span
+            class="method-args">(user)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>facebook login</p>
+          
+
+          
+          <div class="method-source-code" id="facebook_login_api-source">
+            <pre><span class="ruby-comment"># File app/mailers/user_mailer.rb, line 1572</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">facebook_login_api</span>(<span class="ruby-identifier">user</span>)
+  <span class="ruby-identifier">headers</span>[<span class="ruby-string">'X-No-Spam'</span>] = <span class="ruby-string">'True'</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+  <span class="ruby-identifier">mail</span>(<span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">email_address</span>, <span class="ruby-value">:subject</span> =<span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;Welcome to Famtivity!&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- facebook_login_api-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- facebook_login_api

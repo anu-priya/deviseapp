@@ -1,0 +1,98 @@
+<%if params[:page] == "1"%>
+  <div id="field" class="providerCategory" style="width: 228px;float:left;position:relative;margin-bottom: 10px;">
+    <div class="post_card">
+      <div id="borderFrame" style="padding:0px">
+        <div style="background:#f0fafc;height:532px" class="center_bg_scroll" id="setHeightMac">
+          <h2 class="post_header" title="<%=@fam_network.group_name if !@fam_network.nil?%>">
+            <%=truncate(@fam_network.group_name,:length =>20, :omission => '... ') if !@fam_network.nil?%>
+          </h2>
+          <div class="post_new" onclick="fam_pop_network('/fam_create_post?id=<%= params[:id] %>&group_name=<%=@fam_network.group_name if !@fam_network.nil?%>'); _gaq.push(['_trackEvent','Parent Module', 'clickFriending','New Post']);">
+            <div class="postimg"></div>
+            <h2 class="postimg_txt" >post new</h2>
+
+          </div>
+          <div class="total_border">
+            <div class="member_in_net" onclick="fam_pop_network('/fam_edit_network_group?id=<%=params[:id] %>'); _gaq.push(['_trackEvent','Parent Module', 'clickFriending','Members in the Network']);">Members in the Network <span class="red_line">(<%= @contact.length %>)</span></div>
+            <%if !current_user.nil?%>
+              <div class="setings_new" >
+                <table><tr><td width="190"></td><td width="95" align="right">
+                      <div class="Setings_txt"onclick="fam_pop_network('/fam_edit_network_group?id=<%=params[:id] %>'); _gaq.push(['_trackEvent','Parent Module', 'clickFriending','Settings']);" >Settings</div></td></tr></table>
+
+              </div>
+            <%end%>
+
+            <div class="post_new_invite">
+              <div id="post_button" onclick="pop_invite_friend_check('/invite_friend_famtivity?check_invite=invite&fam_net_id=<%= params[:id] %>&fam_last=/'); _gaq.push(['_trackEvent','Parent Module', 'clickServices','Invite a Friend']);"></div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="fam_row_update_<%= params[:id] %>"></div>
+<%end%>
+<%@fam_post.each do |f|%>
+  <div id="field" class="providerCategory" style="width: 228px;float:left;position:relative;margin-bottom: 10px;">
+    <div class="post_card">
+      <div id="borderFrame"style="padding:0px">
+        <div style="background:#f0fafc;height:auto" class="center_bg_scroll" id="setHeightMac">
+          <div class="posted_header">
+            <table border="0" cellpadding="0" cellspacing="0" height="36"><tr>
+                <td valign="middle" height="36" align="center" width="50" valign="middle">
+                  <%user = User.where("user_id = '#{f.posted_by}'").last%>
+                  <%if !user.nil? && !user.user_profile.nil? %>
+                    <%= image_tag user.user_profile.user_photo.url(:small), :class=>"lazy", :alt => 'Loading...',:width=>32,:height=>32, :style=> "margin:4px 0px 0px 0px;" if !user.user_profile.user_photo.url(:thumb).nil?%>
+                  <%end%>
+                </td>
+                <td valign="middle" height="36">
+                  <table border="0" cellpadding="0" cellspacing="0" height="36">
+                    <tr><td  valign="middle" height="36" style="font-size:15px;">
+                        <%get_network_members = membersInChat(f.message_id,current_user)%>
+                        <%if !user.nil? && !user.nil? %>
+                          <%=get_network_members if get_network_members.present? %>
+                        <%end%>
+                      </td></tr>
+                    <tr><td></td></tr>
+                  </table>
+                </td>
+              </tr></table>
+
+
+
+          </div>
+          <div class="posted_new">
+            <div class="posted_img">
+              <table  border="0" cellpadding="0" cellspacing="0" width="200" height="200"><tr><td valign="middle" align="center" width="200" height="200">
+                    <a href="javascript:void(0)" title="" onclick="pop_fam_network_Detail_dhtml('/fam_network_detail?id=<%= f.message_id%>&group_name=<%=@fam_network.group_name if !@fam_network.nil?%>');">
+                      <%= image_tag f.message_card.url(:thumb), :class=>"lazy", :alt => 'Loading...',  :style=> "margin:0px 0px 0px 0px;" if !f.message_card.nil?%>
+                    </a>
+                  </td></tr></table>
+            </div>
+
+          </div>
+          <div class="clear"></div>
+          <h2 class="subject_style truncateText" title="<%=f.subject%>"><%= f.subject.capitalize%></h2>
+          <div class="clear"></div>
+          <div class="post_new_invite fts13 ftcGray56  lt ">
+
+
+            <% if f.message_card.url(:thumb)==("/assets/default/message_card_default.png") %>
+              <%=raw f.content.truncate(150) if f.content && !f.content.nil?%>
+            <% else %>
+              <%=raw f.content.truncate(250) if f.content && !f.content.nil?%>
+            <% end %>
+            <%file_count = f.message_threads.first.message_files.count%>
+          </div>
+
+
+        </div>
+      </div>
+      <div class="message_net_footer">
+        <%if file_count && file_count.present? && file_count!=0%>
+          <div class="footer_net_left" onclick="preview_attachment_popup('/message_preview_attachment?mthreads=<%=f.message_threads.first.thread_id if f&& f.message_threads.first.thread_id%>');"><%= image_tag("/assets/message/attach_icon.png") %><span class="attachment_msg_card"><%=file_count%> <%=(file_count && file_count==1) ? 'Attachment' : 'Attachments'%></span></div><%end%><div class="footer_net_right"><a class="see_more_net" href="/messages?mode=parent&rep_id=<%=f.message_id%>"  onclick="_gaq.push(['_trackEvent','clickMessages','See more','<%=f.message_id%>']);">See more</a></div>
+      </div>
+    </div>
+  </div>
+
+<%end%>

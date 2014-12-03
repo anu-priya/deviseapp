@@ -1,0 +1,25 @@
+<script src="/assets/global/jquery-1.8.3.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/assets/form_builder/form_builder.css" />
+<script>
+	function closepopup_success(){
+		parent.add_form_builder.hide();
+		parent.location.reload(true);
+	}
+</script>
+<div class="popupContainer_success">
+	<div class="popupHead">
+		<div class="headingLeft_success"><div class="headfont pleft31">Create New Form</div></div>
+		<div class="closeButton"><a href="javascript:void(0);" onclick="closepopup_success(); _gaq.push(['_trackEvent','Provider Module', 'clickForm','Ok']);" title=""><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%></a>
+		</div>
+		<div class="clear">&nbsp;</div>
+	</div>
+<!-- success div start -->
+	<div id="createformContainer_success" align="center">
+		<br>
+		Form has been created successfully!
+		<br><br>
+		<a href="javascript:void(0);" onclick="closepopup_success();" title=""><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38", :style=>"border:0px;")%></a>
+		<br><br>
+	</div>
+	<!-- success div end -->
+</div>

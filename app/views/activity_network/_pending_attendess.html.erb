@@ -1,0 +1,113 @@
+					
+					<%if !@activity.nil? && @activity.present? && @activity_sch_id.nil? && !@activity_sch_id.present?%>
+						<%@activity_schedules = ActivitySchedule.where("activity_id=?",@activity).first%>
+						<%@sh_id=@activity_schedules.schedule_id%>
+					<%elsif !@activity_sch_id.nil? && @activity_sch_id.present?%>
+						<%@sh_id= @activity_sch_id%>
+					<%elsif @sh_id.nil? && !@sh_id.present?%>
+						<%@sh_id=@activity_schedule_id if !@activity_schedule_id.nil?%>					
+					<%end%>
+						<%@invite = InviteAttendees.where("user_id = ? and schedule_id = ?", current_user.user_id, @sh_id) if !current_user.nil? && current_user.present?%>
+<input type="hidden" id="sh_id" id="sh_id" value="<%=@sh_id%>"/>
+		<input type="hidden" name="pending_invitees_mailid" id="pending_invitees_mailid" value=""/>
+				<%if !@invite.nil? && @invite.present? && @invite.length>0%>
+				
+							<table cellspacing="0" cellpadding="0" border="0" width="880" class="attendeesTop pendingAttendeesTop" style="padding: 10px 10px 0;"> 
+								<tr>
+									<td width="355" align="left">																			
+										<div class="lt" style="cursor:pointer" onclick="inviteAgain(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Invite Again']);"><%=image_tag("/assets/event/invite_again_icon.png", :width=>"23", :height=>"25")%></div>
+										<div class="lt ftcBlue fts14 showByText" style="cursor:pointer" onclick="inviteAgain(); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Invite Again']); "><b>Invite Again</b></div>									
+									</td>
+									<td width="145" class="ftcBlue fts18" align="center">Pending Invites</td>
+									<td width="355" align="right" valign="top"></td>
+								</tr>
+							</table>
+							<div id="checkbox_error" style="padding-left: 10px; color: #FC8989;display:none">Please select atleast one attendee to proceed further</div> 
+							<div id="providerEventList" class="pendingAttendees" style="width:860px;max-height:420px;" >  
+								<table cellspacing="0" cellpadding="0" border="0">
+									<tr>
+										<td align="left" width="25" class="headText new_back setPadLt10"><input class="lt" type="checkbox" name="pending_invite_all" id="pending_invite_all_<%=@sh_id%>" value="" onchange="select_pending_invite_all(<%=@sh_id%>,'page_true')"/></td>
+										<td align="left" width="300" class="headText new_back">Email</td>									
+										<td align="left" width="200" class="headText new_back">Status</td>
+										<td align="left" width="200" class="headText new_back"><%if @invite.map{|c| c.accept_status.downcase}.include?("accepted")%>Add participants<%end%></td>
+										<td align="left" width="100" class="headText new_back">Action</td>							
+									</tr>
+								
+									<%i=1%>
+									<%@invite.each do |invite|%>
+									<tr id="partiicai_<%=  invite.invite_id %>" height="75" class="setBg1 pending_invite_check">
+									
+										<td align="left" class="contentText setPadLt10"><input class="lt" type="checkbox" name="pending_invite_<%=i%>" id="pending_invite_<%=i%>" value="" onchange="select_pending_invite_single(<%=i%>,<%=@sh_id%>)" /></td>
+										<td align="left" class="contentText"><span class="ftcBlue setContWidth" id="pending_invite_email_<%=i%>" style="width: 360px;"><%=invite.email_id%></span></td>	
+										<td align="left" class="contentText"><%=invite.accept_status.titlecase%></td>
+										
+										<td align="left"  class="contentText"><a onclick="add_attendes(<%=  invite.invite_id %>); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Add Attendee','<%=  invite.invite_id %>']);"><%if invite.accept_status.downcase=='accepted'%><div class="add_button_img"><%=image_tag("/assets/create_new_activity/add_button.png", :width=>"20", :height=>"20", :class=>"lt addButton")%></div><div class="add_link_to_attendee">Add</div><%end%></a></td>
+										
+										<td align="left" class="contentText"><a href="javascript:void(0)" title="" onclick="before_delete('<%= invite.invite_id %>'); _gaq.push(['_trackEvent', 'Provider Module', 'clickNetwork','Delete Attendee','<%= invite.invite_id %>']);"><span class="enable_delete_icon"></span></a></td>
+									</tr>
+									<%if invite.accept_status.downcase=='accepted'%>
+									<tr id="partiicai_attend_<%= invite.invite_id %>" class="setBg1 pending_invite_check" style="display: none;" >
+										<td colspan="5" class="contentText">
+						
+										
+											<%=render :partial => "offline_participants",:locals=>{:invite_id=>invite.invite_id,:schedule_id=>@sh_id,:activity_id=>@activity}%>
+										</td>
+										
+									</tr>
+									<%end%>
+									<%i=i+1%>
+									<%end%>
+									
+								</table>
+							</div>
+						
+						<%else%>
+						<!--<div class="noRecordDiv">
+							<p class="noRecordText"><b>You haven't invited any attendees to this group</b></p>
+						</div>--> 
+						<%end%>
+
+<script>
+	
+	function add_attendes(i){
+		//$('#partiicai_attend_'+i).show();
+		 $('#partiicai_attend_'+i).slideDown();
+	}
+	
+				function before_delete(id)
+						{
+						 $('html, body', window.parent.document).animate({scrollTop:0}, 'slow');
+						 $("#delete_id").val(id)
+						 $('#Delete_alert').bPopup({fadeSpeed:100,followSpeed:100,opacity:0.8,position: [241, 100], positionStyle: 'absolute',modalClose: false });
+						}
+
+				function inviteAgain()
+						{
+							var email =$("#pending_invite_all").val();
+							var sh_id =$("#sh_id").val();
+							var sh_price = $("#sh_price").val();
+							if (email==""){
+								$("#checkbox_error").show();
+								setTimeout("$('#checkbox_error').hide();",4000)
+
+							}
+							else{
+
+										$.ajax({
+										    type: "POST",
+										    url: "/invite_attend",
+										    data: { "attendees_parent_email": email, "shedule_id": sh_id, "sh_price": sh_price },
+										    dataType : 'html',
+										    iframe: 'true',
+										    cache: false,
+										    success: function(data){
+										    	$('html, body', window.parent.document).animate({scrollTop:0}, 'slow');
+												 $('#messageSuccess').bPopup({fadeSpeed:100,followSpeed:100,opacity:0.8,position: [241, 100], positionStyle: 'absolute',modalClose: false });
+										   	 }
+										  	}); 
+
+							}
+
+						}
+
+						</script>						

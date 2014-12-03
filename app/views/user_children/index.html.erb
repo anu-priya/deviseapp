@@ -1,0 +1,29 @@
+<h1>Listing user_children</h1>
+
+<table>
+  <tr>
+    <th>Child</th>
+    <th>User</th>
+    <th>Age range</th>
+    <th>Color</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @user_children.each do |user_child| %>
+  <tr>
+    <td><%= user_child.child_id %></td>
+    <td><%= user_child.user_id %></td>
+    <td><%= user_child.age_range %></td>
+    <td><%= user_child.color %></td>
+    <td><%= link_to 'Show', user_child %></td>
+    <td><%= link_to 'Edit', edit_user_child_path(user_child) %></td>
+    <td><%= link_to 'Destroy', user_child, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New User child', new_user_child_path %>

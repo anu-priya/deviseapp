@@ -1,0 +1,1348 @@
+<%=stylesheet_link_tag "create_new_activity_new/create_new_activity","global/pop_up","global/jquery.ui.datepicker","global/jquery.ui.theme","create_new_activity_new/repeat_popup", :media => "all"%>
+<%=javascript_include_tag "create_new_activity_new/create_new_activity","create_new_activity_new/validate","create_new_activity_new/validate_parent","create_new_activity_new/create_new_activity_date","global/jquery.ui.core","global/jquery.ui.datepicker","jquery.form","create_new_activity_new/repeat_popup"%>
+
+
+<script language="javascript">
+  var hflag = false;
+  var mflag = false;
+  var sflag = false;
+  var msflag = false;
+
+  $(document).ready(function() {
+    var status = '';
+    var curTime = new Date();
+
+    /*  Find Current time */
+
+    var curTime = new Date();
+    var cdate = curTime.getDate();
+    var ccmonth = curTime.getMonth();
+    var cyear = curTime.getFullYear();
+    ccmonth = parseInt(ccmonth) + 1;
+    var weekday = new Array(7);
+    weekday[0] = "Sun";
+    weekday[1] = "Mon";
+    weekday[2] = "Tue";
+    weekday[3] = "Wed";
+    weekday[4] = "Thu";
+    weekday[5] = "Fri";
+    weekday[6] = "Sat";
+    var cday = curTime.getDay();
+    var incval = parseInt(cday) + 1;
+    var dayname = weekday[cday];
+    
+    var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];    
+    var cmonth = monthNames[curTime.getMonth()];
+
+    var cuday = dayname + ", " + cmonth + " " + cdate + ", " + cyear;
+    var repeat_day = ccmonth + "/" + cdate + "/" + cyear;
+    //var date_value = cdate + "-" + cmonth + "-" + cyear;
+    var date_value = cyear + "-" + ccmonth + "-" + cdate;
+
+
+<%if @activity.schedule_mode !="Schedule" && @activity.schedule_mode !="Whole Day"%>
+      $('#date_1_1').val(date_value);
+      $('#dateFormate_1_1').val(cuday);
+      $('#date_2_1').val(date_value);
+      $('#dateFormate_2_1').val(cuday);
+<%if !@activity.address_1.nil? && @activity.address_1 !=""%>
+dispCheckAnytime('radio_normal_anytime',1)
+<%else%>
+dispCheckAnytime('radio_normal_anytime',2)
+<%end%>
+  
+<%end%>
+	summary_date_time_changes(1);
+  });
+
+</script>
+
+<script language="javascript">
+  function closepopup() {
+    parent.editActivityPage.hide();
+    //~ parent.location.href += "";
+  }
+  function fakepath(filepath){
+    inputNode = filepath.replace('C:\\fakepath\\', '');
+    var pos = filepath.lastIndexOf( filepath.charAt( filepath.indexOf(":")+1) );
+    var filename = filepath.substring( pos+1);
+
+    var ua=navigator.userAgent;
+    if(ua.indexOf("Firefox")!=-1){
+      $("#photo1").val(filepath);
+    }
+    else {
+      $("#photo1").val(filename);
+    }
+  }
+</script>
+<style>
+
+  .setfeedbackDiv {
+    background: none repeat scroll 0 0 #EDF1F2;
+    color: #444444;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    margin: 15px auto 0;
+    padding: 15px;
+    width: 500px;
+  }
+
+  /*******edit activity*********/
+
+  .FileUpload {
+    position:relative;
+    margin-top:14px;
+    width: 170px;
+    height: 31px;
+  }
+  .BrowserVisible {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 3;
+    width:106px;
+    height:27px;	
+  }
+  .FileField {
+    color: #444444;
+    display: block;
+    height: 26px;
+    margin: 50px 0 0 142px;
+    padding: 0 5px;
+    position: relative;
+    width: 306px;
+    word-wrap: break-word;
+    z-index: 3;
+    border:1px solid #ffffff;
+  }
+  .BrowserHidden {
+    position:relative;
+    z-index:2;
+    height:19px;
+    -moz-opacity:0;
+    filter:alpha(opacity: 0);
+    opacity: 0;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 22px;
+
+    font-weight:normal;
+    color: #999999;
+    margin-top: 57px;
+   /* left: -239px;*/
+   left:10px;
+
+    /*width:100px;*/
+    width:111px;
+    cursor: pointer;
+
+    .margin-top:50\9px;
+    width:120px\9;
+    font-size: 23px\9;
+    left: 5px\9;
+    .margin-left: 249px\9;
+
+    .font-size: 21px;
+    .margin-left: -10px;
+    .margin-top: 54px;
+    .height:21px;
+
+  }
+  .browse{
+    color: #5099AC;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    margin-left: 6px;
+    position: relative;
+    top: -31px;
+    .top:-20px;
+    width: 124px;
+    z-index: 1;
+
+    top:  -22px\9;
+  }
+  @media screen and (-webkit-min-device-pixel-ratio:0){
+    .BrowserHidden {
+      left: 8px;
+      height:10px;
+      font-size:19px;
+      width:115px;
+      position:relative;
+      cursor:pointer;
+      -moz-opacity:0;
+      filter:alpha(opacity: 0);
+      opacity: 0;
+      display: inline-block;
+      z-index: 3;
+    }
+    .browse{
+      top:-16px;
+      cursor: pointer;
+      display: inline-block;
+      position:relative;
+      z-index: 2;
+    }
+  }
+</style>
+
+<div id="new_act_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">
+		Edit Activity
+            </div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> <%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%> </a>
+          </div>
+        </div>
+
+        <div id ="activity_render">
+          <div class="centerCont">
+            <!--<div align="center" class="setfeedbackDiv" style="margin: 20px auto 0;width: 325px; font-weight:bold;"><span class="required">*</span>&nbsp;Please fill out required fields.</div>-->
+            <form id="createactivity" name="activity" action="parent_activity_update" method="post" enctype="multipart/form-data" onsubmit="return validateparentActivity_parent();">
+              <input type="hidden" name="activity_id" value="<%= @activity.activity_id %>"/>
+              <div class="paddingTop10">
+                <div class="paddingTop10">
+                  <div class="lt leftSideField">
+									Activity Name<span class="required">*</span>
+                  </div>
+                  <!--<input type="text" name="activity[activity_name]" id="title" class="lt textbox" value="<%= @activity.activity_name %>" onfocus="if(this.value == 'Enter Activity Name'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Enter Activity Name'}" tabindex="1" maxlength="100"/>-->
+                  <input type="text" name="activity[activity_name]" id="title" class="lt textbox" value="<%= @activity.activity_name %>" onfocus="focusChangeBorderColor('title')" onblur="blurChangeBorderColor('title')" tabindex="1" maxlength="100" style="<%if @activity.activity_name.present?%>color:#444444;<%else%><%end%>" />
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">
+                    &nbsp;
+                  </div>
+                  <div class="lt" id="title_error"></div>
+                </div>
+                <input type="hidden" id="title_er" name="title_er" value="" />
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop7">
+                <div class="lt leftSideField">
+								Choose Category<span class="required">*</span>
+                </div>
+                <div class="lt category">
+                  <div class="lt col1">
+			<select  id="category" name="activity[category]" size="1" tabindex="2" class="drop_down_left width_set2" onkeyup="set_category(this.value)" onchange="set_category(this.value)" style="color:#444444;">
+				<% @activities_category = ActivityCategory.order(:category_name).where("lower(category_name)!= ?","default")%>
+				<% @activities_category.each do |cat|%>
+				  <option value="<%= cat.category_name.html_safe %>" <%if "#{cat.category_name}" == "#{@activity.category}" %>selected="selected"<%end%>><%= cat.category_name.html_safe %></option>
+				<%end%>
+			      </select>
+			                    
+                  </div>
+                  <div class="lt col2">
+                    <div class="lt sub_category">
+
+			<select id="sub_category" name="activity[sub_category]" size="1" tabindex="3" class="drop_down_left width_set2" style="color:#444444;">
+				<% category = ActivityCategory.where(:category_name=>@activity.category).last unless @activity.category.blank?%>
+				<% @sub_category = ActivitySubcategory.where(:category_id=>category.id).order(:subcateg_name) unless category.blank?%>
+				<% if !@sub_category.nil? %>
+				<% @sub_category.each do |sub|%>
+				<option value="<%= sub.subcateg_name.html_safe %>" <%if "#{sub.subcateg_name}" == "#{@activity.sub_category}" %>selected="selected"<%end%>><%= sub.subcateg_name.html_safe %></option>
+				<%end%>
+				<%end%>
+			</select>     
+                    
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="clear"></div>
+              <div id="category_errorDiv" class="errorDiv" style="display:none">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+                <div class="lt" id="category_error"></div>
+                <div class="lt" id="sub_category_error"></div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+	   <div class="paddingTop10">
+                <div class="lt leftSideField">
+								Description<span class="required">*</span>
+                </div>
+                <!--<textarea name="description" id="desc" rows="10" cols="40"  class="lt textbox descTextbox" onfocus="if(this.value == 'Description should not exceed 500 characters'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onchange="removeunwantedSpace(this.value)" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Description should not exceed 500 characters'}" tabindex="65">Description should not exceed 500 characters</textarea>-->
+                <textarea name="description" id="desc" rows="10" cols="40"  class="lt textbox descTextbox"  onfocus="focusChangeBorderColor('desc')" onblur="blurChangeBorderColor('desc')" tabindex="31" style="color:#444444;"><%if !@activity.description.nil?%><%= @activity.description%><%else%>Description should not exceed 1000 characters<%end%></textarea>
+
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+                <div class="lt" id="desc_error"></div>
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+	      
+
+              <%@day_v = []%>
+              <%@day_start = []%>
+              <%@day_end = []%>
+              <% @st = []%>
+              <% @se = []%>
+              <%if @activity.schedule_mode =="Any Time"%>
+                <%@schedule.each do |s|%>
+                  <% @se << s.schedule_id %>
+                  <% @st << "#{s.schedule_id}" %>
+                  <%@day_v << "#{s.business_hours}"%>
+                  <%@day_start << "#{s.start_time}"%>
+                  <%@day_end << "#{s.end_time}"%>
+                <%end%>
+                <input type="hidden" id="schedule_id" name="schedule_id_value" value="<%= @se %>" />
+              <%else%>
+                <input type="hidden" id="schedule_id" name="schedule_id_value" value="<%= @schedule.last.schedule_id if !@schedule.last.nil?%>" />
+              <%end%>
+
+              <input type="hidden" value="" id="schedule_sdate_time_1" name="schedule_sdate_time_val"/>
+              <input type="hidden" value="" id="schedule_edate_time_1" name="schedule_edate_time_val"/>
+
+              <div class="paddingTop10">
+                <div class="lt leftSideField">
+								Schedule Type<span class="required">*</span>
+                </div>
+                <div class="lt billing">
+			<select  id="billing_type" name="schedule_mode" size="1" tabindex="4" class="drop_down_left width_set1" onkeyup="parentScheduleDropDown(this.value)" onChange="parentScheduleDropDown(this.value)" style="color:#444444;">
+				<option value="Schedule" <%if @activity.schedule_mode =="Schedule" %>selected="selected"<%end%>>By Schedule</option>
+				<option value="Any Time" <%if @activity.schedule_mode =="Any Time" %>selected="selected"<%end%>>Any Time</option>
+			</select> 
+                </div>
+                <div class="clear"></div>
+              </div>
+
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+                <div class="lt" id="billing_error"></div>
+                <div class="clear"></div>
+              </div>
+	      
+	      
+	      <div id="billing_any" style="display:none;">
+		<div class="paddingTop10">
+			<div class="lt leftSideField"></div>
+		<div class="lt">
+			<div class="anytimeRow">
+				<input id="any_address" name="any_address" value="1" type="hidden" />
+				<a href="javascript:void(0)" title="" class="lt price_Checkbox radio_selected_anytime" id="radio_selected_anytime_1" onclick="dispCheckAnytime('radio_normal_anytime',1)" tabindex="67">
+					<%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22", :style=>"border:0px;")%>
+				</a>
+				<a href="javascript:void(0)" title="" class="lt price_Checkbox radio_normal_anytime"  id="radio_normal_anytime_1" onclick="dispCheckAnytime('radio_normal_anytime',1)" tabindex="67" style="display: none"  >
+					<%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22", :style=>"border:0px;")%>
+				</a>
+				<span class="lt priceTt">Address</span>
+
+				<input id="any_where" name="any_where" value="0" type="hidden" />
+				<a href="javascript:void(0)" title="" class="lt price_Checkbox radio_selected_anytime" id="radio_selected_anytime_2" onclick="dispCheckAnytime'radio_normal_anytime',2)" style="display: none"  tabindex="68">
+					<%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22", :style=>"border:0px;")%>
+				</a>
+				<a href="javascript:void(0)" title="" class="lt price_Checkbox radio_normal_anytime"  id="radio_normal_anytime_2" onclick="dispCheckAnytime('radio_normal_anytime',2)" tabindex="68">
+					<%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22", :style=>"border:0px;")%>
+				</a>
+				<span class="lt priceTt">Anywhere</span>
+				<div class="clear"></div>
+			</div>
+		  <div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+		</div>
+	   </div>
+
+
+
+              <div class="paddingTop10" id="dtstyle" style="display:<%if @activity.schedule_mode =="Any Time" %>none;<%else%>block;<%end%> ">
+              <input type="hidden" id="schedule_tabs" name="schedule_tabs" value="0">
+                <div class="lt leftSideField">
+								Date &amp; Time<span class="required">*</span>
+                </div>
+                <% @sc_start_time = '09:00'
+                @sc_start_s1 = 'AM'
+                @sc_end_time = '06:00'
+                @sc_end_s2 = 'PM'
+                @start_on_hid = Time.now.strftime("%Y-%m-%d") if !Time.now.nil?
+                @start_on_disp = Time.now.strftime("%a, %b %d, %Y") if !Time.now.nil?
+                @start_on_disp_end = Time.now.strftime("%Y-%m-%d") if !Time.now.nil?
+                @start_on_disp_end = Time.now.strftime("%a, %b %d, %Y") if !Time.now.nil?
+              %>
+                <%if @activity.schedule_mode =="Schedule" || @activity.schedule_mode =="Whole Day"%>
+                  <%if !@act_repeat.nil?%>
+                    <% @wek = @act_repeat.repeats if !@act_repeat.repeats.nil? %>
+                    <% @repeat_every = @act_repeat.repeat_every if !@act_repeat.repeat_every.nil? %>
+                    <% @repeat_never_s = @act_repeat.ends_never if !@act_repeat.ends_never.nil? %>
+                    <% @repeat_occ = @act_repeat.end_occurences if !@act_repeat.end_occurences.nil? %>
+                    <% @repeat_end = @act_repeat.ends_on if !@act_repeat.ends_on.nil? %>
+                    <% @repeat_on = @act_repeat.repeat_on if !@act_repeat.repeat_on.nil? %>
+                    <% @repeat_week = @act_repeat.repeats if !@act_repeat.repeats.nil?%>
+                    <% @repeat_end_show = @act_repeat.ends_on.strftime("%a, %b %d, %Y") if !@act_repeat.ends_on.nil?%>
+                  <%end%>
+<%if !@repeat_end.nil? || !@repeat_occ.nil?%>
+                    <%
+                    @start_on_disp_end = @repeat_end.strftime("%a, %b %d, %Y") if !@repeat_end.nil?
+                    @start_on_end_hid = @repeat_end.strftime("%Y-%m-%d") if !@repeat_end.nil?
+                  %>
+                  <%end%>
+                  <% @schedule.each do |sc|
+                    @sc_start_time = sc.start_time.strftime("%I:%M") if !sc.start_time.nil?
+                    @sc_start_s1 = sc.start_time.strftime("%p") if !sc.start_time.nil?
+                    @sc_end_time = sc.end_time.strftime("%I:%M") if !sc.end_time.nil?
+                    @sc_end_s2 = sc.end_time.strftime("%p") if !sc.end_time.nil?
+                    @start_on_disp = sc.start_date.strftime("%a, %b %d, %Y") if !sc.start_date.nil?
+                    @start_on_hid = sc.start_date.strftime("%Y-%m-%d") if !sc.start_date.nil?
+
+                    @start_on_disp_end = sc.end_date.strftime("%a, %b %d, %Y") if !sc.end_date.nil? if @activity.schedule_mode =="Whole Day"
+                    @start_on_end_hid = sc.end_date.strftime("%Y-%m-%d") if !sc.end_date.nil? if @activity.schedule_mode =="Whole Day"
+                  end%>
+                  
+                <%else%>
+                  <%
+                  @start_on_disp_end = Time.now.strftime("%Y-%m-%d") 
+                  @start_on_end_hid = Time.now.strftime("%a, %b %d, %Y") 
+                %>
+                <%end%>
+                <div class="lt dateTimeDiv" id="dateTimeDiv_1" style="background:#f5fafd; width:477px; border:1px solid #f3f7f8;">
+                  <div class="lt" style="padding:13px 0 0 10px; width:400px; ">
+                    <div class="dateDiv startdatediv" style="float:left; height:27px; padding: 1px 5px 0;">
+                      <input type="text" id="dateFormate_1_1" name="dateFormate_1_1" class="dateTextbox" value="<%= @start_on_disp %>" readonly="readonly" style="<%if @start_on_disp.present?%>color:#444444;<%else%>color:#999999;<%end%>outline: none;"  tabindex="5" onchange="modifyDate(1);$(this).css('color','#444444');" />
+                      <input type="hidden" id="date_1_1" name="date_1_1" value="<%= @start_on_hid %>" />
+                    </div>
+                    <div id="toText" style="<%if @start_on_end_hid.nil?%>display:none;<%end%>vertical-align:top; top:7px; left:6px; position:relative; width:27px; float:left; font-size:13px; color:#999999;">To</div>
+
+
+                    <div class="dateDiv enddatediv" id="sched_end_date1" style="<%if @start_on_end_hid.nil? %>display:none;<%end%>height:27px; padding: 1px 5px 0;">
+                      <input type="text" id="dateFormate_2_1" name="dateFormate_2_1" class="dateTextbox" value="<%= @start_on_disp_end %>" readonly="readonly" style="<%if @start_on_disp_end.present?%>color:#444444;<%else%>color:#999999;<%end%>outline: none;" tabindex="6"  onchange="modifyDateTo(1);summary_date_time_changes();changed_summary();$(this).css('color','#444444');" />
+                      <input type="hidden" id="date_2_1" name="date_2_1" value="<%= @start_on_end_hid %>" />
+                    </div>
+
+
+                    <div class="lt" id="sched_end_date2" <%if !@start_on_end_hid.nil? %>style="display:none"<%end%>>
+                      <div class="finalResult" style="color:#444444;" tabindex="6" >
+                        <%if !@repeat_never_s.nil? && @repeat_never_s == true%>
+                          Ends Never
+                        <%end%>
+                        <%if !@repeat_occ.nil?%>
+                          After <%= @repeat_occ %> occurrences
+                        <%end%>
+                      </div>
+                    </div>
+
+
+                    <div class="lt" id="multipledate_1">
+
+                      <div class="multipledate" style="padding:12px 0 12px 0;">
+                        <div class="timelabel"  id="timelabel" style="float:left; display: inline-block; padding-top: 8px;">
+											Start
+                        </div>
+                        <div class="timStart" id="schedule_start_time_1" style="width: 140px;margin-bottom:0;">
+			<select  id="schedule_stime_1_1" name="schedule_stime_1_1" size="1" tabindex="7" class="drop_down_left width_set3" onkeyup="callSummay(1)" onChange="callSummay(1)">
+				<option value="01:00" <%if @sc_start_time == "01:00" %> selected="selected"<%end%> >01:00</option>
+				<option value="01:15" <%if @sc_start_time == "01:15" %>selected="selected"<%end%> >01:15</option>
+				<option value="01:30" <%if @sc_start_time == "01:30" %>selected="selected"<%end%> >01:30</option>
+				<option value="01:45" <%if @sc_start_time == "01:45" %>selected="selected"<%end%> >01:45</option>
+				<option value="02:00" <%if @sc_start_time == "02:00" %>selected="selected"<%end%> >02:00</option>
+				<option value="02:15" <%if @sc_start_time == "02:15" %>selected="selected"<%end%> >02:15</option>
+				<option value="02:30" <%if @sc_start_time == "02:30" %>selected="selected"<%end%> >02:30</option>
+				<option value="02:45" <%if @sc_start_time == "02:45" %>selected="selected"<%end%> >02:45</option>
+				<option value="03:00" <%if @sc_start_time == "03:00" %>selected="selected"<%end%> >03:00</option>
+				<option value="03:15" <%if @sc_start_time == "03:15" %>selected="selected"<%end%> >03:15</option>
+				<option value="03:30" <%if @sc_start_time == "03:30" %>selected="selected"<%end%> >03:30</option>
+				<option value="03:45" <%if @sc_start_time == "03:45" %>selected="selected"<%end%> >03:45</option>
+				<option value="04:00" <%if @sc_start_time == "04:00" %>selected="selected"<%end%>  >04:00</option>
+				<option value="04:15" <%if @sc_start_time == "04:15" %>selected="selected"<%end%>  >04:15</option>
+				<option value="04:30" <%if @sc_start_time == "04:30" %>selected="selected"<%end%>  >04:30</option>
+				<option value="04:45" <%if @sc_start_time == "04:45" %>selected="selected"<%end%>  >04:45</option>
+				<option value="05:00" <%if @sc_start_time == "05:00" %>selected="selected"<%end%>  >05:00</option>
+				<option value="05:15" <%if @sc_start_time == "05:15" %>selected="selected"<%end%>  >05:15</option>
+				<option value="05:30" <%if @sc_start_time == "05:30" %>selected="selected"<%end%>  >05:30</option>
+				<option value="05:45" <%if @sc_start_time == "05:45" %>selected="selected"<%end%>  >05:45</option>
+				<option value="06:00" <%if @sc_start_time == "06:00" %>selected="selected"<%end%>  >06:00</option>
+				<option value="06:15" <%if @sc_start_time == "06:15" %>selected="selected"<%end%>  >06:15</option>
+				<option value="06:30" <%if @sc_start_time == "06:30" %>selected="selected"<%end%>  >06:30</option>
+				<option value="06:45" <%if @sc_start_time == "06:45" %>selected="selected"<%end%>  >06:45</option>
+				<option value="07:00" <%if @sc_start_time == "07:00" %>selected="selected"<%end%>  >07:00</option>
+				<option value="07:15" <%if @sc_start_time == "07:15" %>selected="selected"<%end%>  >07:15</option>
+				<option value="07:30" <%if @sc_start_time == "07:30" %>selected="selected"<%end%>  >07:30</option>
+				<option value="07:45" <%if @sc_start_time == "07:45" %>selected="selected"<%end%>  >07:45</option>
+				<option value="08:00" <%if @sc_start_time == "08:00" %>selected="selected"<%end%>  >08:00</option>
+				<option value="08:15" <%if @sc_start_time == "08:15" %>selected="selected"<%end%>  >08:15</option>
+				<option value="08:30" <%if @sc_start_time == "08:30" %>selected="selected"<%end%>  >08:30</option>
+				<option value="08:45" <%if @sc_start_time == "08:45" %>selected="selected"<%end%>  >08:45</option>
+				<option value="09:00" <%if @sc_start_time == "09:00" %>selected="selected"<%end%>  >09:00</option>
+				<option value="09:15" <%if @sc_start_time == "09:15" %>selected="selected"<%end%>  >09:15</option>
+				<option value="09:30" <%if @sc_start_time == "09:30" %>selected="selected"<%end%>  >09:30</option>
+				<option value="09:45" <%if @sc_start_time == "09:45" %>selected="selected"<%end%>  >09:45</option>
+				<option value="10:00" <%if @sc_start_time == "10:00" %>selected="selected"<%end%>  >10:00</option>
+				<option value="10:15" <%if @sc_start_time == "10:15" %>selected="selected"<%end%>  >10:15</option>
+				<option value="10:30" <%if @sc_start_time == "10:30" %>selected="selected"<%end%>  >10:30</option>
+				<option value="10:45" <%if @sc_start_time == "10:45" %>selected="selected"<%end%>  >10:45</option>
+				<option value="11:00" <%if @sc_start_time == "11:00" %>selected="selected"<%end%>  >11:00</option>
+				<option value="11:15" <%if @sc_start_time == "11:15" %>selected="selected"<%end%>  >11:15</option>
+				<option value="11:30" <%if @sc_start_time == "11:30" %>selected="selected"<%end%>  >11:30</option>
+				<option value="11:45" <%if @sc_start_time == "11:45" %>selected="selected"<%end%>  >11:45</option>
+				<option value="12:00" <%if @sc_start_time == "12:00" %>selected="selected"<%end%>  >12:00</option>
+				<option value="12:15" <%if @sc_start_time == "12:15" %>selected="selected"<%end%>  >12:15</option>
+				<option value="12:30" <%if @sc_start_time == "12:30" %>selected="selected"<%end%>  >12:30</option>
+				<option value="12:45" <%if @sc_start_time == "12:45" %>selected="selected"<%end%>  >12:45</option>
+			</select>                         
+
+			<select  id="schedule_stime_2_1" name="schedule_stime_2_1" size="1" tabindex="8" class="drop_down_left width_set3" onkeyup="callSummay(1)" onChange="callSummay(1)">
+				<option value="AM" <%if @sc_start_s1 == "AM" %>selected="selected"<%end%> >AM</option>
+				<option value="PM" <%if @sc_start_s1 == "PM" %>selected="selected"<%end%> >PM</option>
+			</select>  
+			
+                        </div>
+
+                        <div class="timelabel" style="float:left; display: inline-block; padding-top: 8px; margin-left:3px;">
+											End
+                        </div>
+
+                        <div class="timStart" id="schedule_end_time_1" style="width: 145px;margin-bottom:0;">
+			<select  id="schedule_etime_1_1" name="schedule_etime_1_1" size="1" tabindex="9" class="drop_down_left width_set3" onkeyup="callSummay(1)" onChange="callSummay(1)">
+				<option value="01:00" <%if @sc_end_time == "01:00" %>selected="selected"<%end%> >01:00</option>
+				<option value="01:15" <%if @sc_end_time == "01:15" %>selected="selected"<%end%> >01:15</option>
+				<option value="01:30" <%if @sc_end_time == "01:30" %>selected="selected"<%end%> >01:30</option>
+				<option value="01:45" <%if @sc_end_time == "01:45" %>selected="selected"<%end%> >01:45</option>
+				<option value="02:00" <%if @sc_end_time == "02:00" %>selected="selected"<%end%> >02:00</option>
+				<option value="02:15" <%if @sc_end_time == "02:15" %>selected="selected"<%end%> >02:15</option>
+				<option value="02:30" <%if @sc_end_time == "02:30" %>selected="selected"<%end%> >02:30</option>
+				<option value="02:45" <%if @sc_end_time == "02:45" %>selected="selected"<%end%> >02:45</option>
+				<option value="03:00" <%if @sc_end_time == "03:00" %>selected="selected"<%end%> >03:00</option>
+				<option value="03:15" <%if @sc_end_time == "03:15" %>selected="selected"<%end%> >03:15</option>
+				<option value="03:30" <%if @sc_end_time == "03:30" %>selected="selected"<%end%> >03:30</option>
+				<option value="03:45" <%if @sc_end_time == "03:45" %>selected="selected"<%end%> >03:45</option>
+				<option value="04:00" <%if @sc_end_time == "04:00" %>selected="selected"<%end%>  >04:00</option>
+				<option value="04:15" <%if @sc_end_time == "04:15" %>selected="selected"<%end%>  >04:15</option>
+				<option value="04:30" <%if @sc_end_time == "04:30" %>selected="selected"<%end%>  >04:30</option>
+				<option value="04:45" <%if @sc_end_time == "04:45" %>selected="selected"<%end%>  >04:45</option>
+				<option value="05:00" <%if @sc_end_time == "05:00" %>selected="selected"<%end%>  >05:00</option>
+				<option value="05:15" <%if @sc_end_time == "05:15" %>selected="selected"<%end%>  >05:15</option>
+				<option value="05:30" <%if @sc_end_time == "05:30" %>selected="selected"<%end%>  >05:30</option>
+				<option value="05:45" <%if @sc_end_time == "05:45" %>selected="selected"<%end%>  >05:45</option>
+				<option value="06:00" <%if @sc_end_time == "06:00" %>selected="selected"<%end%>  >06:00</option>
+				<option value="06:15" <%if @sc_end_time == "06:15" %>selected="selected"<%end%>  >06:15</option>
+				<option value="06:30" <%if @sc_end_time == "06:30" %>selected="selected"<%end%>  >06:30</option>
+				<option value="06:45" <%if @sc_end_time == "06:45" %>selected="selected"<%end%>  >06:45</option>
+				<option value="07:00" <%if @sc_end_time == "07:00" %>selected="selected"<%end%>  >07:00</option>
+				<option value="07:15" <%if @sc_end_time == "07:15" %>selected="selected"<%end%>  >07:15</option>
+				<option value="07:30" <%if @sc_end_time == "07:30" %>selected="selected"<%end%>  >07:30</option>
+				<option value="07:45" <%if @sc_end_time == "07:45" %>selected="selected"<%end%>  >07:45</option>
+				<option value="08:00" <%if @sc_end_time == "08:00" %>selected="selected"<%end%>  >08:00</option>
+				<option value="08:15" <%if @sc_end_time == "08:15" %>selected="selected"<%end%>  >08:15</option>
+				<option value="08:30" <%if @sc_end_time == "08:30" %>selected="selected"<%end%>  >08:30</option>
+				<option value="08:45" <%if @sc_end_time == "08:45" %>selected="selected"<%end%>  >08:45</option>
+				<option value="09:00" <%if @sc_end_time == "09:00" %>selected="selected"<%end%>  >09:00</option>
+				<option value="09:15" <%if @sc_end_time == "09:15" %>selected="selected"<%end%>  >09:15</option>
+				<option value="09:30" <%if @sc_end_time == "09:30" %>selected="selected"<%end%>  >09:30</option>
+				<option value="09:45" <%if @sc_end_time == "09:45" %>selected="selected"<%end%>  >09:45</option>
+				<option value="10:00" <%if @sc_end_time == "10:00" %>selected="selected"<%end%>  >10:00</option>
+				<option value="10:15" <%if @sc_end_time == "10:15" %>selected="selected"<%end%>  >10:15</option>
+				<option value="10:30" <%if @sc_end_time == "10:30" %>selected="selected"<%end%>  >10:30</option>
+				<option value="10:45" <%if @sc_end_time == "10:45" %>selected="selected"<%end%>  >10:45</option>
+				<option value="11:00" <%if @sc_end_time == "11:00" %>selected="selected"<%end%>  >11:00</option>
+				<option value="11:15" <%if @sc_end_time == "11:15" %>selected="selected"<%end%>  >11:15</option>
+				<option value="11:30" <%if @sc_end_time == "11:30" %>selected="selected"<%end%>  >11:30</option>
+				<option value="11:45" <%if @sc_end_time == "11:45" %>selected="selected"<%end%>  >11:45</option>
+				<option value="12:00" <%if @sc_end_time == "12:00" %>selected="selected"<%end%>  >12:00</option>
+				<option value="12:15" <%if @sc_end_time == "12:15" %>selected="selected"<%end%>  >12:15</option>
+				<option value="12:30" <%if @sc_end_time == "12:30" %>selected="selected"<%end%>  >12:30</option>
+				<option value="12:45" <%if @sc_end_time == "12:45" %>selected="selected"<%end%>  >12:45</option>
+			</select>	
+			<select  id="schedule_etime_2_1" name="schedule_etime_2_1" size="1" tabindex="10" class="drop_down_left width_set3" onkeyup="callSummay(1)" onChange="callSummay(1)">
+				<option value="AM" <%if @sc_end_s2 == "AM" %>selected="selected"<%end%> >AM</option>
+				<option value="PM" <%if @sc_end_s2 == "PM" %>selected="selected"<%end%> >PM</option>
+			</select> 	                         
+
+                        </div>
+
+                        <input type="hidden" name="repeatCheck_1" id="repeatCheck_1" value="" />
+		    <%if @activity.schedule_mode =="Schedule" %>
+                        <%if !@act_repeat.nil?%>		    
+                          <script language="javascript">
+                            $(document).ready(function() {
+			      $('#repeatCheck_1').val('yes');
+                              db_summay();
+                            });
+			    
+			    function disp_edit_db(){
+			      $(".repeatEdit_db_1").attr("onClick","disp_edit(1)");
+			      $("#repeatPOPUPDiv_1 .cancelButton").attr("onClick","cancelRepeatDivDb(1)");
+			      $('#schedule_summary_1').css('display','block');
+											  
+			      $('#repeatPOPUPDiv_1').css('display','block');
+			      $('#repeatCheck_1').val('yes');
+			      $('#repeat_save_1').val(1);			      
+			      db_summay(1);	
+                      }  
+		      
+		      
+                          </script>
+		    	
+                          <span  class="lt checkbox setstyle" style="margin-right:0px;.margin-right:5px; display: inline-block;top:2px;"> <a href="javascript:void(0)" title="" class="checkbox_selected_s" id="checkbox_selected_s1_1" onclick="dispCheck('checkbox_selected',1)" style="display: block" tabindex="11"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_s" id="checkbox_normal_s1_1" onclick="dispCheck('checkbox_normal',1)" style="display: none" tabindex="11"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+                          <span class="lt"><a style="position:relative;top:0px;left:3px;" tabindex="12" onclick="disp_edit_db(1)" id="repeatEdit_1" class="repeatEdit_db_1" title="Edit Repeat" href="javascript:void(0)"><%=image_tag("/assets/provider_event_list/edit_icon.png", :width=>"29", :height=>"26", :align=>"absbottom")%></a></span>
+                          <span class="lt repeatTest ftSz13Clr" style="margin-right:-30px;margin-top: 6px;">Repeat</span>                        
+		  <%else%>                         
+                        <span  class="lt checkbox setstyle" style="margin-right:0px;top:2px;"> <a href="javascript:void(0)" title="" class="checkbox_selected_s" id="checkbox_selected_s1_1" onclick="dispCheck('checkbox_selected',1)" style="display: none" tabindex="11"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_s" id="checkbox_normal_s1_1" onclick="dispCheck('checkbox_normal',1)" tabindex="11"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+                        <span class="lt"><a style="display:none;position:relative;top:0px;left:3px;" tabindex="11" onclick="disp_edit(1)" id="repeatEdit_1" title="Edit Repeat" href="javascript:void(0)"><%=image_tag("/assets/provider_event_list/edit_icon.png", :width=>"29", :height=>"26", :align=>"absbottom")%></a></span>
+                        <span class="lt repeatTest ftSz13Clr" style="margin-top: 6px;">Repeat</span>                        
+		<%end%>
+		 <%else%>                         
+                        <span  class="lt checkbox setstyle" style="margin-right:0px;top:2px;"> <a href="javascript:void(0)" title="" class="checkbox_selected_s" id="checkbox_selected_s1_1" onclick="dispCheck('checkbox_selected',1)" style="display: none" tabindex="11"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_s" id="checkbox_normal_s1_1" onclick="dispCheck('checkbox_normal',1)" tabindex="11"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span>
+                        <span class="lt"><a style="display:none;position:relative;top:0px;left:3px;" tabindex="11" onclick="disp_edit(1);" id="repeatEdit_1" title="Edit Repeat" href="javascript:void(0)"><%=image_tag("/assets/provider_event_list/edit_icon.png", :width=>"29", :height=>"26", :align=>"absbottom")%></a></span>
+                        <span class="lt repeatTest ftSz13Clr" style="margin-top: 6px;">Repeat</span>                        
+		<%end%>
+                        <div class="clear"></div>
+                      </div>
+                    </div>
+
+                    <div class="clear"></div>
+
+                    <!--link rel="stylesheet" type="text/css" href="/assets/create_new_activity_new/repeat_popup.css" /-->
+                    <!--script type="text/javascript" src="/assets/create_new_activity_new/repeat_popup.js"></script-->
+
+                    <script type="text/javascript">
+                      
+		       function disp_edit_db(){
+			      $(".repeatEdit_db_1").attr("onClick","disp_edit(1)");
+			      $("#repeatPOPUPDiv_1 .cancelButton").attr("onClick","cancelRepeatDivDb(1)");
+			      $('#schedule_summary_1').css('display','block');
+											  
+			      $('#repeatPOPUPDiv_1').css('display','block');
+			      $('#repeatCheck_1').val('yes');
+			      $('#repeat_save_1').val(1);			      
+			      db_summay(1);	
+                      }  
+		      
+                    function db_summay(){
+		    
+			      $("#schedule_summary_1 #repeat_summary_text").css('display','block');
+									  
+			      $('.checkbox_selected_repeat').css('display','none');
+			      $('.checkbox_normal_repeat').css('display','block');
+						  
+			      $('.radio_selected_repeat').css('display','none');
+			      $('.radio_normal_repeat').css('display','inline-block');
+			      $('.r_value input').val(0);
+					  
+			      $('#started_date_disp_1').css('background-color','#ECE9D8');
+			      $('#started_date_disp_1').attr("disabled",true);
+						  
+			      $("#repeat_on_error_1").html("");
+			      $("#repeat_on_error_1").parent().css("display","none");
+			      $("#after_occ_error_1").html("");
+			      $("#after_occ_error_1").parent().css("display","none");
+			      $("#repeat_alt_error_1").html("");
+			      $("#repeat_alt_error_1").parent().css("display","none");
+					  
+			      $("#summaryText").html('');
+			      
+
+<%if !@act_repeat.nil?%>
+      $("#repeatWeekVal_1").val('<%= @wek %>');     
+      $("#repeatWeekVal_1").css('color','#444444');
+	  
+      $("#repeatNumWeekVal_1").val('<%= @repeat_every %>');    
+      $("#repeatNumWeekVal_1").css('color','#444444');
+        changedWeekDays(1);
+        single_double(1);
+
+  <% if @repeat_never_s == false %>
+    <%if @repeat_occ !='' && !@repeat_occ.nil?%>
+          
+          $("#after_occ_1").val('<%= @repeat_occ %>');
+          $("#after_occ_1").css('color','#444444');
+	  
+          $('#radio_normal_repeat_2_1').css('display','none');
+          $('#radio_selected_repeat_2_1').css('display','inline-block');
+          $('#r2_1').val(1);
+
+          $('#repeatPOPUPDiv_1 #after_occ_1').css('background-color','#ffffff');
+          $('#repeatPOPUPDiv_1 #after_occ_1').removeAttr('disabled');
+          $('#repeat_on_date_1').parent().css('background-color','#ECE9D8');
+          $('#repeatPOPUPDiv_1 .dateDivRepeat img').hide();
+          $('#repeatPOPUPDiv_1 .dateDivRepeat input').hide();
+
+
+
+    <%else%>			
+          $('#repeat_alt_on_date_1').val('<%= @repeat_end %>');
+		  
+          $('#repeat_on_date_1').val('<%= @repeat_end_show %>');
+          $("#repeat_on_date_1").css('color','#444444');
+		  
+          $('#radio_normal_repeat_3_1').css('display','none');
+          $('#radio_selected_repeat_3_1').css('display','inline-block');
+          $('#r3_1').val(1);
+		  
+          $('#repeatPOPUPDiv_1 #after_occ_1').css('background-color','#ECE9D8');
+          $('#repeatPOPUPDiv_1 #after_occ_1').attr('disabled',true);
+          $('#repeatPOPUPDiv_1 #after_occ_1').val('');
+          
+          $('#repeat_on_date_1').parent().css('background-color','#ffffff');
+          $('#repeatPOPUPDiv_1 .dateDivRepeat img').show();
+          $('#repeatPOPUPDiv_1 .dateDivRepeat input').show();
+
+    <%end%>
+  <%else%>
+        $('#radio_normal_repeat_1_1').css('display','none');
+        $('#radio_selected_repeat_1_1').css('display','inline-block');
+        $('#r1_1').val(1);
+        $('#repeatPOPUPDiv_1 #after_occ_1').val('');
+        $('#repeatPOPUPDiv_1 #after_occ_1').attr('disabled',true);
+        $('#repeat_on_date_1').val('');
+        $('#repeat_alt_on_date_1').val('');
+        $('#repeat_on_date_1').parent().css('background-color','#ECE9D8');
+        $('#repeatPOPUPDiv_1 .dateDivRepeat img').hide();
+        $('#repeatPOPUPDiv_1 .dateDivRepeat input').hide();
+  <%end%>
+  <%if !@repeat_on.nil?%>
+    <% @repeat_on_val = @repeat_on.split(",")%>
+
+    <%if @repeat_on_val.include?('Sun') || @repeat_on_val.include?('sun') %>
+          $('#checkbox_normal_repeat_1_1').css('display','none');
+          $('#checkbox_selected_repeat_1_1').css('display','inline-block');
+          $("#day1_1").val('Sun');
+    <%end%>
+    <%if @repeat_on_val.include?('Mon') || @repeat_on_val.include?('mon')%>
+        $('#checkbox_normal_repeat_2_1').css('display','none');
+          $('#checkbox_selected_repeat_2_1').css('display','inline-block');
+          $("#day2_1").val('Mon');
+    <%end%>
+    <%if @repeat_on_val.include?('Tue') || @repeat_on_val.include?('tue')%>
+          $('#checkbox_normal_repeat_3_1').css('display','none');
+          $('#checkbox_selected_repeat_3_1').css('display','inline-block');
+          $("#day3_1").val('Tue');
+    <%end%>
+    <%if @repeat_on_val.include?('Wed') || @repeat_on_val.include?('wed')%>
+          $('#checkbox_normal_repeat_4_1').css('display','none');
+          $('#checkbox_selected_repeat_4_1').css('display','inline-block');
+          $("#day4_1").val('Wed');
+    <%end%>
+    <%if @repeat_on_val.include?('Thu') || @repeat_on_val.include?('thu')%>
+          $('#checkbox_normal_repeat_5_1').css('display','none');
+          $('#checkbox_selected_repeat_5_1').css('display','inline-block');
+          $("#day5_1").val('Thu');
+    <%end%>
+    <%if @repeat_on_val.include?('Fri') || @repeat_on_val.include?('fri')%>
+          $('#checkbox_normal_repeat_6_1').css('display','none');
+          $('#checkbox_selected_repeat_6_1').css('display','inline-block');
+          $("#day6_1").val('Fri');
+    <%end%>
+    <%if @repeat_on_val.include?('Sat') || @repeat_on_val.include?('sat')%>
+          $('#checkbox_normal_repeat_7_1').css('display','none');
+          $('#checkbox_selected_repeat_7_1').css('display','inline-block');
+          $("#day7_1").val('Sat');
+    <%end%>
+      $('#repeat_no_of_days_1').val('<%= @repeat_on%>'); 
+      var week_check = $('#repeat_no_of_days_1').val();
+      if( week_check != "Daily" || week_check != "Monthly" || week_check != "Yearly"){
+		 $('#repeat_days_1').val('<%= @repeat_on%>');
+      }	
+        
+  <%end%>
+  <%if @repeat_week == 'Monthly'%>
+    <%@ch_rep_mont = @act_repeat.repeated_by_month if !@act_repeat.repeated_by_month.nil?%>
+    <%if @ch_rep_mont == true %>
+          dispCheckMonthlyRepeat('month_normal_repeat',1,1)
+    <%else%>
+          dispCheckMonthlyRepeat('month_normal_repeat',2,1)
+    <%end%>
+  <%end%>	  
+        var  repeatCheck = $('#repeatCheck_1').val();
+	if(repeatCheck=="yes"){ 
+		var radio_1 = $('#r1_1').val();
+		var radio_2 = $('#r2_1').val();
+		var radio_3 = $('#r3_1').val();
+		 var after_occ = $("#after_occ_1").val();
+		if(radio_1 == 1){
+			$("#toText").hide();
+			$("#sched_end_date1").hide();
+			$("#sched_end_date2").show();
+
+			$(".finalResult").html("Ends Never");					
+		}
+		if(radio_2 == 1){
+			$("#toText").hide();
+			$("#sched_end_date1").hide();
+			$("#sched_end_date2").show();
+
+			$(".finalResult").html("After "+after_occ+" occurrences");				
+		}
+		if(radio_3 == 1){
+			$("#toText").show();
+			$("#sched_end_date1").show();
+			$("#sched_end_date2").hide();				
+		}
+	}
+	changed_summary(1);	
+	summary_date_time_changes(1);
+<%end%>
+
+  }
+
+                    </script>
+
+                     <!--link rel="stylesheet" type="text/css" href="/assets/create_new_activity_new/repeat_popup.css" /-->
+                    <!--script type="text/javascript" src="/assets/create_new_activity_new/repeat_popup.js"></script-->
+
+                   <div class="repeatContainer" id="repeatPOPUPDiv_1" style="display:none;margin-left:-47px;margin-top:-12px;">
+                    <div class="repeatContainerTop"></div>
+                    <div class="repeatContainerCenter">
+                      <div class="innerContainer">
+                        <div class="headTab">
+                          <div class="heading">
+                            <div class="headCont">
+														Repeat
+                            </div>
+                          </div>
+                          <div class="closeButton" style="padding:0px;">
+                            <input type="hidden" id="repeat_save_1"  value="" />
+                            <a href="javascript:void(0)" onClick="closeRepeatDiv(1)" onkeydown="cancelRepeatKeyDown(event,0)" title=""><%=image_tag("/assets/global/pop_up/button_close.png", :width=>"15", :height=>"15", :style=>"border:0px;")%></a>
+                          </div>
+                        </div>
+                        <div class="repeatFormContent">
+                          <!--form name="r_form" id="r_form" method="post" action=""-->
+                          <div class="row">
+                            <div class="lt ltField ">
+														Repeats
+                            </div>
+                            <div class="lt">			    
+				<select id="repeatWeekVal_1" name="repeatWeekVal_1" size="1" tabindex="8" class="drop_down_left width_set4" onkeyup="repeatsValue(1)" onChange="repeatsValue(1)">
+					<option value="Daily" selected="selected">Daily</option>
+					 <!--<option value="Every week (Monday to Friday)">Every week (Monday to Friday)</option>
+					 <option value="Every Monday,Wednesday and Friday">Every Monday,Wednesday and Friday</option>
+					 <option value="Every Tuesday and Thursday">Every Tuesday and Thursday</option>-->
+					<option value="Weekly">Weekly</option>
+					<option value="Monthly">Monthly</option>
+					<option value="Yearly">Yearly</option>
+				</select>                            
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+                          <div class="row repeatEvery">
+                            <div class="lt ltField">
+														Repeat Every
+                            </div>
+
+                            <div class="lt">
+				<select id="repeatNumWeekVal_1" name="repeatNumWeekVal_1" size="1" tabindex="9" class="drop_down_left width_set3" onkeyup="repeatEveryValue(1)" onChange="repeatEveryValue(1)">
+					<option value="1" selected="selected">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+					<option value="12">12</option>
+					<option value="13">13</option>
+					<option value="14">14</option>
+					<option value="15">15</option>
+					<option value="16">16</option>
+					<option value="17">17</option>
+					<option value="18">18</option>
+					<option value="19">19</option>
+					<option value="20">20</option>
+					<option value="21">21</option>
+					<option value="22">22</option>
+					<option value="23">23</option>
+					<option value="24">24</option>
+					<option value="25">25</option>
+					<option value="26">26</option>
+					<option value="27">27</option>
+					<option value="28">28</option>
+					<option value="29">29</option>
+					<option value="30">30</option>
+				</select>&nbsp;&nbsp; 
+                            </div>
+                            <div class="lt weekText repeatEveryText_1">Day</div>
+                            <div class="clear"></div>
+                          </div>
+		     
+                          <div class="row repeatOn">
+                            <div class="lt ltField" >
+														Repeat On
+                            </div>
+                            <div class="lt" style="padding-left:2px;">
+			<input id="repeat_no_of_days_1" name="repeat_no_of_days_1" type="hidden" value=""/>
+			<input id="repeat_days_1" name="repeat_days_1" type="hidden" value="0"/>
+                              <span  class="lt checkbox">
+			  <input id="day1_1" name="day1_1" type="hidden" value=""/>
+                                <a href="javascript:void(0)" title="" class="checkbox_selected_repeat" id="checkbox_selected_repeat_1_1" onclick="dispCheckRepeat('checkbox_selected_repeat',1,'Sun',1)" style="display: none" tabindex="10"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat" id="checkbox_normal_repeat_1_1" onclick="dispCheckRepeat('checkbox_normal_repeat',1,'Sun',1)" tabindex="10"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">S</span>
+
+                              <span  class="lt checkbox">                                
+			  <input id="day2_1" name="day2_1" type="hidden" value=""/>
+                                <a href="javascript:void(0)" title="" class="checkbox_selected_repeat" id="checkbox_selected_repeat_2_1" onclick="dispCheckRepeat('checkbox_selected_repeat',2,'Mon',1)" style="display: none" tabindex="11"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat"  id="checkbox_normal_repeat_2_1" onclick="dispCheckRepeat('checkbox_normal_repeat',2,'Mon',1)" tabindex="11"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">M</span>
+
+                              <span  class="lt checkbox">			  
+                                <input id="day3_1" name="day3_1" type="hidden" value=""/>			  
+                                <a href="javascript:void(0)" title="" class="checkbox_selected_repeat" id="checkbox_selected_repeat_3_1" onclick="dispCheckRepeat('checkbox_selected_repeat',3,'Tue',1)" style="display: none" tabindex="12"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat" id="checkbox_normal_repeat_3_1" onclick="dispCheckRepeat('checkbox_normal_repeat',3,'Tue',1)" tabindex="12"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">T</span>
+
+                              <span  class="lt checkbox">			 
+                                <input id="day4_1" name="day4_1" type="hidden" value=""/>
+                                <a href="javascript:void(0)" title="" class="checkbox_selected_repeat" id="checkbox_selected_repeat_4_1" onclick="dispCheckRepeat('checkbox_selected_repeat',4,'Wed',1)" style="display: none" tabindex="13"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat" id="checkbox_normal_repeat_4_1" onclick="dispCheckRepeat('checkbox_normal_repeat',4,'Wed',1)" tabindex="13"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">W</span>
+
+                              <span  class="lt checkbox">			  
+                                <input id="day5_1" name="day5_1" type="hidden" value=""/>
+                                <a href="javascript:void(0)" title="" class="checkbox_selected_repeat" id="checkbox_selected_repeat_5_1" onclick="dispCheckRepeat('checkbox_selected_repeat',5,'Thu',1)" style="display: none" tabindex="14"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat" id="checkbox_normal_repeat_5_1" onclick="dispCheckRepeat('checkbox_normal_repeat',5,'Thu',1)" tabindex="14"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">T</span>
+
+                              <span  class="lt checkbox">			  
+                                <input id="day6_1" name="day6_1" type="hidden" value=""/>
+                                <a href="javascript:void(0)" title="" class="checkbox_selected_repeat"  id="checkbox_selected_repeat_6_1"  onclick="dispCheckRepeat('checkbox_selected_repeat',6,'Fri',1)" style="display: none" tabindex="15"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat" id="checkbox_normal_repeat_6_1" onclick="dispCheckRepeat('checkbox_normal_repeat',6,'Fri',1)" tabindex="15"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">F</span>
+
+                              <span  class="lt checkbox">			  
+                                <input id="day7_1" name="day7_1" type="hidden" value=""/>
+                                <a href="javascript:void(0)" title=""  class="checkbox_selected_repeat" id="checkbox_selected_repeat_7_1" onclick="dispCheckRepeat('checkbox_selected_repeat',7,'Sat',1)" style="display: none" tabindex="16"><%=image_tag("/assets/register/checkbox_selected.png", :width=>"19", :height=>"21")%></a> <a href="javascript:void(0)" title="" class="checkbox_normal_repeat" id="checkbox_normal_repeat_7_1" onclick="dispCheckRepeat('checkbox_normal_repeat',7,'Sat',1)" tabindex="16"><%=image_tag("/assets/register/checkbox_normal.png", :width=>"19", :height=>"21")%></a> </span><span class="lt checkboxText">S</span>
+                              <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+                          <div class="errorDiv" style="display:none">
+                            <div class="lt ltField">
+                              &nbsp;
+                            </div>
+                            <div id="repeat_on_error_1"></div>
+                          </div>
+                          <div class="clear"></div>
+
+                          <div class="row repeated_by" style="display:none;">
+                            <div class="lt ltField">Repeated by</div>
+                            <div class="lt">
+                              <div class="col month">
+                                <span class="lt radio">                                  
+			    <input id="month1_1" name="month1_1" value="1" type="hidden"/>
+                                  <a href="javascript:void(0)" title="" class="month_selected_repeat" id="month_selected_repeat_1_1" onclick="dispCheckMonthlyRepeat('month_selected_repeat',1,1)" tabindex="17"><%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a><a href="javascript:void(0)" title="" class="month_normal_repeat" id="month_normal_repeat_1_1" onclick="dispCheckMonthlyRepeat('month_normal_repeat',1,1)" style="display: none" tabindex="17"><%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a></span><span class="lt radioText">Day of the month&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+                                <span class="lt radio">			    
+                                  <input id="month2_1" name="month2_1" value="0" type="hidden"/>
+                                  <a href="javascript:void(0)" title="" class="month_selected_repeat" id="month_selected_repeat_2_1" onclick="dispCheckMonthlyRepeat('month_selected_repeat',2,1)" style="display: none" tabindex="18"><%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a><a href="javascript:void(0)" title="" class="month_normal_repeat" id="month_normal_repeat_2_1" onclick="dispCheckMonthlyRepeat('month_normal_repeat',2,1)" tabindex="18"><%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a></span><span class="lt radioText">Day of the week</span>
+                                <div class="clear"></div>
+                              </div>
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+
+                          <div class="row">
+                            <div class="lt ltField">
+														Starts On
+                            </div>
+                            <div class="lt">
+                                 <input type="hidden" value="<%= @start_on_hid%>" class="repeatTextBox" id="started_date_1" name="started_date_1" />
+                                <input type="text" value="<%= @start_on_disp%>" class="repeatTextBox" id="started_date_disp_1" disabled />
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+                          <div class="row">
+                            <div class="lt ltField">
+														Ends
+                            </div>
+                            <div class="lt">
+                              <div class="col">
+                                <span class="lt radio r_value">			    
+                                  <input id="r1_1" name="r1_1" value="0" type="hidden"/>
+                                  <a href="javascript:void(0)" title="" class="radio_selected_repeat" id="radio_selected_repeat_1_1" onclick="dispCheckRepeat('radio_selected_repeat',1,1,1)" tabindex="19"><%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a><a href="javascript:void(0)" title="" class="radio_normal_repeat" id="radio_normal_repeat_1_1" onclick="dispCheckRepeat('radio_normal_repeat',1,1,1)" style="display: none" tabindex="19"><%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a></span><span class="lt radioText">Never</span>
+
+                                <div class="clear"></div>
+                              </div>
+
+                              <div class="col">
+                                <span class="lt radio r_value">			    
+                                  <input id="r2_1" name="r2_1" value="0" type="hidden"/>
+                                  <a href="javascript:void(0)" title="" class="radio_selected_repeat" id="radio_selected_repeat_2_1" onclick="dispCheckRepeat('radio_selected_repeat',2,1,1)" style="display: none" tabindex="20"><%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a><a href="javascript:void(0)" title="" class="radio_normal_repeat" id="radio_normal_repeat_2_1" onclick="dispCheckRepeat('radio_normal_repeat',2,1,1)" tabindex="20"><%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a></span><span class="lt radioText">After&nbsp;&nbsp;&nbsp;</span>
+                                 
+			   <input type="text" maxlength="10" value="5" class="repeatTextBox afterTextBox" id="after_occ_1" name="after_occ_1" onKeyPress="return number(event);" onkeyUp="changed_summary(1);" onFocus="$(this).css('color','#444444')" tabindex="21"/>
+                                 <span class="lt radioText">&nbsp;&nbsp;&nbsp;occurrences</span>
+
+                                <div class="clear"></div>
+                              </div>
+
+                              <div class="errorDiv" style="display:none">
+                                <div id="after_occ_error_1" style="padding:0 0 10px 62px;"></div>
+                              </div>
+
+                              <div class="col">
+                                <span class="lt radio r_value">			    
+                                  <input id="r3_1" name="r3_1" value="1" type="hidden" />
+                                  <a href="javascript:void(0)" title="" class="radio_selected_repeat" id="radio_selected_repeat_3_1" onclick="dispCheckRepeat('radio_selected_repeat',3,1,1)" style="display: none" tabindex="22"><%=image_tag("/assets/create_new_activity/repeat/radio_on.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a><a href="javascript:void(0)" title="" class="radio_normal_repeat"  id="radio_normal_repeat_3_1" onclick="dispCheckRepeat('radio_normal_repeat',3,1,1)" tabindex="22"><%=image_tag("/assets/create_new_activity/repeat/radio_off.png", :width=>"22", :height=>"22", :style=>"border:0px;")%></a></span><span class="lt radioText">On&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <div class="lt dateDivRepeat">				
+                                  <input type="text" id="repeat_on_date_1" name="repeat_on_date_1" class="rdateTextbox" value="" style="outline: none;" tabindex="23" onChange="modifyDateEndsOn(1);$(this).css('color','#444444');" readonly="readonly" />
+                                  <input type="hidden" id="repeat_alt_on_date_1" name="repeat_alt_on_date_1" value=""   />
+			
+                                </div>
+                                <div class="clear"></div>
+                              </div>
+
+                              <div class="errorDiv" style="display:none">
+                                <div id="repeat_alt_error_1"></div>
+                              </div>
+
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+                           <div class="summaryDiv" id="repeat_summary_1">
+                            <div class="lt ltField">
+			Summary <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
+                            </div>
+                            <div class="lt">
+                              <span class="lt summaryText"><span class="summary weekText">Weekly on Wednesday</span></span>
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+                          <div class="buttonDiv">
+                            <div class="lt ltField">
+                              &nbsp;
+                            </div>
+                            <div class="lt">
+                              <a href="javascript:void(0)" tabindex="24" onclick="saveRepeatDiv('parent',1)" onkeydown="cancelRepeatKeyDown(event,1)"><%=image_tag("/assets/create_new_activity/repeat/save.png", :width=>"67", :height=>"33", :style=>"border:0px;", :onclick=>"saveRepeatDiv();")%></a>
+                              <a href="javascript:void(0)" tabindex="25" onClick="cancelRepeatDiv(1)" onkeydown="cancelRepeatKeyDown(event,1)"><%=image_tag("/assets/create_new_activity/repeat/cancel.png", :width=>"67", :height=>"33", :style=>"border:0px;", :onclick=>"cancelRepeatDiv();")%></a>
+                            </div>
+                            <div class="clear"></div>
+                          </div>
+
+                          <!--/form-->
+                        </div>
+                      </div>
+                    </div>
+                    <div class="repeatContainerBottom"></div>
+                    <div class="clear"></div>
+                  </div>
+		  
+                    <div class="clear"></div>
+                    <div class="errorDiv" style="display:none;">
+                      <div class="lt" id="schedule_time_error"></div>
+                    </div>
+
+                  </div>
+
+                  <div class="clear"></div>
+	<div class="new_summary" id="schedule_summary_1" style="display:none;margin:0 0 10px 10px;">
+				<div class="lt" style="border-top:none">
+				<span class="lt">Summary&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+				<div class="lt">
+				<div class="outSummary" id="dateSummay" style=" width: 380px;"></div>
+				<div class="outSummary" id="repeat_summary_text" style="display:none;width: 380px;"><span id="repeatText">Repeats&nbsp;</span><span class="summary"></span></div>
+				<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+				</div>
+		
+		
+		</div>
+                <div class="clear"></div>
+              </div>
+
+              
+     <div id="address">
+              <div class="paddingTop10">
+			<div class="lt leftSideField">Address<span class="required">*</span></div>
+			<input type="text" name="address_1" id="add_1" class="lt textbox" value="<%if @activity.address_1.present? %><%=@activity.address_1%><%else%>Address Line 1<%end%>" onfocus="focusChangeBorderColor('add_1')" onblur="blurChangeBorderColor('add_1')" tabindex="32" style="<%if @activity.address_1 != 'Address Line 1' && @activity.address_1.present? %>color:#444444;<%else%>color:#999999;<%end%>"/>
+			<div class="clear"></div>
+              </div>
+              <div class="paddingTop2">
+			<div class="lt leftSideField">&nbsp;</div>
+			<input type="text" name="address_2" id="add_2" class="lt textbox" value="<%if @activity.address_2.present? %><%=@activity.address_2%><%else%>Address Line 2<%end%>"  onfocus="if(this.value == 'Address Line 2'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Address Line 2'}" onblur="blurChangeBorderColor('add_2')" tabindex="33" style="<%if @activity.address_2 != 'Address Line 2' && @activity.address_2.present? %>color:#444444;<%else%>color:#999999;<%end%>"/>
+			<div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+	    <div class="errorDiv" style="display:none">
+			<div class="lt leftSideField">&nbsp;</div>
+			<div class="lt" id="venue_error"></div>
+              </div>
+              <div class="clear"></div>
+     </div>
+     
+     <div id="city_state">
+              <div class="paddingTop10">
+			<div class="lt leftSideField">City<span class="required">*</span>&nbsp;&amp; &nbsp;State<span class="required">*</span></div>
+			<div class="lt ">
+				<div class="lt col1">
+					<select id="act_city" name="city" size="1" tabindex="34" class="drop_down_left width_set2" style="color:#444444;">
+						<% @cities.each do |city|%>
+						<option value="<%=city%>" <%if @activity.city == city %>selected="selected" <%end%>><%=city%></option>
+						<%end%>
+					</select> 
+				</div>
+				<div class="lt col2" >
+					<select id="act_state" name="state" size="1" tabindex="35" class="drop_down_left width_set2" style="color:#444444;">
+						<option value="California" selected="selected">California</option>				
+					</select>    
+				</div>
+			</div>
+			<div class="clear"></div>
+	    </div>
+              <div class="clear"></div>
+              <div id="cityState_errorDiv" class="errorDiv" style="display:none">
+			<div class="lt leftSideField">&nbsp;</div>
+			<div class="lt dateTimeDiv city_zipcode">
+				<div class="lt" id="city_error"  style="width: 275px;"></div>
+				<div class="lt" id="state_error"></div>
+			</div>
+			<div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+	</div>
+
+	<div id="zipcode">
+		<div class="paddingTop10">
+			<div class="lt leftSideField">Zip Code<span class="required">*</span></div>
+			<input type="text" name="zip_code" id="zip_code" class="lt textbox" value="<%if @activity.zip_code.present?%><%= @activity.zip_code%><%else%>Enter Zip Code<%end%>" onfocus="focusChangeBorderColor('zip_code')" onblur="blurChangeBorderColor('zip_code')" tabindex="36" style="<%if @activity.zip_code.present?%>color:#444444;<%else%>color:#999999;<%end%>" />
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+		<div class="errorDiv" style="display:none">
+			<div class="lt leftSideField">&nbsp;</div>
+			<div class="lt" id="zipcode_error"></div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	
+              <div class="paddingTop10">
+                <div class="lt leftSideField">
+							Age Range
+                </div>
+		<%@min_month_flag = false %>
+		<%@min_year_flag = false %>
+		<%@max_month_flag = false %>
+		<%@max_year_flag = false %>
+		<%if @activity.min_age_range.present? && (@activity.min_age_range!='All' &&  @activity.min_age_range!='Adults' && @activity.min_age_range.to_f < 1  && @activity.min_age_range.to_f != 0.0)%>
+			<%@min_month_flag = true %>
+		<%end%>
+		<%if @activity.min_age_range.present? &&  (@activity.min_age_range=='All' || @activity.min_age_range=='Adults' || @activity.min_age_range.to_f > 1)%>
+			<%@min_year_flag = true %>
+		<%end%>
+		<%if @activity.max_age_range.present? &&  (@activity.max_age_range!='All' &&  @activity.max_age_range!='Adults' && @activity.max_age_range.to_f < 1 && @activity.max_age_range.to_f != 0.0)%>
+			<%@max_month_flag = true %>
+		<%end%>
+		<%if @activity.max_age_range.present? && (@activity.max_age_range=='All' || @activity.max_age_range=='Adults' || @activity.max_age_range.to_f > 1)%>
+			<%@max_year_flag = true %>
+		<%end%>
+                <div class="lt col2_center">
+		<div  class="lt col2_right">
+		 <select name="min_type" id="min_type" class="drop_down_left width_set4 " size="1" onchange="changeAgeRange(this.value,'min')"  style="<%if @min_month_flag || @min_year_flag%>color:#444444;<%end%>">			
+			<option value="" selected>--Select--</option>
+			<option value="month" <%if @min_month_flag%>selected<%end%>>Month</option>
+			<option value="year" <%if @min_year_flag%>selected<%end%>>Year</option>
+		    </select>
+		</div>
+		
+		<div id="div_min_month" style="<%if !@min_month_flag && !@min_year_flag%>display:block;<%else%><%if @min_month_flag%>display:block;<%else%>display:none;<%end%><%end%>">   
+			    <select id="month_age1" name="month_age1" size="1" tabindex="17" class="drop_down_left width_set7" onChange="$(this).css('color','#444444');"  style="<%if @min_month_flag || @min_year_flag%>color:#444444;<%end%>">
+			      <option value="" <%if @activity.min_age_range.present? %>selected="selected"<%end%>>--Set a Minimum age--</option>		      
+			      <% (1..11) .each do |num| %>
+				<option value="<%= num%>" <% min_val=((@activity.min_age_range.to_f)*12).round%><% if min_val.to_i== num.to_i %>selected="selected"<%end%> ><%= num.to_i%></option>
+			      <%end%>			      
+			    </select>
+		</div>
+		<div id="div_min_year" style="<%if !@min_month_flag && !@min_year_flag%>display:none;<%else%><%if @min_year_flag%>display:block;<%else%>display:none;<%end%><%end%>">   
+			    <select id="year_age1" name="year_age1" size="1" tabindex="17" class="drop_down_left width_set7" onkeyup="setAgeDropDownValue('min','year',this.value);"  onChange="setAgeDropDownValue('min','year',this.value);$(this).css('color','#444444');"  style="<%if @min_month_flag || @min_year_flag%>color:#444444;<%end%>">
+			     <option value="" <%if @activity.min_age_range.present? %>selected="selected"<%end%>>--Set a Minimum age--</option>
+			      <option value="All" <%if @activity.min_age_range == 'All' %>selected="selected"<%end%>>All</option>			      
+			      <% (1..18) .each do |num| %>
+				<option value="<%= num%>" <%if @activity.min_age_range.to_i == num.to_i %>selected="selected"<%end%> ><%= num.to_i%></option>
+			      <%end%>
+			      <option value="Adults" <%if @activity.min_age_range == 'Adults' %>selected="selected"<%end%>>Adults</option>
+			    </select>
+		</div>
+                  </div>
+		  <div class="lt cenderSideField" align="center">
+			To
+		</div>
+                  <div class="lt col2_center">
+		<div  class="lt col2_right">
+		<select name="max_type" id="max_type" class="drop_down_left width_set4 " size="1" onchange="changeAgeRange(this.value,'max')"  style="<%if @max_month_flag || @max_year_flag%>color:#444444;<%end%>">
+			<option value="" selected>--Select--</option>
+			<option value="month" <%if @max_month_flag%>selected<%end%>>Month</option>
+			<option value="year" <%if @max_year_flag%>selected<%end%>>Year</option>
+		</select>
+		</div>
+		<div id="div_max_month" style="<%if !@max_month_flag && !@max_year_flag%>display:block;<%else%><%if @max_month_flag%>display:block;<%else%>display:none;<%end%><%end%>">
+			    <select id="month_age2" name="month_age2" size="1" tabindex="18" class="drop_down_left width_set7"  onChange="$(this).css('color','#444444');"  style="<%if @max_month_flag || @max_year_flag%>color:#444444;<%end%>">
+			      <option value="" <%if @activity.max_age_range.present? %>selected="selected"<%end%>>--Set a Minimum age--</option>			      
+			      <% (1..11) .each do |num| %>
+				<option value="<%= num%>" <% max_val=((@activity.max_age_range.to_f)*12).round%><% if max_val.to_i== num.to_i %>selected="selected"<%end%> ><%= num.to_i%></option>
+			      <%end%>			      
+			    </select>
+		</div>
+		<div id="div_max_year" style="<%if !@max_month_flag && !@max_year_flag%>display:none;<%else%><%if @max_year_flag%>display:block;<%else%>display:none;<%end%><%end%>">
+			<select id="year_age2" name="year_age2" size="1" tabindex="18" class="drop_down_left width_set7" onkeyup="setAgeDropDownValue('max','year',this.value);" onChange="setAgeDropDownValue('max','year',this.value);$(this).css('color','#444444');"  style="<%if @max_month_flag || @max_year_flag%>color:#444444;<%end%>">
+			      <option value="" <%if @activity.max_age_range.present? %>selected="selected"<%end%>>--Set a Minimum age--</option>
+			      <option value="All" <%if @activity.max_age_range == 'All' %>selected="selected"<%end%>>All</option>			     
+			      <% (1..18) .each do |num| %>
+				<option value="<%= num%>" <%if @activity.max_age_range.to_i == num.to_i %>selected="selected"<%end%> ><%= num.to_i%></option>
+			      <%end%>
+			      <option value="Adults" <%if @activity.max_age_range == 'Adults' %>selected="selected"<%end%>>Adults</option>
+			    </select>
+		</div>
+                  </div>	
+                <div class="clear"></div>
+                <div class="errorDiv" style="display:none">
+                  <div class="lt leftSideField">
+                    &nbsp;
+                  </div>
+                  <div class="lt" id="age_range_error"></div>
+                </div>
+                <div class="clear"></div>
+              </div>
+
+              <div class="paddingTop10">
+                <input type="hidden" name="created_by" value ="Parent"/>
+                <input type="hidden" name="activity_type" value ="U">
+                <div class="lt leftSideField">
+								No of Participants
+                </div>
+                <input type="text" name="activity[no_participants]" id="no_pat" class="lt textbox" value="<%if@activity.no_participants.present? && @activity.no_participants!=0 %><%=@activity.no_participants%><%else%>Specify Number<%end%>"  onKeyPress="return number(event);" onfocus="if(this.value == 'Specify Number'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}" onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Specify Number'}" maxlength="4" tabindex="39" style="<%if @activity.no_participants.present? && @activity.no_participants!=0%>color:#444444;<%else%>color:#999999;<%end%>"/>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+                <div class="lt" id="no_pat_error"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="paddingTop10" id="edit_image_activity">
+                <div class="lt leftSideField setTop">
+                  Activity Image
+                </div>
+                <div class="lt" >
+                  <div class="lt" >
+                    <div class="lt setImgBorder">
+                      <%if !@activity.avatar.url(:original).nil?%>
+                        <%= image_tag @activity.avatar.url(:original), :width => '84', :height => '85' if !@activity.avatar.url(:original).nil?%>
+                      <%else%>
+                        <%=image_tag("/assets/event_edit_activity/photo_pic.png", :width=>"84", :height=>"85", :style=>"border:0px;")%>
+                      <%end%>
+                    </div>
+                    <div class="lt">
+                      <div class="lt FileUpload">
+                        <input type="file" accept="image/*" onchange="document.getElementById('photo1').value=this.value;validateBrowse();fakepath(this.value);" size="21" id="photo" class="BrowserHidden" name="photo" style=".width:100px;">
+                        <div class="BrowserVisible" style="border:none;">
+                          <input type="text" name="photo1" id="photo1" class="FileField" readonly="readonly" style="border:1px solid #ffffff;color:#444444;" />
+                        </div>
+                        <span class="browse" tabindex="40" style="cursor:pointer; position:relative; display:inline-block;"><b>Change Picture</b></span>
+                        <div class="clear"></div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="errorDiv" style="display:none; margin:7px 0 0 0;">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+                <div class="lt" id="activity_photo_error"></div>
+              </div>
+              <div class="clear"></div>
+
+
+              <div class="buttonDiv">
+                <div class="lt leftSideField">
+                  &nbsp;
+                </div>
+                <div class="lt">
+                  <input type="image" src="/assets/create_new_activity/save.png" alt="" tabindex="41" style="position:relative;" onClick="_gaq.push(['_trackEvent', 'Parent Module', 'clickEditActivity','Save',<%=@activity.activity_id%>])"/>
+
+                  <a href="javascript:void(0)" tabindex="75" onkeydown="cancelKeyDown(event)" tabindex="42"  style="position:relative;" onClick="closepopup();_gaq.push(['_trackEvent', 'Parent Module', 'clickEditActivity','Cancel',<%=@activity.activity_id%>])"/><%=image_tag("/assets/create_new_activity/cancel.png", :width=>"113", :height=>"41", :style=>"border:0px;")%></a>
+                </div>
+                <div class="clear"></div>
+              </div>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="popupContainerBottom"></div>
+  <div class="clear"></div>
+</div>
+</div>
+<div class="clear"></div>
+</div>
+<script>
+$('#ui-datepicker-div').css('left', '90px');
+var schedStartDate = $("#date_1").val();  
+$(function() {
+	$("#dateFormate_1_1").datepicker({
+		showOn : "button",
+		buttonImage : "/assets/create_new_activity/date_icon.png",
+		buttonImageOnly : true,
+		dateFormat: "D, M d, yy",
+		altField : "#date_1",
+		altFormat : "yy-m-d",
+		onClose: function(selectedDate) {
+		  $("#repeat_on_date_1").datepicker( "option", "minDate", selectedDate );
+		  $("#dateFormate_2_1").datepicker( "option", "minDate", selectedDate );
+		  var radio3 = $("#r3_1").val();
+		  if(radio3==0){
+		    $(".dateDivRepeat img").hide();
+		  }
+		}
+	});
+	$("#dateFormate_2_1").datepicker({
+		showOn: "button",
+		buttonImage: "/assets/create_new_activity/date_icon.png",
+		buttonImageOnly: true,
+		minDate: new Date(schedStartDate),
+		dateFormat: "D, M d, yy",
+		altField : "#date_2_1",
+		altFormat : "yy-m-d"
+	});
+	$("#repeat_on_date_1" ).datepicker({
+		showOn: "button",
+		buttonImage: "/assets/create_new_activity/date_icon.png",
+		buttonImageOnly: true,
+		minDate: new Date(schedStartDate),
+		dateFormat: "D, M d, yy",
+		altField : "#repeat_alt_on_date_1",
+		altFormat : "yy-m-d"
+	});
+});
+  /* validate the age ranges in create edit activities for parent */
+ function changeAgeRange(dval,range)
+  {	
+	$('#'+range+"_type").css("color","#444444");
+	age_type = dval.toLowerCase();						
+	if(age_type=='')
+	{
+		$('#div_'+range+'_month').hide();
+		$('#div_'+range+'_year').hide();
+	}
+	if(age_type=='month')
+	{ 
+		$('#div_'+range+'_month').show();
+		$('#div_'+range+'_year').hide();
+	}						
+	if(age_type=='year')
+	{ 
+		$('#div_'+range+'_year').show();	
+		$('#div_'+range+'_month').hide();
+	}
+  }  
+</script>
+

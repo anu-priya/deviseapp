@@ -1,0 +1,33 @@
+
+<%if @test_arr && @test_arr!='' && @test_arr!=[] && @test_arr.present?%>
+  <%@test_arr.each do |a| %>
+    <%= render :partial=>"cards/activity_card", locals: { a: a }%>
+  <%end%>
+<%else%>
+	<div align="center" style="width:1260px;">
+	<div width="100%" style="font-size:20px;text-align:center;">
+		<%=image_tag("/assets/search/search_cn_icon.jpg", :width=>"209", :height=>"203")%>
+        </div>
+        <div width="100%" style="font-size:20px;text-align:center;color:#585858;">
+		Sorry we found no results for your search.
+        </div>
+	<br><br>
+	</div>
+<%end%>
+<div class="pro_pagination" style="display:none;">
+  <%= will_paginate @activity_free if !@activity_free.nil? &&  @activity_free!="" &&  @activity_free.present?%>
+</div>
+<script>
+  $('.card_width').mouseover(function(){
+    var test=$('.card_width').index(this);
+    var p = $( ".card_width:eq("+test+")" );
+    var position = p.position();
+    if(position.left < 5){
+      $(".card_discount_price").css("left","1px");
+      $(".cardspecialDetails").css("left","1px");
+    }else{
+      $(".card_discount_price").css("left","-185px");
+      $(".cardspecialDetails").css("left","188px");
+    }
+  });
+</script>

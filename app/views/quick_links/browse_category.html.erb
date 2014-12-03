@@ -1,0 +1,122 @@
+<% cate=category_metatags(params)
+if cate && cate!="" && !cate.nil?
+  meta :title => "#{cate[0]}",
+    :description => "#{cate[1]}",
+    :keywords => "#{cate[2]}"
+end
+%>
+<%cookies[:browse_city] = ""%>
+<% cookies[:browse_category] = 'category'%>
+<%cookies[:set_bread] = ""%>
+<%= stylesheet_link_tag "header/categories.css" %>
+<div class="<%if current_user.nil? && !current_user.present?%>wrapper_contianer_inner<%else%>wrapper_contianer_inner_login<%end%>">
+  <div align="center">
+    <div class="section_head section_line categ_breadcrumb">
+      <b>
+        <%if (params[:categ] && params[:categ]!='' && params[:sub_categ] && params[:sub_categ]!='')%>
+          <a href="/categories" title="">All Categories</a> > <a  href="/<%= @search_city.downcase.gsub(/\s/,'-') if @search_city.present? %>-ca/<%=params[:categ]%>" title=""><%=@actcatname.titlecase if @actcatname%><%#=params[:categ].gsub('-',' ').titleize%></a> > <%=@actsubcatname.titlecase if @actsubcatname%><%#=params[:sub_categ].gsub('-',' ').titleize%>
+        <%elsif (params[:categ].present?)%>
+          <a href="/categories" title="">All Categories</a> > <%=@actcatname.titlecase if @actcatname%><%#=params[:categ].gsub('-',' ').titleize%>
+        <%elsif (!params[:categ].present?)%>
+                                    All Categories
+        <%end%>
+      </b>
+    </div>
+    <div class="categ_inner">
+      <!--displayed the inner text values-->
+      <%if (params[:categ] && params[:categ]!='' && params[:sub_categ] && params[:sub_categ]!='')%>
+        <h1 class="section_subhead">
+          <strong><%= cookies[:search_city].titleize  if cookies[:search_city] %>, CA&nbsp;<%= params[:sub_categ].gsub('-',' ').titleize if params[:sub_categ]%> for Kids - Classes, Camps, Lessons, Activities & Events</strong>
+        </h1>
+        <p class="content_top">Find a complete listing of all <span>
+            <%=params[:sub_categ].gsub('-',' ').titleize if params[:sub_categ]%></span> related activities including discounts and deals from local providers. Join Famtivity, The Family Activity Network, to earn Discount Dollars that you use to participate in these activities.</p>
+      <%elsif (params[:categ].present?)%>
+        <h1 class="section_subhead">
+          <strong><%= cookies[:search_city].titleize  if cookies[:search_city] %>, CA&nbsp;<%= params[:categ].gsub('-',' ').titleize if params[:categ]%> Classes, Camps, Lessons, Activities & Events</strong></h1>
+        <p class="content_top">Find a complete listing of all <span>
+            <%= params[:categ].gsub('-',' ').titleize if params[:categ] %></span> for kids, including discounts and deals from local providers. Join Famtivity, The Family Activity Network, to earn Discount Dollars that you may be able to use for <span class="ftcGreen3c"><%= params[:categ].gsub('-',' ').titleize if params[:categ]%></span></p>
+          <%elsif (!params[:categ].present?)%>
+        <h1 class="section_subhead"><strong>Activity Categories</strong></h1>
+        <p class="content_top">Browse all activity categories. Join Famtivity and invite friends to earn valuable Discount Dollars apply to great kids activities, classes, camps, lessons, and more!</p>
+      <%end%>
+      <!--displayed the inner text values end-->
+
+    </div>
+    <div align="center">
+      <!--category with image and text start here-->
+      <%if @categories_l && @categories_l.present? && @categories_l!=''%>
+      <%@categories_l && @categories_l.each do |ctey|%>
+        <% if ctey!='' %>
+          <%if (params[:categ] && params[:categ]!='' && params[:sub_categ] && params[:sub_categ]!='')%>
+            <% @list_link = "/"+ctey.city.gsub(/\s/,'-').downcase+"-ca/"+ctey.slug if ctey.city && ctey.slug %>
+            <%@user_profile=ctey if !ctey.nil?%>
+            <%@a=ctey%>
+            <div align="left"><%=render 'cards/providercard',  locals: { a: ctey }  if ctey && ctey.city && ctey.slug && ctey.business_name%></div>
+          <%else%>
+      <%#list_link = url_format(ctey,request.url) if !ctey.nil? %>
+            <!--get the category and subcategory list-->
+            <%if params[:categ].present? && params[:city].present? %>
+              <%image_list = getactsubcategories(ctey) if !ctey.nil?%>
+              <% alt_name = params[:categ].titleize %>
+              <%list_link = url_format_subcat_slug(@search_city,params[:categ],image_list[1]) if !params[:categ].nil? && !image_list[1].nil?%>
+            <%elsif !params[:categ].present?%>
+              <%image_list = getactcategories(ctey) if !ctey.nil?%>
+              <%list_link = url_format_slug(@search_city,image_list[1]) if !image_list[1].nil?%>
+            <%end%>
+            <a href="<%=list_link%>" title="" alt="" style="display:inline-block;margin:10px;">
+              <div class="categoryBox" align="center">
+                <table cellpadding="0" cellspacing="0" width="100%">
+                  <tr>
+                    <td align="center" valign="middle">
+                      <div class="catImg" align="center"><a href="<%=list_link%>" title=""><img src="<%=image_list[0]%>" width="112" height="112" alt="<%=alt_name +"-"  if params[:categ].present? %> <%= ctey%> Activities" /></a></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="center" valign="middle" class="catTitle"><a href="<%=list_link%>" style="color:#7DB6C8" title="" alt="<%=alt_name +"-"  if params[:categ].present? %> <%= ctey%> Activities"><%=ctey if !ctey.nil? && !ctey.nil? && ctey!="" && ctey!="default"%></a></td>
+                  <tr>
+                </table>
+              </div>
+            </a>
+          <%end%>
+        <%end%>
+      <%end%><!--do ending-->
+      <%else%>
+      <!-- Redirect to All Category Page-->
+      <div class="nocateg_img" align="center">
+      <%=image_tag("/assets/categories/categories_noresult_Found.png", :border=>"0")%>
+      </div>
+      <div class="nocateg-result">No Activities found for this sub-category. Please select another Category from <a href="/categories" style="color:#82ACB8;">All Categories.</a></div>
+      <%end%>
+      <!--category with image and text ending here-->
+    </div>
+    <%if !params[:categ].present?%>
+      <br>
+      <div class="section_line" ></div>
+      <div align="center">
+        <div class="categ_inner">
+          <span class="section_subhead"><b>Quick Links</b></span>
+        </div>
+        <%!@qlinks.nil? && @qlinks.present? && @qlinks.each do |qlink|%>
+          <%qurl=getqlinkurls(qlink) if qlink%>
+          <a href="<%=qurl[0] if qurl%>" title="" alt="" style="display:inline-block;margin:10px;">
+            <div class="categoryBox" align="center">
+              <table cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td align="center" valign="middle">
+                    <div class="catImg" align="center"><a href="<%=qurl[0] if qurl%>" title=""><img src="<%=qurl[1] if qurl%>" width="112" height="112" alt="<%=qurl[2] if qurl%>" /></a></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" valign="middle" class="catTitle"><a href="<%=qurl[0] if qurl%>" style="color:#7DB6C8" title=""><%=qlink%></a></td>
+                </tr>
+              </table>
+            </div>
+          </a>
+        <%end%>
+
+      </div>
+      <br><br>
+    <%end%>
+
+  </div>
+</div>

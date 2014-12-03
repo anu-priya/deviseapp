@@ -1,0 +1,604 @@
+<link rel="stylesheet" href="/assets/landing/invite_provider.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css" />
+<style type="text/css">
+  .setBg1 {
+    background: #ffffff;
+  }
+  .setBg2{
+    background:#f6f8f7;
+  }
+.required {
+    color: red;
+    display: inline-block;
+    font-size: 13px;
+    left: 0;
+    position: relative;
+    top: 0;
+}
+.ffdiv{
+  border-bottom: 1px solid #E8F0F2;
+}
+.ffmem{
+    border: 1px solid #BDD6DD;
+    height: 25px;
+    margin: 5px auto;
+    width: 428px;
+}
+.ffmemInTxt{
+  border: none medium;
+  color: #999999;
+  font-size: 13px;  
+  vertical-align: text-top;
+  width: 392px;
+  padding: 0px 4px;
+  height: 20px;
+  font-family: Arial,Helvetica,sans-serif;
+}
+.ffmemseaBt{
+  position: relative;
+  top: 3px;
+}
+.friendListff{
+  overflow: auto;
+  height: 290px;
+  margin: 20px;
+  width: 95%;
+}
+.ffifTxt{
+  margin: 100px auto auto;
+  width: 385px;
+  padding: 10px 20px;
+  background: #EDF1F2;
+  font-size: 13px;
+  color: #555557;
+  font-family: Arial,Helvetica,sans-serif;
+  text-align: center;
+}
+</style>
+<script language="javascript">
+  var popInviteSuccess;
+  function Pop_invite_success(url)
+  {
+    popInviteSuccess = dhtmlmodal.open("Delete Activity","iframe",url," ", "width=450px,height=600px,overflow:hidden,center=1,resize=0,scrolling=0,style='margin:0px; padding:0px; background:none;'", "recal");
+    $("html, body").animate({ scrollTop: 0 }, 100);
+    return false;
+  }
+
+    function closepopupdiv() {
+       window.location.reload(false); 
+        //$("#invite_success").css("display","none");
+        //$(".top_social_icon").css("display","block");
+        //$("#inviteAccount_1").css("display","block");
+    //parent.popInviteFriendPage.hide();
+      // parent.popInviteFriendPage.reload(true);
+   
+  }
+  function closepopup() {
+    parent.popInviteFriendPage.hide();
+    //parent.parent.location.reload(true);
+   
+  }
+  
+  var flag_s=false;
+  function show_contact(id){
+    flag_s=true;
+    var startVal=1;
+    var endVal=5;
+
+    if(id){
+      for(i=startVal; i<endVal; i++)
+      {
+        if(i==id)
+        {
+          $("#inviteAccount_"+i).show();
+          $(".text_"+i).css("font-weight","bold");
+        }
+        else{
+          $("#inviteAccount_"+i).hide();
+          $(".text_"+i).css("font-weight","normal");
+        }
+      }
+   
+    }
+  }
+
+
+</script>
+
+
+<div id="invite_friend_container">
+  <div class="popupContainer">
+    <div class="popupContainerTop"></div>
+    <div class="popupContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">Invite Friends</div>
+          </div>
+          <div class="closeButton" style="float:right; padding:0px; position:relative;">
+            <a href="javascript:void(0)" onClick="closepopup()" title=""> <img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" /> </a>
+          </div>
+        </div>
+        <div class="centerCont" style="padding:15px 0px 20px 0px;">
+
+          <div class="top_social_icon" align="center" style="position:relative;width: auto;">
+             <a href="javascript:void(0)" class="menuText" id="1" title="" onclick="show_contact('1')"><span id="comment_test" class="text_1" style="padding-left:3px;font-weight: bold;">Invite Friend</span></a>
+            <span class="dot menuText">&bull;</span>
+            <a href="javascript:void(0)" class="menuText" title="" id="2" onclick="show_contact('2')"><span id="error_text" style="padding-left:3px;" class="text_2">Find Famtivity Members</span></a>
+            
+            <!--<a href="javascript:void(0)" class="menuText" id="1" title="" onclick="show_contact('1')"><img src="/assets/contact/famtivity_icon.png" id="img1" width="20"  height="20" align="top" style="top:0px; position:relative;"><span id="comment_test" class="text_1" style="padding-left:3px;font-weight: bold;">Famtivity</span></a>
+            <span class="dot menuText">&bull;</span>
+            <a href="javascript:void(0)" class="menuText" title="" id="2" onclick="show_contact('2')"><img src="/assets/contact/email_icon.png" id="img2" width="20"  height="20" align="top" style="top:0px; position:relative;"><span id="error_text" style="padding-left:3px;" class="text_2">Email</span></a>
+            <span class="dot menuText">&bull;</span>
+            <a href="javascript:void(0)" class="menuText" title="" id="3"onclick="show_contact('3')"><img src="/assets/contact/facebook_friend_icon.png" id="img3" width="20"  height="20" align="top" style="top:0px; position:relative;"><span id="suggest_text" style="padding-left:3px;" class="text_3">Facebook</span></a>
+            <span class="dot menuText">&bull;</span>
+            <a href="javascript:void(0)" class="menuText" title="" id="4" onclick="show_contact('4')"><img src="/assets/contact/gmail_icon.png" id="img4" width="20"  height="20" align="top" style="top:0px; position:relative;"><span id="like_text" style="padding-left:3px;" class="text_4">Gmail</span></a>-->
+          </div>
+
+
+          <!--Invite Famvity Account-->
+          <!--Invite Famvity Account-->
+          <div id="inviteAccount_1" style="display:block;">
+            
+            <!--<iframe frameborder="0" src="/contact_send_message" width="880" height="900"></iframe>-->
+            <!--<form id="parent_search" action="/landing_search" name="parent_search" method="get">
+              <div id="advanceSearchDiv" style="left:3px; margin-bottom:11px;">
+                <div class="ad_textbox">
+                  <div class="lt_search"><input type="text" id="event_search" name="event_search" value="Search" class="textbox" onfocus="if(this.value == 'Search'){this.value=''; this.style.color='#444444';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.value='Search'}" /></div>
+                  <div class="lt_search"><a href="#" onclick="document.getElementById('parent_search').submit();" class="set_search_icon" title=""><img src="/assets/event_index/search_icon.png" alt="" /></a></div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+            </form>-->
+            <!--<div class="clear"></div>
+            <div style="border-bottom:1px solid #E2EAEC; margin-top:-20px;">&nbsp;</div>
+            <div class="clear"></div>
+            <div style="height:530px; overflow-y:scroll; position:relative;">
+              <table cellspacing="0" cellspadding="0" border="0" style="width:100%; .width:98%;">
+                <tr>
+                  <%i = 0%>
+                  <% @famtivity_contacts.each do |fam| %>
+                    <%i = i + 1%>
+                    <%if i.even? %>
+                    <tr class="setBg2">
+                    <%else%>
+                    <tr class="setBg1">
+                    <%end%>
+
+                    <td width="10%" align="left" style="border-bottom:1px solid #E2EAEC; height:105px; ">
+                      <div>
+                        <span class="contactImg"></span>
+                      </div>
+                    </td>
+                    <td width="20%" align="left" style="border-bottom:1px solid #E2EAEC; height:105px;">
+                      <div>
+                        <div class="FriendnameText"><b><%= fam.user_name %></b></div>
+                        <div class="FriendnameText" style="padding-top:4px; color:#5AA3B6;"><%=fam.email_address%></div>
+                      </div>
+                    </td>
+                    <td width="45%" align="left" style="border-bottom:1px solid #E2EAEC; height:105px;">
+                      <div>
+                        <span class="FriendnameText">&nbsp;</span>
+                      </div>
+                    </td>
+                    <td width="40%" align="left" colspan="2" style="border-bottom:1px solid #E2EAEC; height:105px;">
+                      <div>
+                        <!--<a href="javascript:void(0)"   title="" onclick="Email('<%=fam.email_address%>');"><span class="FriendnameText" style="display:inline-block; color:#5AA3B6;">Invite</span></a>
+                        <span class="pipeSymbol">|</span>--
+                        <a href="javascript:void(0)"  title="" onclick="parent.popInviteFriendPage.hide(); parent.parent.Pop_message_send('/contact_send_message?mail=<%=fam.email_address%>');"><span class="FriendnameText" style="display:inline-block; color:#5AA3B6;">Send Message</span></a>
+                        <!--<a href="javascript:void(0)"  title="" id="5" onclick="show_sendMessageDiv('5')"><span class="FriendnameText" style="display:inline-block; color:#5AA3B6;">Send Message</span></a>--
+                      </div>
+                    </td>
+                  </tr>
+                <% end %>
+              </table>
+              <div class="clear"></div>
+            </div>-->
+          </div>
+          <div class="clear"></div>
+          <!-- invite Email Account-->
+          <div id="inviteAccount_2" style="display:none;">
+                <div class="ffdiv">
+                    <form action="#" method="">
+                        <div class="ffmem">
+                          <table cellpadding="0" cellspacing="0">
+                            <tr>
+                              <td width="405"><input type="text" name="ffmem"  id="name" value="Search for famtivity Member" class="ffmemInTxt" onblur="if (this.value == '') {this.style.color='#999999'; this.value='Search for famtivity Member'}" onfocus="if(this.value == 'Search for famtivity Member'){this.value=''; this.style.color='#444444';}" /></td>
+                              <td><input type="image" src="/assets/event_index/search_icon.png" class="ffmemseaBt" /></td>
+                            </tr>
+                          </table>
+                        </div>
+                    </form>
+                </div>
+                <div class="friendListff">
+                  <p class="ffifTxt">Find Friends in Famtivity</p>
+                </div>
+
+           <!-- <form name="email_acc" id="email_acc" action="#" onSubmit="return chk_validation()">
+              <div class="EmailInnerDiv">
+                <!--<div class="EmailText"><b>EMAIL</b></div>--
+                <div style="padding-top:10px;">
+                  <div class="lt setWidth" style="padding-top:10px;"><b>Enter Email</b><span class="required">*</span></div>
+                  <input type="hidden" id="email_value" value="">
+                  <div><textarea name="invite_frnd" id="invite_frnd" class="inviteTextarea" value=""></textarea></div>
+                </div>
+                <div class="lt setWidth" style="padding-top:10px; border:1px solid #fff;">&nbsp;</div>
+                <div class="ft13px" style="color:#6b6b6b; padding-top:4px;">Separate Email by comma</div>
+                <div class="clear"></div>
+                <div class="lt setWidth" style="border:1px solid #fff;">&nbsp;</div>
+                <div style="padding-top:10px; display:none;" class="errorDiv">
+
+                  <div id="email_error"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="lt setWidth" style="padding-top:10px; border:1px solid #fff;">&nbsp;</div>
+                <!--onclick="parent.popInviteFriendPage.hide(); parent.popMultiEmailSuccess('/multi_email')"--
+                <div><input type="image"  src="/assets/contact/invite_button.png" style="margin-top:10px;"></div>
+              </div>
+            </form>-->
+          </div>
+
+          <!-- invite Facebook Account-->
+          <div id="inviteAccount_3" style="display:none;">
+
+            <div style="border-bottom:1px solid #E2EAEC; margin-top:-20px;">&nbsp;</div>
+            <div class="clear"></div>
+            <% if !@facebook_contacts.nil? && @facebook_contacts!="" && !@facebook_contacts.empty? %>
+             <div  style="height:525px; overflow-y:scroll; overflow-x:hidden;">
+              <table cellspacing="0" cellspadding="0" border="0" width="100%">
+                <tr>
+                  <%i = 0%>
+                  <% @facebook_contacts.each do |face| %>
+
+                    <%i = i + 1%>
+                    <%if i.even? %>
+                    <tr class="setBg2">
+                    <%else%>
+                    <tr class="setBg1">
+                    <%end%>
+
+                    <td width="10%" align="left" style="border-bottom:1px solid #E2EAEC; height:105px; ">
+                      <div>
+                        <span class="contactImg"><span>No Image</span></span>
+                      </div>
+                    </td>
+
+                    <td width="20%" align="left" style="border-bottom:1px solid #E2EAEC; height:105px;">
+                      <div>
+                        <div class="FriendnameText"><b><%= face.contact_name %></b></div>
+                        <div class="FriendnameText" style="padding-top:4px; color:#5AA3B6;"><%= face.profile_id %></div>
+                      </div>
+                    </td>
+                    <td width="45%" align="left" style="border-bottom:1px solid #E2EAEC; height:105px;">
+                      <div>
+                        <span class="FriendnameText">&nbsp;</span>
+                      </div>
+                    </td>
+                    <td width="40%" align="left" colspan="2" style="border-bottom:1px solid #E2EAEC; height:105px;">
+                      <div>
+                        <% if face.invite_status == true  %>
+                          <a href="javascript:void(0)"  title="" onclick="Facebook('<%=face.profile_id%>','<%= face.contact_id %>');"><span class="FriendnameText" style="display:inline-block; color:#5AA3B6;">Invite Again</span></a>
+                          <!--<a href="javascript:void(0)"  title="" ><span  class="FriendnameText" style="display:inline-block; cursor:default; color:#5AA3B6;">Already invited</span></a>-->
+                        <% else%>
+                         <a href="javascript:void(0)"  title="" onclick="Facebook('<%=face.profile_id%>','<%= face.contact_id %>');"><span class="FriendnameText" style="display:inline-block; color:#5AA3B6;">Invite</span></a>
+                        <% end %>
+                        <!--<a href="javascript:void(0)"  title="" onclick="Facebook('<%=face.profile_id%>','<%= face.contact_id %>');"><span class="FriendnameText" style="display:inline-block; color:#5AA3B6;">Invite</span></a>
+                        <a href="javascript:void(0)"  title="" id="5" onclick="show_sendMessageDiv('5')"><span class="FriendnameText" style="display:inline-block; color:#5AA3B6;">Send Message</span></a>-->
+                      </div>
+                    </td>
+                  </tr>
+
+                <% end %>
+              </table>
+               <div class='loadingmessage' style='display:none;margin-top:-120px;float:left;margin-left:435px;' align="center">
+               <img src='/assets/ajax-loader.gif'/>
+              </div>
+            </div>
+              <div class="clear"></div>
+
+
+            <%else%>
+              <div class="EmailInnerDiv">
+                <div class="EmailText"><b>FACEBOOK</b></div>
+                <div style="padding-top:20px;">
+                  <div class="ft13px" style="color:#6b6b6b;"><b>We couldn't find any of your friends from Facebook because you haven't connected Facebook and Famtivity. Click the button below to connect.</b></div>
+                </div>
+                <div style="padding-top:20px;">
+                  <% a ="facebook"%> 
+                 <!-- <div class="ft13px" style="color:#6b6b6b;"><a href="/auth/facebook" title="" style="color:#5AA3B6; text-decoration:underline;">Click here</a> to connect with Facebook account</div>-->
+                 <div class="ft13px" style="color:#6b6b6b;"><a href="javascript:void(0)"  onclick="parent.popInviteFriendPage.hide(); parent.pop_facebook_import('/auth/facebook');" title="" style="color:#5AA3B6; text-decoration:underline;">Click here</a> to connect with Facebook account</div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- invite Gmail Account href="/auth/facebook?invite="gmail"" -->
+          <div id="inviteAccount_4" style="display:none;">
+            <div style="border-bottom:1px solid #E2EAEC; margin-top:-20px;">&nbsp;</div>
+            <div class="clear"></div>
+            <% if !@gmail_contacts.nil? && @gmail_contacts!="" && !@gmail_contacts.empty? %>
+            <div  style="height:525px; overflow-y:scroll; overflow-x:hidden;">
+              <table cellspacing="0" cellspadding="0" border="0" width="100%">
+                <tr>
+                  <%i = 0%>
+                  <% @gmail_contacts.each do |gmail| %>
+                    <%i = i + 1%>
+                    <%if i.even? %>
+                    <tr class="setBg2">
+                    <%else%>
+                    <tr class="setBg1">
+                    <%end%>
+
+                    <td width="10%" align="left" style="border-bottom:1px solid #E2EAEC; height:105px; ">
+                      <div>
+                        <span class="contactImg"><span>No Image</span></span>
+                      </div>
+                    </td>
+
+                    <td width="20%" align="left" style="border-bottom:1px solid #E2EAEC; height:105px;">
+                      <div>
+                        <div class="FriendnameText"><b><%#= gmail.contact_id %><%= gmail.contact_name %></b></div>
+                        <div class="FriendnameText" style="padding-top:4px; color:#5AA3B6;"><%= gmail.contact_email %></div>
+                      </div>
+                    </td>
+                    <td width="40%" align="left" style="border-bottom:1px solid #E2EAEC; height:105px;">
+                      <div>
+                        <span class="FriendnameText">&nbsp;</span>
+                      </div>
+                    </td>
+                    <td width="40%" align="left" colspan="2" style="border-bottom:1px solid #E2EAEC; height:105px;">
+                      <div>
+                          <% if gmail.invite_status == true  %>
+                          <a href="javascript:void(0)"  title="" onclick="Gmail('<%=gmail.contact_email%>','<%= gmail.contact_id%>');"><span class="FriendnameText" style="display:inline-block; color:#5AA3B6;">Invite Again</span></a>
+                          <!--<a href="javascript:void(0)"  title="" ><span  class="FriendnameText" style="display:inline-block; cursor:default; color:#5AA3B6;">Already invited</span></a>-->
+                        <span class="pipeSymbol">|</span>
+                        <% else%>
+                         <a href="javascript:void(0)"  title="" onclick="Gmail('<%=gmail.contact_email%>','<%= gmail.contact_id%>');"><span class="FriendnameText" style="display:inline-block; color:#5AA3B6;">Invite</span></a>
+                        <span class="pipeSymbol">|</span>
+                        <% end %>
+                        <a href="javascript:void(0)"  title="" onclick="parent.popInviteFriendPage.hide(); parent.parent.Pop_message_send('/contact_send_message?mail=<%=gmail.contact_email%>');"><span class="FriendnameText" style="display:inline-block; color:#5AA3B6;">Send Message</span></a>                        <!--<a href="javascript:void(0)"  title=""><span class="FriendnameText" style="display:inline-block; color:#5AA3B6;">Send Message</span></a>-->
+                      </div>
+                    </td>
+                  </tr>
+
+                <% end %>
+              </table>
+			         <div class='loadingmessage' style='display:none;margin-top:-120px;float:left;margin-left:435px;' align="center">
+               <img src='/assets/ajax-loader.gif'/>
+              </div>
+            </div>
+              <div class="clear"></div>
+
+
+            <%else%>
+
+              <div class="EmailInnerDiv">
+                <div class="EmailText"><b>GMAIL</b></div>
+                <div style="padding-top:20px;">
+                  <div class="ft13px" style="color:#6b6b6b;"><b>We couldn't find any of your Gmail contacts because you haven't connected Gmail and Pinterest. Click the button to temporarily connect Gmail and Famtivity.</b></div>
+                </div>
+                <div style="padding-top:20px;">
+                  <div class="ft13px" style="color:#6b6b6b;"><a href="javascript:void(0)"  onclick="parent.popInviteFriendPage.hide(); parent.pop_gmail_import('/gmail_import');" title="" style="color:#5AA3B6; text-decoration:underline;">Click here</a> to connect with Google account</div>
+                  <!--<div class="ft13px" style="color:#6b6b6b;"><a href="contact_users/gmail_import" title="" style="color:#5AA3B6; text-decoration:underline;">Click here</a> to connect with Google account</div>-->
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+          
+        </div>
+
+      </div>
+       <div id="invite_success" style="display:none;">
+             <div class="p1" align="center">Your information has been posted successfully!.</div>
+              <div class="buttons" align="center">
+                <a href="javascript:void(0)" onClick="closepopupdiv();"><img src="/assets/register/ok_btn.png" alt="" style="margin-top:20px;"/></a>
+                <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+
+      <div class="clear"></div>
+    </div>
+
+    </div>
+    <div class="popupContainerBottom"></div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>
+
+<!--ajax loader /contact_invite?mail=<%#=gmail.contact_email%>-->
+<div id='loadingmessage' style='display:none;margin-top:-415px' align="center">
+  <img src='/assets/ajax-loader.gif'/>
+</div>
+
+<script type="text/javascript">
+
+
+
+  function chk_validation(){
+    var invite_frnd =$("#invite_frnd").val();
+    var errorFlag=false;
+  
+    $("#invite_frnd").css("border","1px solid #CDE0E6");
+    $("#email_error").parent().css("display","none");
+  
+    if(invite_frnd == ""){
+      $("#invite_frnd").css("border","1px solid #fc8989");
+      $("#email_error").html("please enter Email");
+      $("#email_error").parent().css("display","block");
+      errorFlag = true;
+
+    }
+    else if(!validateCorrectEmail(invite_frnd)){
+      $("#invite_frnd").css("border","1px solid #fc8989");
+      $("#email_error").html("Please enter valid Email");
+      $("#email_error").parent().css("display","block");
+      errorFlag = true;
+    }
+    if(errorFlag){
+      return false;
+    }
+    else{
+      return true;
+      $("#email_value").val(invite_frnd);
+    }
+  }
+  function Trim(str)
+  {  while(str.charAt(0) == (" ") )
+    {  str = str.substring(1);
+    }
+    while(str.charAt(str.length-1) == " " )
+    {  str = str.substring(0,str.length-1);
+    }
+    return str;
+  }
+
+  function validateCorrectEmail(elementValue){
+    flag=true;
+    var emailSplitComma= elementValue.split(",");
+    //alert(emailSplitComma);
+    if(emailSplitComma.length>0)
+    {
+      for(i=0;i<emailSplitComma.length; i++)
+      {
+        if(Trim(emailSplitComma[i])!="")
+        {
+          email=Trim(emailSplitComma[i]);
+          var emailPattern = /^([a-zA-Z0-9]+([~{|}`^?=+*'#$!%._-]{0,1}[a-zA-Z0-9]+)*)@(([a-zA-Z0-9]+([._-]{0,1}[a-zA-Z0-9]+)*)+(?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,3})?)$/;
+          if(emailPattern.test(email) == false)
+          {
+            flag=false;
+          }
+        
+          else
+          {
+            $("#send_to_error").hide();
+            $("#invite_frnd").css("border","1px solid #BDD6DD");
+            $("#email_error").parent().css("display","none");
+          }
+        }
+    
+      }
+    }
+    else
+    {
+      var emailPattern = /^([a-zA-Z0-9]+([~{|}`^?=+*'#$!%._-]{0,1}[a-zA-Z0-9]+)*)@(([a-zA-Z0-9]+([._-]{0,1}[a-zA-Z0-9]+)*)+(?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,3})?)$/;
+      if(emailPattern.test(email) == false)
+      {
+        flag=false;
+      
+      }
+    
+      else
+      {
+        $("#email_error").hide();
+        $("#invite_frnd").css("border","1px solid #BDD6DD");
+        $("#email_error").parent().css("display","none");
+      }
+    }
+    if(!flag)
+    {
+      $("#email_error").show();
+      return false;
+     
+    }
+    else
+    {
+      $('.loadingmessage').show();
+  
+  //alert("test");
+  var mail=$("#invite_frnd").val();
+ // alert(mail);
+        $.get("/contact_users/multi_email", {"invite_frnd":mail}, null, "script");
+        $("#invite_success").css("display","block");
+        $(".top_social_icon").css("display","none");
+        $("#inviteAccount_1").css("display","none");
+        $("#inviteAccount_2").css("display","none");
+        $("#inviteAccount_3").css("display","none");
+        $("#inviteAccount_4").css("display","none");
+        $("#inviteAccount_5").css("display","none");
+        $('.loadingmessage').hide();
+      return false;
+    }
+  
+  }
+
+
+    function Gmail(mail,id){
+         //alert(mail)
+        $('.loadingmessage').show();
+        $.ajax({
+        type: "POST",
+        url: '/contact_users/contact_invite',
+        data:"mail="+mail+"&id="+id,    
+        success: function(data){
+        //document.location="/invite_contact_success"
+        $("#invite_success").css("display","block");
+        $(".top_social_icon").css("display","none");
+        $("#inviteAccount_1").css("display","none");
+        $("#inviteAccount_2").css("display","none");
+        $("#inviteAccount_3").css("display","none");
+        $("#inviteAccount_4").css("display","none");
+        $("#inviteAccount_5").css("display","none");
+        $('.loadingmessage').hide();
+        }
+      });
+      
+    }
+
+    function Facebook(mail,id){
+      $('.loadingmessage').show();
+     //alert(mail)
+        $.ajax({
+        type: "POST",
+        url: '/contact_users/facebook_invite',
+        data:"mail="+mail+"&id="+id,   
+        success: function(data){
+        //document.location="/invite_contact_success"
+        $("#invite_success").css("display","block");
+        $(".top_social_icon").css("display","none");
+        $("#inviteAccount_1").css("display","none");
+        $("#inviteAccount_2").css("display","none");
+        $("#inviteAccount_3").css("display","none");
+        $("#inviteAccount_4").css("display","none");
+        $("#inviteAccount_5").css("display","none");
+        $('.loadingmessage').hide();
+        }
+      });
+      
+    }
+
+function Multiemail(){
+  $('.loadingmessage').show();
+
+  //alert("test");
+  var mail=$("#invite_frnd").val();
+ // alert(mail);
+        $.get("/contact_users/multi_email", {"invite_frnd":mail}, null, "script");
+        $("#invite_success").css("display","block");
+        $(".top_social_icon").css("display","none");
+        $("#inviteAccount_1").css("display","none");
+        $("#inviteAccount_2").css("display","none");
+        $("#inviteAccount_3").css("display","none");
+        $("#inviteAccount_4").css("display","none");
+        $("#inviteAccount_5").css("display","none");
+        $('.loadingmessage').hide();
+  } 
+
+</script>
+
+<!--<style type="text/css">
+#dvLoading
+  {
+    background: transparent url(assets/ajax-loader.gif) no-repeat center center;
+    height: 50px;
+    width: 50px;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    margin: -25px 0 0 -25px;
+  }
+  </script>-->

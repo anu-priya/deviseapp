@@ -1,0 +1,15 @@
+//$('.contactListContainer').append("<%=escape_javascript(render 'contact_user')%>");
+var xx = <%=@xx=@contact_users.total_pages %>
+var yy = <%=@yy=@contact_users.current_page%>
+//alert(xx);
+//alert(yy);
+
+
+<%if @xx >= @yy %>
+//alert("v1");
+$('.contactListContainer').append("<%=escape_javascript(render 'contact_user')%>");
+<%else%>
+$('#loadmoreajaxloader').hide('1000'); 
+//alert("v2");
+//$('#loading').hide();
+<%end%>

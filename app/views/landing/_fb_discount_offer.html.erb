@@ -1,0 +1,18 @@
+<%= stylesheet_link_tag "landing/fb_offer.css" %>
+<div id="offer_code_overlay" class="overlay"></div>
+<div id="offer_code_lay">
+  <div id="fboffercode" class="fbOfferCode">
+    <h2>Offer Code <a href="javascript:void(0);" title="Close">
+        <%= image_tag("/assets/landing/close_button_how.png",:onclick=>"$('#offer_code_overlay').hide();$('#offer_code_lay').hide();pop_invite_friend_check('/invite_friend_famtivity?check_invite=contact_import&fam_last=/');",:width=>"13",:height=>"13") %>
+      </a></h2>
+    <div class="offerContent">
+      If you have an offer or discount code, enter it here <br />
+      <input type="text" width="300" id="fbcode" name="fbcode" value="Offer Code" onclick="setOfferDefault(this)" onblur="setOfferDefault(this)" />
+      <div id="fbcode_error"></div>
+      <a href="javascript:void(0);" onclick="check_discount_fb();" class="proceed">Proceed</a><a href="javascript:void(0);" onclick="$('#offer_code_overlay').hide();$('#offer_code_lay').hide();pop_invite_friend_check('/invite_friend_famtivity?check_invite=contact_import&fam_last=/');" class="skip" style="color:#196273;">Skip</a>
+      <div id="load_fb"><%= image_tag("/assets/loading_small.gif",:width=>"16",:height=>"16") %></div>
+      <div class="clear"></div>
+    </div>
+  </div>
+
+</div>

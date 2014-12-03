@@ -1,0 +1,120 @@
+<div class="search_wrapper">
+  <% if  params[:controller]=='provider_settings' && (params[:action] == 'index' || params[:action]=='provider_activites')%>
+    <form id="basic_search_form" action="/provider_advance_search" name="basic_search_form" method="get">
+      <input type="hidden" id="search_user_id" name="search_user_id" value="<%=cookies[:uid_usr]%>"/>
+      <input type="hidden" id="uid" value="<%=cookies[:uid_usr]%>"/>
+      <% if params[:controller]=='provider_settings' && params[:action]=='provider_activites'%>
+        <input type="hidden" id="search_hidden" name="search_hidden" value="provider_thumb">
+      <%else%>
+       <input type="hidden" id="search_hidden" name="search_hidden" value="provider">
+      <%end%>
+      <div id="searchInnerform">
+        <div class="search-container-inline search-text-inline top_search">
+           <div class="search-label">Search</div>
+              <div class="flex-box input-holder">
+                <input type="text" name="q" id="advace_search" value="Enter activity name..."  class="search-tag" onFocus="if(this.value == 'Enter activity name...'){this.value=''; this.style.color='#444444';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.value='Enter activity name...'}" >
+             </div>
+          </div>
+          <% if params[:controller]=='provider_settings' && params[:action]=='provider_activites'%>
+           <div class="button-container">
+              <!-- <input width="47" type="image" height="38" onclick="search_thumb_provider();" alt="" class="set_search_icon" src="/assets/search/new_search_aft_login.png"> -->
+              <a href="javascript:void(0)" onClick="search_thumb_provider()" title="" class="set_search_icon"><img src="/assets/search/new_search_aft_login.png" alt="" width="47"  height="38"></a>
+            </div>
+          <%else%>
+            <div class="button-container">
+              <a href="javascript:void(0)" onClick="search_ajax_call_provider()" title="" class="set_search_icon"><img src="/assets/search/new_search_aft_login.png" alt="" width="47"  height="38"></a>
+              <!-- <input width="47" type="image" height="38" onclick="search_ajax_call_provider();" alt="" class="set_search_icon" src="/assets/search/new_search_aft_login.png"> -->
+            </div>
+          <%end%>
+          <div class="clear"></div>
+         </div>
+      </form>
+  <%end%>
+</div>
+<script>
+//basic search for provider
+var t=$('#search_hidden').val();
+if(t=="provider")
+{
+    document.onkeypress =  enter_key_press_for_search_provider; //calling the function while press the enter key...
+}
+else if(t=="provider_thumb")
+{
+    document.onkeypress =  enter_key_press_for_thumb_provider; //calling the function while press the enter key...
+}
+//this function called while click the enter button for search the data..
+function enter_key_press_for_search_provider(evt) {
+    var evt = (evt) ? evt : ((event) ? event : null);
+    var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+    if ((evt.keyCode == 13)  &&  (node.id=="advace_search"))  {
+        search_ajax_call_provider();
+        return false;
+    }
+}
+
+//this function called while click the enter button for search the data..
+function enter_key_press_for_thumb_provider(evt) {
+    var evt = (evt) ? evt : ((event) ? event : null);
+    var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+    if ((evt.keyCode == 13)  &&  (node.id=="advace_search"))  {
+        search_thumb_provider();
+        return false;
+    }
+}
+
+//basic search ajax call for thumb provider page
+function search_thumb_provider()
+{
+    var advace_search = $("#advace_search").val();
+    $(".top_search").css("border","1px solid #CDE0E6");
+    var errorFlag = false;
+    if(advace_search == "" || advace_search == "Enter activity name...")
+    {
+        $(".top_search").css("border","1px solid #fc8989");
+        var errorFlag = true;
+    }
+    if(errorFlag){
+        return false;
+    }
+    else
+    {
+        var search_text= $("#advace_search").val()
+        var user_id= $("#uid").val();
+        $.get("/provider_basic_search",{
+            "search_text": search_text,
+            "user_id": user_id
+        }, function(data){
+            }, "script"
+            );
+    }
+}
+
+//basic search ajax call for event list page
+function search_ajax_call_provider()
+{
+    var advace_search = $("#advace_search").val();
+    $(".top_search").css("border","1px solid #CDE0E6");
+    var errorFlag = false;
+    if(advace_search == "" || advace_search == "Enter activity name...")
+    {
+        $(".top_search").css("border","1px solid #fc8989");
+        var errorFlag = true;
+    }
+    if(errorFlag){
+        return false;
+    }
+    else
+    {
+        $('.search_submenu').hide();
+        var search_text= $("#advace_search").val()
+        var user_id= $("#uid").val();
+        $.get("/search_index",{
+            "search_text": search_text,
+            "user_id": user_id
+        }, function(data){
+            $('.search_submenu').hide();
+        }, "script"
+        );
+    }
+}
+</script>

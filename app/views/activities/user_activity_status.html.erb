@@ -1,0 +1,144 @@
+<h3 style="margin-left: 50px;">Activity Listings</h3>
+<style>
+.bordercol1{
+	border:2px solid #E2EAEC;
+}
+.bordercol2{
+	border:2px solid #E2EAEC;
+	border-left:none;
+}
+.borderTop{
+	border-top:none;
+}
+.fontStyle{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+}
+.headingColor{
+	color:#4AA3B6;
+}
+.dataColor{
+	color:#807E7E;
+}
+.fontBold{
+	font-weight:bold;
+}
+</style>
+
+<table cellspacing="0" cellpadding="0" border="0" width="60%" style="margin-left: 50px;">
+<tr height="30">
+		<td class="fontStyle headingColor fontBold bordercol1" width="20%">Business Banner Listings</td>
+	</tr>
+	<tr height="30">
+		<td class="fontStyle dataColor bordercol1 borderTop" width="30%"><%= @track_logo%></td>
+	</tr>
+	<tr height="30">
+		<td class="fontStyle headingColor fontBold bordercol1" width="20%">Active Listings</td>
+	</tr>
+	<tr height="30">
+		<td class="fontStyle dataColor bordercol1 borderTop" width="30%"><%=@active_count %></td>
+	</tr>
+	<tr height="30">
+		<td class="fontStyle headingColor fontBold bordercol1" width="20%">Activities that accept Discount Dollars</td>
+	</tr>
+	<tr height="30">
+		<td class="fontStyle dataColor bordercol1 borderTop" width="30%"><%=@ddollar_count %></td>
+	</tr>
+	<tr height="30">
+		<td class="fontStyle headingColor fontBold bordercol1" width="20%">Inactive Activities</td>
+	</tr>
+	<tr height="30">
+		<td class="fontStyle dataColor bordercol1 borderTop" width="30%"><%=@inactcount %></td>
+	</tr>
+	<tr height="30">
+		<td class="fontStyle headingColor fontBold bordercol1" width="20%">Expired Activities</td>
+	</tr>
+	<tr height="30">
+		<td class="fontStyle dataColor bordercol1 borderTop" width="30%"><%=@expired_count %></td>
+	</tr>
+	
+	<tr height="30">
+		<td class="fontStyle headingColor fontBold bordercol1" width="20%">Leads</td>
+	</tr>
+	<tr height="30">
+		<td class="fontStyle dataColor bordercol1 borderTop" width="30%"><%=@leaduser_count %></td>
+	</tr>
+	<tr height="30">
+		<td class="fontStyle headingColor fontBold bordercol1" width="20%">Registrations</td>
+	</tr>
+	<tr height="30">
+		<td class="fontStyle dataColor bordercol1 borderTop" width="30%"><%=@reg_invite_count %></td>
+	</tr>
+</table>
+
+<h3 style="margin-left: 50px;">Famtivity Network Stats</h3>
+<table cellspacing="0" cellpadding="0" border="0" width="60%" style="margin-left: 50px;">
+			<!--total view lists-->
+			<%if @total_views && @total_views!=[] && !@total_views.nil? && @total_views!="" && @total_views.present? %>
+				<%@total_views && @total_views.present? && @total_views.each do |view_t| %>
+				<%@tot_view_act = view_t.view_count%>
+				<%end%>
+			<%else%>
+				<%@tot_view_act=0%>
+			<%end%>
+			<!--total view list last week-->
+			<%if @last_week && @last_week!=[] && !@last_week.nil? && @last_week!="" && @last_week.present? %>
+				<%@last_week && @last_week.present? && @last_week.each do |view_c| %>
+				<%@tot_viewlast_week = view_c.view_count%>
+				<%end%>
+			<%else%>
+				<%@tot_viewlast_week=0%>
+			<%end%>
+			
+	<tr height="30">
+		<td class="fontStyle headingColor fontBold bordercol1" width="20%">Views 
+		<!--displayed the views for the currrent week-->
+			<%=@final_val = (@tot_view_act.to_f-@tot_viewlast_week.to_f)/100%>%
+			 <%if (@tot_view_act.to_f-@tot_viewlast_week.to_f) > 0%>increase<%else%><%if  (@tot_view_act.to_f-@tot_viewlast_week.to_f) == 0%>0<%else%>decrease<%end%><%end%> from last week</td>
+	</tr>
+	<tr height="30">
+		<td class="fontStyle dataColor bordercol1 borderTop" width="30%">
+			<!--displayed the views for the currrent week-->
+			<%if @tot_view_act && !@tot_view_act.nil? && @tot_view_act!="" && @tot_view_act.present?%>
+				<%=@tot_view_act%>
+			<%else%>
+				<%=@tot_view_act=0%>
+			<%end%>
+		</td>
+	</tr>
+	<!--top view lists-->
+	<tr height="30">
+		<td class="fontStyle headingColor fontBold bordercol1" width="20%">Top Activity Views</td>
+	</tr>
+	<tr height="30">
+		<td class="fontStyle dataColor bordercol1 borderTop" width="30%">
+		<!--top view activities name-->
+		<%if @top_view && !@top_view.nil? && @top_view!="" && @top_view.present? %>
+			<%@top_view.each do |activity_id|%>
+			<%act = Activity.find_by_activity_id(activity_id.activity_id) if activity_id%>
+			--> <%=act.activity_name.capitalize if act && act.present? && !act.activity_name.nil?%><br><br>
+			<%end%>
+		<%else%>
+			--> No activities.
+		<%end%>
+		</td>
+	</tr>
+	<!--top share lists-->
+	<tr height="30">
+		<td class="fontStyle headingColor fontBold bordercol1" width="20%">Top Activity Shares</td>
+	</tr>
+          <tr height="30">
+		<td class="fontStyle dataColor bordercol1 borderTop" width="30%">
+		<!--top view activities name-->
+		<%if @top_share && !@top_share.nil? && @top_share!="" && @top_share.present? %>
+			<%@top_share.each do |activity_id|%>
+			<%act = Activity.find_by_activity_id(activity_id.activity_id) if activity_id%>
+			--> <%=act.activity_name.capitalize if act && act.present? && !act.activity_name.nil?%><br><br>
+			<%end%>
+		<%else%>
+			--> No activities.
+		<%end%>
+		</td>
+	</tr>
+	
+</table>

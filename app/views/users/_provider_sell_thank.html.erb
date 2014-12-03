@@ -1,0 +1,79 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up_success.css" />
+<script language="javascript">
+  $(document).ready(function(){
+    $("html, body", window.parent.document).animate({ scrollTop: 0 }, 100);
+    if(navigator.appName=="Microsoft Internet Explorer")
+    {
+      window.location.hash='/provider_sell_success';
+    }
+    else
+    {
+      var stateObj = { foo: "bar" };
+      parent.history.replaceState(stateObj,'test','/provider_sell_success')
+    }
+    _gaq.push(['_trackPageview', '/provider_sell_success']);
+  });
+  function closepopup() {
+    if(navigator.appName=="Microsoft Internet Explorer")
+    {
+      window.location.hash='';
+    }
+    else
+    {
+      var stateObj = { foo: "bar" };
+      parent.history.replaceState(stateObj,'test','/')
+    }
+    parent.parentLoginPage.hide();
+  }
+   function closepopup_login() {
+    if(navigator.appName=="Microsoft Internet Explorer")
+    {
+      window.location.hash='';
+    }
+    else
+    {
+	<%if !params[:invite_user_id].nil? && params[:invite_user_id].present? && !params[:invite_user_id].empty?%>
+		<%if @user_usr%>
+		<%add_sign_count = @user_usr.sign_in_count%>
+		<%@user_usr.sign_in_count = (add_sign_count.nil? || add_sign_count==0) ?  1 : (add_sign_count+1)%>
+		<%@user_usr.last_sign_in = Time.now%>
+		<%@user_usr.save%>
+		<%end%>
+		<!--credit value stored-->
+		<%@u_cdts = UserCredit.new%>
+		<%@u_cdts.user_id = @user_usr.user_id if @user_usr.present?%>
+		<%@u_cdts.credit_amount = 5%>
+		<%@u_cdts.provider_plan = @user_usr.user_plan if @user_usr.present?%>
+		<%@u_cdts.inserted_date = Time.now%>
+		<%@u_cdts.modified_date = Time.now%>
+		<%@u_cdts.credit_type = "register"%>
+		<%@u_cdts.save%>
+		
+		<%cookies[:date_registered_usr] = Time.now.strftime("%Y-%m-%d") if cookies[:date_registered_usr].nil?%>
+		<%cookies[:login_usr] = "on"%>
+		<%cookies[:role_usr]= @user_usr.user_type%>
+		<%cookies[:logged_in] = "yes"%>
+		<%session[:user_id] = @user_usr.user_id%>
+		<%cookies.permanent[:uid_usr] = @user_usr.user_id%>
+		<%cookies.permanent[:username_usr] = @user_usr.user_name%>
+		<%cookies[:email_usr] = @user_usr.email_address%>
+			<%if cookies[:role_usr] == "P"%>
+				parent.window.location.href = "provider"
+			<%else%>
+				parent.window.location.href = "/"
+			<%end%>
+	<%end%>
+    }
+    parent.parentLoginPage.hide();
+  }
+</script>
+
+<div align="center" style="height:230px;">
+  <p class="successText" style="padding:60px 0;text-align:center; width:662px; font-size:18px;"><span style="color:#5099AC;"><b>Success!</b></span> <span><%if !params[:invite_user_id].nil? && params[:invite_user_id].present? && !params[:invite_user_id].empty?%>Get started with Famtivity!<%else%>We just sent an email with an activation link to your inbox. Click the link to confirm your registration and begin enjoying the benefits of Famtivity!<%end%></span></p>
+  <div class="clear"></div>
+  <%if !params[:invite_user_id].nil? && params[:invite_user_id].present? && !params[:invite_user_id].empty?%>
+  <a href="javascript:void(0)" onClick="closepopup_login()" title=""><img src="/assets/register/ok_btn.png" alt="" /></a>
+  <%else%>
+  <a href="javascript:void(0)" onClick="closepopup()" title=""><img src="/assets/register/ok_btn.png" alt="" /></a>
+  <%end%>
+</div>

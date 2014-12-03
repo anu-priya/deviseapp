@@ -1,0 +1,45 @@
+<div class="menuSelection">
+	<div class="divheading">
+		<a class="<%if (params[:controller]=="provider_settings" && params[:action]=="index")%>innerMenuSelection fntfiftn<%else%>alink fntfiftn<% end%>"  href="/provider?<%=current_user.user_profile.business_name.parameterize if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil? %>/<%=current_user.user_profile.city.parameterize if !current_user.nil? && !current_user.user_profile.nil? && !current_user.user_profile.business_name.nil? %>"  onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity List']);">Activity List</a>
+	</div>
+	<div class="dottedone">&nbsp;<span class="middt" <%if params[:action] == "provider_activites"%>style="color:#DC1F1B;"<%end%>>&middot;</span>&nbsp;</div>
+	<div class="divheading">
+		<a class="<%if params[:action]=="provider_activites"%>innerMenuSelection fntfiftn<%else%>alink fntfiftn<% end%>" href="/provider_activites"  onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity Cards']);">Activity Cards</a>
+	</div>
+	<div class="dottedone">&nbsp;<span class="middt" <%if params[:action] == "provider_activity_discount"%>style="color:#DC1F1B;"<%end%>>&middot;</span>&nbsp;</div>
+	<div class="divheading">
+		<a class="<%if params[:action]=="provider_activity_discount"%>innerMenuSelection fntfiftn<%else%>alink fntfiftn<% end%>" href="/provider_activity_discount" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Activity Discount']);">Activity Discount</a>
+	</div>
+	<div class="dottedone">&nbsp;<span class="middt" <%if params[:action] == "activity_provider_schedule"%>style="color:#DC1F1B;"<%end%>>&middot;</span>&nbsp;</div>
+	<div class="divheading">
+		<a class="<%if params[:action]=="activity_provider_schedule"%>innerMenuSelection fntfiftn<%else%>alink fntfiftn<% end%>" href="/activity_provider_schedule" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Schedule']);">Schedule</a>
+	</div>
+	<div class="dottedone">&nbsp;<span class="middt" <%if (params[:action] == "provider_profile" || params[:action] == "payment_setup" || params[:action] == "get_credit_card_info" || params[:action] == "bank_info")%>style="color:#DC1F1B;"<%end%>>&middot;</span>&nbsp;</div>
+	<div class="divheading">
+		<a class="<%if (params[:action] == "provider_profile" || params[:action] == "payment_setup" || params[:action] == "get_credit_card_info" || params[:action] == "bank_info")%>innerMenuSelection fntfiftn<%else%>alink fntfiftn<% end%>" href="/provider_profile"  onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Business Info']);">Business Info</a>
+	</div>
+	<div class="dottedone">&nbsp;<span class="middt" <%if params[:action] == "provider_policies"%>style="color:#DC1F1B;"<%end%>>&middot;</span>&nbsp;</div>
+	<div class="divheading">
+		<a class="<%if params[:action]=="provider_policies"%>innerMenuSelection fntfiftn<%else%>alink fntfiftn<% end%>" href="/provider_policies" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Policies']);">Policies</a>
+	</div>
+	<div class="dottedone">&nbsp;<span class="middt" <%if params[:action] == "provider_plan"%>style="color:#DC1F1B;"<%end%>>&middot;</span>&nbsp;</div>
+	<div class="divheading">
+		<a class="<%if params[:action]=="provider_plan"%>innerMenuSelection fntfiftn<%else%>alink fntfiftn<% end%>" href="/provider_plan"  onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Plan']);">Plan</a>
+	</div>
+	<div class="dottedone">&nbsp;<span class="middt" <%if params[:action] == "change_password"%>style="color:#DC1F1B;"<%end%>>&middot;</span>&nbsp;</div>
+	<div class="divheading">
+		<a class="<%if params[:action]=="change_password"%>innerMenuSelection fntfiftn<%else%>alink fntfiftn<% end%>" href="/change_password"  onclick = "_gaq.push(['_trackEvent','Parent Module', 'clickSettings','Password']);">Password</a>
+	</div>
+	<div class="dottedone">&nbsp;<span class="middt" <%if params[:action] == "provider_settings"%>style="color:#DC1F1B;"<%end%>>&middot;</span>&nbsp;</div>
+	<div class="divheading">
+		<a class="<%if params[:action]=="provider_settings"%>innerMenuSelection fntfiftn<%else%>alink fntfiftn<% end%>" href="/provider_settings" onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Settings']);">Settings</a>
+	</div>
+	<div class="dottedone">&nbsp;<span class="middt" <%if params[:action] == "transaction"%>style="color:#DC1F1B;"<%end%>>&middot;</span>&nbsp;</div>
+	<div class="divheading">
+		<a class="<%if params[:action]=="transaction"%>innerMenuSelection fntfiftn<%else%>alink fntfiftn<% end%>" href="/transaction"  onclick = "_gaq.push(['_trackEvent','Provider Module', 'clickSettings','Reports']);">Reports</a>
+	</div>
+	<div class="dottedone">&nbsp;<span class="middt">&middot;</span>&nbsp;</div>
+	<div class="divheading">
+		<a class="alink fntfiftn"  href="javascript:void(0);"  onclick = "pop_provider_embed_Detail('activity_detail/provider_embedded_link?activity_id=<%= get_embed_data if current_user.present? %>'); _gaq.push(['_trackEvent','Provider Module', 'clickSettings','Embed Link']);">Embed Link</a>
+	</div>
+</div>

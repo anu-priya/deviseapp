@@ -1,0 +1,56 @@
+			<% @se_date = Time.now.strftime("%Y-%m-%d") %>
+                                        <%if !@share.start_date.nil?%>
+						  <% if @share.start_date.strftime("%Y-%m-%d") == @se_date %>
+						    <%@e_date = !@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d")%>
+							<%if (@share.start_date.strftime("%Y-%m-%d")== @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") > @share.start_date.strftime("%Y-%m-%d"))  %>
+							Ongoing<br>
+							<%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%><br>
+							to <%=@share.end_date.strftime("%a, %b %d, %Y") if !@share.end_date.nil? %>, <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+							<%elsif (@share.start_date.strftime("%Y-%m-%d")== @se_date) && (@share.start_date.strftime("%Y-%m-%d") == @e_date)  %>
+							Ongoing<br>
+							<%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %><br>
+							<%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%><br>
+							<%elsif (@share.start_date.strftime("%Y-%m-%d")== @se_date) %>
+							Ongoing<br>
+							<%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %><br>
+							<%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%><br>
+							<%else%>
+							<%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %><br>
+							<%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+							<%end%>
+						    <%elsif (@share.start_date.strftime("%Y-%m-%d") > @se_date) && (!@share.end_date.nil? && (@share.end_date.strftime("%Y-%m-%d") == @share.start_date.strftime("%Y-%m-%d"))) %>
+						   <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %><br>
+						    <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+						    <%elsif (@share.start_date.strftime("%Y-%m-%d") > @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") > @se_date ) %>
+						    <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%><br>
+						    to <%=@share.end_date.strftime("%a, %b %d, %Y") if !@share.end_date.nil? %>, <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+						   <%elsif @share.start_date.strftime("%Y-%m-%d") > @se_date %>
+						    <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %><br>
+						    <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+						  <%elsif (@share.start_date.strftime("%Y-%m-%d")== @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") > @share.start_date.strftime("%Y-%m-%d"))  %>
+						    Ongoing<br>
+						    <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%><br>
+						    to <%=@share.end_date.strftime("%a, %b %d, %Y") if !@share.end_date.nil? %>, <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+						  <%elsif (@share.start_date.strftime("%Y-%m-%d") < @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") > @se_date )  %>
+						    Ongoing<br>
+						    <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%><br>
+						    to <%=@share.end_date.strftime("%a,") if !@share.end_date.nil? %> <%=@share.end_date.strftime("%b %d, %Y") if !@share.end_date.nil? %>, <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+						  <%elsif (@share.start_date.strftime("%Y-%m-%d") < @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") == @se_date )  %>
+						    Ongoing<br>
+						    <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%><br>
+						    to <%=@share.end_date.strftime("%a,") if !@share.end_date.nil? %> <%=@share.end_date.strftime("%b %d, %Y") if !@share.end_date.nil? %>, <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+						  <%elsif (@share.start_date.strftime("%Y-%m-%d") == @se_date) && (@share.start_date.strftime("%Y-%m-%d") == !@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d"))  %>
+						    Ongoing<br>
+						    <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %><br>
+						    <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+						<%elsif (@share.start_date.strftime("%Y-%m-%d") < @se_date) && (!@share.end_date.nil? && (@share.end_date.strftime("%Y-%m-%d") == @share.start_date.strftime("%Y-%m-%d")))  %> 
+						    <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %><br>
+						    <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+						<%elsif (@share.start_date.strftime("%Y-%m-%d") < @se_date) && (!@share.end_date.nil? && @share.end_date.strftime("%Y-%m-%d") < @se_date)  %> 
+						    <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %>, <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%><br>
+						    to <%=@share.end_date.strftime("%a,") if !@share.end_date.nil? %> <%=@share.end_date.strftime("%b %d, %Y") if !@share.end_date.nil? %>, <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+						  <%elsif (@share.start_date.strftime("%Y-%m-%d"))  %>
+						    <%=@share.start_date.strftime("%a, %b %d, %Y") if !@share.start_date.nil? %><br>
+						    <%=@share.start_time.strftime("%l:%M %p") if !@share.start_time.nil?%> - <%=@share.end_time.strftime("%l:%M %p") if !@share.end_time.nil?%>
+						  <%end%>
+                                        <%end%>

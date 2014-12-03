@@ -1,0 +1,86 @@
+<ul>
+	<li style="padding: 4px;">
+	<div class="top_menu_icon" align="center">
+	<%=image_tag("/assets/header/location_icon.png", :width=>"18", :height=>"24", :style=>"border:0px;", :alt=>"Location", :id=>"menu_location", :class=>"location_icon", :onclick=>"_gaq.push(['_trackEvent', 'Parent Module', 'clickActivities','Select Location']);")%>
+</div>
+	<div class="lt" align="center">
+	<div class="lt">
+		<span id="city_value">
+		<%if !session[:city].nil?%><%= truncate(session[:city] , :length =>15, :omission => '... ')%>
+		<%else%><%=cookies[:city_new_usr]%>
+		<%end%>
+		</span>
+	</div>
+	<div class="lt">
+			<%=image_tag("/assets/header/drop_arrow.png", :width=>"4", :height=>"4", :style=>"border:0px;", :class=>"top_menu_arrow")%>
+	</div>
+	<div class="clear"></div>
+	</div>
+	<ul>
+		<li>
+		<div class="location_sub_menu">
+			<div>
+				<table cellpadding="0" cellspacing="0" border="0" width="100%">
+					<tr>
+						<td align="left" width="10">&nbsp;</td>
+						<td align="left" width="100" valign="middle">
+							Enter Zip Code
+						</td>
+						<td align="left" width="132" valign="middle">
+						<input type="text" id="zp" name="zp" class="location_ziptextbox"/>
+						</td>
+						<td align="left" width="10">&nbsp;</td>
+						<td align="left" valign="middle">
+							<a href="javascript:void(0)" title="" class="GoButton"><%=image_tag("/assets/header/go_button.png", :width=>"33", :height=>"26", :style=>"border:0px;", :onclick=>"filter_land_zip_code();")%></a>
+						</td>
+					</tr>
+					<tr>
+						<td align="left" width="10">&nbsp;</td>
+						<td colspan="4">
+							<div class="zp_error"></div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="dotted_main">
+				<div class="lt location_dotted">&nbsp;</div>
+				<div class="lt or_text">Or</div>
+				<div class="lt location_dotted">&nbsp;</div>
+				<div class="clear"></div>
+			</div>                                
+			<div>
+				<div class="lt">Choose City</div>
+				<div class="rt">United States</div>
+				<div class="clear"></div>
+			</div>
+			<div class="location_line">&nbsp;</div>
+			<!-- city display dynamically --><div class="clear"></div>
+			<div class="city_list">
+				<table cellpadding="0" cellspacing="0" class="description">
+					<% @fam_city = City.order("city_name").where("city_status=true").map(&:city_name)%>
+					<% if !@fam_city.nil? && @fam_city!='' && @fam_city.present? %>
+					 <% @c_j=1
+					@city_len = @fam_city.length
+					%>
+					<% (0..@city_len.to_i).step(3) do |n| %>
+					<tr>
+						<td width="175" height="30">
+							<span  <%if session[:city]==@fam_city[n]%>class ="on"<%else%>  class="off"<%end%> id="st_<%=@c_j+1%>" onClick="filter_parent_update_state(this.innerHTML,<%=@c_j%>,'<%=params[:action]%>');"><%=@fam_city[n]%></span>
+						</td>
+						<td width="175" height="30">
+							<span  <%if session[:city]==@fam_city[n+1]%>class ="on"<%else%>  class="off"<%end%> id="st_<%=@c_j+2%>" onClick="filter_parent_update_state(this.innerHTML,<%=@c_j%>,'<%=params[:action]%>');"><%=@fam_city[n+1]%></span>
+						</td>
+						<td width="175" height="30">
+							<span <%if session[:city]==@fam_city[n+2]%>class ="on"<%else%>  class="off"<%end%> id="st_<%=@c_j+3%>" onClick="filter_parent_update_state(this.innerHTML,<%=@c_j%>,'<%=params[:action]%>');"><%=@fam_city[n+2]%></span>
+						</td>
+					</tr>
+					<%@c_j=@c_j + 3%>
+					<%end%>
+					<%end%>
+				</table>
+			</div>
+		</div>
+	</li>
+	</ul>
+</li> 
+</ul> 

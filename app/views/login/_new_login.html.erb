@@ -1,0 +1,437 @@
+
+<style type="text/css">
+
+  .setfeedbackDiv {
+    background: none repeat scroll 0 0 #EDF1F2;
+    color: #444444;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    margin: 15px auto 0;
+    padding: 15px;
+    width: 300px;
+  }
+  #forgotpassfail a:hover{
+    text-decoration:underline;
+  }
+  .b-modal __b-popup1__{
+  opacity: 0.9;
+  }
+</style>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    document.getElementById("email_usr").focus();
+  });
+
+  //~ function show_plan_page(id){
+    //~ $("#provider_plan").css("display","block");
+    //~ $("#ParentRegister").css("display","none");
+    //~ $("#registerHeadText").html("Sign-up as Provider");
+    //~ return false;
+  //~ }
+  function closepopup(){
+  $('#login_popup').bPopup().close();
+    var stateObj = {
+      foo: "bar"
+    };
+    myURL = document.location;
+    if(navigator.appName=="Microsoft Internet Explorer"){
+      window.location.hash="/";
+    }
+    else{
+      parent.history.replaceState(stateObj, "Login", "/");
+    }
+    parent.LoginPage.hide();
+  }
+
+</script>
+
+<div id="new_act_container">
+  <div id='loadingmsg' style='display: none;'>Please wait...</div>
+  <div id='loadingover' style='display: none;'></div>
+  <div class="popupLoginContainer">
+    <div class="popupLoginContainerTop"></div>
+    <div class="popupLoginContainerCenter">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading">
+            <div class="headCont">
+					Login
+            </div>
+          </div>
+          <div class="closeButton">
+            <a href="javascript:void(0)" onclick="closepopup();"> <%= image_tag("/assets/global/pop_up/button_close.png",width: '15',height: '15') %></a>
+          </div>
+        </div>
+      </div>
+      <div class="clear"></div>
+      <div id="login_outerContainer">
+        <div class="innerContainer">
+          <div class="centerContentDiv1">
+
+            <div id="forgotpass" style="display: none;color: #FC8989;font-size: 12px; padding-top: 20px;text-align: center;">Your password has been sent to your Email</div>
+
+            <div id="user_name_wrong" style="display: none;color: #FC8989;font-size: 12px; width:300px; margin:0 auto; margin-top:20px; .margin:10px 0 10px 16px;" align="center"></div>
+            <form name="login" id="login" action="/login/submit" method="post">
+              <input type="hidden" name="msg_email_val" id="msg_email_val" value="<%=@msg_email%>">
+              <input type="hidden" name="a_id" id="a_id" value="<%=@activity_id%>">
+              <input type="hidden" name="b_crum" id="b_crum" value="<%=@bcrum%>">
+              <input type="hidden" name="act" id="act" value="<%=@act%>">
+              <input type="hidden" name="embed_user" id="embed_user" value="<%=@embed_user%>">
+              <input type="hidden" name="ws" id="ws" value="<%=@ws if !@ws.nil? && @ws.present?%>">
+              <input type="hidden" name="u" id="u" value="login">
+              <input type="hidden" name="attend_act_type" id="attend_act_type" value="<%=params[:act_type]%>">
+              <input type="hidden" name="attend_act_uid" id="attend_act_uid" value="<%=params[:uid]%>">
+              <input type="hidden" name="attend_act_aid" id="attend_act_aid" value="<%=params[:aid]%>">
+              <input type="hidden" name="mgr_acpted" id="mgr_acpted" value="<%=@mgr_acpted%>">
+              <input type="hidden" name="macid" id="macid" value="<%=@macid%>">
+              <input type="hidden" name="news_import" id="news_import" value="<%=@imports%>">
+
+
+              <%if @activate%>
+                <li class="setStyleEmail" id="notice" style="text-align: center;"> <br><%= flash[:notice] %></li>
+                <script>_gaq.push(['_trackEvent', 'Registration', 'User Registration', 'Account Activation Success']);</script>
+              <%end%>
+
+              <div align="center" class="setfeedbackDiv">Please enter your Email and Password</div>
+
+              <div class="marginTop14">
+                <div class="lt leftSideField">Email</div>
+                <% email_usr = "" %>
+                <% if @loggedin %>
+                  <% email_usr = @loggedin[0] %>
+                <% end %>
+                <%if @login_error %>
+                  <% email_usr = @login_error[0] %>
+                <% end %>
+
+                <input type="text" name="email_usr" id="email_usr" class="lt textbox" onKeyDown="deletevalue(event)" value="<%=email_usr%>" onfocus="if(this.value == 'Eg:john@gmail.com'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Eg:john@gmail.com'}" style="outline: none;"/>
+                <div class="clear"></div>
+              </div>
+              <div class="errorDiv" style="display:none">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt" id="email_usr_error"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="marginTop15">
+                <div class="lt leftSideField">Password</div>
+
+                <% password_usr = "" %>
+                <%if @loggedin %>
+                  <% password_usr = @loggedin[1] %>
+                <% end %>
+                <%if @login_error %>
+                  <% password_usr = @login_error[1] %>
+                <% end %>
+
+                <input type="password" name="password_usr" id="password_usr" class="lt textbox" onKeyDown="deletevaluepass(event)" value="<%if @loggedin %><%=password_usr%><%end%>" onfocus="if(this.value == 'password'){this.value=''; this.style.color='#444444'; this.style.border='1px solid #9fd8eb';}"  onblur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='password'}" maxlength="20" style="outline: none;"/>
+                <div class="clear"></div>
+              </div>
+              <div class="errorDiv" style="display:none">
+                <div class="errorDivPwd" id="password_usr_error"></div>
+              </div>
+              <%if @login_error%>
+                <% email_password_usr_error = @login_error[3]%>
+                <div class="errorDiv">
+                  <div class="errorDivPwd" id="email_password_usr_error" ><%=email_password_usr_error%></div>
+                </div>
+              <%end%>
+              <div class="clear"></div>
+              <div id="email_password_usr_error" class="errorText" style="display:none"></div>
+              <div class="marginTop12">
+                <div class="lt leftSideField">&nbsp;</div>
+                <div class="lt">
+                  <%automatic_login = ""%>
+                  <%if @loggedin%>
+                    <% if @loggedin[2] == "true"%>
+                      <% automatic_login = "true"%>
+                    <%else%>
+                      <% automatic_login = ""%>
+                    <% end%>
+                  <%end%>
+
+                  <% if @login_error%>
+                    <% if @login_error[2] == "true"%>
+                      <% automatic_login = "true"%>
+                    <% else%>
+                      <% automatic_login = ""%>
+                    <% end%>
+                  <% end%>
+
+                  <!--input type="hidden" name="automatic_login" id="automatic_login" value="<%#=automatic_login%>" /-->
+                  <% request.fullpath.split('?') %>
+                  <input type="hidden" name="prov_invite" id="beco_provider" value="<%=params[:beco_prov]%>" />
+                  <input type="hidden" name="invite_user_id" id="invite_user_id" value="<%=@s_id if !@s_id.nil? && @s_id.present?%>" />
+                  <input type="hidden" name="imanager" id="imanager" value="<%=@imanager if !@imanager.nil? && @imanager.present?%>" />
+                  <input type="hidden" name="invite_user_email" id="invite_user_email" value="<%=@s_email if !@s_email.nil? && @s_email.present?%>" />
+		  <%if automatic_login == "true"%>
+		  <%chk = "checked"%>
+		  <%else%>
+		  <%chk = ""%>
+		  <%end%>
+		<span class="lt squaredFour" style="display: inline-block">
+			     <input class="lt" id="remember_check" name="terms_remember_check" type="checkbox" <%=chk%> value=""/>
+			     <label id="terms_remember_check" for="remember_check" tabindex="0">&nbsp;</label>
+		</span>
+                  <span class="checkboxCont">Remember me</span>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+              <div class="paddingTop19">
+                <div class="lt leftSideField" style="width:92px;">&nbsp;</div>
+                <div style="padding-left: 92px;">
+                  <table>
+                    <tr>
+                      <!--td><a href="javascript:void(0)" title="" class="save-button" onClick="login_submit();_gaq.push(['_trackEvent', 'Login', 'clickLogin']); ">Login</a></td-->
+		  <td><input type="submit" value="Login" alt="" class="save-button" onClick="return login_submit();_gaq.push(['_trackEvent', 'Login', 'clickLogin']); " style="height:30px;padding-top:0px;"/></td>
+                      <!--td><a href="javascript:void(0)" title="" style="display:inline-block;"  onClick="closepopup()" onKeyDown="cancelKeyDown(event)" class="cancel-button">Cancel</a></td-->
+		  <td><input type="button" value="Cancel" alt="" class="cancel-button" onClick="closepopup();" onKeyDown="cancelKeyDown(event)" style="height:30px;padding-top:0px;"/></td>
+                      <td><a id='loading' style='visibility:hidden;' ><%= image_tag("/assets/loading.gif") %></a></td>
+                    </tr>
+                  </table>
+                  <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="marginTop14">
+                <div class="lt leftSideField" style="width:94px;">&nbsp;</div>
+                <div style="width:340px;.margin:-20px 0 0 95px;">
+                  <span style="color:#5E5E5E; font-weight:bold;">Sign-up as<%= image_tag("/assets/landing/arrow.png",:width=>"6" ,:height=>"10" ,:class=>"setArrow", :style=>"vertical-align:top; top:5px; left: 4px; position: relative;") %></span><a href="javascript:void(0)" onKeyDown="registerKeyDown(event)" class="regBlueText"  style="margin:0px 3px 0px 6px; font-weight:bold;" onclick="$('#login_popup').bPopup().close();parent.pop_Parent_Login('/parent_register');"> Parent </a>
+                  <span class="regBlueText setDivider" > | </span>
+                  <a href="javascript:void(0)" onKeyDown="registerKeyDown(event)" id="plan" class="regBlueText"  onclick="$('#login_popup').bPopup().close();parent.pop_Parent_Login('/provider_register');" style="padding:0px 3px 0px 3px; font-weight:bold;"> Provider </a></span>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="marginTop11" style="padding-bottom:5px;">
+                <div class="lt leftSideField" style="width:94px;">&nbsp;</div>
+                <a href="javascript:void(0)" class="lt regBlueText" onClick="forgotPasswordDivDisp();_gaq.push(['_trackEvent', 'Landing', 'clickForgotPassword']);" onKeyDown="fpKeyDown(event)"  style="font-weight: bold;">Forgot Password?</a>
+                <div class="clear"></div>
+              </div>
+
+            </form>
+            <div style="margin-left:-36px; .margin-top:10px;"><%= image_tag("/assets/login/dart_line.png",:id=>"lineDart",:style=>"display:none;") %></div>
+            <div id="forgotpassfail" style="display: none;color: #FC8989;font-size: 12px; .margin:10px 0 10px 16px; text-align: center;"> This Email is not registered with Famtivity. <a href="javascript:void(0)" title="" onclick="parent.LoginPage.hide(); $('#registerHeadText').html('Sign-up as Parent'); parent.pop_Parent_Login('/parent_register');" style="color:#FC8989;">Register</a> it now!</div>
+            <div id="forgotpassfail_alert" style="display: none;color: #FC8989;font-size: 12px; .margin:10px 0 10px 16px; text-align: center;"> You haven't activated your account yet. Please check your email and activate your account <a href="javascript:void(0)" title="" onclick="parent.LoginPage.hide(); $('#registerHeadText').html('Sign-up as Parent'); parent.pop_Parent_Login('/parent_register');" style="color:#FC8989;"></a></div>
+            <%if @forgot_password_error%>
+
+              <div class="centerContentDiv2" id="forgotPasswordDiv" style="display: block;">
+
+              <%else%>
+                <div class="centerContentDiv2" id="forgotPasswordDiv" style="display: none;">
+                <%end%>
+
+                <form name="forgot_password" id="forgot_password" action="/forgot_password/submit" method="post">
+
+                  <div class="forgetpwdText">Forgot Password</div>
+
+                  <div class="resetText">Enter your Email to reset your password</div>
+
+                  <div class="emailtext" style="color:#6a6a6a;">Email</div>
+
+                  <input type="text" name="reg_email_usr" id="reg_email_usr" class="lt emailbox" maxlength="50" value="Eg:john@gmail.com" onFocus="if ( this.value == 'Eg:john@gmail.com') { this.style.color='#444444'; this.style.border='1px solid #9fd8eb';this.value=''}" onBlur="if (this.value == '') {this.style.color='#999999'; this.style.border='1px solid #BDD6DD';this.value='Eg:john@gmail.com'}" style="outline: none;" />
+                  <div class="clear"></div>
+                  <%if @forgot_password_error%>
+                    <% reg_email_usr_error = @forgot_password_error[1]%>
+                    <div id="reg_email_usr_error" class="errorDivemail"><%=reg_email_usr_error%></div>
+                  <% else%>
+                    <div id="reg_email_usr_error" class="errorDivemail" style="display: none;"></div>
+                  <%end%>
+                  <div class="clear"></div>
+
+                  <div class="buttonsDiv">
+                    <!--input type="image" src="/assets/login/send_button.png" width="97" height="37" alt="" class="lt submitButton" tabindex="13" onclick="_gaq.push(['_trackEvent', 'Landing', 'clickForgotPassword','Send'])"/-->
+		    
+		<a href="javascript:void(0)" title="" class="save-button" style="display: inline-block;" onclick="javascript: validateEmail(); return false;_gaq.push(['_trackEvent', 'Landing', 'clickForgotPassword','Send'])" >Send</a>
+                    <a href="javascript:void(0)" title="" class="cancel-button" style="display: inline-block;" onClick="forgotPasswordDivClose()" onKeyDown="closeKeyDown(event)" >Cancel</a>
+                    <div class="clear"></div>
+                  </div>
+                  <div class="clear"></div>
+                </form>
+                <div class="clear"></div>
+
+              </div>
+
+
+              <%if @forgot_password_success%>
+                <% reg_email_usr_success = @forgot_password_success[0] %>
+
+                <div class="centerContentDiv2" id="sendPasswordDiv" align="center">
+                <%else%>
+                  <div class="centerContentDiv2" id="sendPasswordDiv" align="center" style="display: none;">
+                  <%end%>
+                  <p class="sentCont">Password has been sent to your mail</p>
+                  <a href="javascript:void(0)" title="" class="okButton" onclick="sendPasswordDivClose()" onkeydown="sendpwdKeyDown(event)" ><%= image_tag("/assets/tickets/ok.png") %></a>
+                  <div class="clear"></div>
+                </div>
+              </div>
+              <div style="margin-left:-36px; .margin-top:10px;"><%= image_tag("/assets/login/dart_line.png",:id=>"lineDart") %></div>
+              <div align="center">
+                <p class="signinOtherText" style="padding-left:95px;" align="left"><b>...Or login using your account with</b></p>
+                <div style="padding-left:155px;" align="left">
+                  <!--a href="javascript:void(0)" title="" tabindex="16" style="display: inline-block;"><img width="56" height="56" src="/assets/landing/g+_button.png"></a-->
+                  <a href="javascript:void(0)" onClick="facebook_login(); _gaq.push(['_trackEvent', 'Registration', 'clickFacebookRegistration']);" title="" ><%= image_tag("/assets/landing/f_bule_button.png",width: '56', height: '56') %></a>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+        </div>
+        <div class="popupLoginContainerBottom" style="margin-top:0px;"></div>
+      </div>
+
+
+    </div>
+    <div class="clear"></div>
+
+    <div class="clear"></div>
+  </div>
+  <div id="fb-root"></div>
+<fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
+
+
+<script type="text/javascript">
+ $( "#terms_remember_check" ).keypress(function(e) {
+	if(e.which == 13) {
+        $("#remember_check").click();
+    }
+});
+
+  //~ $('#login').on('submit', function(e) {{
+  function login_submit(){
+      var email_usr = $("#email_usr").val();
+      var password_usr = $("#password_usr").val();
+      var pro_invite = $("#beco_provider").val();
+      var ws=  $("#ws").val();
+      var attend_a_type = $("#attend_act_type").val();
+      var attend_a_uid = $("#attend_act_uid").val();
+      var attend_a_aid = $("#attend_act_aid").val();
+      var mgr_acpted = $("#mgr_acpted").val();
+      var macid = $("#macid").val();
+      var invite_user_id = $("#invite_user_id").val();
+      var imanager = $("#imanager").val();
+      var invite_user_email = $("#invite_user_email").val();
+      var embed_user =$("#embed_user").val();
+      $("#email_usr_error").html("");
+      $("#password_usr_error").html("");
+
+      $("#password_usr").css("border","1px solid #BDD6DD");
+      $("#email_usr").css("border","1px solid #BDD6DD");
+
+      $("#email_usr_error").parent().css("display","none");
+      $("#password_usr_error").parent().css("display","none");
+
+      var errorFlag = false;
+
+      if(email_usr == "" || email_usr == "Eg:john@gmail.com"){
+        $("#email_usr").css("border","1px solid #fc8989");
+        $("#temp_email_usr").css("border","1px solid #fc8989");
+        $("#email_usr_error").html("Please enter your Email");
+        $("#email_usr_error").parent().css("display","block");
+        errorFlag = true;
+      }
+
+      else if(!validateCorrectEmail(email_usr)){
+        $("#email_usr").css("border","1px solid #fc8989");
+        $("#temp_email_usr").css("border","1px solid #fc8989");
+        $("#email_usr_error").html("Please enter a valid Email");
+        $("#email_usr_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      if (password_usr == "" || password_usr == "password"){
+        $("#password_usr").css("border","1px solid #fc8989");
+        $("#temp_password_usr").css("border","1px solid #fc8989");
+        $("#password_usr_error").html("Please enter your password");
+        $("#password_usr_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      else if(password_usr.length<8){
+        $("#password_usr").css("border","1px solid #fc8989");
+        $("#temp_password_usr").css("border","1px solid #fc8989");
+        $("#password_usr_error").html("Please enter a password with a minimum of 8 characters");
+        $("#password_usr_error").parent().css("display","block");
+        errorFlag = true;
+      }
+      if(errorFlag){
+        return false;
+	$('#loading').hide();
+      }
+      else{
+        //$("#loadingover").show();
+        $('#notice').css('display','none');
+	$("#loading").css("visibility","visible");
+        var automatic_login =$("#remember_check").is(":checked");
+        var activity_id = $("#a_id").val();
+        var email_val = $("#msg_email_val").val();
+        var nxt_act= $("#act").val();
+        var bred_crum = $("#b_crum").val();
+        var news_import=$("#news_import").val();
+        $.ajax({
+          url:"/login_submit",
+          type:"post",
+          dataType:"script",
+          data:{
+            "email":email_usr,
+            "password":password_usr,
+            "automatic_login":automatic_login,
+            "prov_invite":pro_invite,
+            "activity_id":activity_id,
+            "bcrum":bred_crum,
+            "act":nxt_act,
+            "embed_user":embed_user,
+            "ws":ws,
+            "attend_act_type":attend_a_type,
+            "attend_act_uid":attend_a_uid,
+            "attend_act_aid":attend_a_aid,
+            "invite_user_id":invite_user_id,
+            "imanager":imanager,
+            "mgr_acpted":mgr_acpted,
+            "macid":macid,
+            "invite_user_email":invite_user_email,
+            "email_val":email_val,
+            "news_import":news_import
+          },
+          success:function(data){
+            //document.getElementById('loadingmsg').style.display = 'block';
+            //document.getElementById('loadingover').style.display = 'block';
+            //~ $("#loading").show();
+            setTimeout("$('#loading').hide();",2000)
+          }
+        })
+
+      }
+      return false;
+         
+    //~ }})
+    }
+    
+  function showLoading() {
+    document.getElementById('loadingmsg').style.display = 'block';
+    document.getElementById('loadingover').style.display = 'block';
+  }
+</script>
+<style type="text/css">
+  #loadingmsg {
+    color: black;
+    background: #fff;
+    padding: 10px;
+    position: fixed;
+    top: 14%;
+    left: 51%;
+    z-index: 100;
+    margin-right: -25%;
+    margin-bottom: -25%;
+  }
+  #loadingover  {
+    background: transparent url(/assets/ajax-loader.gif) no-repeat center center;
+    height: 50px;
+    width: 50px;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 16%;
+    margin: -25px 0 0 -25px;
+  }
+</style>

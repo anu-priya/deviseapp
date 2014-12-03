@@ -1,0 +1,45 @@
+<%if !@invitor_list.nil? && @invitor_list!="" && @invitor_list.present? && @ivted_tot > 0  %>
+<table width="100%" cellspacing="0" border="0" cellpadding="0">  
+      <tr>
+        <td class="headText setPadLt" width="20%" valign="middle" align="left"><div  style="margin-right:10px;">Provider/Friend</div></td>
+        <td class="headText" width="20%" valign="middle" align="left"><div  style="margin-right:10px;">Email</div></td>
+        <td class="headText" width="20%" valign="middle" align="left"><div  style="margin-right:10px;">Description</div></td>
+        <td class="headText" width="20%" valign="middle" align="left"><div  style="margin-right:10px;">Date & Time</div></td>
+        <td class="headText" width="19%" valign="middle" align="left"><div  style="margin-right:10px;">Status</div></td>
+      </tr>    
+      <%i = 0%>
+      <%@invitor_list && @invitor_list.each do |list|%>
+        <%i = i + 1%>
+        <%if i.even? %>
+          <tr class="setBg2"></tr>
+        <%else%>
+          <tr class="setBg1"></tr>
+        <%end%>
+        <tr>
+          <%invitor = invitor_detail_list(list.invited_email)%>
+	  
+	  <%dotted_class=(i==@ivted_tot) ? "contentBorderNone" : "contentText"%> 
+	  
+	  
+          <% if (invitor && invitor[0].user_type == 'U')%>
+            <td align="left" class="<%=dotted_class%>" ><div  style="margin-right:10px;padding-left:20px;"><%=(!invitor[0].nil?) ? invitor[0].user_name : ""%></div></td>
+          <% elsif (invitor && invitor[0].user_type == 'P') %>
+            <td align="left" class="<%=dotted_class%>" ><div  style="margin-right:10px;padding-left:20px;"><%=(!invitor[0].nil?) ? invitor[0].user_name : ""%>  <span style="color:#4AA3B6;">, <%=(!invitor[1].nil?) ? invitor[1].business_name : ""%></span></div></td>
+          <%else%>
+            <td align="left" class="<%=dotted_class%>" ><div  style="margin-right:10px;padding-left:20px;"><%=(list.invited_email.split('@').first.titlecase) if list.invited_email.present?%></div></td>
+          <% end %>
+          <td align="left" class="<%=dotted_class%>"><div  style="margin-right:10px;"><%=(list.invited_email.present?) ? list.invited_email : ""%></div></td>
+          <td  align="left" class="<%=dotted_class%>" ><div  style="margin-right:10px;"></div><%=(list.description.present?) ? list.description : ""%></td>
+          <td  align="left" class="<%=dotted_class%>" ><div  style="margin-right:10px;"><%=(!list.modified_date.nil? && list.modified_date.present?) ? list.modified_date.strftime("%a, %b %d, %Y, %l:%M %p") : ""%></div></td>
+          <td  align="left" class="<%=dotted_class%>" ><div  style="margin-right:10px;"></div><%=(list.status.present?) ? list.status : ""%></td>
+        </tr>
+      <%end%>
+</table>
+<%else%>
+<div align="center" width="100%">
+         <img src="/assets/discount_dollar/no_invite.png" alt="Search_cn_icon">
+	<br>
+	<span  class="no-debit-text" >You haven't sent any invites yet. Send one now to receive your discount dollars!.</span>
+</div>
+
+<%end%>

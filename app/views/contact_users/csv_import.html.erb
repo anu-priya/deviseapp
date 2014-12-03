@@ -1,0 +1,163 @@
+<script type="text/javascript" src="/assets/jquery.form.js"></script>
+<link rel="stylesheet" type="text/css" href="/assets/global/pop_up.css" />
+<style type="text/css">
+  .csvWrap{
+    padding: 20px 15px;
+  }
+  .samplecsvDown{
+    background: #ECF2F2;
+    padding: 5px 8px;
+    color: #585455;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  .samplecsvDown a{
+    color: #4F9BAB;
+  }
+  .brwBttxt{
+    color: #808080;
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+  .csvfileupload{
+    border: none;
+    font-size: 20px;
+    height: 30px;
+    width: 100%;
+  }
+  .error{
+    font-size: 13px;
+    color: #FE0000;
+    padding: 5px 0px;
+    display: none;
+  }
+  .butSect{
+    padding: 13px 0px 0px 0px;
+  }
+  .csvCancelBt{
+    background: url("/assets/contact/Cancel_Btn.png") no-repeat scroll 0 0 transparent;
+    border: medium none;
+    height: 29px;
+    margin: 0 0 0 10px;
+    width: 65px;
+  }
+</style>
+
+<div id="csv_upload_container">
+  <div class="popupContainer" style="width: 500px;">
+    <div class="popupContainerTop" style="width: auto;"></div>
+    <div class="popupContainerCenter" style="width: auto;">
+      <div class="innerContainer">
+        <div class="headTab">
+          <div class="heading" style="width: 453px;">
+            <div class="headCont">
+              Import Friends
+            </div>
+          </div>
+	<div class="closeButton" style="padding:0;">
+          <a href="javascript:void(0);" title="" onclick="closepopupdiv();"><img src="/assets/global/pop_up/button_close.png" alt="" width="15" height="15" /></a>
+	</div>
+        </div>
+    <div id="before_import"><!-- 1st div start-->
+        <div class="centerCont csvWrap">
+	  <form action="/file_import" method="post" id="csvFile" name="csvFile" enctype="multipart/form-data" onsubmit="return csvFileupload(this);">
+	    <p class="samplecsvDown">Please download the sample Comma separated Value(CSV) file <%= link_to "here", contact_users_path(format: "csv")%></p>
+	    <p class="brwBttxt">Please select a CSV file to upload:</p>
+	    <div> 
+              <div class="file_hidden_reg"> 
+                   <input type="text" readonly="readonly" class="file_input_reg" id="csvfile2" name="csvfile2"> 
+              </div> 
+              <div class="file_upload"> 
+                   <input type="file" onchange="document.getElementById('csvfile2').value =this.value;fakepath(this.value);" size="21" id="csvfile" name="csvfile"> 
+              </div>   
+         </div> 
+        <div class="clear"></div>
+        <div class="error"></div>
+ 
+
+	    <div class="butSect">
+	    <input type="image" src="/assets/contact/Import_Btn.png" class="lt"  />
+	    <input type="reset" name="reset" class="csvCancelBt lt" value="" />
+      <span id='loading' style="bottom: -6px;margin: 5px; position: relative;display:none"><img src='/assets/loading_small.gif'/></span>
+	    <div class="clear"></div>
+	    </div>
+	  </form>
+	</div>
+<div id='loadingmessage' style='display:none;margin-top:-415px' align="center">
+  <img src='/assets/ajax-loader.gif'/>
+</div>
+
+</div><!-- 1st div close-->
+<div id="after_import" style="display:none;height: 125px;"><!-- 2nd div start-->
+<div id="error_reslt" style="display:none;color: #010101;font-size: 18px; margin: 15px 0 25px 0;" align="center">Please check your CSV file.</div>
+    <div class="buttons" align="center">
+    <a href="javascript:void(0)" onClick="failpopup()"><img src="/assets/contact/ok_button.png" alt=""/></a>
+  </div>
+</div>
+
+<div id="after_import_success" style="display:none;height: 125px;"><!-- 2nd div start-->
+<div id="success_reslt" style="display:none;color: #010101;font-size: 18px; margin: 15px 0 25px 0;" align="center"></div>
+  <div class="buttons" align="center">
+    <a href="javascript:void(0)" onClick="successpopup()"><img src="/assets/contact/ok_button.png" alt=""/></a>
+  </div>
+</div>
+<!-- 2nd div close-->
+</div>
+</div>
+</div>
+</div>
+
+<script language="javascript">
+function closepopupdiv() {
+  parent.csv_import.hide();
+  }
+  function successpopup() {
+  //parent.csv_import.hide();
+  //window.opener.document.getElementById("yahoo_id").value='1';
+  //self.close();
+  parent.csv_import.hide();
+  parent.csv_closepopup(1);
+  }
+
+  function failpopup() {
+  $("#before_import").show();
+  $("#after_import").hide();
+  }
+  function csvFileupload(csv) {
+    var csvtt = csv.csvfile2.value;
+    var ext = csvtt.substring(csvtt.lastIndexOf('.') + 1);   
+    if(csvtt==""){     
+      $('.error').css('display','block');
+      $('.error').text('Please choose a file to upload');
+      return false;
+    }
+    else if(ext != "csv"){
+      $('.error').css('display','block');
+      $('.error').text('Please upload the csv file formate');
+       return false;
+      //return true;
+    }else{
+      //$.post($("#csvFile").attr('action'), $("#csvFile").serialize(), null, "script");
+       $("#loading").show();
+       $("#csvFile").ajaxSubmit();
+       return false;
+    }
+    //return true;
+  }
+
+  function fakepath(filepath){
+   // alert(filepath);
+    inputNode = filepath.replace('C:\\fakepath\\', '');    
+    var pos = filepath.lastIndexOf( filepath.charAt( filepath.indexOf(":")+1) );
+    var filename = filepath.substring( pos+1);
+    //$("#photo1").attr("disabled", "disabled");
+
+    var ua=navigator.userAgent;
+    if(ua.indexOf("Firefox")!=-1){ 
+    $("#csvfile2").val(filepath); 
+    } 
+    else {
+    $("#csvfile2").val(filename);
+    }
+}
+</script>

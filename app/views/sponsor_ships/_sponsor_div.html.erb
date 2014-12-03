@@ -1,0 +1,85 @@
+<%= javascript_include_tag "global/checkbox" %>
+<script type="text/javascript">
+  $(document).ready(function () {
+    initARC('provider_event_list','altCheckboxOn','altCheckboxOff');
+    selectAny();
+  });
+  function before_delete(a){
+    var a;
+    pop_delete_activity('sponsor_ships/delete_bid?id='+a)
+  }
+
+  //get mutiple check box id and store to hidden field
+  function getchk_actid(curr_actid,span_)
+  {
+    span_index=$(".checkboxImg").index(span_);
+    chk_staus=$(".checkboxImg:eq("+span_index+") label").attr('class');
+    if(chk_staus=="altCheckboxOn")
+    {
+      //add selected checkbox id
+
+      txt_id=$("#actid_chk").val();
+      if(txt_id=="")
+      { selected_ids=curr_actid;}
+      else{ selected_ids=txt_id+","+curr_actid;}
+
+
+      $(".activityName label").click(function(){
+        if($(".activityName input").length == $(".activityName input:checked").length) {
+          $('#select').css('display','inline-block');
+          $('#not_select').css('display','none');
+        } else {
+          $('#select').css('display','none');
+          $('#not_select').css('display','inline-block');
+        }
+      });
+
+      $("#actid_chk").val(selected_ids);
+    }
+    else
+    {
+      //remove the id
+      txt_id=$("#actid_chk").val();
+      selected_ids=txt_id.replace(curr_actid,'');
+      $("#actid_chk").val(selected_ids);
+      $('#select').css('display','none');
+      $('#not_select').css('display','inline-block');
+      $('#pe').val(0);
+
+    }
+  }
+</script>
+<input type="hidden" id="actid_chk" name="actid_chk" value="" />
+<table cellspacing="0" cellspadding="0" border="0" width="100%">
+  <tr>
+    <td align="left" width="25%" class="headText setPadLt">Activity Name</td>   
+    <td align="left" width="25%" class="headText">Clicks</td>
+    <td align="left" width="25%" class="headText">Used Amount</td>
+    <td align="left" width="25%" class="headText">Date</td>
+  </tr>
+  <%i = 0%>
+  <%if @activities.length > 0 %>
+    <%@activities && @activities.each do |act|%>
+      <%i = i + 1%>
+      <%if i.even? %>
+        <tr class="setBg2">
+        <%else%>
+        <tr class="setBg1">
+        <%end%>
+        <td align="left" width="25%" class="contentText setPadLt activityName"><span class="blueText checkboxText" onclick="pop_Activity_Detail('/activitydetail_new?list_details=provider&det=<%= act.activity_id %>')"><%= act.activity_name %></span></td>
+        <td align="left" width="25%" class="contentText"><%= act.click %></td>
+        <td align="left" width="25%" class="contentText">$<%= act.amount %></td>
+        <%  schedule =  act.activity_schedule.first %>
+        <td align="left" width="25%" class="contentText"><%= schedule.start_date.strftime('%a %x') if !schedule.nil? && !schedule.start_date.nil?  %><%="," if !schedule.nil? && !schedule.start_date.nil?  %><%= schedule.start_time.strftime('  %I:%M %p to') if !schedule.nil? && !schedule.start_time.nil? %>&nbsp;<%= schedule.end_time.strftime('%I:%M %p') if !schedule.nil? && !schedule.end_time.nil? %></td>
+      </tr>
+    <%end%>
+
+  <%else%>
+    <tr class="setBg1">
+      <td width="40%" colspan="7" class="no_activities" style="text-align:center;height: 500px;">There are no activities.</td>
+    </tr>
+  <%end%>
+</table>
+<div class="pro_pagination">
+  <%= will_paginate @activities%>
+</div>

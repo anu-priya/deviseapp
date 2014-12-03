@@ -1,0 +1,344 @@
+<%=stylesheet_link_tag "user_settings/user_bank", :media => "all"%>
+<script>
+$(document).ready(function(){
+<%if !@bank_details.nil? && @bank_details.present? && !@bank_details.prefered_mode.nil? && @bank_details.prefered_mode == "check"%>
+    $("#check").show();
+    $("#bank_user").hide();
+<%else%>
+     $("#check").hide();
+    $("#bank_user").show();
+<%end%>
+
+$("#check_bank_city").autocomplete({
+    minLength: 1,
+    source: "/fetch_city?state_value=true",
+    select: function( event, ui ) {
+     this.value = ui.item.value;
+     return false;
+    }
+  });
+  
+  $("#bank_city").autocomplete({
+    minLength: 1,
+    source: "/fetch_city?state_value=true",
+    select: function( event, ui ) {
+     this.value = ui.item.value;
+     return false;
+    }
+  });
+});
+</script>
+
+	<!--provider submenu -->
+		<%= render :partial => '/provider_settings/provider_submenu'%>
+	<!--provider submenu-->
+	
+<div class="wrapper_contianer_inner_login"><!--fixed width div starting here-->
+
+ <div class="staic_inner">
+ 
+	<div class="page_head">   
+		<div class="head_line"></div>
+		<h1 class="search_head">Choose payment method&nbsp;</h1>
+	</div><br>
+ 
+   <div class="boxContainer">
+
+			<div class="ProviderCenterContent" style="background:none; width:100%;">
+			<!--  success_bank_info popup start  -->
+			<div id="success_bank_info">
+				<div class="content_popup" style="display:block;font-family:'open_sansregular',Sans-Serif;"><br>Your details was successfully updated<br><br>
+				<span class="b-close" onclick="hide_error();">
+				<a class="save-button"  href="javascript:void(0)" title="">Ok</a>
+				</span>
+				</div>
+			</div>
+
+
+			<div id="top">
+				  <div class="choosetpe">
+				       
+				    <div class="radiobutton_wrapper">
+					<input type="radio" value="check" <%if !@bank_details.nil? && @bank_details.present? && @bank_details.prefered_mode == "check"%>checked="checked"<%end%> onclick="check('check');" name="gender">
+					<label></label>
+					<span class="radioTxt">Check</span>
+				    </div> 
+
+				    <div class="radiobutton_wrapper">
+					<input type="radio" value="bankinfo" <%if !@bank_details.nil? && @bank_details.present? && @bank_details.prefered_mode == "bank"%>checked="checked"<%end%> onclick="check('bankinfo');" name="gender">
+					<label></label>
+					<span class="radioTxt">Bank info</span>
+				    </div>
+
+				  </div>
+
+				   <div id="check_helptext" class="checktxt">
+				    Your address or Bank information is required so famtivity can pay you for any activities sold through famtivity or refunds, etc. that may due to you in the future.
+				  </div>
+				  
+				<div id="bank_helptext" class="bnkinfo">
+				    Your address or Bank information is required so famtivity can pay you for any activities sold through famtivity or refunds, etc. that may due to you in the future.
+				  </div>
+
+			</div>
+
+        <!-- success_bank_info popup end -->
+				<div class="RegiserDivPayment" style="width:830px;">
+
+    				<form name="frmbank_details" id="frmbank_details" method="post" action="/updatebank_details">
+
+    		    <input type="hidden" name="radio_value" id="radio_value" value="check">
+
+
+    <div id="check"> <!--check start div-->
+
+					<div class="setTop10" style="margin-top:10px;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14">Payee Name</span><span class="required">*</span></div>
+							<div class="lt RtDiv"><input type="text" name="paye_name" id="paye_name" class="setTextBox" tabindex="9"  style="<%if !@bank_details.nil? && !@bank_details.payee_name.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.payee_name.nil?%><%=@bank_details.payee_name%><%else%>Enter payee name<%end%>" onfocus="if( this.value == 'Enter payee name') { this.style.color='#444444'; this.style.border='1px solid #d4d4d4';this.value=''}" onblur="if (this.value == '') {this.style.color='#585858'; this.style.border='1px solid #d4d4d4';this.value='Enter payee name'}"></div>
+							<div class="clear"></div>
+						</div>
+
+    
+  
+          <div class="errorDiv" style="display:none;">
+            <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+            <div class="lt RtDiv" id="paye_name_error"></div>
+            <div class="clear"></div>
+          </div>
+
+				<div class="setTop10" style="margin-top:10px;">
+						<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">Business Name</span><span class="required">*</span></div>
+						<div class="lt RtDiv"><input type="text" name="business_name" id="business_name" class="setTextBox" tabindex="9"  style="<%if !@bank_details.nil? && !@bank_details.business_name.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.business_name.nil?%><%=@bank_details.business_name%><%else%>Enter business name<%end%>" onfocus="if( this.value == 'Enter business name') { this.style.color='#444444'; this.style.border='1px solid #d4d4d4';this.value=''}" onblur="if (this.value == '') {this.style.color='#585858'; this.style.border='1px solid #d4d4d4';this.value='Enter business name'}"></div>
+							<div class="clear"></div>
+						</div>
+
+          <div class="errorDiv" style="display:none;">
+            <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+            <div class="lt RtDiv" id="business_name_error"></div>
+            <div class="clear"></div>
+          </div>
+
+<div class="setTop10" style="margin-top:10px;">
+				<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">Number &amp; Street</span><span class="required"></span></div>
+				<div class="lt RtDiv"><input type="text" name="street_check_code" id="street_check_code" class="setTextBox" tabindex="9"  style="<%if !@bank_details.nil? && !@bank_details.check_street_address.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.check_street_address.nil?%><%=@bank_details.check_street_address%><%else%>Enter street number & street address<%end%>" onfocus="if( this.value == 'Enter street number & street address') { this.style.color='#444444'; this.style.border='1px solid #d4d4d4';this.value=''}" onblur="if (this.value == '') {this.style.color='#585858'; this.style.border='1px solid #d4d4d4';this.value='Enter street number & street address'}"></div>
+				<div class="clear"></div>
+			</div>
+
+          <div class="errorDiv" id="bank_stree_number" style="display:none;">
+            <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+            <div class="lt RtDiv">
+              
+              <span  class="lt RtDiv" style="width:285px; .width:280px; border:1px solid #fff;" id="number_bank_error" ></span>
+        <span  class="lt RtDiv" id="street_bank_error" style="width:270px; border:1px solid #fff;" ></span>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="setTop10">
+            <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">Country &amp; State</span><span class="required">*</span></div>
+            <div class="lt RtDiv">              
+              <div class="lt" style="width1:278px;">             
+                <select name="bank_country" id="bank_country" tabindex="17"  class="drop_down_bank">
+    	    		<option value="United State">United States</option> 
+			    </select>                     
+              </div>
+		  		<div class="lt" style="width1:286px; margin-left:4px;">
+		    	 <select name="bank_state" id="bank_state" size="1" tabindex="18"  class="drop_down_bank">
+		      		<option value="California">California</option>
+		    	 </select>   
+		        </div>        
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="errorDiv" id="city_bank_state" style="display:none;">
+            <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+            <div class="lt RtDiv">
+        		<span  class="lt RtDiv" id="state_bank_error" style="width:285px; border:1px solid #fff;"></span>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+
+<div class="setTop10">
+            <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">City &amp; Zip Code</span><span class="required">*</span></div>
+            <div class="lt RtDiv">              
+             <div class="lt" style="width1:278px;">             
+                <!--<select name="check_bank_city" id="check_bank_city" tabindex="17"  class="drop_down_bank">
+                <%#@cities = City.where("state_id = 1 and country_id = 1").order("city_name Asc")%>      
+                <%#@cities.each do |cit|%>
+                  <option value="<%#= cit.city_name %>"<%#if !@bank_details.nil? && !@bank_details.check_city.nil? && @bank_details.check_city == cit.city_name %>selected="selected" <%#end%>><%#= cit.city_name %></option>
+                 <%#end%>
+               </select>-->
+               <input type="text" name="check_bank_city" id="check_bank_city" class="setTextBox" tabindex="19"  style="width:271px;<%if !@bank_details.nil? && !@bank_details.check_city.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.check_city.nil?%><%=@bank_details.check_city%><%else%>Enter City<%end%>" onfocus="if( this.value == 'Enter City') { this.style.color='#444444'; this.style.border='1px solid #d4d4d4';this.value=''}" onblur="if (this.value == '') {this.style.color='#585858'; this.style.border='1px solid #d4d4d4';this.value='Enter City'}">  
+              </div>
+  		<div class="lt" style="width1:286px; margin-left:4px;">
+  			<input type="text" name="check_z_code" id="check_z_code" class="setTextBox" tabindex="20"  style="width:271px;<%if !@bank_details.nil? && !@bank_details.check_zip_code.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.check_zip_code.nil?%><%=@bank_details.check_zip_code%><%else%>Enter zip code<%end%>" onfocus="if( this.value == 'Enter zip code') { this.style.color='#444444'; this.style.border='1px solid #d4d4d4';this.value=''}" onblur="if (this.value == '') {this.style.color='#585858'; this.style.border='1px solid #d4d4d4';this.value='Enter zip code'}">
+
+        </div>        
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="errorDiv" style="display:none;">
+            <div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+	  <div  class="lt" style="width:270px; border:1px solid #fff;"  id="check_bank_city_error"></div>
+            <div class="lt" id="check_zip_error"></div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="clear"></div>
+
+
+        </div><!--check end div-->
+
+      <div id="bank_user" style="display:none"> <!--bank start div-->
+
+						<div class="setTop15">
+							<div class="lt businness_font">Bank Information</div>
+							<div class="lt RtDiv" style="height:21px;">&nbsp;</div>
+							<div class="clear"></div>
+						</div>
+						<div class="setTop10" style="margin-top:20px;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">Bank Name</span><span class="required">*</span></div>
+							<div class="lt RtDiv"><input type="text" name="bank_name" id="bank_name" class="setTextBox" tabindex="9"  style="<%if !@bank_details.nil? && !@bank_details.bank_name.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.bank_name.nil?%><%=@bank_details.bank_name%><%else%>Name of bank<%end%>" onfocus="if( this.value == 'Name of bank') { this.style.color='#444444'; this.style.border='1px solid #d4d4d4';this.value=''}" onblur="if (this.value == '') {this.style.color='#585858'; this.style.border='1px solid #d4d4d4';this.value='Name of bank'}"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="errorDiv" style="display:none;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+							<div class="lt RtDiv" id="bank_name_error"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="setTop10">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">Account Name</span><span class="required">*</span></div>
+							<div class="lt RtDiv"><input type="text" name="account_name" id="account_name" class="setTextBox" tabindex="10" style="<%if !@bank_details.nil? && !@bank_details.bank_account_name.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.bank_account_name.nil?%><%=@bank_details.bank_account_name%><%else%>Enter your account name<%end%>" onfocus="if( this.value == 'Enter your account name') { this.style.color='#444444'; this.style.border='1px solid #d4d4d4';this.value=''}" onblur="if (this.value == '') {this.style.color='#585858'; this.style.border='1px solid #d4d4d4';this.value='Enter your account name'}"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="errorDiv" style="display:none;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+							<div class="lt RtDiv" id="clear_house_error"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="setTop10">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">Routing number for wire transfers</span><span class="required">*</span></div>
+							<div class="lt RtDiv"><input type="text" name="w_transfer" id="w_transfer" class="setTextBox" tabindex="11" style="<%if !@bank_details.nil? && !@bank_details.bank_wire_transfer.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.bank_wire_transfer.nil?%><%=@bank_details.bank_wire_transfer%><%else%>Enter the routing number<%end%>" onfocus="if( this.value == 'Enter the routing number') { this.style.color='#444444'; this.style.border='1px solid #d4d4d4';this.value=''}" onblur="if (this.value == '') {this.style.color='#585858'; this.style.border='1px solid #d4d4d4';this.value='Enter the routing number'}"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="errorDiv" style="display:none;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+							<div class="lt RtDiv" id="wire_transfer_error"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="setTop10">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">Account Number</span><span class="required">*</span></div>
+							<div class="lt RtDiv"><input type="text" name="acc_number" id="acc_number" class="setTextBox" tabindex="12" style="<%if !@bank_details.nil? && !@bank_details.bank_account_number.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.bank_account_number.nil?%><%=@bank_details.bank_account_number%><%else%>Enter your account number<%end%>" onfocus="if( this.value == 'Enter your account number') { this.style.color='#444444'; this.style.border='1px solid #d4d4d4';this.value=''}" onblur="if (this.value == '') {this.style.color='#585858'; this.style.border='1px solid #d4d4d4';this.value='Enter your account number'}"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="errorDiv" style="display:none;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+							<div class="lt RtDiv" id="acc_number_error"></div>
+							<div class="clear"></div>
+						</div>
+
+						<div class="setTop15">
+							<div class="lt businness_font">Bank Address</div>
+							<div class="lt RtDiv" style="height:21px;">&nbsp;</div>
+							<div class="clear"></div>
+						</div>
+						<div class="setTop10" style="margin-top:20px;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">Number &amp; Street</span></div>
+							<div class="lt RtDiv">
+								<!--input type="text" name="number_bank_code" id="number_bank_code" class="setTextBox_street" style="<%if !@bank_details.nil? && !@bank_details.street_number.nil?%>color:#444444;<%end%>" tabindex="14" value="<%if !@bank_details.nil? && !@bank_details.street_number.nil?%><%=@bank_details.street_number%><%else%>Enter number<%end%>" onfocus="if( this.value == 'Enter number') { this.style.color='#444444'; this.style.border='1px solid #d4d4d4';this.value=''}" onblur="if (this.value == '') {this.style.color='#585858'; this.style.border='1px solid #d4d4d4';this.value='Enter number'}"-->
+								<input type="text" name="street_bank_code" id="street_bank_code" class="setTextBox" tabindex="15" style="<%if !@bank_details.nil? && !@bank_details.bank_street_address.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.bank_street_address.nil?%><%=@bank_details.bank_street_address%><%else%>Enter street number & street address<%end%>" onfocus="if( this.value == 'Enter street number & street address') { this.style.color='#444444'; this.style.border='1px solid #d4d4d4';this.value=''}" onblur="if (this.value == '') {this.style.color='#585858'; this.style.border='1px solid #d4d4d4';this.value='Enter street number & street address'}">
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="errorDiv" id="bank_stree_number" style="display:none;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+							<div class="lt RtDiv">
+								<span  class="lt RtDiv" style="width:285px; .width:280px; border:1px solid #fff;" id="number_bank_error" ></span>
+								<span  class="lt RtDiv" id="street_bank_error" style="width:270px; border:1px solid #fff;" ></span>
+							</div>
+							<div class="clear"></div>
+						</div>
+
+
+						<div class="setTop10">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">City &amp; State</span><span class="required">*</span></div>
+							<div class="lt RtDiv">              
+								<div class="lt" style="width1:278px;">
+								<!--<select name="bank_city" id="bank_city" tabindex="16"  class="drop_down_bank">
+									<%#@cities = city_detail_list%>			
+									<%#@cities.each do |cit|%>
+										<option value="<%#= cit.city_name %>" <%#if !@bank_details.nil? && !@bank_details.bank_city.nil? && @bank_details.bank_city.downcase==cit.city_name.downcase%>selected<%#end%>><%#= cit.city_name %></option>
+									 <%#end%>
+								</select>-->
+								<input type="text" name="bank_city" id="bank_city" class="setTextBox" tabindex="16"  style="width:271px;<%if !@bank_details.nil? && !@bank_details.bank_city.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.bank_city.nil?%><%=@bank_details.bank_city%><%else%>Enter City<%end%>" onfocus="if( this.value == 'Enter City') { this.style.color='#444444'; this.style.border='1px solid #d4d4d4';this.value=''}" onblur="if (this.value == '') {this.style.color='#585858'; this.style.border='1px solid #d4d4d4';this.value='Enter City'}">  
+              
+								</div>
+								<div class="lt" style="width1:286px; margin-left:4px;">
+									<select name="bank_state" id="bank_state" size="1" tabindex="17"  class="drop_down_bank">
+										<option value="California" <%if !@bank_details.nil? && !@bank_details.bank_city.nil? && @bank_details.bank_state.downcase=='california'%>selected<%end%>>California</option>
+									</select>                
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="errorDiv" id="city_bank_state" style="display:none;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+							<div class="lt RtDiv">              
+							<span  class="lt RtDiv" style="width:270px; border:1px solid #fff;"  id="city_bank_error" ></span>
+							<span  class="lt RtDiv" id="state_bank_error" style="width:285px; border:1px solid #fff;"></span>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="setTop10">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">Zip Code</span><span class="required">*</span></div>
+							<div class="lt RtDiv"><input type="text" name="bank_z_code" id="bank_z_code" class="setTextBox" tabindex="18" style="<%if !@bank_details.nil? && !@bank_details.bank_zip_code.nil?%>color:#444444;<%end%>" value="<%if !@bank_details.nil? && !@bank_details.bank_zip_code.nil?%><%=@bank_details.bank_zip_code%><%else%>Enter zip code<%end%>" onfocus="if( this.value == 'Enter zip code') { this.style.color='#444444'; this.style.border='1px solid #d4d4d4';this.value=''}" onblur="if (this.value == '') {this.style.color='#585858'; this.style.border='1px solid #d4d4d4';this.value='Enter zip code'}"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="errorDiv" style="display:none;">
+							<div class="lt" id="provider_info_text"><span class="SetFtSz14" style=".top:5px; .position:relative;">&nbsp;</span></div>
+							<div class="lt RtDiv" id="bank_zip_error"></div>
+							<div class="clear"></div>
+						</div>
+
+						<div class="setTop10">
+							<div class="lt leftSideField" style="width:258px;">&nbsp;</div>
+							<div class="lt">
+								<!--custom checkbox-->
+								<div class="squaredFour leftchk lt">
+								<input type="checkbox" <%if !@bank_details.nil? && @bank_details.present?%>checked<%end%> id="sell_checkbox_selected_agree_s" name="sell_checkbox_selected_agree_s"  value="" tabindex="21"/>
+								<label for="sell_checkbox_selected_agree_s">&nbsp;</label>
+								</div>
+								<!--custom checkbox-->
+								<p class="lt checkboxCont">I agree to the <a href="provider_terms_of_service" onkeydown="termsKeyDown(event)" title="" tabindex="21" target="_blank">Famtivity Terms of Service</a> <span style="color: #307193;">&amp;</span> <a href="provider_privacy_policy" onkeydown="termsKeyDown(event)" title="" tabindex="21" target="_blank">Privacy Policies</a></p>
+								<div class="clear"></div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="clear"></div>
+						<div class="errorDiv" id="checkboxError" style="display:none">
+							<div class="lt errorDivProvider" id="sell_agree_provider_error" style="margin-left: 257px;"></div>
+						</div>
+					</div> <!--bank end div-->
+						<div class="clear"></div>
+						<div class="setTop10" style="margin-top:20px;">
+							<div class="lt" id="provider_info_text" style="width:232px;">&nbsp;</div>
+							<div class="lt RtDiv" style="margin:10px 0px 0px 10px;">
+								<a class="save-button lt savebtnclr" href="javascript:void(0)" title="" tabindex="21" onclick="return ChekRegValidation();">Save</a>
+								<a class="cancel-button lt" href="/provider_profile" title="" tabindex="22">Cancel</a>
+								<div class='loading_image' style='display:none;' align="center"><img src='/assets/ajax-loader.gif'/></div>
+							</div>
+							<div class="clear"></div>
+						</div>
+
+
+					</form>
+				</div>	
+        </div>
+    </div>
+  </div>
+
+</div><!--fixed width div ending here-->
+<%=javascript_include_tag "user_settings/user_bank"%>

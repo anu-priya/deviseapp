@@ -1,0 +1,3 @@
+$('#total_no_counts').html("<%=@curator_provider.length if @curator_provider%>");
+$("#curator_provider_report").html("<%=escape_javascript(render '/admin/providercard_list')%>");
+$('.loading_page_price').hide();

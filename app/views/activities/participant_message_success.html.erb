@@ -1,0 +1,20 @@
+<%=stylesheet_link_tag "global/pop_up_success", :media => "all"%>
+<style>
+#share_actvity_success{
+	height: 220px;
+}
+</style>
+<div id="share_actvity_success">
+  <div class="popupContainer">
+    <div align="center">
+      <p class="successText">You have successfully send message to provider</p>
+      <div class="clear"></div>
+      <a href="javascript:void(0)" onClick="closepopup()" title=""><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38", :style=>"border:0px;")%></a>
+    </div>
+  </div>
+</div>
+<script language="javascript">
+  function closepopup(){
+  	parent.participantMsgSuccPage.hide();	
+  }
+</script>

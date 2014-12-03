@@ -1,0 +1,31 @@
+    var act_id = '<%=@school_rep.activity_id%>'
+  <%if @schedule_present && @schedule_present == 'true'%>
+    var editId ="/edit_activity?activity_id="+act_id;
+    editId = "'"+editId+"'";
+    var deleteId ="/activities/delete_activity?activity_id="+act_id;
+    deleteId = "'"+deleteId+"'";   
+        var edit_permi = '<%=@school_rep.edit_p%>'
+        var del_permi = '<%=@school_rep.delete_p%>'
+	if (edit_permi=='true' && del_permi=='true'){
+		$(".activity_permissions_"+act_id).html('<div><a href="javascript:void(0)" title="" style="position:relative;margin-right:5px;display:inline-block;"><img src="/assets/tickets/edit.png" onClick="javascript:pop_edit_activity('+editId+')" class="icon"  alt="" width="72" height="31" /></a><a href="javascript:void(0)" title="" style="position:relative;display:inline-block;"><img src="/assets/tickets/delete.png" onClick="pop_delete_activity('+deleteId+')" class="icon" alt="" width="72" height="31" /></a></div>');
+	 }
+	else if(edit_permi=='true' && (del_permi=='' || del_permi=='false'))
+	{
+		$(".activity_permissions_"+act_id).html('<div><a href="javascript:void(0)" title="" style="position:relative;margin-right:5px;display:inline-block;"><img src="/assets/tickets/edit.png" onClick="javascript:pop_edit_activity('+editId+')" class="icon"  alt="" width="72" height="31" /></a></div>');
+	}
+	else if(del_permi=='true' && (edit_permi=='' || edit_permi=='false'))
+	{
+		$(".activity_permissions_"+act_id).html('<div><a href="javascript:void(0)" title="" style="position:relative;display:inline-block;"><img src="/assets/tickets/delete.png" onClick="pop_delete_activity('+deleteId+')" class="icon" alt="" width="72" height="31" /></a></div>');
+	}
+    <%else%>	
+	if('<%=@school_rep.school_rep_id%>')
+	{
+	var rep_p = 'true';
+	var school_id = '<%=@school_rep.school_rep_id%>';
+	$("#pending_status_"+act_id).hide();
+	$("#accept_school_"+act_id).replaceWith('Accepted');
+	$("#active_"+act_id).replaceWith('<ul><li><a  href="#" class="active_Div ActiveDiv" onmouseover="close_click_function()"><span id="gender_setVal_'+act_id+'">Inactive</span><span><img src="/assets/event_index/dropdown_arrow.png" alt="" style="position: relative; top: -1px; left:5px;" height="4" width="7"/></span></a><ul class="sub-menu dispActiveDiv"><li><a href="#" onclick=setActiveVal("Active",'+act_id+','+rep_p+','+school_id+'); _gaq.push(["_trackEvent", "Provider Module", "clickViewActivity","Set Active", '+act_id+']);>Active</a></li> <li><a href="#" onclick=setActiveVal("Inactive",'+act_id+','+rep_p+','+school_id+'); _gaq.push(["_trackEvent", "Provider Module", "clickViewActivity","Set Inactive", '+act_id+']);>Inactive</a></li> </ul></li></ul>');
+	$("#edit-del-permission_"+act_id).replaceWith("<%=escape_javascript(render(:partial =>'/activities/set_permissions_for_rep'))%>");
+	}
+  <%end%>	
+

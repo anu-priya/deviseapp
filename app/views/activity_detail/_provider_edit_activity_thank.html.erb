@@ -1,0 +1,79 @@
+<%=stylesheet_link_tag "global/pop_up_success", :media => "all"%>
+
+<div align="center" style="height:230px;">
+  <p class="successText" style="padding:60px 0; font-size: 17px;">You have successfully Edited your activity!</p>
+  <div class="clear"></div>
+  <a href="javascript:void(0)" onClick="closepopup_reload();_gaq.push(['_trackEvent', 'Provider Module', 'clickEditActivity','Success','<%= @activity_profile_apf.activity_id %>'])" title=""><%=image_tag("/assets/register/ok_btn.png", :width=>"99", :height=>"38")%></a>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("html, body", window.parent.document).animate({ scrollTop: 0 }, 100);
+  });
+  function closepopup_reload(){
+    	var test_val = "<%=@edited_page%>"
+    	var test_mode = "<%=params[:edit_mode]%>"
+    	var test_mode_action = "<%=params[:edit_mode_act]%>"
+    if(navigator.appName=="Microsoft Internet Explorer")
+	{
+	  parent.editActivityPage.hide();
+	    if(test_val=='' && test_mode!='' && test_mode_action!='')
+	    {
+		  parent.location.href='/'+test_mode_action;
+	    }
+	    else if(test_val!='')
+	    {
+		    if (test_val == 'prov_event')
+		    {
+		    parent.$("#event-act-<%= @activity_profile_apf.activity_id %>").replaceWith("<%= escape_javascript(render(:partial => 'edit_provider_activity_detail'))%>");
+		    }
+		    else if (test_val=='admin_gall_event')
+		    {
+		     parent.$("#act<%= @activity_profile_apf.activity_id %>").html("<%= escape_javascript(render(:partial => 'admin/edit_admin_gall_view'))%>");
+		     }
+		    else if(test_val=='admin_list_event')
+		    {
+		     parent.$("#act-list-<%= @activity_profile_apf.activity_id %>").replaceWith("<%= escape_javascript(render(:partial => 'admin/edit_admin_list_view'))%>");
+		     }
+		   else if(test_val=='prov_thum_event')
+		   {
+		    parent.$(".provider-thumb-<%= @activity_profile_apf.activity_id %>").html("<%= escape_javascript(render(:partial => 'edit_provider_thumb_act'))%>");
+		   }
+	     }
+	     else
+	     {
+               parent.location.reload(true);
+	    }
+        }
+        else
+        {
+	    parent.editActivityPage.hide();
+	    if(test_val=='' && test_mode!='' && test_mode_action!='')
+	    {
+		     parent.location.href='/'+test_mode_action;
+	    }
+	    else if(test_val!='')
+	    {
+		    if (test_val == 'prov_event')
+		    {
+		    parent.$("#event-act-<%= @activity_profile_apf.activity_id %>").replaceWith("<%= escape_javascript(render(:partial => 'edit_provider_activity_detail'))%>");
+		    }
+		    else if (test_val=='admin_gall_event')
+		    {
+		     parent.$("#act<%= @activity_profile_apf.activity_id %>").html("<%= escape_javascript(render(:partial => 'admin/edit_admin_gall_view'))%>");
+		     }
+		    else if(test_val=='admin_list_event')
+		    {
+		     parent.$("#act-list-<%= @activity_profile_apf.activity_id %>").replaceWith("<%= escape_javascript(render(:partial => 'admin/edit_admin_list_view'))%>");
+		     }
+		   else if(test_val=='prov_thum_event')
+		   {
+		    parent.$(".provider-thumb-<%= @activity_profile_apf.activity_id %>").html("<%= escape_javascript(render(:partial => 'edit_provider_thumb_act'))%>");
+		   }
+	     }
+	     else
+	     {
+              parent.location.href += "";
+	     } 
+        }
+  }
+</script>

@@ -1,0 +1,423 @@
+
+<% page = find_page_title(params) %>
+<%= stylesheet_link_tag "activity_view_detail/paymentDetail.css" %>
+<%= stylesheet_link_tag "global/pop_up.css" %>
+<%= stylesheet_link_tag "activity_view_detail/activity_details.css" %>
+<%= stylesheet_link_tag "browse_location/seo.css" %>
+<%= javascript_include_tag "acitivity_view_details/schedule_price.js" %>
+<%= javascript_include_tag "acitivity_view_details/detail_page.js" %>
+<%= javascript_include_tag "acitivity_view_details/search_drop_pjax.js" %>
+<style>
+  .moreDetailsText {
+    color: #5099AC;
+    font-size: 12px;
+  }
+</style>
+<script>
+   // dont remove this line
+
+   $('title').html('<%=page[0]%>');
+   $("meta[name='keywords']").attr("content",'<%=page[2]%>');
+   $("meta[name='description']").attr("content",'<%=raw page[1]%>');
+    $("link[rel='alternate']").attr("href",'<%= "#{$meta_mobile}#{request.fullpath.gsub('?_pjax=[data-pjax-container]','').gsub('?_pjax=%5Bdata-pjax-container%5D','')}"%>');
+
+  $(document).ready(function(){
+    $('html').css('overflow-y','auto');
+    //~ $("#activity_new").css('display','none');
+    //$("#cityvalueDisplay").css('display','block');
+    setTimeout(function(){
+      $("#browse_val").css('display','block');
+      $("#cityvalueDisplay").css('display','block');
+      $("#cityvalueDisplay_provider").css('display','inline-block');
+      $("#activity_new").css('display','block');
+      $("#loadDivjax").css('display','none');
+    }, 2000);
+  });
+</script>
+
+
+
+  <!--div class="follow-over" style="position:fixed;background: black;z-index:1000;opacity :0.6;top:0;left:0;bottom:0;right:0;display:none;"></div-->
+
+  <!-- login feature popup start -->
+  <div id="login_use_feature">
+    <div class="content_popup" style="display:block;"><br>You need to login to use this feature<br><br>
+      <span class="b-close" id="loginFeature"><a href="javascript:void(0)" title=""> <%= image_tag("/assets/register/ok_btn.png") %></a></span>
+      <a href="javascript:void(0);" title=""><span class="b-close"><%= image_tag("/assets/landing/cancel_button.png") %></span></a>
+    </div>
+  </div><!-- login feature popup end -->
+  <!-- GUEST POPUP-->
+  <%=render :partial => 'landing/guest_feature'%>
+  <!-- GUEST POPUP-->
+
+<div class="clear"></div>
+<div id="eventListContainer" class="eventListContainer" style="<% if !current_user.nil?%>margin-top:62px;<% else%>margin-top:50px;<%end%> margin-bottom: 36px;"><!-- Start Default Activities List --><!-- Top Banner Slide Start-->
+  <div class="setouterstyle"><!--slider start-->    
+
+    <%= render :partial =>"banner/location_banner"  if request.referrer && request.referrer.split("/").last!="home"%>
+    <!--slider end--> <!--Header Slider-->
+
+    <div id="popup_container" style="top: 20px !important;">
+    </div>
+  </div>
+
+  <!--New follow cities-->
+  <div id="browse_val" style="text-align:center;display:none;">
+    <!--form name="city_select_val" id="city_select_val" method="post" action="/">
+      <div class="fts13 alphabetsdiv" id="alpha_val" style="padding-bottom: 5px;margin:0 auto;color:#828282;margin-bottom:-10px;">
+        <input type="hidden" name="city_v" id="city_v" value=""/>
+        <span class="fts14">Browse Your Locations:&nbsp;</span><%# ('A'..'Z').each do |alpha| %>
+          <a class="ftcliteGray fts12" href="javascript:void(0);"  onclick="city_submit('<%#=alpha%>');" style="<%#=(params[:city] && params[:city][0].upcase == alpha) ? "color: #2B91AF;" : ""%>" title=""><%#=alpha%></a>
+<%#end%>
+      </div>
+    </form-->
+    <!--New follow cities-->
+    <div class="ftcGreen3c bread-path"  style="border-bottom: 1px solid #EBEBEB;padding-top:20px;">
+
+      <%#get_citygroupid = CityGroup.getgroupId(cookies[:browse_city]) if cookies[:browse_city] && cookies[:browse_city].present?%>
+      <%thro_log = (cookies[:thro_page] && cookies[:thro_page].present?) ? cookies[:thro_page] : ''%>
+      <%cookies.delete :thro_page%>
+      <%@check_page = chk_page = fndPrevPage(request.referrer,thro_log)%>
+      <% chk_prev_url = (chk_page && chk_page[0] && (@activity || @user_profile_sub))%>
+      <%if (chk_page && chk_page[0] && chk_page[0]=='Search') %>
+        <%get_search_link = "#"%>
+        <%set_back = true%>
+      <%elsif (@is_search_key && @is_search_key.present? && !@is_search_key.nil?)%>
+        <%get_search_link = "/search?event_search=#{@is_search_key}"%>
+      <%else%>
+        <%get_search_link = "/"%>
+      <%end%>
+
+      
+      <%if cookies[:set_bread] == ""%>
+        <%if !cookies[:browse_category].blank?%>
+          <%if !@is_search_key && !@is_search_key.present?%><a href="/categories" > All Categories</a><%end%>
+          <%if @user_profile_sub.present? %>
+	    <%#get_prev_url = "#{URI(request.referer).path if request && request.referer}"%>
+      	    <%#cat_url = get_prev_url.split("/")%>
+
+	    <%#@raj = "/#{cat_url[1]}/#{cat_url[2].titlecase}/#{cat_url[3]}"%>
+          <%@raj = "#{URI(request.referer).path if request && request.referer}"%>
+            <% if @user_profile_act.present? && !@user_profile_act.nil? %>
+              <% @raj = @raj + "/" + @user_profile_act.business_name %>
+            <% end %>
+            <%if @user_profile_sub.present?%>
+              <%@raj = @raj + "/" + @user_profile_sub.business_name %>
+            <%end%>
+            <%if @activity.present?%>
+              <%@raj = @raj + "/" + @activity.activity_name %>
+            <%end%>
+            <span style="color:<%=(chk_prev_url) ? "#666666" : "#4495ae"%>;">&nbsp;&gt;&nbsp;</span><%=raw get_bread_crumb(@raj) %>
+          <%else%>
+            <a href="<%=get_search_link%>" <%if set_back%>onclick="history.go(-1);return false;"<%end%> title=""  class="ftcGreen3c"><%=(@is_search_key && @is_search_key.present? && !@is_search_key.nil?) ? 'Search' : ((chk_page && chk_page[0]) ? chk_page[0] : 'Home')%></a>
+            <%if @activity.present?%>
+              <%ven = request.fullpath.split("/")%>
+              <%@raj = "/#{ven[1]}/#{ven[3]}/#{ven[4]}/#{ven[2]}/#{ven[5]}"%>
+              <span style="color:<%=(chk_prev_url) ? "#666666" : "#4495ae"%>;">&nbsp;&gt;&nbsp;</span><%=(chk_prev_url || (@is_search_key && @is_search_key.present? && !@is_search_key.nil?)) ? ((@activity.activity_name if @activity.present?) || (@user_profile_sub.business_name if @user_profile_sub.present?)) : (raw get_bread_crumb(@raj)) %>
+            <%else%>
+              <span style="color:<%=(chk_prev_url) ? "#666666" : "#4495ae"%>;">&nbsp;&gt;&nbsp;</span><%=(chk_prev_url || (@is_search_key && @is_search_key.present? && !@is_search_key.nil?)) ? ((@activity.activity_name if @activity.present?) || (@user_profile_sub.business_name if @user_profile_sub.present?)) : (raw get_bread_crumb(request.fullpath)) %>
+            <%end%>
+          <%end%>
+         <%else%>
+          <a href="<%=get_search_link%>" <%if set_back%>onclick="history.go(-1);return false;"<%end%> title=""  class="ftcGreen3c"><%=(@is_search_key && @is_search_key.present? && !@is_search_key.nil?) ? 'Search' : ((chk_page && chk_page[0]) ? chk_page[0] : 'Home')%></a>
+          <%set_c = false%>
+          <%if cookies[:set_bread]== "p"%>
+            <%if @user_profile_act.present?%>
+              <span style="color:<%=(chk_prev_url) ? "#666666" : "#4495ae"%>;">&nbsp;&gt;&nbsp;</span>
+              <a href="#" onclick="history.go(-1);return false;"><%= @user_profile_act.business_name %></a>
+            <%end%>
+            <%set_c = true%>
+          <%end%>
+          <%if @user_profile_sub.present?%>
+            <span style="color:#666;">></span>
+            <%= @user_profile_sub.business_name %>
+            <%set_c = true%>
+          <%end%>
+          <%if @activity.present?%>
+            <span style="color:#666;">></span>
+            <%= @activity.activity_name %>
+            <%set_c = true%>
+          <%end%>
+          <%if set_c == false%>
+            <span style="color:<%=(chk_prev_url) ? "#666666" : "#4495ae"%>;">&nbsp;&gt;&nbsp;</span><%=(chk_prev_url || (@is_search_key && @is_search_key.present? && !@is_search_key.nil?)) ? ((@activity.activity_name if @activity.present?) || (@user_profile_sub.business_name if @user_profile_sub.present?)) : (raw get_bread_crumb(request.fullpath)) %>
+          <%end%>
+        <%end%>
+      <%else%>
+        <%if !cookies[:browse_category].blank?%>
+          <a href="/categories" > All Categories</a>
+          <%if @user_profile_sub.present? %>
+            <%#get_prev_url = "#{URI(request.referer).path if request && request.referer}"%>
+      	    <%#cat_url = get_prev_url.split("/")%>
+	          <%#@raj = "/#{cat_url[1]}/#{@actcatname.titlecase}/#{cat_url[3]}"%>
+			<%@raj = "#{URI(request.referer).path if request && request.referer}"%>
+            <%if @user_profile_act.present?%>
+              <%@raj = @raj + "/" + @user_profile_act.business_name %>
+            <%end%>
+            <%if @user_profile_sub.present?%>
+              <%@raj = @raj + "/" + @user_profile_sub.business_name %>
+            <%end%>
+            <%if @activity.present?%>
+               <%@raj = @raj + "/" + @activity.activity_name %>
+            <%end%>
+            <span style="color:<%=(chk_prev_url) ? "#666666" : "#4495ae"%>;">&nbsp;&gt;&nbsp;</span><%= raw get_bread_crumb(@raj) %>
+          <%else%>
+            <%if @activity.present?%>
+              <%ven = request.fullpath.split("/")%>
+              <%@raj = "/#{ven[3]}/#{ven[4]}/#{ven[2]}/#{ven[5]}"%>
+              <span style="color:#4495ae;">></span>
+              <a href="/categories/<%= ven[3] %>" ><%=@actcatname if !@actcatname.nil? && @actcatname!='' %></a>
+              <span style="color:#4495ae;">></span>
+              <a href="/categories/<%=  ven[3]%>/<%= ven[4]%>" ><%= ven[4].capitalize.gsub("-ca","-CA").gsub("_"," ").titlecase if !ven[4].nil? && ven[4]!='' %></a>
+              <span style="color:#4495ae;">></span>
+              <a onclick="history.go(-1);return false;" href="/<%=ven[1]%>/<%=ven[2]%>" ><%= @user_profile_act.business_name if @user_profile_act && @user_profile_act.present? %></a>
+              <span style="color:#666;">></span>
+               <%= @activity.activity_name if @activity && @activity.present?%>
+              <%#= ven[5].slice(0...(ven[5].index('?'))).gsub("_"," ").titleize %>
+            <%else%>
+              <a href="<%=get_search_link%>" <%if set_back%>onclick="history.go(-1);return false;"<%end%> title=""  class="ftcGreen3c"><%=(@is_search_key && @is_search_key.present? && !@is_search_key.nil?) ? 'Search' : ((chk_page && chk_page[0]) ? chk_page[0] : 'Home')%></a>
+              <%set_c = false%>
+              <%if cookies[:set_bread]== "p"%>
+                <%if @user_profile_act.present?%>
+                  <span style="color:<%=(chk_prev_url) ? "#666666" : "#4495ae"%>;">&nbsp;&gt;&nbsp;</span>
+                  <a href="#" onclick="history.go(-1);return false;"><%= @user_profile_act.business_name %></a>
+                  <%set_c = true%>
+                <%end%>
+              <%end%>
+              <%if @user_profile_sub.present?%>
+                <span style="color:#666;">></span>
+                <%= @user_profile_sub.business_name %>
+                <%set_c = true%>
+              <%end%>
+              <%if @activity.present?%>
+                <span style="color:#666;">></span>
+                <%= @activity.activity_name %>
+                <%set_c = true%>
+              <%end%>
+              <%if set_c ==false%>
+                <span style="color:<%=(chk_prev_url) ? "#666666" : "#4495ae"%>;">&nbsp;&gt;&nbsp;</span><%=(chk_prev_url || (@is_search_key && @is_search_key.present? && !@is_search_key.nil?)) ? ((@activity.activity_name if @activity.present?) || (@user_profile_sub.business_name if @user_profile_sub.present?)) : (raw get_bread_crumb(request.fullpath)) %>
+              <%end%>
+            <%end%>
+          <%end%>
+        <%else%>
+          <a href="<%=get_search_link%>" <%if set_back%>onclick="history.go(-1);return false;"<%end%> title=""  class="ftcGreen3c"><%=(@is_search_key && @is_search_key.present? && !@is_search_key.nil?) ? 'Search' : ((chk_page && chk_page[0]) ? chk_page[0] : 'Home')%></a>
+          <%if cookies[:set_bread]== "p"%>
+            <%if @user_profile_act.present?%>
+              <span style="color:<%=(chk_prev_url) ? "#666666" : "#4495ae"%>;">&nbsp;&gt;&nbsp;</span>
+              <a href="#" onclick="history.go(-1);return false;"><%= @user_profile_act.business_name %></a>
+            <%end%>
+          <%end%>
+          <%if @user_profile_sub.present?%>
+            <span style="color:#666;">></span>
+            <%= @user_profile_sub.business_name %>
+          <%end%>
+          <%if @activity.present?%>
+            <span style="color:#666;">></span>
+            <%= @activity.activity_name %>
+          <%end%>
+        <%end%>
+      <%end%>
+    </div>
+
+  </div>
+  <div class="clear"></div>
+
+  <!--City alphabet search--->
+  <div class="cityvalueDisplay alphacaterslt" id="cityvalueDisplay" style="display:none;padding-bottom: 50px;width:100%">
+
+    <!--Text for city category sub-category-->
+    <%if (params[:city] && params[:categ] && params[:sub_categ] && !params[:busi_name].present?)%>
+      <h1 class="ftcGreen3c fts18" style="padding:10px;;text-align: center;"><b><%= params[:city].titleize if params[:city]%>&nbsp;<%= params[:sub_categ].titleize if params[:categ]%>&nbsp; for Kids - Classes, Camps, Lessons, Activities, & Events</b></h1>
+      <p class="ftcGray fts14 browserloctxt">Find a complete listing of all <span class="ftcGreen3c"><%=params[:sub_categ].titleize if params[:sub_categ]%></span> for kids in <span class="ftcGreen3c"><%= params[:city].titleize if params[:city]%></span>, including discounts and deals from local providers. Join Famtivity, The Family Activity Network, to earn Discount Dollars that you may be able to use for <span class="ftcGreen3c"><%=params[:sub_categ].titleize if params[:sub_categ]%> in <span class="ftcGreen3c"><%= params[:city].titleize if params[:city] %>.</span></p>
+    <%elsif (params[:city] && params[:categ] && !params[:sub_categ].present? && !@user_profile_sub.present?)%>
+      <h1 class="ftcGreen3c fts18" style="padding:10px;;text-align: center;"><b><%= params[:city].titleize if params[:city] %>&nbsp;<%= params[:categ].titleize if params[:categ] %>&nbsp; for Kids - Classes, Camps, Lessons, Activities, & Events</b></h1>
+      <p class="ftcGray fts14 browserloctxt">Find a complete listing of all <span class="ftcGreen3c"><%= params[:categ].titleize if params[:categ] %></span> for kids in <span class="ftcGreen3c"><%= params[:city].titleize if params[:city] %></span>, including discounts and deals from local providers. Join Famtivity, The Family Activity Network, to earn Discount Dollars that you may be able to use for <span class="ftcGreen3c"><%= params[:categ].titleize if params[:categ]%></span> in <span class="ftcGreen3c"><%= params[:city].titleize if params[:city] %>.</span></p>
+    <%elsif (params[:city] && !params[:categ].present?)%>
+      <!--Text for Citites-->
+      <h1 class="ftcGreen3c fts18" style="padding:10px;;text-align: center;"><b><%= params[:city].titleize %> Kids Classes, Camps, Lessons, Activities & Events</b></h1>
+      <p class="ftcGray fts14 browserloctxt">Find a complete listing of all <span class="ftcGreen3c"><%= params[:city].titleize if params[:city] %></span> kids classes, camps, lessons, activities & events, including discounts and deals from local providers. Join Famtivity, The Family Activity Network, to earn Discount Dollars that you may be able to use for kids activities in <span class="ftcGreen3c"><%= params[:city].titleize %>.</span></p>
+    <%end%>
+    <!--Text for city category sub-category ending here-->
+
+    <!--New activity card displayed-->
+    <%if (params[:busi_name] && params[:city] && params[:categ] && params[:sub_categ] && params[:activity_name])%>
+      <%if @activity && @activity!='' && @activity.present? && @activity!=[]%>
+        <%=render 'follow_city_detail_ac' if @activity %>
+      <%else%>
+        <span style="text-align:center;font-size:15px;">No results found.</span>
+      <%end%>
+    <%end%>
+    <!--New activity card displayed ending here-->
+
+    <div style="width:100%;text-align:center;"><!--main div starting-->
+      <!--City alphabet search--->
+      <div class="cityvalueDisplayCard1 proDetail" id="cityvalueDisplay_provider" style="display:none;width1:100%;margin:0px 0px;text-align: left;padding-bottom: 5px;">
+      <!--p class="ftcGreen3c fts14" style="padding:5px 0px 8px;"><b><%#=title_chk if title_chk && !title_chk.nil?%></b></p-->
+
+        <!--provider card displayed-->
+        <%if (params[:city] && params[:categ] && params[:sub_categ] && params[:busi_name] && !params[:activity_name].present? ) || (params[:city].present? && params[:categ].present?)%>
+	<%@user_profile=(@user_profile_sub.present?) ? @user_profile_sub : nil%>
+	  <%cookies.delete :set_bread%>
+          <%((@user_profile) ?  (cookies[:set_bread]="p") : (cookies.delete :set_bread))%>
+          <%=render 'follow_city_detail_pc' if @user_profile.present? %><br>
+        <%else%>
+	  <%cookies.delete :set_bread%>
+        <%end%>
+        <div class="clear"></div>
+        <%if @footcity && @footcity.present? && !@footcity.nil?%>
+
+          <%if !@user_profile_sub%>
+            <!--provider card displayed ending here-->
+            <div style="width:100%;margin:0px 30px;" align="left"><!--category main div starting here-->
+              <%@footcity.each do |s|%>
+                <%if params[:busi_name] && params[:busi_name].present? && !params[:busi_name].nil?%>
+
+                <%elsif params[:sub_categ] && params[:sub_categ].present? && !params[:sub_categ].nil?%>
+                  <%if @user_profile_cat%>
+                    <%#= list_link = url_format(s,request.url) %>
+		                <%catdynamic = getactsubcategories(s) if !s.nil?%>
+		                <%list_link = url_format_slug(catdynamic[1],request.url) if !catdynamic[1].nil?%>
+                    <a href="<%=list_link%>" value="<%=s%>" title=""><%= s %></a>
+                  <%else%>
+                    <%@list_link="/"+params[:city]+"-ca/"+s.slug if s && s.slug%>
+                    <%@user_profile=s if !s.nil?%>
+                    <%=render 'follow_city_provider_card',:test_path => 'f_city'%>
+                  <%end%>
+                <%elsif (params[:city] || params[:categ].present?)%><!--category list displaying-->
+                  <%# list_link = url_format(s,request.url) %>
+
+                  <!--get the category and subcategory list-->
+                  <%if params[:city] && params[:categ].present?%>
+                    <%catdynamic = getactsubcategories(s) if !s.nil?%>
+                    <% alt_name = params[:categ].titleize %>
+		              <%list_link = url_format_slug(catdynamic[1],request.url) if !catdynamic[1].nil?%>
+                  <%elsif params[:city] && !params[:categ].present?%>
+                    <%catdynamic = getactcategories(s) if !s.nil?%>
+		<%list_link = url_format_slug(catdynamic[1],request.url) if !catdynamic[1].nil?%>
+                  <%end%>
+
+                  <!--category with image and text start here-->
+	      <a href="<%=list_link%>" title="" alt="" style="display:inline-block;margin:10px;width:auto;">
+                  <div class="categoryBox" align="center">
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                      <tr>
+                        <td align="center" valign="middle">
+                          <div class="catImg" align="center"><a href="<%=list_link%>" title=""><img src="<%=catdynamic[0]%>" width="112" height="112" alt="<%=alt_name +"-" if params[:categ].present? %> <%=s if s %> Activities" /></a></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center" valign="middle" class="catTitle"><a href="<%=list_link%>" style="color:#7DB6C8" title=""><%= s %></a></td>
+                      </tr>
+                    </table>
+                  </div>
+	       </a>
+                  <!--category with image and text ending here-->
+                <%else%>
+                  <% list_link = url_format(s,request.url) %>
+                  <a href="<%=list_link%>" value="<%=s%>" title=""><%= s %></a>
+                <%end%>
+              <%end%><!--do ending here-->
+            </div>
+          <%end%>
+
+        <%else%>
+          <%if !(params[:busi_name] && params[:city] && params[:categ] && params[:sub_categ] && params[:activity_name])%>
+           <span style="text-align:center;font-size:15px;"></span> 
+          <%end%>
+        <%end%><!--footer city ending here-->
+
+        <%if (params[:city] && !params[:categ].present?)%>
+          <!--Browse by location for quick links started-->
+          <div class="ftcGreen3c bread-path" style="border-bottom: 1px solid #EBEBEB;padding-top:20px;"></div><!--dashed line here-->
+          <p class="ftcGreen3c fts20" style="padding:10px;;text-align: center;"><b>Quick Links</b></p>
+          <div style="width:100%;margin:0px 30px;" align="left"><!--category main div starting here-->
+            <%!@qlinks.nil? && @qlinks.present? && @qlinks.each do |qlink|%>
+	    <%qurl=getqlinkurls(qlink) if qlink%>
+	<a href="<%=qurl[0] if qurl %>" title="" alt="" style="display:inline-block;margin:10px;width:auto;">
+              <div class="categoryBox" align="center">
+                <table cellpadding="0" cellspacing="0" width="100%">
+                  <tr>
+                    <td align="center" valign="middle">
+                      <div class="catImg" align="center"><a href="<%=qurl[0] if qurl %>" title=""><img src="<%=qurl[1] if qurl%>" width="112" height="112" alt="<%=qurl[2] if qurl%>"/></a></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="center" valign="middle" class="catTitle"><a href="<%=qurl[0] if qurl %>" style="color:#7DB6C8" title=""><%=qlink%></a></td>
+                  </tr>
+                </table>
+              </div>
+	  </a>
+            <%end%>
+          </div>
+          <!--Browse by location for quick links ending-->
+        <%end%>
+
+        <div class="clear"></div>
+      </div>
+    </div><!--main div ending-->
+  </div>
+
+
+  <style type="text/css" id="page-css">
+    /* Styles specific to this particular page */
+    #banner_location_2  option{padding: 2px 8px;}
+    #banner_location_first option{padding: 2px 8px;}
+  </style>
+  <script type="text/javascript">
+    var city_values = new Array();
+<% @fam_city.each do |autocomplete| %>
+    city_values.push({"value": "<%= autocomplete.city_name%>, CA","data": "<%= autocomplete.city_id%>"});
+<%end%>
+
+  $('#search_value').autocomplete({
+    serviceUrl: '/data_entry',
+    formatResult: function(suggestion, currentValue) {
+      count_auto = 2;
+      if(suggestion.data =="all"){
+        $("#autocompleteappender_cur_set").val(suggestion.cur_set);
+        $("#autocompleteappender_length").val(suggestion.total_p);
+        return "<a id='value"+suggestion.data +"' class='allsearch' href='#'>"+suggestion.act+":"+currentValue+"</a>"
+      }
+      else if (suggestion.w_class == "user" ){
+        return "<table><tr onclick='set_provider(\"" + suggestion.user_id + "\",\"" + escape(suggestion.w_provider_name) + "\",\"" + escape(suggestion.pass_value) + "\");'><td class='td1'><a id='value"+suggestion.data +"' href='#' class='redSearch'>" + "" + " </a></td><td class='td2'><a id='raj"+suggestion.data +"' class='blueSearch' title= 'Provider Name:"+ suggestion.w_provider_name +"' href='#' onclick='set_provider(\"" + suggestion.user_id + "\",\"" + escape(suggestion.w_provider_name) + "\",\"" + escape(suggestion.pass_value) + "\");'>" +suggestion.provider_name + "</a></td><td class='td3'><a id='raj"+suggestion.data +"' href='#' title= 'City:"+ suggestion.w_city +"' class='graySearch' onclick='set_city(\"" + suggestion.data + "\",\"" + escape(suggestion.city) + "\",\"" + escape(suggestion.pass_value) + "\")'>" + suggestion.city  + "</a></td></tr></table>";
+        //   return "<table><tr><td class='td2'><a id='raj"+suggestion.data +"' class='blueSearch' title= 'Provider Name:"+ suggestion.w_provider_name +"' href='#' onclick='set_provider(\"" + suggestion.user_id + "\",\"" + suggestion.w_provider_name + "\",\"" + suggestion.pass_value + "\");'>" +suggestion.w_provider_name + "</a></td><td class='td3'></tr></table>";
+      }
+      else if (suggestion.w_class == "activity" ) {
+        if(suggestion.w_city!=null){
+          city = suggestion.w_city.toLowerCase().replace(/\s/g , "-")
+        }
+        else{
+          city = suggestion.w_city;
+        }
+        act_url = "/"+unescape(city)+"-ca/"+unescape(suggestion.up_slug)+"/"+unescape(suggestion.category.toLowerCase().replace(/\s/g , "-"))+"/"+unescape(suggestion.sub_category.toLowerCase().replace(/\s/g , "-"))+"/"+unescape(suggestion.w_slug)
+        return "<table><tr><td class='td1'><a style='display:block; width:100%; 'id='value"+suggestion.data +"' title= 'Activity Name:"+ suggestion.w_activity_name +"' data-pjax  href='"+act_url+"' class='redSearch' onclick='set_act_name(\"" + escape(suggestion.w_activity_name) + "\",\"" + escape(suggestion.pass_value) + "\");'>" + suggestion.activity_name+ " </a></td><td class='td2'><a style='display:block; width:100%;' id='raj"+suggestion.data +"' class='blueSearch' title= 'Provider Name:"+ suggestion.w_provider_name +"' href='#' onclick='set_provider(\"" + suggestion.user_id + "\",\"" + escape(suggestion.w_provider_name) + "\",\"" + escape(suggestion.pass_value) + "\");'>" +suggestion.provider_name + "</a></td><td class='td3'><a style='display:block; width:100%;' id='raj"+suggestion.data +"' href='#' title= 'City:"+ suggestion.w_city +"' class='graySearch' onclick='set_city(\"" + suggestion.data + "\",\"" + escape(suggestion.city) + "\",\"" + escape(suggestion.pass_value) + "\")'>" + suggestion.city  + "</a></td></tr></table>";
+      } },
+    onSelect: function (suggestion) {
+      if(suggestion.data =="all"){
+        $.get("/basic_search_count",{
+          "event_search": suggestion.value
+        }, function(data){
+          if (data>0)
+          {
+            window.location = "/search?event_search="+suggestion.value;
+          }
+          else{
+            $('.right_container').html('<div class="setBg1"><div width="100%" class="no_activities" style="text-align:center;height: 500px;">Sorry we found no results for your search.</div></div>');
+            $("#bsearch_norecord").bPopup({modalClose:false});
+            $("#bsearch_norecord").show();
+          }
+        }, "script"
+      );
+
+      }
+
+    },
+    width :575
+  })
+  
+  
+  function set_selected_city(city_id){
+    document.cookie="sel_city="+city_id;
+  }
+  
+  
+  </script>
