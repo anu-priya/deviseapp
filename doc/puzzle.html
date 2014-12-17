@@ -1,0 +1,119 @@
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<style type="text/css">
+#phone button{
+    height: 50px;
+    width: 75px;
+}
+#phone button span{
+    display: block;
+    margin-top: 5px;
+    font-size: 10px;
+}
+#result{
+    width: 225px;
+    height: 25px;
+    margin-left:2px;
+}
+</style>
+<table id="phone">
+    <tr>
+        <td colspan="3">
+            <input type="text" id="result" onchange="updatetext()" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button data-value="1" class="key" onmousedown="textmousedown(1)" onmouseup="textmouseup()"  onclick="display_text('.,!')">1
+                <span>. , !</span>
+            </button>
+        </td>
+        <td>
+            <button data-value="2" class="key" onmousedown="textmousedown(2)" onmouseup="textmouseup()"  onclick="display_text('abc')">2
+                <span>a b c</span>
+            </button>
+        </td>
+        <td>
+            <button data-value="3" class="key" onmousedown="textmousedown(3)" onmouseup="textmouseup()"  onclick="display_text('def')">3
+                <span>d e f</span>
+            </button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button data-value="4" class="key" onmousedown="textmousedown(4)" onmouseup="textmouseup()"  onclick="display_text('ghi')">4
+                <span>g h i</span>
+            </button>
+        </td>
+        <td>
+            <button data-value="5" class="key" onmousedown="textmousedown(5)" onmouseup="textmouseup()"  onclick="display_text('jkl')">5
+                <span>j k l</span>
+            </button>
+        </td>
+        <td>
+            <button data-value="6" class="key" onmousedown="textmousedown(6)" onmouseup="textmouseup()"  onclick="display_text('mno')">6
+                <span>m n o</span>
+            </button>
+        </td>
+    </tr>
+    <tr>
+        <td><button data-value="7" class="key" onmousedown="textmousedown(7)" onmouseup="textmouseup()"  onclick="display_text('pqrs')">7
+            <span>p q r s</span>
+            </button>
+        </td>
+        <td>
+            <button data-value="8" class="key" onmousedown="textmousedown(8)" onmouseup="textmouseup()"  onclick="display_text('tuv')">8
+                <span>t u v</span>
+            </button>
+        </td>
+        <td>
+            <button data-value="9" class="key" onmousedown="textmousedown(9)" onmouseup="textmouseup()"  onclick="display_text('wxyz')">9
+                <span>w x y z</span>
+            </button>
+        </td>
+    </tr>
+    <tr>
+        <td><button data-value="*" onclick="SpecialSym('*')" class="key">*</button></td>
+        <td><button data-value="0" onclick="SpecialSym('0')" class="key">0</button></td>
+        <td><button data-value="#" onclick="SpecialSym('#')" class="key">#</button></td>
+    </tr>
+</table>
+
+<script type="text/javascript">
+	var timeout;
+	var str = "";
+	var ClickTime;
+	var longPress = false;
+	var count = 0;
+	//onclick function caling
+	function display_text(myText){
+		clearTimeout(timeout);
+		var strLen = myText.length;
+		var arr = myText.split('');
+		if(longPress){
+		longPress=false;
+		}else{
+		$("#result").val(str + arr[count % strLen]);
+		count++;
+		timeout = setTimeout(function(){ count = 0; str = $("#result").val(); }, 500);
+		}
+	}
+	
+	//adding special char *,0,#
+	function SpecialSym(speStr){ 
+	str = str + speStr
+	$("#result").val(str)
+	}
+        //textmousedown calling here
+	function textmousedown(Num){
+	ClickTime = window.setTimeout(function() { SpecialSym(Num);longPress=true;}, 1000);
+	}
+	//textmouseup calling here
+	function textmouseup(){
+	clearTimeout(ClickTime);
+	}
+	// update clear text values
+	function updatetext()
+	{
+	str = $("#result").val();
+	}
+</script>
