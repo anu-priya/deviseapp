@@ -1,4 +1,5 @@
-# to get the name and time 
+# to get the name and time  
+#commited from my laptop
 require "time"
 require "pry"
 
